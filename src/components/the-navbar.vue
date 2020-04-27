@@ -1,0 +1,248 @@
+<template>
+    <aside
+            class="the-nav__wrap"
+            :class="{'collapsed': collapsed}"
+    >
+        <nav class="the-nav expanded-nav">
+            <header class="nav__header">
+                <i class="icon-icon_menu-burger" @click="toggleCollapse"></i>
+                <div class="logo-wrap" @click="$router.push('/')">
+                    <img class="logo" src="../assets/img/logo.svg" alt="logo">
+                </div>
+            </header>
+            <ul class="nav-items">
+                <!--eslint-disable-next-line max-len-->
+                <li class="nav-item-wrap" v-for="(item, index) in nav" @click="navigate(item)" :key="index">
+                    <div class="nav-item" :class="{'nav-item__current': item.current}">
+                        <i class="nav-icon" :class="item.iconClass"></i>
+                        <span class="nav-text">{{item.displayName}}</span>
+                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+</template>
+
+<script>
+
+    export default {
+        name: 'the-nav',
+        watch: {
+            $route() {
+                this.expandCurrentRoute();
+            },
+        },
+        data() {
+            return {
+                nav: [
+                    {
+                        name: 'queue',
+                        displayName: this.$t('nav.queue'),
+                        route: '/queue',
+                        iconClass: 'icon-icon_nav-directory',
+                    },
+                ],
+                collapsed: false,
+            };
+        },
+
+        methods: {
+            toggleCollapse() {
+                this.collapsed = !this.collapsed;
+            },
+
+            navigate(item) {
+                if (!item.subnav && item.route !== this.$router.currentRoute.fullPath) {
+                    this.selected = item;
+                    this.$router.push(item.route);
+                    // this.$emit('re-renderNav');
+                }
+            },
+
+            expandCurrentRoute() {
+                // eslint-disable-next-line max-len
+                const currentItem = this.nav.find((currItem) => this.$router.currentRoute.fullPath.includes(currItem.route));
+                if (currentItem) {
+                    this.setCurrent(currentItem);
+                }
+            },
+
+            setCurrent(currItem) {
+                this.nav.forEach((item) => {
+                    // eslint-disable-next-line no-param-reassign
+                    item.current = item === currItem;
+                });
+            },
+        },
+    };
+</script>
+
+<style lang="scss" scoped>
+    $nav-bg-color: #171A2A;
+    $nav-paddings: 0 38px 0 20px;
+
+    .the-nav__wrap {
+        @extend .box-shadow;
+        /*flex-basis: 272px;*/
+        position: relative;
+        /*min-width: 272px;*/
+        /*width: 272px;*/
+        min-height: 100vh;
+        background: $nav-bg-color;
+        z-index: 101;
+
+        .the-nav {
+            position: sticky;
+            top: 0;
+            width: 272px;
+            padding-top: 20px;
+            color: $nav-icon-color;
+
+            i:before {
+                color: $nav-icon-color;
+            }
+
+            .nav__header {
+                display: flex;
+                width: 100%;
+                padding: $nav-paddings;
+                margin: 0 auto 44px;
+
+                .icon-icon_menu-burger {
+                    margin-right: 23px;
+                    color: #fff;
+                    cursor: pointer;
+                }
+
+                .logo-wrap {
+                    cursor: pointer;
+                }
+            }
+
+            .nav-item-wrap {
+                .nav-item {
+                    @extend .typo-nav-item;
+
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    width: 100%;
+                    max-height: 36px;
+                    padding: 6px 38px 6px 20px;
+                    cursor: pointer;
+
+                    .nav-icon-arrow {
+                        margin-left: auto;
+                        transform: rotate(-90deg);
+                        transition: $transition;
+                    }
+
+                    .nav-icon {
+                        margin-right: 18px;
+                        transition: $transition;
+                    }
+
+                    .nav-text {
+                        transition: $transition;
+                    }
+                }
+
+
+                .subnav-items {
+                    .subnav-item {
+                        @extend .typo-nav-item;
+
+                        display: flex;
+                        justify-content: flex-start;
+                        width: 100%;
+                        padding: 11px 38px 11px 62px;
+                        cursor: pointer;
+
+                        &:hover, &.nav-item__current {
+                            background: rgba(0, 0, 0, 0.1);
+
+                            .subnav-text, .subnav-icon {
+                                color: $accent-color;
+                            }
+                        }
+                    }
+                }
+
+                &:hover, .nav-item__expanded, .nav-item__current {
+                    .nav-icon-arrow:before, .nav-icon:before, .nav-text {
+                        color: $accent-color;
+                    }
+                }
+
+                .nav-item__expanded {
+                    .nav-icon-arrow {
+                        transform: rotate(0);
+                    }
+                }
+
+                .nav-item__expanded {
+                    background: rgba(0, 0, 0, 0.35);
+                }
+            }
+        }
+
+        &.collapsed {
+            flex-basis: 64px;
+            /*min-width: 64px;*/
+            /*width: 64px;*/
+
+            .nav__header {
+                .logo {
+                    display: none;
+                }
+            }
+
+            .the-nav {
+                width: 64px;
+
+                .nav-item-wrap {
+                    .nav-item {
+                        .nav-icon {
+                            margin-right: 28px;
+                        }
+
+                        .nav-icon-arrow {
+                            display: none;
+                        }
+
+                        .nav-text {
+                            opacity: 0;
+                            pointer-events: none;
+                        }
+                    }
+
+                    .subnav-items {
+
+                        .subnav-item {
+                            min-width: calc(220px - 64px);
+                            padding: 12px 38px 12px 10px;
+                            margin-left: 64px;
+                            background: $nav-bg-color;
+                        }
+                    }
+
+                    .nav-item__expanded {
+                        background: $nav-bg-color;
+
+                        &.nav-item {
+                            width: 220px;
+                        }
+
+                        .nav-text {
+                            opacity: 1;
+                            pointer-events: auto;
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+</style>
