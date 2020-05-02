@@ -21,6 +21,12 @@
                             {{$t('header.docs')}}
                         </span>
                     </li>
+                     <li class="the-header__user-action-item the-header__user-action-item__profile">
+                        <i class="icon-icon_settings"></i>
+                        <span class="the-header__user-action-text" @click="openSettings">
+                            {{$t('settings.settings')}}
+                        </span>
+                    </li>
                     <li class="the-header__user-action-item the-header__user-action-item__logout">
                         <i class="icon-icon_logout"></i>
                         <span class="the-header__user-action-text" @click="logoutUser">
@@ -62,10 +68,10 @@
                 window.open('https://docs.webitel.com', '_blank');
             },
 
-            // openSettings() {
-            //     this.userActionsTriggerShow = false;
-            //     this.$router.push('/settings');
-            // },
+            openSettings() {
+                this.userActionsTriggerShow = false;
+                this.$router.push('/settings');
+            },
 
             async logoutUser() {
                 await logout();
@@ -110,6 +116,7 @@
             @extend .typo-body-md;
             @extend .box-shadow;
 
+            z-index: 200;
             position: absolute;
             top: 20px; //icon height
             right: 0;

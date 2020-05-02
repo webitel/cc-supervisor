@@ -2,7 +2,7 @@
     <div>
         <header class="object-header">
             <div class="object-header__title-wrap">
-                <h2 class="object-title">Queue</h2>
+                <h2 class="object-title">{{$t('pages.queue.title')}}</h2>
             </div>
             <div class="history-heading__actions-wrap">
                 <search class="search-margin"
