@@ -1,87 +1,59 @@
 <template>
-    <button
-            class="btn"
-            ref="btn"
-            v-ripple
-            :type="type"
-    >
-        <slot></slot>
-    </button>
+  <button class="cc-btn" type="button">
+    <spinner v-if="loading"/>
+    <slot v-else></slot>
+  </button>
 </template>
 
 <script>
-    import Vue from 'vue';
-    import Ripple from '@/assets/lib/ripple/ripple';
+  import Spinner from './spinner.vue';
 
-    Vue.directive('ripple', Ripple);
-
-    export default {
-        name: 'btn',
-        props: {
-            type: {
-                type: String,
-                default: 'button',
-            },
-        },
-    };
+  export default {
+    name: 'btn',
+    components: { Spinner },
+    props: {
+      loading: {
+        type: Boolean,
+        default: false,
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
-    $primary-btn-color: $accent-color;
-    $primary-btn-color_active: #F3BA00;
+  .cc-btn {
+    @extend .typo-btn;
+    padding: calcRem(10px) calcRem(17px) calcRem(6px); // 11px and 7px vertical -2 px border
+    color: #000;
+    background: $default-btn-color;
+    border: 1px solid transparent;
+    border-radius: $border-radius;
+    white-space: nowrap;
+    transition: $transition;
+    cursor: pointer;
 
-    $secondary-btn-color: rgba(0, 0, 0, 0.7);
-    $secondary-btn-color_active: #000;
-
-    $btn-color_disabled: #94979B;
-
-    .btn {
-        @extend .typo-btn;
-
-        padding: 10px 32px;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        color: #000;
-        background: $primary-btn-color;
-        border-radius: $border-radius;
-        transition: $transition;
-
-        border: 1px solid transparent;
-        outline: none;
-
-        &:hover {
-            background: $primary-btn-color_active;
-        }
-
-        &:active {
-            background: $primary-btn-color;
-        }
-
-        &:disabled {
-            background: $btn-color_disabled;
-        }
-
-
-        &.secondary-btn {
-            color: $secondary-btn-color;
-            background: transparent;
-            border: 1px solid $secondary-btn-color;
-
-            &:hover {
-                color: $secondary-btn-color_active;
-                border-color: $secondary-btn-color_active;
-            }
-
-            &:active {
-                color: $secondary-btn-color_active;
-                border-color: $secondary-btn-color_active;
-            }
-
-            &:disabled {
-                color: $btn-color_disabled;
-                border-color: $btn-color_disabled;
-            }
-        }
+    .spinner {
+      color: #000;
     }
 
+    &:hover {
+      background: $default-btn-color__hover;
+    }
+
+    &.secondary {
+      color: $secondary-btn-color;
+      background: #fff;
+      border: 1px solid $secondary-btn-color;
+
+      &:hover {
+        color: $secondary-btn-color__hover;
+        border-color: $secondary-btn-color__hover;
+      }
+    }
+
+    &.disabled {
+      color: $btn-disabled;
+      background: $btn-disabled;
+    }
+  }
 </style>
