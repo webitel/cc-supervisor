@@ -17,21 +17,22 @@ const routes = [
     component: Auth,
   },
   {
-    path: '/',
+    path: '/supervisor',
+    redirect: { name: 'queues' },
     component: moduleWrap,
     children: [
       {
-        path: '/supervisor/settings',
+        path: 'settings',
         name: 'settings',
         component: settings
     },
       {
-        path: '/supervisor/queues',
+        path: 'queues',
         name: 'queues',
         component: Queue,
       },
       {
-        path: '/supervisor/agents',
+        path: 'agents',
         name: 'agents',
         component: Agents,
       },
