@@ -22,6 +22,15 @@ const parseQueueList = (items) => {
             acwt: Math.random().toFixed(2),
             aht: Math.random().toFixed(2),
             team_name: element.team && element.team.name,
+            agents: {
+                active: Math.floor(Math.random() * 60),
+                waiting: Math.floor(Math.random() * 10),
+            },
+            members: {
+                processing: Math.floor(Math.random() * 60),
+                waiting: Math.floor(Math.random() * 10),
+            },
+
         });
     });
     return items;
@@ -29,13 +38,14 @@ const parseQueueList = (items) => {
 
 // eslint-disable-next-line import/prefer-default-export
 export const getQueuesList = async ({
-    page = 0, size = 20, search = '', ids, sort = '+priority',
+    // eslint-disable-next-line no-unused-vars
+    page = 0, size = 10, search = '', id, sort = '+priority', fields,
 }) => {
     try {
-        // eslint-disable-next-line max-len
-        const queuesRes = await queueService.searchQueue(page, size, search, undefined, queueFields, sort, ids);
-        console.table(queuesRes.items);
-        return parseQueueList(queuesRes.items);
+        // eslint-disable-next-line no-param-reassign
+        if (search && search.slice(-1) !== '*') search += '*';
+        const queuesRes = await queueService.searchQueue(page, size, search, undefined, fields, sort, id);
+        return { items: parseQueueList(queuesRes.items), next: queuesRes.next };
         // eslint-disable-next-line no-unreachable
     } catch (err) {
         throw err;

@@ -5,7 +5,7 @@
         class="grid__tr grid__tr__header"
         :style="computeColumnsNumStyle"
       >
-        <div class="grid__th__checkbox">
+        <div v-if="checkboxes" class="grid__th__checkbox">
           <checkbox
             :value="isAllSelected"
             @input="selectAll"
@@ -37,7 +37,7 @@
             :style="computeColumnsNumStyle"
             @click="expand(dataKey)"
           >
-            <div class="grid__td__checkbox">
+            <div v-if="checkboxes" class="grid__td__checkbox">
               <checkbox
                 v-model="row._isSelected"
               ></checkbox>
@@ -79,8 +79,7 @@
           </div>
         </div>
       </section>
-    </div>
-    <slot name="pagination"></slot>
+    </div>    
   </div>
 </template>
 
@@ -96,6 +95,10 @@
       Checkbox,
     },
     props: {
+      checkboxes: {
+        type: Boolean,
+        required: true,
+      },
       headers: {
         type: Array,
         required: true,
@@ -124,7 +127,7 @@
       },
 
       computeColumnsNumStyle() {
-        let gridTemplateColumns = calcRem('24px'); // checkbox
+        let gridTemplateColumns = this.checkboxes ? calcRem('24px') : '';
         this.shownHeaders.forEach((header) => {
           gridTemplateColumns += ` ${header.width}`;
         });
@@ -153,7 +156,7 @@
   $header-color: $label-color;
   $second-row-bg-color: #F9F9F9;
 
-  $min-td-width: calcRem(120px);
+  $min-td-width: calcRem(100px);
 
   .grid-table {
     display: flex;

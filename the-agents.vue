@@ -2,10 +2,12 @@
     <div>
         <header class="object-header">
             <div class="object-header__title-wrap">
-                <h2 class="object-title">{{$t('pages.queue.title')}}</h2>
+                <h2 class="object-title">{{$t('pages.agent.title')}}</h2>
             </div>
             <div class="history-heading__actions-wrap">
-                <filter-search/>
+                <div class="search-margin">
+                    <filter-search/>
+                </div>
                 <btn
                     class="primary"
                     :loading="isCSVLoading"
@@ -15,23 +17,37 @@
             </div>
         </header>
         <div class="filter-header">
-            <div class="filter-item">
-                <filter-period/>
+            <div
+                class="col-md-1 col-lg-1 col-xl-1"
+            >
+                <filter-status/>
             </div>
-            <div class="filter-item">
+            <div
+                class="col-md-1 col-lg-1 col-xl-1"
+            >
                 <filter-queue/>
             </div>
-            <div class="filter-item">
+            <div
+                class="col-md-1 col-lg-1 col-xl-1"
+            >
                 <filter-team/>
             </div>
-            <div class="filter-item">
-                <filter-type/>
+            <div class="switcher-label-wrap col-md-1 col-lg-1 col-xl-1">
+                <div class="label">Call now</div>
+                <switcher
+                        v-model="callNow"
+                ></switcher>
+            </div>
+            <div class="switcher-label-wrap col-md-1 col-lg-1 col-xl-1">
+                <div class="label">Attention now</div>
+                <switcher
+                        v-model="attentionNow"
+                ></switcher>
             </div>
         </div>
         <section class="object-content">
             <loader v-show="isLoading"></loader>
              <grid-table
-                :checkboxes="false"
                 v-show="!isLoading"
                 :headers="headers"
                 :data="data"
@@ -63,8 +79,12 @@
                 <template slot="team" slot-scope="{ item }" >
                     <div v-if="item.team">{{item.team.name}}</div>
                 </template>
-            </grid-table>
-            <filter-pagination/>
+
+                <template slot="pagination">
+                    <filter-pagination/>
+                </template>
+
+                </grid-table>
         </section>
     </div>
 </template>
@@ -76,32 +96,32 @@ import convertQuery from '@/utils/loadScripts';
 import downloadCSVMixin from '@/mixins/downloadCSV/downloadCSVMixin';
 import { queueFields } from '@/api/queues/queues';
 import sortFilterMixin from '@/mixins/filters/sortFilterMixin';
-import FilterType from '../filters/filter-type.vue';
+import switcher from '@/components/utils/switcher.vue';
 import FilterTeam from '../filters/filter-queue.vue';
 import FilterQueue from '../filters/filter-team.vue';
 import FilterFields from '../filters/filter-table-fields.vue';
 import FilterPagination from '../filters/filter-pagination.vue';
 import FilterSearch from '../filters/filter-search.vue';
-import FilterPeriod from '../filters/filter-period.vue';
+import FilterStatus from '../filters/filter-status.vue';
 import Btn from '../utils/btn.vue';
 import GridTable from '../utils/grid-table.vue';
-import queueHeaders from './queueHeaders';
+import agentHeaders from './agentHeaders';
 import status from '../utils/status.vue';
 
 export default {
-    name: 'the-queues',
+    name: 'the-agents',
     components: {
         FilterSearch,
         loader,
         GridTable,
-        FilterType,
         FilterTeam,
         FilterQueue,
         FilterFields,
         FilterPagination,
-        FilterPeriod,
+        FilterStatus,
         Btn,
         status,
+        switcher,
     },
     mixins: [
         sortFilterMixin,
@@ -109,7 +129,9 @@ export default {
     ],
     data() {
         return {
-            headers: queueHeaders,
+            callNow: false,
+            attentionNow: false,
+            headers: agentHeaders,
             isNext: false,
             isLoading: false,
         };
@@ -123,12 +145,12 @@ export default {
         },
     },
     computed: {
-        ...mapGetters('queues', {
-            data: 'GET_QUEUES',
+        ...mapGetters('agents', {
+            data: 'GET_AGENTS',
         }),
     },
     methods: {
-        ...mapActions('queues', {
+        ...mapActions('agents', {
             loadDataList: 'FETCH_LIST',
         }),
         async loadList() {
@@ -147,12 +169,6 @@ export default {
                 items: this.data,
             });
         },
-        calculateMembers: (member) => {
-            if (member.processing / member.waiting > 0.5) {
-                return true;
-            }
-            return false;
-        },
         getQueryParams() {
             const { query } = this.$route;
             return convertQuery(query);
@@ -161,7 +177,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 .low {
     color: red;
@@ -170,6 +186,10 @@ export default {
 .hight {
     color: green;
 }
+
+.search-margin {
+    margin-right: 1rem;
+  }
 
 .filter-header {
     display: flex;
@@ -182,10 +202,6 @@ export default {
     border-radius: $border-radius;
     .label {
         color: #acacac;
-    }
-    .filter-item {
-        min-width: calcRem(170px);
-        margin-right: 2rem;
     }
 }
 
@@ -255,51 +271,4 @@ export default {
       }
     }
   }
-
-  .history-filters {
-    display: flex;
-    align-items: flex-start;
-    padding: calcRem(18px) calcRem(28px);
-    margin: calcRem(20px) 0;
-
-    &__filters {
-      flex: 1 1 auto;
-      display: flex;
-      flex-wrap: wrap;
-
-      .dt-picker {
-        width: 100%;
-      }
-
-      .hs-multiselect {
-        width: 100%;
-      }
-
-      .dt-picker, .hs-multiselect {
-        /*margin-right: calcRem(50px);*/
-        margin-bottom: calcRem(18px);
-      }
-    }
-
-    &__controls {
-      $icon-w: calcRem(24px);
-      $margin-w: calcRem(0px);
-      margin: calcRem(30px) 0 0 calcRem(30px);
-      flex: 0 0 calc(#{$icon-w} + #{$margin-w});
-
-      .icon-btn {
-        margin-left: calcRem(30px);
-
-        &:first-child {
-          margin-left: 0;
-        }
-      }
-    }
-  }
-
-  .history-section {
-  padding: calcRem(12px) calcRem(28px);
-  border-radius: $border-radius;
-  background: #fff;
-}
 </style>

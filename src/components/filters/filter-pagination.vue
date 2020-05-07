@@ -10,8 +10,8 @@
 </template>
 
 <script>
-  import Pagination from '../../../utils/table-pagination.vue';
-  import valueFilterMixin from '../../../../mixins/filters/valueFilterMixin';
+  import valueFilterMixin from '@/mixins/filters/valueFilterMixin';
+  import Pagination from '../utils/table-pagination.vue';
 
   export default {
     name: 'filter-pagination',

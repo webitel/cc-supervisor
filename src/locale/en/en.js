@@ -79,7 +79,26 @@ export default {
   },
   pages: {
     queue: {
-      title: 'Queue',
+      title: 'Queues',
+      columns: {
+        name: 'Queue',
+        agents: 'Agents',
+        team: 'Team',
+        members: 'Members Processing/Waiting',
+        inbound_calls: 'Inbound Calls',
+        answer: 'Answer',
+        abandone: 'Abandone',
+        talk: 'Talk',
+        hold: 'Hold',
+        transfer: 'Transfer',
+        wrap_up_time: 'Wrap up time',
+        asa: 'ASA',
+        awt: 'AWT',
+        aht: 'AHT',
+      },
+    },
+    agent: {
+      title: 'Agents',
       columns: {
         name: 'Queue',
         team: 'Team',

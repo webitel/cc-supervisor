@@ -1,8 +1,8 @@
 <template>
   <multiselect
     v-model="value"
-    :options="options"
-    :label="'Type'"
+    :options="[]"
+    :label="'Time'"
     :track-by="trackBy"
     :api-mode="apiMode"
     @closed="setQueryArray({ value, filterQuery, queriedProp })"
@@ -11,15 +11,15 @@
 
 <script>
   import enumFilterMixin from '@/mixins/filters/enumFilterMixin';
-  import TypeOptions from '@/api/filter-getters/TypeOptions.enum';
+  import PeriodOptions from '@/api/filter-getters/PeriodOptions.enum';
 
   export default {
-    name: 'filter-type',
+    name: 'filter-period',
     mixins: [enumFilterMixin],
 
     data: () => ({
-      options: TypeOptions,
-      filterQuery: 'type',
+      options: PeriodOptions,
+      filterQuery: 'period',
     }),
   };
 </script>

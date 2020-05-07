@@ -79,7 +79,7 @@ export default {
   },
   pages: {
     queue: {
-      title: 'Queue 1',
+      title: 'Queues',
       columns: {
         name: 'Queue',
         team: 'Team',

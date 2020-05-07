@@ -1,4 +1,4 @@
-import valueFilterMixin from '../valueFilterMixin';
+import valueFilterMixin from './valueFilterMixin';
 
 export const SortSymbols = Object.freeze({
   ASC: 'asc',
