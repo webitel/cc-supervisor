@@ -15,18 +15,10 @@
             </div>
         </header>
         <div class="filter-header">
-            <div class="filter-item">
-                <filter-period/>
-            </div>
-            <div class="filter-item">
-                <filter-queue/>
-            </div>
-            <div class="filter-item">
-                <filter-team/>
-            </div>
-            <div class="filter-item">
-                <filter-type/>
-            </div>
+            <filter-period class="filter-item"/>
+            <filter-queue class="filter-item"/>
+            <filter-team class="filter-item"/>
+            <filter-type class="filter-item"/>
         </div>
         <section class="object-content">
             <loader v-show="isLoading"></loader>
@@ -147,7 +139,7 @@ export default {
                 items: this.data,
             });
         },
-        calculateMembers: (member) => {
+        calculateMembers(member) {
             if (member.processing / member.waiting > 0.5) {
                 return true;
             }
