@@ -3,8 +3,10 @@ import VueRouter from 'vue-router';
 
 import Auth from '../components/auth/auth.vue';
 import Queue from '../components/queue/the-queues.vue';
+import Agents from '../components/agent/the-agents.vue';
 import moduleWrap from '../components/object-utils/the-object-wrap.vue';
 import notFound from '../components/utils/the-not-found-component.vue';
+import settings from '../components/the-settings';
 
 Vue.use(VueRouter);
 
@@ -15,18 +17,24 @@ const routes = [
     component: Auth,
   },
   {
-    path: '/',
+    path: '/supervisor',
+    redirect: { name: 'queues' },
     component: moduleWrap,
     children: [
       {
-          path: '/',
-          name: 'home',
-          // component: home
+        path: 'settings',
+        name: 'settings',
+        component: settings
+    },
+      {
+        path: 'queues',
+        name: 'queues',
+        component: Queue,
       },
       {
-        path: '/queue',
-        name: 'queue',
-        component: Queue,
+        path: 'agents',
+        name: 'agents',
+        component: Agents,
       },
     ],
   },

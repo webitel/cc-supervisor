@@ -6,42 +6,42 @@
 
 <script>
     export default {
-        name: 'validation-message',
+        name: "validation-message",
         props: {
             v: {
                 // type: Object,
                 // required: true
-            },
+            }
         },
         computed: {
             computeErrorText() {
                 if (this.v && this.v.$dirty) {
                     if (this.v.required === false) {
                         return this.$t('validation.required');
-                    } if (this.v.numeric === false) {
+                    } else if (this.v.numeric === false) {
                         return this.$t('validation.numeric');
-                    } if (this.v.email === false) {
+                    } else if (this.v.email === false) {
                         return this.$t('validation.email');
-                    } if (this.v.sameAs === false) {
+                    } else if (this.v.sameAs === false) {
                         return this.$t('validation.sameAs');
-                    } if (this.v.minValue === false) {
+                    } else if (this.v.minValue === false) {
                         return this.$t('validation.minValue');
-                    } if (this.v.requiredArrayValue === false) {
+                    } else if (this.v.requiredArrayValue === false) {
                         return this.$t('validation.requiredArrayValue');
-                    } if (this.v.maxValue === false) {
+                    } else if (this.v.maxValue === false) {
                         return this.$t('validation.maxValue');
-                    } if (this.v.gatewayHostValidator === false) {
+                    } else if (this.v.gatewayHostValidator === false) {
                         return this.$t('validation.gatewayHostValidator');
-                    } if (this.v.ipValidator === false) {
+                    } else if (this.v.ipValidator === false) {
                         return this.$t('validation.ipValidator');
-                    } if (this.v.macValidator === false) {
+                    } else if (this.v.macValidator === false) {
                         return this.$t('validation.macValidator');
                     }
                 }
-                return '';
+                return ''
             },
-        },
-    };
+        }
+    }
 </script>
 
 <style lang="scss" scoped>

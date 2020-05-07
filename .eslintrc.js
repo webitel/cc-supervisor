@@ -19,6 +19,7 @@ module.exports = {
     'no-empty': 'off',
     'indent': 'off',
     'no-plusplus': 'off',
+    'max-len': 'off',
   },
   overrides: [
     {

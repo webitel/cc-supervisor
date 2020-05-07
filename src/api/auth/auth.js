@@ -6,7 +6,7 @@ export const handleToken = async (token) => {
     localStorage.setItem('access-token', token);
     instance.defaults.headers['X-Webitel-Access'] = localStorage.getItem('access-token');
     await getSession();
-    return router.replace('/queue');
+    return router.replace('/supervisor/queues');
 };
 
 export const logout = async () => {

@@ -1,4 +1,6 @@
 
+@import '../utils/mixins';
+
 .typo-heading-lg {
   font-family: 'Montserrat Bold', monospace;
   font-size: 22px;
@@ -37,7 +39,7 @@
 
 .typo-btn {
   font-family: 'Montserrat Bold', monospace;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 16px;
 }
 
@@ -80,4 +82,10 @@
   font-family: 'Montserrat Medium', monospace;
   font-size: 26px;
   line-height: 32px;
+}
+
+.typo-input {
+  font-family: 'Montserrat Regular', monospace;
+  @include fontSize(14px);
+  @include lineHeight(20px);
 }

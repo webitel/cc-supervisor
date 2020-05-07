@@ -5,34 +5,16 @@
                 <slot></slot>
             </h2>
         </div>
-
-        <!-- <div class="btn-controls">
-            <btn
-                    class="btn secondary-btn"
-                    v-if="close"
-                    @click.native="back"
-            >
-                {{secondaryText || $t('objects.close')}}
-            </btn>
-            <btn
-                    class="btn primary-btn"
-                    v-if="!hidePrimaryAction"
-                    :disabled="primaryDisabled"
-                    @click.native="primaryAction"
-            >
-                {{primaryText || $t('objects.addNew')}}
-            </btn>
-        </div> -->
     </header>
 </template>
 
 <script>
-    // import btn from '../../components/utils/btn';
+    // import btn from '../utils/btn.vue';
 
     export default {
         name: 'page-header',
         components: {
-          //  btn,
+          // btn,
         },
         props: {
             primaryText: {

@@ -6,17 +6,16 @@
         <nav class="the-nav expanded-nav">
             <header class="nav__header">
                 <i class="icon-icon_menu-burger" @click="toggleCollapse"></i>
-                <div class="logo-wrap" @click="$router.push('/')">
+                <div class="logo-wrap">
                     <img class="logo" src="../assets/img/logo.svg" alt="logo">
                 </div>
             </header>
             <ul class="nav-items">
-                <!--eslint-disable-next-line max-len-->
                 <li class="nav-item-wrap" v-for="(item, index) in nav" @click="navigate(item)" :key="index">
-                    <div class="nav-item" :class="{'nav-item__current': item.current}">
+                    <div class="nav-item" :class="{'nav-item__current': index === selectedIndex}">
                         <i class="nav-icon" :class="item.iconClass"></i>
                         <span class="nav-text">{{item.displayName}}</span>
-                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
+                        <!-- <i class="nav-icon-arrow icon-icon_arrow-down"></i> -->
                     </div>
                 </li>
             </ul>
@@ -37,13 +36,20 @@
             return {
                 nav: [
                     {
-                        name: 'queue',
+                        name: 'queues',
                         displayName: this.$t('nav.queue'),
-                        route: '/queue',
+                        route: '/supervisor/queues',
                         iconClass: 'icon-icon_nav-directory',
+                    },
+                    {
+                        name: 'agent',
+                        displayName: this.$t('nav.agents'),
+                        route: '/supervisor/agents',
+                        iconClass: 'icon-icon_nav-contacts',
                     },
                 ],
                 collapsed: false,
+                selectedIndex: 0,
             };
         },
 
@@ -54,14 +60,11 @@
 
             navigate(item) {
                 if (!item.subnav && item.route !== this.$router.currentRoute.fullPath) {
-                    this.selected = item;
                     this.$router.push(item.route);
-                    // this.$emit('re-renderNav');
                 }
             },
 
             expandCurrentRoute() {
-                // eslint-disable-next-line max-len
                 const currentItem = this.nav.find((currItem) => this.$router.currentRoute.fullPath.includes(currItem.route));
                 if (currentItem) {
                     this.setCurrent(currentItem);
@@ -69,9 +72,10 @@
             },
 
             setCurrent(currItem) {
-                this.nav.forEach((item) => {
-                    // eslint-disable-next-line no-param-reassign
-                    item.current = item === currItem;
+                this.nav.forEach((item, index) => {
+                    if (item === currItem) {
+                        this.selectedIndex = index;
+                    }
                 });
             },
         },

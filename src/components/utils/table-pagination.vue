@@ -1,129 +1,133 @@
 <template>
-    <footer class="pagination">
-        <div class="rows-per-page">
-            <div class="rows-per-page__text">{{$t('objects.pagination.rowsPerPage')}}:</div>
-            <input
-                    class="rows-per-page__input"
-                    ref="input"
-                    :value="value"
-                    @input="$emit('input', $event.target.value)"
-                    type="text"
-                    :placeholder="'10'"
-            />
-        </div>
-        <div class="page-controls">
-            <div class="controls">
-                <i
-                        class="icon-action icon-icon_arrow-left"
-                        :class="{'disabled': !isPrev}"
-                        :title="$t('iconHints.prevPage')"
-                        @click="prev"
-                ></i>
-                <i
-                        class="icon-action icon-icon_arrow-right"
-                        :class="{'disabled': !isNext}"
-                        :title="$t('iconHints.nextPage')"
-                        @click="next"
-                ></i>
-            </div>
-        </div>
-    </footer>
+  <footer class="pagination">
+    <div class="rows-per-page">
+      <div class="rows-per-page__text">Rows per page:</div>
+      <input
+        class="input__short rows-per-page__input"
+        ref="input"
+        :value="value"
+        :placeholder="'10'"
+        @input="$emit('input', $event.target.value)"
+      />
+    </div>
+    <div class="page-controls">
+      <div class="controls">
+        <button
+          class="icon-btn"
+          :class="{'disabled': !isPrev}"
+          @click="prev"
+        >
+          <icon>
+            <svg class="icon icon-arrow-left_md md">
+              <use xlink:href="#icon-arrow-left_md"></use>
+            </svg>
+          </icon>
+        </button>
+        <button
+          class="icon-btn"
+          :class="{'disabled': !isNext}"
+          @click="next"
+        >
+          <icon>
+            <svg class="icon icon-arrow-right_md md">
+              <use xlink:href="#icon-arrow-right_md"></use>
+            </svg>
+          </icon>
+        </button>
+      </div>
+    </div>
+  </footer>
 </template>
 
 <script>
-    import debounce from '../../utils/debounce';
+  import debounce from '../../utils/debounce';
 
-    export default {
-        name: 'table-pagination',
-        props: {
-            value: {
-                type: String,
-                required: true,
-            },
-            isNext: {
-                type: Boolean,
-                required: true,
-            },
-            isPrev: {
-                type: Boolean,
-                required: true,
-            },
-        },
+  export default {
+    name: 'table-pagination',
+    props: {
+      value: {
+        type: String,
+        required: true,
+      },
+      isNext: {
+        type: Boolean,
+        required: true,
+      },
+      isPrev: {
+        type: Boolean,
+        required: true,
+      },
+    },
 
-        watch: {
-            value() {
-                this.debouncer.call(this);
-            },
-        },
+    watch: {
+      value() {
+        this.debouncer.call(this);
+      },
+    },
 
-        created() {
-            this.debouncer = debounce(this.debouncer);
-        },
+    created() {
+      this.debouncer = debounce(this.debouncer);
+    },
 
-        methods: {
-            next() {
-                if (this.isNext) {
-                    this.$emit('next');
-                }
-            },
-            prev() {
-                if (this.isPrev) {
-                    this.$emit('prev');
-                }
-            },
+    methods: {
+      next() {
+        if (this.isNext) {
+          this.$emit('next');
+        }
+      },
+      prev() {
+        if (this.isPrev) {
+          this.$emit('prev');
+        }
+      },
 
-            debouncer() {
-                this.$emit('loadDataList', this.value);
-            },
-        },
-    };
+      debouncer() {
+        this.$emit('changeSize', this.value);
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
-    .pagination {
-        @extend .typo-body-md;
+  $border-color: #E6E6E6;
 
-        display: flex;
-        align-items: center;
-        width: fit-content;
-        margin-left: auto;
+  .pagination {
+    @extend .typo-body-md;
 
-        .rows-per-page {
-            display: flex;
-            align-items: center;
-            margin-right: 28px;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    margin-left: auto;
 
-            .rows-per-page__text {
-            }
+    .rows-per-page {
+      display: flex;
+      align-items: center;
+      margin-right: 28px;
 
-            .rows-per-page__input {
-                @extend .typo-body-md;
-                @extend .default-input;
+      .rows-per-page__text {
+        margin-right: calcRem(5px);
+      }
 
-                text-align: center;
-                width: 41px;
-                height: 38px;
-                margin-left: 8px;
-                padding: 5px;
-
-            }
-        }
-
-        .page-controls {
-            display: flex;
-            align-items: center;
-
-            .controls {
-                margin-left: 14px;
-
-                i:before {
-                    color: #000;
-
-                    &.disabled {
-                        color: red;
-                    }
-                }
-            }
-        }
+      .rows-per-page__input {
+        width: calcRem(50px);
+      }
     }
+
+    .page-controls {
+      display: flex;
+      align-items: center;
+
+      .controls {
+        margin-left: 14px;
+
+        i:before {
+          color: #000;
+
+          &.disabled {
+            color: red;
+          }
+        }
+      }
+    }
+  }
 </style>

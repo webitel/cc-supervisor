@@ -1,10 +1,10 @@
 <template>
-    <form class="search">
+    <form class="search" onsubmit="return false;">
         <i class="icon-icon_search"></i>
         <input
                 class="search__input"
                 type="text"
-                :placeholder="placeholder || $t('objects.name')"
+                :placeholder="placeholder || 'Search...'"
                 :value="value"
                 @input="$emit('input', $event.target.value)"
         >
@@ -12,14 +12,14 @@
 </template>
 
 <script>
-    import debounce from '../../utils/debounce';
+    import debounce from "../../utils/debounce";
 
     export default {
-        name: 'search',
+        name: "search",
         props: {
             value: {
                 type: String,
-                required: true,
+                required: true
             },
             placeholder: {
                 type: String,
@@ -27,9 +27,9 @@
         },
 
         watch: {
-            value() {
+            value: function () {
               this.debouncer.call(this);
-          },
+          }
         },
 
         created() {
@@ -40,8 +40,8 @@
             debouncer() {
                 this.$emit('filterData', this.value);
             },
-        },
-    };
+        }
+    }
 </script>
 
 <style lang="scss" scoped>
@@ -50,7 +50,7 @@
 
         display: flex;
         align-items: center;
-        width: 254px;
+        width: calcRem(429px);
         padding: 8px 14px 6px;
 
         .search__input {

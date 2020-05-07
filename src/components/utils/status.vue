@@ -11,25 +11,27 @@
 
 <script>
     export default {
-        name: 'table-status',
+        name: "table-status",
         props: {
             value: {
                 type: Boolean,
             },
 
             text: {
-                default: () => ({
+                default: () => {
+                    return {
                         true: 'On',
-                        false: 'Off',
-                    }),
-            },
+                        false: 'Off'
+                    }
+                }
+            }
         },
         computed: {
             computeStatusText() {
                 return this.text;
-            },
-        },
-    };
+            }
+        }
+    }
 </script>
 
 <style lang="scss" scoped>
