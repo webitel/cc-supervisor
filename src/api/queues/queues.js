@@ -2,7 +2,6 @@ import { QueueServiceApiFactory } from 'webitel-sdk';
 import configuration from '../openAPIConfig';
 import instance from '../instance';
 
-// eslint-disable-next-line import/prefer-default-export
 const queueService = new QueueServiceApiFactory(configuration, '', instance);
 export const queueFields = ['id', 'name', 'type', 'team'];
 
@@ -36,7 +35,6 @@ const parseQueueList = (items) => {
     return items;
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export const getQueuesList = async ({
     // eslint-disable-next-line no-unused-vars
     page = 0, size = 10, search = '', id, sort = '+priority', fields,
@@ -44,9 +42,8 @@ export const getQueuesList = async ({
     try {
         // eslint-disable-next-line no-param-reassign
         if (search && search.slice(-1) !== '*') search += '*';
-        const queuesRes = await queueService.searchQueue(page, size, search, undefined, fields, sort, id);
-        return { items: parseQueueList(queuesRes.items), next: queuesRes.next };
-        // eslint-disable-next-line no-unreachable
+        const res = await queueService.searchQueue(page, size, search, undefined, fields, sort, id);
+        return { items: parseQueueList(res.items), next: res.next };
     } catch (err) {
         throw err;
     }

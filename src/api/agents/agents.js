@@ -2,7 +2,6 @@ import { AgentServiceApiFactory } from 'webitel-sdk';
 import configuration from '../openAPIConfig';
 import instance from '../instance';
 
-// eslint-disable-next-line import/prefer-default-export
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 export const agentFields = ['id', 'name'];
 
@@ -28,15 +27,14 @@ const parseAgentList = (items) => {
     return items;
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export const getAgentsList = async ({
     page = 0, size = 20, search = '', ids, sort = '+name',
 }) => {
     try {
         // eslint-disable-next-line no-param-reassign
         if (search && search.slice(-1) !== '*') search += '*';
-        const agentsRes = await agentService.searchAgent(page, size, search, undefined, agentFields, sort, ids);
-        return { items: parseAgentList(agentsRes.items), next: agentsRes.next };
+        const res = await agentService.searchAgent(page, size, search, undefined, agentFields, sort, ids);
+        return { items: parseAgentList(res.items), next: res.next };
     } catch (err) {
         throw err;
     }

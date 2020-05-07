@@ -23,7 +23,7 @@
     "vuelidate": "^0.7.4",
     "vuetable-2": "^1.7.5",
     "vuex": "^3.1.3",
-    "webitel-sdk": "0.0.69"
+    "webitel-sdk": "0.0.72"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",

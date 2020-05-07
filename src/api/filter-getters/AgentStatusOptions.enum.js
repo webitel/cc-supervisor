@@ -3,7 +3,7 @@
  * @enum
  * @readonly
  */
-const AgentStatus = Object.freeze([
+const AgentStatusOptions = Object.freeze([
     {
       name: 'Online',
       value: 'online',
@@ -14,4 +14,4 @@ const AgentStatus = Object.freeze([
     },
   ]);
 
-  export default AgentStatus;
+  export default AgentStatusOptions;
