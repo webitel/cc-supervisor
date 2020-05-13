@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import loader from '@/components/utils/loader.vue';
 import convertQuery from '@/utils/loadScripts';
 import downloadCSVMixin from '@/mixins/downloadCSV/downloadCSVMixin';
@@ -61,8 +61,8 @@ export default {
         },
     },
     computed: {
-        ...mapGetters('agents', {
-            data: 'GET_AGENTS',
+        ...mapState('agents', {
+            data: (state) => state.dataList,
         }),
     },
     methods: {

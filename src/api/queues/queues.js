@@ -37,12 +37,12 @@ const parseQueueList = (items) => {
 
 export const getQueuesList = async ({
     // eslint-disable-next-line no-unused-vars
-    page = 0, size = 10, search = '', id, sort = '+priority', fields,
+    page = 0, size = 10, joinedAtFrom, joinedAtTo, search = '', queueIds, sort = '+priority', fields, teamIds,
 }) => {
     try {
         // eslint-disable-next-line no-param-reassign
         if (search && search.slice(-1) !== '*') search += '*';
-        const res = await queueService.searchQueue(page, size, search, undefined, fields, sort, id);
+        const res = await queueService.searchQueueReportGeneral(page, size, joinedAtFrom.getTime(), joinedAtTo.getTime(), undefined, fields, sort, queueIds, teamIds);
         return { items: parseQueueList(res.items), next: res.next };
     } catch (err) {
         throw err;

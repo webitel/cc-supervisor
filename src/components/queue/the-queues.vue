@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import loader from '@/components/utils/loader.vue';
 import convertQuery from '@/utils/loadScripts';
 import downloadCSVMixin from '@/mixins/downloadCSV/downloadCSVMixin';
@@ -115,8 +115,8 @@ export default {
         },
     },
     computed: {
-        ...mapGetters('queues', {
-            data: 'GET_QUEUES',
+        ...mapState('queues', {
+                data: (state) => state.dataList,
         }),
     },
     methods: {

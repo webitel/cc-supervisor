@@ -4,11 +4,7 @@ const state = {
     dataList: []
 };
 
-const getters = {
-    GET_AGENTS: (state) => {
-        return state.dataList;
-    }
-};
+const getters = {};
 
 const actions = {
     FETCH_LIST: async (context, params = {}) => {

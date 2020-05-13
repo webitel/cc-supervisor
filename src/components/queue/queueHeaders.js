@@ -29,8 +29,8 @@ export default [
       width: 'minmax(100px, 1fr)',
     },
     {
-      text: 'Inbound Calls',
-      value: 'inbound_calls',
+      text: 'Count',
+      value: 'count',
       show: true,
       sort: null,
       width: 'minmax(60px, 1fr)',
@@ -52,20 +52,6 @@ export default [
     {
       text: 'Talk',
       value: 'talk',
-      show: true,
-      sort: null,
-      width: 'minmax(60px, 1fr)',
-    },
-    {
-      text: 'Hold',
-      value: 'hold',
-      show: true,
-      sort: null,
-      width: 'minmax(60px, 1fr)',
-    },
-    {
-      text: 'Transfer',
-      value: 'transfer',
       show: true,
       sort: null,
       width: 'minmax(60px, 1fr)',
