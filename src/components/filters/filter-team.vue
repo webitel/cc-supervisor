@@ -6,6 +6,8 @@
     :api-mode="apiMode"
     :track-by="trackBy"
     @closed="setQueryArray({ value, filterQuery, queriedProp })"
+    :multiple="true"
+    :closeOnSelect="false"
   ></multiselect>
 </template>
 
@@ -18,7 +20,7 @@
     mixins: [apiFilterMixin],
 
     data: () => ({
-      filterQuery: 'team',
+      filterQuery: 'teamIds',
     }),
 
     methods: {

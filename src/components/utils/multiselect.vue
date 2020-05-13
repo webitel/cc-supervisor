@@ -4,21 +4,21 @@
     <div class="hs-multiselect-wrap">
       <vue-multiselect
         :class="{'opened': isOpened}"
-        :value="value"
+        :value="validation"
         :options="opts"
         :placeholder="placeholder || label"
-        :close-on-select="false"
+        :multiple="multiple"
+        :close-on-select="closeOnSelect"
         :limit="1"
         :label="'name'"
         :track-by="trackBy"
         :limitText="limitText"
         :loading="false"
         :internal-search="!apiMode"
-        @input="$emit('input', $event)"
+        @input="input"
         @search-change="fetch"
         @open="isOpened = true"
-        @close="close"
-        multiple
+        @close="close"        
       >
         <template slot="option" slot-scope="{ option }">
           <div class="multiselect__option__content">
@@ -37,21 +37,28 @@
         </svg>
       </icon>
     </div>
-  </div>
+    <validation-message
+      class="cc-err-message"
+      v-if="!hideDetails"
+      :v="v"
+    />
+  </div>  
 </template>
 
 <script>
   import VueMultiselect from 'vue-multiselect';
+  import ValidationMessage from './validation-message.vue';
   import debounce from '../../utils/debounce';
 
   export default {
     name: 'multiselect',
     components: {
       VueMultiselect,
+      ValidationMessage,
     },
     props: {
       value: {
-        type: [Array, Object],
+        // type: [Array, Object],
         required: true,
       },
 
@@ -80,6 +87,25 @@
       fetchMethod: {
         type: Function,
       },
+
+       multiple: {
+        type: Boolean,
+        default: false,
+      },
+
+      closeOnSelect: {
+        type: Boolean,
+        default: true,
+      },
+
+      hideDetails: {
+        type: Boolean,
+        default: false,
+      },
+
+      v: {
+        type: Object,
+      },
     },
 
     data: () => ({
@@ -96,9 +122,22 @@
     computed: {
       opts() {
         const options = this.apiMode ? this.fetchedOptions : this.options;
-        const optionsDiff = options.filter((item) => !this.value
+        if (this.multiple) {
+          const optionsDiff = options.filter((item) => !this.value
           .some((valueItem) => valueItem[this.trackBy] === item[this.trackBy]));
-        return [...this.value, ...optionsDiff];
+          return [...this.value, ...optionsDiff];
+        }
+        return options;
+      },
+
+      validation: {
+        get() {
+          return this.value;
+        },
+        set(value) {
+          if (this.v) this.v.$touch();
+          this.$emit('input', value);
+        },
       },
     },
 
@@ -108,6 +147,12 @@
       async fetch(search) {
         if (this.apiMode) {
           this.fetchedOptions = await this.fetchMethod(search);
+        }
+      },
+
+      input(value) {
+        if (value) {
+          this.$emit('input', value);
         }
       },
 
@@ -184,6 +229,11 @@
         @extend .typo-body-sm;
         outline: none;
         border: none;
+      }
+
+      .multiselect__single {
+        @extend .typo-body-sm;
+        display: inline-block;
       }
 
       .multiselect__tag {
