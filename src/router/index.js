@@ -36,6 +36,11 @@ const routes = [
         name: 'agents',
         component: Agents,
       },
+      {
+        path:'agents/:id',
+        name: 'agent-view',
+        component: null
+    },
     ],
   },
   {

@@ -7,7 +7,6 @@
       >
         <div v-if="checkboxes" class="grid__th__checkbox">
           <checkbox
-            :value="isAllSelected"
             @input="selectAll"
           ></checkbox>
         </div>
@@ -39,6 +38,7 @@
           >
             <div v-if="checkboxes" class="grid__td__checkbox">
               <checkbox
+                :value="row._isSelected"
                 v-model="row._isSelected"
               ></checkbox>
             </div>

@@ -177,7 +177,7 @@ export default {
     }
     .filter-item {
         min-width: calcRem(170px);
-        margin-right: 2rem;
+        margin-right: calcRem(30px);
     }
 }
 
