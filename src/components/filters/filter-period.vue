@@ -1,11 +1,13 @@
 <template>
   <multiselect
     v-model="value"
-    :options="[]"
+    :options="options"
     :label="'Time'"
     :track-by="trackBy"
     :api-mode="apiMode"
-    @closed="setQueryArray({ value, filterQuery, queriedProp })"
+    @closed="setQueryValue({ filterQuery: filterQuery, value: value.value })"
+    :multiple="false"
+    :closeOnSelect="true"
   ></multiselect>
 </template>
 

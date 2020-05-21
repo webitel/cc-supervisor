@@ -1,14 +1,11 @@
-import { getAgentsList } from "../../../api/agents/agents";
+import { getAgentsList, getAgent } from "../../../api/agents/agents";
 
 const state = {
-    dataList: []
+    dataList: [],
+    itemInstance: {},
 };
 
-const getters = {
-    GET_AGENTS: (state) => {
-        return state.dataList;
-    }
-};
+const getters = {};
 
 const actions = {
     FETCH_LIST: async (context, params = {}) => {
@@ -16,12 +13,20 @@ const actions = {
         context.commit('SET_LIST', items);
         return next
     },
+    FETCH_ITEM: async (context, id) => {
+        const item = await getAgent(id);
+        context.commit('SET_ITEM', item);
+        // return next
+    },
 };
 
 const mutations = {
     SET_LIST: (state, agents) => {
         state.dataList = agents;
-    }
+    },
+    SET_ITEM: (state, agent) => {
+        state.itemInstance = agent;
+    },
 };
 
 export default {

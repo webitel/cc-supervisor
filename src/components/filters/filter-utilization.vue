@@ -2,7 +2,7 @@
   <multiselect
     v-model="value"
     :options="options"
-    :label="'Status'"
+    :label="'Utilization progress'"
     :track-by="trackBy"
     :api-mode="apiMode"
     @closed="setQueryArray({ value, filterQuery, queriedProp })"
@@ -13,15 +13,15 @@
 
 <script>
   import enumFilterMixin from '@/mixins/filters/enumFilterMixin';
-  import AgentStatus from '@/api/filter-getters/AgentStatusOptions.enum';
+  import Utilization from '@/api/filter-getters/UtilizationOptions.enum';
 
   export default {
-    name: 'filter-status',
+    name: 'filter-utilization',
     mixins: [enumFilterMixin],
 
     data: () => ({
-      options: AgentStatus,
-      filterQuery: 'status',
+      options: Utilization,
+      filterQuery: 'utilization',
     }),
   };
 </script>

@@ -27,6 +27,9 @@
 
     export default {
         name: 'the-nav',
+        mounted() {
+            this.expandCurrentRoute();
+        },
         watch: {
             $route() {
                 this.expandCurrentRoute();
@@ -38,13 +41,13 @@
                     {
                         name: 'queues',
                         displayName: this.$t('nav.queue'),
-                        route: '/supervisor/queues',
+                        route: { name: 'queues', query: { period: 'today' } },
                         iconClass: 'icon-icon_nav-directory',
                     },
                     {
                         name: 'agent',
                         displayName: this.$t('nav.agents'),
-                        route: '/supervisor/agents',
+                        route: { name: 'agents' },
                         iconClass: 'icon-icon_nav-contacts',
                     },
                 ],
@@ -59,13 +62,13 @@
             },
 
             navigate(item) {
-                if (!item.subnav && item.route !== this.$router.currentRoute.fullPath) {
+                if (!item.subnav && item.route.name !== this.$router.currentRoute.name) {
                     this.$router.push(item.route);
                 }
             },
 
             expandCurrentRoute() {
-                const currentItem = this.nav.find((currItem) => this.$router.currentRoute.fullPath.includes(currItem.route));
+                const currentItem = this.nav.find((currItem) => this.$router.currentRoute.name === currItem.route.name);
                 if (currentItem) {
                     this.setCurrent(currentItem);
                 }
