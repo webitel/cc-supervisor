@@ -1,69 +1,69 @@
 <template>
   <div class="hs-multiselect">
-    <label class="label">{{label}}</label>
     <div class="hs-multiselect-wrap">
       <vue-multiselect
         :class="{'opened': isOpened}"
         :value="validation"
-        :options="opts"
+        :options="options"
         :placeholder="placeholder || label"
-        :multiple="multiple"
-        :close-on-select="closeOnSelect"
+        :multiple="false"
+        :close-on-select="true"
         :limit="1"
-        :label="'name'"
         :track-by="trackBy"
         :limitText="limitText"
         :loading="false"
-        :internal-search="!apiMode"
+        :internal-search="true"
         @input="input"
-        @search-change="fetch"
         @open="isOpened = true"
         @close="close"        
       >
-        <template slot="option" slot-scope="{ option }">
+         <template slot="option" slot-scope="{ option }">
           <div class="multiselect__option__content">
-            <span>{{option.name || option }}</span>
-            <icon class="multiselect__option__tick">
-              <svg class="icon icon-tick_sm sm">
-                <use xlink:href="#icon-tick_sm"></use>
-              </svg>
-            </icon>
+            <status                    
+                    :class="option == 'Online' ? {'status__true':true} : (option == 'Waiting' ? {'status__info':true} : {'status__false':true})"
+                    :text="option"
+            >
+            </status>
           </div>
         </template>
+
+         <template slot="placeholder">
+              <status
+                :class="status.status == 'online' ? {'status__true':true} : (status.status == 'waiting' ? {'status__info':true} : {'status__false':true})"
+                :text="status.time"
+            >
+            </status>
+          </template>
+
       </vue-multiselect>
       <icon class="hs-multiselect__arrow-down">
         <svg class="icon icon-arrow-down_md md">
           <use xlink:href="#icon-arrow-down_md"></use>
         </svg>
       </icon>
-    </div>
-    <validation-message
-      class="cc-err-message"
-      v-if="!hideDetails"
-      :v="v"
-    />
+    </div>    
   </div>  
 </template>
 
 <script>
   import VueMultiselect from 'vue-multiselect';
-  import ValidationMessage from './validation-message.vue';
   import debounce from '../../utils/debounce';
+  import status from './status.vue';
 
   export default {
-    name: 'multiselect',
+    name: 'status-select',
     components: {
       VueMultiselect,
-      ValidationMessage,
+      status,
     },
     props: {
+      status: {
+          type: Object,
+          required: true,
+      },
       value: {
         // type: [Array, Object],
-        required: true,
-      },
-
-      options: {
-        type: Array,
+        required: false,
       },
 
       label: {
@@ -79,32 +79,13 @@
         default: 'id',
       },
 
-      apiMode: {
-        type: Boolean,
-        default: true,
-      },
-
       fetchMethod: {
         type: Function,
-      },
-
-       multiple: {
-        type: Boolean,
-        default: false,
-      },
-
-      closeOnSelect: {
-        type: Boolean,
-        default: true,
       },
 
       hideDetails: {
         type: Boolean,
         default: false,
-      },
-
-      v: {
-        type: Object,
       },
     },
 
@@ -112,6 +93,7 @@
       isLoading: false,
       isOpened: false,
       fetchedOptions: [],
+      options: ["Online", "Offline", "Waiting"]
     }),
 
     created() {
@@ -120,22 +102,21 @@
     },
 
     computed: {
-      opts() {
-        const options = this.apiMode ? this.fetchedOptions : this.options;
-        if (this.multiple) {
-          const optionsDiff = options.filter((item) => !this.value
-          .some((valueItem) => valueItem[this.trackBy] === item[this.trackBy]));
-          return [...this.value, ...optionsDiff];
-        }
-        return options;
-      },
+    //   opts() {
+    //     if (this.status.status=='online') {
+    //         return [{ value: this.status.time, type:"Online" }, { type:"Offline" }, { type:"Waiting" }];
+    //     } else if (this.status.status=='waiting') {
+    //         return [{ value: this.status.time, type:"Waiting" }, { type:"Offline" }, { type:"Online" }];
+    //     } else {
+    //         return [{ value: this.status.time, type:"Offline" }, { type:"Online" }, { type:"Waiting" }];
+    //     }
+    //   },
 
       validation: {
         get() {
           return this.value;
         },
         set(value) {
-          if (this.v) this.v.$touch();
           this.$emit('input', value);
         },
       },
