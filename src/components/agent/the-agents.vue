@@ -66,7 +66,7 @@
                 </template>
 
                  <template slot="call" slot-scope="{ item }">
-                     <div>
+                     <div class="call">
                         <span>{{item.call}}</span>
                         <icon>
                             <svg class="icon icon-speaker_off_md md">
@@ -155,10 +155,10 @@ export default {
         sortFilterMixin,
         downloadCSVMixin,
     ],
-    // mounted() {
-    //     this.callNow = this.getValueByQuery({ filterQuery: 'callNow' }) || false;
-    //     this.attentionNow = this.getValueByQuery({ filterQuery: 'attentionNow' }) || false;
-    // },
+    async mounted() {
+        this.queues = await fetchQueues();
+        this.teams = await fetchTeams();
+    },
     data() {
         return {
             callNow: (this.getValueByQuery({ filterQuery: 'callNow' }) === 'true') || false,
@@ -205,8 +205,6 @@ export default {
             this.isLoading = true;
             const params = this.getQueryParams();
             try {
-                this.queues = await fetchQueues();
-                this.teams = await fetchTeams();
                 this.isNext = await this.loadDataList(params);
             } catch {
             } finally {
@@ -234,6 +232,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.call {
+    display: flex;
+    align-items: center;
+}
 
 .nameLink {
     cursor: pointer;

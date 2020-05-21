@@ -5,7 +5,6 @@ import instance from '../instance';
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 export const agentFields = ['id', 'name'];
 
-// eslint-disable-next-line arrow-body-style
 const parseAgentList = (items) => {
     items.forEach((element) => {
         Object.assign(element, {
@@ -21,6 +20,18 @@ const parseAgentList = (items) => {
     return items;
 };
 
+const getAgentMock = (id) => ({
+        id,
+        name: 'Milla Ozercova',
+        phone_number: '+38 098 876-45-21',
+        status: { time: `00:${(`0${Math.floor(Math.random() * 10)}`).slice(-2)}:${(`0${Math.floor(Math.random() * 60)}`).slice(-2)}`, status: 'online' },
+        offline_time: '00:54:39',
+        waiting_time: '00:00:23',
+        online_time: '00:32:21',
+        teams: [{ id: '1', name: 'dev' }],
+        attentions: [],
+    });
+
 export const getAgentsList = async ({
     page = 0, size = 20, search = '', ids, sort = '+name',
 }) => {
@@ -29,6 +40,14 @@ export const getAgentsList = async ({
         if (search && search.slice(-1) !== '*') search += '*';
         const res = await agentService.searchAgent(page, size, search, undefined, undefined, sort, ids);
         return { items: parseAgentList(res.items), next: res.next };
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const getAgent = async (id) => {
+    try {
+        return getAgentMock(id);
     } catch (err) {
         throw err;
     }
