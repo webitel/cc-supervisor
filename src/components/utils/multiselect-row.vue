@@ -43,7 +43,7 @@
   import debounce from '../../utils/debounce';
 
   export default {
-    name: 'multiselect',
+    name: 'multiselect-row',
     components: {
       VueMultiselect,
     },

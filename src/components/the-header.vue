@@ -41,6 +41,7 @@
 
 <script>
     import { mapState } from 'vuex';
+    // import AppNavigator from './the-app-navigator.vue';
     import { logout } from '../api/auth/auth';
     import clickaway from '../directives/clickaway';
 
@@ -49,7 +50,9 @@
         data: () => ({
             userActionsTriggerShow: false,
         }),
-
+        components: {
+            // AppNavigator,
+        },
         directives: { clickaway },
 
         computed: {

@@ -6,6 +6,8 @@
     :track-by="trackBy"
     :api-mode="apiMode"
     @closed="setQueryArray({ value, filterQuery, queriedProp })"
+    :multiple="true"
+    :closeOnSelect="false"
   ></multiselect>
 </template>
 

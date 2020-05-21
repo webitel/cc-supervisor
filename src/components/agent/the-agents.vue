@@ -15,34 +15,148 @@
             </div>
         </header>
         <div class="filter-header">
+            <filter-status class="filter-status"/>
+            <filter-queue class="filter-item"/>
+            <filter-team class="filter-item"/>
+            <filter-utilization class="filter-item"/>
+            <div class="switcher-label-wrap filter-switch-item">
+                <div class="label">Call now</div>
+                <switcher
+                    v-model="callNow"
+                ></switcher>
+            </div>
+            <div class="switcher-label-wrap filter-switch-item">
+                <div class="label">Attention now</div>
+                <switcher
+                    v-model="attentionNow"
+                ></switcher>
+            </div>
         </div>
         <section class="object-content">
             <loader v-show="isLoading"></loader>
+            <grid-table
+                :checkboxes="false"
+                v-show="!isLoading"
+                :headers="headers"
+                :data="data"
+                :expanded="false"
+                @sort="sort"
+                >
+                <template slot="actions-header">
+                    <filter-fields
+                    v-model="headers"
+                    />
+                </template>
+
+                <template slot="name" slot-scope="{ item }">
+                    <div class="tt-capitalize">
+                        <span class="nameLink" @click="open(item.id)">
+                            {{item.name}}
+                        </span>
+                    </div>
+                </template>
+
+                <template slot="status" slot-scope="{ item }">
+                     <status-select
+                        class="status-cell"
+                        :status="item.status"
+                    ></status-select>
+                </template>
+
+                 <template slot="call" slot-scope="{ item }">
+                     <div class="call">
+                        <span>{{item.call}}</span>
+                        <icon>
+                            <svg class="icon icon-speaker_off_md md">
+                                <use xlink:href="#icon-speaker_off_md"></use>
+                            </svg>
+                        </icon>
+                     </div>
+                </template>
+
+                <template slot="utilization" slot-scope="{ item }">
+                       {{item.utilization*100+'%'}}
+                </template>
+
+                 <template slot="queues" slot-scope="{ item }">
+                     <selector-queue
+                        class="selector-item"
+                        :agentId="item.id"
+                        :options="queues"
+                        :values="item.queues"
+                     >
+                     </selector-queue>
+                </template>
+
+                <template slot="teams" slot-scope="{ item }">
+                     <selector-team
+                        class="selector-item"
+                        :agentId="item.id"
+                        :options="teams"
+                        :values="item.teams"
+                     >
+                     </selector-team>
+                </template>
+
+            </grid-table>
+            <filter-pagination/>
         </section>
     </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import loader from '@/components/utils/loader.vue';
 import convertQuery from '@/utils/loadScripts';
 import downloadCSVMixin from '@/mixins/downloadCSV/downloadCSVMixin';
+import { agentFields } from '@/api/agents/agents';
 import sortFilterMixin from '@/mixins/filters/sortFilterMixin';
+import switcher from '@/components/utils/switcher.vue';
+import { fetchQueues } from '@/api/filter-getters/queueFilter';
+import { fetchTeams } from '@/api/filter-getters/teamFilter';
+import FilterTeam from '../filters/filter-queue.vue';
+import FilterQueue from '../filters/filter-team.vue';
+import FilterFields from '../filters/filter-table-fields.vue';
+import FilterPagination from '../filters/filter-pagination.vue';
 import FilterSearch from '../filters/filter-search.vue';
+import FilterStatus from '../filters/filter-status.vue';
+import FilterUtilization from '../filters/filter-utilization.vue';
 import Btn from '../utils/btn.vue';
+import GridTable from '../utils/grid-table.vue';
 import agentHeaders from './agentHeaders';
+// import status from '../utils/status.vue';
+import statusSelect from '../utils/status-select.vue';
+import selectorQueue from '../selectors/selector-queue.vue';
+import selectorTeam from '../selectors/selector-team.vue';
+
 
 export default {
     name: 'the-agents',
     components: {
-        FilterSearch,
+       FilterSearch,
         loader,
+        GridTable,
+        FilterTeam,
+        FilterQueue,
+        FilterFields,
+        FilterPagination,
+        FilterStatus,
+        FilterUtilization,
         Btn,
+        // status,
+        switcher,
+        statusSelect,
+        selectorQueue,
+        selectorTeam,
     },
     mixins: [
         sortFilterMixin,
         downloadCSVMixin,
     ],
+    mounted() {
+        this.callNow = (this.getValueByQuery({ filterQuery: 'callNow' }) === 'true') || false;
+        this.attentionNow = (this.getValueByQuery({ filterQuery: 'attentionNow' }) === 'true') || false;
+    },
     data() {
         return {
             callNow: false,
@@ -50,19 +164,37 @@ export default {
             headers: agentHeaders,
             isNext: false,
             isLoading: false,
+            queues: [],
+            teams: [],
         };
     },
     watch: {
         '$route.query': {
             async handler() {
                 await this.loadList();
+                this.queues = await fetchQueues();
+                this.teams = await fetchTeams();
             },
             immediate: true,
         },
+        callNow(value) {
+            if (value) {
+                this.setQueryValue({ filterQuery: 'callNow', value: value.toString() });
+            } else {
+                this.setQueryValue({ filterQuery: 'callNow', value: undefined });
+            }
+        },
+        attentionNow(value) {
+            if (value) {
+                this.setQueryValue({ filterQuery: 'attentionNow', value: value.toString() });
+            } else {
+                this.setQueryValue({ filterQuery: 'attentionNow', value: undefined });
+            }
+        },
     },
     computed: {
-        ...mapGetters('agents', {
-            data: 'GET_AGENTS',
+        ...mapState('agents', {
+            data: (state) => state.dataList,
         }),
     },
     methods: {
@@ -81,7 +213,7 @@ export default {
         },
         download() {
             this.downloadCSV({
-                fields: [],
+                fields: agentFields,
                 items: this.data,
             });
         },
@@ -89,11 +221,30 @@ export default {
             const { query } = this.$route;
             return convertQuery(query);
         },
+        open(id) {
+            this.$router.push({
+                name: 'agent-view',
+                params: { id },
+            });
+        },
     },
 };
 </script>
 
 <style lang="scss" scoped>
+
+.call {
+    display: flex;
+    align-items: center;
+}
+
+.nameLink {
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 
 .filter-header {
     display: flex;
@@ -102,11 +253,30 @@ export default {
     padding: 15px 28px;
     margin-bottom: 28px;
 
-    background: #fff;
+    background: $content-bg-color;
     border-radius: $border-radius;
     .label {
-        color: #acacac;
+        color: $label-color;
     }
+    .filter-status {
+        min-width: calcRem(116px);
+        margin-right: calcRem(30px);
+    }
+    .filter-item {
+        min-width: calcRem(170px);
+        margin-right: calcRem(30px);
+    }
+    .filter-switch-item {
+        min-width: calcRem(90px);
+    }
+}
+
+.selector-item {
+    min-width: calcRem(170px);
+}
+
+.status-cell {
+    width: calcRem(126px)
 }
 
 .object-header {
@@ -117,7 +287,7 @@ export default {
         padding: 15px 28px;
         margin-bottom: 28px;
 
-        background: #fff;
+        background: $content-bg-color;
         border-radius: $border-radius;
     }
 
@@ -137,7 +307,7 @@ export default {
     .history-section {
     padding: calcRem(12px) calcRem(28px);
     border-radius: $border-radius;
-    background: #fff;
+    background: $content-bg-color;
   }
 
   .history-heading {
@@ -166,7 +336,7 @@ export default {
       right: 0;
       top: calc(100% + #{$offset});
       padding: calcRem(10px) calcRem(15px);
-      background: #fff;
+      background: $content-bg-color;
       box-shadow: $box-shadow;
       border-radius: $border-radius;
 

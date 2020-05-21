@@ -50,7 +50,7 @@
                 </template>
 
                 <template slot="members" slot-scope="{ item }">
-                    {{item.members.processing+'/'}}<span :class="{'low': !calculateMembers(item.members),'hight': calculateMembers(item.members) }">{{item.members.waiting}}</span>
+                    {{item.members.processing+'/'}}<span :class="{'low': !calculateMembers(item.members),'high': calculateMembers(item.members) }">{{item.members.waiting}}</span>
                 </template>
                 <template slot="team" slot-scope="{ item }" >
                     <div v-if="item.team">{{item.team.name}}</div>
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import loader from '@/components/utils/loader.vue';
 import convertQuery from '@/utils/loadScripts';
 import downloadCSVMixin from '@/mixins/downloadCSV/downloadCSVMixin';
@@ -115,8 +115,8 @@ export default {
         },
     },
     computed: {
-        ...mapGetters('queues', {
-            data: 'GET_QUEUES',
+        ...mapState('queues', {
+                data: (state) => state.dataList,
         }),
     },
     methods: {
@@ -156,11 +156,11 @@ export default {
 <style lang="scss" scoped>
 
 .low {
-    color: red;
+    color: $false-color;
 }
 
-.hight {
-    color: green;
+.high {
+    color: $true-color;
 }
 
 .filter-header {
@@ -170,14 +170,14 @@ export default {
     padding: 15px 28px;
     margin-bottom: 28px;
 
-    background: #fff;
+    background: $content-bg-color;
     border-radius: $border-radius;
     .label {
-        color: #acacac;
+        color: $label-color;
     }
     .filter-item {
         min-width: calcRem(170px);
-        margin-right: 2rem;
+        margin-right: calcRem(30px);
     }
 }
 
@@ -189,7 +189,7 @@ export default {
         padding: 15px 28px;
         margin-bottom: 28px;
 
-        background: #fff;
+        background: $content-bg-color;
         border-radius: $border-radius;
     }
 
@@ -209,7 +209,7 @@ export default {
     .history-section {
     padding: calcRem(12px) calcRem(28px);
     border-radius: $border-radius;
-    background: #fff;
+    background: $content-bg-color;
   }
 
   .history-heading {
@@ -238,7 +238,7 @@ export default {
       right: 0;
       top: calc(100% + #{$offset});
       padding: calcRem(10px) calcRem(15px);
-      background: #fff;
+      background: $content-bg-color;
       box-shadow: $box-shadow;
       border-radius: $border-radius;
 
@@ -292,6 +292,6 @@ export default {
   .history-section {
   padding: calcRem(12px) calcRem(28px);
   border-radius: $border-radius;
-  background: #fff;
+  background: $content-bg-color;
 }
 </style>

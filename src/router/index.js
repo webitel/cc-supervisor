@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 import Auth from '../components/auth/auth.vue';
 import Queue from '../components/queue/the-queues.vue';
 import Agents from '../components/agent/the-agents.vue';
+import AgentsItem from '../components/agent/the-agents-item.vue';
 import moduleWrap from '../components/object-utils/the-object-wrap.vue';
 import notFound from '../components/utils/the-not-found-component.vue';
 import settings from '../components/the-settings';
@@ -36,6 +37,11 @@ const routes = [
         name: 'agents',
         component: Agents,
       },
+      {
+        path:'agents/:id',
+        name: 'agent-view',
+        component: AgentsItem
+    },
     ],
   },
   {
