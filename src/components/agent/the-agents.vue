@@ -186,7 +186,7 @@ export default {
         },
         attentionNow(value) {
             if (value) {
-                this.setQueryValue({ filterQuery: 'attentionNow', value });
+                this.setQueryValue({ filterQuery: 'attentionNow', value: value.toString() });
             } else {
                 this.setQueryValue({ filterQuery: 'attentionNow', value: undefined });
             }
