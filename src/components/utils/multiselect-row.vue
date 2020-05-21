@@ -1,6 +1,5 @@
 <template>
   <div class="hs-multiselect">
-    <label class="label">{{label}}</label>
     <div class="hs-multiselect-wrap">
       <vue-multiselect
         :class="{'opened': isOpened}"
@@ -14,9 +13,8 @@
         :track-by="trackBy"
         :limitText="limitText"
         :loading="false"
-        :internal-search="!apiMode"
+        :internal-search="true"
         @input="input"
-        @search-change="fetch"
         @open="isOpened = true"
         @close="close"        
       >
@@ -37,24 +35,17 @@
         </svg>
       </icon>
     </div>
-    <validation-message
-      class="cc-err-message"
-      v-if="!hideDetails"
-      :v="v"
-    />
   </div>  
 </template>
 
 <script>
   import VueMultiselect from 'vue-multiselect';
-  import ValidationMessage from './validation-message.vue';
   import debounce from '../../utils/debounce';
 
   export default {
     name: 'multiselect',
     components: {
       VueMultiselect,
-      ValidationMessage,
     },
     props: {
       value: {
@@ -84,11 +75,7 @@
         default: true,
       },
 
-      fetchMethod: {
-        type: Function,
-      },
-
-       multiple: {
+      multiple: {
         type: Boolean,
         default: false,
       },
@@ -102,26 +89,16 @@
         type: Boolean,
         default: false,
       },
-
-      v: {
-        type: Object,
-      },
     },
 
     data: () => ({
       isLoading: false,
       isOpened: false,
-      fetchedOptions: [],
     }),
-
-    created() {
-      this.fetch();
-      this.fetch = debounce(this.fetch);
-    },
 
     computed: {
       opts() {
-        const options = this.apiMode ? this.fetchedOptions : this.options;
+        const options = this.options;
         if (this.multiple) {
           const optionsDiff = options.filter((item) => !this.value
           .some((valueItem) => valueItem[this.trackBy] === item[this.trackBy]));
@@ -135,7 +112,6 @@
           return this.value;
         },
         set(value) {
-          if (this.v) this.v.$touch();
           this.$emit('input', value);
         },
       },
@@ -143,12 +119,6 @@
 
     methods: {
       limitText: (count) => `${count}`,
-
-      async fetch(search) {
-        if (this.apiMode) {
-          this.fetchedOptions = await this.fetchMethod(search);
-        }
-      },
 
       input(value) {
         if (value) {

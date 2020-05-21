@@ -192,6 +192,7 @@
 
       &__body {
         cursor: pointer;
+        align-items: center;
 
         &:hover {
           background: $hover-bg-color;
