@@ -42,7 +42,7 @@ export const getQueuesList = async ({
     try {
         // eslint-disable-next-line no-param-reassign
         if (search && search.slice(-1) !== '*') search += '*';
-        const res = await queueService.searchQueueReportGeneral(page, size, joinedAtFrom.getTime(), joinedAtTo.getTime(), undefined, fields, sort, queueIds, teamIds);
+        const res = await queueService.searchQueueReportGeneral(page, size, joinedAtFrom, joinedAtTo, undefined, fields, sort, queueIds, teamIds);
         return { items: parseQueueList(res.items), next: res.next };
     } catch (err) {
         throw err;

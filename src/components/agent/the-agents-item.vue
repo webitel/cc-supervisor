@@ -30,8 +30,9 @@
                 </icon>
             </button>
             <status-select
+                v-if="itemInstance.status"
                 class="status-cell filter-item"
-                :status="itemInstance.status || {}"
+                :status="itemInstance.status"
             ></status-select>
             <status
                 class="filter-item"
@@ -141,14 +142,14 @@ export default {
 }
 
 .agent-call-button {
-    background: #4CAF50;
-    fill: #FFFFFF;
+    background: $true-color;
+    fill: $white-color;
     border-radius: 50%;
 }
 
 .agent-chat-button {
     background: #708FFF;
-    fill: #FFFFFF;
+    fill: $white-color;
     border-radius: 50%;
 }
 
@@ -157,8 +158,7 @@ export default {
 }
 
 .span-size {
-    font-size: 14px;
-    line-height: 20px;
+    @extend .typo-input-text;
 }
 
 .name {
@@ -177,7 +177,7 @@ export default {
   cursor: pointer;
   margin-right: 25px;
   .icon {
-    fill: #323232;
+    fill: $back-btn-color;
   }
 
   &:hover .icon {
@@ -206,10 +206,10 @@ export default {
     padding: 35px 28px;
     margin-bottom: 28px;
 
-    background: #fff;
+    background: $content-bg-color;
     border-radius: $border-radius;
     .label {
-        color: #acacac;
+        color: $label-color;
     }
     .filter-item {
         min-width: calcRem(80px);
@@ -232,7 +232,7 @@ export default {
         padding: 15px 28px;
         margin-bottom: 28px;
 
-        background: #fff;
+        background: $content-bg-color;
         border-radius: $border-radius;
     }
 
@@ -252,7 +252,7 @@ export default {
     .history-section {
     padding: calcRem(12px) calcRem(28px);
     border-radius: $border-radius;
-    background: #fff;
+    background: $content-bg-color;
   }
 
   .history-heading {
@@ -281,7 +281,7 @@ export default {
       right: 0;
       top: calc(100% + #{$offset});
       padding: calcRem(10px) calcRem(15px);
-      background: #fff;
+      background: $content-bg-color;
       box-shadow: $box-shadow;
       border-radius: $border-radius;
 

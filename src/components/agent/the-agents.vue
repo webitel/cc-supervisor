@@ -22,15 +22,13 @@
             <div class="switcher-label-wrap filter-switch-item">
                 <div class="label">Call now</div>
                 <switcher
-                    :value="callNow"
-                    @input="()=>{callNow=!callNow}"
+                    :v-model="callNow"
                 ></switcher>
             </div>
             <div class="switcher-label-wrap filter-switch-item">
                 <div class="label">Attention now</div>
                 <switcher
-                    :value="attentionNow"
-                    @input="()=>{attentionNow=!attentionNow}"
+                    :v-model="attentionNow"
                 ></switcher>
             </div>
         </div>
@@ -155,14 +153,16 @@ export default {
         sortFilterMixin,
         downloadCSVMixin,
     ],
-    async mounted() {
-        this.queues = await fetchQueues();
-        this.teams = await fetchTeams();
+    mounted() {
+        this.queues = fetchQueues();
+        this.teams = fetchTeams();
+        this.callNow = (this.getValueByQuery({ filterQuery: 'callNow' }) === 'true') || false;
+        this.attentionNow = (this.getValueByQuery({ filterQuery: 'attentionNow' }) === 'true') || false;
     },
     data() {
         return {
-            callNow: (this.getValueByQuery({ filterQuery: 'callNow' }) === 'true') || false,
-            attentionNow: (this.getValueByQuery({ filterQuery: 'attentionNow' }) === 'true') || false,
+            callNow: false,
+            attentionNow: false,
             headers: agentHeaders,
             isNext: false,
             isLoading: false,
@@ -253,10 +253,10 @@ export default {
     padding: 15px 28px;
     margin-bottom: 28px;
 
-    background: #fff;
+    background: $content-bg-color;
     border-radius: $border-radius;
     .label {
-        color: #acacac;
+        color: $label-color;
     }
     .filter-status {
         min-width: calcRem(116px);
@@ -287,7 +287,7 @@ export default {
         padding: 15px 28px;
         margin-bottom: 28px;
 
-        background: #fff;
+        background: $content-bg-color;
         border-radius: $border-radius;
     }
 
@@ -307,7 +307,7 @@ export default {
     .history-section {
     padding: calcRem(12px) calcRem(28px);
     border-radius: $border-radius;
-    background: #fff;
+    background: $content-bg-color;
   }
 
   .history-heading {
@@ -336,7 +336,7 @@ export default {
       right: 0;
       top: calc(100% + #{$offset});
       padding: calcRem(10px) calcRem(15px);
-      background: #fff;
+      background: $content-bg-color;
       box-shadow: $box-shadow;
       border-radius: $border-radius;
 

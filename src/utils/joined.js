@@ -38,7 +38,7 @@ const parseJoined = (time) => {
         }
         default:
     }
-    return { start, end };
+    return { start: start.getTime(), end: end.getTime() };
 };
 
 export default parseJoined;

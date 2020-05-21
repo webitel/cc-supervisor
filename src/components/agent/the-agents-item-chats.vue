@@ -21,17 +21,17 @@
             </template>
             <template slot="time" slot-scope="{ item }" >
                 <span v-if="item.time">{{item.time}}</span>
-                <span v-else class="discon">Decline</span>
+                <span v-else class="red">Decline</span>
             </template>
             <template slot="chat" slot-scope="{ item }" >
-                <div class="call" v-if="item.chat=='viber'">
+                <div class="call" v-if="item.chat==='viber'">
                     <icon>
                         <svg class="icon icon-call_processing_md lg viber">
                             <use xlink:href="#icon-call_processing_md"></use>
                         </svg>
                     </icon>
                 </div>
-                <div class="call" v-if="item.chat=='telegram'">
+                <div class="call" v-if="item.chat==='telegram'">
                     <icon>
                         <svg class="icon icon-call_disconnect_md lg tg">
                             <use xlink:href="#icon-call_disconnect_md"></use>
@@ -88,17 +88,17 @@
         mounted() {
             this.loadList();
         },
-        computed: {
-            ...mapState('agentChats', {
-                    data: (state) => state.dataList,
-            }),
-        },
         data() {
             return {
                 headers: agentChatHeaders,
                 isNext: false,
                 isLoading: false,
             };
+        },
+        computed: {
+            ...mapState('agentChats', {
+                    data: (state) => state.dataList,
+            }),
         },
         methods: {
             ...mapActions('agentChats', {
@@ -134,21 +134,21 @@
     text-decoration: underline;
 }
 .viber {
-    background: #7D3DAF;
-    fill: #FFFFFF;
+    background: $viber-color;
+    fill: $white-color;
     border-radius: 50%;
 }
-.discon {
-    fill: #FF4444;
-    color: #FF4444;
+.red {
+    fill: $false-color;
+    color: $false-color;
 }
 .tg {
-    background: #039BE5;
-    fill: #FFFFFF;
+    background:  $telegram-color;
+    fill: $white-color;
     border-radius: 50%;
 }
 .yell {
-    fill: #FFC107;
+    fill: $accent-color;
 }
 .icon-margin {
     margin-right: 10px;

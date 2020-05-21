@@ -23,21 +23,21 @@
                 <div class="links">{{item.notes}}</div>
             </template>
             <template slot="direction" slot-scope="{ item }" >
-                <div class="call" v-if="item.direction=='outbound'">
+                <div class="call" v-if="item.direction==='outbound'">
                     <icon class="icon-margin">
                         <svg class="icon icon-call_processing_md lg green">
                             <use xlink:href="#icon-call_processing_md"></use>
                         </svg>
                     </icon>
                 </div>
-                <div class="call" v-if="item.direction=='disconnect'">
+                <div class="call" v-if="item.direction==='disconnect'">
                     <icon>
-                        <svg class="icon icon-call_disconnect_md lg discon">
+                        <svg class="icon icon-call_disconnect_md lg red">
                             <use xlink:href="#icon-call_disconnect_md"></use>
                         </svg>
                     </icon>
                 </div>
-                <div class="call" v-if="item.direction=='inbound'">
+                <div class="call" v-if="item.direction==='inbound'">
                     <icon>
                         <svg class="icon icon-call_join_md lg yell">
                             <use xlink:href="#icon-call_join_md"></use>
@@ -94,17 +94,17 @@
         mounted() {
             this.loadList();
         },
-        computed: {
-            ...mapState('agentCalls', {
-                    data: (state) => state.dataList,
-            }),
-        },
         data() {
             return {
                 headers: agentCallHeaders,
                 isNext: false,
                 isLoading: false,
             };
+        },
+        computed: {
+            ...mapState('agentCalls', {
+                    data: (state) => state.dataList,
+            }),
         },
         methods: {
             ...mapActions('agentCalls', {
@@ -140,13 +140,13 @@
     text-decoration: underline;
 }
 .green {
-    fill: #4CAF50;
+    fill: $true-color;
 }
-.discon {
-    fill: #FF4444;
+.red {
+    fill: $false-color;
 }
 .yell {
-    fill: #FFC107;
+    fill: $accent-color;
 }
 .icon-margin {
     margin-right: 10px;
