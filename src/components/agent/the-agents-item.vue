@@ -99,9 +99,8 @@ export default {
     },
     mixins: [
     ],
-    async mounted() {
-        await this.loadItem(this.$route.params.id);
-        this.teams = await fetchTeams();
+    mounted() {
+        this.load();
     },
     data() {
         return {
@@ -131,6 +130,10 @@ export default {
         ...mapActions('agents', {
             loadItem: 'FETCH_ITEM',
         }),
+        async load() {
+            await this.loadItem(this.$route.params.id);
+            this.teams = await fetchTeams();
+        },
     },
 };
 </script>

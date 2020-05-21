@@ -22,13 +22,13 @@
             <div class="switcher-label-wrap filter-switch-item">
                 <div class="label">Call now</div>
                 <switcher
-                    :v-model="callNow"
+                    v-model="callNow"
                 ></switcher>
             </div>
             <div class="switcher-label-wrap filter-switch-item">
                 <div class="label">Attention now</div>
                 <switcher
-                    :v-model="attentionNow"
+                    v-model="attentionNow"
                 ></switcher>
             </div>
         </div>
@@ -154,8 +154,6 @@ export default {
         downloadCSVMixin,
     ],
     mounted() {
-        this.queues = fetchQueues();
-        this.teams = fetchTeams();
         this.callNow = (this.getValueByQuery({ filterQuery: 'callNow' }) === 'true') || false;
         this.attentionNow = (this.getValueByQuery({ filterQuery: 'attentionNow' }) === 'true') || false;
     },
@@ -174,12 +172,14 @@ export default {
         '$route.query': {
             async handler() {
                 await this.loadList();
+                this.queues = await fetchQueues();
+                this.teams = await fetchTeams();
             },
             immediate: true,
         },
         callNow(value) {
             if (value) {
-                this.setQueryValue({ filterQuery: 'callNow', value });
+                this.setQueryValue({ filterQuery: 'callNow', value: value.toString() });
             } else {
                 this.setQueryValue({ filterQuery: 'callNow', value: undefined });
             }
