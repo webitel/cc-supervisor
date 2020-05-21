@@ -12,14 +12,14 @@
 </template>
 
 <script>
-import theHeader from '../the-header.vue';
+import ccheader from '../cc-header/cc-header.vue';
 import theNavbar from '../the-navbar.vue';
 import notification from '../utils/notification.vue';
 
 export default {
   name: 'module-wrap',
   components: {
-    'app-header': theHeader,
+    'app-header': ccheader,
     'app-nav': theNavbar,
     notification,
   },
