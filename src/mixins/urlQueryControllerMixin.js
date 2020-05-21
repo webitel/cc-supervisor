@@ -50,8 +50,6 @@ export default {
                     queriedProp = 'id',
                     separator = '|',
                   }) {
-      // eslint-disable-next-line no-param-reassign
-      if (!Array.isArray(value)) value = [value];
       const filter = value.map((item) => item[queriedProp])
         .join(separator);
       if (this.getValueByQuery({ filterQuery }) !== filter) {
