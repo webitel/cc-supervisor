@@ -3,14 +3,16 @@
  * @enum
  * @readonly
  */
+import { CallDirection } from 'webitel-sdk';
+
 const TypeOptions = Object.freeze([
   {
     name: 'Inbound',
-    value: '1',
+    value: CallDirection.Inbound,
   },
   {
     name: 'Outbound',
-    value: '2',
+    value: CallDirection.Outbound,
   },
 ]);
 

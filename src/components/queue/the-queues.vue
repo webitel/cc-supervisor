@@ -55,6 +55,15 @@
                 <template slot="team" slot-scope="{ item }" >
                     <div v-if="item.team">{{item.team.name}}</div>
                 </template>
+                <template slot="queue" slot-scope="{ item }" >
+                    <div v-if="item.queue">{{item.queue.name}}</div>
+                </template>
+                <template slot="bridged" slot-scope="{ item }" >
+                    <div v-if="item.bridged">{{item.bridged.toFixed(2)+'%'}}</div>
+                </template>
+                 <template slot="abandoned" slot-scope="{ item }" >
+                    <div v-if="item.abandoned">{{item.abandoned.toFixed(2)+'%'}}</div>
+                </template>
             </grid-table>
             <filter-pagination/>
         </section>
