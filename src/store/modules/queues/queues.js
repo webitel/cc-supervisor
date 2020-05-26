@@ -12,7 +12,9 @@ const actions = {
         if (!params.period) params.period = 'today';
         let joined = parseJoined(params.period);
         params.joinedAtFrom = joined.start;
-        params.joinedAtTo = joined.end;       
+        params.joinedAtTo = joined.end;
+        if (params.type === 'inbound') params.typeIds = [1, 6]
+        else if (params.type === 'outbound') params.typeIds = [0, 2, 3, 4, 5]
         const { items, next } = await getQueuesList(params);
         context.commit('SET_LIST', items);
         return next

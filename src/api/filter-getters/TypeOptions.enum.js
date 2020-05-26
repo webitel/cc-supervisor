@@ -6,11 +6,11 @@
 const TypeOptions = Object.freeze([
   {
     name: 'Inbound',
-    value: '1',
+    value: 'inbound',
   },
   {
     name: 'Outbound',
-    value: '2',
+    value: 'outbound',
   },
 ]);
 
