@@ -26,15 +26,15 @@
             <template slot="chat" slot-scope="{ item }" >
                 <div class="call" v-if="item.chat==='viber'">
                     <icon>
-                        <svg class="icon icon-call_processing_md lg viber">
-                            <use xlink:href="#icon-call_processing_md"></use>
+                        <svg class="icon icon-viber_sm lg viber">
+                            <use xlink:href="#icon-viber_sm"></use>
                         </svg>
                     </icon>
                 </div>
                 <div class="call" v-if="item.chat==='telegram'">
                     <icon>
-                        <svg class="icon icon-call_disconnect_md lg tg">
-                            <use xlink:href="#icon-call_disconnect_md"></use>
+                        <svg class="icon icon-tele_sm lg tg">
+                            <use xlink:href="#icon-tele_sm"></use>
                         </svg>
                     </icon>
                 </div>
