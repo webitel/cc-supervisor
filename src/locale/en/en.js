@@ -1,4 +1,12 @@
 export default {
+  appNavigator: {
+    title: 'Webitel applications',
+    admin: 'Admin',
+    agent: 'Agent Workspace',
+    supervisor: 'Supervisor Workspace',
+    audit: 'Audit',
+    history: 'Call History',
+  },
   auth: {
     register: 'Register',
     login: 'Login',
