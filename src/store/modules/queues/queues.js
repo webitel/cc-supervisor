@@ -1,5 +1,6 @@
 import { getQueuesList } from "../../../api//queues/queues";
 import parseJoined from '../../../utils/joined'
+import { CallDirection } from 'webitel-sdk';
 
 const state = {
     dataList: []
@@ -13,8 +14,8 @@ const actions = {
         let joined = parseJoined(params.period);
         params.joinedAtFrom = joined.start;
         params.joinedAtTo = joined.end;
-        if (params.type === 'inbound') params.typeIds = [1, 6]
-        else if (params.type === 'outbound') params.typeIds = [0, 2, 3, 4, 5]
+        if (params.type === CallDirection.Inbound) params.typeIds = [1, 6]
+        else if (params.type === CallDirection.Inbound) params.typeIds = [0, 2, 3, 4, 5]
         const { items, next } = await getQueuesList(params);
         context.commit('SET_LIST', items);
         return next
