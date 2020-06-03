@@ -12,8 +12,8 @@
         </svg>
       </icon>
     </button>
-    <nav
-      class="header-notifications__nav-wrapper"
+    <div
+      class="header-notifications__wrapper"
       :class="{'hidden': !isOpened}"
     >
       <ul>
@@ -40,12 +40,12 @@
         </button>
         </li>
       </ul>
-    </nav>
+    </div>
   </div>
 </template>
 
 <script>
-  import { mapState, mapMutations } from 'vuex';
+  import { mapState, mapActions } from 'vuex';
   import clickaway from '../../directives/clickaway';
 
   export default {
@@ -67,8 +67,8 @@
       close() {
         this.isOpened = false;
       },
-      ...mapMutations({
-        removeNotification: 'DELETE_NOTIFICATION',
+      ...mapActions({
+        removeNotification: 'REMOVE_NOTIFICATION',
       }),
     },
   };
@@ -80,14 +80,6 @@
   $header-notifications-border-color: #eaeaea;
   $header-notifications-border-color--hover: $accent-color;
 
-
-  // helper class
-  .typo-header-notifications {
-    font-family: 'Montserrat Regular', monospace;
-    font-size: 14px;
-    line-height: 20px;
-  }
-
   .header-notifications {
     position: relative;
     display: flex;
@@ -96,8 +88,7 @@
     z-index: 90;
   }
 
-  // dropdown part
-  .header-notifications__nav-wrapper {
+  .header-notifications__wrapper {
     @extend .cc-scrollbar;
     position: absolute;
     top: calc(100% + 5px); // icon + 5px
@@ -109,46 +100,6 @@
     box-shadow: $header-notifications-shadow;
     transition: $transition;
     overflow: auto;
-  }
-
-  .header-notifications__nav-title {
-    @extend .typo-header-notifications;
-    text-align: center;
-    text-transform: uppercase;
-    margin-bottom: $header-notifications-gap;
-  }
-
-  // ul with li apps
-  .header-notifications__nav {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: $header-notifications-gap;
-  }
-
-  .header-notifications__card {
-    width: 120px;
-    height: 120px;
-    box-sizing: border-box;
-    border: 1px solid $header-notifications-border-color;
-    border-radius: $border-radius;
-    transition: $transition;
-
-    &.active, &:hover {
-      border-color: $header-notifications-border-color--hover;
-    }
-  }
-
-  // a tag
-  .header-notifications__card__link {
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-  }
-
-  // img inside a
-  .header-notifications__card__img {
-    width: 100%;
-    height: 100%;
   }
 
   .header-notifications__item {

@@ -11,7 +11,11 @@ const state = {
 
 const getters = {};
 
-const actions = {};
+const actions = {
+    REMOVE_NOTIFICATION: (context, index) => {
+        context.commit('DELETE_NOTIFICATION', index);
+    },
+};
 
 const mutations = {
     SOCKET_ONOPEN (state, event)  {

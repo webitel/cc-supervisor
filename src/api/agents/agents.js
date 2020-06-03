@@ -14,7 +14,29 @@ const parseAgentList = (items) => {
             teams: [{ id: '1', name: 'dev' }],
             queues: [{ id: '6', name: 'inbound-dev' }, { id: '7', name: 'preview-dev' }],
             status: { time: `00:${(`0${Math.floor(Math.random() * 10)}`).slice(-2)}:${(`0${Math.floor(Math.random() * 60)}`).slice(-2)}`, status: 'online' },
-            attentions: [{ type: 'warning', count: 2 }],
+            attentions: [
+                {
+                    priority: 'error',
+                    client: 'Petr Mamonov',
+                    type: 'call',
+                    subject: 'AvtoCrash',
+                    time: '00:07:23',
+                },
+                {
+                    priority: 'warning',
+                    client: 'Marina Ostrovcher',
+                    type: 'chat',
+                    subject: 'New registration',
+                    time: '00:02:17',
+                },
+                {
+                    priority: 'warning',
+                    client: 'Alex Maximov',
+                    type: 'chat',
+                    subject: 'Animal',
+                    time: '00:07:23',
+                },
+            ],
         });
     });
     return items;
