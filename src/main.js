@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuelidate from 'vuelidate';
+import VueNativeSock from 'vue-native-websocket';
 import App from './the-app.vue';
 import router from './router';
 import store from './store';
@@ -12,6 +13,13 @@ import './assets/css/objects/lib-custom-styling/vuetable.scss';
 import './assets/css/fonts.scss';
 import './assets/css/main.scss';
 
+Vue.use(VueNativeSock, 'ws://localhost:8081', {
+  store,
+  // format: 'json',
+  reconnection: true,
+  reconnectionAttempts: 5,
+  reconnectionDelay: 3000,
+ });
 Vue.config.productionTip = false;
 Vue.component('icon', Icon);
 Vue.use(Vuelidate);

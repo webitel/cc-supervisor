@@ -84,6 +84,18 @@
   line-height: 32px;
 }
 
+.typo-text {
+  font-family: 'Montserrat Normal', monospace;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.typo-text-bold {
+  font-family: 'Montserrat Bold', monospace;
+  font-size: 14px;
+  line-height: 20px;
+}
+
 .typo-input {
   font-family: 'Montserrat Regular', monospace;
   @include fontSize(14px);
