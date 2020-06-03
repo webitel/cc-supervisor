@@ -1,8 +1,8 @@
 <template>
-  <div class="app-navigator">
+  <div class="header-notifications">
     <!--  v-clickaway="close" -->
     <button
-      class="icon-btn app-navigator__btn"
+      class="icon-btn header-notifications__btn"
       :class="{'opened': isOpened}"
       @click.prevent="isOpened = !isOpened"
     >
@@ -13,23 +13,23 @@
       </icon>
     </button>
     <nav
-      class="app-navigator__nav-wrapper"
+      class="header-notifications__nav-wrapper"
       :class="{'hidden': !isOpened}"
     >
       <ul>
         <li
-            class="not-item"
-          v-for="(not, key) of notifications"
+          class="header-notifications__item"
+          v-for="(notification, key) of notifications"
           :key="key"
         >
-        <span class="subject">
-            {{not.subject}}
+        <span class="header-notifications__subject">
+            {{notification.subject}}
         </span>
-        <span class="description">
-            {{not.description}}
+        <span class="header-notifications__description">
+            {{notification.description}}
         </span>
         <button
-          class="icon-btn remove-btn"
+          class="icon-btn header-notifications__remove-btn"
           @click.prevent="removeNotification(key)"
         >
           <icon>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-  // import { mapState } from 'vuex';
+  import { mapState, mapMutations } from 'vuex';
   import clickaway from '../../directives/clickaway';
 
   export default {
@@ -58,103 +58,100 @@
     }),
 
     computed: {
-      notifications() {
-        return this.$store.state.websocket.notifications;
-      },
-      // ...mapState('websocket', {
-      //   notifications: (state) => state.notifications,
-      // }),
+      ...mapState({
+        notifications: (state) => state.websocket.notifications,
+      }),
     },
 
     methods: {
       close() {
         this.isOpened = false;
       },
-      removeNotification(index) {
-        this.$store.commit('DELETE_NOTIFICATION', index);
-      },
+      ...mapMutations({
+        removeNotification: 'DELETE_NOTIFICATION',
+      }),
     },
   };
 </script>
 
 <style lang="scss" scoped>
-  $app-navigator-gap: 12px;
-  $app-navigator-shadow: 0px calcRem(8px) calcRem(18px) rgba(0, 0, 0, 0.08);
-  $app-navigator-border-color: #eaeaea;
-  $app-navigator-border-color--hover: $accent-color;
+  $header-notifications-gap: 12px;
+  $header-notifications-shadow: 0px 8px 18px rgba(0, 0, 0, 0.08);
+  $header-notifications-border-color: #eaeaea;
+  $header-notifications-border-color--hover: $accent-color;
 
 
   // helper class
-  .typo-app-navigator {
+  .typo-header-notifications {
     font-family: 'Montserrat Regular', monospace;
-    font-size: calcRem(14px);
-    line-height: calcRem(20px);
+    font-size: 14px;
+    line-height: 20px;
   }
 
-  .app-navigator {
+  .header-notifications {
     position: relative;
     display: flex;
     align-items: center;
-    margin-left: calcRem(30px);
+    margin-left: 30px;
     z-index: 90;
   }
 
   // dropdown part
-  .app-navigator__nav-wrapper {
+  .header-notifications__nav-wrapper {
     @extend .cc-scrollbar;
     position: absolute;
     top: calc(100% + 5px); // icon + 5px
     right: 0;
     max-height: 80vh;
-    padding: $app-navigator-gap;
+    padding: $header-notifications-gap;
     background: #fff;
     border-radius: $border-radius;
-    box-shadow: $app-navigator-shadow;
+    box-shadow: $header-notifications-shadow;
     transition: $transition;
     overflow: auto;
   }
 
-  .app-navigator__nav-title {
-    @extend .typo-app-navigator;
+  .header-notifications__nav-title {
+    @extend .typo-header-notifications;
     text-align: center;
     text-transform: uppercase;
-    margin-bottom: $app-navigator-gap;
+    margin-bottom: $header-notifications-gap;
   }
 
   // ul with li apps
-  .app-navigator__nav {
+  .header-notifications__nav {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: $app-navigator-gap;
+    grid-gap: $header-notifications-gap;
   }
 
-  .app-navigator__card {
-    width: calcRem(120px);
-    height: calcRem(120px);
+  .header-notifications__card {
+    width: 120px;
+    height: 120px;
     box-sizing: border-box;
-    border: 1px solid $app-navigator-border-color;
+    border: 1px solid $header-notifications-border-color;
     border-radius: $border-radius;
     transition: $transition;
 
     &.active, &:hover {
-      border-color: $app-navigator-border-color--hover;
+      border-color: $header-notifications-border-color--hover;
     }
   }
 
   // a tag
-  .app-navigator__card__link {
+  .header-notifications__card__link {
     display: inline-block;
     width: 100%;
     height: 100%;
   }
 
   // img inside a
-  .app-navigator__card__img {
+  .header-notifications__card__img {
     width: 100%;
     height: 100%;
   }
 
-  .not-item {
+  .header-notifications__item {
     align-items: center;
     display: flex;
     height: 58px;
@@ -165,19 +162,22 @@
     padding: 14px;
     margin-bottom: 5px;
     &.active, &:hover {
-      border: 1px solid #FFC107;
+      border: 1px solid $accent-color;
     }
-    .subject {
+  }
+
+  .header-notifications__subject {
         @extend .typo-text-bold;
         margin-right: 12px;
-    }
-    .description {
-        @extend .typo-text;
-        margin-right: 12px;
-    }
-    .remove-btn{
-      position: absolute;
-      right: 5%;
-    }
+  }
+
+  .header-notifications__description {
+      @extend .typo-text;
+      margin-right: 12px;
+  }
+
+  .header-notifications__remove-btn {
+    position: absolute;
+    right: 5%;
   }
 </style>
