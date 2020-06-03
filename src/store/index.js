@@ -5,6 +5,7 @@ import queues from './modules/queues/queues';
 import agents from './modules/agents/agents';
 import agentChats from './modules/agents/agent-chats';
 import agentCalls from './modules/agents/agent-calls';
+import websocket from './modules/websocket/websocket';
 
 Vue.use(Vuex);
 
@@ -15,5 +16,6 @@ export default new Vuex.Store({
     agents,
     agentChats,
     agentCalls,
+    websocket,
   },
 });

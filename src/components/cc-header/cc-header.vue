@@ -2,6 +2,7 @@
   <header class="cc-header">
     <div class="cc-header__container">
       <app-navigator/>
+      <the-notifications/>
       <user-preferences/>
     </div>
   </header>
@@ -10,12 +11,14 @@
 <script>
   import AppNavigator from './the-app-navigator.vue';
   import UserPreferences from './user-preferences.vue';
+  import TheNotifications from './the-notifications.vue';
 
   export default {
     name: 'cc-header',
     components: {
       AppNavigator,
       UserPreferences,
+      TheNotifications,
     },
 
     data: () => ({
