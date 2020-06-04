@@ -50,7 +50,7 @@
 
         display: flex;
         align-items: center;
-        width: calcRem(429px);
+        width: (429px);
         padding: 8px 14px 6px;
 
         .search__input {

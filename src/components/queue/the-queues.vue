@@ -185,8 +185,8 @@ export default {
         color: $label-color;
     }
     .filter-item {
-        min-width: calcRem(170px);
-        margin-right: calcRem(30px);
+        min-width: (170px);
+        margin-right: (30px);
     }
 }
 
@@ -216,7 +216,7 @@ export default {
         display: flex;
     }
     .history-section {
-    padding: calcRem(12px) calcRem(28px);
+    padding: (12px) (28px);
     border-radius: $border-radius;
     background: $content-bg-color;
   }
@@ -237,16 +237,16 @@ export default {
     position: relative;
 
     .cc-btn {
-      margin-left: calcRem(20px);
+      margin-left: (20px);
     }
 
     .files-counter {
-      $offset: calcRem(10px);
+      $offset: (10px);
       @extend .typo-body-sm;
       position: absolute;
       right: 0;
       top: calc(100% + #{$offset});
-      padding: calcRem(10px) calcRem(15px);
+      padding: (10px) (15px);
       background: $content-bg-color;
       box-shadow: $box-shadow;
       border-radius: $border-radius;
@@ -260,8 +260,8 @@ export default {
   .history-filters {
     display: flex;
     align-items: flex-start;
-    padding: calcRem(18px) calcRem(28px);
-    margin: calcRem(20px) 0;
+    padding: (18px) (28px);
+    margin: (20px) 0;
 
     &__filters {
       flex: 1 1 auto;
@@ -277,19 +277,19 @@ export default {
       }
 
       .dt-picker, .hs-multiselect {
-        /*margin-right: calcRem(50px);*/
-        margin-bottom: calcRem(18px);
+        /*margin-right: (50px);*/
+        margin-bottom: (18px);
       }
     }
 
     &__controls {
-      $icon-w: calcRem(24px);
-      $margin-w: calcRem(0px);
-      margin: calcRem(30px) 0 0 calcRem(30px);
+      $icon-w: (24px);
+      $margin-w: (0px);
+      margin: (30px) 0 0 (30px);
       flex: 0 0 calc(#{$icon-w} + #{$margin-w});
 
       .icon-btn {
-        margin-left: calcRem(30px);
+        margin-left: (30px);
 
         &:first-child {
           margin-left: 0;
@@ -299,7 +299,7 @@ export default {
   }
 
   .history-section {
-  padding: calcRem(12px) calcRem(28px);
+  padding: (12px) (28px);
   border-radius: $border-radius;
   background: $content-bg-color;
 }
