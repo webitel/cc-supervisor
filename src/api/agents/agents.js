@@ -6,7 +6,7 @@ const agentService = new AgentServiceApiFactory(configuration, '', instance);
 export const agentFields = ['id', 'name'];
 
 const parseAgentList = (items) => {
-    items.forEach((element) => {
+    items.forEach((element, index) => {
         Object.assign(element, {
             call: `00:${(`0${Math.floor(Math.random() * 10)}`).slice(-2)}:${(`0${Math.floor(Math.random() * 60)}`).slice(-2)}`,
             chat: `00:${(`0${Math.floor(Math.random() * 10)}`).slice(-2)}:${(`0${Math.floor(Math.random() * 60)}`).slice(-2)}`,
@@ -14,29 +14,7 @@ const parseAgentList = (items) => {
             teams: [{ id: '1', name: 'dev' }],
             queues: [{ id: '6', name: 'inbound-dev' }, { id: '7', name: 'preview-dev' }],
             status: { time: `00:${(`0${Math.floor(Math.random() * 10)}`).slice(-2)}:${(`0${Math.floor(Math.random() * 60)}`).slice(-2)}`, status: 'online' },
-            attentions: [
-                {
-                    priority: 'error',
-                    client: 'Petr Mamonov',
-                    type: 'call',
-                    subject: 'AvtoCrash',
-                    time: '00:07:23',
-                },
-                {
-                    priority: 'warning',
-                    client: 'Marina Ostrovcher',
-                    type: 'chat',
-                    subject: 'New registration',
-                    time: '00:02:17',
-                },
-                {
-                    priority: 'warning',
-                    client: 'Alex Maximov',
-                    type: 'chat',
-                    subject: 'Animal',
-                    time: '00:07:23',
-                },
-            ],
+            attentions: { type: index === 1 ? 'error' : 'warning', count: 2 },
         });
     });
     return items;
@@ -51,7 +29,7 @@ const getAgentMock = (id) => ({
         waiting_time: '00:00:23',
         online_time: '00:32:21',
         teams: [{ id: '1', name: 'dev' }],
-        attentions: [],
+        attentions: { type: 'error', count: 2 },
     });
 
 export const getAgentsList = async ({
