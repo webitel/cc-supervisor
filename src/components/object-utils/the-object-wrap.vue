@@ -2,6 +2,7 @@
     <div class="object-wrap">
         <app-nav @re-renderNav="updateNav" :key="reloadNavKey"></app-nav>
         <main class="object">
+            <call-window></call-window>
             <notification></notification>
             <app-header></app-header>
            <div class="object-content-wrap">
@@ -15,6 +16,7 @@
 import ccheader from '../cc-header/cc-header.vue';
 import theNavbar from '../the-navbar.vue';
 import notification from '../utils/notification.vue';
+import callWindow from '../utils/call-window.vue';
 
 export default {
   name: 'module-wrap',
@@ -22,6 +24,7 @@ export default {
     'app-header': ccheader,
     'app-nav': theNavbar,
     notification,
+    callWindow,
   },
   data() {
     return {

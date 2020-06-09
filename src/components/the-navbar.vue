@@ -13,6 +13,11 @@
             <ul class="nav-items">
                 <li class="nav-item-wrap" v-for="(item, index) in nav" @click="navigate(item)" :key="index">
                     <div class="nav-item" :class="{'nav-item__current': index === selectedIndex}">
+                        <!-- <icon class="nav-icon">
+                            <svg class="icon md" :class="{'white-icon': index !== selectedIndex, 'selected-icon': index === selectedIndex}">
+                                <use v-bind="{'xlink:href':'#'+item.iconClass}"></use>
+                            </svg>
+                        </icon> -->
                         <i class="nav-icon" :class="item.iconClass"></i>
                         <span class="nav-text">{{item.displayName}}</span>
                         <!-- <i class="nav-icon-arrow icon-icon_arrow-down"></i> -->
@@ -42,13 +47,13 @@
                         name: 'queues',
                         displayName: this.$t('nav.queue'),
                         route: { name: 'queues', query: { period: 'today' } },
-                        iconClass: 'icon-icon_nav-directory',
+                        iconClass: 'icon-icon_nav-directory', // 'icon-queue_md',
                     },
                     {
                         name: 'agent',
                         displayName: this.$t('nav.agents'),
                         route: { name: 'agents' },
-                        iconClass: 'icon-icon_nav-contacts',
+                        iconClass: 'icon-icon_nav-contacts', // 'icon-agent_md',
                     },
                 ],
                 collapsed: false,
@@ -179,6 +184,8 @@
                 &:hover, .nav-item__expanded, .nav-item__current {
                     .nav-icon-arrow:before, .nav-icon:before, .nav-text {
                         color: $accent-color;
+                        fill: $accent-color;
+                        stroke: $accent-color;
                     }
                 }
 
@@ -251,5 +258,13 @@
 
         }
     }
+
+    // .white-icon {
+    //    fill: #fff;
+    // }
+
+    // .selected-icon {
+    //    fill: $accent-color;
+    // }
 
 </style>

@@ -15,7 +15,7 @@
                 <span class="name">{{itemInstance.name}}</span>
                 <span class="phone">{{itemInstance.phone_number}}</span>
             </div>
-            <button class="icon-btn">
+            <button class="icon-btn" @click.prevent="callAgent()">
                 <icon>
                     <svg class="icon icon-call_processing_md md agent-call-button">
                     <use xlink:href="#icon-call_processing_md"></use>
@@ -60,6 +60,14 @@
                 :values="itemInstance.teams"
             >
             </selector-team>
+            <the-agents-help-popup
+                class="attention-element"
+                v-if="itemInstance.attentions"
+                :agent="itemInstance"
+                :type="itemInstance.attentions.type"
+                :count="itemInstance.attentions.count"
+            >
+            </the-agents-help-popup>
         </header>
        <tabs-component
                 :tabs="tabs"
@@ -85,6 +93,7 @@ import statusSelect from '../utils/status-select.vue';
 import status from '../utils/status.vue';
 import theAgentsItemCalls from './the-agents-item-calls.vue';
 import theAgentsItemChats from './the-agents-item-chats.vue';
+import theAgentsHelpPopup from './the-agents-help-popup.vue';
 
 
 export default {
@@ -92,6 +101,7 @@ export default {
     components: {
         theAgentsItemCalls,
         theAgentsItemChats,
+        theAgentsHelpPopup,
         tabsComponent,
         selectorTeam,
         statusSelect,
@@ -130,6 +140,17 @@ export default {
         ...mapActions('agents', {
             loadItem: 'FETCH_ITEM',
         }),
+
+        ...mapActions('call', {
+            openWindow: 'OPEN_WINDOW',
+            setCallInfo: 'SET_CALL_INFO',
+        }),
+
+        callAgent() {
+            this.setCallInfo({ time: '00:00:17', agent: this.itemInstance });
+            this.openWindow();
+        },
+
         async load() {
             await this.loadItem(this.$route.params.id);
             this.teams = await fetchTeams();
@@ -141,7 +162,7 @@ export default {
 <style lang="scss" scoped>
 
 .btn-margin {
-    margin-right: calcRem(30px);
+    margin-right: (30px);
 }
 
 .agent-call-button {
@@ -203,8 +224,9 @@ export default {
   }
 
   .filter-header {
+    position: relative;
     display: flex;
-    align-items: left;
+    align-items: center;
     min-height: 68px;
     padding: 35px 28px;
     margin-bottom: 28px;
@@ -215,16 +237,16 @@ export default {
         color: $label-color;
     }
     .filter-item {
-        min-width: calcRem(80px);
-        margin-right: calcRem(30px);
+        min-width: (80px);
+        margin-right: (30px);
     }
     .filter-team {
-        min-width: calcRem(170px);
+        min-width: (170px);
     }
 }
 
 .status-cell {
-    width: calcRem(126px)
+    width: (126px)
 }
 
 .object-header {
@@ -253,7 +275,7 @@ export default {
         display: flex;
     }
     .history-section {
-    padding: calcRem(12px) calcRem(28px);
+    padding: (12px) (28px);
     border-radius: $border-radius;
     background: $content-bg-color;
   }
@@ -274,16 +296,16 @@ export default {
     position: relative;
 
     .cc-btn {
-      margin-left: calcRem(20px);
+      margin-left: (20px);
     }
 
     .files-counter {
-      $offset: calcRem(10px);
+      $offset: (10px);
       @extend .typo-body-sm;
       position: absolute;
       right: 0;
       top: calc(100% + #{$offset});
-      padding: calcRem(10px) calcRem(15px);
+      padding: (10px) (15px);
       background: $content-bg-color;
       box-shadow: $box-shadow;
       border-radius: $border-radius;
@@ -292,5 +314,12 @@ export default {
         @extend .typo-heading-sm;
       }
     }
+  }
+
+  .attention-element {
+    align-items: center;
+    display: flex;
+    position: absolute;
+    right: 50px;
   }
 </style>

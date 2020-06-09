@@ -98,6 +98,16 @@
                      </selector-team>
                 </template>
 
+                <template slot="attentions" slot-scope="{ item }">
+                    <div v-if="item.attentions">
+                        <the-agents-help-popup
+                            :agent="item"
+                            :type="item.attentions.type"
+                            :count="item.attentions.count"
+                        >
+                        </the-agents-help-popup>
+                    </div>
+                </template>
             </grid-table>
             <filter-pagination/>
         </section>
@@ -128,12 +138,13 @@ import agentHeaders from './agentHeaders';
 import statusSelect from '../utils/status-select.vue';
 import selectorQueue from '../selectors/selector-queue.vue';
 import selectorTeam from '../selectors/selector-team.vue';
+import theAgentsHelpPopup from './the-agents-help-popup.vue';
 
 
 export default {
     name: 'the-agents',
     components: {
-       FilterSearch,
+        FilterSearch,
         loader,
         GridTable,
         FilterTeam,
@@ -148,6 +159,7 @@ export default {
         statusSelect,
         selectorQueue,
         selectorTeam,
+        theAgentsHelpPopup,
     },
     mixins: [
         sortFilterMixin,
@@ -259,24 +271,24 @@ export default {
         color: $label-color;
     }
     .filter-status {
-        min-width: calcRem(116px);
-        margin-right: calcRem(30px);
+        min-width: (116px);
+        margin-right: (30px);
     }
     .filter-item {
-        min-width: calcRem(170px);
-        margin-right: calcRem(30px);
+        min-width: (170px);
+        margin-right: (30px);
     }
     .filter-switch-item {
-        min-width: calcRem(90px);
+        min-width: (90px);
     }
 }
 
 .selector-item {
-    min-width: calcRem(170px);
+    min-width: (170px);
 }
 
 .status-cell {
-    width: calcRem(126px)
+    width: (126px)
 }
 
 .object-header {
@@ -305,7 +317,7 @@ export default {
         display: flex;
     }
     .history-section {
-    padding: calcRem(12px) calcRem(28px);
+    padding: (12px) (28px);
     border-radius: $border-radius;
     background: $content-bg-color;
   }
@@ -326,16 +338,16 @@ export default {
     position: relative;
 
     .cc-btn {
-      margin-left: calcRem(20px);
+      margin-left: (20px);
     }
 
     .files-counter {
-      $offset: calcRem(10px);
+      $offset: (10px);
       @extend .typo-body-sm;
       position: absolute;
       right: 0;
       top: calc(100% + #{$offset});
-      padding: calcRem(10px) calcRem(15px);
+      padding: (10px) (15px);
       background: $content-bg-color;
       box-shadow: $box-shadow;
       border-radius: $border-radius;
@@ -345,4 +357,13 @@ export default {
       }
     }
   }
+
+   .red {
+        fill: $false-color;
+        color: $false-color;
+    }
+
+    .yell {
+        fill: $accent-color;
+    }
 </style>
