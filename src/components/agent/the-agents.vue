@@ -1,19 +1,19 @@
 <template>
     <div>
-        <header class="object-header">
-            <div class="object-header__title-wrap">
-                <h2 class="object-title">{{$t('pages.agent.title')}}</h2>
-            </div>
-            <div class="history-heading__actions-wrap">
+        <the-object-header>
+            <template v-slot:title>
+                {{$t('pages.agent.title')}}
+            </template>
+            <template v-slot:actions>
                 <filter-search/>
                 <btn
-                    class="primary"
+                    class="primary action-button"
                     :loading="isCSVLoading"
                     @click.native="download"
                 >Export CSV
                 </btn>
-            </div>
-        </header>
+            </template>
+        </the-object-header>
         <div class="filter-header">
             <filter-status class="filter-status"/>
             <filter-queue class="filter-item"/>
@@ -139,6 +139,7 @@ import statusSelect from '../utils/status-select.vue';
 import selectorQueue from '../selectors/selector-queue.vue';
 import selectorTeam from '../selectors/selector-team.vue';
 import theAgentsHelpPopup from './the-agents-help-popup.vue';
+import theObjectHeader from '../object-utils/the-object-header.vue';
 
 
 export default {
@@ -160,6 +161,7 @@ export default {
         selectorQueue,
         selectorTeam,
         theAgentsHelpPopup,
+        theObjectHeader,
     },
     mixins: [
         sortFilterMixin,
@@ -245,6 +247,11 @@ export default {
 
 <style lang="scss" scoped>
 
+.action-button {
+    padding: 5px 17px 8px;
+    height: 32px;
+}
+
 .call {
     display: flex;
     align-items: center;
@@ -262,8 +269,8 @@ export default {
     display: flex;
     align-items: left;
     min-height: 68px;
-    padding: 15px 28px;
-    margin-bottom: 28px;
+    padding: 18px 30px;
+    margin-bottom: 20px;
 
     background: $content-bg-color;
     border-radius: $border-radius;
@@ -290,73 +297,6 @@ export default {
 .status-cell {
     width: (126px)
 }
-
-.object-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        min-height: 68px;
-        padding: 15px 28px;
-        margin-bottom: 28px;
-
-        background: $content-bg-color;
-        border-radius: $border-radius;
-    }
-
-.object-title {
-        @extend .typo-heading-lg;
-
-        margin: 0;
-        letter-spacing: 0.15px;
-
-        span {
-            @extend .typo-heading-lg;
-        }
-    }
- .object-header__title-wrap {
-        display: flex;
-    }
-    .history-section {
-    padding: (12px) (28px);
-    border-radius: $border-radius;
-    background: $content-bg-color;
-  }
-
-  .history-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .history-heading__h1 {
-    @extend .typo-heading-md;
-  }
-
-  .history-heading__actions-wrap {
-    display: flex;
-    align-items: center;
-    position: relative;
-
-    .cc-btn {
-      margin-left: (20px);
-    }
-
-    .files-counter {
-      $offset: (10px);
-      @extend .typo-body-sm;
-      position: absolute;
-      right: 0;
-      top: calc(100% + #{$offset});
-      padding: (10px) (15px);
-      background: $content-bg-color;
-      box-shadow: $box-shadow;
-      border-radius: $border-radius;
-
-      &__count {
-        @extend .typo-heading-sm;
-      }
-    }
-  }
 
    .red {
         fill: $false-color;

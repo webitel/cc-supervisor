@@ -248,14 +248,14 @@ button {
       border: 1px solid $accent-color;
     }
     &__title {
-        @extend .typo-text-title;
+        @extend .typo-body-md;
         margin-right: 1px;
     }
     &__icon {
       margin-right: 15px;
     }
     &__description {
-        @extend .typo-text;
+        @extend .typo-body-md;
         margin-right: 2px;
     }
     &__remove-btn{
@@ -289,7 +289,7 @@ button {
 }
 
 .agent-name {
-  @extend .typo-text-title;
+  @extend .typo-heading-md;
   text-decoration-line: underline;
 }
 

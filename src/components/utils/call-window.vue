@@ -141,7 +141,7 @@ $modal-background-color: #171A2A;
 }
 
 .call-window__agent-name {
-    @extend .typo-supervisor-semi14;
+    @extend .typo-heading-md;
     color: $white-color;
 }
 
@@ -150,7 +150,7 @@ $modal-background-color: #171A2A;
 }
 
 .call-window__client-name {
-    @extend .typo-supervisor-reg14;
+    @extend .typo-body-md;
     color: $white-color;
 }
 
@@ -162,7 +162,7 @@ $modal-background-color: #171A2A;
 }
 
 .call-window__time {
-    @extend .typo-supervisor-reg14;
+    @extend .typo-body-md;
     color: $white-color;
 }
 

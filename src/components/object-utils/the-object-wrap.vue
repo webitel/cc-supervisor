@@ -47,6 +47,7 @@ export default {
     }
 
     .object-content-wrap {
-        padding: 28px 58px;
+        min-width: 1024px;
+        padding: 20px 30px;
     }
 </style>
