@@ -117,7 +117,7 @@
   }
 
   .input-timerange__label {
-    @extend .typo-heading-sm;
+    @extend .typo-body-md;
     margin-right: (10px);
   }
 

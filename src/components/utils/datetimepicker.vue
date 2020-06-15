@@ -197,7 +197,7 @@
   }
 
   .dt-picker__label {
-    @extend .typo-body-sm;
+    @extend .typo-body-md;
     display: block;
     margin-bottom: (13px);
     color: $label-color;
@@ -226,12 +226,12 @@
     }
 
     &__title {
-      @extend .typo-heading-sm;
+      @extend .typo-body-md;
       margin: 0 (10px);
     }
 
     &__value {
-      @extend .typo-body-sm;
+      @extend .typo-body-md;
       color: $date-value-color;
     }
   }
@@ -253,7 +253,7 @@
     }
 
     &__quick-filter {
-      @extend .typo-body-sm;
+      @extend .typo-body-md;
       text-decoration: underline;
       cursor: pointer;
 
@@ -296,7 +296,7 @@
             line-height: 0;
 
             .day__month_btn {
-              @extend .typo-heading-sm;
+              @extend .typo-body-md;
               padding-top: (5px);
             }
 

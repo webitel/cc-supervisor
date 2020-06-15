@@ -59,7 +59,7 @@
 
   .popup-header {
     &__h1 {
-      @extend .typo-heading-md;
+      @extend .typo-heading-lg;
       text-align: center;
     }
   }

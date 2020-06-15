@@ -182,12 +182,11 @@ export default {
 }
 
 .span-size {
-    @extend .typo-input-text;
+    @extend .typo-body-md;
 }
 
 .name {
-    @extend .span-size;
-    font-weight: 600;
+    @extend .typo-heading-md;
 }
 
 .phone {
@@ -261,16 +260,7 @@ export default {
         border-radius: $border-radius;
     }
 
-.object-title {
-        @extend .typo-heading-lg;
 
-        margin: 0;
-        letter-spacing: 0.15px;
-
-        span {
-            @extend .typo-heading-lg;
-        }
-    }
  .object-header__title-wrap {
         display: flex;
     }
@@ -278,42 +268,6 @@ export default {
     padding: (12px) (28px);
     border-radius: $border-radius;
     background: $content-bg-color;
-  }
-
-  .history-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .history-heading__h1 {
-    @extend .typo-heading-md;
-  }
-
-  .history-heading__actions-wrap {
-    display: flex;
-    align-items: center;
-    position: relative;
-
-    .cc-btn {
-      margin-left: (20px);
-    }
-
-    .files-counter {
-      $offset: (10px);
-      @extend .typo-body-sm;
-      position: absolute;
-      right: 0;
-      top: calc(100% + #{$offset});
-      padding: (10px) (15px);
-      background: $content-bg-color;
-      box-shadow: $box-shadow;
-      border-radius: $border-radius;
-
-      &__count {
-        @extend .typo-heading-sm;
-      }
-    }
   }
 
   .attention-element {

@@ -63,7 +63,7 @@
 
 <style lang="scss" scoped>
     .tabs {
-        @extend .typo-tab;
+        @extend .typo-body-md;
         display: block;
         position: relative;
         margin: 0 0 28px;

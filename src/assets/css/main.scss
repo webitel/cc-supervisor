@@ -31,7 +31,7 @@ $input-padding: 11px 16px 7px;
 // $transition: 0.2s;
 
 * {
-  font-family: 'Montserrat Medium', monospace;
+  font-family: 'Montserrat Regular', monospace;
 }
 
 //disables scrollbar on 100vh auth on small laptops
@@ -101,7 +101,7 @@ i {
 }
 
 .label {
-  @extend .typo-input-label;
+  @extend .typo-body-md;
 
   position: relative;
   display: block;
@@ -116,7 +116,7 @@ i {
 }
 
 .default-input {
-  @extend .typo-input-text;
+  @extend .typo-body-md;
 
   display: block;
   width: 100%;

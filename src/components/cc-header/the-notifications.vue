@@ -118,12 +118,12 @@
   }
 
   .header-notifications__subject {
-        @extend .typo-text-bold;
+        @extend .typo-heading-md;
         margin-right: 12px;
   }
 
   .header-notifications__description {
-      @extend .typo-text;
+      @extend .typo-body-md;
       margin-right: 12px;
   }
 

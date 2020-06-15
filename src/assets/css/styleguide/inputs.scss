@@ -8,7 +8,7 @@ $input-icon-color__active: #000000;
 $input-border-color__active: #000000;
 
 .cc-label {
-  @extend .typo-input;
+  @extend .typo-body-md;
   color: #000;
 }
 
@@ -50,7 +50,7 @@ $input-border-color__active: #000000;
 }
 
 .cc-input__input {
-  @extend .typo-input;
+  @extend .typo-body-md;
   width: 100%;
   margin: 0 8px;
   border: none;
