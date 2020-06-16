@@ -228,10 +228,6 @@
 <style lang="scss" scoped>
 @import "@/assets/css/ui-components/shared";
 
-button {
-  @extend .reset-btn;
-}
-
   .attention-item {
     position: relative;
     align-items: center;

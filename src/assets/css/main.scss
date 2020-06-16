@@ -193,9 +193,11 @@ $srollbar-thumb-color: rgba(0, 0, 0, 0.3);
   }
 }
 
-.reset-btn {
-  padding: 0;
-  outline: none;
+button {
+  padding: 0; 
+  border: none; 
+  outline: none; 
+  background: none;
 }
 
 span {

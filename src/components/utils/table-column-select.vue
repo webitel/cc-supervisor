@@ -97,9 +97,6 @@
 </script>
 
 <style lang="scss" scoped>
-button {
-  @extend .reset-btn;
-}
 
   .column-select__list {
     @extend .cc-scrollbar;
