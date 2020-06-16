@@ -147,7 +147,7 @@
     }
 
     .input {
-        @extend .typo-body-md;
+        @extend .typo-input;
         @extend .default-input;
     }
 

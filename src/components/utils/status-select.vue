@@ -202,23 +202,23 @@
       }
 
       .multiselect__placeholder {
-        @extend .typo-body-md;
+        @extend .typo-input;
         color: $label-color;
       }
 
       .multiselect__input {
-        @extend .typo-body-md;
+        @extend .typo-input;
         outline: none;
         border: none;
       }
 
       .multiselect__single {
-        @extend .typo-body-md;
+        @extend .typo-input;
         display: inline-block;
       }
 
       .multiselect__tag {
-        @extend .typo-body-md;
+        @extend .typo-input;
       }
     }
 
@@ -234,12 +234,12 @@
 
     // empty/not found texts
     li:not(.multiselect__element) {
-      @extend .typo-body-md;
+      @extend .typo-input;
       padding: $select-paddings;
     }
 
     &__element {
-      @extend .typo-body-md;
+      @extend .typo-input;
       width: 100%;
       transition: $transition;
       cursor: pointer;
