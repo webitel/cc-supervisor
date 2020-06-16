@@ -73,7 +73,7 @@
   }
 
   .timepicker__label {
-    @extend .typo-body-sm;
+    @extend .typo-body-md;
     margin-bottom: 7px;
     color: $label-color;
   }

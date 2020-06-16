@@ -199,7 +199,7 @@
     transform: translate(0, -35%);
 
     .input-extension__copy {
-      @extend .typo-input-text;
+      @extend .typo-body-md;
       @extend .border-underline;
       cursor: pointer;
 

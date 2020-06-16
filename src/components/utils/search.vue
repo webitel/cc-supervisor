@@ -54,7 +54,7 @@
         padding: 8px 14px 6px;
 
         .search__input {
-            @extend .typo-input-text;
+            @extend .typo-body-md;
 
             flex: 1;
             padding: 0;

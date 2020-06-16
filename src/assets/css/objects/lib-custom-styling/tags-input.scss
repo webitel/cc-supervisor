@@ -5,7 +5,7 @@
   margin-bottom: 21px;
 
   .tags-input__label {
-    @extend .typo-input-label;
+    @extend .typo-body-md;
 
     position: relative;
     margin-bottom: 9px;
@@ -32,7 +32,7 @@
       }
 
       .ti-new-tag-input {
-        @extend .typo-input-label;
+        @extend .typo-body-md;
         min-height: 24px; // prevents too small height with no tags
 
         &::placeholder {
@@ -41,7 +41,7 @@
       }
 
       .ti-tag {
-        @extend .typo-input-label;
+        @extend .typo-body-md;
 
         color: #000;
         background: $tag-background;

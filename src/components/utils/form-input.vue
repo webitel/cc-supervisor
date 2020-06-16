@@ -147,7 +147,7 @@
     }
 
     .input {
-        @extend .typo-input-text;
+        @extend .typo-input;
         @extend .default-input;
     }
 

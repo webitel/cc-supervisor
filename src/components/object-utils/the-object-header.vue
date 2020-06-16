@@ -2,8 +2,11 @@
     <header class="object-header">
         <div class="object-header__title-wrap">
             <h2 class="object-title">
-                <slot></slot>
+                <slot name="title"></slot>
             </h2>
+        </div>
+        <div class="object-header__actions-wrap">
+            <slot name="actions"></slot>
         </div>
     </header>
 </template>
@@ -53,9 +56,9 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        min-height: 68px;
-        padding: 15px 28px;
-        margin-bottom: 28px;
+        height: 63px;
+        padding: 12px 30px;
+        margin-bottom: 20px;
 
         background: #fff;
         border-radius: $border-radius;
@@ -72,7 +75,17 @@
         letter-spacing: 0.15px;
 
         span {
-            @extend .typo-heading-lg;
+            @extend .typo-body-md;
+        }
+    }
+
+    .object-header__actions-wrap {
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        .cc-btn {
+        margin-left: (20px);
         }
     }
 </style>

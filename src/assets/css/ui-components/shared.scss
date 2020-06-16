@@ -1,13 +1,13 @@
 
 .label {
-  @extend .typo-body-sm;
+  @extend .typo-body-md;
   display: block;
   margin-bottom: (13px);
   color: $label-color;
 }
 
 .input__short {
-  @extend .typo-input;
+  @extend .typo-body-md;
   text-align: center;
   width: (40px);
   padding: (10px) (5px);
@@ -23,7 +23,7 @@
 
 $badge-bg: #FFE69C;
 .count-badge {
-  @extend .typo-body-sm;
+  @extend .typo-body-md;
   display: block;
   background: $badge-bg;
   padding: 4px 15px;

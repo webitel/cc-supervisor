@@ -1,19 +1,19 @@
 <template>
     <div>
-        <header class="object-header">
-            <div class="object-header__title-wrap">
-                <h2 class="object-title">{{$t('pages.queue.title')}}</h2>
-            </div>
-            <div class="history-heading__actions-wrap">
+        <the-object-header>
+            <template v-slot:title>
+                {{$t('pages.queue.title')}}
+            </template>
+            <template v-slot:actions>
                 <filter-search/>
                 <btn
-                    class="primary"
+                    class="primary action-button"
                     :loading="isCSVLoading"
                     @click.native="download"
                 >Export CSV
                 </btn>
-            </div>
-        </header>
+            </template>
+        </the-object-header>
         <div class="filter-header">
             <filter-period class="filter-item"/>
             <filter-queue class="filter-item"/>
@@ -88,6 +88,7 @@ import Btn from '../utils/btn.vue';
 import GridTable from '../utils/grid-table.vue';
 import queueHeaders from './queueHeaders';
 import status from '../utils/status.vue';
+import theObjectHeader from '../object-utils/the-object-header.vue';
 
 export default {
     name: 'the-queues',
@@ -103,6 +104,7 @@ export default {
         FilterPeriod,
         Btn,
         status,
+        theObjectHeader,
     },
     mixins: [
         sortFilterMixin,
@@ -164,6 +166,11 @@ export default {
 
 <style lang="scss" scoped>
 
+.action-button {
+    padding: 5px 17px 8px;
+    height: 32px;
+}
+
 .low {
     color: $false-color;
 }
@@ -176,8 +183,8 @@ export default {
     display: flex;
     align-items: left;
     min-height: 68px;
-    padding: 15px 28px;
-    margin-bottom: 28px;
+    padding: 18px 30px;
+    margin-bottom: 20px;
 
     background: $content-bg-color;
     border-radius: $border-radius;
@@ -190,117 +197,4 @@ export default {
     }
 }
 
-.object-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        min-height: 68px;
-        padding: 15px 28px;
-        margin-bottom: 28px;
-
-        background: $content-bg-color;
-        border-radius: $border-radius;
-    }
-
-.object-title {
-        @extend .typo-heading-lg;
-
-        margin: 0;
-        letter-spacing: 0.15px;
-
-        span {
-            @extend .typo-heading-lg;
-        }
-    }
- .object-header__title-wrap {
-        display: flex;
-    }
-    .history-section {
-    padding: (12px) (28px);
-    border-radius: $border-radius;
-    background: $content-bg-color;
-  }
-
-  .history-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .history-heading__h1 {
-    @extend .typo-heading-md;
-  }
-
-  .history-heading__actions-wrap {
-    display: flex;
-    align-items: center;
-    position: relative;
-
-    .cc-btn {
-      margin-left: (20px);
-    }
-
-    .files-counter {
-      $offset: (10px);
-      @extend .typo-body-sm;
-      position: absolute;
-      right: 0;
-      top: calc(100% + #{$offset});
-      padding: (10px) (15px);
-      background: $content-bg-color;
-      box-shadow: $box-shadow;
-      border-radius: $border-radius;
-
-      &__count {
-        @extend .typo-heading-sm;
-      }
-    }
-  }
-
-  .history-filters {
-    display: flex;
-    align-items: flex-start;
-    padding: (18px) (28px);
-    margin: (20px) 0;
-
-    &__filters {
-      flex: 1 1 auto;
-      display: flex;
-      flex-wrap: wrap;
-
-      .dt-picker {
-        width: 100%;
-      }
-
-      .hs-multiselect {
-        width: 100%;
-      }
-
-      .dt-picker, .hs-multiselect {
-        /*margin-right: (50px);*/
-        margin-bottom: (18px);
-      }
-    }
-
-    &__controls {
-      $icon-w: (24px);
-      $margin-w: (0px);
-      margin: (30px) 0 0 (30px);
-      flex: 0 0 calc(#{$icon-w} + #{$margin-w});
-
-      .icon-btn {
-        margin-left: (30px);
-
-        &:first-child {
-          margin-left: 0;
-        }
-      }
-    }
-  }
-
-  .history-section {
-  padding: (12px) (28px);
-  border-radius: $border-radius;
-  background: $content-bg-color;
-}
 </style>

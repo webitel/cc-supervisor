@@ -149,7 +149,7 @@
   @import "../../assets/css/ui-components/multiselect-spinner";
   @import "../../assets/css/ui-components/shared";
 
-  $select-paddings: (7px) (30px) (7px) (8px);
+  $select-paddings: 10px 30px 10px 15px;
 
   .hs-multiselect-wrap {
     position: relative;
@@ -202,23 +202,23 @@
       }
 
       .multiselect__placeholder {
-        @extend .typo-body-sm;
+        @extend .typo-input;
         color: $label-color;
       }
 
       .multiselect__input {
-        @extend .typo-body-sm;
+        @extend .typo-input;
         outline: none;
         border: none;
       }
 
       .multiselect__single {
-        @extend .typo-body-sm;
+        @extend .typo-input;
         display: inline-block;
       }
 
       .multiselect__tag {
-        @extend .typo-body-sm;
+        @extend .typo-input;
       }
     }
 
@@ -234,12 +234,12 @@
 
     // empty/not found texts
     li:not(.multiselect__element) {
-      @extend .typo-body-sm;
+      @extend .typo-input;
       padding: $select-paddings;
     }
 
     &__element {
-      @extend .typo-body-sm;
+      @extend .typo-input;
       width: 100%;
       transition: $transition;
       cursor: pointer;

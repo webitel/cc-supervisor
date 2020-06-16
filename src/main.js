@@ -16,7 +16,7 @@ import './assets/css/main.scss';
 Vue.use(VueNativeSock, 'ws://localhost:8081', {
   store,
   // format: 'json',
-  reconnection: true,
+  reconnection: false,
   reconnectionAttempts: 5,
   reconnectionDelay: 3000,
  });

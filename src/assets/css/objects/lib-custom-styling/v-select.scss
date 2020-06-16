@@ -1,7 +1,7 @@
 @import "../../../../../node_modules/vue-select/src/scss/vue-select";
 
 .dropdown-select {
-  @extend .typo-input-text;
+  @extend .typo-body-md;
   position: relative;
 }
 
@@ -54,7 +54,7 @@
     }
 
     input {
-      @extend .typo-input-text;
+      @extend .typo-body-md;
 
       padding: 0;
       margin: 0;

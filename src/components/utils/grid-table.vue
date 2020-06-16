@@ -186,7 +186,7 @@
       transition: $transition;
 
       &.expanded .grid__td {
-        @extend .typo-heading-sm;
+        @extend .typo-body-md;
       }
 
       &__body {

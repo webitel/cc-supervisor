@@ -51,7 +51,7 @@ export default [
     },
     {
       text: 'Attention',
-      value: 'attention',
+      value: 'attentions',
       show: true,
       sort: null,
       width: 'minmax(120px, 1fr)',
