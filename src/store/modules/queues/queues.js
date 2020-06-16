@@ -15,7 +15,7 @@ const actions = {
         params.joinedAtFrom = joined.start;
         params.joinedAtTo = joined.end;
         if (params.type === CallDirection.Inbound) params.typeIds = [1, 6]
-        else if (params.type === CallDirection.Inbound) params.typeIds = [0, 2, 3, 4, 5]
+        else if (params.type === CallDirection.Outbound) params.typeIds = [0, 2, 3, 4, 5]
         const { items, next } = await getQueuesList(params);
         context.commit('SET_LIST', items);
         return next
