@@ -331,7 +331,7 @@ button {
   }
 }
 
-.header-button-margim {
+.header-button-margin {
   margin-left: 10px;
 }
 </style>
