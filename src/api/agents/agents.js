@@ -10,7 +10,7 @@ const parseAgentList = (items) => {
         Object.assign(element, {
             call: `00:${(`0${Math.floor(Math.random() * 10)}`).slice(-2)}:${(`0${Math.floor(Math.random() * 60)}`).slice(-2)}`,
             chat: `00:${(`0${Math.floor(Math.random() * 10)}`).slice(-2)}:${(`0${Math.floor(Math.random() * 60)}`).slice(-2)}`,
-            utilization: Math.random().toFixed(2),
+            utilization: '90%',
             teams: [{ id: '1', name: 'dev' }],
             queues: [{ id: '6', name: 'inbound-dev' }, { id: '7', name: 'preview-dev' }],
             status: { time: `00:${(`0${Math.floor(Math.random() * 10)}`).slice(-2)}:${(`0${Math.floor(Math.random() * 60)}`).slice(-2)}`, status: 'online' },

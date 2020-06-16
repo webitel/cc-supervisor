@@ -1,6 +1,6 @@
 <template>
     <div>
-        <header class="filter-header span-size">
+        <header class="filter-header">
             <button
                 class="back-btn"
                 @click="$router.go(-1)"
@@ -12,8 +12,8 @@
                 </icon>
             </button>
             <div class="filter-item main-info">
-                <span class="name">{{itemInstance.name}}</span>
-                <span class="phone">{{itemInstance.phone_number}}</span>
+                <span class="title">{{itemInstance.name}}</span>
+                <span>{{itemInstance.phone_number}}</span>
             </div>
             <button class="icon-btn" @click.prevent="callAgent()">
                 <icon>
@@ -179,18 +179,6 @@ export default {
 
 .main-info {
     display: inline-grid;
-}
-
-.span-size {
-    @extend .typo-body-md;
-}
-
-.name {
-    @extend .typo-heading-md;
-}
-
-.phone {
-    @extend .span-size;
 }
 
 .back-btn {

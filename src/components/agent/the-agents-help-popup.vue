@@ -229,8 +229,7 @@
 @import "@/assets/css/ui-components/shared";
 
 button {
-  padding: 0;
-  outline: none;
+  @extend .reset-btn;
 }
 
   .attention-item {

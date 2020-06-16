@@ -74,10 +74,6 @@
                      </div>
                 </template>
 
-                <template slot="utilization" slot-scope="{ item }">
-                       {{item.utilization*100+'%'}}
-                </template>
-
                  <template slot="queues" slot-scope="{ item }">
                      <selector-queue
                         class="selector-item"
@@ -298,12 +294,4 @@ export default {
     width: (126px)
 }
 
-   .red {
-        fill: $false-color;
-        color: $false-color;
-    }
-
-    .yell {
-        fill: $accent-color;
-    }
 </style>

@@ -53,7 +53,12 @@
                 </template>
 
                 <template slot="members" slot-scope="{ item }">
-                    {{item.members.processing+'/'}}<span :class="{'low': !calculateMembers(item.members),'high': calculateMembers(item.members) }">{{item.members.waiting}}</span>
+                    {{item.members.processing+'/'}}<span
+                        :class="{
+                            'low': item.members.waiting && !calculateMembers(item.members),
+                            'high': calculateMembers(item.members),
+                        }"
+                    >{{item.members.waiting}}</span>
                 </template>
                 <template slot="team" slot-scope="{ item }" >
                     <div v-if="item.team">{{item.team.name}}</div>

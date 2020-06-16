@@ -32,7 +32,7 @@ $tabs-color: #94979B;
   z-index: 1;
 
   &.active, &:hover {
-    font-family: 'Montserrat Semi', monospace;
+    font-family: 'Montserrat SemiBold', monospace;
     color: #000;
   }
 
@@ -44,7 +44,7 @@ $tabs-color: #94979B;
   &:after {
     display: block;
     content: attr(value);
-    font-family: 'Montserrat Semi', monospace;
+    font-family: 'Montserrat SemiBold', monospace;
     height: 0;
     overflow: hidden;
     visibility: hidden;

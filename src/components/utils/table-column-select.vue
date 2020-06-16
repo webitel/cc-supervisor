@@ -98,8 +98,7 @@
 
 <style lang="scss" scoped>
 button {
-  padding: 0;
-  outline: none;
+  @extend .reset-btn;
 }
 
   .column-select__list {
