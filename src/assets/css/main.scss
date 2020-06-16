@@ -192,3 +192,18 @@ $srollbar-thumb-color: rgba(0, 0, 0, 0.3);
     @extend .icon-action;
   }
 }
+
+button {
+  padding: 0; 
+  border: none; 
+  outline: none; 
+  background: none;
+}
+
+span {
+  @extend .typo-body-md;
+}
+
+.title {
+  @extend .typo-heading-md;
+}

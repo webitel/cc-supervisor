@@ -44,7 +44,7 @@
         .table-status__icon {
             width: 10px;
             height: 10px;
-            margin-right: 14px;
+            margin-right: 5px;
             background: $icon-color;
             border-radius: 50%;
         }

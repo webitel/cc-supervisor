@@ -23,7 +23,6 @@
           <slot name="actions-header"></slot>
         </div>
       </header>
-
       <section class="grid__body">
         <div
           class="grid__row-wrap"
@@ -154,8 +153,15 @@
   $active-bg-color: $list-option__hover;
   $header-color: $label-color;
   $second-row-bg-color: #F9F9F9;
+  $header-separator-color: #EAEAEA;
 
   $min-td-width: (100px);
+
+  .grid__tr__header {
+    width: fit-content; 
+    width: -moz-fit-content;
+    border-bottom: 2px solid $header-separator-color;
+  }
 
   .grid-table {
     display: flex;
@@ -182,8 +188,9 @@
       display: grid;
       grid-template-columns: (24px) repeat(6, 1fr) (68px);
       grid-column-gap: (20px);
-      padding: (14px) (10px);
+      padding: 0px 10px;
       transition: $transition;
+      height: 54px;
 
       &.expanded .grid__td {
         @extend .typo-body-md;

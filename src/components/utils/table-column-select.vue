@@ -97,10 +97,6 @@
 </script>
 
 <style lang="scss" scoped>
-button {
-  padding: 0;
-  outline: none;
-}
 
   .column-select__list {
     @extend .cc-scrollbar;

@@ -228,11 +228,6 @@
 <style lang="scss" scoped>
 @import "@/assets/css/ui-components/shared";
 
-button {
-  padding: 0;
-  outline: none;
-}
-
   .attention-item {
     position: relative;
     align-items: center;

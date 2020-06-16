@@ -49,7 +49,7 @@
   const imgHistory = require('../../assets/app-navigator/app-history.svg');
   const imgSupervisor = require('../../assets/app-navigator/app-supervisor.svg');
 
-  const CURRENT_APP = 'history';
+  const CURRENT_APP = 'supervisor';
 
   export default {
     name: 'the-app-navigator',
