@@ -23,7 +23,6 @@
           <slot name="actions-header"></slot>
         </div>
       </header>
-      <divider/>
       <section class="grid__body">
         <div
           class="grid__row-wrap"
@@ -86,14 +85,12 @@
 <script>
   import Checkbox from './checkbox.vue';
   import CountBadge from './count-badge.vue';
-  import Divider from './divider.vue';
 
   export default {
     name: 'grid-table',
     components: {
       CountBadge,
       Checkbox,
-      Divider,
     },
     props: {
       checkboxes: {
@@ -156,8 +153,15 @@
   $active-bg-color: $list-option__hover;
   $header-color: $label-color;
   $second-row-bg-color: #F9F9F9;
+  $header-separator-color: #EAEAEA;
 
   $min-td-width: (100px);
+
+  .grid__tr__header {
+    width: fit-content; 
+    width: -moz-fit-content;
+    border-bottom: 2px solid $header-separator-color;
+  }
 
   .grid-table {
     display: flex;
