@@ -37,16 +37,19 @@
                 </template>
 
                 <template slot="agents" slot-scope="{ item }">
-                     <status
-                            :class="{'status__true':true}"
-                            :text="item.agents.active"
-                    >
-                    </status>
-                     <status
-                            :class="{'status__info':true}"
-                            :text="item.agents.waiting"
-                    >
-                    </status>
+                    <div class="agents-cell">
+                        <status
+                                class="agents-cell__status-margin"
+                                :class="{'status__true':true}"
+                                :text="item.agents.active"
+                        >
+                        </status>
+                        <status
+                                :class="{'status__info':true}"
+                                :text="item.agents.waiting"
+                        >
+                        </status>
+                    </div>
                 </template>
 
                 <template slot="members" slot-scope="{ item }">
@@ -57,12 +60,6 @@
                 </template>
                 <template slot="queue" slot-scope="{ item }" >
                     <div v-if="item.queue">{{item.queue.name}}</div>
-                </template>
-                <template slot="bridged" slot-scope="{ item }" >
-                    <div v-if="item.bridged">{{item.bridged.toFixed(2)+'%'}}</div>
-                </template>
-                 <template slot="abandoned" slot-scope="{ item }" >
-                    <div v-if="item.abandoned">{{item.abandoned.toFixed(2)+'%'}}</div>
                 </template>
             </grid-table>
             <filter-pagination/>
@@ -165,6 +162,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.agents-cell {
+    display: flex;
+}
+
+.agents-cell__status-margin {
+    margin-right: 16px;
+}
 
 .action-button {
     padding: 5px 17px 8px;

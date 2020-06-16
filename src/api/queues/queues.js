@@ -8,18 +8,13 @@ export const queueFields = ['id', 'name', 'type', 'team'];
 const parseQueueList = (items) => {
     items.forEach((element) => {
         Object.assign(element, {
-            // inbound_calls: Math.floor(Math.random() * 16),
-            // answer: Math.random().toFixed(2),
-            // abandone: Math.random().toFixed(2),
-            // talk: `00:${(`0${Math.floor(Math.random() * 10)}`).slice(-2)}:${(`0${Math.floor(Math.random() * 60)}`).slice(-2)}`,
-            // hold: Math.floor(Math.random() * 16),
-            // transfer: Math.floor(Math.random() * 16),
-            // wrap_up_time: Math.random().toFixed(2),
-            // asa: Math.random().toFixed(2),
-            // ldq: Math.random().toFixed(2),
-            // awt: Math.random().toFixed(2),
-            // acwt: Math.random().toFixed(2),
-            // aht: Math.random().toFixed(2),
+            bridged: element.bridged ? `${+element.bridged.toFixed(2)}%` : null,
+            abandoned: element.abandoned ? `${+element.abandoned.toFixed(2)}%` : null,
+            sumBillSec: element.sumBillSec ? +element.sumBillSec.toFixed(2) : null,
+            avgWrapSec: element.avgWrapSec ? +element.avgWrapSec.toFixed(2) : null,
+            avgAsaSec: element.avgAsaSec ? +element.avgAsaSec.toFixed(2) : null,
+            avgAwtSec: element.avgAwtSec ? +element.avgAwtSec.toFixed(2) : null,
+            avgAhtSec: element.avgAhtSec ? +element.avgAhtSec.toFixed(2) : null,
             team_name: element.team && element.team.name,
             agents: {
                 active: element.online || 0,
