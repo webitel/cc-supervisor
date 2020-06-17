@@ -162,4 +162,9 @@ export default {
       },
     },
   },
+  page404: {
+    title404: "Looks like you're lost",
+    text404: 'Sorry, we can\'t find the page you want.',
+    btn404: 'Go back',
+},
 };
