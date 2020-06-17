@@ -24,7 +24,7 @@
                     <div class="nav-item" :class="{'nav-item__current': index === selectedIndex}">
                         <icon class="nav-icon">
                             <svg class="icon md nav-icon__svg" :class="{'nav-icon__svg--selected ': index === selectedIndex}">
-                                <use v-bind="{'xlink:href':'#'+item.iconClass}"></use>
+                                <use :xlink:href="`#icon-${item.iconClass}_md`"></use>
                             </svg>
                         </icon>
                         <span class="nav-text">{{item.displayName}}</span>
@@ -54,19 +54,19 @@
                         name: 'queues',
                         displayName: this.$t('nav.queue'),
                         route: { name: 'queues', query: { period: 'today' } },
-                        iconClass: 'icon-queue_md',
+                        iconClass: 'queue',
                     },
                     {
                         name: 'agent',
                         displayName: this.$t('nav.agents'),
                         route: { name: 'agents' },
-                        iconClass: 'icon-agent_md',
+                        iconClass: 'agent',
                     },
                     {
                         name: 'active-calls',
                         displayName: this.$t('nav.activeCalls'),
                         route: { name: 'active-calls' },
-                        iconClass: 'icon-statistics',
+                        iconClass: 'agents',
                     },
                 ],
                 collapsed: false,
