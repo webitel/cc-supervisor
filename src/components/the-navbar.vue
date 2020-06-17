@@ -5,6 +5,15 @@
     >
         <nav class="the-nav expanded-nav">
             <header class="nav__header">
+                <button
+                    @click.prevent="toggleCollapse"
+                >
+                    <icon>
+                        <svg class="icon icon-burger_md md burger-button__icon">
+                            <use xlink:href="#icon-burger_md"></use>
+                        </svg>
+                    </icon>
+                </button>
                 <i class="icon-icon_menu-burger" @click="toggleCollapse"></i>
                 <div class="logo-wrap">
                     <img class="logo" src="../assets/img/logo.svg" alt="logo">
@@ -13,14 +22,12 @@
             <ul class="nav-items">
                 <li class="nav-item-wrap" v-for="(item, index) in nav" @click="navigate(item)" :key="index">
                     <div class="nav-item" :class="{'nav-item__current': index === selectedIndex}">
-                        <!-- <icon class="nav-icon">
-                            <svg class="icon md" :class="{'white-icon': index !== selectedIndex, 'selected-icon': index === selectedIndex}">
-                                <use v-bind="{'xlink:href':'#'+item.iconClass}"></use>
+                        <icon class="nav-icon">
+                            <svg class="icon md nav-icon__svg" :class="{'nav-icon__svg--selected ': index === selectedIndex}">
+                                <use :xlink:href="`#icon-${item.iconClass}_md`"></use>
                             </svg>
-                        </icon> -->
-                        <i class="nav-icon" :class="item.iconClass"></i>
+                        </icon>
                         <span class="nav-text">{{item.displayName}}</span>
-                        <!-- <i class="nav-icon-arrow icon-icon_arrow-down"></i> -->
                     </div>
                 </li>
             </ul>
@@ -47,13 +54,19 @@
                         name: 'queues',
                         displayName: this.$t('nav.queue'),
                         route: { name: 'queues', query: { period: 'today' } },
-                        iconClass: 'icon-icon_nav-directory', // 'icon-queue_md',
+                        iconClass: 'queue',
                     },
                     {
                         name: 'agent',
                         displayName: this.$t('nav.agents'),
                         route: { name: 'agents' },
-                        iconClass: 'icon-icon_nav-contacts', // 'icon-agent_md',
+                        iconClass: 'agent',
+                    },
+                    {
+                        name: 'active-calls',
+                        displayName: this.$t('nav.activeCalls'),
+                        route: { name: 'active-calls' },
+                        iconClass: 'agents',
                     },
                 ],
                 collapsed: false,
@@ -93,6 +106,10 @@
 <style lang="scss" scoped>
     $nav-bg-color: #171A2A;
     $nav-paddings: 0 38px 0 20px;
+
+    .burger-button__icon {
+        fill: $nav-icon-color;
+    }
 
     .the-nav__wrap {
         @extend .box-shadow;
@@ -153,6 +170,19 @@
                     .nav-icon {
                         margin-right: 18px;
                         transition: $transition;
+                    }
+
+                    .nav-icon__svg {
+                        fill: #fff;
+                    }
+
+                    &:hover .nav-icon__svg {
+                        fill: $accent-color;
+                        stroke: $accent-color;
+                    }
+
+                    .nav-icon__svg--selected {
+                        fill: $accent-color;
                     }
 
                     .nav-text {
@@ -258,13 +288,5 @@
 
         }
     }
-
-    // .white-icon {
-    //    fill: #fff;
-    // }
-
-    // .selected-icon {
-    //    fill: $accent-color;
-    // }
 
 </style>

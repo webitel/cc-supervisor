@@ -33,6 +33,7 @@ export default {
   nav: {
     queue: 'Queue',
     agents: 'Agents',
+    activeCalls: 'Active Calls',
   },
   icon: {
     docs: 'Docs',
@@ -153,6 +154,11 @@ export default {
         asa: 'ASA',
         awt: 'AWT',
         aht: 'AHT',
+      },
+    },
+    activeCall: {
+      title: 'Active calls',
+      columns: {
       },
     },
   },
