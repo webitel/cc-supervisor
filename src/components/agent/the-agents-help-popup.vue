@@ -243,7 +243,7 @@
       border: 1px solid $accent-color;
     }
     &__title {
-        @extend .typo-body-md;
+        @extend .typo-heading-md;
         margin-right: 1px;
     }
     &__icon {

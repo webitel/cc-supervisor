@@ -158,8 +158,7 @@
   $min-td-width: (100px);
 
   .grid__tr__header {
-    width: fit-content; 
-    width: -moz-fit-content;
+    min-width: fit-content;
     border-bottom: 2px solid $header-separator-color;
   }
 
