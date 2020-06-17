@@ -36,13 +36,13 @@
                     <h3 class="content-title">{{$t('settings.language')}}</h3>
                 </header>
                 <form class="object-input-grid grid-w50">
-                    <dropdown-select
+                    <!-- <dropdown-select
                         class="language-list"
                         :value="language"
                         :options="languageOptions"
                         :label="$t('settings.language')"
                         @input="changeLanguage"
-                    ></dropdown-select>
+                    ></dropdown-select> -->
                 </form>
             </section>
         </section>
@@ -52,14 +52,14 @@
 <script>
     import { sameAs, required } from 'vuelidate/lib/validators';
     import objectHeader from './object-utils/the-object-header.vue';
-    import DropdownSelect from './utils/dropdown-select.vue';
+    // import DropdownSelect from './utils/dropdown-select.vue';
     import btn from './utils/btn.vue';
     import formInput from './utils/form-input.vue';
 
     export default {
         name: 'the-settings',
         components: {
-            DropdownSelect,
+            // DropdownSelect,
             objectHeader,
             btn,
             formInput,
