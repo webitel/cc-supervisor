@@ -9,8 +9,8 @@
                     @click.prevent="toggleCollapse"
                 >
                     <icon>
-                        <svg class="icon icon-pause_md md burger-button__icon">
-                            <use xlink:href="#icon-pause_md"></use>
+                        <svg class="icon icon-burger_md md burger-button__icon">
+                            <use xlink:href="#icon-burger_md"></use>
                         </svg>
                     </icon>
                 </button>
