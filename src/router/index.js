@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 
 import Auth from '../components/auth/auth.vue';
 import Queue from '../components/queue/the-queues.vue';
+import ActiveCalls from '../components/activeCall/the-active-calls.vue';
 import Agents from '../components/agent/the-agents.vue';
 import AgentsItem from '../components/agent/the-agents-item.vue';
 import moduleWrap from '../components/object-utils/the-object-wrap.vue';
@@ -41,7 +42,12 @@ const routes = [
         path:'agents/:id',
         name: 'agent-view',
         component: AgentsItem
-    },
+      },
+      {
+        path: 'active-calls',
+        name: 'active-calls',
+        component: ActiveCalls,
+      },
     ],
   },
   {
