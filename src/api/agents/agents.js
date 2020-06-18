@@ -52,3 +52,12 @@ export const getAgent = async (id) => {
         throw err;
     }
 };
+
+export const patchAgentStatus = async ({ agentId, status }) => {
+    try {
+        const res = await agentService.updateAgentStatus(agentId, { status, id: agentId }, undefined);
+        return { success: !!res };
+    } catch (err) {
+        throw err;
+    }
+};

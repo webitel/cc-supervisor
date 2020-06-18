@@ -3,13 +3,12 @@
     <div class="hs-multiselect-wrap">
       <vue-multiselect
         :class="{'opened': isOpened}"
-        :value="validation"
-        :options="options"
-        :placeholder="placeholder || label"
+        :options="opts"
+        :placeholder="'Select...'"
         :multiple="false"
         :close-on-select="true"
+        :track-by="'value'"
         :limit="1"
-        :track-by="trackBy"
         :limitText="limitText"
         :loading="false"
         :internal-search="true"
@@ -20,17 +19,17 @@
          <template slot="option" slot-scope="{ option }">
           <div class="multiselect__option__content">
             <status                    
-                    :class="option == 'Online' ? {'status__true':true} : (option == 'Waiting' ? {'status__info':true} : {'status__false':true})"
-                    :text="option"
+                    :class="option.value == 'online' ? {'status__true':true} : (option.value == 'pause' ? {'status__info':true} : {'status__false':true})"
+                    :text="option.label"
             >
             </status>
           </div>
         </template>
 
          <template slot="placeholder">
-              <status
-                :class="status.status == 'online' ? {'status__true':true} : (status.status == 'waiting' ? {'status__info':true} : {'status__false':true})"
-                :text="status.time"
+            <status
+              :class="selected.status == 'online' ? {'status__true':true} : (selected.status == 'pause' ? {'status__info':true} : {'status__false':true})"
+              :text="selected.time"
             >
             </status>
           </template>
@@ -46,6 +45,7 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex';
   import VueMultiselect from 'vue-multiselect';
   import debounce from '../../utils/debounce';
   import status from './status.vue';
@@ -57,83 +57,49 @@
       status,
     },
     props: {
+      agentId: {
+        type: String,
+        required: true,
+      },
       status: {
-          type: Object,
-          required: true,
-      },
-      value: {
-        // type: [Array, Object],
-        required: false,
-      },
-
-      label: {
-        type: String,
-      },
-
-      placeholder: {
-        type: String,
-      },
-
-      trackBy: {
-        type: String,
-        default: 'id',
-      },
-
-      fetchMethod: {
-        type: Function,
-      },
-
-      hideDetails: {
-        type: Boolean,
-        default: false,
+        type: Object,
+        required: true,
       },
     },
 
-    data: () => ({
-      isLoading: false,
-      isOpened: false,
-      fetchedOptions: [],
-      options: ["Online", "Offline", "Waiting"]
-    }),
-
-    created() {
-      this.fetch();
-      this.fetch = debounce(this.fetch);
+    data() {
+      return {
+        selected: this.status,
+        isLoading: false,
+        isOpened: false,
+        options: [{ label: "Activate", value: "online"}, { label: "Stop", value: "offline"}, { label: "Break", value: "pause"}]
+      };
     },
 
     computed: {
-    //   opts() {
-    //     if (this.status.status=='online') {
-    //         return [{ value: this.status.time, type:"Online" }, { type:"Offline" }, { type:"Waiting" }];
-    //     } else if (this.status.status=='waiting') {
-    //         return [{ value: this.status.time, type:"Waiting" }, { type:"Offline" }, { type:"Online" }];
-    //     } else {
-    //         return [{ value: this.status.time, type:"Offline" }, { type:"Online" }, { type:"Waiting" }];
-    //     }
-    //   },
-
-      validation: {
-        get() {
-          return this.value;
-        },
-        set(value) {
-          this.$emit('input', value);
-        },
+      opts() {
+        if (this.selected.status=='online') {
+            return [{ label: "Stop", value: "offline"}, { label: "Break", value: "pause"}];
+        } else if (this.selected.status=='pause') {
+            return [{ label: "Activate", value: "online"}, { label: "Stop", value: "offline"}];
+        } else {
+            return [{ label: "Activate", value: "online"}, { label: "Break", value: "pause"} ];
+        }
       },
     },
 
     methods: {
-      limitText: (count) => `${count}`,
 
-      async fetch(search) {
-        if (this.apiMode) {
-          this.fetchedOptions = await this.fetchMethod(search);
-        }
-      },
+      ...mapActions('agents', {
+        updateStatus: 'UPDATE_STATUS',
+      }),
+
+      limitText: (count) => `${count}`,
 
       input(value) {
         if (value) {
-          this.$emit('input', value);
+          this.selected = {status: value.value, time: 'waiting...'}
+          this.updateStatus({ agentId: this.agentId, status: this.selected.status });
         }
       },
 

@@ -48,6 +48,10 @@
             background: $icon-color;
             border-radius: 50%;
         }
+
+        .table-status__text {
+            @extend .typo-body-md
+        }
     }
 
     .status__true .table-status__icon {
