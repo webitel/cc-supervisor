@@ -1,4 +1,3 @@
-
 export default [
     {
       text: '',
@@ -28,13 +27,13 @@ export default [
       sort: null,
       width: 'minmax(60px, 1fr)',
     },
-    {
-      text: 'Client',
-      value: 'client',
-      show: true,
-      sort: null,
-      width: 'minmax(120px, 1fr)',
-    },
+    // {
+    //   text: 'Client',
+    //   value: 'client',
+    //   show: true,
+    //   sort: null,
+    //   width: 'minmax(120px, 1fr)',
+    // },
     {
       text: 'PhoneNumber',
       value: 'phone_number',
@@ -49,11 +48,11 @@ export default [
         sort: null,
         width: 'minmax(150px, 1fr)',
       },
-    {
-      text: 'Notes',
-      value: 'notes',
-      show: true,
-      sort: null,
-      width: 'minmax(60px, 1fr)',
-    },
+    // {
+    //   text: 'Notes',
+    //   value: 'notes',
+    //   show: true,
+    //   sort: null,
+    //   width: 'minmax(60px, 1fr)',
+    // },
   ];

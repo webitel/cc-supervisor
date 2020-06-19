@@ -190,7 +190,6 @@
                     }
                 }
 
-
                 .subnav-items {
                     .subnav-item {
                         @extend .typo-nav-item;

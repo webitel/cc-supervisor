@@ -1,4 +1,4 @@
-import { getAgentsList, getAgent } from "../../../api/agents/agents";
+import { getAgentsList, getAgent, patchAgentStatus } from "../../../api/agents/agents";
 
 const state = {
     dataList: [],
@@ -16,7 +16,12 @@ const actions = {
     FETCH_ITEM: async (context, id) => {
         const item = await getAgent(id);
         context.commit('SET_ITEM', item);
-        // return next
+    },
+    UPDATE_STATUS: async (context, { agentId, status }) => {
+        const { success } = await patchAgentStatus({ agentId, status });
+        if (success) {
+            context.commit('SET_STATUS', agentId, status);
+        }
     },
 };
 
@@ -26,6 +31,11 @@ const mutations = {
     },
     SET_ITEM: (state, agent) => {
         state.itemInstance = agent;
+    },
+    SET_STATUS: (state, { agentId, status }) => {
+        if (state.itemInstance.id === agentId) state.itemInstance = status;
+        let foundIndex = state.dataList.findIndex(agent => agent.id == agentId);
+        state.dataList[foundIndex].status = status;
     },
 };
 

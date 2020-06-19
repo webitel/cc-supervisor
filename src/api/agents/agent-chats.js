@@ -1,4 +1,3 @@
-
 export const agentChatFields = ['id', 'name'];
 
 // eslint-disable-next-line arrow-body-style

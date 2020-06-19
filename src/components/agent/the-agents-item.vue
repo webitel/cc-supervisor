@@ -15,24 +15,25 @@
                 <span class="title">{{itemInstance.name}}</span>
                 <span>{{itemInstance.phone_number}}</span>
             </div>
-            <button class="icon-btn" @click.prevent="callAgent()">
+            <button class="icon-btn btn-margin" @click.prevent="callAgent()">
                 <icon>
-                    <svg class="icon icon-call_processing_md md agent-call-button">
+                    <svg class="icon icon-call_processing_md md call-btn">
                     <use xlink:href="#icon-call_processing_md"></use>
                     </svg>
                 </icon>
             </button>
-            <button class="icon-btn btn-margin">
+            <!-- <button class="icon-btn btn-margin">
                 <icon>
-                    <svg class="icon icon-chat_md md agent-chat-button">
+                    <svg class="icon icon-chat_md md chat-btn">
                     <use xlink:href="#icon-chat_md"></use>
                     </svg>
                 </icon>
-            </button>
+            </button> -->
             <status-select
                 v-if="itemInstance.status"
                 class="status-cell filter-item"
                 :status="itemInstance.status"
+                :agentId="this.$route.params.id"
             ></status-select>
             <status
                 class="filter-item"
@@ -60,14 +61,14 @@
                 :values="itemInstance.teams"
             >
             </selector-team>
-            <the-agents-help-popup
+            <!-- <the-agents-help-popup
                 class="attention-element"
                 v-if="itemInstance.attentions"
                 :agent="itemInstance"
                 :type="itemInstance.attentions.type"
                 :count="itemInstance.attentions.count"
             >
-            </the-agents-help-popup>
+            </the-agents-help-popup> -->
         </header>
        <tabs-component
                 :tabs="tabs"
@@ -92,16 +93,15 @@ import selectorTeam from '../selectors/selector-team.vue';
 import statusSelect from '../utils/status-select.vue';
 import status from '../utils/status.vue';
 import theAgentsItemCalls from './the-agents-item-calls.vue';
-import theAgentsItemChats from './the-agents-item-chats.vue';
-import theAgentsHelpPopup from './the-agents-help-popup.vue';
-
+// import theAgentsItemChats from './the-agents-item-chats.vue';
+// import theAgentsHelpPopup from './the-agents-help-popup.vue';
 
 export default {
     name: 'the-agents-item',
     components: {
         theAgentsItemCalls,
-        theAgentsItemChats,
-        theAgentsHelpPopup,
+        // theAgentsItemChats,
+        // theAgentsHelpPopup,
         tabsComponent,
         selectorTeam,
         statusSelect,
@@ -130,10 +130,12 @@ export default {
            return [{
                         text: 'Calls',
                         value: 'calls',
-                    }, {
-                        text: 'Chats',
-                        value: 'chats',
-                    }];
+                    },
+                    // {
+                    //     text: 'Chats',
+                    //     value: 'chats',
+                    // },
+                ];
         },
     },
     methods: {
@@ -163,18 +165,6 @@ export default {
 
 .btn-margin {
     margin-right: (30px);
-}
-
-.agent-call-button {
-    background: $true-color;
-    fill: $white-color;
-    border-radius: 50%;
-}
-
-.agent-chat-button {
-    background: #708FFF;
-    fill: $white-color;
-    border-radius: 50%;
 }
 
 .main-info {
@@ -247,7 +237,6 @@ export default {
         background: $content-bg-color;
         border-radius: $border-radius;
     }
-
 
  .object-header__title-wrap {
         display: flex;

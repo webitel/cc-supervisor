@@ -29,14 +29,14 @@
         <div class="header-align">
           <button class="icon-btn" @click.prevent="callAgent()">
               <icon>
-                  <svg class="icon icon-call_processing_md xl icon-btn-radius call-btn">
+                  <svg class="icon icon-call_processing_md xl call-btn">
                   <use xlink:href="#icon-call_processing_md"></use>
                   </svg>
               </icon>
           </button>
           <button class="icon-btn header-button-margim">
               <icon>
-                  <svg class="icon icon-chat_md xl icon-btn-radius chat-btn">
+                  <svg class="icon icon-chat_md xl chat-btn">
                   <use xlink:href="#icon-chat_md"></use>
                   </svg>
               </icon>
@@ -88,13 +88,13 @@
                         @click.prevent="callAgent(attention.client)"
                     >
                         <icon>
-                            <svg class="icon lg icon-btn-radius call-btn">
+                            <svg class="icon lg call-btn">
                                 <use xlink:href="#icon-call_join_md"></use>
                             </svg>
                         </icon>
                     </button>
                     <button
-                        class="icon-btn icon-btn-radius watch-btn"
+                        class="icon-btn action-btn"
                     >
                         <icon>
                             <svg class="icon lg">
@@ -108,13 +108,13 @@
                         class="icon-btn "
                     >
                         <icon>
-                            <svg class="icon lg icon-btn-radius chat-btn">
+                            <svg class="icon lg chat-btn">
                                 <use xlink:href="#icon-chat_join_md"></use>
                             </svg>
                         </icon>
                     </button>
                     <button
-                        class="icon-btn icon-btn-radius watch-btn"
+                        class="icon-btn action-btn"
                     >
                         <icon>
                             <svg class="icon lg">
@@ -286,20 +286,6 @@
 .agent-name {
   @extend .typo-heading-md;
   text-decoration-line: underline;
-}
-
-.icon-btn-radius {
-  border-radius: 50%;
-}
-
-.call-btn {
-  background-color: #4CAF50;
-  fill: $white-color;
-}
-
-.chat-btn {
-  background-color: #708FFF;
-  fill: $white-color;
 }
 
 .watch-btn {

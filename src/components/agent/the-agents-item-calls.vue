@@ -25,22 +25,22 @@
             <template slot="direction" slot-scope="{ item }" >
                 <div class="call" v-if="item.direction==='outbound'">
                     <icon class="icon-margin">
-                        <svg class="icon icon-out_call_md lg green">
-                            <use xlink:href="#icon-out_call_md"></use>
+                        <svg class="icon icon-outbound_md lg green">
+                            <use xlink:href="#icon-outbound_md"></use>
                         </svg>
                     </icon>
                 </div>
                 <div class="call" v-if="item.direction==='disconnect'">
                     <icon>
-                        <svg class="icon icon-missed_call_md lg red">
-                            <use xlink:href="#icon-missed_call_md"></use>
+                        <svg class="icon icon-disconnect_md lg red">
+                            <use xlink:href="#icon-disconnect_md"></use>
                         </svg>
                     </icon>
                 </div>
                 <div class="call" v-if="item.direction==='inbound'">
                     <icon>
-                        <svg class="icon icon-in_call_md lg yell">
-                            <use xlink:href="#icon-in_call_md"></use>
+                        <svg class="icon icon-inbound_md lg yell">
+                            <use xlink:href="#icon-inbound_md"></use>
                         </svg>
                     </icon>
                 </div>

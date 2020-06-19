@@ -25,12 +25,12 @@
                     v-model="callNow"
                 ></switcher>
             </div>
-            <div class="switcher-label-wrap filter-switch-item">
+            <!-- <div class="switcher-label-wrap filter-switch-item">
                 <div class="label">Attention now</div>
                 <switcher
                     v-model="attentionNow"
                 ></switcher>
-            </div>
+            </div> -->
         </div>
         <section class="object-content">
             <loader v-show="isLoading"></loader>
@@ -60,6 +60,7 @@
                      <status-select
                         class="status-cell"
                         :status="item.status"
+                        :agentId="item.id"
                     ></status-select>
                 </template>
 
@@ -136,7 +137,6 @@ import selectorQueue from '../selectors/selector-queue.vue';
 import selectorTeam from '../selectors/selector-team.vue';
 import theAgentsHelpPopup from './the-agents-help-popup.vue';
 import theObjectHeader from '../object-utils/the-object-header.vue';
-
 
 export default {
     name: 'the-agents',

@@ -13,8 +13,15 @@ $accent-color: #FFC107; // links, icons, buttons
 
 // SEMANTIC COLORS:
 $true-color: #4CAF50;
+$true-color-hover: #64C74A;
 $false-color: #FF4444;
+$false-color-hover: #FF6565;
 $info-color: $accent-color;
+$chat-color: #708FFF;
+$chat-color-hover: #86A1FF;
+$white-color: #FFFFFF;
+$action-bg: #F9F9F9;
+$action-color: #808080;
 
 // NEUTRAL COLORS:
 //$label-color: rgba(0, 0, 0, 0.45);
@@ -206,4 +213,80 @@ span {
 
 .title {
   @extend .typo-heading-md;
+}
+
+.call-btn {
+  background: $true-color-hover;
+  fill: $white-color;
+  border-radius: 50%;
+
+  &:hover {
+    background: $true-color-hover;
+    fill: $white-color;
+  }
+}
+
+.chat-btn {
+  background: $chat-color;
+  fill: $white-color;
+  border-radius: 50%;
+
+  &:hover {
+    background: $chat-color-hover;
+    fill: $white-color;
+  }
+}
+
+.disconnect-btn {
+  background: $false-color;
+  fill: $white-color;
+  border-radius: 50%;
+
+  &:hover {
+    background: $false-color-hover;
+    fill: $white-color;
+  }
+}
+
+.action-btn {
+  background: $action-bg;
+  fill: $action-color;
+  border-radius: 50%;
+
+  &:hover {
+    background: $action-bg;
+    fill: #000000;
+  }
+}
+
+.call-window-rec-btn {
+  fill: $white-color;
+
+  &:hover {
+    fill: $accent-color;
+  }
+
+  &--off {
+    fill: $false-color;
+
+    &:hover {
+      fill: $white-color;
+    }
+  }
+}
+
+.call-window-btn {
+  fill: $white-color;
+
+  &:hover {
+    fill: $accent-color;
+  }
+
+  &--off {
+    fill: $accent-color;
+
+    &:hover {
+      fill: $white-color;
+    }
+  }
 }
