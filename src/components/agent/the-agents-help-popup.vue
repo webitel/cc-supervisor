@@ -29,14 +29,14 @@
         <div class="header-align">
           <button class="icon-btn" @click.prevent="callAgent()">
               <icon>
-                  <svg class="icon icon-call_processing_md xl call_btn">
+                  <svg class="icon icon-call_processing_md xl call-btn">
                   <use xlink:href="#icon-call_processing_md"></use>
                   </svg>
               </icon>
           </button>
           <button class="icon-btn header-button-margim">
               <icon>
-                  <svg class="icon icon-chat_md xl chat_btn">
+                  <svg class="icon icon-chat_md xl chat-btn">
                   <use xlink:href="#icon-chat_md"></use>
                   </svg>
               </icon>
@@ -88,13 +88,13 @@
                         @click.prevent="callAgent(attention.client)"
                     >
                         <icon>
-                            <svg class="icon lg call_btn">
+                            <svg class="icon lg call-btn">
                                 <use xlink:href="#icon-call_join_md"></use>
                             </svg>
                         </icon>
                     </button>
                     <button
-                        class="icon-btn action_btn"
+                        class="icon-btn action-btn"
                     >
                         <icon>
                             <svg class="icon lg">
@@ -108,7 +108,7 @@
                         class="icon-btn "
                     >
                         <icon>
-                            <svg class="icon lg chat_btn">
+                            <svg class="icon lg chat-btn">
                                 <use xlink:href="#icon-chat_join_md"></use>
                             </svg>
                         </icon>

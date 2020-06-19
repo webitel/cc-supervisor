@@ -75,7 +75,6 @@ export default {
       return '';
     },
 
-
     /**
      * Sets query array value to data property
      * Called by query param watcher in components

@@ -2,7 +2,7 @@
     <div v-if="isOpened" class="call-window">
         <button class="icon-btn close-button" @click.prevent="closeWindow()">
             <icon>
-                <svg class="icon icon-close_md md call_window_btn">
+                <svg class="icon icon-close_md md call-window-btn">
                 <use xlink:href="#icon-close_md"></use>
                 </svg>
             </icon>
@@ -15,14 +15,14 @@
             </icon>
             <button v-if="isAttachedToCall" class="icon-btn btn-height" @click.prevent="leaveCall()">
                 <icon>
-                    <svg class="icon icon-call_disconnect_md lg disconnect_btn">
+                    <svg class="icon icon-call_disconnect_md lg disconnect-btn">
                     <use xlink:href="#icon-call_disconnect_md"></use>
                     </svg>
                 </icon>
             </button>
             <button v-else class="icon-btn btn-height" @click.prevent="attachToCall()">
                 <icon>
-                    <svg class="icon icon-call_processing_md lg call_btn">
+                    <svg class="icon icon-call_processing_md lg call-btn">
                     <use xlink:href="#icon-call_processing_md"></use>
                     </svg>
                 </icon>
@@ -40,35 +40,35 @@
         <div class="call-window__action-container">
             <button class="icon-btn button-padding" @click.prevent="">
                 <icon>
-                    <svg class="icon icon-send_message_md md call_window_btn">
+                    <svg class="icon icon-send_message_md md call-window-btn">
                     <use xlink:href="#icon-send_message_md"></use>
                     </svg>
                 </icon>
             </button>
             <button v-if="isMuted" class="icon-btn call-window__action-item" @click.prevent="unmuteMicro()">
                 <icon>
-                    <svg class="icon icon-mic_off_md md call_window_rec_btn--off">
+                    <svg class="icon icon-mic_off_md md call-window-rec-btn--off">
                     <use xlink:href="#icon-mic_off_md"></use>
                     </svg>
                 </icon>
             </button>
             <button v-else class="icon-btn call-window__action-item" @click.prevent="muteMicro()">
                 <icon>
-                    <svg class="icon icon-mic_on_md md call_window_rec_btn">
+                    <svg class="icon icon-mic_on_md md call-window-rec-btn">
                     <use xlink:href="#icon-mic_on_md"></use>
                     </svg>
                 </icon>
             </button>
              <button v-if="isHold" class="icon-btn call-window__action-item" @click.prevent="unholdCall()">
                 <icon>
-                    <svg class="icon icon-play_md md call_window_btn--off">
+                    <svg class="icon icon-play_md md call-window-btn--off">
                     <use xlink:href="#icon-play_md"></use>
                     </svg>
                 </icon>
             </button>
             <button v-else class="icon-btn call-window__action-item" @click.prevent="holdCall()">
                 <icon>
-                    <svg class="icon icon-pause_md md call_window_btn">
+                    <svg class="icon icon-pause_md md call-window-btn">
                     <use xlink:href="#icon-pause_md"></use>
                     </svg>
                 </icon>

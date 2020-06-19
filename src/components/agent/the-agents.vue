@@ -138,7 +138,6 @@ import selectorTeam from '../selectors/selector-team.vue';
 import theAgentsHelpPopup from './the-agents-help-popup.vue';
 import theObjectHeader from '../object-utils/the-object-header.vue';
 
-
 export default {
     name: 'the-agents',
     components: {

@@ -215,7 +215,7 @@ span {
   @extend .typo-heading-md;
 }
 
-.call_btn {
+.call-btn {
   background: $true-color-hover;
   fill: $white-color;
   border-radius: 50%;
@@ -226,7 +226,7 @@ span {
   }
 }
 
-.chat_btn {
+.chat-btn {
   background: $chat-color;
   fill: $white-color;
   border-radius: 50%;
@@ -237,7 +237,7 @@ span {
   }
 }
 
-.disconnect_btn {
+.disconnect-btn {
   background: $false-color;
   fill: $white-color;
   border-radius: 50%;
@@ -248,7 +248,7 @@ span {
   }
 }
 
-.action_btn {
+.action-btn {
   background: $action-bg;
   fill: $action-color;
   border-radius: 50%;
@@ -259,7 +259,7 @@ span {
   }
 }
 
-.call_window_rec_btn {
+.call-window-rec-btn {
   fill: $white-color;
 
   &:hover {
@@ -275,7 +275,7 @@ span {
   }
 }
 
-.call_window_btn {
+.call-window-btn {
   fill: $white-color;
 
   &:hover {

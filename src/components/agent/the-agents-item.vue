@@ -17,14 +17,14 @@
             </div>
             <button class="icon-btn btn-margin" @click.prevent="callAgent()">
                 <icon>
-                    <svg class="icon icon-call_processing_md md call_btn">
+                    <svg class="icon icon-call_processing_md md call-btn">
                     <use xlink:href="#icon-call_processing_md"></use>
                     </svg>
                 </icon>
             </button>
             <!-- <button class="icon-btn btn-margin">
                 <icon>
-                    <svg class="icon icon-chat_md md chat_btn">
+                    <svg class="icon icon-chat_md md chat-btn">
                     <use xlink:href="#icon-chat_md"></use>
                     </svg>
                 </icon>
@@ -95,7 +95,6 @@ import status from '../utils/status.vue';
 import theAgentsItemCalls from './the-agents-item-calls.vue';
 // import theAgentsItemChats from './the-agents-item-chats.vue';
 // import theAgentsHelpPopup from './the-agents-help-popup.vue';
-
 
 export default {
     name: 'the-agents-item',
@@ -238,7 +237,6 @@ export default {
         background: $content-bg-color;
         border-radius: $border-radius;
     }
-
 
  .object-header__title-wrap {
         display: flex;

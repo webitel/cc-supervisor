@@ -32,9 +32,9 @@ const mutations = {
     SET_ITEM: (state, agent) => {
         state.itemInstance = agent;
     },
-    SET_STATUS: (state, agent_id, status) => {
-        if (state.itemInstance.id === agent_id) state.itemInstance = status;
-        let foundIndex = state.dataList.findIndex(x => x.id == agent_id);
+    SET_STATUS: (state, { agentId, status }) => {
+        if (state.itemInstance.id === agentId) state.itemInstance = status;
+        let foundIndex = state.dataList.findIndex(agent => agent.id == agentId);
         state.dataList[foundIndex].status = status;
     },
 };

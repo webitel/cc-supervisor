@@ -19,7 +19,8 @@
          <template slot="option" slot-scope="{ option }">
           <div class="multiselect__option__content">
             <status                    
-                    :class="option.value == 'online' ? {'status__true':true} : (option.value == 'pause' ? {'status__info':true} : {'status__false':true})"
+                    :class="option.value == 'online' ? {'status__true':true} : 
+                    (option.value == 'pause' ? {'status__info':true} : {'status__false':true})"
                     :text="option.label"
             >
             </status>
@@ -28,7 +29,8 @@
 
          <template slot="placeholder">
             <status
-              :class="selected.status == 'online' ? {'status__true':true} : (selected.status == 'pause' ? {'status__info':true} : {'status__false':true})"
+              :class="selected.status == 'online' ? {'status__true':true} : 
+              (selected.status == 'pause' ? {'status__info':true} : {'status__false':true})"
               :text="selected.time"
             >
             </status>
@@ -78,13 +80,7 @@
 
     computed: {
       opts() {
-        if (this.selected.status=='online') {
-            return [{ label: "Stop", value: "offline"}, { label: "Break", value: "pause"}];
-        } else if (this.selected.status=='pause') {
-            return [{ label: "Activate", value: "online"}, { label: "Stop", value: "offline"}];
-        } else {
-            return [{ label: "Activate", value: "online"}, { label: "Break", value: "pause"} ];
-        }
+        return this.options.filter((option) => option.value !== this.selected.status)
       },
     },
 

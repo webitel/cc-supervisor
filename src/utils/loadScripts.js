@@ -1,7 +1,6 @@
 import { kebabToCamel } from '@/api/utils/caseConverters';
 import { SortSymbols } from '@/mixins/filters/sortFilterMixin';
 
-
 // - create set to remove created_at duplicates
 // - convert to array by ...
 const removeDuplicates = (arr) => [...new Set(arr.split(','))];
