@@ -59,7 +59,7 @@
                 <template slot="status" slot-scope="{ item }">
                      <status-select
                         class="status-cell"
-                        :status="item.status"
+                        :status="{ status: item.status, time: getStatusTime(item.statusDuration) }"
                         :agentId="item.id"
                     ></status-select>
                 </template>
@@ -236,6 +236,10 @@ export default {
                 name: 'agent-view',
                 params: { id },
             });
+        },
+        getStatusTime(duration) {
+            if (!duration) return 0;
+            return new Date(+duration).toTimeString().split(' ')[0];
         },
     },
 };

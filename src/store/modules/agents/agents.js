@@ -33,6 +33,7 @@ const mutations = {
         state.itemInstance = agent;
     },
     SET_STATUS: (state, { agentId, status }) => {
+        if (!agentId || !status) return;
         if (state.itemInstance.id === agentId) state.itemInstance = status;
         let foundIndex = state.dataList.findIndex(agent => agent.id == agentId);
         state.dataList[foundIndex].status = status;
