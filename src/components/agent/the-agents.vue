@@ -10,7 +10,7 @@
                     class="primary action-button"
                     :loading="isCSVLoading"
                     @click.native="download"
-                >Export CSV
+                >{{$t('defaults.exportCSV')}}
                 </btn>
             </template>
         </the-object-header>
@@ -20,7 +20,7 @@
             <filter-team class="filter-item"/>
             <filter-utilization class="filter-item"/>
             <div class="switcher-label-wrap filter-switch-item">
-                <div class="label">Call now</div>
+                <div class="label">{{$t('filters.callNow')}}</div>
                 <switcher
                     v-model="callNow"
                 ></switcher>

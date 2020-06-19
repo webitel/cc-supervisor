@@ -9,7 +9,7 @@
       <input
         class="cc-input__input"
         :value="value"
-        :placeholder="placeholder"
+        :placeholder="$t('defaults.search')"
         :autofocus="autofocus"
         @input="$emit('input', $event.target.value)"
         @focusin="isFocused = true"

@@ -12,7 +12,7 @@
     </button>
     <popup-container v-if="isOpened">
       <template slot="popup-header">
-        <h1 class="popup-header__h1">Select columns to show: </h1>
+        <h1 class="popup-header__h1">{{$t('table.showColumnsTitle')}}</h1>
       </template>
       <template slot="popup-main">
         <ul class="column-select__list">
@@ -32,12 +32,12 @@
           <btn
             class="primary"
             @click.native="setShownColumns"
-          >Add
+          >{{$t('defaults.add')}}
           </btn>
           <btn
             class="secondary"
             @click.native="isOpened = false"
-          >Close
+          >{{$t('defaults.close')}}
           </btn>
         </div>
       </template>

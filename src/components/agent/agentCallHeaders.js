@@ -1,3 +1,5 @@
+import i18n from '@/locale/i18n';
+
 export default [
     {
       text: '',
@@ -7,21 +9,21 @@ export default [
       width: 'minmax(15px, 30px)',
     },
     {
-      text: 'Call',
+      text: i18n.t('pages.agentItem.calls.columns.call'),
       value: 'call',
       show: true,
       sort: null,
       width: 'minmax(100px, 1fr)',
     },
     {
-      text: 'Talk',
+      text: i18n.t('pages.agentItem.calls.columns.talk'),
       value: 'talk',
       show: true,
       sort: null,
       width: 'minmax(66px, 1fr)',
     },
     {
-      text: 'Hold',
+      text: i18n.t('pages.agentItem.calls.columns.hold'),
       value: 'hold',
       show: true,
       sort: null,
@@ -35,14 +37,14 @@ export default [
     //   width: 'minmax(120px, 1fr)',
     // },
     {
-      text: 'PhoneNumber',
+      text: i18n.t('pages.agentItem.calls.columns.number'),
       value: 'phone_number',
       show: true,
       sort: null,
       width: 'minmax(80px, 1fr)',
     },
     {
-        text: 'Rating',
+        text: i18n.t('pages.agentItem.calls.columns.rating'),
         value: 'rating',
         show: true,
         sort: null,

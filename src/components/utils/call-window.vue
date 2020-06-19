@@ -32,10 +32,10 @@
             <span v-if="agent" class="call-window__agent-name">{{agent.name}}</span>
         </div>
         <div class="call-window__client-name-container">
-            <span v-if="clientName" class="call-window__client-name">Client: {{clientName}}</span>
+            <span v-if="clientName" class="call-window__client-name">{{$t('callWindow.client')}}: {{clientName}}</span>
         </div>
         <div class="call-window__time-container">
-            <span class="call-window__time">Call: {{time}}</span>
+            <span class="call-window__time">{{$t('callWindow.call')}}: {{time}}</span>
         </div>
         <div class="call-window__action-container">
             <button class="icon-btn button-padding" @click.prevent="">
