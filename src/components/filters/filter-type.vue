@@ -2,7 +2,7 @@
   <multiselect
     v-model="value"
     :options="options"
-    :label="'Queue Type'"
+    :label="$t('filters.type')"
     :track-by="trackBy"
     :api-mode="apiMode"
     @closed="setQueryArray({ value, filterQuery, queriedProp })"

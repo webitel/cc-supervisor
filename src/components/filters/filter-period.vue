@@ -2,7 +2,7 @@
   <multiselect
     v-model="value"
     :options="options"
-    :label="'Time'"
+    :label="$t('filters.time')"
     :track-by="trackBy"
     :api-mode="apiMode"
     @closed="setQueryValue({ filterQuery: filterQuery, value: value.value })"

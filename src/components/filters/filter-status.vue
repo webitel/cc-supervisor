@@ -2,7 +2,7 @@
   <multiselect
     v-model="value"
     :options="options"
-    :label="'Status'"
+    :label="$t('filters.status')"
     :track-by="trackBy"
     :api-mode="apiMode"
     @closed="setQueryArray({ value, filterQuery, queriedProp })"

@@ -2,7 +2,7 @@
   <multiselect
     v-model="value"
     :options="options"
-    :label="'Utilization progress'"
+    :label="$t('filters.utilization')"
     :track-by="trackBy"
     :api-mode="apiMode"
     @closed="setQueryArray({ value, filterQuery, queriedProp })"

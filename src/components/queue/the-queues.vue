@@ -10,7 +10,7 @@
                     class="primary action-button"
                     :loading="isCSVLoading"
                     @click.native="download"
-                >Export CSV
+                >{{$t('defaults.exportCSV')}}
                 </btn>
             </template>
         </the-object-header>
