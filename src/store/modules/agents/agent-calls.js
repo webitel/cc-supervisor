@@ -7,8 +7,8 @@ const state = {
 const getters = {};
 
 const actions = {
-    FETCH_LIST: async (context, id, page, size, search, sort) => {
-        const { items, next } = await getAgentCallsList(id, page, size, search, sort);
+    FETCH_LIST: async (context, { agentId, page, size, search, sort }) => {
+        const { items, next } = await getAgentCallsList({ agentId, page, size, search, sort });
         context.commit('SET_LIST', items);
         return next
     },

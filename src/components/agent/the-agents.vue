@@ -121,6 +121,7 @@ import sortFilterMixin from '@/mixins/filters/sortFilterMixin';
 import switcher from '@/components/utils/switcher.vue';
 import { fetchQueues } from '@/api/filter-getters/queueFilter';
 import { fetchTeams } from '@/api/filter-getters/teamFilter';
+import getTimeFromDuration from '@/utils/getTimeFromDuration';
 import FilterTeam from '../filters/filter-queue.vue';
 import FilterQueue from '../filters/filter-team.vue';
 import FilterFields from '../filters/filter-table-fields.vue';
@@ -237,10 +238,7 @@ export default {
                 params: { id },
             });
         },
-        getStatusTime(duration) {
-            if (!duration) return 0;
-            return new Date(+duration).toTimeString().split(' ')[0];
-        },
+        getStatusTime: getTimeFromDuration,
     },
 };
 </script>
