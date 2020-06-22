@@ -59,7 +59,8 @@
                 <template slot="status" slot-scope="{ item }">
                      <status-select
                         class="status-cell"
-                        :status="{ status: item.status, time: getStatusTime(item.statusDuration) }"
+                        :status="item.status"
+                        :time="getStatusTime(item.statusDuration)"
                         :agentId="item.id"
                     ></status-select>
                 </template>

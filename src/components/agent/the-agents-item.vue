@@ -32,7 +32,8 @@
             <status-select
                 v-if="itemInstance.status"
                 class="status-cell filter-item"
-                :status="itemInstance.status"
+                :status="'online'"
+                :time="'waiting...'"
                 :agentId="this.$route.params.id"
             ></status-select>
             <status

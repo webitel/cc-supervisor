@@ -25,7 +25,7 @@
                 {{getPrettyTime(item.holdSec*1000)}}
             </template>
             <template slot="client" slot-scope="{ item }" >
-                <div class="links">{{item.from.name}}</div>
+                <div v-if="item.from" class="links">{{item.from.name}}</div>
             </template>
             <template slot="phoneNumber" slot-scope="{ item }" >
                 <div v-if="item.from">{{item.from.number}}</div>
