@@ -60,6 +60,7 @@
                      <status-select
                         class="status-cell"
                         :status="item.status"
+                        :time="getStatusTime(item.statusDuration)"
                         :agentId="item.id"
                     ></status-select>
                 </template>
@@ -121,6 +122,7 @@ import sortFilterMixin from '@/mixins/filters/sortFilterMixin';
 import switcher from '@/components/utils/switcher.vue';
 import { fetchQueues } from '@/api/filter-getters/queueFilter';
 import { fetchTeams } from '@/api/filter-getters/teamFilter';
+import getTimeFromDuration from '@/utils/getTimeFromDuration';
 import FilterTeam from '../filters/filter-queue.vue';
 import FilterQueue from '../filters/filter-team.vue';
 import FilterFields from '../filters/filter-table-fields.vue';
@@ -237,6 +239,7 @@ export default {
                 params: { id },
             });
         },
+        getStatusTime: getTimeFromDuration,
     },
 };
 </script>

@@ -13,7 +13,6 @@ const parseAgentList = (items) => {
             utilization: '90%',
             teams: [{ id: '1', name: 'dev' }],
             queues: [{ id: '6', name: 'inbound-dev' }, { id: '7', name: 'preview-dev' }],
-            status: { time: `00:${(`0${Math.floor(Math.random() * 10)}`).slice(-2)}:${(`0${Math.floor(Math.random() * 60)}`).slice(-2)}`, status: 'online' },
             attentions: { type: index === 1 ? 'error' : 'warning', count: 2 },
         });
     });

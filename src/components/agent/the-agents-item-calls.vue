@@ -13,39 +13,50 @@
                 v-model="headers"
                 />
             </template>
-            <template slot="client" slot-scope="{ item }" >
-                <div class="links">{{item.client}}</div>
+            <template slot="call" slot-scope="{ item }" >
+                {{!item.answeredAt ?
+                ( item.direction === 'inbound' ? 'Missed' : 'Disconnect' )
+                 : 'End'}}
             </template>
-            <template slot="phone_number" slot-scope="{ item }" >
-                <div class="links">{{item.phone_number}}</div>
+            <template slot="billSec" slot-scope="{ item }" >
+                {{getPrettyTime(item.billSec*1000)}}
+            </template>
+            <template slot="holdSec" slot-scope="{ item }" >
+                {{getPrettyTime(item.holdSec*1000)}}
+            </template>
+            <template slot="client" slot-scope="{ item }" >
+                <div v-if="item.from" class="links">{{item.from.name}}</div>
+            </template>
+            <template slot="phoneNumber" slot-scope="{ item }" >
+                <div v-if="item.from">{{item.from.number}}</div>
             </template>
             <template slot="notes" slot-scope="{ item }" >
                 <div class="links">{{item.notes}}</div>
             </template>
             <template slot="direction" slot-scope="{ item }" >
-                <div class="call" v-if="item.direction==='outbound'">
-                    <icon class="icon-margin">
-                        <svg class="icon icon-outbound_md lg green">
-                            <use xlink:href="#icon-outbound_md"></use>
-                        </svg>
-                    </icon>
-                </div>
-                <div class="call" v-if="item.direction==='disconnect'">
+                <div class="call" v-if="!item.answeredAt">
                     <icon>
-                        <svg class="icon icon-disconnect_md lg red">
+                        <svg class="icon icon-disconnect_md md red">
                             <use xlink:href="#icon-disconnect_md"></use>
                         </svg>
                     </icon>
                 </div>
-                <div class="call" v-if="item.direction==='inbound'">
+                <div class="call" v-else-if="item.direction==='outbound'">
+                    <icon class="icon-margin">
+                        <svg class="icon icon-outbound_md md green">
+                            <use xlink:href="#icon-outbound_md"></use>
+                        </svg>
+                    </icon>
+                </div>
+                <div class="call" v-else-if="item.direction==='inbound'">
                     <icon>
-                        <svg class="icon icon-inbound_md lg yell">
+                        <svg class="icon icon-inbound_md md yell">
                             <use xlink:href="#icon-inbound_md"></use>
                         </svg>
                     </icon>
                 </div>
             </template>
-            <template slot="rating" slot-scope="{ item }" >
+            <!-- <template slot="rating" slot-scope="{ item }" >
                 <div class="rating">
                    <icon v-for="n in 5" :key="n">
                         <svg v-if="n <= item.rating" class="icon icon-rating_on_md md yell">
@@ -56,7 +67,7 @@
                         </svg>
                     </icon>
                 </div>
-            </template>
+            </template> -->
         </grid-table>
         <filter-pagination/>
     </section>
@@ -67,6 +78,7 @@
     import loader from '@/components/utils/loader.vue';
     import convertQuery from '@/utils/loadScripts';
     import sortFilterMixin from '@/mixins/filters/sortFilterMixin';
+    import getTimeFromDuration from '@/utils/getTimeFromDuration';
     import agentCallHeaders from './agentCallHeaders';
     import GridTable from '../utils/grid-table.vue';
     import FilterFields from '../filters/filter-table-fields.vue';
@@ -83,14 +95,14 @@
         mixins: [
             sortFilterMixin,
         ],
-        // watch: {
-        //     '$route.query': {
-        //         async handler() {
-        //             await this.loadList();
-        //         },
-        //         immediate: true,
-        //     },
-        // },
+        watch: {
+            '$route.query': {
+                async handler() {
+                    await this.loadList();
+                },
+                immediate: true,
+            },
+        },
         mounted() {
             this.loadList();
         },
@@ -113,6 +125,7 @@
             async loadList() {
                 this.isLoading = true;
                 const params = this.getQueryParams();
+                params.agentId = this.$route.params.id;
                 try {
                     this.isNext = await this.loadDataList(params);
                 } catch {
@@ -124,6 +137,7 @@
                 const { query } = this.$route;
                 return convertQuery(query);
             },
+            getPrettyTime: getTimeFromDuration,
         },
     };
 </script>
