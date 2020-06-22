@@ -9,11 +9,13 @@ const getters = {};
 
 const actions = {
     FETCH_LIST: async (context, params = {}) => {
+        context.commit('SET_LIST', []);
         const { items, next } = await getAgentsList(params);
         context.commit('SET_LIST', items);
         return next
     },
     FETCH_ITEM: async (context, id) => {
+        context.commit('SET_ITEM', {});
         const item = await getAgent(id);
         context.commit('SET_ITEM', item);
     },

@@ -10,6 +10,7 @@ const getters = {};
 
 const actions = {
     FETCH_LIST: async (context, params = {}) => {
+        context.commit('SET_LIST', []);
         if (!params.period) params.period = 'today';
         let joined = parseJoined(params.period);
         params.joinedAtFrom = joined.start;

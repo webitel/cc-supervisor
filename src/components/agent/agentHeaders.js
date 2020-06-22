@@ -22,13 +22,13 @@ export default [
       sort: null,
       width: 'minmax(170px, 1fr)',
     },
-    {
-      text: i18n.t('pages.agent.columns.queues'),
-      value: 'queues',
-      show: true,
-      sort: null,
-      width: 'minmax(170px, 1fr)',
-    },
+    // {
+    //   text: i18n.t('pages.agent.columns.queues'),
+    //   value: 'queues',
+    //   show: true,
+    //   sort: null,
+    //   width: 'minmax(170px, 1fr)',
+    // },
     {
       text: i18n.t('pages.agent.columns.utilization'),
       value: 'utilization',
@@ -45,7 +45,7 @@ export default [
     // },
     {
       text: i18n.t('pages.agent.columns.call'),
-      value: 'call',
+      value: 'callTime',
       show: true,
       sort: null,
       width: 'minmax(60px, 1fr)',

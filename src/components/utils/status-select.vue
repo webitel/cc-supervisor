@@ -99,7 +99,8 @@
 
       input(value) {
         if (value) {
-          this.selected = {status: value.value, time: 'waiting...'}
+          this.selectedStatus = value.value;
+          this.selectedTime = 'waiting...';
           this.updateStatus({ agentId: this.agentId, status: this.selectedStatus });
         }
       },
