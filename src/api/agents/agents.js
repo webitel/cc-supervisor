@@ -6,20 +6,16 @@ import instance from '../instance';
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 export const agentFields = ['id', 'name'];
 
-const parseAgentList = (items) => {
-    items.forEach((element) => {
-        Object.assign(element, {
-            callTime: getTimeFromDuration(+element.callTime),
-            statusDuration: getTimeFromDuration(+element.statusDuration),
-            utilization: element.utilization ? `${element.utilization.toFixed(2)}%` : null,
-            online: getTimeFromDuration(+element.online) || '00:00:00',
-            offline: getTimeFromDuration(+element.offline) || '00:00:00',
-            pause: getTimeFromDuration(+element.pause) || '00:00:00',
-            teams: element.teams || [],
-        });
-    });
-    return items;
-};
+const parseAgentList = (items) => items.map((item) => ({
+    ...item,
+    callTime: getTimeFromDuration(+item.callTime),
+    statusDuration: getTimeFromDuration(+item.statusDuration),
+    utilization: item.utilization ? `${item.utilization.toFixed(2)}%` : null,
+    online: getTimeFromDuration(+item.online) || '00:00:00',
+    offline: getTimeFromDuration(+item.offline) || '00:00:00',
+    pause: getTimeFromDuration(+item.pause) || '00:00:00',
+    teams: item.teams || [],
+}));
 
 export const getAgentsList = async ({
     page = 0, size = 20, search = '', status, sort = '+name',
@@ -27,10 +23,8 @@ export const getAgentsList = async ({
     try {
         // eslint-disable-next-line no-param-reassign
         if (search && search.slice(-1) !== '*') search += '*';
-        let start = new Date();
-        const end = new Date(start).getTime();
-        start.setHours(0, 0, 0, 0);
-        start = start.getTime();
+        const start = new Date().setHours(0, 0, 0, 0);
+        const end = Date.now();
         const res = await agentService.searchAgentStatusStatistic(
             page,
             size,
@@ -65,7 +59,9 @@ export const getAgent = async (id) => {
             undefined, // domain_id
             undefined,
             );
-        return res.items && res.items.length ? parseAgentList(res.items)[0] : {};
+        // return res.items && res.items.length ? parseAgentList(res.items)[0] : {};
+        if (Array.isArray(res.items)) return parseAgentList(res.items).pop();
+        return {};
     } catch (err) {
         throw err;
     }

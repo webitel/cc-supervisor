@@ -35,7 +35,7 @@
                 class="status-cell filter-item"
                 :status="itemInstance.status"
                 :time="itemInstance.statusDuration"
-                :agentId="this.$route.params.id.toString()"
+                :agentId="id"
             ></status-select>
             <status
                 v-if="itemInstance.offline"
@@ -133,7 +133,7 @@ export default {
             itemInstance: (state) => state.itemInstance,
         }),
         id: {
-            get() { return this.itemInstance.id; },
+            get() { return `${this.$route.params.id}`; },
         },
         tabs() {
            return [{
@@ -164,7 +164,7 @@ export default {
 
         async load() {
             this.isLoading = true;
-            await this.loadItem(this.$route.params.id);
+            await this.loadItem(+this.id);
             this.teams = await fetchTeams();
             this.isLoading = false;
         },

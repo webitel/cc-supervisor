@@ -6,15 +6,11 @@ import instance from '../instance';
 const callService = new CallServiceApiFactory(configuration, '', instance);
 export const agentCallFields = ['id', 'from', 'direction', 'bill_sec', 'hold_sec', 'answered_at', 'created_at'];
 
-const parseAgentCallsList = (items) => {
-    items.forEach((element) => {
-        Object.assign(element, {
-            holdSec: getTimeFromDuration(+element.holdSec),
-            billSec: getTimeFromDuration(+element.billSec),
-        });
-    });
-    return items;
-};
+const parseAgentCallsList = (items) => items.map((item) => ({
+    ...item,
+    holdSec: getTimeFromDuration(+item.holdSec),
+    billSec: getTimeFromDuration(+item.billSec),
+}));
 
 export const getAgentCallsList = async ({
     page = 0, size = 10, search = '', agentId, sort = '-created_at',
@@ -22,10 +18,8 @@ export const getAgentCallsList = async ({
     try {
         // eslint-disable-next-line no-param-reassign
         if (search && search.slice(-1) !== '*') search += '*';
-        let start = new Date();
-        const end = new Date(start).getTime();
-        start.setHours(0, 0, 0, 0);
-        start = start.getTime();
+        const start = new Date().setHours(0, 0, 0, 0);
+        const end = Date.now();
         const res = await callService.searchHistoryCall(
             page, // page
             size, // size

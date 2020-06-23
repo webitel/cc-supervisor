@@ -97,9 +97,9 @@
 
       limitText: (count) => `${count}`,
 
-      input(value) {
-        if (value) {
-          this.selectedStatus = value.value;
+      input(status) {
+        if (status) {
+          this.selectedStatus = status.value;
           this.selectedTime = 'waiting...';
           this.updateStatus({ agentId: this.agentId, status: this.selectedStatus });
         }

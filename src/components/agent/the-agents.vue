@@ -92,7 +92,7 @@
                         class="selector-item"
                         :agentId="item.agentId"
                         :options="teams"
-                        :values="item.teams || []"
+                        :values="item.teams"
                      >
                      </selector-team>
                 </template>
