@@ -12,6 +12,10 @@ const AgentStatusOptions = Object.freeze([
       name: 'Offline',
       value: 'offline',
     },
+    {
+      name: 'Pause',
+      value: 'pause',
+    },
   ]);
 
   export default AgentStatusOptions;

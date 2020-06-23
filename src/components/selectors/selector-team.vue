@@ -1,6 +1,6 @@
 <template>
   <multiselect-row
-    v-model="value"
+    v-model="values"
     :options="options"
     :label="'Team'"
     :api-mode="false"
@@ -33,11 +33,11 @@
       },
     },
 
-    data() {
-      return {
-        value: this.values,
-      };
-    },
+    // data() {
+    //   return {
+    //     value: this.values,
+    //   };
+    // },
 
     methods: {
       setValues() {

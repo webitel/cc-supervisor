@@ -1,6 +1,7 @@
 <template>
     <div>
-        <header class="filter-header">
+        <loader v-show="isLoading"></loader>
+        <header class="filter-header" v-show="!isLoading">
             <button
                 class="back-btn"
                 @click="$router.go(-1)"
@@ -13,7 +14,7 @@
             </button>
             <div class="filter-item main-info">
                 <span class="title">{{itemInstance.name}}</span>
-                <span>{{itemInstance.phone_number}}</span>
+                <span>{{itemInstance.extension}}</span>
             </div>
             <button class="icon-btn btn-margin" @click.prevent="callAgent()">
                 <icon>
@@ -32,32 +33,35 @@
             <status-select
                 v-if="itemInstance.status"
                 class="status-cell filter-item"
-                :status="'online'"
-                :time="'waiting...'"
-                :agentId="this.$route.params.id"
+                :status="itemInstance.status"
+                :time="itemInstance.statusDuration"
+                :agentId="id"
             ></status-select>
             <status
+                v-if="itemInstance.offline"
                 class="filter-item"
                 :class="{'status__false':true}"
-                :text="itemInstance.offline_time"
+                :text="itemInstance.offline"
             >
             </status>
             <status
+                v-if="itemInstance.pause"
                 class="filter-item"
                 :class="{'status__info':true}"
-                :text="itemInstance.waiting_time"
+                :text="itemInstance.pause"
             >
             </status>
              <status
+                v-if="itemInstance.online"
                 class="filter-item"
                 :class="{'status__true':true}"
-                :text="itemInstance.online_time"
+                :text="itemInstance.online"
             >
             </status>
             <selector-team
                 v-if="itemInstance.teams"
                 class="selector-item filter-team"
-                :agentId="itemInstance.id"
+                :agentId="itemInstance.agentId"
                 :options="teams"
                 :values="itemInstance.teams"
             >
@@ -72,6 +76,7 @@
             </the-agents-help-popup> -->
         </header>
        <tabs-component
+                v-show="!isLoading"
                 :tabs="tabs"
                 :root="$options.name"
                 :initialTab="'calls'"
@@ -90,6 +95,7 @@
 import tabsComponent from '@/components/utils/tabs-component.vue';
 import { mapActions, mapState } from 'vuex';
 import { fetchTeams } from '@/api/filter-getters/teamFilter';
+import loader from '@/components/utils/loader.vue';
 import selectorTeam from '../selectors/selector-team.vue';
 import statusSelect from '../utils/status-select.vue';
 import status from '../utils/status.vue';
@@ -107,6 +113,7 @@ export default {
         selectorTeam,
         statusSelect,
         status,
+        loader,
     },
     mixins: [
     ],
@@ -116,6 +123,7 @@ export default {
     data() {
         return {
             teams: [],
+            isLoading: false,
         };
     },
     watch: {
@@ -125,7 +133,7 @@ export default {
             itemInstance: (state) => state.itemInstance,
         }),
         id: {
-            get() { return this.itemInstance.id; },
+            get() { return `${this.$route.params.id}`; },
         },
         tabs() {
            return [{
@@ -155,8 +163,10 @@ export default {
         },
 
         async load() {
-            await this.loadItem(this.$route.params.id);
+            this.isLoading = true;
+            await this.loadItem(+this.id);
             this.teams = await fetchTeams();
+            this.isLoading = false;
         },
     },
 };

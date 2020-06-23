@@ -1,9 +1,8 @@
 <template>
     <section>
-        <loader v-show="isLoading"></loader>
+        <!-- <loader v-show="isLoading"></loader>v-show="!isLoading" -->
         <grid-table
             :checkboxes="false"
-            v-show="!isLoading"
             :headers="headers"
             :data="data"
             :expanded="false"
@@ -17,12 +16,6 @@
                 {{!item.answeredAt ?
                 ( item.direction === 'inbound' ? 'Missed' : 'Disconnect' )
                  : 'End'}}
-            </template>
-            <template slot="billSec" slot-scope="{ item }" >
-                {{getPrettyTime(item.billSec*1000)}}
-            </template>
-            <template slot="holdSec" slot-scope="{ item }" >
-                {{getPrettyTime(item.holdSec*1000)}}
             </template>
             <template slot="client" slot-scope="{ item }" >
                 <div v-if="item.from" class="links">{{item.from.name}}</div>
@@ -75,10 +68,9 @@
 
 <script>
    import { mapActions, mapState } from 'vuex';
-    import loader from '@/components/utils/loader.vue';
+    // import loader from '@/components/utils/loader.vue';
     import convertQuery from '@/utils/loadScripts';
     import sortFilterMixin from '@/mixins/filters/sortFilterMixin';
-    import getTimeFromDuration from '@/utils/getTimeFromDuration';
     import agentCallHeaders from './agentCallHeaders';
     import GridTable from '../utils/grid-table.vue';
     import FilterFields from '../filters/filter-table-fields.vue';
@@ -87,7 +79,7 @@
     export default {
         name: 'the-agents-item-calls',
         components: {
-            loader,
+            // loader,
             GridTable,
             FilterFields,
             FilterPagination,
@@ -102,9 +94,6 @@
                 },
                 immediate: true,
             },
-        },
-        mounted() {
-            this.loadList();
         },
         data() {
             return {
@@ -137,7 +126,6 @@
                 const { query } = this.$route;
                 return convertQuery(query);
             },
-            getPrettyTime: getTimeFromDuration,
         },
     };
 </script>

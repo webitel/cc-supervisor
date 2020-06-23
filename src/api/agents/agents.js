@@ -1,44 +1,42 @@
 import { AgentServiceApiFactory } from 'webitel-sdk';
+import getTimeFromDuration from '@/utils/getTimeFromDuration';
 import configuration from '../openAPIConfig';
 import instance from '../instance';
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 export const agentFields = ['id', 'name'];
 
-const parseAgentList = (items) => {
-    items.forEach((element, index) => {
-        Object.assign(element, {
-            call: `00:${(`0${Math.floor(Math.random() * 10)}`).slice(-2)}:${(`0${Math.floor(Math.random() * 60)}`).slice(-2)}`,
-            chat: `00:${(`0${Math.floor(Math.random() * 10)}`).slice(-2)}:${(`0${Math.floor(Math.random() * 60)}`).slice(-2)}`,
-            utilization: '90%',
-            teams: [{ id: '1', name: 'dev' }],
-            queues: [{ id: '6', name: 'inbound-dev' }, { id: '7', name: 'preview-dev' }],
-            attentions: { type: index === 1 ? 'error' : 'warning', count: 2 },
-        });
-    });
-    return items;
-};
-
-const getAgentMock = (id) => ({
-        id,
-        name: 'Milla Ozercova',
-        phone_number: '+38 098 876-45-21',
-        status: { time: `00:${(`0${Math.floor(Math.random() * 10)}`).slice(-2)}:${(`0${Math.floor(Math.random() * 60)}`).slice(-2)}`, status: 'online' },
-        offline_time: '00:54:39',
-        waiting_time: '00:00:23',
-        online_time: '00:32:21',
-        teams: [{ id: '1', name: 'dev' }],
-        attentions: { type: 'error', count: 2 },
-    });
+const parseAgentList = (items) => items.map((item) => ({
+    ...item,
+    callTime: getTimeFromDuration(+item.callTime),
+    statusDuration: getTimeFromDuration(+item.statusDuration),
+    utilization: item.utilization ? `${item.utilization.toFixed(2)}%` : null,
+    online: getTimeFromDuration(+item.online) || '00:00:00',
+    offline: getTimeFromDuration(+item.offline) || '00:00:00',
+    pause: getTimeFromDuration(+item.pause) || '00:00:00',
+    teams: item.teams || [],
+}));
 
 export const getAgentsList = async ({
-    page = 0, size = 20, search = '', ids, sort = '+name',
+    page = 0, size = 20, search = '', status, sort = '+name',
 }) => {
     try {
         // eslint-disable-next-line no-param-reassign
         if (search && search.slice(-1) !== '*') search += '*';
-        const res = await agentService.searchAgent(page, size, search, undefined, undefined, sort, ids);
-        return { items: parseAgentList(res.items), next: res.next };
+        const start = new Date().setHours(0, 0, 0, 0);
+        const end = Date.now();
+        const res = await agentService.searchAgentStatusStatistic(
+            page,
+            size,
+            start, // time_from
+            end, // time_to
+            undefined, // agent_id[]
+            status, // status[]
+            sort,
+            undefined, // domain_id
+            undefined,
+            );
+        return { items: res.items ? parseAgentList(res.items) : [], next: res.next };
     } catch (err) {
         throw err;
     }
@@ -46,7 +44,24 @@ export const getAgentsList = async ({
 
 export const getAgent = async (id) => {
     try {
-        return getAgentMock(id);
+        let start = new Date();
+        const end = new Date(start).getTime();
+        start.setHours(0, 0, 0, 0);
+        start = start.getTime();
+        const res = await agentService.searchAgentStatusStatistic(
+            1,
+            1,
+            start, // time_from
+            end, // time_to
+            [id], // agent_id[]
+            undefined, // status[]
+            undefined,
+            undefined, // domain_id
+            undefined,
+            );
+        // return res.items && res.items.length ? parseAgentList(res.items)[0] : {};
+        if (Array.isArray(res.items)) return parseAgentList(res.items).pop();
+        return {};
     } catch (err) {
         throw err;
     }

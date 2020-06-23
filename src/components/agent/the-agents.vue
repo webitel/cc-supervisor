@@ -50,7 +50,7 @@
 
                 <template slot="name" slot-scope="{ item }">
                     <div class="tt-capitalize">
-                        <span class="nameLink" @click="open(item.id)">
+                        <span class="nameLink" @click="open(item.agentId)">
                             {{item.name}}
                         </span>
                     </div>
@@ -60,14 +60,14 @@
                      <status-select
                         class="status-cell"
                         :status="item.status"
-                        :time="getStatusTime(item.statusDuration)"
-                        :agentId="item.id"
+                        :time="item.statusDuration"
+                        :agentId="`${item.agentId}`"
                     ></status-select>
                 </template>
 
-                 <template slot="call" slot-scope="{ item }">
-                     <div class="call">
-                        <span>{{item.call}}</span>
+                 <template slot="callTime" slot-scope="{ item }">
+                     <div class="call" v-if="item.callTime">
+                        <span>{{item.callTime}}</span>
                         <icon>
                             <svg class="icon icon-speaker_off_md md">
                                 <use xlink:href="#icon-speaker_off_md"></use>
@@ -78,8 +78,9 @@
 
                  <template slot="queues" slot-scope="{ item }">
                      <selector-queue
+                        v-if="item.queues"
                         class="selector-item"
-                        :agentId="item.id"
+                        :agentId="item.agentId"
                         :options="queues"
                         :values="item.queues"
                      >
@@ -89,7 +90,7 @@
                 <template slot="teams" slot-scope="{ item }">
                      <selector-team
                         class="selector-item"
-                        :agentId="item.id"
+                        :agentId="item.agentId"
                         :options="teams"
                         :values="item.teams"
                      >
@@ -122,7 +123,6 @@ import sortFilterMixin from '@/mixins/filters/sortFilterMixin';
 import switcher from '@/components/utils/switcher.vue';
 import { fetchQueues } from '@/api/filter-getters/queueFilter';
 import { fetchTeams } from '@/api/filter-getters/teamFilter';
-import getTimeFromDuration from '@/utils/getTimeFromDuration';
 import FilterTeam from '../filters/filter-queue.vue';
 import FilterQueue from '../filters/filter-team.vue';
 import FilterFields from '../filters/filter-table-fields.vue';
@@ -239,7 +239,6 @@ export default {
                 params: { id },
             });
         },
-        getStatusTime: getTimeFromDuration,
     },
 };
 </script>
