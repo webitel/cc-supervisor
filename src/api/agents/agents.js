@@ -14,7 +14,8 @@ const parseAgentList = (items) => items.map((item) => ({
     online: getTimeFromDuration(+item.online) || '00:00:00',
     offline: getTimeFromDuration(+item.offline) || '00:00:00',
     pause: getTimeFromDuration(+item.pause) || '00:00:00',
-    teams: item.teams || [],
+    teams: item.teams,
+    queues: item.queues,
 }));
 
 export const getAgentsList = async ({
