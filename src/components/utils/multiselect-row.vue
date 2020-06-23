@@ -14,7 +14,6 @@
         :limitText="limitText"
         :loading="false"
         :internal-search="true"
-        @input="input"
         @open="isOpened = true"
         @close="close"        
       >
@@ -120,11 +119,11 @@
     methods: {
       limitText: (count) => `${count}`,
 
-      input(value) {
-        if (value) {
-          this.$emit('input', value);
-        }
-      },
+      // input(value) {
+      //   if (value) {
+      //     this.$emit('input', value);
+      //   }
+      // },
 
       close() {
         this.$emit('closed');

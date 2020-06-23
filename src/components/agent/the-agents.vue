@@ -81,7 +81,7 @@
                         v-if="item.queues"
                         class="selector-item"
                         :agentId="item.agentId"
-                        :options="queues"
+                        :options="item.queues"
                         :values="item.queues"
                      >
                      </selector-queue>
@@ -89,9 +89,10 @@
 
                 <template slot="teams" slot-scope="{ item }">
                      <selector-team
+                        v-if="item.teams"
                         class="selector-item"
                         :agentId="item.agentId"
-                        :options="teams"
+                        :options="item.teams"
                         :values="item.teams"
                      >
                      </selector-team>
@@ -121,8 +122,8 @@ import downloadCSVMixin from '@/mixins/downloadCSV/downloadCSVMixin';
 import { agentFields } from '@/api/agents/agents';
 import sortFilterMixin from '@/mixins/filters/sortFilterMixin';
 import switcher from '@/components/utils/switcher.vue';
-import { fetchQueues } from '@/api/filter-getters/queueFilter';
-import { fetchTeams } from '@/api/filter-getters/teamFilter';
+// import { fetchQueues } from '@/api/filter-getters/queueFilter';
+// import { fetchTeams } from '@/api/filter-getters/teamFilter';
 import FilterTeam from '../filters/filter-queue.vue';
 import FilterQueue from '../filters/filter-team.vue';
 import FilterFields from '../filters/filter-table-fields.vue';
@@ -176,16 +177,16 @@ export default {
             headers: agentHeaders,
             isNext: false,
             isLoading: false,
-            queues: [],
-            teams: [],
+            // queues: [],
+            // teams: [],
         };
     },
     watch: {
         '$route.query': {
             async handler() {
                 await this.loadList();
-                this.queues = await fetchQueues();
-                this.teams = await fetchTeams();
+                // this.queues = await fetchQueues();
+                // this.teams = await fetchTeams();
             },
             immediate: true,
         },
