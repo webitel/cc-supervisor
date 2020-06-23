@@ -29,9 +29,9 @@
 
          <template slot="placeholder">
             <status
-              :class="selectedStatus == 'online' ? {'status__true':true} : 
-              (selectedStatus == 'pause' ? {'status__info':true} : {'status__false':true})"
-              :text="selectedTime"
+              :class="status == 'online' ? {'status__true':true} : 
+              (status == 'pause' ? {'status__info':true} : {'status__false':true})"
+              :text="time"
             >
             </status>
           </template>
@@ -75,17 +75,22 @@
 
     data() {
       return {
-        selectedStatus: this.status,
-        selectedTime: this.time,
+        // selectedStatus: null,
+        // selectedTime: null,
         isLoading: false,
         isOpened: false,
         options: [{ label: "Activate", value: "online"}, { label: "Stop", value: "offline"}, { label: "Break", value: "pause"}]
       };
     },
 
+    // mounted() {
+    //   this.selecteedStatus = this.status
+    //   this.selectedTime = this.time
+    // },
+
     computed: {
       opts() {
-        return this.options.filter((option) => option.value !== this.selectedStatus)
+        return this.options.filter((option) => option.value !== this.status)
       },
     },
 
@@ -99,9 +104,9 @@
 
       input(status) {
         if (status) {
-          this.selectedStatus = status.value;
-          this.selectedTime = 'waiting...';
-          this.updateStatus({ agentId: this.agentId, status: this.selectedStatus });
+          // this.selectedStatus = status.value;
+          // this.selectedTime = 'waiting...';
+          this.updateStatus({ agentId: this.agentId, status: status.value });
         }
       },
 

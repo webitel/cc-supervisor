@@ -61,7 +61,7 @@
                         class="status-cell"
                         :status="item.status"
                         :time="item.statusDuration"
-                        :agentId="item.agentId.toString()"
+                        :agentId="`${item.agentId}`"
                     ></status-select>
                 </template>
 
