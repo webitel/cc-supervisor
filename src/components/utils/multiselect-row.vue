@@ -15,6 +15,7 @@
         :loading="false"
         :internal-search="true"
         @open="isOpened = true"
+        @input="input" 
         @close="close"        
       >
         <template slot="option" slot-scope="{ option }">
@@ -88,6 +89,11 @@
         type: Boolean,
         default: false,
       },
+
+      readonly: {
+        type: Boolean,
+        default: false,
+      },
     },
 
     data: () => ({
@@ -119,11 +125,11 @@
     methods: {
       limitText: (count) => `${count}`,
 
-      // input(value) {
-      //   if (value) {
-      //     this.$emit('input', value);
-      //   }
-      // },
+      input(value) {
+        if (!this.readonly && value) {
+          this.$emit('input', value);
+        }
+      },
 
       close() {
         this.$emit('closed');

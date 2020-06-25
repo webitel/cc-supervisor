@@ -11,17 +11,24 @@ export default {
 
   created() {
     getSession();
-    this.setDomain();
+    // this.setDomain();
+    this.setLanguage();
+    this.setAutoRefresh();
   },
   methods: {
-    setDomain() {
-      const domain = localStorage.getItem('domain');
-      if (domain) this.$store.dispatch('userinfo/SET_DOMAIN_ID', domain);
-    },
+    // setDomain() {
+    //   const domain = localStorage.getItem('domain');
+    //   if (domain) this.$store.dispatch('userinfo/SET_DOMAIN_ID', domain);
+    // },
 
     setLanguage() {
       const lang = localStorage.getItem('lang');
       if (lang) this.$i18n.locale = lang;
+    },
+
+    setAutoRefresh() {
+      const ar = localStorage.getItem('autorefresh');
+      if (!ar) localStorage.setItem('autorefresh', 10000);
     },
   },
 };

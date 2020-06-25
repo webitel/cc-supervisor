@@ -25,6 +25,7 @@ export default {
     settings: 'Settings',
     changePassword: 'Change password',
     language: 'Language',
+    autoRefresh: 'AutoRefresh interval',
   },
   header: {
     logout: 'Log out',

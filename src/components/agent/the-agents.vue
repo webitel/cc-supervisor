@@ -177,6 +177,7 @@ export default {
             headers: agentHeaders,
             isNext: false,
             isLoading: false,
+            autorefresh: null,
             // queues: [],
             // teams: [],
         };
@@ -185,8 +186,8 @@ export default {
         '$route.query': {
             async handler() {
                 await this.loadList();
-                // this.queues = await fetchQueues();
-                // this.teams = await fetchTeams();
+                if (this.autorefresh) clearInterval(this.autorefresh);
+                this.autorefresh = setInterval(this.loadListTick, this.timer);
             },
             immediate: true,
         },
@@ -209,6 +210,7 @@ export default {
         ...mapState('agents', {
             data: (state) => state.dataList,
         }),
+        timer: () => +localStorage.getItem('autorefresh'),
     },
     methods: {
         ...mapActions('agents', {
@@ -224,6 +226,15 @@ export default {
                 this.isLoading = false;
             }
         },
+
+        async loadListTick() {
+            const params = this.getQueryParams();
+            try {
+                this.isNext = await this.loadDataList(params);
+            } catch {
+            }
+        },
+
         download() {
             this.downloadCSV({
                 fields: agentFields,
@@ -240,6 +251,10 @@ export default {
                 params: { id },
             });
         },
+    },
+
+    destroyed() {
+        clearInterval(this.autorefresh);
     },
 };
 </script>

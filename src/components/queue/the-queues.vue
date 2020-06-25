@@ -117,12 +117,15 @@ export default {
             headers: queueHeaders,
             isNext: false,
             isLoading: false,
+            autorefresh: null,
         };
     },
     watch: {
         '$route.query': {
             async handler() {
                 await this.loadList();
+                if (this.autorefresh) clearInterval(this.autorefresh);
+                this.autorefresh = setInterval(this.loadListTick, this.timer);
             },
             immediate: true,
         },
@@ -131,6 +134,7 @@ export default {
         ...mapState('queues', {
                 data: (state) => state.dataList,
         }),
+        timer: () => +localStorage.getItem('autorefresh'),
     },
     methods: {
         ...mapActions('queues', {
@@ -146,6 +150,15 @@ export default {
                 this.isLoading = false;
             }
         },
+
+        async loadListTick() {
+            const params = this.getQueryParams();
+            try {
+                this.isNext = await this.loadDataList(params);
+            } catch {
+            }
+        },
+
         download() {
             this.downloadCSV({
                 fields: queueFields,
@@ -162,6 +175,10 @@ export default {
             const { query } = this.$route;
             return convertQuery(query);
         },
+    },
+
+    destroyed() {
+        clearInterval(this.autorefresh);
     },
 };
 </script>
