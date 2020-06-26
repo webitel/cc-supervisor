@@ -16,7 +16,7 @@ const parseActiveCallsList = (items) => items.map((item) => ({
 }));
 
 export const getActiveCallList = async ({
-    page = 0, size = 20, search = '', queueIds, teamIds, agentIds, sort, direction,
+    page = 0, size = 20, search = '', queueIds, teamIds, agentIds, sort, direction, userIds, gatewayIds,
 }) => {
     try {
         // eslint-disable-next-line no-param-reassign
@@ -28,12 +28,12 @@ export const getActiveCallList = async ({
             size, // size
             start, // created_at_from
             end, // created_at_to
-            undefined, // user_id
+            userIds, // user_id
             agentIds, // agent_id
             queueIds, // queue_id
             teamIds, // team_id
             undefined, // member_id
-            undefined, // gateway_id
+            gatewayIds, // gateway_id
             search, // q
             undefined, // duration_from
             undefined, // duration_to

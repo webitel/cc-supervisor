@@ -69,7 +69,7 @@
                      <div class="call" v-if="item.callTime">
                         <span>{{item.callTime}}</span>
                         <icon>
-                            <svg class="icon icon-speaker_off_md md">
+                            <svg class="icon icon-speaker_off_md grid">
                                 <use xlink:href="#icon-speaker_off_md"></use>
                             </svg>
                         </icon>
@@ -304,10 +304,12 @@ export default {
 }
 
 .selector-item {
+    margin: -10px 0px;
     min-width: (170px);
 }
 
 .status-cell {
+    margin: -10px 0px;
     width: (126px)
 }
 

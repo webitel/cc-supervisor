@@ -29,21 +29,21 @@
             <template slot="direction" slot-scope="{ item }" >
                 <div class="call" v-if="!item.answeredAt">
                     <icon>
-                        <svg class="icon icon-disconnect_md md red">
+                        <svg class="icon icon-disconnect_md grid red">
                             <use xlink:href="#icon-disconnect_md"></use>
                         </svg>
                     </icon>
                 </div>
                 <div class="call" v-else-if="item.direction==='outbound'">
                     <icon class="icon-margin">
-                        <svg class="icon icon-outbound_md md green">
+                        <svg class="icon icon-outbound_md grid green">
                             <use xlink:href="#icon-outbound_md"></use>
                         </svg>
                     </icon>
                 </div>
                 <div class="call" v-else-if="item.direction==='inbound'">
                     <icon>
-                        <svg class="icon icon-inbound_md md yell">
+                        <svg class="icon icon-inbound_md grid yell">
                             <use xlink:href="#icon-inbound_md"></use>
                         </svg>
                     </icon>

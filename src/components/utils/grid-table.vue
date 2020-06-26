@@ -187,9 +187,9 @@
       display: grid;
       grid-template-columns: (24px) repeat(6, 1fr) (68px);
       grid-column-gap: (20px);
-      padding: 0px 10px;
+      padding: 17px 10px;
       transition: $transition;
-      height: 54px;
+      //height: 54px;
 
       &.expanded .grid__td {
         @extend .typo-body-md;
