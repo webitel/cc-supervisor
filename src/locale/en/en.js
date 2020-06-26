@@ -6,6 +6,7 @@ export default {
     supervisor: 'Supervisor Workspace',
     audit: 'Audit',
     history: 'Call History',
+    grafana: 'Grafana',
   },
   auth: {
     register: 'Register',
