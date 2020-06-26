@@ -1,6 +1,6 @@
 <template>
     <div>
-        <loader v-show="isLoading"></loader>
+        <loader v-show="isLoading" class="loader-center"></loader>
         <header class="filter-header" v-show="!isLoading">
             <button
                 class="back-btn"
@@ -117,16 +117,20 @@ export default {
     },
     mixins: [
     ],
-    mounted() {
-        this.load();
-    },
     data() {
         return {
             teams: [],
             isLoading: false,
+            autorefresh: null,
         };
     },
-    watch: {
+    mounted() {
+        this.load();
+        if (this.autorefresh) clearInterval(this.autorefresh);
+        this.autorefresh = setInterval(this.loadTick, this.timer);
+    },
+    destroyed() {
+        clearInterval(this.autorefresh);
     },
     computed: {
         ...mapState('agents', {
@@ -146,6 +150,7 @@ export default {
                     // },
                 ];
         },
+        timer: () => +localStorage.getItem('autorefresh'),
     },
     methods: {
         ...mapActions('agents', {
@@ -167,6 +172,10 @@ export default {
             await this.loadItem(+this.id);
             this.teams = await fetchTeams();
             this.isLoading = false;
+        },
+
+        async loadTick() {
+            await this.loadItem(+this.id);
         },
     },
 };
@@ -263,5 +272,12 @@ export default {
     display: flex;
     position: absolute;
     right: 50px;
+  }
+
+  .loader-center {
+    position: fixed;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
   }
 </style>

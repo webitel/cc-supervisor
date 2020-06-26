@@ -2,12 +2,13 @@
   <multiselect-row
     v-model="values"
     :options="options"
-    :label="'Team'"
+    :label="$t('filters.team')"
     :api-mode="false"
     :track-by="'id'"
     @closed="setValues"
     :multiple="true"
     :closeOnSelect="false"
+    :readonly="true"
   ></multiselect-row>
 </template>
 

@@ -91,6 +91,8 @@
             '$route.query': {
                 async handler() {
                     await this.loadList();
+                    if (this.autorefresh) clearInterval(this.autorefresh);
+                    this.autorefresh = setInterval(this.loadListTick, this.timer);
                 },
                 immediate: true,
             },
@@ -100,12 +102,17 @@
                 headers: agentCallHeaders,
                 isNext: false,
                 isLoading: false,
+                autorefresh: null,
             };
+        },
+        destroyed() {
+            clearInterval(this.autorefresh);
         },
         computed: {
             ...mapState('agentCalls', {
-                    data: (state) => state.dataList,
+                data: (state) => state.dataList,
             }),
+            timer: () => +localStorage.getItem('autorefresh'),
         },
         methods: {
             ...mapActions('agentCalls', {
@@ -120,6 +127,14 @@
                 } catch {
                 } finally {
                     this.isLoading = false;
+                }
+            },
+            async loadListTick() {
+                const params = this.getQueryParams();
+                params.agentId = this.$route.params.id;
+                try {
+                    this.isNext = await this.loadDataList(params);
+                } catch {
                 }
             },
             getQueryParams() {

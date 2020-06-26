@@ -2,12 +2,13 @@
   <multiselect-row
     v-model="value"
     :options="options"
-    :label="'Queue'"
+    :label="$t('filters.queue')"
     :api-mode="false"
     :track-by="'id'"
     @closed="setValues"
     :multiple="true"
     :closeOnSelect="false"
+    :readonly="true"
   ></multiselect-row>
 </template>
 
