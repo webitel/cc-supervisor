@@ -97,7 +97,7 @@ export default {
     agent: {
       title: 'Agents',
       columns: {
-        name: 'Queue',
+        name: 'Name',
         status: 'Status',
         teams: 'Teams',
         queues: 'Queues',

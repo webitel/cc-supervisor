@@ -5,14 +5,14 @@ import instance from '../instance';
 
 const callService = new CallServiceApiFactory(configuration, '', instance);
 export const activeCallFields = [
-    'id', 'bridged_at', 'direction', 'duration', 'from', 'agent', 'to',
+    'id', 'created_at', 'direction', 'duration', 'from', 'agent', 'to',
     'destination', 'extension', 'queue', 'state', 'user', 'variables',
 ];
 
 const parseActiveCallsList = (items) => items.map((item) => ({
     ...item,
     duration: getTimeFromDuration(+item.duration),
-    bridgedAt: new Date(+item.bridgedAt).toISOString().substr(11, 8),
+    createdAt: new Date(+item.createdAt).toISOString().substr(11, 8),
 }));
 
 export const getActiveCallList = async ({

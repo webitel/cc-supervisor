@@ -17,7 +17,7 @@
           v-for="(col, key) of shownHeaders"
           :key="key"
           @click="$emit('sort', col)"
-        >{{col.text}}
+        >{{col.text()}}
         </div>
         <div class="grid__th__actions">
           <slot name="actions-header"></slot>
