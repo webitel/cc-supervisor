@@ -30,7 +30,7 @@ export default [
       width: 'minmax(60px, 1fr)',
     },
     {
-      text: 'Client',
+      text: i18n.t('pages.agentItem.calls.columns.client'),
       value: 'client',
       show: true,
       sort: null,

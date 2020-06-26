@@ -15,8 +15,9 @@
             </template>
         </the-object-header>
         <div class="filter-header">
+            <filter-direction class="filter-item"/>
             <filter-queue class="filter-item"/>
-            <filter-team class="filter-item"/>
+            <filter-agent class="filter-item"/>
         </div>
         <section class="object-content">
             <loader v-show="isLoading"></loader>
@@ -33,14 +34,36 @@
                     v-model="headers"
                     />
                 </template>
+                <template slot="direction" slot-scope="{ item }" >
+                    <div class="call" v-if="item.direction==='outbound'">
+                        <icon class="icon-margin">
+                            <svg class="icon icon-outbound_md md green">
+                                <use xlink:href="#icon-outbound_md"></use>
+                            </svg>
+                        </icon>
+                    </div>
+                    <div class="call" v-else-if="item.direction==='inbound'">
+                        <icon>
+                            <svg class="icon icon-inbound_md md yell">
+                                <use xlink:href="#icon-inbound_md"></use>
+                            </svg>
+                        </icon>
+                    </div>
+                </template>
+                <template slot="from" slot-scope="{ item }" >
+                    <div v-if="item.from">{{item.from.number}}</div>
+                </template>
                 <template slot="agent" slot-scope="{ item }" >
                     <div v-if="item.agent">{{item.agent.name}}</div>
                 </template>
-                <template slot="team" slot-scope="{ item }" >
-                    <div v-if="item.team">{{item.team.name}}</div>
+                <template slot="to" slot-scope="{ item }" >
+                    <div v-if="item.to">{{item.to.number}}</div>
                 </template>
                 <template slot="queue" slot-scope="{ item }" >
                     <div v-if="item.queue">{{item.queue.name}}</div>
+                </template>
+                <template slot="user" slot-scope="{ item }" >
+                    <div v-if="item.user">{{item.user.name}}</div>
                 </template>
             </grid-table>
             <filter-pagination/>
@@ -55,8 +78,9 @@ import convertQuery from '@/utils/loadScripts';
 import downloadCSVMixin from '@/mixins/downloadCSV/downloadCSVMixin';
 import { activeCallFields } from '@/api/activeCalls/activeCalls';
 import sortFilterMixin from '@/mixins/filters/sortFilterMixin';
-import FilterTeam from '../filters/filter-queue.vue';
-import FilterQueue from '../filters/filter-team.vue';
+import FilterDirection from '../filters/filter-direction.vue';
+import FilterAgent from '../filters/filter-agent.vue';
+import FilterQueue from '../filters/filter-queue.vue';
 import FilterFields from '../filters/filter-table-fields.vue';
 import FilterPagination from '../filters/filter-pagination.vue';
 import FilterSearch from '../filters/filter-search.vue';
@@ -71,10 +95,11 @@ export default {
         FilterSearch,
         loader,
         GridTable,
-        FilterTeam,
+        FilterAgent,
         FilterQueue,
         FilterFields,
         FilterPagination,
+        FilterDirection,
         Btn,
         theObjectHeader,
     },
@@ -87,20 +112,27 @@ export default {
             headers: activeCallHeaders,
             isNext: false,
             isLoading: false,
+            autorefresh: null,
         };
     },
     watch: {
         '$route.query': {
             async handler() {
                 await this.loadList();
+                if (this.autorefresh) clearInterval(this.autorefresh);
+                this.autorefresh = setInterval(this.loadListTick, this.timer);
             },
             immediate: true,
         },
+    },
+    destroyed() {
+        clearInterval(this.autorefresh);
     },
     computed: {
         ...mapState('activeCalls', {
                 data: (state) => state.dataList,
         }),
+        timer: () => +localStorage.getItem('autorefresh'),
     },
     methods: {
         ...mapActions('activeCalls', {
@@ -114,6 +146,13 @@ export default {
             } catch {
             } finally {
                 this.isLoading = false;
+            }
+        },
+        async loadListTick() {
+            const params = this.getQueryParams();
+            try {
+                this.isNext = await this.loadDataList(params);
+            } catch {
             }
         },
         download() {
@@ -155,4 +194,14 @@ export default {
     }
 }
 
+.call {
+    display: flex;
+    align-items: center;
+}
+.green {
+    fill: $true-color;
+}
+.yell {
+    fill: $accent-color;
+}
 </style>
