@@ -75,6 +75,8 @@ export default {
     callNow: 'Call now',
     direction: 'Direction',
     agent: 'Agent',
+    user: 'User',
+    gateway: 'Gateway',
   },
   pages: {
     queue: {

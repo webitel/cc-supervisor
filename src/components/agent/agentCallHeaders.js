@@ -2,7 +2,7 @@ import i18n from '@/locale/i18n';
 
 export default [
     {
-      text: '',
+      text: () => '',
       value: 'direction',
       show: true,
       sort: null,

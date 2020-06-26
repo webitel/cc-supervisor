@@ -16,6 +16,8 @@
         </the-object-header>
         <div class="filter-header">
             <filter-direction class="filter-item"/>
+            <filter-user class="filter-item"/>
+            <filter-gateway class="filter-item"/>
             <filter-queue class="filter-item"/>
             <filter-agent class="filter-item"/>
         </div>
@@ -79,6 +81,8 @@ import downloadCSVMixin from '@/mixins/downloadCSV/downloadCSVMixin';
 import { activeCallFields } from '@/api/activeCalls/activeCalls';
 import sortFilterMixin from '@/mixins/filters/sortFilterMixin';
 import FilterDirection from '../filters/filter-direction.vue';
+import FilterUser from '../filters/filter-user.vue';
+import FilterGateway from '../filters/filter-gateway.vue';
 import FilterAgent from '../filters/filter-agent.vue';
 import FilterQueue from '../filters/filter-queue.vue';
 import FilterFields from '../filters/filter-table-fields.vue';
@@ -96,10 +100,12 @@ export default {
         loader,
         GridTable,
         FilterAgent,
+        FilterUser,
         FilterQueue,
         FilterFields,
         FilterPagination,
         FilterDirection,
+        FilterGateway,
         Btn,
         theObjectHeader,
     },
