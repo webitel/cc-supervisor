@@ -10,8 +10,8 @@
 </template>
 
 <script>
-  import valueFilterMixin from '@/mixins/filters/valueFilterMixin';
   import Pagination from '../utils/table-pagination.vue';
+  import valueFilterMixin from '../../mixins/filters/valueFilterMixin';
 
   export default {
     name: 'filter-pagination',
@@ -49,7 +49,7 @@
       },
 
       restoreSize() {
-        this.size = this.parseQueryValue({ filterQuery: 'size' });
+        this.size = this.parseQueryValue({ filterQuery: 'size' }) || this.size;
       },
 
       next() {

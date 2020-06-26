@@ -20,7 +20,7 @@
                     </svg>
                 </icon>
             </button>
-            <button v-else class="icon-btn btn-height" @click.prevent="attachToCall()">
+            <button v-else class="icon-btn btn-height" @click.prevent="call()">
                 <icon>
                     <svg class="icon icon-call_processing_md lg call-btn">
                     <use xlink:href="#icon-call_processing_md"></use>
@@ -83,8 +83,9 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+
 export default {
-    name: "call-window",
+    name: 'call-window',
     data() {
         return {
         };
@@ -104,7 +105,7 @@ export default {
         ...mapActions('call', {
             openWindow: 'OPEN_WINDOW',
             closeWindow: 'CLOSE_WINDOW',
-            attachToCall: 'ATTACH_TO_CALL',
+            call: 'CALL',
             leaveCall: 'LEAVE_CALL',
             muteMicro: 'MUTE_MICRO',
             unmuteMicro: 'UNMUTE_MICRO',
@@ -113,7 +114,7 @@ export default {
         }),
         animationUrl() {
             const baseUrl = process.env.BASE_URL; // to resolve iframe equalizer path after build
-            let animation = 'ringing';
+            const animation = 'ringing';
             // switch (this.call.state) {
             // case CallActions.Ringing:
             //     animation = 'ringing';
@@ -131,9 +132,8 @@ export default {
             ? `${baseUrl}animations/call-sonars/${animation}/${animation}.html`
             : false;
         },
-    }
-    
-}
+    },
+};
 </script>
 
 <style lang="scss" scoped>

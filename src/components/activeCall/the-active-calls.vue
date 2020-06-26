@@ -68,7 +68,7 @@
                     <div v-if="item.user">{{item.user.name}}</div>
                 </template>
             </grid-table>
-            <filter-pagination/>
+            <filter-pagination :is-next="isNext"/>
         </section>
     </div>
 </template>
@@ -116,7 +116,7 @@ export default {
     data() {
         return {
             headers: activeCallHeaders,
-            isNext: false,
+            // isNext: false,
             isLoading: false,
             autorefresh: null,
         };
@@ -137,6 +137,7 @@ export default {
     computed: {
         ...mapState('activeCalls', {
                 data: (state) => state.dataList,
+                isNext: (state) => state.isNext,
         }),
         timer: () => +localStorage.getItem('autorefresh'),
     },
@@ -148,7 +149,7 @@ export default {
             this.isLoading = true;
             const params = this.getQueryParams();
             try {
-                this.isNext = await this.loadDataList(params);
+                await this.loadDataList(params);
             } catch {
             } finally {
                 this.isLoading = false;
@@ -157,7 +158,7 @@ export default {
         async loadListTick() {
             const params = this.getQueryParams();
             try {
-                this.isNext = await this.loadDataList(params);
+                await this.loadDataList(params);
             } catch {
             }
         },

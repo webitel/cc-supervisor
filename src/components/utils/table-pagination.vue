@@ -12,28 +12,18 @@
     </div>
     <div class="page-controls">
       <div class="controls">
-        <button
-          class="icon-btn"
-          :class="{'disabled': !isPrev}"
-          @click="prev"
-        >
-          <icon>
-            <svg class="icon icon-arrow-left_md md">
-              <use xlink:href="#icon-arrow-left_md"></use>
-            </svg>
-          </icon>
-        </button>
-        <button
-          class="icon-btn"
-          :class="{'disabled': !isNext}"
-          @click="next"
-        >
-          <icon>
-            <svg class="icon icon-arrow-right_md md">
-              <use xlink:href="#icon-arrow-right_md"></use>
-            </svg>
-          </icon>
-        </button>
+        <icon-btn
+          :class="{'icon-btn--disabled': !isPrev}"
+          :icon="'arrow-left'"
+          :tooltip="'Prev'"
+          @click.native="prev"
+        ></icon-btn>
+        <icon-btn
+          :class="{'icon-btn--disabled': !isNext}"
+          :icon="'arrow-right'"
+          :tooltip="'Next'"
+          @click.native="next"
+        ></icon-btn>
       </div>
     </div>
   </footer>
@@ -41,6 +31,7 @@
 
 <script>
   import debounce from '../../utils/debounce';
+  import IconBtn from '@/components/utils/icon-btn.vue';
 
   export default {
     name: 'table-pagination',
@@ -58,6 +49,9 @@
         required: true,
       },
     },
+    components: {
+      IconBtn,
+    },
 
     watch: {
       value() {
@@ -71,14 +65,10 @@
 
     methods: {
       next() {
-        if (this.isNext) {
-          this.$emit('next');
-        }
+        this.$emit('next');
       },
       prev() {
-        if (this.isPrev) {
-          this.$emit('prev');
-        }
+        this.$emit('prev');
       },
 
       debouncer() {
@@ -105,11 +95,11 @@
       margin-right: 28px;
 
       .rows-per-page__text {
-        margin-right: 5px;
+        margin-right: (5px);
       }
 
       .rows-per-page__input {
-        width: 50px;
+        width: (50px);
       }
     }
 
@@ -119,14 +109,6 @@
 
       .controls {
         margin-left: 14px;
-
-        i:before {
-          color: #000;
-
-          &.disabled {
-            color: red;
-          }
-        }
       }
     }
   }
