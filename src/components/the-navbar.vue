@@ -27,7 +27,7 @@
                                 <use :xlink:href="`#icon-${item.iconClass}_md`"></use>
                             </svg>
                         </icon>
-                        <span class="nav-text">{{item.displayName}}</span>
+                        <span class="nav-text">{{item.displayName()}}</span>
                     </div>
                 </li>
             </ul>
@@ -52,19 +52,19 @@
                 nav: [
                     {
                         name: 'queues',
-                        displayName: this.$t('nav.queue'),
+                        displayName: () => this.$t('nav.queue'),
                         route: { name: 'queues', query: { period: 'today' } },
                         iconClass: 'queue',
                     },
                     {
                         name: 'agent',
-                        displayName: this.$t('nav.agents'),
+                        displayName: () => this.$t('nav.agents'),
                         route: { name: 'agents' },
                         iconClass: 'agent',
                     },
                     {
                         name: 'active-calls',
-                        displayName: this.$t('nav.activeCalls'),
+                        displayName: () => this.$t('nav.activeCalls'),
                         route: { name: 'active-calls' },
                         iconClass: 'agents',
                     },
