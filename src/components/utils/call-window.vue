@@ -28,6 +28,10 @@
                 </icon>
             </button>
         </div>
+        <!-- <iframe
+            v-if="animationUrl"
+            :src="animationUrl"
+        ></iframe> -->
         <div class="call-window__agent-name-container">
             <span v-if="agent" class="call-window__agent-name">{{agent.name}}</span>
         </div>
@@ -107,6 +111,26 @@ export default {
             holdCall: 'HOLD_CALL',
             unholdCall: 'UNHOLD_CALL',
         }),
+        animationUrl() {
+            const baseUrl = process.env.BASE_URL; // to resolve iframe equalizer path after build
+            let animation = 'ringing';
+            // switch (this.call.state) {
+            // case CallActions.Ringing:
+            //     animation = 'ringing';
+            //     break;
+            // case CallActions.Hold:
+            //     animation = 'hold';
+            //     break;
+            // case CallActions.Active:
+            //     animation = 'active';
+            //     break;
+            // default:
+            //     break;
+            // }
+            return animation
+            ? `${baseUrl}animations/call-sonars/${animation}/${animation}.html`
+            : false;
+        },
     }
     
 }
