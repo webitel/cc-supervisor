@@ -166,10 +166,6 @@ export default {
         sortFilterMixin,
         downloadCSVMixin,
     ],
-    mounted() {
-        this.callNow = (this.getValueByQuery({ filterQuery: 'callNow' }) === 'true') || false;
-        this.attentionNow = (this.getValueByQuery({ filterQuery: 'attentionNow' }) === 'true') || false;
-    },
     data() {
         return {
             callNow: false,
@@ -205,6 +201,13 @@ export default {
                 this.setQueryValue({ filterQuery: 'attentionNow', value: undefined });
             }
         },
+    },
+    mounted() {
+        this.callNow = (this.getValueByQuery({ filterQuery: 'callNow' }) === 'true') || false;
+        this.attentionNow = (this.getValueByQuery({ filterQuery: 'attentionNow' }) === 'true') || false;
+    },
+    destroyed() {
+        clearInterval(this.autorefresh);
     },
     computed: {
         ...mapState('agents', {
@@ -251,10 +254,6 @@ export default {
                 params: { id },
             });
         },
-    },
-
-    destroyed() {
-        clearInterval(this.autorefresh);
     },
 };
 </script>

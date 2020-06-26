@@ -1,7 +1,7 @@
 <template>
     <div class="content-wrap">
         <object-header hide-primary-action>
-             <template v-slot:title>
+             <template slot="title">
                 {{$t('settings.settings')}}
             </template>
         </object-header>
@@ -123,8 +123,8 @@
             // if there's a previously set lang, set it
             if (lang) this.language = this.languageOptions.find((item) => item.id === lang);
 
-            const ar = localStorage.getItem('autorefresh');
-            if (lang) this.autorefresh = this.autorefreshOptions.find((item) => item.value === +ar);
+            const autorefresh = localStorage.getItem('autorefresh');
+            if (autorefresh) this.autorefresh = this.autorefreshOptions.find((item) => item.value === +autorefresh);
         },
 
         computed: {

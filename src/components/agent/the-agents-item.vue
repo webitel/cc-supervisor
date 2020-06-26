@@ -117,11 +117,6 @@ export default {
     },
     mixins: [
     ],
-    mounted() {
-        this.load();
-        if (this.autorefresh) clearInterval(this.autorefresh);
-        this.autorefresh = setInterval(this.loadTick, this.timer);
-    },
     data() {
         return {
             teams: [],
@@ -129,7 +124,13 @@ export default {
             autorefresh: null,
         };
     },
-    watch: {
+    mounted() {
+        this.load();
+        if (this.autorefresh) clearInterval(this.autorefresh);
+        this.autorefresh = setInterval(this.loadTick, this.timer);
+    },
+    destroyed() {
+        clearInterval(this.autorefresh);
     },
     computed: {
         ...mapState('agents', {
@@ -176,9 +177,6 @@ export default {
         async loadTick() {
             await this.loadItem(+this.id);
         },
-    },
-    destroyed() {
-        clearInterval(this.autorefresh);
     },
 };
 </script>

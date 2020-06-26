@@ -130,6 +130,9 @@ export default {
             immediate: true,
         },
     },
+    destroyed() {
+        clearInterval(this.autorefresh);
+    },
     computed: {
         ...mapState('queues', {
                 data: (state) => state.dataList,
@@ -175,10 +178,6 @@ export default {
             const { query } = this.$route;
             return convertQuery(query);
         },
-    },
-
-    destroyed() {
-        clearInterval(this.autorefresh);
     },
 };
 </script>

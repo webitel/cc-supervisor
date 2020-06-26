@@ -105,6 +105,9 @@
                 autorefresh: null,
             };
         },
+        destroyed() {
+            clearInterval(this.autorefresh);
+        },
         computed: {
             ...mapState('agentCalls', {
                 data: (state) => state.dataList,
@@ -138,9 +141,6 @@
                 const { query } = this.$route;
                 return convertQuery(query);
             },
-        },
-        destroyed() {
-            clearInterval(this.autorefresh);
         },
     };
 </script>
