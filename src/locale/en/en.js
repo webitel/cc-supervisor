@@ -65,6 +65,7 @@ export default {
   },
   table: {
     showColumnsTitle: 'Select columns to show:',
+    rowsPerPage: 'Rows per page:',
   },
   filters: {
     time: 'Time',
@@ -110,6 +111,7 @@ export default {
     },
     agentItem: {
       calls: {
+        title: 'Calls',
         columns: {
           call: 'Call',
           talk: 'Talk',

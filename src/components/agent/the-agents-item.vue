@@ -141,7 +141,7 @@ export default {
         },
         tabs() {
            return [{
-                        text: 'Calls',
+                        text: this.$t('pages.agentItem.calls.title'),
                         value: 'calls',
                     },
                     // {
