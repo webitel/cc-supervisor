@@ -65,6 +65,7 @@ export default {
   },
   table: {
     showColumnsTitle: 'Выбрать столбики для отображения:',
+    rowsPerPage: 'Количество элементов на странице:',
   },
   filters: {
     time: 'Время',
@@ -110,6 +111,7 @@ export default {
     },
     agentItem: {
       calls: {
+        title: 'Звонки',
         columns: {
           call: 'Звонок',
           talk: 'Разговор',

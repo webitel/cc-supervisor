@@ -1,7 +1,7 @@
 <template>
   <footer class="pagination">
     <div class="rows-per-page">
-      <div class="rows-per-page__text">Rows per page:</div>
+      <div class="rows-per-page__text">{{$t('table.rowsPerPage')}}</div>
       <input
         class="input__short rows-per-page__input"
         ref="input"
