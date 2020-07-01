@@ -20,7 +20,7 @@ const actions = {
     UPDATE_STATUS: async (context, { agentId, status }) => {
         const { success } = await patchAgentStatus({ agentId, status });
         if (success) {
-            context.commit('SET_STATUS', agentId, status);
+            context.commit('SET_STATUS', { agentId, status });
         }
     },
 };
@@ -33,10 +33,16 @@ const mutations = {
         state.itemInstance = agent;
     },
     SET_STATUS: (state, { agentId, status }) => {
-        if (!agentId || !status) return;
-        if (state.itemInstance.id === agentId) state.itemInstance = status;
-        let foundIndex = state.dataList.findIndex(agent => agent.id == agentId);
-        state.dataList[foundIndex].status = status;
+        if (!agentId || !status) return;        
+        if (state.itemInstance.agentId == agentId) {
+            state.itemInstance.status = status;
+            state.itemInstance.statusDuration = '00:00:00';
+        }
+        let foundIndex = state.dataList.findIndex(agent => agent.agentId == agentId);
+        if (foundIndex !== -1) {
+            state.dataList[foundIndex].status = status;
+            state.dataList[foundIndex].statusDuration = '00:00:00';
+        }
     },
 };
 

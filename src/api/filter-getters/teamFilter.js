@@ -13,6 +13,8 @@ const teamService = new AgentTeamServiceApiFactory(configuration, '', instance);
 
 export const fetchTeams = async (search = '') => {
   const domainId = getDomainId();
+  // eslint-disable-next-line no-param-reassign
+  if (search && search.slice(-1) !== '*') search += '*';
   try {
     const response = await teamService.searchAgentTeam(
       PAGE,

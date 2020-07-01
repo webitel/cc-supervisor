@@ -6,6 +6,7 @@ export default {
     supervisor: 'Supervisor Workspace',
     audit: 'Audit',
     history: 'Call History',
+    grafana: 'Grafana',
   },
   auth: {
     register: 'Register',
@@ -73,6 +74,10 @@ export default {
     status: 'Status',
     utilization: 'Utilization progress',
     callNow: 'Call now',
+    direction: 'Direction',
+    agent: 'Agent',
+    user: 'User',
+    gateway: 'Gateway',
   },
   pages: {
     queue: {
@@ -95,7 +100,7 @@ export default {
     agent: {
       title: 'Agents',
       columns: {
-        name: 'Queue',
+        name: 'Name',
         status: 'Status',
         teams: 'Teams',
         queues: 'Queues',
@@ -109,6 +114,7 @@ export default {
           call: 'Call',
           talk: 'Talk',
           hold: 'Hold',
+          client: 'Client',
           number: 'PhoneNumber',
           rating: 'Rating',
         },
@@ -117,6 +123,18 @@ export default {
     activeCall: {
       title: 'Active calls',
       columns: {
+        start: 'Start',
+        direction: 'Direction',
+        duration: 'Duration',
+        from: 'From',
+        agent: 'Agent',
+        to: 'To',
+        destination: 'Destination',
+        extention: 'Extention',
+        queue: 'Queue',
+        result: 'Result',
+        user: 'User',
+        dtmf: 'DTMF',
       },
     },
   },

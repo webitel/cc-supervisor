@@ -16,7 +16,7 @@
 import ccheader from '../cc-header/cc-header.vue';
 import theNavbar from '../the-navbar.vue';
 import notification from '../utils/notification.vue';
-import callWindow from '../utils/call-window.vue';
+import callWindow from '../call-window.vue';
 
 export default {
   name: 'module-wrap',

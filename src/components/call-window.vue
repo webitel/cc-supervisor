@@ -13,14 +13,14 @@
                 <use xlink:href="#icon-agent_md"></use>
                 </svg>
             </icon>
-            <button v-if="isAttachedToCall" class="icon-btn btn-height" @click.prevent="leaveCall()">
+            <button v-if="call && call.active" class="icon-btn btn-height" @click.prevent="leaveCall()">
                 <icon>
                     <svg class="icon icon-call_disconnect_md lg disconnect-btn">
                     <use xlink:href="#icon-call_disconnect_md"></use>
                     </svg>
                 </icon>
             </button>
-            <button v-else class="icon-btn btn-height" @click.prevent="attachToCall()">
+            <button v-else class="icon-btn btn-height" @click.prevent="makeCall()">
                 <icon>
                     <svg class="icon icon-call_processing_md lg call-btn">
                     <use xlink:href="#icon-call_processing_md"></use>
@@ -28,6 +28,10 @@
                 </icon>
             </button>
         </div>
+        <!-- <iframe
+            v-if="animationUrl"
+            :src="animationUrl"
+        ></iframe> -->
         <div class="call-window__agent-name-container">
             <span v-if="agent" class="call-window__agent-name">{{agent.name}}</span>
         </div>
@@ -45,28 +49,28 @@
                     </svg>
                 </icon>
             </button>
-            <button v-if="isMuted" class="icon-btn call-window__action-item" @click.prevent="unmuteMicro()">
+            <button v-if="call && call.muted" class="icon-btn call-window__action-item" @click.prevent="toggleMute()">
                 <icon>
                     <svg class="icon icon-mic_off_md md call-window-rec-btn--off">
                     <use xlink:href="#icon-mic_off_md"></use>
                     </svg>
                 </icon>
             </button>
-            <button v-else class="icon-btn call-window__action-item" @click.prevent="muteMicro()">
+            <button v-else class="icon-btn call-window__action-item" @click.prevent="toggleMute()">
                 <icon>
                     <svg class="icon icon-mic_on_md md call-window-rec-btn">
                     <use xlink:href="#icon-mic_on_md"></use>
                     </svg>
                 </icon>
             </button>
-             <button v-if="isHold" class="icon-btn call-window__action-item" @click.prevent="unholdCall()">
+             <button v-if="call && call.isHold" class="icon-btn call-window__action-item" @click.prevent="toggleHold()">
                 <icon>
                     <svg class="icon icon-play_md md call-window-btn--off">
                     <use xlink:href="#icon-play_md"></use>
                     </svg>
                 </icon>
             </button>
-            <button v-else class="icon-btn call-window__action-item" @click.prevent="holdCall()">
+            <button v-else class="icon-btn call-window__action-item" @click.prevent="toggleHold()">
                 <icon>
                     <svg class="icon icon-pause_md md call-window-btn">
                     <use xlink:href="#icon-pause_md"></use>
@@ -79,37 +83,68 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+// import { CallActions } from 'webitel-sdk';
+import getTimeFromDuration from '@/utils/getTimeFromDuration';
+
 export default {
-    name: "call-window",
+    name: 'call-window',
     data() {
         return {
         };
     },
+    mounted() {
+        this.subscribeCalls();
+    },
     computed: {
         ...mapState('call', {
             isOpened: (state) => state.isOpened,
-            isMuted: (state) => state.isMuted,
-            isHold: (state) => state.isHold,
-            isAttachedToCall: (state) => state.isAttachedToCall,
+            // isMuted: (state) => state.isMuted,
+            // isHold: (state) => state.isHold,
+            // isAttachedToCall: (state) => state.isAttachedToCall,
             agent: (state) => state.agent,
             clientName: (state) => state.clientName,
-            time: (state) => state.time,
+            time: (state) => getTimeFromDuration(state.time),
+            call: (state) => state.call,
         }),
     },
     methods: {
         ...mapActions('call', {
+            subscribeCalls: 'SUBSCRIBE_CALLS',
             openWindow: 'OPEN_WINDOW',
             closeWindow: 'CLOSE_WINDOW',
-            attachToCall: 'ATTACH_TO_CALL',
+
+            makeCall: 'CALL',
             leaveCall: 'LEAVE_CALL',
-            muteMicro: 'MUTE_MICRO',
-            unmuteMicro: 'UNMUTE_MICRO',
-            holdCall: 'HOLD_CALL',
-            unholdCall: 'UNHOLD_CALL',
+
+            toggleMute: 'TOGGLE_MUTE',
+            toggleHold: 'TOGGLE_HOLD',
+
         }),
-    }
-    
-}
+        async initWorkspace() {
+            await this.subscribeCalls();
+        },
+        animationUrl() {
+            const baseUrl = process.env.BASE_URL; // to resolve iframe equalizer path after build
+            const animation = 'ringing';
+            // switch (this.call.state) {
+            // case CallActions.Ringing:
+            //     animation = 'ringing';
+            //     break;
+            // case CallActions.Hold:
+            //     animation = 'hold';
+            //     break;
+            // case CallActions.Active:
+            //     animation = 'active';
+            //     break;
+            // default:
+            //     break;
+            // }
+            return animation
+            ? `${baseUrl}animations/call-sonars/${animation}/${animation}.html`
+            : false;
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>

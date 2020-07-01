@@ -50,7 +50,7 @@ export const getAgentCallsList = async ({
             undefined, // stored_at_to
             undefined, // options
             );
-        return { items: res.items ? parseAgentCallsList(res.items) : [], next: res.next };
+        return { items: res.items ? parseAgentCallsList(res.items) : [], next: !!res.next };
     } catch (err) {
         throw err;
     }

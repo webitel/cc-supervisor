@@ -366,6 +366,11 @@
     height: 24px;
   }
 
+  .grid {
+    width: 20px;
+    height: 20px;
+  }
+
   .sm {
     width: 16px;
     height: 16px;

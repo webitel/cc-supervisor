@@ -13,6 +13,8 @@ const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
 export const fetchAgents = async (search = '') => {
   const domainId = getDomainId();
+  // eslint-disable-next-line no-param-reassign
+  if (search && search.slice(-1) !== '*') search += '*';
   try {
     const response = await agentService.searchAgent(
       PAGE,
