@@ -13,6 +13,8 @@ const queueService = new QueueServiceApiFactory(configuration, '', instance);
 
 export const fetchQueues = async (search = '') => {
   const domainId = getDomainId();
+  // eslint-disable-next-line no-param-reassign
+  if (search && search.slice(-1) !== '*') search += '*';
   try {
     const response = await queueService.searchQueue(
       PAGE,

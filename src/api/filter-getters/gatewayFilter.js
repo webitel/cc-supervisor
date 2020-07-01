@@ -1,4 +1,3 @@
-
 import instance from '../instance';
 import {
   PAGE,
@@ -13,7 +12,6 @@ const URL = process.env.NODE_ENV === 'production'
 
 const fetchGateways = async () => {
   const url = `${URL}?size=${SIZE}&page=${PAGE}`;
-
   try {
       const response = await instance.get(url);
       return formatOptions(response);
