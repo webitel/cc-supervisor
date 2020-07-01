@@ -12,7 +12,7 @@ export const activeCallFields = [
 const parseActiveCallsList = (items) => items.map((item) => ({
     ...item,
     duration: getTimeFromDuration(+item.duration),
-    createdAt: new Date(1593591031843).toLocaleTimeString().substr(0, 8),
+    createdAt: new Date(+item.createdAt).toLocaleTimeString().substr(0, 8),
 }));
 
 export const getActiveCallList = async ({
