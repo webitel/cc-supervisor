@@ -163,7 +163,7 @@ export default {
         }),
 
         callAgent() {
-            this.setCallInfo({ time: '00:00:17', agent: this.itemInstance });
+            this.setCallInfo({ time: 0, agent: this.itemInstance });
             this.openWindow();
         },
 
