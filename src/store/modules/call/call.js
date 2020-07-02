@@ -9,9 +9,9 @@ const callHandler = (context) => (action, call) => {
         if (!!context.state.call) return;
         context.commit('SET_CALL', call);
         context.commit('SET_TIME', 0);
+        context.commit('SET_AGENT', { name: call.displayName })
         if (call.direction === CallDirection.Inbound) {
             context.commit('SET_IS_OPENED', true);
-            context.commit('SET_AGENT', { name: call.displayName })
         }
         break;
       case CallActions.Active:
@@ -140,7 +140,20 @@ const actions = {
         context.commit('SET_CLIENT', clientName || '');
     },
 
-    
+    ATTACH_TO_CALL: async (context, { id }) => {
+        const client = await getCliInstance();
+        try {
+            await client.eavesdrop({
+                id: id, 
+                control: true,
+                listenA: true, 
+                listenB: true,
+            })
+        } catch (err) {
+            console.error(err);
+        }
+        // context.commit('SET_IS_ATTACHED', true);
+    },
 };
 
 const mutations = {
