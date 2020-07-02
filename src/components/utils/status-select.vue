@@ -12,6 +12,7 @@
         :limitText="limitText"
         :loading="false"
         :internal-search="true"
+        :searchable="false"
         @input="input"
         @open="isOpened = true"
         @close="close"        

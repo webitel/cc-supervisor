@@ -14,13 +14,14 @@
         :limitText="limitText"
         :loading="false"
         :internal-search="true"
+        :custom-label="displayLabel"
         @open="isOpened = true"
         @input="input" 
         @close="close"        
       >
         <template slot="option" slot-scope="{ option }">
           <div class="multiselect__option__content">
-            <span>{{option.name || option }}</span>
+            <span>{{capitalizeWords(option.name || option)}}</span>
             <icon class="multiselect__option__tick">
               <svg class="icon icon-tick_sm sm">
                 <use xlink:href="#icon-tick_sm"></use>
@@ -41,6 +42,7 @@
 <script>
   import VueMultiselect from 'vue-multiselect';
   import debounce from '../../utils/debounce';
+  import capitalizeWords from '@/utils/capitalizeWords';
 
   export default {
     name: 'multiselect-row',
@@ -124,6 +126,14 @@
 
     methods: {
       limitText: (count) => `${count}`,
+
+      displayLabel(option) {
+        let tmpOption = capitalizeWords(option.name || option)
+        if (tmpOption.length > 15) tmpOption = `${tmpOption.substr(0, 15)}...`
+        return tmpOption;
+      },
+
+      capitalizeWords: (str) => capitalizeWords(str),
 
       input(value) {
         if (!this.readonly && value) {

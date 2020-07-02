@@ -8,29 +8,29 @@
             </icon>
         </button>
         <div class="call-window__agent-container">
-            <icon class="call-window__agent-img">
+            <button v-show="!call" class="icon-btn btn-call" @click.prevent="makeCall()">
+                <icon>
+                    <svg class="icon icon-call_processing_md lg call-btn">
+                    <use xlink:href="#icon-call_processing_md"></use>
+                    </svg>
+                </icon>
+            </button>
+            <button v-show="call && call.allowAnswer && call.direction == 'inbound'" class="icon-btn btn-call" @click.prevent="answerCall()">
+                <icon>
+                    <svg class="icon icon-call_processing_md lg call-btn">
+                    <use xlink:href="#icon-call_processing_md"></use>
+                    </svg>
+                </icon>
+            </button>
+            <icon class="call-window__agent-img" :class="{'call-window__agent-img__call': call && call.active && call.direction != 'inbound'}">
                 <svg class="icon icon-agent_md xl white-color">
                 <use xlink:href="#icon-agent_md"></use>
                 </svg>
             </icon>
-            <button v-if="call && call.active" class="icon-btn btn-height" @click.prevent="leaveCall()">
+            <button v-show="call && call.active" class="icon-btn call-window__agent-btn-leave" @click.prevent="leaveCall()">
                 <icon>
                     <svg class="icon icon-call_disconnect_md lg disconnect-btn">
                     <use xlink:href="#icon-call_disconnect_md"></use>
-                    </svg>
-                </icon>
-            </button>
-            <button v-else-if="call && call.direction === inbound" class="icon-btn btn-height" @click.prevent="answerCall()">
-                <icon>
-                    <svg class="icon icon-call_processing_md lg call-btn">
-                    <use xlink:href="#icon-call_processing_md"></use>
-                    </svg>
-                </icon>
-            </button>
-            <button v-else class="icon-btn btn-height" @click.prevent="makeCall()">
-                <icon>
-                    <svg class="icon icon-call_processing_md lg call-btn">
-                    <use xlink:href="#icon-call_processing_md"></use>
                     </svg>
                 </icon>
             </button>
@@ -101,10 +101,7 @@ export default {
         };
     },
     mounted() {
-        const self = this;
-        setTimeout(() => {
-            self.subscribeCalls();
-        }, 10000);
+        this.subscribeCalls();
     },
     computed: {
         ...mapState('call', {
@@ -174,12 +171,23 @@ $modal-background-color: #171A2A;
 }
 
 .call-window__agent-container {
+    padding: 0px 40px;
+    align-items: center;
     margin-top: 30px;
     display: flex;
 }
 
+.call-window__agent-btn-leave {
+    margin-right: -20px;
+}
+
 .call-window__agent-img {
-    margin-left: 90px;
+    margin: 0px 20px;
+    margin-left: 50px;
+
+    &__call {
+        margin-left: 50px;
+    }
 }
 
 .call-window__agent-name-container {
@@ -244,8 +252,8 @@ $modal-background-color: #171A2A;
     fill: $white-color;
 }
 
-.btn-height {
-    max-height: 24px;
+.btn-call {
+    position: absolute;
 }
 
 // .disconnect-btn {
