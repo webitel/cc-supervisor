@@ -20,6 +20,13 @@
                     </svg>
                 </icon>
             </button>
+            <button v-else-if="call && call.direction === inbound" class="icon-btn btn-height" @click.prevent="answerCall()">
+                <icon>
+                    <svg class="icon icon-call_processing_md lg call-btn">
+                    <use xlink:href="#icon-call_processing_md"></use>
+                    </svg>
+                </icon>
+            </button>
             <button v-else class="icon-btn btn-height" @click.prevent="makeCall()">
                 <icon>
                     <svg class="icon icon-call_processing_md lg call-btn">
@@ -83,17 +90,21 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-// import { CallActions } from 'webitel-sdk';
+import { CallDirection } from 'webitel-sdk';
 import getTimeFromDuration from '@/utils/getTimeFromDuration';
 
 export default {
     name: 'call-window',
     data() {
         return {
+            inbound: CallDirection.Inbound,
         };
     },
     mounted() {
-        this.subscribeCalls();
+        const self = this;
+        setTimeout(() => {
+            self.subscribeCalls();
+        }, 10000);
     },
     computed: {
         ...mapState('call', {
@@ -113,6 +124,7 @@ export default {
             openWindow: 'OPEN_WINDOW',
             closeWindow: 'CLOSE_WINDOW',
 
+            answerCall: 'ANSWER',
             makeCall: 'CALL',
             leaveCall: 'LEAVE_CALL',
 

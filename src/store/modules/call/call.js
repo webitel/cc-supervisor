@@ -6,26 +6,37 @@ import { getCliInstance } from '@/api/call-ws-connection';
 const callHandler = (context) => (action, call) => {
     switch (action) {
       case CallActions.Ringing:
-        context.dispatch('SET_CALL', call);
+        context.commit('SET_CALL', call);
+        context.commit('SET_TIME', 0);
+        if (call.direction === CallDirection.Inbound) {
+            context.commit('SET_IS_OPENED', true);
+            context.commit('SET_AGENT', { name: call.displayName() })
+        }
         break;
       case CallActions.Active:
-        context.dispatch('SET_TIME', 0);
+        context.commit('START_TIMER');
+        break;
+      case CallActions.Hold:
+        context.commit('STOP_TIMER');
         break;
       case CallActions.Hangup:
-        context.dispatch('SET_CALL', null);
+        context.commit('STOP_TIMER');
+        context.commit('SET_CALL', null);
+        context.commit('SET_TIME', 0);
         break;
-      case CallActions.Destroy:
-        context.dispatch('SET_CALL', null);
-        break;
+    //   case CallActions.Destroy:
+    //     context.commit('SET_CALL', null);
+    //     break;
       default:
     }
   };
 
 const defaultState = () => ({
+    timer: null,
     call: null,
     agent: {},
     clientName: '',
-    time: '',
+    time: 0,
     isOpened: false,
     isRecording: false,
     isHold: false,
@@ -59,7 +70,7 @@ const actions = {
         if (!agent) return;
         let destination = agent.extension;
         // eslint-disable-next-line no-useless-escape
-        destination = '00' // destination.replace(/[^0-9a-zA-z\+\*#]/g, '');
+        destination.replace(/[^0-9a-zA-z\+\*#]/g, '');
         const client = await getCliInstance();
         try {
             await client.call({ destination });
@@ -67,19 +78,17 @@ const actions = {
         }
         // context.commit('SET_IS_ATTACHED', true);
     },
-    // ANSWER: async (context, { index }) => {
-    //     const call = Number.isInteger(index)
-    //       ? context.state.callList[index]
-    //       : context.state.callOnWorkspace;
-    //     if (call.allowAnswer) {
-    //       const params = { ...answerParams, video: context.state.isVideo };
-    //       try {
-    //         await call.answer(params);
-    //         context.dispatch('SET_CALL', call);
-    //       } catch {
-    //       }
-    //     }
-    //   },
+    ANSWER: async (context) => {
+        const call = context.state.call;
+        if (call) {
+          const params = { useAudio: true };
+          try {
+            await call.answer(params);
+            context.dispatch('SET_CALL', call);
+          } catch {
+          }
+        }
+      },
     LEAVE_CALL: async (context) => {
         const call = context.state.call;
         if (call && call.allowHangup) {
@@ -113,11 +122,12 @@ const actions = {
     // FETCH_ACTIVE: async (context) => {
     //     context.commit('SET_IS_ACTIVE', true);
     // },
-    SET_CALL_INFO: async (context, { time, agent, clientName }) => {
+    SET_CALL_INFO: async (context, { agent, clientName }) => {
         context.commit('SET_AGENT', agent);
-        context.commit('SET_TIME', time);
         context.commit('SET_CLIENT', clientName || '');
     },
+
+    
 };
 
 const mutations = {
@@ -157,6 +167,17 @@ const mutations = {
 
     SET_CALL: (state, call) => {
         state.call = call;
+    },
+
+    START_TIMER: (state) => {
+        state.timer = setInterval(()=>{
+            state.time++;
+        }, 1000);
+    },
+
+    STOP_TIMER: (state) => {
+        clearInterval(state.timer);
+        state.timer = null;
     },
 };
 
