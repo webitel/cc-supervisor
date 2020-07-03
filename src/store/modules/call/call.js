@@ -6,26 +6,48 @@ import { getCliInstance } from '@/api/call-ws-connection';
 const callHandler = (context) => (action, call) => {
     switch (action) {
       case CallActions.Ringing:
-        context.dispatch('SET_CALL', call);
+        if (!!context.state.call) return;
+        context.commit('SET_CALL', call);
+        context.commit('SET_TIME', 0);
+        context.commit('SET_AGENT', { name: call.displayName });
+        context.commit('SET_IS_OPENED', true);
+        // if (call.direction === CallDirection.Inbound) {
+            
+        // }
         break;
       case CallActions.Active:
-        context.dispatch('SET_TIME', 0);
+        context.commit('START_TIMER');
+        break;
+      case CallActions.Bridge:
+        context.commit('STOP_TIMER');
+        context.commit('SET_CALL', call);
+        context.commit('SET_TIME', 0);
+        context.commit('SET_AGENT', { name: call.displayName })
+        context.commit('START_TIMER');
+        break;
+      case CallActions.Hold:
+        context.commit('STOP_TIMER');
         break;
       case CallActions.Hangup:
-        context.dispatch('SET_CALL', null);
+        context.commit('STOP_TIMER');
+        context.commit('SET_CALL', null);
+        context.commit('SET_TIME', 0);
+        context.commit('SET_IS_OPENED', false);
         break;
       case CallActions.Destroy:
-        context.dispatch('SET_CALL', null);
+        context.commit('SET_CALL', null);
+        context.commit('SET_IS_OPENED', false);
         break;
       default:
     }
   };
 
 const defaultState = () => ({
+    timer: null,
     call: null,
     agent: {},
     clientName: '',
-    time: '',
+    time: 0,
     isOpened: false,
     isRecording: false,
     isHold: false,
@@ -51,6 +73,8 @@ const actions = {
         context.commit('SET_IS_OPENED', true);
     },
     CLOSE_WINDOW: async (context) => {
+        context.dispatch('LEAVE_CALL');
+        context.commit('STOP_TIMER');
         context.commit('SET_IS_OPENED', false);
         context.commit('CLEAR_STATE', false);
     },
@@ -59,35 +83,36 @@ const actions = {
         if (!agent) return;
         let destination = agent.extension;
         // eslint-disable-next-line no-useless-escape
-        destination = '00' // destination.replace(/[^0-9a-zA-z\+\*#]/g, '');
+        destination.replace(/[^0-9a-zA-z\+\*#]/g, '');
         const client = await getCliInstance();
         try {
             await client.call({ destination });
-        } catch {
+        } catch (err) {
+            console.error(err);
         }
         // context.commit('SET_IS_ATTACHED', true);
     },
-    // ANSWER: async (context, { index }) => {
-    //     const call = Number.isInteger(index)
-    //       ? context.state.callList[index]
-    //       : context.state.callOnWorkspace;
-    //     if (call.allowAnswer) {
-    //       const params = { ...answerParams, video: context.state.isVideo };
-    //       try {
-    //         await call.answer(params);
-    //         context.dispatch('SET_CALL', call);
-    //       } catch {
-    //       }
-    //     }
-    //   },
+    ANSWER: async (context) => {
+        const call = context.state.call;
+        if (call) {
+          const params = { useAudio: true };
+          try {
+            await call.answer(params);
+            context.commit('SET_CALL', call);
+          } catch (err) {
+            console.error(err);
+         }
+        }
+      },
     LEAVE_CALL: async (context) => {
         const call = context.state.call;
         if (call && call.allowHangup) {
             try {
               await call.hangup();
                 // context.commit('SET_IS_ATTACHED', false);
-            } catch {
-            }
+            } catch (err) {
+                console.error(err);
+             }
         }
     },
     TOGGLE_MUTE: async (context) => {
@@ -105,18 +130,30 @@ const actions = {
             || (call.isHold && call.allowUnHold)) {
             try {
                 await call.toggleHold();
-            } catch {
-            }
+            } catch (err) {
+                console.error(err);
+             }
             // context.commit('SET_IS_HOLD', !isHold);
         }
     },
-    // FETCH_ACTIVE: async (context) => {
-    //     context.commit('SET_IS_ACTIVE', true);
-    // },
-    SET_CALL_INFO: async (context, { time, agent, clientName }) => {
+    SET_CALL_INFO: async (context, { agent, clientName }) => {
         context.commit('SET_AGENT', agent);
-        context.commit('SET_TIME', time);
         context.commit('SET_CLIENT', clientName || '');
+    },
+
+    ATTACH_TO_CALL: async (context, { id }) => {
+        const client = await getCliInstance();
+        try {
+            await client.eavesdrop({
+                id: id, 
+                control: true,
+                listenA: true, 
+                listenB: true,
+            })
+        } catch (err) {
+            console.error(err);
+        }
+        // context.commit('SET_IS_ATTACHED', true);
     },
 };
 
@@ -124,24 +161,6 @@ const mutations = {
     SET_IS_OPENED: (state, isOpened) => {
         state.isOpened = isOpened;
     },
-    // SET_IS_RECORDING: (state, isRecording) => {
-    //     state.isRecording = isRecording;
-    // },
-    // SET_IS_HOLD: (state, isHold) => {
-    //     state.isHold = isHold;
-    // },
-    // SET_IS_ACTIVE: (state, isActive) => {
-    //     state.isActive = isActive;
-    // },
-    // SET_IS_CONNECTION: (state, isConnection) => {
-    //     state.isConnection = isConnection;
-    // },
-    // SET_IS_MUTED: (state, isMuted) => {
-    //     state.isMuted = isMuted;
-    // },
-    // SET_IS_ATTACHED: (state, isAttachedToCall) => {
-    //     state.isAttachedToCall = isAttachedToCall;
-    // },
     SET_AGENT: (state, agent) => {
         state.agent = agent;
     },
@@ -157,6 +176,17 @@ const mutations = {
 
     SET_CALL: (state, call) => {
         state.call = call;
+    },
+
+    START_TIMER: (state) => {
+        state.timer = setInterval(()=>{
+            state.time++;
+        }, 1000);
+    },
+
+    STOP_TIMER: (state) => {
+        clearInterval(state.timer);
+        state.timer = null;
     },
 };
 

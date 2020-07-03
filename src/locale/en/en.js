@@ -80,6 +80,16 @@ export default {
     user: 'User',
     gateway: 'Gateway',
   },
+  options: {
+    online: 'Online',
+    offline: 'Offline',
+    pause: 'Pause',
+    inbound: 'Inbound',
+    outbound: 'Outbound',
+    today: 'Today',
+    hour: 'hour',
+    min: 'min',
+  },
   pages: {
     queue: {
       title: 'Queues',

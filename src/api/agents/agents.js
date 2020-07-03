@@ -33,6 +33,8 @@ export const getAgentsList = async ({
             end, // time_to
             undefined, // agent_id[]
             status, // status[]
+            undefined, // utilization_from
+            undefined, // utilization_to
             sort,
             undefined, // domain_id
             undefined,

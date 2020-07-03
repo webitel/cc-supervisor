@@ -4,7 +4,9 @@
 // outer wrap of module- page
 .object-wrap {
   display: flex;
-  width: 100vw;
+  width: 100%;
+  max-width: 100%;
+  min-width: 100%;
   //overflow-x: hidden;
 }
 
@@ -24,9 +26,9 @@
 }
 
 .object-content-wrap {
-  //width: 100%;
-  //max-width: 100%;
-  //min-width: 100%;
+  width: 100%;
+  max-width: 100%;
+  min-width: 100%;
 }
 
 // inner content section

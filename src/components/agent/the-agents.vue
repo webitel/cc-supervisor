@@ -68,11 +68,13 @@
                  <template slot="callTime" slot-scope="{ item }">
                      <div class="call" v-if="item.callTime">
                         <span>{{item.callTime}}</span>
-                        <icon>
-                            <svg class="icon icon-speaker_off_md grid">
-                                <use xlink:href="#icon-speaker_off_md"></use>
-                            </svg>
-                        </icon>
+                        <button v-if="item.activeCallId" class="icon-btn" @click.prevent="attachCall(item.activeCallId)">
+                            <icon>
+                                <svg class="icon icon-speaker_off_md grid">
+                                    <use xlink:href="#icon-speaker_off_md"></use>
+                                </svg>
+                            </icon>
+                         </button>
                      </div>
                 </template>
 
@@ -219,6 +221,10 @@ export default {
         ...mapActions('agents', {
             loadDataList: 'FETCH_LIST',
         }),
+        ...mapActions('call', {
+            attachToCall: 'ATTACH_TO_CALL',
+            openWindow: 'OPEN_WINDOW',
+        }),
         async loadList() {
             this.isLoading = true;
             const params = this.getQueryParams();
@@ -253,6 +259,10 @@ export default {
                 name: 'agent-view',
                 params: { id },
             });
+        },
+        async attachCall(id) {
+           await this.attachToCall({ id });
+           this.openWindow();
         },
     },
 };

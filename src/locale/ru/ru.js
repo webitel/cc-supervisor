@@ -65,7 +65,7 @@ export default {
   },
   table: {
     showColumnsTitle: 'Выбрать столбики для отображения:',
-    rowsPerPage: 'Количество элементов на странице:',
+    rowsPerPage: 'Количество записей:',
   },
   filters: {
     time: 'Время',
