@@ -9,10 +9,11 @@ const callHandler = (context) => (action, call) => {
         if (!!context.state.call) return;
         context.commit('SET_CALL', call);
         context.commit('SET_TIME', 0);
-        context.commit('SET_AGENT', { name: call.displayName })
-        if (call.direction === CallDirection.Inbound) {
-            context.commit('SET_IS_OPENED', true);
-        }
+        context.commit('SET_AGENT', { name: call.displayName });
+        context.commit('SET_IS_OPENED', true);
+        // if (call.direction === CallDirection.Inbound) {
+            
+        // }
         break;
       case CallActions.Active:
         context.commit('START_TIMER');

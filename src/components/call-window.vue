@@ -15,14 +15,15 @@
                     </svg>
                 </icon>
             </button>
-            <button v-show="call && call.allowAnswer && call.direction == 'inbound'" class="icon-btn btn-call" @click.prevent="answerCall()">
+            <!--  && call.allowAnswer && call.direction == 'inbound' -->
+            <button v-show="call && call.allowAnswer" class="icon-btn btn-call" @click.prevent="answerCall()">
                 <icon>
                     <svg class="icon icon-call_processing_md lg call-btn">
                     <use xlink:href="#icon-call_processing_md"></use>
                     </svg>
                 </icon>
             </button>
-            <icon class="call-window__agent-img" :class="{'call-window__agent-img__call': call && call.active && call.direction != 'inbound'}">
+            <icon class="call-window__agent-img" >
                 <svg class="icon icon-agent_md xl white-color">
                 <use xlink:href="#icon-agent_md"></use>
                 </svg>
