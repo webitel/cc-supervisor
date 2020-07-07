@@ -4,7 +4,7 @@ import configuration from '../openAPIConfig';
 import instance from '../instance';
 
 const callService = new CallServiceApiFactory(configuration, '', instance);
-export const agentCallFields = ['id', 'from', 'direction', 'bill_sec', 'hold_sec', 'answered_at', 'created_at'];
+export const agentCallFields = ['id', 'from', 'to', 'direction', 'bill_sec', 'hold_sec', 'answered_at', 'created_at', 'destination'];
 
 const parseAgentCallsList = (items) => items.map((item) => ({
     ...item,

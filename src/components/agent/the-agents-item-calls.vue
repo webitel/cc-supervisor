@@ -21,6 +21,7 @@
                 <div v-if="item.from" class="links">{{item.from.name}}</div>
             </template>
             <template slot="phoneNumber" slot-scope="{ item }" >
+                <!-- <div v-if="item.direction==='outbound'">{{item.destination}}</div> -->
                 <div v-if="item.from">{{item.from.number}}</div>
             </template>
             <template slot="notes" slot-scope="{ item }" >
