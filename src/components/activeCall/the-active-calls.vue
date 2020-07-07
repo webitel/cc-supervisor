@@ -5,7 +5,7 @@
                 {{$t('pages.activeCall.title')}}
             </template>
             <template v-slot:actions>
-                <filter-search/>
+                <!-- <filter-search/> -->
                 <btn
                     class="primary action-button"
                     :loading="isCSVLoading"
@@ -89,7 +89,7 @@ import FilterAgent from '../filters/filter-agent.vue';
 import FilterQueue from '../filters/filter-queue.vue';
 import FilterFields from '../filters/filter-table-fields.vue';
 import FilterPagination from '../filters/filter-pagination.vue';
-import FilterSearch from '../filters/filter-search.vue';
+// import FilterSearch from '../filters/filter-search.vue';
 import Btn from '../utils/btn.vue';
 import GridTable from '../utils/grid-table.vue';
 import activeCallHeaders from './activeCallHeaders';
@@ -98,7 +98,7 @@ import theObjectHeader from '../object-utils/the-object-header.vue';
 export default {
     name: 'the-active-calls',
     components: {
-        FilterSearch,
+        // FilterSearch,
         loader,
         GridTable,
         FilterAgent,

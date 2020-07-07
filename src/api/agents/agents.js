@@ -31,6 +31,7 @@ export const getAgentsList = async ({
             size,
             start, // time_from
             end, // time_to
+            search,
             undefined, // agent_id[]
             status, // status[]
             queueIds,
@@ -59,6 +60,7 @@ export const getAgent = async (id) => {
             1,
             start, // time_from
             end, // time_to
+            undefined,
             [id], // agent_id[]
             undefined, // status[]
             undefined,
