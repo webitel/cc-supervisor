@@ -61,8 +61,10 @@
                     </icon>
                 </div>
             </template> -->
+            <template slot="pagination">
+                <filter-pagination :is-next="isNext"/>
+            </template>
         </grid-table>
-        <filter-pagination/>
     </section>
 </template>
 

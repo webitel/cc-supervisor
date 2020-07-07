@@ -78,7 +78,8 @@
           </div>
         </div>
       </section>
-    </div>    
+    </div>
+    <slot name="pagination"></slot>    
   </div>
 </template>
 
@@ -159,7 +160,7 @@
 
   .grid__tr__header {
     min-width: fit-content;
-    border-bottom: 2px solid $header-separator-color;
+    border-bottom: 1px solid $header-separator-color;
   }
 
   .grid-table {
@@ -169,7 +170,7 @@
     flex: 1 1 100%;
 
     @extend .cc-scrollbar;
-    overflow-x: auto;
+    // overflow-x: auto;
   }
 
   .grid {
@@ -248,6 +249,15 @@
     .grid__expansion {
       display: flex;
       padding: (30px) (74px);
+    }
+
+    &__th, &__td, &__td > div {
+      @extend .typo-body-md;
+      //min-width: $min-td-width;
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      overflow-wrap: break-word;
     }
   }
 

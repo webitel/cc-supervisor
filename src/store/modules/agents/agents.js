@@ -2,6 +2,7 @@ import { getAgentsList, getAgent, patchAgentStatus } from "../../../api/agents/a
 
 const state = {
     dataList: [],
+    isNext: false,
     itemInstance: {},
 };
 
@@ -11,6 +12,7 @@ const actions = {
     FETCH_LIST: async (context, params = {}) => {
         const { items, next } = await getAgentsList(params);
         context.commit('SET_LIST', items);
+        context.commit('SET_IS_NEXT', {isNext: next});
         return next
     },
     FETCH_ITEM: async (context, id) => {
@@ -28,6 +30,9 @@ const actions = {
 const mutations = {
     SET_LIST: (state, agents) => {
         state.dataList = agents;
+    },
+    SET_IS_NEXT: (state, { isNext }) => {
+        state.isNext = isNext;
     },
     SET_ITEM: (state, agent) => {
         state.itemInstance = agent;

@@ -110,8 +110,11 @@
                         </the-agents-help-popup>
                     </div>
                 </template>
+
+                <template slot="pagination">
+                    <filter-pagination :is-next="isNext"/>
+                </template>
             </grid-table>
-            <filter-pagination/>
         </section>
     </div>
 </template>
@@ -173,7 +176,7 @@ export default {
             callNow: false,
             attentionNow: false,
             headers: agentHeaders,
-            isNext: false,
+            // isNext: false,
             isLoading: false,
             autorefresh: null,
             // queues: [],
@@ -214,6 +217,7 @@ export default {
     computed: {
         ...mapState('agents', {
             data: (state) => state.dataList,
+            isNext: (state) => state.isNext,
         }),
         timer: () => +localStorage.getItem('autorefresh'),
     },
@@ -229,7 +233,7 @@ export default {
             this.isLoading = true;
             const params = this.getQueryParams();
             try {
-                this.isNext = await this.loadDataList(params);
+                await this.loadDataList(params);
             } catch {
             } finally {
                 this.isLoading = false;
@@ -239,7 +243,7 @@ export default {
         async loadListTick() {
             const params = this.getQueryParams();
             try {
-                this.isNext = await this.loadDataList(params);
+                await this.loadDataList(params);
             } catch {
             }
         },
