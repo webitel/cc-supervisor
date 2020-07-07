@@ -67,8 +67,10 @@
                 <template slot="user" slot-scope="{ item }" >
                     <div v-if="item.user">{{item.user.name}}</div>
                 </template>
+                <template slot="pagination">
+                    <filter-pagination :is-next="isNext"/>
+                </template>
             </grid-table>
-            <filter-pagination :is-next="isNext"/>
         </section>
     </div>
 </template>

@@ -19,7 +19,7 @@ const parseAgentList = (items) => items.map((item) => ({
 }));
 
 export const getAgentsList = async ({
-    page = 0, size = 20, search = '', status, sort = '+name',
+    page = 0, size = 10, search = '', status, sort = '+name', queueIds, teamIds, callNow,
 }) => {
     try {
         // eslint-disable-next-line no-param-reassign
@@ -33,13 +33,16 @@ export const getAgentsList = async ({
             end, // time_to
             undefined, // agent_id[]
             status, // status[]
+            queueIds,
+            teamIds,
             undefined, // utilization_from
             undefined, // utilization_to
+            callNow,
             sort,
             undefined, // domain_id
             undefined,
             );
-        return { items: res.items ? parseAgentList(res.items) : [], next: res.next };
+        return { items: res.items ? parseAgentList(res.items) : [], next: !!res.next };
     } catch (err) {
         throw err;
     }
@@ -58,6 +61,9 @@ export const getAgent = async (id) => {
             end, // time_to
             [id], // agent_id[]
             undefined, // status[]
+            undefined,
+            undefined,
+            undefined,
             undefined,
             undefined, // domain_id
             undefined,

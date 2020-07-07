@@ -144,7 +144,7 @@
     },
 
     methods: {
-      limitText: (count) => `${count}`,
+      limitText: (count) => `${count + 1}`,
 
       displayLabel(option) {
         let tmpOption = capitalizeWords(option.name || option)

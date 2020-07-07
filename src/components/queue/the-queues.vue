@@ -66,8 +66,11 @@
                 <template slot="queue" slot-scope="{ item }" >
                     <div v-if="item.queue">{{item.queue.name}}</div>
                 </template>
+
+                <template slot="pagination">
+                    <filter-pagination :is-next="isNext"/>
+                </template>
             </grid-table>
-            <filter-pagination/>
         </section>
     </div>
 </template>
