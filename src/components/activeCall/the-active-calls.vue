@@ -33,7 +33,8 @@
                 >
                 <template slot="actions-header">
                     <filter-fields
-                    v-model="headers"
+                    :entity="'active-calls'"
+                    :headers="headers"
                     />
                 </template>
                 <template slot="direction" slot-scope="{ item }" >

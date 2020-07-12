@@ -148,5 +148,7 @@ export default {
   callWindow: {
     client: 'Абонент',
     call: 'Звонок',
+    agent: 'Оператор',
+    duration: 'Длительность',
   },
 };

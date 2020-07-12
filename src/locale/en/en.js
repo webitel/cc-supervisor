@@ -158,5 +158,7 @@ export default {
   callWindow: {
     client: 'Client',
     call: 'Call',
+    agent: 'Agent',
+    duration: 'Duration',
   },
 };
