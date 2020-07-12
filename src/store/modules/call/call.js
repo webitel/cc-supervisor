@@ -89,16 +89,17 @@ const actions = {
         await client.subscribeCall(callHandler(context), null);
     },
     OPEN_WINDOW: async (context) => {
-        context.commit('SET_EAVESDROP_IS_OPENED', true);
+        context.commit('SET_IS_VISIBLE', true);
     },
     CLOSE_WINDOW: async (context) => {
         context.dispatch('LEAVE_CALL');
         context.commit('STOP_TIMER');
-        context.commit('SET_EAVESDROP_IS_OPENED', false);
+        context.commit('SET_IS_OPENED', false);
+        context.commit('SET_IS_VISIBLE', false);
         context.commit('CLEAR_STATE', false);
     },
     EAVESDROP_OPEN_WINDOW: async (context) => {
-        context.commit('SET_IS_VISIBLE', true);
+        context.commit('SET_EAVESDROP_IS_OPENED', true);
     },
     EAVESDROP_CLOSE_WINDOW: async (context) => {
         context.dispatch('LEAVE_CALL');
