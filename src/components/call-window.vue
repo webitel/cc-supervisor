@@ -35,14 +35,16 @@
                 </icon>
             </button>
         </div>
-        <!-- <iframe
-            v-if="animationUrl"
-            :src="animationUrl"
-        ></iframe> -->
         <div class="call-window__agent-name-container">
             <span v-if="agent" class="call-window__agent-name">{{$t('callWindow.agent')}}: {{agent.name}}</span>
         </div>
         <div v-show="isOpened">
+            <div class="call-animation">
+                <iframe
+                    v-if="animationUrl"
+                    :src="animationUrl"
+                ></iframe>
+            </div>
             <!-- <div class="call-window__client-name-container">
                 <span v-if="clientName" class="call-window__client-name">{{$t('callWindow.client')}}: {{clientName}}</span>
             </div> -->
@@ -92,11 +94,15 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import { CallDirection } from 'webitel-sdk';
+import { CallDirection, CallActions } from 'webitel-sdk';
 import getTimeFromDuration from '@/utils/getTimeFromDuration';
+import ringingSoundMixin from '@/mixins/ringingSoundMixin';
 
 export default {
     name: 'call-window',
+    mixins: [
+        ringingSoundMixin,
+    ],
     data() {
         return {
             inbound: CallDirection.Inbound,
@@ -109,14 +115,31 @@ export default {
         ...mapState('call', {
             isOpened: (state) => state.isOpened,
             isVisible: (state) => state.isVisible,
-            // isMuted: (state) => state.isMuted,
-            // isHold: (state) => state.isHold,
-            // isAttachedToCall: (state) => state.isAttachedToCall,
             agent: (state) => state.agent,
             clientName: (state) => state.clientName,
             time: (state) => getTimeFromDuration(state.time),
             call: (state) => state.call,
         }),
+        animationUrl() {
+            const baseUrl = process.env.BASE_URL; // to resolve iframe equalizer path after build
+            let animation = '';
+            switch (this.call && this.call.state) {
+            // case CallActions.Ringing:
+            //     animation = 'ringing';
+            //     break;
+            case CallActions.Hold:
+                animation = 'hold';
+                break;
+            case CallActions.Active:
+                animation = 'active';
+                break;
+            default:
+                break;
+            }
+            return animation
+            ? `${baseUrl}animations/call-sonars/${animation}/${animation}.html`
+            : false;
+        },
     },
     methods: {
         ...mapActions('call', {
@@ -135,32 +158,22 @@ export default {
         async initWorkspace() {
             await this.subscribeCalls();
         },
-        animationUrl() {
-            const baseUrl = process.env.BASE_URL; // to resolve iframe equalizer path after build
-            const animation = 'ringing';
-            // switch (this.call.state) {
-            // case CallActions.Ringing:
-            //     animation = 'ringing';
-            //     break;
-            // case CallActions.Hold:
-            //     animation = 'hold';
-            //     break;
-            // case CallActions.Active:
-            //     animation = 'active';
-            //     break;
-            // default:
-            //     break;
-            // }
-            return animation
-            ? `${baseUrl}animations/call-sonars/${animation}/${animation}.html`
-            : false;
-        },
     },
 };
 </script>
 
 <style lang="scss" scoped>
 $modal-background-color: #171A2A;
+
+.call-animation {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 10px;
+    margin-top: 38px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+}
 
 .call-window {
     width: 230px;
@@ -219,8 +232,8 @@ $modal-background-color: #171A2A;
 .call-window__time-container {
     text-align: center;
     width: 100%;
-    position: absolute;
-    bottom: 94px;
+    // position: absolute;
+    // bottom: 94px;
 }
 
 .call-window__time {

@@ -154,27 +154,19 @@
   $active-bg-color: $list-option__hover;
   $header-color: $label-color;
   $second-row-bg-color: #F9F9F9;
-  $header-separator-color: #EAEAEA;
+  $header-border-color: #EAEAEA;
 
-  $min-td-width: (100px);
-
-  .grid__tr__header {
-    min-width: fit-content;
-    border-bottom: 1px solid $header-separator-color;
-  }
+  $min-td-width: (120px);
 
   .grid-table {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     flex: 1 1 100%;
-
-    @extend .cc-scrollbar;
-    // overflow-x: auto;
   }
 
   .grid {
-    overflow-y: visible;
+    overflow: auto;
 
     &__row-wrap {
       min-width: fit-content;
@@ -186,19 +178,24 @@
 
     &__tr {
       display: grid;
-      grid-template-columns: (24px) repeat(6, 1fr) (68px);
+      grid-template-columns: 24px repeat(6, 1fr) 68px;
       grid-column-gap: (20px);
-      padding: 17px 10px;
+      padding: (17px) (10px);
       transition: $transition;
-      //height: 54px;
 
       &.expanded .grid__td {
-        @extend .typo-body-md;
+        @extend .typo-heading-sm;
       }
+    }
 
-      &__body {
+    .grid__tr__header {
+      min-width: fit-content;
+      border-bottom: 1px solid $header-border-color;
+    }
+
+    .grid__body.grid-body__expanding {
+      .grid__tr {
         cursor: pointer;
-        align-items: center;
 
         &:hover {
           background: $hover-bg-color;
@@ -208,40 +205,40 @@
 
     &__th {
       color: $header-color;
-      text-decoration: underline;
       transition: $transition;
-      cursor: pointer;
 
-      &__sort {
-        /*color:;*/
-        &--asc {
-          color: #000;
+      &--sortable {
+        text-decoration: underline;
+        cursor: pointer;
+
+        &.grid__th__sort {
+          /*color:;*/
+          &--asc {
+            color: #000;
+          }
+
+          &--desc {
+            color: #000;
+          }
         }
 
-        &--desc {
+        &:hover {
           color: #000;
         }
-      }
-
-      &:hover {
-        color: #000;
       }
     }
 
-    &__th, &__td {
+    &__th, &__td, &__td > div {
       @extend .typo-body-md;
-      min-width: $min-td-width;
+      //min-width: $min-td-width;
+      /*position: relative;*/
       width: 100%;
       max-width: 100%;
-
-      &__word-wrap {
-        max-width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-      }
+      overflow-wrap: break-word;
 
       &__actions {
         display: flex;
+        align-items: flex-start;
         justify-content: flex-end;
       }
     }
@@ -249,15 +246,6 @@
     .grid__expansion {
       display: flex;
       padding: (30px) (74px);
-    }
-
-    &__th, &__td, &__td > div {
-      @extend .typo-body-md;
-      //min-width: $min-td-width;
-      position: relative;
-      width: 100%;
-      max-width: 100%;
-      overflow-wrap: break-word;
     }
   }
 

@@ -14,15 +14,18 @@
                 </svg>
             </icon>
         </div>
-        <!-- <iframe
-            v-if="animationUrl"
-            :src="animationUrl"
-        ></iframe> -->
         <div class="call-window__agent-name-container">
             <span v-if="agent" class="call-window__agent-name">{{$t('callWindow.agent')}}: {{agent.name}}</span>
         </div>
         <div class="call-window__client-name-container">
             <span v-if="clientName" class="call-window__client-name">{{$t('callWindow.client')}}: {{clientName}}</span>
+        </div>
+         <div class="call-window__speaker-icon-container">
+            <icon>
+                <svg class="icon icon-speaker_on_md md call-window__speaker-icon">
+                <use xlink:href="#icon-speaker_on_md"></use>
+                </svg>
+            </icon>
         </div>
         <div class="call-window__time-container">
             <span class="call-window__time">{{$t('callWindow.duration')}}: {{time}}</span>
@@ -51,15 +54,15 @@
             </button>
             <button class="icon-btn call-window__action-item" @click.prevent="prompter()">
                 <icon>
-                    <svg class="icon icon-mic_off_md md call-window-btn" :class="{'call-window-btn--off': lastDtmf == 2}">
-                    <use xlink:href="#icon-mic_off_md"></use>
+                    <svg class="icon icon-prompter_md md call-window-btn" :class="{'call-window-btn--off': lastDtmf == 2}">
+                    <use xlink:href="#icon-prompter_md"></use>
                     </svg>
                 </icon>
             </button>
             <button class="icon-btn call-window__action-item" @click.prevent="conference()">
                 <icon>
                     <svg class="icon icon-agents_md md call-window-btn" :class="{'call-window-btn--off': lastDtmf == 3}">
-                    <use xlink:href="#icon-mic_off_md"></use>
+                    <use xlink:href="#icon-agents_md"></use>
                     </svg>
                 </icon>
             </button>
@@ -159,6 +162,14 @@ $modal-background-color: #171A2A;
     &__call {
         margin-left: 50px;
     }
+}
+
+.call-window__speaker-icon-container {
+    margin-top: 20px;
+}
+
+.call-window__speaker-icon {
+    fill: $false-color;
 }
 
 .call-window__agent-name-container {
