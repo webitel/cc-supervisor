@@ -45,12 +45,13 @@ const callHandler = (context) => (action, call) => {
         context.commit('SET_TIME', 0);
         context.commit('SET_IS_VISIBLE', false);
         context.commit('SET_IS_OPENED', false);
+        context.commit('SET_EAVESDROP_IS_OPENED', false);
         break;
-      case CallActions.Destroy:
-        context.commit('SET_CALL', null);
-        context.commit('SET_IS_VISIBLE', false);
-        context.commit('SET_IS_OPENED', false);
-        break;
+    //   case CallActions.Destroy:
+    //     context.commit('SET_CALL', null);
+    //     context.commit('SET_IS_VISIBLE', false);
+    //     context.commit('SET_IS_OPENED', false);
+    //     break;
       default:
     }
   };

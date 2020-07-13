@@ -6,6 +6,7 @@
                 <use xlink:href="#icon-close_md"></use>
                 </svg>
             </icon>
+            <tooltip>Close</tooltip>
         </button>
         <div class="call-window__agent-container">
             <icon class="call-window__agent-img" >
@@ -44,6 +45,7 @@
                     <use xlink:href="#icon-mic_off_md"></use>
                     </svg>
                 </icon>
+                <tooltip>Mute</tooltip>
             </button>
             <button v-else class="icon-btn call-window__action-item" @click.prevent="mute()">
                 <icon>
@@ -51,6 +53,7 @@
                     <use xlink:href="#icon-mic_on_md"></use>
                     </svg>
                 </icon>
+                <tooltip>Mute</tooltip>
             </button>
             <button class="icon-btn call-window__action-item" @click.prevent="prompter()">
                 <icon>
@@ -58,6 +61,7 @@
                     <use xlink:href="#icon-prompter_md"></use>
                     </svg>
                 </icon>
+                <tooltip>Prompter</tooltip>
             </button>
             <button class="icon-btn call-window__action-item" @click.prevent="conference()">
                 <icon>
@@ -65,6 +69,7 @@
                     <use xlink:href="#icon-agents_md"></use>
                     </svg>
                 </icon>
+                <tooltip>Conference</tooltip>
             </button>
         </div>
     </div>
@@ -74,9 +79,13 @@
 import { mapActions, mapState } from 'vuex';
 import { CallDirection } from 'webitel-sdk';
 import getTimeFromDuration from '@/utils/getTimeFromDuration';
+import Tooltip from './utils/tooltip.vue';
 
 export default {
     name: 'call-window-eavesdrop',
+    components: {
+        Tooltip,
+    },
     data() {
         return {
             inbound: CallDirection.Inbound,
@@ -132,6 +141,12 @@ export default {
 
 <style lang="scss" scoped>
 $modal-background-color: #171A2A;
+
+.tooltip {
+    top: calc(100% - 60px); // icon height + 11px margin
+    left: 50%;
+    transform: translateX(-50%);
+}
 
 .call-window {
     width: 230px;
@@ -219,6 +234,11 @@ $modal-background-color: #171A2A;
 .call-window__action-item {
     @extend .button-padding;
     margin-left: 16px;
+
+    &:hover .tooltip {
+        opacity: 1;
+        pointer-events: auto;
+    }
 }
 
 .close-button {
