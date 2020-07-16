@@ -12,6 +12,7 @@ const callHandler = (context) => (action, call) => {
         context.commit('SET_AGENT', { name: call.displayName });
         if (context.state.isEavesdrop){
             context.commit('SET_EAVESDROP_IS_OPENED', true);
+            context.commit('SET_CLIENT', call.variables && call.variables.eavesdrop_name || '');
         } else {
             context.commit('SET_IS_VISIBLE', true);
         }
@@ -23,6 +24,7 @@ const callHandler = (context) => (action, call) => {
         if (context.state.isEavesdrop){
             context.commit('SET_EAVESDROP_IS_OPENED', true);
             context.commit('SET_IS_EAVESDROP', false);
+            context.commit('SET_CLIENT', call.variables && call.variables.eavesdrop_name || '');
         } else {
             context.commit('SET_IS_OPENED', true);
         }
