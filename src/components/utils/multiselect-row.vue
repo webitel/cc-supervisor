@@ -15,6 +15,7 @@
         :loading="false"
         :internal-search="true"
         :custom-label="displayLabel"
+        :maxHeight="80"
         @open="isOpened = true"
         @input="input" 
         @close="close"        

@@ -22,6 +22,7 @@ const callHandler = (context) => (action, call) => {
         break;
       case CallActions.Active:
         if (context.state.isEavesdrop){
+            context.commit('SET_TIME', +call.variables.eavesdrop_duration);
             context.commit('SET_EAVESDROP_IS_OPENED', true);
             context.commit('SET_IS_EAVESDROP', false);
             context.commit('SET_CLIENT', call.variables && call.variables.eavesdrop_name || '');
@@ -48,12 +49,12 @@ const callHandler = (context) => (action, call) => {
         context.commit('SET_IS_VISIBLE', false);
         context.commit('SET_IS_OPENED', false);
         context.commit('SET_EAVESDROP_IS_OPENED', false);
+        context.commit('SET_EAVESDROP_LAST_DTMF', "0");
+        // context.commit('CLEAR_STATE');
         break;
-    //   case CallActions.Destroy:
-    //     context.commit('SET_CALL', null);
-    //     context.commit('SET_IS_VISIBLE', false);
-    //     context.commit('SET_IS_OPENED', false);
-    //     break;
+      case CallActions.PeerStream:
+        context.dispatch('HANDLE_STREAM_ACTION', call);
+        break;
       default:
     }
   };
@@ -202,6 +203,15 @@ const actions = {
         }
         // context.commit('SET_EAVESDROP_IS_OPENED', true);
     },
+
+    HANDLE_STREAM_ACTION: (context, call) => {
+        const audio = new Audio();
+        const stream = call.peerStreams.slice(-1).pop();
+        if (stream) {
+          audio.srcObject = stream;
+          audio.play();
+        }
+      },
 };
 
 const mutations = {
