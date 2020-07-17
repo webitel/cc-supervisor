@@ -1,6 +1,6 @@
 <template>
     <div v-show="isVisible" class="call-window" :class="{'call-window__closed': !isOpened}">
-        <button class="icon-btn close-button" @click.prevent="closeWindow()">
+        <button class="icon-btn close-button" @click.prevent="closeWindow">
             <icon>
                 <svg class="icon icon-close_md md call-window-btn">
                 <use xlink:href="#icon-close_md"></use>
@@ -8,14 +8,14 @@
             </icon>
         </button>
         <div class="call-window__agent-container">
-            <button v-show="!call" class="icon-btn btn-call" @click.prevent="makeCall()">
+            <button v-show="!call" class="icon-btn btn-call" @click.prevent="makeCall">
                 <icon>
                     <svg class="icon icon-call_processing_md lg call-btn">
                     <use xlink:href="#icon-call_processing_md"></use>
                     </svg>
                 </icon>
             </button>
-            <button v-show="call && call.allowAnswer && call.direction == 'inbound'" class="icon-btn btn-call" @click.prevent="answerCall()">
+            <button v-show="isAnswerAllowed" class="icon-btn btn-call" @click.prevent="answerCall">
                 <icon>
                     <svg class="icon icon-call_processing_md lg call-btn">
                     <use xlink:href="#icon-call_processing_md"></use>
@@ -27,7 +27,7 @@
                 <use xlink:href="#icon-agent_md"></use>
                 </svg>
             </icon>
-            <button v-show="call && call.active" class="icon-btn call-window__agent-btn-leave" @click.prevent="leaveCall()">
+            <button v-show="isActive" class="icon-btn call-window__agent-btn-leave" @click.prevent="leaveCall">
                 <icon>
                     <svg class="icon icon-call_disconnect_md lg disconnect-btn">
                     <use xlink:href="#icon-call_disconnect_md"></use>
@@ -59,28 +59,28 @@
                         </svg>
                     </icon>
                 </button>
-                <button v-if="call && call.muted" class="icon-btn call-window__action-item" @click.prevent="toggleMute()">
+                <button v-if="isMuted" class="icon-btn call-window__action-item" @click.prevent="toggleMute">
                     <icon>
                         <svg class="icon icon-mic_off_md md call-window-rec-btn--off">
                         <use xlink:href="#icon-mic_off_md"></use>
                         </svg>
                     </icon>
                 </button>
-                <button v-else class="icon-btn call-window__action-item" @click.prevent="toggleMute()">
+                <button v-else class="icon-btn call-window__action-item" @click.prevent="toggleMute">
                     <icon>
                         <svg class="icon icon-mic_on_md md call-window-rec-btn">
                         <use xlink:href="#icon-mic_on_md"></use>
                         </svg>
                     </icon>
                 </button>
-                <button v-if="call && call.isHold" class="icon-btn call-window__action-item" @click.prevent="toggleHold()">
+                <button v-if="isHold" class="icon-btn call-window__action-item" @click.prevent="toggleHold">
                     <icon>
                         <svg class="icon icon-play_md md call-window-btn--off">
                         <use xlink:href="#icon-play_md"></use>
                         </svg>
                     </icon>
                 </button>
-                <button v-else class="icon-btn call-window__action-item" @click.prevent="toggleHold()">
+                <button v-else class="icon-btn call-window__action-item" @click.prevent="toggleHold">
                     <icon>
                         <svg class="icon icon-pause_md md call-window-btn">
                         <use xlink:href="#icon-pause_md"></use>
@@ -103,11 +103,6 @@ export default {
     mixins: [
         ringingSoundMixin,
     ],
-    data() {
-        return {
-            inbound: CallDirection.Inbound,
-        };
-    },
     mounted() {
         this.subscribeCalls();
     },
@@ -139,6 +134,18 @@ export default {
             return animation
             ? `${baseUrl}animations/call-sonars/${animation}/${animation}.html`
             : false;
+        },
+        isMuted() {
+            return this.call && this.call.muted;
+        },
+        isHold() {
+            return this.call && this.call.isHold;
+        },
+        isActive() {
+            return this.call && this.call.active;
+        },
+        isAnswerAllowed() {
+            return this.call && this.call.allowAnswer && this.call.direction === CallDirection.Inbound;
         },
     },
     methods: {
@@ -179,7 +186,7 @@ $modal-background-color: #171A2A;
     width: 230px;
     height: 298px;
     background-color: $modal-background-color;
-    border-radius: 5px;
+    border-radius: $border-radius;
     position: fixed;
     right: 5px;
     bottom: 5px;

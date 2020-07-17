@@ -160,5 +160,8 @@ export default {
     call: 'Call',
     agent: 'Agent',
     duration: 'Duration',
+    mute: 'Mute',
+    prompter: 'Prompter',
+    conference: 'Conference',
   },
 };

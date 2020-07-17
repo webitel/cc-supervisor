@@ -1,12 +1,11 @@
 <template>
     <div v-if="isOpened" class="call-window">
-        <button class="icon-btn close-button" @click.prevent="closeWindow()">
+        <button class="icon-btn close-button" @click.prevent="closeWindow">
             <icon>
                 <svg class="icon icon-close_md md call-window-btn">
                 <use xlink:href="#icon-close_md"></use>
                 </svg>
             </icon>
-            <tooltip>Close</tooltip>
         </button>
         <div class="call-window__agent-container">
             <icon class="call-window__agent-img" >
@@ -45,31 +44,31 @@
                     <use xlink:href="#icon-mic_off_md"></use>
                     </svg>
                 </icon>
-                <tooltip>Mute</tooltip>
+                <tooltip>{{$t('callWindow.mute')}}</tooltip>
             </button>
-            <button v-else class="icon-btn call-window__action-item" @click.prevent="mute()">
+            <button v-else class="icon-btn call-window__action-item" @click.prevent="mute">
                 <icon>
                     <svg class="icon icon-mic_on_md md call-window-btn">
                     <use xlink:href="#icon-mic_on_md"></use>
                     </svg>
                 </icon>
-                <tooltip>Mute</tooltip>
+                <tooltip>{{$t('callWindow.mute')}}</tooltip>
             </button>
-            <button class="icon-btn call-window__action-item" @click.prevent="prompter()">
+            <button class="icon-btn call-window__action-item" @click.prevent="prompter">
                 <icon>
                     <svg class="icon icon-prompter_md md call-window-btn" :class="{'call-window-btn--off': lastDtmf == 2}">
                     <use xlink:href="#icon-prompter_md"></use>
                     </svg>
                 </icon>
-                <tooltip>Prompter</tooltip>
+                <tooltip>{{$t('callWindow.prompter')}}</tooltip>
             </button>
-            <button class="icon-btn call-window__action-item" @click.prevent="conference()">
+            <button class="icon-btn call-window__action-item" @click.prevent="conference">
                 <icon>
                     <svg class="icon icon-agents_md md call-window-btn" :class="{'call-window-btn--off': lastDtmf == 3}">
                     <use xlink:href="#icon-agents_md"></use>
                     </svg>
                 </icon>
-                <tooltip>Conference</tooltip>
+                <tooltip>{{$t('callWindow.conference')}}</tooltip>
             </button>
         </div>
     </div>
@@ -93,7 +92,7 @@ export default {
     },
     computed: {
         ...mapState('call', {
-            isOpened: (state) => state.eavesdropIsOpened,
+            isOpened: (state) => state.isEavesdropOpened,
             lastDtmf: (state) => state.eavesdropLastDTMF,
             agent: (state) => state.agent,
             clientName: (state) => state.clientName,
@@ -152,7 +151,7 @@ $modal-background-color: #171A2A;
     width: 230px;
     height: 298px;
     background-color: $modal-background-color;
-    border-radius: 5px;
+    border-radius: $border-radius;
     position: fixed;
     right: 5px;
     bottom: 5px;

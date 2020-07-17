@@ -11,8 +11,9 @@ const callHandler = (context) => (action, call) => {
         context.commit('SET_TIME', 0);
         context.commit('SET_AGENT', { name: call.displayName });
         if (context.state.isEavesdrop){
+            const client = call.variables && call.variables.eavesdrop_name || ''
             context.commit('SET_EAVESDROP_IS_OPENED', true);
-            context.commit('SET_CLIENT', call.variables && call.variables.eavesdrop_name || '');
+            context.commit('SET_CLIENT', client);
         } else {
             context.commit('SET_IS_VISIBLE', true);
         }
@@ -22,10 +23,11 @@ const callHandler = (context) => (action, call) => {
         break;
       case CallActions.Active:
         if (context.state.isEavesdrop){
+            const client = call.variables && call.variables.eavesdrop_name || ''
             context.commit('SET_TIME', +call.variables.eavesdrop_duration);
             context.commit('SET_EAVESDROP_IS_OPENED', true);
             context.commit('SET_IS_EAVESDROP', false);
-            context.commit('SET_CLIENT', call.variables && call.variables.eavesdrop_name || '');
+            context.commit('SET_CLIENT', client);
         } else {
             context.commit('SET_IS_OPENED', true);
         }
@@ -76,7 +78,7 @@ const defaultState = () => ({
 
     // EAVESDROP
     isEavesdrop: false,
-    eavesdropIsOpened: false,
+    isEavesdropOpened: false,
     eavesdropLastDTMF: 0,
 });
 
@@ -248,8 +250,8 @@ const mutations = {
     SET_IS_EAVESDROP: (state, isEavesdrop) => {
         state.isEavesdrop = isEavesdrop;
     },
-    SET_EAVESDROP_IS_OPENED: (state, eavesdropIsOpened) => {
-        state.eavesdropIsOpened = eavesdropIsOpened;
+    SET_EAVESDROP_IS_OPENED: (state, isEavesdropOpened) => {
+        state.isEavesdropOpened = isEavesdropOpened;
     },
     SET_EAVESDROP_LAST_DTMF: (state, dtmf) => {
         state.eavesdropLastDTMF = dtmf;
