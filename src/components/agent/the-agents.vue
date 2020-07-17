@@ -44,7 +44,8 @@
                 >
                 <template slot="actions-header">
                     <filter-fields
-                    v-model="headers"
+                    :entity="'agents'"
+                    :headers="headers"
                     />
                 </template>
 
@@ -227,7 +228,7 @@ export default {
         }),
         ...mapActions('call', {
             attachToCall: 'ATTACH_TO_CALL',
-            openWindow: 'OPEN_WINDOW',
+            openWindow: 'EAVESDROP_OPEN_WINDOW',
         }),
         async loadList() {
             this.isLoading = true;

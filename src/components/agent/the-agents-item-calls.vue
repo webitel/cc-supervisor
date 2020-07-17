@@ -9,7 +9,8 @@
             >
             <template slot="actions-header">
                 <filter-fields
-                v-model="headers"
+                :entity="'agent-calls'"
+                :headers="headers"
                 />
             </template>
             <template slot="call" slot-scope="{ item }" >

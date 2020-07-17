@@ -1,6 +1,6 @@
 <template>
-    <div v-if="isOpened" class="call-window">
-        <button class="icon-btn close-button" @click.prevent="closeWindow()">
+    <div v-show="isVisible" class="call-window" :class="{'call-window__closed': !isOpened}">
+        <button class="icon-btn close-button" @click.prevent="closeWindow">
             <icon>
                 <svg class="icon icon-close_md md call-window-btn">
                 <use xlink:href="#icon-close_md"></use>
@@ -8,15 +8,14 @@
             </icon>
         </button>
         <div class="call-window__agent-container">
-            <button v-show="!call" class="icon-btn btn-call" @click.prevent="makeCall()">
+            <button v-show="!call" class="icon-btn btn-call" @click.prevent="makeCall">
                 <icon>
                     <svg class="icon icon-call_processing_md lg call-btn">
                     <use xlink:href="#icon-call_processing_md"></use>
                     </svg>
                 </icon>
             </button>
-            <!--  && call.allowAnswer && call.direction == 'inbound' -->
-            <button v-show="call && call.allowAnswer" class="icon-btn btn-call" @click.prevent="answerCall()">
+            <button v-show="isAnswerAllowed" class="icon-btn btn-call" @click.prevent="answerCall">
                 <icon>
                     <svg class="icon icon-call_processing_md lg call-btn">
                     <use xlink:href="#icon-call_processing_md"></use>
@@ -28,7 +27,7 @@
                 <use xlink:href="#icon-agent_md"></use>
                 </svg>
             </icon>
-            <button v-show="call && call.active" class="icon-btn call-window__agent-btn-leave" @click.prevent="leaveCall()">
+            <button v-show="isActive" class="icon-btn call-window__agent-btn-leave" @click.prevent="leaveCall">
                 <icon>
                     <svg class="icon icon-call_disconnect_md lg disconnect-btn">
                     <use xlink:href="#icon-call_disconnect_md"></use>
@@ -36,85 +35,118 @@
                 </icon>
             </button>
         </div>
-        <!-- <iframe
-            v-if="animationUrl"
-            :src="animationUrl"
-        ></iframe> -->
         <div class="call-window__agent-name-container">
-            <span v-if="agent" class="call-window__agent-name">{{agent.name}}</span>
+            <span v-if="agent" class="call-window__agent-name">{{$t('callWindow.agent')}}: {{agent.name}}</span>
         </div>
-        <div class="call-window__client-name-container">
-            <span v-if="clientName" class="call-window__client-name">{{$t('callWindow.client')}}: {{clientName}}</span>
-        </div>
-        <div class="call-window__time-container">
-            <span class="call-window__time">{{$t('callWindow.call')}}: {{time}}</span>
-        </div>
-        <div class="call-window__action-container">
-            <button class="icon-btn button-padding" @click.prevent="">
-                <icon>
-                    <svg class="icon icon-send_message_md md call-window-btn">
-                    <use xlink:href="#icon-send_message_md"></use>
-                    </svg>
-                </icon>
-            </button>
-            <button v-if="call && call.muted" class="icon-btn call-window__action-item" @click.prevent="toggleMute()">
-                <icon>
-                    <svg class="icon icon-mic_off_md md call-window-rec-btn--off">
-                    <use xlink:href="#icon-mic_off_md"></use>
-                    </svg>
-                </icon>
-            </button>
-            <button v-else class="icon-btn call-window__action-item" @click.prevent="toggleMute()">
-                <icon>
-                    <svg class="icon icon-mic_on_md md call-window-rec-btn">
-                    <use xlink:href="#icon-mic_on_md"></use>
-                    </svg>
-                </icon>
-            </button>
-             <button v-if="call && call.isHold" class="icon-btn call-window__action-item" @click.prevent="toggleHold()">
-                <icon>
-                    <svg class="icon icon-play_md md call-window-btn--off">
-                    <use xlink:href="#icon-play_md"></use>
-                    </svg>
-                </icon>
-            </button>
-            <button v-else class="icon-btn call-window__action-item" @click.prevent="toggleHold()">
-                <icon>
-                    <svg class="icon icon-pause_md md call-window-btn">
-                    <use xlink:href="#icon-pause_md"></use>
-                    </svg>
-                </icon>
-            </button>
+        <div v-show="isOpened">
+            <div class="call-animation">
+                <iframe
+                    v-if="animationUrl"
+                    :src="animationUrl"
+                ></iframe>
+            </div>
+            <!-- <div class="call-window__client-name-container">
+                <span v-if="clientName" class="call-window__client-name">{{$t('callWindow.client')}}: {{clientName}}</span>
+            </div> -->
+            <div class="call-window__time-container">
+                <span class="call-window__time">{{time}}</span>
+            </div>
+            <div class="call-window__action-container">
+                <button class="icon-btn button-padding" @click.prevent="">
+                    <icon>
+                        <svg class="icon icon-send_message_md md call-window-btn">
+                        <use xlink:href="#icon-send_message_md"></use>
+                        </svg>
+                    </icon>
+                </button>
+                <button v-if="isMuted" class="icon-btn call-window__action-item" @click.prevent="toggleMute">
+                    <icon>
+                        <svg class="icon icon-mic_off_md md call-window-rec-btn--off">
+                        <use xlink:href="#icon-mic_off_md"></use>
+                        </svg>
+                    </icon>
+                </button>
+                <button v-else class="icon-btn call-window__action-item" @click.prevent="toggleMute">
+                    <icon>
+                        <svg class="icon icon-mic_on_md md call-window-rec-btn">
+                        <use xlink:href="#icon-mic_on_md"></use>
+                        </svg>
+                    </icon>
+                </button>
+                <button v-if="isHold" class="icon-btn call-window__action-item" @click.prevent="toggleHold">
+                    <icon>
+                        <svg class="icon icon-play_md md call-window-btn--off">
+                        <use xlink:href="#icon-play_md"></use>
+                        </svg>
+                    </icon>
+                </button>
+                <button v-else class="icon-btn call-window__action-item" @click.prevent="toggleHold">
+                    <icon>
+                        <svg class="icon icon-pause_md md call-window-btn">
+                        <use xlink:href="#icon-pause_md"></use>
+                        </svg>
+                    </icon>
+                </button>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import { CallDirection } from 'webitel-sdk';
+import { CallDirection, CallActions } from 'webitel-sdk';
 import getTimeFromDuration from '@/utils/getTimeFromDuration';
+import ringingSoundMixin from '@/mixins/ringingSoundMixin';
 
 export default {
     name: 'call-window',
-    data() {
-        return {
-            inbound: CallDirection.Inbound,
-        };
-    },
+    mixins: [
+        ringingSoundMixin,
+    ],
     mounted() {
         this.subscribeCalls();
     },
     computed: {
         ...mapState('call', {
             isOpened: (state) => state.isOpened,
-            // isMuted: (state) => state.isMuted,
-            // isHold: (state) => state.isHold,
-            // isAttachedToCall: (state) => state.isAttachedToCall,
+            isVisible: (state) => state.isVisible,
             agent: (state) => state.agent,
             clientName: (state) => state.clientName,
             time: (state) => getTimeFromDuration(state.time),
             call: (state) => state.call,
         }),
+        animationUrl() {
+            const baseUrl = process.env.BASE_URL; // to resolve iframe equalizer path after build
+            let animation = '';
+            switch (this.call && this.call.state) {
+            // case CallActions.Ringing:
+            //     animation = 'ringing';
+            //     break;
+            case CallActions.Hold:
+                animation = 'hold';
+                break;
+            case CallActions.Active:
+                animation = 'active';
+                break;
+            default:
+                break;
+            }
+            return animation
+            ? `${baseUrl}animations/call-sonars/${animation}/${animation}.html`
+            : false;
+        },
+        isMuted() {
+            return this.call && this.call.muted;
+        },
+        isHold() {
+            return this.call && this.call.isHold;
+        },
+        isActive() {
+            return this.call && this.call.active;
+        },
+        isAnswerAllowed() {
+            return this.call && this.call.allowAnswer && this.call.direction === CallDirection.Inbound;
+        },
     },
     methods: {
         ...mapActions('call', {
@@ -133,26 +165,6 @@ export default {
         async initWorkspace() {
             await this.subscribeCalls();
         },
-        animationUrl() {
-            const baseUrl = process.env.BASE_URL; // to resolve iframe equalizer path after build
-            const animation = 'ringing';
-            // switch (this.call.state) {
-            // case CallActions.Ringing:
-            //     animation = 'ringing';
-            //     break;
-            // case CallActions.Hold:
-            //     animation = 'hold';
-            //     break;
-            // case CallActions.Active:
-            //     animation = 'active';
-            //     break;
-            // default:
-            //     break;
-            // }
-            return animation
-            ? `${baseUrl}animations/call-sonars/${animation}/${animation}.html`
-            : false;
-        },
     },
 };
 </script>
@@ -160,15 +172,29 @@ export default {
 <style lang="scss" scoped>
 $modal-background-color: #171A2A;
 
+.call-animation {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 10px;
+    margin-top: 38px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+}
+
 .call-window {
     width: 230px;
     height: 298px;
     background-color: $modal-background-color;
-    border-radius: 5px;
+    border-radius: $border-radius;
     position: fixed;
     right: 5px;
     bottom: 5px;
     z-index: 100;
+
+    &__closed {
+        height: 142px;
+    }
 }
 
 .call-window__agent-container {
@@ -213,8 +239,8 @@ $modal-background-color: #171A2A;
 .call-window__time-container {
     text-align: center;
     width: 100%;
-    position: absolute;
-    bottom: 94px;
+    // position: absolute;
+    // bottom: 94px;
 }
 
 .call-window__time {

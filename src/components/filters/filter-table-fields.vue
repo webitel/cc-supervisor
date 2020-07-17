@@ -16,6 +16,10 @@
       ColumnSelect,
     },
     props: {
+      entity: {
+        type: String,
+        required: true,
+      },
       headers: {
         type: Array,
         required: true,
@@ -34,6 +38,20 @@
     },
 
     methods: {
+      // overrides valueFilterMixin method
+      restore({ filterQuery }) {
+        const value = this.$route.query[filterQuery];
+        if (!value) {
+          // if no value in url, check in localStorage
+          const value = this.getFromLocalStorage({ filterQuery });
+          if (value) {
+            // if there's a value, set it to url and to component data
+            this.setQueryValue({ filterQuery, value });
+            this.restoreValue({ value });
+          }
+        }
+      },
+
       restoreValue({ value }) {
         const headers = this.headers.map((header) => ({
           ...header,
@@ -44,13 +62,32 @@
 
       setValue(headers) {
         const value = headers.filter((item) => item.show);
-        this.setQueryArray({
+        const params = {
           filterQuery: this.filterQuery,
           value,
           queriedProp: this.queriedProp,
           separator: this.separator,
-        });
+        };
+        this.setQueryArray(params);
+        this.setToLocalStorage(params);
         this.$emit('change', headers);
+      },
+
+      getFromLocalStorage({ filterQuery }) {
+          return localStorage.getItem(`${this.entity}-${filterQuery}`);
+      },
+
+      // copy-pasted params from "setQueryArray method
+      // for easier future refactors, if method should be abstract
+      setToLocalStorage({
+                          filterQuery,
+                          value,
+                          queriedProp = 'id',
+                          separator = '|',
+                        }) {
+        const filter = value.map((item) => item[queriedProp])
+          .join(separator);
+        localStorage.setItem(`${this.entity}-${filterQuery}`, filter);
       },
     },
   };

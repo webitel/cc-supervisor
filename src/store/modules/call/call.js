@@ -10,13 +10,29 @@ const callHandler = (context) => (action, call) => {
         context.commit('SET_CALL', call);
         context.commit('SET_TIME', 0);
         context.commit('SET_AGENT', { name: call.displayName });
-        context.commit('SET_IS_OPENED', true);
+        if (context.state.isEavesdrop){
+            const client = call.variables && call.variables.eavesdrop_name || ''
+            context.commit('SET_EAVESDROP_IS_OPENED', true);
+            context.commit('SET_CLIENT', client);
+        } else {
+            context.commit('SET_VISIBILITY', true);
+        }
         // if (call.direction === CallDirection.Inbound) {
             
         // }
         break;
       case CallActions.Active:
+        if (context.state.isEavesdrop){
+            const client = call.variables && call.variables.eavesdrop_name || ''
+            context.commit('SET_TIME', +call.variables.eavesdrop_duration);
+            context.commit('SET_EAVESDROP_IS_OPENED', true);
+            context.commit('SET_IS_EAVESDROP', false);
+            context.commit('SET_CLIENT', client);
+        } else {
+            context.commit('SET_IS_OPENED', true);
+        }
         context.commit('START_TIMER');
+        
         break;
       case CallActions.Bridge:
         context.commit('STOP_TIMER');
@@ -32,11 +48,14 @@ const callHandler = (context) => (action, call) => {
         context.commit('STOP_TIMER');
         context.commit('SET_CALL', null);
         context.commit('SET_TIME', 0);
+        context.commit('SET_VISIBILITY', false);
         context.commit('SET_IS_OPENED', false);
+        context.commit('SET_EAVESDROP_IS_OPENED', false);
+        context.commit('SET_EAVESDROP_LAST_DTMF', "0");
+        // context.commit('CLEAR_STATE');
         break;
-      case CallActions.Destroy:
-        context.commit('SET_CALL', null);
-        context.commit('SET_IS_OPENED', false);
+      case CallActions.PeerStream:
+        context.dispatch('HANDLE_STREAM_ACTION', call);
         break;
       default:
     }
@@ -49,12 +68,18 @@ const defaultState = () => ({
     clientName: '',
     time: 0,
     isOpened: false,
+    isVisible: false,
     isRecording: false,
     isHold: false,
     // isActive: false,
     // isConnection: false,
     isMuted: false,
     isAttachedToCall: false,
+
+    // EAVESDROP
+    isEavesdrop: false,
+    isEavesdropOpened: false,
+    eavesdropLastDTMF: 0,
 });
 
 const state = defaultState();
@@ -70,13 +95,24 @@ const actions = {
         await client.subscribeCall(callHandler(context), null);
     },
     OPEN_WINDOW: async (context) => {
-        context.commit('SET_IS_OPENED', true);
+        context.commit('SET_VISIBILITY', true);
     },
     CLOSE_WINDOW: async (context) => {
         context.dispatch('LEAVE_CALL');
         context.commit('STOP_TIMER');
         context.commit('SET_IS_OPENED', false);
-        context.commit('CLEAR_STATE', false);
+        context.commit('SET_VISIBILITY', false);
+        context.commit('CLEAR_STATE');
+    },
+    EAVESDROP_OPEN_WINDOW: async (context) => {
+        context.commit('SET_EAVESDROP_IS_OPENED', true);
+    },
+    EAVESDROP_CLOSE_WINDOW: async (context) => {
+        context.dispatch('LEAVE_CALL');
+        context.commit('STOP_TIMER');
+        context.commit('SET_EAVESDROP_IS_OPENED', false);
+        context.commit('SET_EAVESDROP_LAST_DTMF', "0");
+        context.commit('CLEAR_STATE');
     },
     CALL: async (context) => {
         const agent = context.state.agent;
@@ -144,6 +180,7 @@ const actions = {
     ATTACH_TO_CALL: async (context, { id }) => {
         const client = await getCliInstance();
         try {
+            context.commit('SET_IS_EAVESDROP', true);
             await client.eavesdrop({
                 id: id, 
                 control: true,
@@ -153,13 +190,38 @@ const actions = {
         } catch (err) {
             console.error(err);
         }
-        // context.commit('SET_IS_ATTACHED', true);
+        // context.commit('SET_EAVESDROP_IS_OPENED', true);
     },
+
+    SEND_DTMF: async (context, { dtmf }) => {
+        const call = context.state.call;
+        if (!call || context.state.eavesdropLastDTMF == dtmf ) return;
+        try {
+            if (!call.allowDtmf) return;
+            await call.sendDTMF(dtmf);
+            context.commit('SET_EAVESDROP_LAST_DTMF', dtmf);
+        } catch (err) {
+            console.error(err);
+        }
+        // context.commit('SET_EAVESDROP_IS_OPENED', true);
+    },
+
+    HANDLE_STREAM_ACTION: (context, call) => {
+        const audio = new Audio();
+        const stream = call.peerStreams.slice(-1).pop();
+        if (stream) {
+          audio.srcObject = stream;
+          audio.play();
+        }
+      },
 };
 
 const mutations = {
     SET_IS_OPENED: (state, isOpened) => {
         state.isOpened = isOpened;
+    },
+    SET_VISIBILITY: (state, isVisible) => {
+        state.isVisible = isVisible;
     },
     SET_AGENT: (state, agent) => {
         state.agent = agent;
@@ -173,20 +235,26 @@ const mutations = {
     CLEAR_STATE: (state) => {
         state = defaultState();
     },
-
     SET_CALL: (state, call) => {
         state.call = call;
     },
-
     START_TIMER: (state) => {
         state.timer = setInterval(()=>{
             state.time++;
         }, 1000);
     },
-
     STOP_TIMER: (state) => {
         clearInterval(state.timer);
         state.timer = null;
+    },
+    SET_IS_EAVESDROP: (state, isEavesdrop) => {
+        state.isEavesdrop = isEavesdrop;
+    },
+    SET_EAVESDROP_IS_OPENED: (state, isEavesdropOpened) => {
+        state.isEavesdropOpened = isEavesdropOpened;
+    },
+    SET_EAVESDROP_LAST_DTMF: (state, dtmf) => {
+        state.eavesdropLastDTMF = dtmf;
     },
 };
 

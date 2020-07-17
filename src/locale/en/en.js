@@ -158,5 +158,10 @@ export default {
   callWindow: {
     client: 'Client',
     call: 'Call',
+    agent: 'Agent',
+    duration: 'Duration',
+    mute: 'Mute',
+    prompter: 'Prompter',
+    conference: 'Conference',
   },
 };

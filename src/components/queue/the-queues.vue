@@ -32,7 +32,8 @@
                 >
                 <template slot="actions-header">
                     <filter-fields
-                    v-model="headers"
+                    :entity="'queues'"
+                    :headers="headers"
                     />
                 </template>
 
