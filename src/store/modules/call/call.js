@@ -15,7 +15,7 @@ const callHandler = (context) => (action, call) => {
             context.commit('SET_EAVESDROP_IS_OPENED', true);
             context.commit('SET_CLIENT', client);
         } else {
-            context.commit('SET_IS_VISIBLE', true);
+            context.commit('SET_VISIBILITY', true);
         }
         // if (call.direction === CallDirection.Inbound) {
             
@@ -48,7 +48,7 @@ const callHandler = (context) => (action, call) => {
         context.commit('STOP_TIMER');
         context.commit('SET_CALL', null);
         context.commit('SET_TIME', 0);
-        context.commit('SET_IS_VISIBLE', false);
+        context.commit('SET_VISIBILITY', false);
         context.commit('SET_IS_OPENED', false);
         context.commit('SET_EAVESDROP_IS_OPENED', false);
         context.commit('SET_EAVESDROP_LAST_DTMF', "0");
@@ -95,13 +95,13 @@ const actions = {
         await client.subscribeCall(callHandler(context), null);
     },
     OPEN_WINDOW: async (context) => {
-        context.commit('SET_IS_VISIBLE', true);
+        context.commit('SET_VISIBILITY', true);
     },
     CLOSE_WINDOW: async (context) => {
         context.dispatch('LEAVE_CALL');
         context.commit('STOP_TIMER');
         context.commit('SET_IS_OPENED', false);
-        context.commit('SET_IS_VISIBLE', false);
+        context.commit('SET_VISIBILITY', false);
         context.commit('CLEAR_STATE');
     },
     EAVESDROP_OPEN_WINDOW: async (context) => {
@@ -220,7 +220,7 @@ const mutations = {
     SET_IS_OPENED: (state, isOpened) => {
         state.isOpened = isOpened;
     },
-    SET_IS_VISIBLE: (state, isVisible) => {
+    SET_VISIBILITY: (state, isVisible) => {
         state.isVisible = isVisible;
     },
     SET_AGENT: (state, agent) => {
