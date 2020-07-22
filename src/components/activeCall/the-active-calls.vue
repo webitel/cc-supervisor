@@ -68,6 +68,18 @@
                 <template slot="user" slot-scope="{ item }" >
                     <div v-if="item.user">{{item.user.name}}</div>
                 </template>
+                <template slot="state" slot-scope="{ item }" >
+                    <div class="call">
+                        <span>{{item.state}}</span>
+                        <button v-if="isActive(item.state)" class="icon-btn" @click.prevent="attachCall(item.id)">
+                            <icon>
+                                <svg class="icon icon-speaker_off_md grid">
+                                    <use xlink:href="#icon-speaker_off_md"></use>
+                                </svg>
+                            </icon>
+                        </button>
+                    </div>
+                </template>
                 <template slot="pagination">
                     <filter-pagination :is-next="isNext"/>
                 </template>
@@ -78,6 +90,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import { CallActions } from 'webitel-sdk';
 import loader from '@/components/utils/loader.vue';
 import convertQuery from '@/utils/loadScripts';
 import downloadCSVMixin from '@/mixins/downloadCSV/downloadCSVMixin';
@@ -148,6 +161,10 @@ export default {
         ...mapActions('activeCalls', {
             loadDataList: 'FETCH_LIST',
         }),
+        ...mapActions('call', {
+            attachToCall: 'ATTACH_TO_CALL',
+            openWindow: 'EAVESDROP_OPEN_WINDOW',
+        }),
         async loadList() {
             this.isLoading = true;
             const params = this.getQueryParams();
@@ -174,6 +191,13 @@ export default {
         getQueryParams() {
             const { query } = this.$route;
             return convertQuery(query);
+        },
+        isActive(state) {
+            return state !== CallActions.Hangup && state !== CallActions.Ringing;
+        },
+        async attachCall(id) {
+           await this.attachToCall({ id });
+           this.openWindow();
         },
     },
 };
