@@ -179,7 +179,10 @@ $modal-background-color: #171A2A;
 }
 
 .call-window__speaker-icon-container {
-    margin-top: 14px;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    bottom: 125px;
 }
 
 .call-window__speaker-icon {
