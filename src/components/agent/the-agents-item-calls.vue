@@ -1,7 +1,8 @@
 <template>
-    <section>
+    <section class="agent-calls">
         <!-- <loader v-show="isLoading"></loader>v-show="!isLoading" -->
         <grid-table
+            ref="grid-table"
             :checkboxes="false"
             :headers="headers"
             :data="data"
@@ -63,10 +64,38 @@
                     </icon>
                 </div>
             </template> -->
+
+            <template slot="actions" slot-scope="{ item, index }">
+                <media-action
+                    v-if="item.files"
+                    class="table-action"
+                    :class="{'active': openedMediaIndex === index}"
+                    :is-any-files-playing="isAnyFilesPlaying(item.files)"
+                    @click.native.stop="openMedia(index, $event)"
+                ></media-action>
+            </template>
+
             <template slot="pagination">
                 <filter-pagination :is-next="isNext"/>
             </template>
         </grid-table>
+
+        <audio-player
+            v-show="audioURL"
+            :file="audioURL"
+            @play="isPlayingNow = true"
+            @close="closePlayer"
+        ></audio-player>
+
+        <media-select
+            ref="media-select"
+            v-show="isMediaSelectOpened"
+            :files="mediaFiles"
+            :currently-playing="currentlyPlaying"
+            @play="play"
+            @close="closeMedia"
+        >
+        </media-select>
     </section>
 </template>
 
@@ -75,10 +104,13 @@
     // import loader from '@/components/utils/loader.vue';
     import convertQuery from '@/utils/loadScripts';
     import sortFilterMixin from '@/mixins/filters/sortFilterMixin';
+    import playMediaMixin from '@/mixins/media/playMediaMixin';
+    import showMediaMixin from '@/mixins/media/showMediaMixin';
     import agentCallHeaders from './agentCallHeaders';
     import GridTable from '../utils/grid-table.vue';
     import FilterFields from '../filters/filter-table-fields.vue';
     import FilterPagination from '../filters/filter-pagination.vue';
+    import MediaAction from '../utils/grid-media-action.vue';
 
     export default {
         name: 'the-agents-item-calls',
@@ -87,9 +119,12 @@
             GridTable,
             FilterFields,
             FilterPagination,
+            MediaAction,
         },
         mixins: [
             sortFilterMixin,
+            playMediaMixin,
+            showMediaMixin,
         ],
         watch: {
             '$route.query': {
@@ -172,4 +207,18 @@
 .icon-margin {
     margin-right: 10px;
 }
+.table-action {
+    margin-left: (20px);
+
+    &:first-child {
+        margin-left: 0;
+    }
+}
+.media-select {
+    position: absolute;
+    right: 28px;
+  }
+  .agent-calls {
+    position: relative;
+  }
 </style>
