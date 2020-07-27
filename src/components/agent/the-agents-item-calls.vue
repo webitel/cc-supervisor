@@ -1,5 +1,5 @@
 <template>
-    <section class="calls-main">
+    <section class="agent-calls">
         <!-- <loader v-show="isLoading"></loader>v-show="!isLoading" -->
         <grid-table
             ref="grid-table"
@@ -218,7 +218,7 @@
     position: absolute;
     right: 28px;
   }
-  .calls-main {
+  .agent-calls {
     position: relative;
   }
 </style>
