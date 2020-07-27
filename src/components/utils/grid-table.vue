@@ -65,7 +65,7 @@
             </div>
 
             <div class="grid__td__actions">
-              <slot name="actions" :item="row"></slot>
+              <slot name="actions" :item="row" :index="dataKey"></slot>
             </div>
           </div>
 
