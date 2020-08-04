@@ -1,4 +1,4 @@
-import { getAgentCallsList } from "../../../api/agents/agent-calls";
+import { getAgentCallsList } from '../../../api/agents/agent-calls';
 
 const state = {
     dataList: [],
@@ -8,11 +8,15 @@ const state = {
 const getters = {};
 
 const actions = {
-    FETCH_LIST: async (context, { agentId, page, size, search, sort }) => {
-        const { items, next } = await getAgentCallsList({ agentId, page, size, search, sort });
+    FETCH_LIST: async (context, {
+ agentId, page, size, search, sort,
+}) => {
+        const { items, next } = await getAgentCallsList({
+ agentId, page, size, search, sort,
+});
         context.commit('SET_LIST', items);
-        context.commit('SET_IS_NEXT', {isNext: next});
-        return next
+        context.commit('SET_IS_NEXT', { isNext: next });
+        return next;
     },
 };
 
@@ -31,5 +35,5 @@ export default {
     getters,
     actions,
     mutations,
-    modules: {}
+    modules: {},
 };

@@ -1,4 +1,4 @@
-import { getAgentAttentionsList, deleteAgentAttention } from "../../../api/agents/agent-attentions";
+import { getAgentAttentionsList, deleteAgentAttention } from '../../../api/agents/agent-attentions';
 
 const state = {
     dataList: [],
@@ -9,14 +9,20 @@ const getters = {};
 
 const actions = {
     FETCH_LIST: async (context, id, page, size, search, sort) => {
-        const { items, next } = await getAgentAttentionsList(id, page, size, search, sort);
+        const { items, next } = await getAgentAttentionsList({
+            id,
+            page,
+            size,
+            search,
+            sort,
+        });
         context.commit('SET_LIST', items);
-        return next
+        return next;
     },
-    REMOVE_ITEM: async (context, agent_id, attention_id) => {
-        const { success } = await deleteAgentAttention(agent_id, attention_id);
-        if (success) context.commit('DELETE_ITEM', attention_id);
-        return success
+    REMOVE_ITEM: async (context, agentId, attentionId) => {
+        const { success } = await deleteAgentAttention({ agentId, attentionId });
+        if (success) context.commit('DELETE_ITEM', attentionId);
+        return success;
     },
 };
 
@@ -26,7 +32,7 @@ const mutations = {
     },
     DELETE_ITEM: (state, index) => {
         state.dataList.splice(index, 1);
-    }
+    },
 };
 
 export default {
@@ -35,5 +41,5 @@ export default {
     getters,
     actions,
     mutations,
-    modules: {}
+    modules: {},
 };

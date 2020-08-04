@@ -19,7 +19,7 @@
         @input="input"
         @search-change="fetch"
         @open="isOpened = true"
-        @close="close"        
+        @close="close"
       >
         <template slot="option" slot-scope="{ option }">
           <div class="multiselect__option__content">
@@ -43,14 +43,14 @@
       v-if="!hideDetails"
       :v="v"
     /> -->
-  </div>  
+  </div>
 </template>
 
 <script>
   import VueMultiselect from 'vue-multiselect';
  // import ValidationMessage from './validation-message.vue';
-  import debounce from '../../utils/debounce';
   import capitalizeWords from '@/utils/capitalizeWords';
+  import debounce from '../../utils/debounce';
 
   export default {
     name: 'multiselect',
@@ -147,8 +147,8 @@
       limitText: (count) => `${count + 1}`,
 
       displayLabel(option) {
-        let tmpOption = capitalizeWords(option.name || option)
-        if (tmpOption.length > 15) tmpOption = `${tmpOption.substr(0, 15)}...`
+        let tmpOption = capitalizeWords(option.name || option);
+        if (tmpOption.length > 15) tmpOption = `${tmpOption.substr(0, 15)}...`;
         return tmpOption;
       },
 

@@ -79,7 +79,7 @@
         </div>
       </section>
     </div>
-    <slot name="pagination"></slot>    
+    <slot name="pagination"></slot>
   </div>
 </template>
 

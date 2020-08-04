@@ -30,8 +30,8 @@
 </template>
 
 <script>
-  import debounce from '../../utils/debounce';
   import IconBtn from '@/components/utils/icon-btn.vue';
+  import debounce from '../../utils/debounce';
 
   export default {
     name: 'table-pagination',

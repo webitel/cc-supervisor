@@ -17,8 +17,8 @@
         :custom-label="displayLabel"
         :maxHeight="120"
         @open="isOpened = true"
-        @input="input" 
-        @close="close"        
+        @input="input"
+        @close="close"
       >
         <template slot="option" slot-scope="{ option }">
           <div class="multiselect__option__content">
@@ -37,13 +37,13 @@
         </svg>
       </icon>
     </div>
-  </div>  
+  </div>
 </template>
 
 <script>
   import VueMultiselect from 'vue-multiselect';
-  import debounce from '../../utils/debounce';
   import capitalizeWords from '@/utils/capitalizeWords';
+  import debounce from '../../utils/debounce';
 
   export default {
     name: 'multiselect-row',
@@ -106,7 +106,7 @@
 
     computed: {
       opts() {
-        const options = this.options;
+        const { options } = this;
         if (this.multiple) {
           const optionsDiff = options.filter((item) => !this.value
           .some((valueItem) => valueItem[this.trackBy] === item[this.trackBy]));
@@ -129,8 +129,8 @@
       limitText: (count) => `${count + 1}`,
 
       displayLabel(option) {
-        let tmpOption = capitalizeWords(option.name || option)
-        if (tmpOption.length > 15) tmpOption = `${tmpOption.substr(0, 15)}...`
+        let tmpOption = capitalizeWords(option.name || option);
+        if (tmpOption.length > 15) tmpOption = `${tmpOption.substr(0, 15)}...`;
         return tmpOption;
       },
 

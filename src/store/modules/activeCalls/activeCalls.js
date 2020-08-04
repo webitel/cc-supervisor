@@ -1,4 +1,4 @@
-import { getActiveCallList } from "../../../api/activeCalls/activeCalls";
+import { getActiveCallList } from '../../../api/activeCalls/activeCalls';
 
 const state = {
     dataList: [],
@@ -12,9 +12,9 @@ const actions = {
         try {
             const { items, next } = await getActiveCallList(params);
             context.commit('SET_LIST', items);
-            context.commit('SET_IS_NEXT', {isNext: next});
+            context.commit('SET_IS_NEXT', { isNext: next });
         } catch {
-        }         
+        }
     },
 };
 
@@ -33,5 +33,5 @@ export default {
     getters,
     actions,
     mutations,
-    modules: {}
+    modules: {},
 };

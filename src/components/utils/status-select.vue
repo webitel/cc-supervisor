@@ -15,12 +15,12 @@
         :searchable="false"
         @input="input"
         @open="isOpened = true"
-        @close="close"        
+        @close="close"
       >
          <template slot="option" slot-scope="{ option }">
           <div class="multiselect__option__content">
-            <status                    
-                    :class="option.value == 'online' ? {'status__true':true} : 
+            <status
+                    :class="option.value == 'online' ? {'status__true':true} :
                     (option.value == 'pause' ? {'status__info':true} : {'status__false':true})"
                     :text="option.label"
             >
@@ -30,7 +30,7 @@
 
          <template slot="placeholder">
             <status
-              :class="status == 'online' ? {'status__true':true} : 
+              :class="status == 'online' ? {'status__true':true} :
               (status == 'pause' ? {'status__info':true} : {'status__false':true})"
               :text="time"
             >
@@ -43,8 +43,8 @@
           <use xlink:href="#icon-arrow-down_md"></use>
         </svg>
       </icon>
-    </div>    
-  </div>  
+    </div>
+  </div>
 </template>
 
 <script>
@@ -80,7 +80,7 @@
         // selectedTime: null,
         isLoading: false,
         isOpened: false,
-        options: [{ label: "Activate", value: "online"}, { label: "Stop", value: "offline"}, { label: "Break", value: "pause"}]
+        options: [{ label: 'Activate', value: 'online' }, { label: 'Stop', value: 'offline' }, { label: 'Break', value: 'pause' }],
       };
     },
 
@@ -91,7 +91,7 @@
 
     computed: {
       opts() {
-        return this.options.filter((option) => option.value !== this.status)
+        return this.options.filter((option) => option.value !== this.status);
       },
     },
 
