@@ -72,7 +72,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import '../../assets/css/styleguide/notification';
+  @import '../../css/styleguide/notification';
 
   .icon-tick_md {
     stroke: $true-color;

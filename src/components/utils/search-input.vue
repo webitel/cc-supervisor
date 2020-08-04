@@ -31,7 +31,7 @@
 </template>
 
 <script>
-  import debounce from '../../utils/debounce';
+import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 
   export default {
     name: 'search-input',

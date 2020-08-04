@@ -31,7 +31,7 @@
 
 <script>
   import IconBtn from '@/components/utils/icon-btn.vue';
-  import debounce from '../../utils/debounce';
+  import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 
   export default {
     name: 'table-pagination',

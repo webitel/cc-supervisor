@@ -50,7 +50,6 @@
 <script>
   import { mapActions } from 'vuex';
   import VueMultiselect from 'vue-multiselect';
-  import debounce from '../../utils/debounce';
   import status from './status.vue';
 
   export default {
@@ -120,8 +119,8 @@
 </script>
 
 <style lang="scss">
-  @import "../../assets/css/ui-components/multiselect-spinner";
-  @import "../../assets/css/ui-components/shared";
+  @import "../../css/ui-components/multiselect-spinner";
+  @import "../../css/ui-components/shared";
 
   $select-paddings: 10px 30px 10px 15px;
 

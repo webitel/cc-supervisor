@@ -1,5 +1,6 @@
-@import "./utils/variables";
-@import "./styleguide/styleguide";
+@import "utils/variables";
+@import "styleguide/styleguide";
+@import "~@webitel/ui-sdk/src/css/main.scss";
 
 // PRIMARY COLORS:
 $sidebar-color: #171A2A; // sidebar panel
@@ -190,8 +191,6 @@ $srollbar-thumb-color: rgba(0, 0, 0, 0.3);
 }
 
 .value-pair {
-  @extend .object-input-grid;
-
   align-items: center;
   grid-template-columns: 1fr 1fr 24px;
 

@@ -77,8 +77,8 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { CallDirection } from 'webitel-sdk';
-import getTimeFromDuration from '@/utils/getTimeFromDuration';
-import Tooltip from './utils/tooltip.vue';
+import Tooltip from '../utils/tooltip.vue';
+import getTimeFromDuration from '../../utils/getTimeFromDuration';
 
 export default {
     name: 'call-window-eavesdrop',

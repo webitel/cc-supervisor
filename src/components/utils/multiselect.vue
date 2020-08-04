@@ -23,7 +23,7 @@
       >
         <template slot="option" slot-scope="{ option }">
           <div class="multiselect__option__content">
-            <span>{{capitalizeWords(option.name || option)}}</span>
+            <span>{{option.name || option}}</span>
             <icon class="multiselect__option__tick">
               <svg class="icon icon-tick_sm sm">
                 <use xlink:href="#icon-tick_sm"></use>
@@ -49,8 +49,7 @@
 <script>
   import VueMultiselect from 'vue-multiselect';
  // import ValidationMessage from './validation-message.vue';
-  import capitalizeWords from '@/utils/capitalizeWords';
-  import debounce from '../../utils/debounce';
+  import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 
   export default {
     name: 'multiselect',
@@ -147,12 +146,11 @@
       limitText: (count) => `${count + 1}`,
 
       displayLabel(option) {
-        let tmpOption = capitalizeWords(option.name || option);
+        let tmpOption = option.name || option;
         if (tmpOption.length > 15) tmpOption = `${tmpOption.substr(0, 15)}...`;
         return tmpOption;
       },
 
-      capitalizeWords: (str) => capitalizeWords(str),
 
       async fetch(search) {
         if (this.apiMode) {
@@ -175,8 +173,8 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../../assets/css/ui-components/multiselect-spinner";
-  @import "../../assets/css/ui-components/shared";
+  @import "../../css/ui-components/multiselect-spinner";
+  @import "../../css/ui-components/shared";
 
   .label-margin {
     margin-left: 10px;

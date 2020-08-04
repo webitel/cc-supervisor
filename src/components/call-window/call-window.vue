@@ -95,8 +95,8 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { CallDirection, CallActions } from 'webitel-sdk';
-import getTimeFromDuration from '@/utils/getTimeFromDuration';
-import ringingSoundMixin from '@/mixins/ringingSoundMixin';
+import getTimeFromDuration from '../../utils/getTimeFromDuration';
+import ringingSoundMixin from '../../mixins/ringingSoundMixin';
 
 export default {
     name: 'call-window',

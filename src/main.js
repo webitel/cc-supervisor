@@ -1,24 +1,16 @@
 import Vue from 'vue';
 import Vuelidate from 'vuelidate';
-import VueNativeSock from 'vue-native-websocket';
 import App from './the-app.vue';
 import router from './router';
 import store from './store';
 import i18n from './locale/i18n';
 import Icon from './components/utils/icon-wrap.vue';
 
-import './assets/lib/normalize.scss';
-import './assets/lib/bootstrap-grid.min.css';
-import './assets/css/fonts.scss';
-import './assets/css/main.scss';
+import './plugins/webitel-ui';
 
-Vue.use(VueNativeSock, 'ws://localhost:8081', {
-  store,
-  // format: 'json',
-  reconnection: false,
-  reconnectionAttempts: 5,
-  reconnectionDelay: 3000,
- });
+import './css/fonts.scss';
+import './css/main.scss';
+
 Vue.config.productionTip = false;
 Vue.component('icon', Icon);
 Vue.use(Vuelidate);

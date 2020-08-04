@@ -2,14 +2,14 @@
     <div class="content-wrap">
         <object-header hide-primary-action>
              <template slot="title">
-                {{$t('settings.settings')}}
+                {{$t('the-settings.the-settings')}}
             </template>
         </object-header>
 
         <section class="object-content">
             <section class="settings-section">
                 <header class="content-header">
-                    <h3 class="content-title">{{$t('settings.changePassword')}}</h3>
+                    <h3 class="content-title">{{$t('the-settings.changePassword')}}</h3>
                 </header>
                 <form class="object-input-grid grid-w50">
                     <div>
@@ -35,7 +35,7 @@
 
             <section class="settings-section">
                 <header class="content-header">
-                    <h3 class="content-title">{{$t('settings.language')}}</h3>
+                    <h3 class="content-title">{{$t('the-settings.language')}}</h3>
                 </header>
                 <form class="object-input-grid grid-w50">
                     <multiselect-row
@@ -52,7 +52,7 @@
 
             <section class="settings-section">
                 <header class="content-header">
-                    <h3 class="content-title">{{$t('settings.autoRefresh')}}</h3>
+                    <h3 class="content-title">{{$t('the-settings.autoRefresh')}}</h3>
                 </header>
                 <form class="object-input-grid grid-w50">
                     <multiselect-row
@@ -72,10 +72,10 @@
 
 <script>
     import { sameAs, required } from 'vuelidate/lib/validators';
-    import objectHeader from './object-utils/the-object-header.vue';
-    import multiselectRow from './utils/multiselect-row.vue';
-    import btn from './utils/btn.vue';
-    import formInput from './utils/form-input.vue';
+    import objectHeader from '@/components/object-utils/the-object-header.vue';
+    import multiselectRow from '@/components/utils/multiselect-row.vue';
+    import btn from '@/components/utils/btn.vue';
+    import formInput from '@/components/utils/form-input.vue';
 
     export default {
         name: 'the-settings',

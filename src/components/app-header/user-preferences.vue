@@ -41,7 +41,7 @@
              </svg>
            </icon>
            <span>
-         {{$t('settings.settings')}}
+         {{$t('the-settings.the-settings')}}
        </span>
          </a>
        </li>
@@ -86,7 +86,7 @@
 
     methods: {
       settings() {
-        this.$router.push('/supervisor/settings');
+        this.$router.push('/supervisor/the-settings');
       },
 
       logoutUser() {

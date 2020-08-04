@@ -16,7 +16,7 @@
                 </button>
                 <i class="icon-icon_menu-burger" @click="toggleCollapse"></i>
                 <div class="logo-wrap">
-                    <img class="logo" src="../assets/img/logo.svg" alt="logo">
+                    <img class="logo" src="../../assets/img/logo.svg" alt="logo">
                 </div>
             </header>
             <ul class="nav-items">

@@ -226,7 +226,7 @@
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/css/ui-components/shared";
+@import "../../css/ui-components/shared";
 
   .attention-item {
     position: relative;
