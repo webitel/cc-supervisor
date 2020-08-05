@@ -1,14 +1,13 @@
 <template>
-  <multiselect
+  <wt-select
     v-model="value"
     :options="options"
-    :label="$t('filters.type')"
+    :label="$t('filters.queueType')"
     :track-by="trackBy"
-    :api-mode="apiMode"
+    multiple
+    @reset="setQueryArray({ value, filterQuery, queriedProp })"
     @closed="setQueryArray({ value, filterQuery, queriedProp })"
-    :multiple="true"
-    :closeOnSelect="false"
-  ></multiselect>
+  ></wt-select>
 </template>
 
 <script>
@@ -16,12 +15,12 @@
   import TypeOptions from '@/api/filter-getters/TypeOptions.enum';
 
   export default {
-    name: 'filter-type',
+    name: 'filter-queue-type',
     mixins: [enumFilterMixin],
 
     data: () => ({
       options: TypeOptions,
-      filterQuery: 'type',
+      filterQuery: 'queue-type',
     }),
   };
 </script>

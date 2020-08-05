@@ -1,5 +1,5 @@
 <template>
-  <search
+  <wt-search-bar
     v-model="value"
     @search="setQueryValue({ filterQuery, value })"
   />
@@ -7,14 +7,10 @@
 
 <script>
   import valueFilterMixin from '@/mixins/filters/valueFilterMixin';
-  import Search from '../utils/search-input.vue';
 
   export default {
     name: 'filter-search',
     mixins: [valueFilterMixin],
-    components: {
-      Search,
-    },
 
     data: () => ({
       value: '',

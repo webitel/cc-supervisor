@@ -224,9 +224,6 @@ export default {
     position: relative;
     display: flex;
     align-items: center;
-    min-height: 68px;
-    padding: 35px 28px;
-    margin-bottom: 28px;
 
     background: $content-bg-color;
     border-radius: $border-radius;

@@ -213,9 +213,6 @@ export default {
 .filter-header {
     display: flex;
     align-items: left;
-    min-height: 68px;
-    padding: 18px 30px;
-    margin-bottom: 20px;
 
     background: $content-bg-color;
     border-radius: $border-radius;

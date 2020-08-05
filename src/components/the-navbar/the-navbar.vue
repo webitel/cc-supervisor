@@ -158,6 +158,7 @@ $nav-paddings: 0 38px 0 20px;
         width: 100%;
         max-height: 36px;
         padding: 6px 38px 6px 20px;
+        box-sizing: border-box;
         cursor: pointer;
 
         .nav-icon-arrow {

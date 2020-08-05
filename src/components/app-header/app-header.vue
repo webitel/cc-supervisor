@@ -25,7 +25,7 @@ export default {
 
   methods: {
     settings() {
-      this.$router.push('/supervisor/the-settings');
+      this.$router.push('/supervisor/settings');
     },
 
     async logoutUser() {

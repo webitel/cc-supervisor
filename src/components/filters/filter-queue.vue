@@ -1,14 +1,15 @@
 <template>
-  <multiselect
+  <wt-select
     v-model="value"
-    :fetch-method="fetch"
     :label="$t('filters.queue')"
-    :api-mode="apiMode"
+    :internal-search="!apiMode"
     :track-by="trackBy"
+    :search="fetch"
+    :close-on-select="false"
+    multiple
+    @reset="setQueryArray({ value, filterQuery, queriedProp })"
     @closed="setQueryArray({ value, filterQuery, queriedProp })"
-    :multiple="true"
-    :closeOnSelect="false"
-  ></multiselect>
+  ></wt-select>
 </template>
 
 <script>

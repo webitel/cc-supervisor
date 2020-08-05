@@ -71,7 +71,7 @@ export default {
     time: 'Время',
     team: 'Команда',
     queue: 'Очередь',
-    type: 'Тип очереди',
+    queueType: 'Тип очереди',
     status: 'Статус',
     utilization: 'Прогресс по утилизации',
     callNow: 'В разговоре',

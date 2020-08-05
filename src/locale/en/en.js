@@ -71,7 +71,7 @@ export default {
     time: 'Time',
     team: 'Team',
     queue: 'Queue',
-    type: 'Queue Type',
+    queueType: 'Queue Type',
     status: 'Status',
     utilization: 'Utilization progress',
     callNow: 'Call now',

@@ -1,14 +1,12 @@
 <template>
-  <multiselect
+  <wt-select
     v-model="value"
     :options="options"
     :label="$t('filters.time')"
     :track-by="trackBy"
-    :api-mode="apiMode"
-    @closed="setQueryValue({ filterQuery: filterQuery, value: value.value })"
-    :multiple="false"
-    :closeOnSelect="true"
-  ></multiselect>
+    @reset="setQueryValue({ filterQuery, value: value.value })"
+    @closed="setQueryValue({ filterQuery, value: value.value })"
+  ></wt-select>
 </template>
 
 <script>
@@ -27,5 +25,4 @@
 </script>
 
 <style scoped>
-
 </style>
