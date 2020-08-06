@@ -46,11 +46,7 @@
             />
           </template>
         </wt-table>
-        <wt-pagination
-          :size="10"
-          :next="true"
-          :prev="true"
-        ></wt-pagination>
+        <filter-pagination :is-next="isNext" />
       </div>
     </template>
   </page-wrapper>
@@ -62,6 +58,7 @@ import convertQuery from '../../utils/loadScripts';
 import { queueFields } from '../../api/queues/queues';
 import FilterFields from '../filters/filter-table-fields.vue';
 import FilterSearch from '../filters/filter-search.vue';
+import FilterPagination from '../filters/filter-pagination.vue';
 
 import PageWrapper from '../supervisor-workspace/page-wrapper.vue';
 import QueueFilters from './_internals/queue-filters/queue-filters.vue';
@@ -78,6 +75,7 @@ export default {
   components: {
     FilterSearch,
     FilterFields,
+    FilterPagination,
     QueueFilters,
     PageWrapper,
     TableQueue,
@@ -87,7 +85,7 @@ export default {
   },
   mixins: [headersMixin, sortFilterMixin, downloadCSVMixin],
   data: () => ({
-    isNext: false,
+    isFilterFieldsOpened: false,
     isLoading: false,
     autorefresh: null,
   }),
@@ -110,6 +108,7 @@ export default {
   computed: {
     ...mapState('queues', {
       data: (state) => state.dataList,
+      isNext: (state) => state.isNext,
     }),
     timer: () => +localStorage.getItem('autorefresh'),
   },
@@ -123,7 +122,7 @@ export default {
       this.isLoading = true;
       const params = this.getQueryParams();
       try {
-        this.isNext = await this.loadDataList(params);
+        await this.loadDataList(params);
       } catch {
       } finally {
         this.isLoading = false;

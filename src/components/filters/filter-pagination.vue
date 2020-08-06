@@ -1,24 +1,20 @@
 <template>
-  <pagination
+  <wt-pagination
     v-model="size"
-    :is-next="isNext"
-    :is-prev="isPrev"
+    :next="isNext"
+    :prev="isPrev"
     @next="next"
     @prev="prev"
-    @changeSize="sizeChange"
-  ></pagination>
+    @change="sizeChange"
+  ></wt-pagination>
 </template>
 
 <script>
-  import Pagination from '../utils/table-pagination.vue';
   import valueFilterMixin from '../../mixins/filters/valueFilterMixin';
 
   export default {
     name: 'filter-pagination',
     mixins: [valueFilterMixin],
-    components: {
-      Pagination,
-    },
 
     props: {
       isNext: {

@@ -4,6 +4,7 @@ import parseJoined from '../../../utils/joined';
 
 const state = {
   dataList: [],
+  isNext: true,
 };
 
 const getters = {};
@@ -26,6 +27,7 @@ const actions = {
     }
     const { items, next } = await getQueuesList(params);
     context.commit('SET_LIST', items);
+    context.commit('SET_NEXT', next);
     return next;
   },
 };
@@ -33,6 +35,9 @@ const actions = {
 const mutations = {
   SET_LIST: (state, queues) => {
     state.dataList = queues;
+  },
+  SET_NEXT: (state, isNext) => {
+    state.isNext = isNext;
   },
 };
 

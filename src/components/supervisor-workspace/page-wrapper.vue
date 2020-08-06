@@ -40,8 +40,7 @@ export default {
   margin-bottom: 20px;
 }
 
-.page-wrapper__actions-panel,
-.page-wrapper__main {
+.page-wrapper__actions-panel {
   padding: 20px 30px;
 }
 
@@ -49,6 +48,7 @@ export default {
   flex: 1;
   display: flex;
   width: 100%;
+  padding: 20px 30px 30px;
 }
 
 </style>
