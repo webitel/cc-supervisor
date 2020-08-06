@@ -16,7 +16,19 @@
       </wt-headline>
     </template>
     <template slot="actions-panel">
-      <queue-filters/>
+      <filter-fields
+        v-show="isFilterFieldsOpened"
+        :entity="'queues'"
+        v-model="headers"
+        @close="isFilterFieldsOpened = false"
+      ></filter-fields>
+      <div class="actions-panel-wrapper">
+        <queue-filters/>
+        <wt-table-actions
+          :icons="['refresh', 'column-select', 'filter-reset']"
+          @input="tableActionsHandler"
+        ></wt-table-actions>
+      </div>
     </template>
     <template slot="main">
       <wt-loader v-show="isLoading"></wt-loader>
@@ -39,14 +51,8 @@
           <template slot="members" slot-scope="{ item }">
             <table-members :item="item"/>
           </template>
-          <template slot="actions-header">
-            <filter-fields
-              :entity="'queues'"
-              :headers="headers"
-            />
-          </template>
         </wt-table>
-        <filter-pagination :is-next="isNext" />
+        <filter-pagination :is-next="isNext"/>
       </div>
     </template>
   </page-wrapper>
@@ -128,6 +134,32 @@ export default {
         this.isLoading = false;
       }
     },
+    tableActionsHandler(eventName) {
+      switch (eventName) {
+        case 'refresh':
+          this.refreshList();
+          break;
+        case 'columnSelect':
+          this.openColumnSelect();
+          break;
+        case 'filterReset':
+          this.resetFilters();
+          break;
+        default:
+      }
+    },
+
+    refreshList() {
+      this.loadList();
+    },
+
+    openColumnSelect() {
+      this.isFilterFieldsOpened = true;
+    },
+
+    resetFilters() {
+      this.$router.replace({ query: null });
+    },
 
     download() {
       this.downloadCSV({
@@ -147,6 +179,17 @@ export default {
 <style lang="scss" scoped>
 .wt-button {
   margin-left: 20px;
+}
+
+.actions-panel-wrapper {
+  display: flex;
+
+  .filter-header {
+    flex: 1;
+  }
+  .wt-table-actions {
+    height: fit-content;
+  }
 }
 
 .table-wrapper {

@@ -1,12 +1,13 @@
 <template>
   <column-select
     :value="headers"
-    @change="setValue"
+    @change="change"
+    @close="close"
   ></column-select>
 </template>
 
 <script>
-  import valueFilterMixin from '@/mixins/filters/valueFilterMixin';
+  import valueFilterMixin from '../../mixins/filters/valueFilterMixin';
   import ColumnSelect from '../utils/table-column-select.vue';
 
   export default {
@@ -40,15 +41,15 @@
     methods: {
       // overrides valueFilterMixin method
       restore({ filterQuery }) {
-        const value = this.$route.query[filterQuery];
+        let value = this.$route.query[filterQuery];
         if (!value) {
           // if no value in url, check in localStorage
-          const value = this.getFromLocalStorage({ filterQuery });
-          if (value) {
-            // if there's a value, set it to url and to component data
-            this.setQueryValue({ filterQuery, value });
-            this.restoreValue({ value });
-          }
+          value = this.getFromLocalStorage({ filterQuery });
+        }
+        if (value) {
+          // if there's a value, set it to url and to component data
+          this.setQueryValue({ filterQuery, value });
+          this.restoreValue({ value });
         }
       },
 
@@ -58,6 +59,15 @@
           show: !!value.includes(header.value),
         }));
         this.$emit('change', headers);
+      },
+
+      change(headers) {
+        this.setValue(headers);
+        this.close();
+      },
+
+      close() {
+        this.$emit('close');
       },
 
       setValue(headers) {

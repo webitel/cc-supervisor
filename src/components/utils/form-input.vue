@@ -37,7 +37,7 @@
 <script>
     import eventBus from '@/utils/eventBus';
     import requiredLabelMixin from '@/mixins/requiredLabelMixin';
-    import validationMessage from './validation-message';
+    import validationMessage from './validation-message.vue';
 
     export default {
         name: 'login-input',
