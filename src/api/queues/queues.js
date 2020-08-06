@@ -27,12 +27,33 @@ const parseQueueList = (items) => items.map((item) => ({
 }));
 
 export const getQueuesList = async ({
-                                      page = 0, size = 10, joinedAtFrom, joinedAtTo, search = '', queueIds, sort = '+priority', fields, teamIds, typeIds,
+                                      page = 0,
+                                      size = 10,
+                                      joinedAtFrom,
+                                      joinedAtTo,
+                                      search = '',
+                                      queueIds,
+                                      sort = '+priority',
+                                      fields,
+                                      teamIds,
+                                      typeIds,
                                     }) => {
   try {
     // eslint-disable-next-line no-param-reassign
     if (search && search.slice(-1) !== '*') search += '*';
-    const res = await queueService.searchQueueReportGeneral(page, size, joinedAtFrom, joinedAtTo, undefined, fields, sort, search, queueIds, teamIds, typeIds);
+    const res = await queueService.searchQueueReportGeneral(
+      page,
+      size,
+      joinedAtFrom,
+      joinedAtTo,
+      undefined,
+      fields,
+      sort,
+      search,
+      queueIds,
+      teamIds,
+      typeIds,
+    );
     return {
       items: res.items ? parseQueueList(res.items) : [],
       next: !!res.next,
