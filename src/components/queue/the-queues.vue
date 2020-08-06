@@ -18,8 +18,8 @@
     <template slot="actions-panel">
       <filter-fields
         v-show="isFilterFieldsOpened"
-        :entity="'queues'"
         v-model="headers"
+        :entity="'queues'"
         @close="isFilterFieldsOpened = false"
       ></filter-fields>
       <div class="actions-panel-wrapper">
@@ -187,8 +187,10 @@ export default {
   .filter-header {
     flex: 1;
   }
+
   .wt-table-actions {
     height: fit-content;
+    margin-top: 24px;
   }
 }
 
