@@ -23,7 +23,7 @@
             @click.capture.prevent="col.show = !col.show"
           >
             <checkbox :value="col.show"/>
-            <span>{{col.text()}}</span>
+            <span>{{col.text}}</span>
           </li>
         </ul>
       </template>

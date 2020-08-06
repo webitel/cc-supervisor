@@ -50,7 +50,7 @@
 <script>
   import { mapActions } from 'vuex';
   import VueMultiselect from 'vue-multiselect';
-  import status from './status.vue';
+  import status from './table-status.vue';
 
   export default {
     name: 'status-select',

@@ -20,20 +20,35 @@ export default {
 
 <style lang="scss" scoped>
 .page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  box-sizing: border-box;
   padding: 20px 30px;
 }
 
 .page-wrapper__header,
 .page-wrapper__actions-panel,
 .page-wrapper__main {
-  margin-bottom: 20px;
+  box-sizing: border-box;
   background: var(--main-primary-color);
   border-radius: var(--border-radius);
+}
+
+.page-wrapper__header,
+.page-wrapper__actions-panel {
+  margin-bottom: 20px;
 }
 
 .page-wrapper__actions-panel,
 .page-wrapper__main {
   padding: 20px 30px;
+}
+
+.page-wrapper__main {
+  flex: 1;
+  display: flex;
+  width: 100%;
 }
 
 </style>

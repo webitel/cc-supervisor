@@ -98,7 +98,7 @@ import { fetchTeams } from '@/api/filter-getters/teamFilter';
 import loader from '@/components/utils/loader.vue';
 import selectorTeam from '../selectors/selector-team.vue';
 import statusSelect from '../utils/status-select.vue';
-import status from '../utils/status.vue';
+import status from '../utils/table-status.vue';
 import theAgentsItemCalls from './the-agents-item-calls.vue';
 // import theAgentsItemChats from './the-agents-item-chats.vue';
 // import theAgentsHelpPopup from './the-agents-help-popup.vue';

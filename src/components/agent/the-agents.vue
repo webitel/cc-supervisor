@@ -140,7 +140,7 @@ import FilterUtilization from '../filters/filter-utilization.vue';
 import Btn from '../utils/btn.vue';
 import GridTable from '../utils/grid-table.vue';
 import agentHeaders from './agentHeaders';
-// import status from '../utils/status.vue';
+// import status from '../utils/table-status.vue';
 import statusSelect from '../utils/status-select.vue';
 import selectorQueue from '../selectors/selector-queue.vue';
 import selectorTeam from '../selectors/selector-team.vue';

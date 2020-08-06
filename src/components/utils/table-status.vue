@@ -1,8 +1,6 @@
 <template>
     <div class="table-status">
-        <span
-                class="table-status__icon"
-        ></span>
+        <span class="table-status__icon"></span>
         <div class="table-status__text">
             {{computeStatusText}}
         </div>

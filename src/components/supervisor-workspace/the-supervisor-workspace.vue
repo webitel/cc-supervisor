@@ -36,13 +36,19 @@ export default {
   width: 100%;
 }
 
+.the-nav__wrap {
+  flex: 0 0 272px;
+}
+
 // main content itself, without nav but with main header
 .the-supervisor-workspace__wrapper {
   flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
   width: 1px;
 }
 
-.the-nav__wrap {
-  flex: 0 0 272px;
+.the-supervisor-workspace__content {
+  flex-grow: 1;
 }
 </style>
