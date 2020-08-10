@@ -17,68 +17,68 @@
             <use xlink:href="#icon-pause_md"></use>
           </svg>
         </icon>
-        <div class="media-select__item__name">{{file.name | truncate}}</div>
+        <div class="media-select__item__name">{{ file.name | truncate }}</div>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-  import clickaway from '../../directives/clickaway';
+export default {
+  name: 'media-select',
+  directives: {
+    // clickaway,
+  },
+  filters: {
+    truncate(value) {
+      if (value) {
+        if (value.length < 18) return value;
+        return `${value.slice(0, 15)}...`;
+      }
+      return '';
+    },
+  },
 
-  export default {
-    name: 'media-select',
-    directives: { clickaway },
-    filters: {
-      truncate(value) {
-        if (value) {
-          if (value.length < 18) return value;
-          return `${value.slice(0, 15)}...`;
-        }
-        return '';
-      },
+  props: {
+    files: {
+      type: Array,
+      required: true,
+    },
+    currentlyPlaying: {
+      type: String,
+    },
+  },
+
+  methods: {
+    togglePlay(fileId) {
+      if (this.currentlyPlaying === fileId) {
+        this.$emit('play', '');
+      } else {
+        this.$emit('play', fileId);
+      }
     },
 
-    props: {
-      files: {
-        type: Array,
-        required: true,
-      },
-      currentlyPlaying: {
-        type: String,
-      },
+    close() {
+      this.$emit('close');
     },
-
-    methods: {
-      togglePlay(fileId) {
-        if (this.currentlyPlaying === fileId) {
-          this.$emit('play', '');
-        } else {
-          this.$emit('play', fileId);
-        }
-      },
-
-      close() {
-        this.$emit('close');
-      },
-    },
-  };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-  .media-select {
-    position: relative;
-    height: (24px);
-  }
+.media-select {
+  position: relative;
+  height: (24px);
+}
 
-  .media-select__list {
-    position: absolute;
-    top: (24px + 14px); // icon + margin
-    right: 0;
-    background: #fff;
-    box-shadow: $box-shadow;
-    z-index: 1;
-    cursor: pointer;
+.media-select__list {
+  position: absolute;
+  top: (24px + 14px); // icon + margin
+  right: 0;
+  background: #fff;
+  box-shadow: $box-shadow;
+  z-index: 1;
+  cursor: pointer;
 
   .media-select__item {
     display: flex;
@@ -87,22 +87,22 @@
     padding: (5px) (10px);
     transition: $transition;
 
-      &:hover {
-        background: $list-option__hover;
+    &:hover {
+      background: $list-option__hover;
 
-        .icon {
-          fill: $icon-color__hover;
-          stroke: $icon-color__hover;
-        }
+      .icon {
+        fill: $icon-color__hover;
+        stroke: $icon-color__hover;
       }
+    }
 
     .icon-wrap {
       margin-right: (10px);
     }
 
-      &__name {
-        white-space: nowrap;
-      }
+    &__name {
+      white-space: nowrap;
     }
   }
+}
 </style>

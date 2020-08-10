@@ -1,26 +1,17 @@
 <template>
-  <multiselect-row
+  <wt-select
     v-model="value"
     :options="options"
-    :label="$t('filters.queue')"
-    :api-mode="false"
-    :track-by="'id'"
+    :placeholder="$t('filters.queue')"
+    multiple
+    readonly
     @closed="setValues"
-    :multiple="true"
-    :closeOnSelect="false"
-    :readonly="true"
-  ></multiselect-row>
+  ></wt-select>
 </template>
 
 <script>
-  import multiselectRow from '../utils/multiselect-row.vue';
-
   export default {
     name: 'selector-queue',
-    components: {
-      multiselectRow,
-    },
-
     props: {
       agentId: {
         required: true,

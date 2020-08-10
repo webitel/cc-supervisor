@@ -110,129 +110,116 @@ import activeCallHeaders from './activeCallHeaders';
 import theObjectHeader from '../object-utils/the-object-header.vue';
 
 export default {
-    name: 'the-active-calls',
-    components: {
-        // FilterSearch,
-        loader,
-        GridTable,
-        FilterAgent,
-        FilterUser,
-        FilterQueue,
-        FilterFields,
-        FilterPagination,
-        FilterDirection,
-        FilterGateway,
-        Btn,
-        theObjectHeader,
+  name: 'the-active-calls',
+  components: {
+    // FilterSearch,
+    loader,
+    GridTable,
+    FilterAgent,
+    FilterUser,
+    FilterQueue,
+    FilterFields,
+    FilterPagination,
+    FilterDirection,
+    FilterGateway,
+    Btn,
+    theObjectHeader,
+  },
+  mixins: [
+    sortFilterMixin,
+    downloadCSVMixin,
+  ],
+  data() {
+    return {
+      headers: activeCallHeaders,
+      // isNext: false,
+      isLoading: false,
+      autorefresh: null,
+    };
+  },
+  watch: {
+    '$route.query': {
+      async handler() {
+        await this.loadList();
+        if (this.autorefresh) clearInterval(this.autorefresh);
+        this.autorefresh = setInterval(this.loadListTick, this.timer);
+      },
+      immediate: true,
     },
-    mixins: [
-        sortFilterMixin,
-        downloadCSVMixin,
-    ],
-    data() {
-        return {
-            headers: activeCallHeaders,
-            // isNext: false,
-            isLoading: false,
-            autorefresh: null,
-        };
+  },
+  destroyed() {
+    clearInterval(this.autorefresh);
+  },
+  computed: {
+    ...mapState('activeCalls', {
+      data: (state) => state.dataList,
+      isNext: (state) => state.isNext,
+    }),
+    timer: () => +localStorage.getItem('autorefresh'),
+  },
+  methods: {
+    ...mapActions('activeCalls', {
+      loadDataList: 'FETCH_LIST',
+    }),
+    ...mapActions('call', {
+      attachToCall: 'ATTACH_TO_CALL',
+      openWindow: 'EAVESDROP_OPEN_WINDOW',
+    }),
+    async loadList() {
+      this.isLoading = true;
+      const params = this.getQueryParams();
+      try {
+        await this.loadDataList(params);
+      } catch {
+      } finally {
+        this.isLoading = false;
+      }
     },
-    watch: {
-        '$route.query': {
-            async handler() {
-                await this.loadList();
-                if (this.autorefresh) clearInterval(this.autorefresh);
-                this.autorefresh = setInterval(this.loadListTick, this.timer);
-            },
-            immediate: true,
-        },
+    async loadListTick() {
+      const params = this.getQueryParams();
+      try {
+        await this.loadDataList(params);
+      } catch {
+      }
     },
-    destroyed() {
-        clearInterval(this.autorefresh);
+    download() {
+      this.downloadCSV({
+        fields: activeCallFields,
+        items: this.data,
+      });
     },
-    computed: {
-        ...mapState('activeCalls', {
-                data: (state) => state.dataList,
-                isNext: (state) => state.isNext,
-        }),
-        timer: () => +localStorage.getItem('autorefresh'),
+    getQueryParams() {
+      const { query } = this.$route;
+      return convertQuery(query);
     },
-    methods: {
-        ...mapActions('activeCalls', {
-            loadDataList: 'FETCH_LIST',
-        }),
-        ...mapActions('call', {
-            attachToCall: 'ATTACH_TO_CALL',
-            openWindow: 'EAVESDROP_OPEN_WINDOW',
-        }),
-        async loadList() {
-            this.isLoading = true;
-            const params = this.getQueryParams();
-            try {
-                await this.loadDataList(params);
-            } catch {
-            } finally {
-                this.isLoading = false;
-            }
-        },
-        async loadListTick() {
-            const params = this.getQueryParams();
-            try {
-                await this.loadDataList(params);
-            } catch {
-            }
-        },
-        download() {
-            this.downloadCSV({
-                fields: activeCallFields,
-                items: this.data,
-            });
-        },
-        getQueryParams() {
-            const { query } = this.$route;
-            return convertQuery(query);
-        },
-        isActive(state) {
-            return state !== CallActions.Hangup && state !== CallActions.Ringing;
-        },
-        async attachCall(id) {
-           await this.attachToCall({ id });
-           this.openWindow();
-        },
+    isActive(state) {
+      return state !== CallActions.Hangup && state !== CallActions.Ringing;
     },
+    async attachCall(id) {
+      await this.attachToCall({ id });
+      this.openWindow();
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 
 .action-button {
-    padding: 5px 17px 8px;
-    height: 32px;
-}
-
-.filter-header {
-    display: flex;
-    align-items: left;
-
-    background: $content-bg-color;
-    border-radius: $border-radius;
-    .label {
-        color: $label-color;
-    }
-    .filter-item {
-        min-width: (170px);
-        margin-right: (30px);
-    }
+  padding: 5px 17px 8px;
+  height: 32px;
 }
 
 .call {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
+
 .green {
-    fill: $true-color;
+  fill: $true-color;
 }
+
 .yell {
-    fill: $accent-color;
+  fill: $accent-color;
 }
 </style>

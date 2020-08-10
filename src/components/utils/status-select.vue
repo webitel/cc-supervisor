@@ -20,8 +20,8 @@
          <template slot="option" slot-scope="{ option }">
           <div class="multiselect__option__content">
             <status
-                    :class="option.value == 'online' ? {'status__true':true} :
-                    (option.value == 'pause' ? {'status__info':true} : {'status__false':true})"
+                    :class="option.value === 'online' ? {'status__true':true} :
+                    (option.value === 'pause' ? {'status__info':true} : {'status__false':true})"
                     :text="option.label"
             >
             </status>
@@ -30,8 +30,8 @@
 
          <template slot="placeholder">
             <status
-              :class="status == 'online' ? {'status__true':true} :
-              (status == 'pause' ? {'status__info':true} : {'status__false':true})"
+              :class="status === 'online' ? {'status__true':true} :
+              (status === 'pause' ? {'status__info':true} : {'status__false':true})"
               :text="time"
             >
             </status>
@@ -97,7 +97,7 @@
     methods: {
 
       ...mapActions('agents', {
-        updateStatus: 'UPDATE_STATUS',
+        updateStatus: 'UPDATE_AGENT_STATUS',
       }),
 
       limitText: (count) => `${count}`,
@@ -118,7 +118,7 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import "../../css/ui-components/multiselect-spinner";
   @import "../../css/ui-components/shared";
 
