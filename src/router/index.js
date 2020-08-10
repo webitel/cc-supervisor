@@ -5,7 +5,7 @@ import Auth from '../components/auth/auth.vue';
 import Queue from '../components/queue/the-queues.vue';
 import ActiveCalls from '../components/activeCall/the-active-calls.vue';
 import Agents from '../components/agent/the-agents.vue';
-import AgentsItem from '../components/agent/the-agents-item.vue';
+import AgentsItem from '../components/agent/agent-page/agent-page.vue';
 import moduleWrap from '../components/supervisor-workspace/the-supervisor-workspace.vue';
 import notFound from '../components/utils/the-not-found-component.vue';
 import settings from '../components/the-settings/the-settings.vue';

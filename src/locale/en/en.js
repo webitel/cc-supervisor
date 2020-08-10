@@ -119,7 +119,9 @@ export default {
         callTime: 'Call',
       },
     },
-    agentItem: {
+    agentPage: {
+      callAgent: 'Call',
+      team: 'Team',
       calls: {
         title: 'Calls',
         columns: {

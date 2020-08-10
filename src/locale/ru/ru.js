@@ -109,7 +109,7 @@ export default {
         callTime: 'Звонок',
       },
     },
-    agentItem: {
+    agentPage: {
       calls: {
         title: 'Звонки',
         columns: {

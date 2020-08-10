@@ -3,7 +3,7 @@ import { getAgentsList, getAgent, patchAgentStatus } from '../../../api/agents/a
 const state = {
   dataList: [],
   isNext: false,
-  itemInstance: {},
+  agent: {},
 };
 
 const getters = {};
@@ -40,13 +40,13 @@ const mutations = {
     state.isNext = isNext;
   },
   SET_ITEM: (state, agent) => {
-    state.itemInstance = agent;
+    state.agent = agent;
   },
   SET_STATUS: (state, { agentId, status }) => {
     if (!agentId || !status) return;
-    if (state.itemInstance.agentId === agentId) {
-      state.itemInstance.status = status;
-      state.itemInstance.statusDuration = '00:00:00';
+    if (state.agent.agentId === agentId) {
+      state.agent.status = status;
+      state.agent.statusDuration = '00:00:00';
     }
     const foundIndex = state.dataList.findIndex((agent) => agent.agentId === agentId);
     if (foundIndex !== -1) {
