@@ -1,6 +1,7 @@
 <template>
   <wt-search-bar
     v-model="value"
+    debounce
     @search="setQueryValue({ filterQuery, value })"
   />
 </template>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <loader v-show="isLoading" class="loader-center"></loader>
-        <header class="filter-header" v-show="!isLoading">
+        <header class="filter-wrap" v-show="!isLoading">
             <button
                 class="back-btn"
                 @click="$router.go(-1)"
@@ -219,25 +219,6 @@ export default {
       text-decoration: underline;
     }
   }
-
-  .filter-header {
-    position: relative;
-    display: flex;
-    align-items: center;
-
-    background: $content-bg-color;
-    border-radius: $border-radius;
-    .label {
-        color: $label-color;
-    }
-    .filter-item {
-        min-width: (80px);
-        margin-right: (30px);
-    }
-    .filter-team {
-        min-width: (170px);
-    }
-}
 
 .status-cell {
     width: (126px)

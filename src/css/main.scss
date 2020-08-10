@@ -45,6 +45,7 @@ $input-padding: 11px 16px 7px;
 //disables scrollbar on 100vh auth on small laptops
 body {
   display: flex;
+  height: auto;
   background: var(--main-page-bg-color);
 }
 

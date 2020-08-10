@@ -1,19 +1,18 @@
 <template>
-  <multiselect
+  <wt-select
     v-model="value"
     :options="options"
     :label="$t('filters.utilization')"
     :track-by="trackBy"
-    :api-mode="apiMode"
+    multiple
+    @reset="setQueryArray({ value, filterQuery, queriedProp })"
     @closed="setQueryArray({ value, filterQuery, queriedProp })"
-    :multiple="true"
-    :closeOnSelect="false"
-  ></multiselect>
+  ></wt-select>
 </template>
 
 <script>
-  import enumFilterMixin from '@/mixins/filters/enumFilterMixin';
-  import Utilization from '@/api/filter-getters/UtilizationOptions.enum';
+  import enumFilterMixin from '../../mixins/filters/enumFilterMixin';
+  import Utilization from '../../api/filter-getters/UtilizationOptions.enum';
 
   export default {
     name: 'filter-utilization',

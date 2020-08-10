@@ -106,7 +106,7 @@ export default {
         teams: 'Команды',
         queues: 'Очереди',
         utilization: 'Утилизация',
-        call: 'Звонок',
+        callTime: 'Звонок',
       },
     },
     agentItem: {

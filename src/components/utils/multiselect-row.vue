@@ -146,7 +146,7 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import "../../css/ui-components/multiselect-spinner";
   @import "../../css/ui-components/shared";
 

@@ -7,6 +7,7 @@ export const queueFields = ['id', 'name', 'type', 'team'];
 
 const parseQueueList = (items) => items.map((item) => ({
   ...item,
+  _isSelected: false,
   count: item.count || 0,
   bridged: item.bridged ? `${+item.bridged.toFixed(2)}%` : null,
   abandoned: item.abandoned ? `${+item.abandoned.toFixed(2)}%` : null,

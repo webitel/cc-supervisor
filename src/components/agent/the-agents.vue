@@ -1,328 +1,233 @@
 <template>
-    <div>
-        <the-object-header>
-            <template v-slot:title>
-                {{$t('pages.agent.title')}}
-            </template>
-            <template v-slot:actions>
-                <filter-search/>
-                <btn
-                    class="primary action-button"
-                    :loading="isCSVLoading"
-                    @click.native="download"
-                >{{$t('defaults.exportCSV')}}
-                </btn>
-            </template>
-        </the-object-header>
-        <div class="filter-header">
-            <filter-status class="filter-status"/>
-            <filter-queue class="filter-item"/>
-            <filter-team class="filter-item"/>
-            <filter-utilization class="filter-item"/>
-            <div class="switcher-label-wrap filter-switch-item">
-                <div class="label">{{$t('filters.callNow')}}</div>
-                <switcher
-                    v-model="callNow"
-                ></switcher>
-            </div>
-            <!-- <div class="switcher-label-wrap filter-switch-item">
-                <div class="label">Attention now</div>
-                <switcher
-                    v-model="attentionNow"
-                ></switcher>
-            </div> -->
-        </div>
-        <section class="object-content">
-            <loader v-show="isLoading"></loader>
-            <grid-table
-                :checkboxes="false"
-                v-show="!isLoading"
-                :headers="headers"
-                :data="data"
-                :expanded="false"
-                @sort="sort"
-                >
-                <template slot="actions-header">
-                    <filter-fields
-                    :entity="'agents'"
-                    :headers="headers"
-                    />
-                </template>
+  <page-wrapper>
+    <template slot="header">
+      <wt-headline>
+        <template slot="title">
+          {{ $t('pages.agent.title') }}
+        </template>
+        <template slot="actions">
+          <filter-search/>
+          <wt-button
+            :loading="isCSVLoading"
+            @click="download"
+          >{{ $t('defaults.exportCSV') }}
+          </wt-button>
+        </template>
+      </wt-headline>
+    </template>
 
-                <template slot="name" slot-scope="{ item }">
-                    <div class="tt-capitalize">
-                        <span class="nameLink" @click="open(item.agentId)">
-                            {{item.name}}
-                        </span>
-                    </div>
-                </template>
+    <template slot="actions-panel">
+      <filter-fields
+        v-show="isFilterFieldsOpened"
+        v-model="headers"
+        :entity="'agents'"
+        @close="isFilterFieldsOpened = false"
+      ></filter-fields>
+      <div class="actions-panel-wrapper">
+        <agents-filters/>
+        <wt-table-actions
+          :icons="['refresh', 'column-select']"
+          @input="tableActionsHandler"
+        ></wt-table-actions>
+      </div>
+    </template>
 
-                <template slot="status" slot-scope="{ item }">
-                     <status-select
-                        class="status-cell"
-                        :status="item.status"
-                        :time="item.statusDuration"
-                        :agentId="`${item.agentId}`"
-                    ></status-select>
-                </template>
+    <template slot="main">
+      <wt-loader v-show="isLoading"></wt-loader>
+      <div class="table-wrapper" v-show="!isLoading">
+        <wt-table
+          :headers="headers"
+          :data="data"
+          sortable
+          :grid-actions="false"
+          @sort="sort"
+        >
+          <template slot="name" slot-scope="{ item }">
+            <table-agent :item="item"/>
+          </template>
 
-                 <template slot="callTime" slot-scope="{ item }">
-                     <div class="call" v-if="item.callTime">
-                        <span>{{item.callTime}}</span>
-                        <button v-if="item.activeCallId" class="icon-btn" @click.prevent="attachCall(item.activeCallId)">
-                            <icon>
-                                <svg class="icon icon-speaker_off_md grid">
-                                    <use xlink:href="#icon-speaker_off_md"></use>
-                                </svg>
-                            </icon>
-                         </button>
-                     </div>
-                </template>
+          <template slot="status" slot-scope="{ item }">
+            <table-agent-status :item="item"/>
+          </template>
 
-                 <template slot="queues" slot-scope="{ item }">
-                     <selector-queue
-                        v-if="item.queues"
-                        class="selector-item"
-                        :agentId="item.agentId"
-                        :options="item.queues"
-                        :values="item.queues"
-                     >
-                     </selector-queue>
-                </template>
+          <template slot="callTime" slot-scope="{ item }">
+            <table-agent-call-time :item="item"/>
+          </template>
 
-                <template slot="teams" slot-scope="{ item }">
-                     <selector-team
-                        v-if="item.teams"
-                        class="selector-item"
-                        :agentId="item.agentId"
-                        :options="item.teams"
-                        :values="item.teams"
-                     >
-                     </selector-team>
-                </template>
+          <template slot="queues" slot-scope="{ item }">
+            <table-agent-queues :item="item"/>
+          </template>
 
-                <template slot="attentions" slot-scope="{ item }">
-                    <div v-if="item.attentions">
-                        <the-agents-help-popup
-                            :agent="item"
-                            :type="item.attentions.type"
-                            :count="item.attentions.count"
-                        >
-                        </the-agents-help-popup>
-                    </div>
-                </template>
+          <template slot="teams" slot-scope="{ item }">
+            <table-agent-teams :item="item"/>
+          </template>
 
-                <template slot="pagination">
-                    <filter-pagination :is-next="isNext"/>
-                </template>
-            </grid-table>
-        </section>
-    </div>
+          <template slot="attentions" slot-scope="{ item }">
+            <table-agent-attentions :item="item"/>
+          </template>
+        </wt-table>
+        <filter-pagination :is-next="isNext"/>
+      </div>
+    </template>
+  </page-wrapper>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import loader from '@/components/utils/loader.vue';
-import convertQuery from '@/utils/loadScripts';
-import downloadCSVMixin from '@/mixins/downloadCSV/downloadCSVMixin';
-import { agentFields } from '@/api/agents/agents';
-import sortFilterMixin from '@/mixins/filters/sortFilterMixin';
-import switcher from '@/components/utils/switcher.vue';
-// import { fetchQueues } from '@/api/filter-getters/queueFilter';
-// import { fetchTeams } from '@/api/filter-getters/teamFilter';
-import FilterTeam from '../filters/filter-team.vue';
-import FilterQueue from '../filters/filter-queue.vue';
+import { agentFields } from '../../api/agents/agents';
+import PageWrapper from '../supervisor-workspace/page-wrapper.vue';
+import FilterSearch from '../filters/filter-search.vue';
 import FilterFields from '../filters/filter-table-fields.vue';
 import FilterPagination from '../filters/filter-pagination.vue';
-import FilterSearch from '../filters/filter-search.vue';
-import FilterStatus from '../filters/filter-status.vue';
-import FilterUtilization from '../filters/filter-utilization.vue';
-import Btn from '../utils/btn.vue';
-import GridTable from '../utils/grid-table.vue';
-import agentHeaders from './agentHeaders';
-// import status from '../utils/table-status.vue';
-import statusSelect from '../utils/status-select.vue';
-import selectorQueue from '../selectors/selector-queue.vue';
-import selectorTeam from '../selectors/selector-team.vue';
-import theAgentsHelpPopup from './the-agents-help-popup.vue';
-import theObjectHeader from '../object-utils/the-object-header.vue';
+import AgentsFilters from './_internals/agent-filters/agent-filters.vue';
+
+import TableAgent from './_internals/table-templates/table-agent.vue';
+import TableAgentAttentions from './_internals/table-templates/table-agent-attentions.vue';
+import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
+import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
+import TableAgentQueues from './_internals/table-templates/table-agent-queues.vue';
+import TableAgentTeams from './_internals/table-templates/table-agent-teams.vue';
+
+import headersMixin from './_internals/headersMixin';
+import sortFilterMixin from '../../mixins/filters/sortFilterMixin';
+import tableActionsHandlerMixin from '../../mixins/supervisor-workspace/tableActionsHandlerMixin';
+import downloadCSVMixin from '../../mixins/downloadCSV/downloadCSVMixin';
+import convertQuery from '../../utils/loadScripts';
 
 export default {
-    name: 'the-agents',
-    components: {
-        FilterSearch,
-        loader,
-        GridTable,
-        FilterTeam,
-        FilterQueue,
-        FilterFields,
-        FilterPagination,
-        FilterStatus,
-        FilterUtilization,
-        Btn,
-        // status,
-        switcher,
-        statusSelect,
-        selectorQueue,
-        selectorTeam,
-        theAgentsHelpPopup,
-        theObjectHeader,
+  name: 'the-agents',
+  components: {
+    PageWrapper,
+    FilterSearch,
+    FilterFields,
+    FilterPagination,
+    AgentsFilters,
+    TableAgent,
+    TableAgentAttentions,
+    TableAgentStatus,
+    TableAgentCallTime,
+    TableAgentQueues,
+    TableAgentTeams,
+  },
+  mixins: [
+    headersMixin,
+    sortFilterMixin,
+    downloadCSVMixin,
+    tableActionsHandlerMixin,
+  ],
+  data() {
+    return {
+      isFilterFieldsOpened: false,
+      callNow: false,
+      attentionNow: false,
+      isLoading: false,
+      autorefresh: null,
+    };
+  },
+  watch: {
+    '$route.query': {
+      async handler() {
+        await this.loadList();
+        if (this.autorefresh) clearInterval(this.autorefresh);
+        this.autorefresh = setInterval(this.loadList, this.timer);
+      },
+      immediate: true,
     },
-    mixins: [
-        sortFilterMixin,
-        downloadCSVMixin,
-    ],
-    data() {
-        return {
-            callNow: false,
-            attentionNow: false,
-            headers: agentHeaders,
-            // isNext: false,
-            isLoading: false,
-            autorefresh: null,
-            // queues: [],
-            // teams: [],
-        };
+    callNow(value) {
+      if (value) {
+        this.setQueryValue({
+          filterQuery: 'callNow',
+          value: value.toString(),
+        });
+      } else {
+        this.setQueryValue({
+          filterQuery: 'callNow',
+          value: undefined,
+        });
+      }
     },
-    watch: {
-        '$route.query': {
-            async handler() {
-                await this.loadList();
-                if (this.autorefresh) clearInterval(this.autorefresh);
-                this.autorefresh = setInterval(this.loadListTick, this.timer);
-            },
-            immediate: true,
-        },
-        callNow(value) {
-            if (value) {
-                this.setQueryValue({ filterQuery: 'callNow', value: value.toString() });
-            } else {
-                this.setQueryValue({ filterQuery: 'callNow', value: undefined });
-            }
-        },
-        attentionNow(value) {
-            if (value) {
-                this.setQueryValue({ filterQuery: 'attentionNow', value: value.toString() });
-            } else {
-                this.setQueryValue({ filterQuery: 'attentionNow', value: undefined });
-            }
-        },
+    attentionNow(value) {
+      if (value) {
+        this.setQueryValue({
+          filterQuery: 'attentionNow',
+          value: value.toString(),
+        });
+      } else {
+        this.setQueryValue({
+          filterQuery: 'attentionNow',
+          value: undefined,
+        });
+      }
     },
-    mounted() {
-        this.callNow = (this.getValueByQuery({ filterQuery: 'callNow' }) === 'true') || false;
-        this.attentionNow = (this.getValueByQuery({ filterQuery: 'attentionNow' }) === 'true') || false;
+  },
+  mounted() {
+    this.callNow = (this.getValueByQuery({ filterQuery: 'callNow' }) === 'true') || false;
+    this.attentionNow = (
+      this.getValueByQuery({ filterQuery: 'attentionNow' }) === 'true') || false;
+  },
+  destroyed() {
+    clearInterval(this.autorefresh);
+  },
+  computed: {
+    ...mapState('agents', {
+      data: (state) => state.dataList,
+      isNext: (state) => state.isNext,
+    }),
+    timer: () => +localStorage.getItem('autorefresh'),
+  },
+  methods: {
+    ...mapActions('agents', {
+      loadDataList: 'FETCH_LIST',
+    }),
+    ...mapActions('call', {
+      attachToCall: 'ATTACH_TO_CALL',
+      openWindow: 'EAVESDROP_OPEN_WINDOW',
+    }),
+    async loadList() {
+      this.isLoading = true;
+      const params = this.getQueryParams();
+      try {
+        await this.loadDataList(params);
+      } catch {
+      } finally {
+        this.isLoading = false;
+      }
     },
-    destroyed() {
-        clearInterval(this.autorefresh);
-    },
-    computed: {
-        ...mapState('agents', {
-            data: (state) => state.dataList,
-            isNext: (state) => state.isNext,
-        }),
-        timer: () => +localStorage.getItem('autorefresh'),
-    },
-    methods: {
-        ...mapActions('agents', {
-            loadDataList: 'FETCH_LIST',
-        }),
-        ...mapActions('call', {
-            attachToCall: 'ATTACH_TO_CALL',
-            openWindow: 'EAVESDROP_OPEN_WINDOW',
-        }),
-        async loadList() {
-            this.isLoading = true;
-            const params = this.getQueryParams();
-            try {
-                await this.loadDataList(params);
-            } catch {
-            } finally {
-                this.isLoading = false;
-            }
-        },
 
-        async loadListTick() {
-            const params = this.getQueryParams();
-            try {
-                await this.loadDataList(params);
-            } catch {
-            }
-        },
-
-        download() {
-            this.downloadCSV({
-                fields: agentFields,
-                items: this.data,
-            });
-        },
-        getQueryParams() {
-            const { query } = this.$route;
-            return convertQuery(query);
-        },
-        open(id) {
-            this.$router.push({
-                name: 'agent-view',
-                params: { id },
-            });
-        },
-        async attachCall(id) {
-           await this.attachToCall({ id });
-           this.openWindow();
-        },
+    download() {
+      this.downloadCSV({
+        fields: agentFields,
+        items: this.data,
+      });
     },
+    getQueryParams() {
+      const { query } = this.$route;
+      return convertQuery(query);
+    },
+    async attachCall(id) {
+      await this.attachToCall({ id });
+      this.openWindow();
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+@import '../../css/supervisor-workspace/table-page/table-page';
 
 .action-button {
-    padding: 5px 17px 8px;
-    height: 32px;
+  padding: 5px 17px 8px;
+  height: 32px;
 }
 
 .call {
-    display: flex;
-    align-items: center;
-}
-
-.nameLink {
-    cursor: pointer;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-.filter-header {
-    display: flex;
-    align-items: left;
-
-    background: $content-bg-color;
-    border-radius: $border-radius;
-    .label {
-        color: $label-color;
-    }
-    .filter-status {
-        min-width: (116px);
-        margin-right: (30px);
-    }
-    .filter-item {
-        min-width: (170px);
-        margin-right: (30px);
-    }
-    .filter-switch-item {
-        min-width: (90px);
-    }
+  display: flex;
+  align-items: center;
 }
 
 .selector-item {
-    margin: -10px 0px;
-    min-width: (170px);
-}
-
-.status-cell {
-    margin: -10px 0px;
-    width: (126px)
+  margin: -10px 0px;
+  min-width: (170px);
 }
 
 </style>

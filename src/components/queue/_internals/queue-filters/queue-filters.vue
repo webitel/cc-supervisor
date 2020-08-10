@@ -1,5 +1,5 @@
 <template>
-  <div class="filter-header">
+  <div class="filter-wrap">
     <filter-period class="filter-item"/>
     <filter-queue class="filter-item"/>
     <filter-team class="filter-item"/>
@@ -25,15 +25,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.filter-header {
-  display: flex;
-  flex-wrap: wrap;
-
-  .filter-item {
-    min-width: 170px;
-    max-width: 250px;
-    margin-right: 20px;
-    margin-bottom: 10px;
-  }
-}
+@import '../../../../css/supervisor-workspace/table-page/table-filters/table-filters';
 </style>

@@ -11,8 +11,8 @@
 </template>
 
 <script>
-  import enumFilterMixin from '@/mixins/filters/enumFilterMixin';
-  import TypeOptions from '@/api/filter-getters/TypeOptions.enum';
+  import enumFilterMixin from '../../mixins/filters/enumFilterMixin';
+  import TypeOptions from '../../api/filter-getters/TypeOptions.enum';
 
   export default {
     name: 'filter-queue-type',

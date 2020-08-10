@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import tabs from './tabs';
+    import tabs from './tabs.vue';
 
     export default {
         name: 'tabs-component',

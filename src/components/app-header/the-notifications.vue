@@ -46,12 +46,11 @@
 
 <script>
   import { mapState, mapActions } from 'vuex';
-  import clickaway from '../../directives/clickaway';
 
   export default {
     name: 'the-notifications',
     directives: {
-      clickaway,
+      // clickaway,
     },
     data: () => ({
       isOpened: false,

@@ -9,7 +9,7 @@
           <filter-search/>
           <wt-button
             :loading="isCSVLoading"
-            @click.native="download"
+            @click="download"
           >{{ $t('defaults.exportCSV') }}
           </wt-button>
         </template>
@@ -25,7 +25,7 @@
       <div class="actions-panel-wrapper">
         <queue-filters/>
         <wt-table-actions
-          :icons="['refresh', 'column-select', 'filter-reset']"
+          :icons="['refresh', 'column-select']"
           @input="tableActionsHandler"
         ></wt-table-actions>
       </div>
@@ -37,6 +37,7 @@
           :headers="headers"
           :data="data"
           sortable
+          :grid-actions="false"
           @sort="sort"
         >
           <template slot="queue" slot-scope="{ item }">
@@ -75,6 +76,7 @@ import TableMembers from './_internals/table-templates/table-members.vue';
 import headersMixin from './_internals/headersMixin';
 import sortFilterMixin from '../../mixins/filters/sortFilterMixin';
 import downloadCSVMixin from '../../mixins/downloadCSV/downloadCSVMixin';
+import tableActionsHandlerMixin from '../../mixins/supervisor-workspace/tableActionsHandlerMixin';
 
 export default {
   name: 'the-queues',
@@ -89,7 +91,12 @@ export default {
     TableTeam,
     TableMembers,
   },
-  mixins: [headersMixin, sortFilterMixin, downloadCSVMixin],
+  mixins: [
+    headersMixin,
+    sortFilterMixin,
+    downloadCSVMixin,
+    tableActionsHandlerMixin,
+  ],
   data: () => ({
     isFilterFieldsOpened: false,
     isLoading: false,
@@ -134,32 +141,6 @@ export default {
         this.isLoading = false;
       }
     },
-    tableActionsHandler(eventName) {
-      switch (eventName) {
-        case 'refresh':
-          this.refreshList();
-          break;
-        case 'columnSelect':
-          this.openColumnSelect();
-          break;
-        case 'filterReset':
-          this.resetFilters();
-          break;
-        default:
-      }
-    },
-
-    refreshList() {
-      this.loadList();
-    },
-
-    openColumnSelect() {
-      this.isFilterFieldsOpened = true;
-    },
-
-    resetFilters() {
-      this.$router.replace({ query: null });
-    },
 
     download() {
       this.downloadCSV({
@@ -177,37 +158,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wt-button {
-  margin-left: 20px;
-}
-
-.actions-panel-wrapper {
-  display: flex;
-
-  .filter-header {
-    flex: 1;
-  }
-
-  .wt-table-actions {
-    height: fit-content;
-    margin-top: 24px;
-  }
-}
-
-.table-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex: 1 1 100%;
-  width: 100%;
-  box-sizing: border-box;
-
-  .wt-table {
-  }
-
-  .wt-pagination {
-    margin-top: 20px;
-    margin-left: auto;
-  }
-}
+@import '../../css/supervisor-workspace/table-page/table-page';
 </style>

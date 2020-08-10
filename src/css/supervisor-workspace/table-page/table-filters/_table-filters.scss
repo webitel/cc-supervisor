@@ -1,0 +1,11 @@
+.filter-wrap {
+  display: flex;
+  flex-wrap: wrap;
+
+  .filter-item {
+    min-width: 170px;
+    max-width: 250px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+  }
+}

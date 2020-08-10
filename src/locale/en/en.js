@@ -116,7 +116,7 @@ export default {
         teams: 'Teams',
         queues: 'Queues',
         utilization: 'Utilization',
-        call: 'Call',
+        callTime: 'Call',
       },
     },
     agentItem: {

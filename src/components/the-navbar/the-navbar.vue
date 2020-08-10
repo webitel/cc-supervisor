@@ -23,7 +23,10 @@
         <li class="nav-item-wrap" v-for="(item, index) in nav" @click="navigate(item)" :key="index">
           <div class="nav-item" :class="{'nav-item__current': index === selectedIndex}">
             <icon class="nav-icon">
-              <svg class="icon md nav-icon__svg" :class="{'nav-icon__svg--selected ': index === selectedIndex}">
+              <svg
+                class="icon md nav-icon__svg"
+                :class="{'nav-icon__svg--selected ': index === selectedIndex}"
+              >
                 <use :xlink:href="`#icon-${item.iconClass}_md`"></use>
               </svg>
             </icon>
@@ -85,7 +88,8 @@ export default {
     },
 
     expandCurrentRoute() {
-      const currentItem = this.nav.find((currItem) => this.$router.currentRoute.name === currItem.route.name);
+      const currentItem = this.nav
+      .find((currItem) => this.$router.currentRoute.name === currItem.route.name);
       if (currentItem) {
         this.setCurrent(currentItem);
       }

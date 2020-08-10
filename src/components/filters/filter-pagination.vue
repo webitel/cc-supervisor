@@ -3,6 +3,7 @@
     v-model="size"
     :next="isNext"
     :prev="isPrev"
+    debounce
     @next="next"
     @prev="prev"
     @change="sizeChange"

@@ -1,7 +1,7 @@
 <template>
-  <div class="the-supervisor-workspace">
+  <main class="the-supervisor-workspace">
     <app-nav/>
-    <main class="the-supervisor-workspace__wrapper">
+    <div class="the-supervisor-workspace__wrapper">
       <call-window/>
       <call-window-eavesdrop/>
       <wt-notifications-bar/>
@@ -9,8 +9,8 @@
       <div class="the-supervisor-workspace__content">
         <router-view/>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </template>
 
 <script>
@@ -38,6 +38,7 @@ export default {
 
 .the-nav__wrap {
   flex: 0 0 272px;
+  height: 100%;
 }
 
 // main content itself, without nav but with main header
