@@ -41,12 +41,12 @@
 </template>
 
 <script>
-  const imgAdmin = require('../../assets/app-navigator/app-admin.svg');
-  const imgAgent = require('../../assets/app-navigator/app-agent.svg');
-  const imgAudit = require('../../assets/app-navigator/app-audit.svg');
-  const imgHistory = require('../../assets/app-navigator/app-history.svg');
-  const imgSupervisor = require('../../assets/app-navigator/app-supervisor.svg');
-  const imgGrafana = require('../../assets/app-navigator/app-grafana.svg');
+  const imgAdmin = require('../../../../assets/app-navigator/app-admin.svg');
+  const imgAgent = require('../../../../assets/app-navigator/app-agent.svg');
+  const imgAudit = require('../../../../assets/app-navigator/app-audit.svg');
+  const imgHistory = require('../../../../assets/app-navigator/app-history.svg');
+  const imgSupervisor = require('../../../../assets/app-navigator/app-supervisor.svg');
+  const imgGrafana = require('../../../../assets/app-navigator/app-grafana.svg');
 
   const CURRENT_APP = 'supervisor';
 

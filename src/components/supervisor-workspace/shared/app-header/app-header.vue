@@ -7,7 +7,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { logout } from '../../api/auth/auth';
+import { logout } from '../../../../api/auth/auth';
 import AppNavigator from './the-app-navigator.vue';
 
 export default {

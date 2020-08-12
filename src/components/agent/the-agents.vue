@@ -214,20 +214,4 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../css/supervisor-workspace/table-page/table-page';
-
-.action-button {
-  padding: 5px 17px 8px;
-  height: 32px;
-}
-
-.call {
-  display: flex;
-  align-items: center;
-}
-
-.selector-item {
-  margin: -10px 0px;
-  min-width: (170px);
-}
-
 </style>

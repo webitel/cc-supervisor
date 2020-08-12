@@ -51,7 +51,7 @@ export default [
       width: 'minmax(80px, 1fr)',
     },
     {
-      text: () => i18n.t('pages.activeCall.columns.extention'),
+      text: () => i18n.t('pages.activeCall.columns.extension'),
       value: 'extension',
       show: true,
       sort: null,

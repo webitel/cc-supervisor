@@ -1,91 +1,94 @@
 <template>
-    <div>
-        <the-object-header>
-            <template v-slot:title>
-                {{$t('pages.activeCall.title')}}
-            </template>
-            <template v-slot:actions>
-                <!-- <filter-search/> -->
-                <btn
-                    class="primary action-button"
-                    :loading="isCSVLoading"
-                    @click.native="download"
-                >{{$t('defaults.exportCSV')}}
-                </btn>
-            </template>
-        </the-object-header>
-        <div class="filter-header">
-            <filter-direction class="filter-item"/>
-            <filter-user class="filter-item"/>
-            <filter-gateway class="filter-item"/>
-            <filter-queue class="filter-item"/>
-            <filter-agent class="filter-item"/>
-        </div>
-        <section class="object-content">
-            <loader v-show="isLoading"></loader>
-             <grid-table
-                :checkboxes="false"
-                v-show="!isLoading"
-                :headers="headers"
-                :data="data"
-                :expanded="false"
-                @sort="sort"
-                >
-                <template slot="actions-header">
-                    <filter-fields
-                    :entity="'active-calls'"
-                    :headers="headers"
-                    />
-                </template>
-                <template slot="direction" slot-scope="{ item }" >
-                    <div class="call" v-if="item.direction==='outbound'">
-                        <icon class="icon-margin">
-                            <svg class="icon icon-outbound_md grid green">
-                                <use xlink:href="#icon-outbound_md"></use>
-                            </svg>
-                        </icon>
-                    </div>
-                    <div class="call" v-else-if="item.direction==='inbound'">
-                        <icon>
-                            <svg class="icon icon-inbound_md grid yell">
-                                <use xlink:href="#icon-inbound_md"></use>
-                            </svg>
-                        </icon>
-                    </div>
-                </template>
-                <template slot="from" slot-scope="{ item }" >
-                    <div v-if="item.from">{{item.from.number}}</div>
-                </template>
-                <template slot="agent" slot-scope="{ item }" >
-                    <div v-if="item.agent">{{item.agent.name}}</div>
-                </template>
-                <template slot="to" slot-scope="{ item }" >
-                    <div v-if="item.to">{{item.to.number}}</div>
-                </template>
-                <template slot="queue" slot-scope="{ item }" >
-                    <div v-if="item.queue">{{item.queue.name}}</div>
-                </template>
-                <template slot="user" slot-scope="{ item }" >
-                    <div v-if="item.user">{{item.user.name}}</div>
-                </template>
-                <template slot="state" slot-scope="{ item }" >
-                    <div class="call">
-                        <span>{{item.state}}</span>
-                        <button v-if="isActive(item.state)" class="icon-btn" @click.prevent="attachCall(item.id)">
-                            <icon>
-                                <svg class="icon icon-speaker_off_md grid">
-                                    <use xlink:href="#icon-speaker_off_md"></use>
-                                </svg>
-                            </icon>
-                        </button>
-                    </div>
-                </template>
-                <template slot="pagination">
-                    <filter-pagination :is-next="isNext"/>
-                </template>
-            </grid-table>
-        </section>
+  <div>
+    <the-object-header>
+      <template v-slot:title>
+        {{ $t('pages.activeCall.title') }}
+      </template>
+      <template v-slot:actions>
+        <!-- <filter-search/> -->
+        <btn
+          class="primary action-button"
+          :loading="isCSVLoading"
+          @click.native="download"
+        >{{ $t('defaults.exportCSV') }}
+        </btn>
+      </template>
+    </the-object-header>
+    <div class="filter-header">
+      <filter-direction class="filter-item"/>
+      <filter-user class="filter-item"/>
+      <filter-gateway class="filter-item"/>
+      <filter-queue class="filter-item"/>
+      <filter-agent class="filter-item"/>
     </div>
+    <section class="object-content">
+      <loader v-show="isLoading"></loader>
+      <grid-table
+        :checkboxes="false"
+        v-show="!isLoading"
+        :headers="headers"
+        :data="data"
+        :expanded="false"
+        @sort="sort"
+      >
+        <template slot="actions-header">
+          <filter-fields
+            :entity="'active-calls'"
+            :headers="headers"
+          />
+        </template>
+        <template slot="direction" slot-scope="{ item }">
+          <div class="call" v-if="item.direction==='outbound'">
+            <icon class="icon-margin">
+              <svg class="icon icon-outbound_md grid green">
+                <use xlink:href="#icon-outbound_md"></use>
+              </svg>
+            </icon>
+          </div>
+          <div class="call" v-else-if="item.direction==='inbound'">
+            <icon>
+              <svg class="icon icon-inbound_md grid yell">
+                <use xlink:href="#icon-inbound_md"></use>
+              </svg>
+            </icon>
+          </div>
+        </template>
+        <template slot="from" slot-scope="{ item }">
+          <div v-if="item.from">{{ item.from.number }}</div>
+        </template>
+        <template slot="agent" slot-scope="{ item }">
+          <div v-if="item.agent">{{ item.agent.name }}</div>
+        </template>
+        <template slot="to" slot-scope="{ item }">
+          <div v-if="item.to">{{ item.to.number }}</div>
+        </template>
+        <template slot="queue" slot-scope="{ item }">
+          <div v-if="item.queue">{{ item.queue.name }}</div>
+        </template>
+        <template slot="user" slot-scope="{ item }">
+          <div v-if="item.user">{{ item.user.name }}</div>
+        </template>
+        <template slot="state" slot-scope="{ item }">
+          <div class="call">
+            <span>{{ item.state }}</span>
+            <button
+              v-if="isActive(item.state)"
+              class="icon-btn"
+              @click.prevent="attachCall(item.id)">
+              <icon>
+                <svg class="icon icon-speaker_off_md grid">
+                  <use xlink:href="#icon-speaker_off_md"></use>
+                </svg>
+              </icon>
+            </button>
+          </div>
+        </template>
+        <template slot="pagination">
+          <filter-pagination :is-next="isNext"/>
+        </template>
+      </grid-table>
+    </section>
+  </div>
 </template>
 
 <script>

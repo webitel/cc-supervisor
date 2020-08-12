@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import AppHeader from '../app-header/app-header.vue';
-import AppNav from '../the-navbar/the-navbar.vue';
+import AppHeader from './shared/app-header/app-header.vue';
+import AppNav from './shared/the-navbar/the-navbar.vue';
 import CallWindow from '../call-window/call-window.vue';
 import CallWindowEavesdrop from '../call-window/call-window-eavesdrop.vue';
 

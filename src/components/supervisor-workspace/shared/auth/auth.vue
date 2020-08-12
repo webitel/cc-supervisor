@@ -15,8 +15,8 @@
 
 <script>
 import { mapActions } from 'vuex';
-import { setToken, getSession } from '../../api/auth/auth';
-import loader from '../utils/loader.vue';
+import { setToken, getSession } from '../../../../api/auth/auth';
+import loader from '../../../utils/loader.vue';
 
 const authURL = process.env.VUE_APP_AUTH_MODULE_URL;
 

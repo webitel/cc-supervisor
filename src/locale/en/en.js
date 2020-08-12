@@ -22,6 +22,11 @@ export default {
     resetSubmit: 'Reset',
     loginSubmit: 'Log in',
   },
+  callState: {
+    end: 'End',
+    missed: 'Missed',
+    disconnect: 'Disconnect',
+  },
   settings: {
     settings: 'Settings',
     changePassword: 'Change password',
@@ -125,12 +130,12 @@ export default {
       calls: {
         title: 'Calls',
         columns: {
+          direction: 'Direction',
           call: 'Call',
-          talk: 'Talk',
-          hold: 'Hold',
+          billSec: 'Talk',
+          holdSec: 'Hold',
           client: 'Client',
-          number: 'PhoneNumber',
-          rating: 'Rating',
+          phoneNumber: 'Phone number',
         },
       },
     },
@@ -144,7 +149,7 @@ export default {
         agent: 'Agent',
         to: 'To',
         destination: 'Destination',
-        extention: 'Extention',
+        extension: 'Extension',
         queue: 'Queue',
         result: 'Result',
         user: 'User',

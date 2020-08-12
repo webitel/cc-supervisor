@@ -73,10 +73,10 @@
 
 <script>
 import { sameAs, required } from 'vuelidate/lib/validators';
-import objectHeader from '@/components/object-utils/the-object-header.vue';
-import multiselectRow from '@/components/utils/multiselect-row.vue';
-import btn from '@/components/utils/btn.vue';
-import formInput from '@/components/utils/form-input.vue';
+import objectHeader from '../../../object-utils/the-object-header.vue';
+import multiselectRow from '../../../utils/multiselect-row.vue';
+import btn from '../../../utils/btn.vue';
+import formInput from '../../../utils/form-input.vue';
 
 export default {
   name: 'the-settings',

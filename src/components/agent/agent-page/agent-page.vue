@@ -48,7 +48,7 @@
         ></wt-select>
       </header>
 
-      <section>
+      <section class="agent-page__main">
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
@@ -62,7 +62,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { fetchTeams } from '../../../api/filter-getters/teamFilter';
-import AgentCalls from './agent-calls-tab.vue';
+import AgentCalls from './agent-calls/agent-calls-tab.vue';
 // import theAgentsItemChats from './the-agents-item-chats.vue';
 // import theAgentsHelpPopup from './the-agents-help-popup.vue';
 
@@ -97,7 +97,7 @@ export default {
     tabs() {
       return [{
         text: this.$t('pages.agentPage.calls.title'),
-        value: 'calls',
+        value: 'agent-calls',
       },
       ];
     },
@@ -159,6 +159,15 @@ export default {
   & > * {
     margin-right: 20px;
   }
+
+  .wt-status-select {
+    max-width: 150px;
+  }
+
+  .wt-select {
+    min-width: 170px;
+    max-width: 250px;
+  }
 }
 
 .agent-page__header__agent-info {
@@ -175,12 +184,9 @@ export default {
   }
 }
 
-.wt-status-select {
-  max-width: 150px;
-}
-
-.wt-select {
-  min-width: 170px;
-  max-width: 250px;
+.agent-page__main {
+  @extend .page-wrapper__main;
+  display: flex;
+  flex-direction: column;
 }
 </style>

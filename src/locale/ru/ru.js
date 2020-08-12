@@ -28,6 +28,11 @@ export default {
     language: 'Язык',
     autoRefresh: 'Автообновление',
   },
+  callState: {
+    end: 'Конец',
+    missed: 'Пропущен',
+    disconnect: 'Разъединён',
+  },
   header: {
     logout: 'Выйти',
     docs: 'Документация',
@@ -113,12 +118,12 @@ export default {
       calls: {
         title: 'Звонки',
         columns: {
+          direction: 'Направление',
           call: 'Звонок',
-          talk: 'Разговор',
-          hold: 'Удержание',
-          client: 'Абонент',
-          number: 'Номер телефона',
-          rating: 'Рейтинг',
+          billSec: 'Разговор',
+          holdSec: 'Удержание',
+          client: 'Клієнт',
+          phoneNumber: 'Номер телефона',
         },
       },
     },
@@ -132,7 +137,7 @@ export default {
         agent: 'Оператор',
         to: 'Кому',
         destination: 'Номер на',
-        extention: 'Внутренний номер',
+        extension: 'Внутренний номер',
         queue: 'Очередь',
         result: 'Результат',
         user: 'Пользователь',

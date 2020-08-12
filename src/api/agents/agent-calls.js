@@ -13,12 +13,13 @@ const parseAgentCallsList = (items) => items.map((item) => ({
 }));
 
 export const getAgentCallsList = async ({
-    page = 0, size = 10, search = '', agentId, sort = '-created_at',
+    page = 1, size = 10, search = '', agentId, sort = '-created_at',
 }) => {
     try {
         // eslint-disable-next-line no-param-reassign
         if (search && search.slice(-1) !== '*') search += '*';
-        const start = new Date().setHours(0, 0, 0, 0);
+        // const start = new Date().setHours(0, 0, 0, 0);
+        const start = 0;
         const end = Date.now();
         const res = await callService.searchHistoryCall(
             page, // page
