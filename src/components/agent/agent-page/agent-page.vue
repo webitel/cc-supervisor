@@ -3,7 +3,6 @@
     <wt-loader v-show="isLoading"></wt-loader>
     <div class="agent-page__content" v-show="!isLoading">
       <header class="agent-page__header page-wrapper__header">
-
         <wt-icon-btn icon="arrow-left" color="active" @click="$router.go(-1)"></wt-icon-btn>
 
         <img src="../../../assets/img/default-avatar.svg" alt="Agent avatar">
@@ -37,30 +36,24 @@
         ></wt-indicator>
 
         <wt-select
-          v-model="agentagentTeams"
+          :value="agent.teams"
           :placeholder="$t('pages.agentPage.team')"
-          :search="fetch"
+          :search="fetchTeams"
           :internal-search="false"
           :close-on-select="false"
+          :clearable="false"
           multiple
           @reset="setTeam"
           @closed="setTeam"
         ></wt-select>
-
       </header>
+
       <section>
-        <tabs-component
+        <wt-tabs
+          v-model="currentTab"
           :tabs="tabs"
-          :root="$options.name"
-          :initialTab="'calls'"
-        >
-          <template slot="component" slot-scope="props">
-            <component
-              class="tabs-inner-component"
-              :is="props.currentTab"
-            ></component>
-          </template>
-        </tabs-component>
+        ></wt-tabs>
+        <component :is="currentTab.value"></component>
       </section>
     </div>
   </section>
@@ -68,25 +61,23 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import tabsComponent from '../../utils/tabs-component.vue';
 import { fetchTeams } from '../../../api/filter-getters/teamFilter';
-import theAgentsItemCalls from '../the-agents-item-calls.vue';
+import AgentCalls from './agent-calls-tab.vue';
 // import theAgentsItemChats from './the-agents-item-chats.vue';
 // import theAgentsHelpPopup from './the-agents-help-popup.vue';
 
 export default {
   name: 'agent-page',
   components: {
-    tabsComponent,
-    theAgentsItemCalls,
+    AgentCalls,
     // theAgentsItemChats,
     // theAgentsHelpPopup,
   },
   mixins: [],
   data: () => ({
-    agentTeams: [],
     isLoading: false,
     autorefresh: null,
+    currentTab: { value: 'agent-calls' },
   }),
   mounted() {
     this.load();
@@ -108,10 +99,6 @@ export default {
         text: this.$t('pages.agentPage.calls.title'),
         value: 'calls',
       },
-        // {
-        //     text: 'Chats',
-        //     value: 'chats',
-        // },
       ];
     },
     timer: () => +localStorage.getItem('autorefresh'),
@@ -119,6 +106,7 @@ export default {
   methods: {
     ...mapActions('agents', {
       loadItem: 'FETCH_ITEM',
+      updateStatus: 'UPDATE_AGENT_STATUS',
     }),
 
     ...mapActions('call', {
@@ -126,8 +114,16 @@ export default {
       setCallInfo: 'SET_CALL_INFO',
     }),
 
+    fetchTeams,
+
     setTeam() {},
-    changeAgentStatus() {},
+
+    changeAgentStatus(value) {
+      this.updateStatus({
+        agentId: this.agent.agentId,
+        status: value,
+      });
+    },
 
     callAgent() {
       this.setCallInfo({
@@ -157,6 +153,7 @@ export default {
 .agent-page__header {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   padding: 20px 30px;
 
   & > * {
