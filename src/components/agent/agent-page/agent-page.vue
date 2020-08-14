@@ -3,7 +3,11 @@
     <wt-loader v-show="isLoading"></wt-loader>
     <div class="agent-page__content" v-show="!isLoading">
       <header class="agent-page__header page-wrapper__header">
-        <wt-icon-btn icon="arrow-left" color="active" @click="$router.go(-1)"></wt-icon-btn>
+        <wt-icon-btn
+          icon="arrow-left"
+          color="active"
+          @click="$router.push('/supervisor/agents')"
+        ></wt-icon-btn>
 
         <img src="../../../assets/img/default-avatar.svg" alt="Agent avatar">
 

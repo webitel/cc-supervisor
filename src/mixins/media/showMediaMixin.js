@@ -16,8 +16,8 @@ export default {
     mediaFiles() {
       if (this.isMediaSelectOpened) {
         return this.data[this.openedMediaIndex]
-          .files.filter((file) => file.mimeType.includes('audio')
-            || file.mimeType.includes('video'));
+        .files.filter((file) => file.mimeType.includes('audio')
+          || file.mimeType.includes('video'));
       }
       return [];
     },

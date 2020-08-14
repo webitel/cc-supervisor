@@ -27,7 +27,7 @@
           class="table-action"
           :class="{'active': openedMediaIndex === index}"
           :is-any-files-playing="isAnyFilesPlaying(item.files)"
-          @click.native.stop="openMedia(index, $event)"
+          @click="openMedia(index, $event)"
         ></media-action>
       </template>
     </wt-table>
@@ -47,8 +47,7 @@
       :currently-playing="currentlyPlaying"
       @play="play"
       @close="closeMedia"
-    >
-    </media-select>
+    ></media-select>
   </div>
 </template>
 
@@ -56,7 +55,7 @@
 import { mapActions, mapState } from 'vuex';
 import convertQuery from '../../../../utils/loadScripts';
 import FilterPagination from '../../../filters/filter-pagination.vue';
-import MediaAction from '../../../utils/grid-media-action.vue';
+import MediaAction from '../../../utils/table-media-action.vue';
 import TableCallState from './_internals/table-templates/table-call-state.vue';
 import TableCallClient from './_internals/table-templates/table-call-client.vue';
 import TableCallNumber from './_internals/table-templates/table-call-number.vue';
@@ -133,4 +132,8 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../../../css/supervisor-workspace/table-page/table-page';
+
+.agent-calls {
+  position: relative;
+}
 </style>

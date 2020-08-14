@@ -56,9 +56,9 @@ export default {
     gatewayHostValidator: 'Should look like IPv4 or FQDN',
     ipValidator: 'Should look like IPv4',
     macValidator: 'Should look like MAC',
-    minValue: 'Value shoud be at least',
-    maxValue: 'Value shoud be not much',
-    numeric: 'Should be numberic',
+    minValue: 'Value should be at least',
+    maxValue: 'Value should be not much',
+    numeric: 'Should be numeric',
     requiredArrayValue: 'Array should not be empty',
   },
   defaults: {

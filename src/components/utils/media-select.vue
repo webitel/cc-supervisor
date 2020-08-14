@@ -1,5 +1,5 @@
 <template>
-  <div class="media-select" v-clickaway="close">
+  <div class="media-select">
     <ul class="media-select__list">
       <li
         class="media-select__item"
@@ -7,16 +7,7 @@
         :key="key"
         @click.prevent.stop="togglePlay(file.id)"
       >
-        <icon v-if="file.id !== currentlyPlaying">
-          <svg class="icon icon-play_md md">
-            <use xlink:href="#icon-play_md"></use>
-          </svg>
-        </icon>
-        <icon v-else>
-          <svg class="icon icon-pause_md md">
-            <use xlink:href="#icon-pause_md"></use>
-          </svg>
-        </icon>
+        <wt-icon :icon="mediaIcon(file)"></wt-icon>
         <div class="media-select__item__name">{{ file.name | truncate }}</div>
       </li>
     </ul>
@@ -26,19 +17,6 @@
 <script>
 export default {
   name: 'media-select',
-  directives: {
-    // clickaway,
-  },
-  filters: {
-    truncate(value) {
-      if (value) {
-        if (value.length < 18) return value;
-        return `${value.slice(0, 15)}...`;
-      }
-      return '';
-    },
-  },
-
   props: {
     files: {
       type: Array,
@@ -58,6 +36,11 @@ export default {
       }
     },
 
+    mediaIcon(file) {
+      return file.id !== this.currentlyPlaying
+        ? 'play' : 'pause';
+    },
+
     close() {
       this.$emit('close');
     },
@@ -67,37 +50,37 @@ export default {
 
 <style lang="scss" scoped>
 .media-select {
-  position: relative;
-  height: (24px);
+  position: absolute;
+  right: 0;
+  height: 24px;
 }
 
 .media-select__list {
   position: absolute;
-  top: (24px + 14px); // icon + margin
+  top: 24px;
   right: 0;
-  background: #fff;
-  box-shadow: $box-shadow;
+  background: var(--main-primary-color);
+  box-shadow: var(--box-shadow);
   z-index: 1;
   cursor: pointer;
 
   .media-select__item {
     display: flex;
     align-items: center;
-    min-width: (200px);
-    padding: (5px) (10px);
-    transition: $transition;
+    min-width: 200px;
+    padding: 5px 10px;
+    transition: var(--transition);
 
     &:hover {
-      background: $list-option__hover;
+      background: #FFF9E6;
 
-      .icon {
-        fill: $icon-color__hover;
-        stroke: $icon-color__hover;
+      .wt-icon ::v-deep .wt-icon__icon {
+        fill: var(--icon--hover-color);
       }
     }
 
-    .icon-wrap {
-      margin-right: (10px);
+    .wt-icon {
+      margin-right: 10px;
     }
 
     &__name {
