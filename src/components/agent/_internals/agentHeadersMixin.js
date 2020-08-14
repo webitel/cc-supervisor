@@ -5,26 +5,32 @@ export default {
         value: 'name',
         show: true,
         sort: null,
+        field: 'name',
       }, {
         value: 'status',
         show: true,
         sort: null,
+        field: 'status',
       }, {
         value: 'teams',
         show: true,
         sort: null,
+        field: 'teams',
       }, {
         value: 'queues',
         show: true,
         sort: null,
+        field: 'queues',
       }, {
         value: 'utilization',
         show: true,
         sort: null,
+        field: 'utilization',
       }, {
         value: 'callTime',
         show: true,
         sort: null,
+        field: 'call_time',
       },
     ],
   }),

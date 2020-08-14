@@ -88,7 +88,7 @@ import TableAgentCallTime from './_internals/table-templates/table-agent-sum-cal
 import TableAgentQueues from './_internals/table-templates/table-agent-queues.vue';
 import TableAgentTeams from './_internals/table-templates/table-agent-teams.vue';
 
-import headersMixin from './_internals/headersMixin';
+import headersMixin from './_internals/agentHeadersMixin';
 import sortFilterMixin from '../../mixins/filters/sortFilterMixin';
 import tableActionsHandlerMixin from '../../mixins/supervisor-workspace/tableActionsHandlerMixin';
 import downloadCSVMixin from '../../mixins/downloadCSV/downloadCSVMixin';

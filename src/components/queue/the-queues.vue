@@ -73,7 +73,7 @@ import TableQueue from './_internals/table-templates/table-queue.vue';
 import TableAgents from './_internals/table-templates/table-agents.vue';
 import TableTeam from './_internals/table-templates/table-team.vue';
 import TableMembers from './_internals/table-templates/table-members.vue';
-import headersMixin from './_internals/headersMixin';
+import headersMixin from './_internals/queueHeadersMixin';
 import sortFilterMixin from '../../mixins/filters/sortFilterMixin';
 import downloadCSVMixin from '../../mixins/downloadCSV/downloadCSVMixin';
 import tableActionsHandlerMixin from '../../mixins/supervisor-workspace/tableActionsHandlerMixin';

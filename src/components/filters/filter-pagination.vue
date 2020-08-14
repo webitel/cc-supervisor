@@ -11,70 +11,73 @@
 </template>
 
 <script>
-  import valueFilterMixin from '../../mixins/filters/valueFilterMixin';
+import valueFilterMixin from '../../mixins/filters/valueFilterMixin';
 
-  export default {
-    name: 'filter-pagination',
-    mixins: [valueFilterMixin],
+export default {
+  name: 'filter-pagination',
+  mixins: [valueFilterMixin],
 
-    props: {
-      isNext: {
-        type: Boolean,
-        default: true,
-      },
+  props: {
+    isNext: {
+      type: Boolean,
+      default: true,
+    },
+  },
+
+  data: () => ({
+    page: '1',
+    size: '10',
+  }),
+
+  computed: {
+    isPrev() {
+      return +this.page > 1;
+    },
+  },
+
+  methods: {
+    restore() {
+      this.restorePage();
+      this.restoreSize();
     },
 
-    data: () => ({
-      page: '1',
-      size: '10',
-    }),
-
-    computed: {
-      isPrev() {
-        return +this.page > 1;
-      },
+    restorePage() {
+      this.page = this.parseQueryValue({ filterQuery: 'page' }) || this.page;
     },
 
-    methods: {
-      restore() {
-        this.restorePage();
-        this.restoreSize();
-      },
-
-      restorePage() {
-        this.page = this.parseQueryValue({ filterQuery: 'page' }) || this.page;
-      },
-
-      restoreSize() {
-        this.size = this.parseQueryValue({ filterQuery: 'size' }) || this.size;
-      },
-
-      next() {
-        const value = `${+this.page + 1}`;
-        this.page = value;
-        this.setQueryValue({
-          filterQuery: 'page',
-          value,
-        });
-      },
-
-      prev() {
-        const value = `${+this.page - 1}`;
-        this.page = value;
-        this.setQueryValue({
-          filterQuery: 'page',
-          value,
-        });
-      },
-
-      sizeChange(value) {
-        this.setQueryValue({
-          filterQuery: 'size',
-          value,
-        });
-      },
+    restoreSize() {
+      this.size = this.parseQueryValue({ filterQuery: 'size' }) || this.size;
     },
-  };
+
+    next() {
+      this.$emit('input');
+      const value = `${+this.page + 1}`;
+      this.page = value;
+      this.setQueryValue({
+        filterQuery: 'page',
+        value,
+      });
+    },
+
+    prev() {
+      this.$emit('input');
+      const value = `${+this.page - 1}`;
+      this.page = value;
+      this.setQueryValue({
+        filterQuery: 'page',
+        value,
+      });
+    },
+
+    sizeChange(value) {
+      this.$emit('input');
+      this.setQueryValue({
+        filterQuery: 'size',
+        value,
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>

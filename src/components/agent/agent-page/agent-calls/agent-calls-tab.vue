@@ -31,7 +31,7 @@
         ></media-action>
       </template>
     </wt-table>
-    <filter-pagination :is-next="isNext"/>
+    <filter-pagination @input="closeMedia" :is-next="isNext"/>
 
     <audio-player
       v-show="audioURL"
@@ -63,7 +63,7 @@ import TableCallNotes from './_internals/table-templates/table-call-notes.vue';
 import sortFilterMixin from '../../../../mixins/filters/sortFilterMixin';
 import playMediaMixin from '../../../../mixins/media/playMediaMixin';
 import showMediaMixin from '../../../../mixins/media/showMediaMixin';
-import headersMixin from './_internals/headersMixin';
+import headersMixin from './_internals/agentPageHeadersMixin';
 
 export default {
   name: 'agent-calls-tab',

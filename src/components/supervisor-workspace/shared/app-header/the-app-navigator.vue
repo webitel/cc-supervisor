@@ -134,7 +134,7 @@
     display: flex;
     align-items: center;
     margin-left: (30px);
-    z-index: 90;
+    z-index: 11;
   }
 
   // dropdown part

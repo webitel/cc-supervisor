@@ -72,7 +72,7 @@ export default {
     transition: var(--transition);
 
     &:hover {
-      background: #FFF9E6;
+      background: var(--main-option-hover-color);
 
       .wt-icon ::v-deep .wt-icon__icon {
         fill: var(--icon--hover-color);
