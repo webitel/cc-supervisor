@@ -5,10 +5,9 @@ import Auth from '../components/supervisor-workspace/shared/auth/auth.vue';
 import Queue from '../components/queues/the-queues.vue';
 import ActiveCalls from '../components/active-calls/the-active-calls.vue';
 import Agents from '../components/agents/the-agents.vue';
-import AgentsItem from '../components/agents/agent-page/agent-page.vue';
+import AgentPage from '../components/agents/agent-page/agent-page.vue';
 import moduleWrap from '../components/supervisor-workspace/the-supervisor-workspace.vue';
 import notFound from '../components/utils/the-not-found-component.vue';
-import settings from '../components/supervisor-workspace/shared/the-settings/the-settings.vue';
 
 Vue.use(VueRouter);
 
@@ -21,10 +20,6 @@ const routes = [{
     redirect: { name: 'queues' },
     component: moduleWrap,
     children: [{
-        path: 'settings',
-        name: 'settings',
-        component: settings,
-    }, {
         path: 'queues',
         name: 'queues',
         component: Queue,
@@ -34,8 +29,8 @@ const routes = [{
         component: Agents,
     }, {
         path: 'agents/:id',
-        name: 'agents-view',
-        component: AgentsItem,
+        name: 'agent-page',
+        component: AgentPage,
     }, {
         path: 'active-calls',
         name: 'active-calls',

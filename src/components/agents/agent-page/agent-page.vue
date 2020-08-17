@@ -42,7 +42,7 @@
         <wt-select
           :value="agent.teams"
           :placeholder="$t('pages.agentPage.team')"
-          :search="fetchTeams"
+          :search="getTeams"
           :internal-search="false"
           :close-on-select="false"
           :clearable="false"
@@ -65,51 +65,39 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import { fetchTeams } from '../../../shared/filters/api/teamFilter';
+import { getTeams } from '../../../shared/filters/api/teamFilter';
 import AgentCalls from './agent-calls/agent-calls-tab.vue';
-// import theAgentsItemChats from './the-agents-item-chats.vue';
-// import theAgentsHelpPopup from './the-agents-help-popup.vue';
 
 export default {
   name: 'agent-page',
   components: {
     AgentCalls,
-    // theAgentsItemChats,
-    // theAgentsHelpPopup,
   },
-  mixins: [],
+
   data: () => ({
     isLoading: false,
-    autorefresh: null,
-    currentTab: { value: 'agents-calls' },
+    currentTab: { value: 'agent-calls' },
   }),
-  mounted() {
-    this.load();
-    if (this.autorefresh) clearInterval(this.autorefresh);
-    this.autorefresh = setInterval(this.loadTick, this.timer);
+
+  created() {
+    this.loadPage();
   },
-  destroyed() {
-    clearInterval(this.autorefresh);
-  },
+
   computed: {
     ...mapState('agents', {
       agent: (state) => state.agent,
     }),
-    id: {
-      get() { return `${this.$route.params.id}`; },
-    },
+
     tabs() {
       return [{
         text: this.$t('pages.agentPage.calls.title'),
-        value: 'agents-calls',
-      },
-      ];
+        value: 'agent-calls',
+      }];
     },
-    timer: () => +localStorage.getItem('autorefresh'),
   },
   methods: {
     ...mapActions('agents', {
-      loadItem: 'FETCH_ITEM',
+      loadAgentPage: 'FETCH_ITEM',
       updateStatus: 'UPDATE_AGENT_STATUS',
     }),
 
@@ -118,7 +106,7 @@ export default {
       setCallInfo: 'SET_CALL_INFO',
     }),
 
-    fetchTeams,
+    getTeams,
 
     setTeam() {},
 
@@ -137,15 +125,15 @@ export default {
       this.openWindow();
     },
 
-    async load() {
+    async loadPage() {
       this.isLoading = true;
-      await this.loadItem(+this.id);
-      this.agentTeams = await fetchTeams();
-      this.isLoading = false;
-    },
-
-    async loadTick() {
-      await this.loadItem(+this.id);
+      try {
+        const { id } = this.$route.params;
+        await this.loadAgentPage(id);
+      } catch {
+      } finally {
+        this.isLoading = false;
+      }
     },
   },
 };

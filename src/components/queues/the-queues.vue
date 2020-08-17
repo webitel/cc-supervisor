@@ -77,6 +77,7 @@ import headersMixin from './_internals/queueHeadersMixin';
 import sortFilterMixin from '../../shared/filters/mixins/sortFilterMixin';
 import downloadCSVMixin from '../../mixins/downloadCSV/downloadCSVMixin';
 import tableActionsHandlerMixin from '../../mixins/supervisor-workspace/tableActionsHandlerMixin';
+import autoRefreshMixin from '../../mixins/autoRefresh/autoRefreshMixin';
 
 export default {
   name: 'the-queues',
@@ -94,28 +95,23 @@ export default {
   mixins: [
     headersMixin,
     sortFilterMixin,
+    autoRefreshMixin,
     downloadCSVMixin,
     tableActionsHandlerMixin,
   ],
   data: () => ({
     isFilterFieldsOpened: false,
     isLoading: false,
-    autorefresh: null,
   }),
 
   watch: {
     '$route.query': {
       async handler() {
         await this.loadList();
-        if (this.autorefresh) clearInterval(this.autorefresh);
-        this.autorefresh = setInterval(this.loadList, this.timer);
+        this.setAutoRefresh();
       },
       immediate: true,
     },
-  },
-
-  destroyed() {
-    clearInterval(this.autorefresh);
   },
 
   computed: {
@@ -123,7 +119,6 @@ export default {
       data: (state) => state.dataList,
       isNext: (state) => state.isNext,
     }),
-    timer: () => +localStorage.getItem('autorefresh'),
   },
 
   methods: {

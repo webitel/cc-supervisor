@@ -85,6 +85,7 @@ import TableAgentTeams from './_internals/table-templates/table-agent-teams.vue'
 
 import headersMixin from './_internals/agentHeadersMixin';
 import sortFilterMixin from '../../shared/filters/mixins/sortFilterMixin';
+import autoRefreshMixin from '../../mixins/autoRefresh/autoRefreshMixin';
 import tableActionsHandlerMixin from '../../mixins/supervisor-workspace/tableActionsHandlerMixin';
 import downloadCSVMixin from '../../mixins/downloadCSV/downloadCSVMixin';
 import convertQuery from '../../utils/loadScripts';
@@ -106,68 +107,63 @@ export default {
   mixins: [
     headersMixin,
     sortFilterMixin,
+    autoRefreshMixin,
     downloadCSVMixin,
     tableActionsHandlerMixin,
   ],
   data() {
     return {
       isFilterFieldsOpened: false,
-      callNow: false,
-      attentionNow: false,
+      // callNow: false,
+      // attentionNow: false,
       isLoading: false,
-      autorefresh: null,
     };
   },
   watch: {
     '$route.query': {
       async handler() {
         await this.loadList();
-        if (this.autorefresh) clearInterval(this.autorefresh);
-        this.autorefresh = setInterval(this.loadList, this.timer);
+        this.setAutoRefresh();
       },
       immediate: true,
     },
-    callNow(value) {
-      if (value) {
-        this.setQueryValue({
-          filterQuery: 'callNow',
-          value: value.toString(),
-        });
-      } else {
-        this.setQueryValue({
-          filterQuery: 'callNow',
-          value: undefined,
-        });
-      }
-    },
-    attentionNow(value) {
-      if (value) {
-        this.setQueryValue({
-          filterQuery: 'attentionNow',
-          value: value.toString(),
-        });
-      } else {
-        this.setQueryValue({
-          filterQuery: 'attentionNow',
-          value: undefined,
-        });
-      }
-    },
+    // callNow(value) {
+    //   if (value) {
+    //     this.setQueryValue({
+    //       filterQuery: 'callNow',
+    //       value: value.toString(),
+    //     });
+    //   } else {
+    //     this.setQueryValue({
+    //       filterQuery: 'callNow',
+    //       value: undefined,
+    //     });
+    //   }
+    // },
+    // attentionNow(value) {
+    //   if (value) {
+    //     this.setQueryValue({
+    //       filterQuery: 'attentionNow',
+    //       value: value.toString(),
+    //     });
+    //   } else {
+    //     this.setQueryValue({
+    //       filterQuery: 'attentionNow',
+    //       value: undefined,
+    //     });
+    //   }
+    // },
   },
   mounted() {
-    this.callNow = (this.getValueByQuery({ filterQuery: 'callNow' }) === 'true') || false;
-    this.attentionNow = (
-      this.getValueByQuery({ filterQuery: 'attentionNow' }) === 'true') || false;
-  },
-  destroyed() {
-    clearInterval(this.autorefresh);
+    // this.callNow = (this.getValueByQuery({ filterQuery: 'callNow' }) === 'true') || false;
+    // this.attentionNow = (
+    //   this.getValueByQuery({ filterQuery: 'attentionNow' }) === 'true') || false;
   },
   computed: {
     ...mapState('agents', {
       data: (state) => state.dataList,
       isNext: (state) => state.isNext,
     }),
-    timer: () => +localStorage.getItem('autorefresh'),
   },
   methods: {
     ...mapActions('agents', {
@@ -177,6 +173,7 @@ export default {
       attachToCall: 'ATTACH_TO_CALL',
       openWindow: 'EAVESDROP_OPEN_WINDOW',
     }),
+
     async loadList() {
       this.isLoading = true;
       const params = this.getQueryParams();

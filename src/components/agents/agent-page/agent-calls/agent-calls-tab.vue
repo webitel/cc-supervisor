@@ -64,6 +64,7 @@ import sortFilterMixin from '../../../../shared/filters/mixins/sortFilterMixin';
 import playMediaMixin from '../../../../mixins/media/playMediaMixin';
 import showMediaMixin from '../../../../mixins/media/showMediaMixin';
 import headersMixin from './_internals/agentPageHeadersMixin';
+import autoRefreshMixin from '../../../../mixins/autoRefresh/autoRefreshMixin';
 
 export default {
   name: 'agent-calls-tab',
@@ -78,34 +79,29 @@ export default {
   mixins: [
     headersMixin,
     sortFilterMixin,
+    autoRefreshMixin,
     playMediaMixin,
     showMediaMixin,
   ],
-  watch: {
-    '$route.query': {
-      async handler() {
-        await this.loadList();
-        if (this.autorefresh) clearInterval(this.autorefresh);
-        this.autorefresh = setInterval(this.loadList, this.timer);
-      },
-      immediate: true,
-    },
-  },
   data() {
     return {
       isNext: false,
       isLoading: false,
-      autorefresh: null,
     };
   },
-  destroyed() {
-    clearInterval(this.autorefresh);
+  watch: {
+    '$route.query': {
+      async handler() {
+        await this.loadList();
+        this.setAutoRefresh();
+      },
+      immediate: true,
+    },
   },
   computed: {
     ...mapState('agentCalls', {
       data: (state) => state.dataList,
     }),
-    timer: () => +localStorage.getItem('autorefresh'),
   },
   methods: {
     ...mapActions('agentCalls', {

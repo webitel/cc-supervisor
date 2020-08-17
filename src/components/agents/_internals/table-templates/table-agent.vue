@@ -18,7 +18,7 @@ export default {
   methods: {
     openAgentView(agentId) {
       this.$router.push({
-        name: 'agents-view',
+        name: 'agent-page',
         params: { id: agentId },
       });
     },

@@ -36,8 +36,8 @@ export default {
     },
 
     setAutoRefresh() {
-      const autorefresh = localStorage.getItem('autorefresh');
-      if (!autorefresh) localStorage.setItem('autorefresh', 10000);
+      const autoRefresh = localStorage.getItem('auto-refresh');
+      if (!autoRefresh) localStorage.setItem('auto-refresh', '10000');
     },
   },
 };

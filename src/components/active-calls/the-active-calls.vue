@@ -86,6 +86,7 @@ import TableUser from './_internals/table-templates/table-user.vue';
 import TableActiveCallState from './_internals/table-templates/table-active-call-state.vue';
 import headersMixin from './_internals/activeCallHeadersMixin';
 import downloadCSVMixin from '../../mixins/downloadCSV/downloadCSVMixin';
+import autoRefreshMixin from '../../mixins/autoRefresh/autoRefreshMixin';
 import sortFilterMixin from '../../shared/filters/mixins/sortFilterMixin';
 import tableActionsHandlerMixin from '../../mixins/supervisor-workspace/tableActionsHandlerMixin';
 
@@ -107,6 +108,7 @@ export default {
   mixins: [
     headersMixin,
     sortFilterMixin,
+    autoRefreshMixin,
     downloadCSVMixin,
     tableActionsHandlerMixin,
   ],
@@ -114,28 +116,22 @@ export default {
     return {
       isFilterFieldsOpened: false,
       isLoading: false,
-      autorefresh: null,
     };
   },
   watch: {
     '$route.query': {
       async handler() {
         await this.loadList();
-        if (this.autorefresh) clearInterval(this.autorefresh);
-        this.autorefresh = setInterval(this.loadList, this.timer);
+        this.setAutoRefresh();
       },
       immediate: true,
     },
-  },
-  destroyed() {
-    clearInterval(this.autorefresh);
   },
   computed: {
     ...mapState('activeCalls', {
       data: (state) => state.dataList,
       isNext: (state) => state.isNext,
     }),
-    timer: () => +localStorage.getItem('autorefresh'),
   },
   methods: {
     ...mapActions('activeCalls', {

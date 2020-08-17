@@ -25,7 +25,7 @@ export default {
 
   methods: {
     settings() {
-      this.$router.push('/supervisor/settings');
+      window.open('https://dev.webitel.com/settings');
     },
 
     async logoutUser() {
