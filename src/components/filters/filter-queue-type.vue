@@ -12,7 +12,7 @@
 
 <script>
   import enumFilterMixin from '../../mixins/filters/enumFilterMixin';
-  import TypeOptions from '../../api/filter-getters/TypeOptions.enum';
+  import TypeOptions from '../../api/filters/TypeOptions.enum';
 
   export default {
     name: 'filter-queue-type',
@@ -20,7 +20,7 @@
 
     data: () => ({
       options: TypeOptions,
-      filterQuery: 'queue-type',
+      filterQuery: 'queues-type',
     }),
   };
 </script>

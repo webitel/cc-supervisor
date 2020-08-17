@@ -1,5 +1,5 @@
 import { CallActions } from 'webitel-sdk';
-import { getCliInstance } from '@/api/call-ws-connection';
+import { getCliInstance } from '../../../api/callWSConnection';
 
 // const callParams = { disableStun: true };
 

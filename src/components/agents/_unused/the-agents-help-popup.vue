@@ -145,7 +145,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import PopupContainer from '../utils/popup-container.vue';
+import PopupContainer from '../../utils/popup-container.vue';
 
 export default {
   name: 'the-agents-help-popup',
@@ -233,7 +233,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../css/ui-components/shared";
+@import "../../../css/ui-components/shared";
 
 .attention-item {
   position: relative;

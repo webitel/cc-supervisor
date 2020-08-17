@@ -1,5 +1,5 @@
 import { QueueServiceApiFactory } from 'webitel-sdk';
-import configuration from '../openAPIConfig';
+import configuration from '../utils/openAPIConfig';
 import instance from '../instance';
 
 const queueService = new QueueServiceApiFactory(configuration, '', instance);

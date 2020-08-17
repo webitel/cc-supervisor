@@ -1,19 +1,20 @@
 <template>
-  <multiselect
+  <wt-select
     v-model="value"
-    :fetch-method="fetch"
     :label="$t('filters.user')"
-    :api-mode="apiMode"
+    :internal-search="!apiMode"
     :track-by="trackBy"
+    :search="fetch"
+    :close-on-select="false"
+    multiple
+    @reset="setQueryArray({ value, filterQuery, queriedProp })"
     @closed="setQueryArray({ value, filterQuery, queriedProp })"
-    :multiple="true"
-    :closeOnSelect="false"
-  ></multiselect>
+  ></wt-select>
 </template>
 
 <script>
-  import apiFilterMixin from '@/mixins/filters/apiFilterMixin';
-  import fetchUsers from '@/api/filter-getters/userFilter';
+  import apiFilterMixin from '../../mixins/filters/apiFilterMixin';
+  import { getUsers, getUsersByIds } from '../../api/filters/userFilter';
 
   export default {
     name: 'filter-user',
@@ -24,7 +25,8 @@
     }),
 
     methods: {
-      fetch: fetchUsers,
+      fetch: getUsers,
+      fetchSelected: getUsersByIds,
     },
   };
 </script>

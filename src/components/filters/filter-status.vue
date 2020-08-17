@@ -12,7 +12,7 @@
 
 <script>
   import enumFilterMixin from '../../mixins/filters/enumFilterMixin';
-  import AgentStatus from '../../api/filter-getters/AgentStatusOptions.enum';
+  import AgentStatus from '../../api/filters/AgentStatusOptions.enum';
 
   export default {
     name: 'filter-status',

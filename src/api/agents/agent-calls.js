@@ -1,6 +1,6 @@
 import { CallServiceApiFactory } from 'webitel-sdk';
 import getTimeFromDuration from '@/utils/getTimeFromDuration';
-import configuration from '../openAPIConfig';
+import configuration from '../utils/openAPIConfig';
 import instance from '../instance';
 
 const callService = new CallServiceApiFactory(configuration, '', instance);

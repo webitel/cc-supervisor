@@ -1,32 +1,34 @@
 <template>
-  <multiselect
+  <wt-select
     v-model="value"
-    :fetch-method="fetch"
     :label="$t('filters.gateway')"
-    :api-mode="apiMode"
+    :internal-search="!apiMode"
     :track-by="trackBy"
+    :search="fetch"
+    :close-on-select="false"
+    multiple
+    @reset="setQueryArray({ value, filterQuery, queriedProp })"
     @closed="setQueryArray({ value, filterQuery, queriedProp })"
-    :multiple="true"
-    :closeOnSelect="false"
-  ></multiselect>
+  ></wt-select>
 </template>
 
 <script>
-  import apiFilterMixin from '@/mixins/filters/apiFilterMixin';
-  import fetchGateways from '@/api/filter-getters/gatewayFilter';
+import apiFilterMixin from '../../mixins/filters/apiFilterMixin';
+import { getGateways, getGatewaysByIds } from '../../api/filters/gatewayFilter';
 
-  export default {
-    name: 'filter-gateway',
-    mixins: [apiFilterMixin],
+export default {
+  name: 'filter-gateway',
+  mixins: [apiFilterMixin],
 
-    data: () => ({
-      filterQuery: 'gatewayIds',
-    }),
+  data: () => ({
+    filterQuery: 'gatewayIds',
+  }),
 
-    methods: {
-      fetch: fetchGateways,
-    },
-  };
+  methods: {
+    fetch: getGateways,
+    fetchSelected: getGatewaysByIds,
+  },
+};
 </script>
 
 <style scoped>

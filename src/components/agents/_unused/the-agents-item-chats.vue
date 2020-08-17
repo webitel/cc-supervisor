@@ -58,13 +58,13 @@
 
 <script>
    import { mapActions, mapState } from 'vuex';
-    import loader from '@/components/utils/loader.vue';
-    import convertQuery from '@/utils/loadScripts';
-    import sortFilterMixin from '@/mixins/filters/sortFilterMixin';
+    import loader from '../../utils/loader.vue';
+    import convertQuery from '../../../utils/loadScripts';
+    import sortFilterMixin from '../../../mixins/filters/sortFilterMixin';
     import agentChatHeaders from './agentChatHeaders';
-    import GridTable from '../utils/grid-table.vue';
-    import FilterFields from '../filters/filter-table-fields.vue';
-    import FilterPagination from '../filters/filter-pagination.vue';
+    import GridTable from '../../utils/grid-table.vue';
+    import FilterFields from '../../filters/filter-table-fields.vue';
+    import FilterPagination from '../../filters/filter-pagination.vue';
 
     export default {
         name: 'the-agents-item-chats',

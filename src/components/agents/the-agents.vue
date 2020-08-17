@@ -61,10 +61,6 @@
           <template slot="teams" slot-scope="{ item }">
             <table-agent-teams :item="item"/>
           </template>
-
-          <template slot="attentions" slot-scope="{ item }">
-            <table-agent-attentions :item="item"/>
-          </template>
         </wt-table>
         <filter-pagination :is-next="isNext"/>
       </div>
@@ -82,7 +78,6 @@ import FilterPagination from '../filters/filter-pagination.vue';
 import AgentsFilters from './_internals/agent-filters/agent-filters.vue';
 
 import TableAgent from './_internals/table-templates/table-agent.vue';
-import TableAgentAttentions from './_internals/table-templates/table-agent-attentions.vue';
 import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
 import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
 import TableAgentQueues from './_internals/table-templates/table-agent-queues.vue';
@@ -103,7 +98,6 @@ export default {
     FilterPagination,
     AgentsFilters,
     TableAgent,
-    TableAgentAttentions,
     TableAgentStatus,
     TableAgentCallTime,
     TableAgentQueues,

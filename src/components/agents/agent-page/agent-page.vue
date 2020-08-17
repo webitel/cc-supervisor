@@ -65,7 +65,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import { fetchTeams } from '../../../api/filter-getters/teamFilter';
+import { fetchTeams } from '../../../api/filters/teamFilter';
 import AgentCalls from './agent-calls/agent-calls-tab.vue';
 // import theAgentsItemChats from './the-agents-item-chats.vue';
 // import theAgentsHelpPopup from './the-agents-help-popup.vue';
@@ -81,7 +81,7 @@ export default {
   data: () => ({
     isLoading: false,
     autorefresh: null,
-    currentTab: { value: 'agent-calls' },
+    currentTab: { value: 'agents-calls' },
   }),
   mounted() {
     this.load();
@@ -101,7 +101,7 @@ export default {
     tabs() {
       return [{
         text: this.$t('pages.agentPage.calls.title'),
-        value: 'agent-calls',
+        value: 'agents-calls',
       },
       ];
     },

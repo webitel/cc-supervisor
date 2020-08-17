@@ -130,7 +130,7 @@ export default {
     activeCall: {
       title: 'Активные звонки',
       columns: {
-        start: 'Начало',
+        start: 'Начался в',
         direction: 'Направление',
         duration: 'Длительность',
         from: 'От',

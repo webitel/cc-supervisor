@@ -13,8 +13,8 @@
 </template>
 
 <script>
-  import apiFilterMixin from '@/mixins/filters/apiFilterMixin';
-  import { fetchTeams, getSelectedTeams } from '@/api/filter-getters/teamFilter';
+  import apiFilterMixin from '../../mixins/filters/apiFilterMixin';
+  import { getTeams, getTeamsByIds } from '../../api/filters/teamFilter';
 
   export default {
     name: 'filter-team',
@@ -25,8 +25,8 @@
     }),
 
     methods: {
-      fetch: fetchTeams,
-      fetchSelected: getSelectedTeams,
+      fetch: getTeams,
+      fetchSelected: getTeamsByIds,
     },
   };
 </script>

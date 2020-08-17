@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import theAgentsHelpPopup from '../../the-agents-help-popup.vue';
+import theAgentsHelpPopup from './the-agents-help-popup.vue';
 
 export default {
   name: 'table-agent-attentions',

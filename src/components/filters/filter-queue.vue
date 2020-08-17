@@ -13,8 +13,8 @@
 </template>
 
 <script>
-  import apiFilterMixin from '@/mixins/filters/apiFilterMixin';
-  import { fetchQueues, getSelectedQueues } from '@/api/filter-getters/queueFilter';
+  import apiFilterMixin from '../../mixins/filters/apiFilterMixin';
+  import { getQueues, getQueuesByIds } from '../../api/filters/queueFilter';
 
   export default {
     name: 'filter-queue',
@@ -25,8 +25,8 @@
     }),
 
     methods: {
-      fetch: fetchQueues,
-      fetchSelected: getSelectedQueues,
+      fetch: getQueues,
+      fetchSelected: getQueuesByIds,
     },
   };
 </script>

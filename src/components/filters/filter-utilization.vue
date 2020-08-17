@@ -12,7 +12,7 @@
 
 <script>
   import enumFilterMixin from '../../mixins/filters/enumFilterMixin';
-  import Utilization from '../../api/filter-getters/UtilizationOptions.enum';
+  import Utilization from '../../api/filters/UtilizationOptions.enum';
 
   export default {
     name: 'filter-utilization',
