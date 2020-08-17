@@ -2,7 +2,7 @@
   <wt-select
     v-model="value"
     :options="options"
-    :label="$t('filters.status')"
+    :label="$t('filters.direction')"
     :track-by="trackBy"
     multiple
     @reset="setQueryArray({ value, filterQuery, queriedProp })"
@@ -11,16 +11,16 @@
 </template>
 
 <script>
-  import enumFilterMixin from '../../mixins/filters/enumFilterMixin';
-  import AgentStatus from '../../api/filters/AgentStatusOptions.enum';
+  import enumFilterMixin from '../mixins/enumFilterMixin';
+  import DirectionOptions from '../api/DirectionOptions.enum';
 
   export default {
-    name: 'filter-status',
+    name: 'filter-direction',
     mixins: [enumFilterMixin],
 
     data: () => ({
-      options: AgentStatus,
-      filterQuery: 'status',
+      options: DirectionOptions,
+      filterQuery: 'direction',
     }),
   };
 </script>

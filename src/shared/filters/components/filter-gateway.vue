@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import apiFilterMixin from '../../mixins/filters/apiFilterMixin';
-import { getGateways, getGatewaysByIds } from '../../api/filters/gatewayFilter';
+import apiFilterMixin from '../mixins/apiFilterMixin';
+import { getGateways, getGatewaysByIds } from '../api/gatewayFilter';
 
 export default {
   name: 'filter-gateway',

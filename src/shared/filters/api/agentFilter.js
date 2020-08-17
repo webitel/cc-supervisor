@@ -1,6 +1,6 @@
 import { AgentServiceApiFactory } from 'webitel-sdk';
-import instance from '../instance';
-import configuration from '../utils/openAPIConfig';
+import instance from '../../../api/instance';
+import configuration from '../../../api/utils/openAPIConfig';
 import { formatOptions, defaultParams } from './defaults/defaults';
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);

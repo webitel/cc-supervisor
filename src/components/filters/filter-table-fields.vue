@@ -7,7 +7,7 @@
 </template>
 
 <script>
-  import valueFilterMixin from '../../mixins/filters/valueFilterMixin';
+  import valueFilterMixin from '../../shared/filters/mixins/valueFilterMixin';
   import ColumnSelect from '../utils/table-column-select.vue';
 
   export default {

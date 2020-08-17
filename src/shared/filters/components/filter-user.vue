@@ -13,8 +13,8 @@
 </template>
 
 <script>
-  import apiFilterMixin from '../../mixins/filters/apiFilterMixin';
-  import { getUsers, getUsersByIds } from '../../api/filters/userFilter';
+  import apiFilterMixin from '../mixins/apiFilterMixin';
+  import { getUsers, getUsersByIds } from '../api/userFilter';
 
   export default {
     name: 'filter-user',

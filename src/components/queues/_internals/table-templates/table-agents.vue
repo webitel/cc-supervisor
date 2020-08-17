@@ -1,28 +1,31 @@
 <template>
   <div class="table-agents">
-    <table-status
-      class="status__true"
-      :text="item.agents.active"
-    ></table-status>
-    <table-status
-      class="status__info"
-      :text="item.agents.waiting"
-    ></table-status>
+    <wt-indicator
+      color="success"
+      :text="activeCount"
+    ></wt-indicator>
+    <wt-indicator
+      color="primary"
+      :text="waitingCount"
+    ></wt-indicator>
   </div>
 </template>
 
 <script>
-import TableStatus from '../../../utils/table-status.vue';
-
 export default {
   name: 'table-agents',
-  components: {
-    TableStatus,
-  },
   props: {
     item: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    activeCount() {
+      return this.item.agents.active || 0;
+    },
+    waitingCount() {
+      return this.item.agents.waiting || 0;
     },
   },
 };
@@ -32,7 +35,7 @@ export default {
 .table-agents {
   display: flex;
 
-  .table-status {
+  .wt-indicator {
     width: 40px;
     &:last-child {
       margin-left: 16px;

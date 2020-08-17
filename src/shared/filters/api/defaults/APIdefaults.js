@@ -1,4 +1,4 @@
-import instance from '../../instance';
+import instance from '../../../../api/instance';
 import { formatOptions } from './defaults';
 
 const getFromAPI = async (url) => {

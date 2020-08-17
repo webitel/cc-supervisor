@@ -10,8 +10,8 @@
 </template>
 
 <script>
-  import enumFilterMixin from '../../mixins/filters/enumFilterMixin';
-  import PeriodOptions from '../../api/filters/PeriodOptions.enum';
+  import enumFilterMixin from '../mixins/enumFilterMixin';
+  import PeriodOptions from '../api/PeriodOptions.enum';
 
   export default {
     name: 'filter-period',

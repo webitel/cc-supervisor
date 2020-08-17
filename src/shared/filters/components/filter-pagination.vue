@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import valueFilterMixin from '../../mixins/filters/valueFilterMixin';
+import valueFilterMixin from '../mixins/valueFilterMixin';
 
 export default {
   name: 'filter-pagination',

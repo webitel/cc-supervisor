@@ -64,8 +64,8 @@ import { mapActions, mapState } from 'vuex';
 import convertQuery from '../../utils/loadScripts';
 import { queueFields } from '../../api/queues/queues';
 import FilterFields from '../filters/filter-table-fields.vue';
-import FilterSearch from '../filters/filter-search.vue';
-import FilterPagination from '../filters/filter-pagination.vue';
+import FilterSearch from '../../shared/filters/components/filter-search.vue';
+import FilterPagination from '../../shared/filters/components/filter-pagination.vue';
 
 import PageWrapper from '../supervisor-workspace/page-wrapper.vue';
 import QueueFilters from './_internals/queue-filters/queue-filters.vue';
@@ -74,7 +74,7 @@ import TableAgents from './_internals/table-templates/table-agents.vue';
 import TableTeam from './_internals/table-templates/table-team.vue';
 import TableMembers from './_internals/table-templates/table-members.vue';
 import headersMixin from './_internals/queueHeadersMixin';
-import sortFilterMixin from '../../mixins/filters/sortFilterMixin';
+import sortFilterMixin from '../../shared/filters/mixins/sortFilterMixin';
 import downloadCSVMixin from '../../mixins/downloadCSV/downloadCSVMixin';
 import tableActionsHandlerMixin from '../../mixins/supervisor-workspace/tableActionsHandlerMixin';
 

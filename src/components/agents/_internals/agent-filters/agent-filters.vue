@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import FilterQueue from '../../../filters/filter-queue.vue';
-import FilterStatus from '../../../filters/filter-status.vue';
-import FilterTeam from '../../../filters/filter-team.vue';
-import FilterUtilization from '../../../filters/filter-utilization.vue';
+import FilterQueue from '../../../../shared/filters/components/filter-queue.vue';
+import FilterStatus from '../../../../shared/filters/components/filter-status.vue';
+import FilterTeam from '../../../../shared/filters/components/filter-team.vue';
+import FilterUtilization from '../../../../shared/filters/components/filter-utilization.vue';
 
 export default {
   name: 'agent-filters',

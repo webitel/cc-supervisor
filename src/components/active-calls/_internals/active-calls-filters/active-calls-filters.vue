@@ -9,11 +9,11 @@
 </template>
 
 <script>
-import FilterAgent from '../../../filters/filter-agent.vue';
-import FilterDirection from '../../../filters/filter-direction.vue';
-import FilterGateway from '../../../filters/filter-gateway.vue';
-import FilterQueue from '../../../filters/filter-queue.vue';
-import FilterUser from '../../../filters/filter-user.vue';
+import FilterAgent from '../../../../shared/filters/components/filter-agent.vue';
+import FilterDirection from '../../../../shared/filters/components/filter-direction.vue';
+import FilterGateway from '../../../../shared/filters/components/filter-gateway.vue';
+import FilterQueue from '../../../../shared/filters/components/filter-queue.vue';
+import FilterUser from '../../../../shared/filters/components/filter-user.vue';
 
 export default {
   name: 'active-calls-filters',

@@ -76,7 +76,7 @@ import { activeCallFields } from '../../api/activeCalls/activeCalls';
 import PageWrapper from '../supervisor-workspace/page-wrapper.vue';
 import ActiveCallsFilters from './_internals/active-calls-filters/active-calls-filters.vue';
 import FilterFields from '../filters/filter-table-fields.vue';
-import FilterPagination from '../filters/filter-pagination.vue';
+import FilterPagination from '../../shared/filters/components/filter-pagination.vue';
 import TableDirection from './_internals/table-templates/table-direction.vue';
 import TableFrom from './_internals/table-templates/table-from.vue';
 import TableTo from './_internals/table-templates/table-to.vue';
@@ -86,7 +86,7 @@ import TableUser from './_internals/table-templates/table-user.vue';
 import TableActiveCallState from './_internals/table-templates/table-active-call-state.vue';
 import headersMixin from './_internals/activeCallHeadersMixin';
 import downloadCSVMixin from '../../mixins/downloadCSV/downloadCSVMixin';
-import sortFilterMixin from '../../mixins/filters/sortFilterMixin';
+import sortFilterMixin from '../../shared/filters/mixins/sortFilterMixin';
 import tableActionsHandlerMixin from '../../mixins/supervisor-workspace/tableActionsHandlerMixin';
 
 export default {

@@ -13,8 +13,8 @@
 </template>
 
 <script>
-  import apiFilterMixin from '../../mixins/filters/apiFilterMixin';
-  import { getAgents, getAgentsByIds } from '../../api/filters/agentFilter';
+  import apiFilterMixin from '../mixins/apiFilterMixin';
+  import { getAgents, getAgentsByIds } from '../api/agentFilter';
 
   export default {
     name: 'filter-agent',

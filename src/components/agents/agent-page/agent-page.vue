@@ -65,7 +65,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import { fetchTeams } from '../../../api/filters/teamFilter';
+import { fetchTeams } from '../../../shared/filters/api/teamFilter';
 import AgentCalls from './agent-calls/agent-calls-tab.vue';
 // import theAgentsItemChats from './the-agents-item-chats.vue';
 // import theAgentsHelpPopup from './the-agents-help-popup.vue';

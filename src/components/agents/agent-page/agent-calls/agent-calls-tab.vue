@@ -54,13 +54,13 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import convertQuery from '../../../../utils/loadScripts';
-import FilterPagination from '../../../filters/filter-pagination.vue';
+import FilterPagination from '../../../../shared/filters/components/filter-pagination.vue';
 import MediaAction from '../../../utils/table-media-action.vue';
 import TableCallState from './_internals/table-templates/table-call-state.vue';
 import TableCallClient from './_internals/table-templates/table-call-client.vue';
 import TableCallNumber from './_internals/table-templates/table-call-number.vue';
 import TableCallNotes from './_internals/table-templates/table-call-notes.vue';
-import sortFilterMixin from '../../../../mixins/filters/sortFilterMixin';
+import sortFilterMixin from '../../../../shared/filters/mixins/sortFilterMixin';
 import playMediaMixin from '../../../../mixins/media/playMediaMixin';
 import showMediaMixin from '../../../../mixins/media/showMediaMixin';
 import headersMixin from './_internals/agentPageHeadersMixin';

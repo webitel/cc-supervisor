@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import FilterPeriod from '../../../filters/filter-period.vue';
-import FilterQueue from '../../../filters/filter-queue.vue';
-import FilterType from '../../../filters/filter-queue-type.vue';
-import FilterTeam from '../../../filters/filter-team.vue';
+import FilterPeriod from '../../../../shared/filters/components/filter-period.vue';
+import FilterQueue from '../../../../shared/filters/components/filter-queue.vue';
+import FilterType from '../../../../shared/filters/components/filter-queue-type.vue';
+import FilterTeam from '../../../../shared/filters/components/filter-team.vue';
 
 export default {
   name: 'queue-filters',

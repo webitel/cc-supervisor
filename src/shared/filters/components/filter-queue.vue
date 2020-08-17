@@ -1,7 +1,7 @@
 <template>
   <wt-select
     v-model="value"
-    :label="$t('filters.team')"
+    :label="$t('filters.queue')"
     :internal-search="!apiMode"
     :track-by="trackBy"
     :search="fetch"
@@ -13,20 +13,20 @@
 </template>
 
 <script>
-  import apiFilterMixin from '../../mixins/filters/apiFilterMixin';
-  import { getTeams, getTeamsByIds } from '../../api/filters/teamFilter';
+  import apiFilterMixin from '../mixins/apiFilterMixin';
+  import { getQueues, getQueuesByIds } from '../api/queueFilter';
 
   export default {
-    name: 'filter-team',
+    name: 'filter-queue',
     mixins: [apiFilterMixin],
 
     data: () => ({
-      filterQuery: 'teamIds',
+      filterQuery: 'queueIds',
     }),
 
     methods: {
-      fetch: getTeams,
-      fetchSelected: getTeamsByIds,
+      fetch: getQueues,
+      fetchSelected: getQueuesByIds,
     },
   };
 </script>
