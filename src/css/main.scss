@@ -1,4 +1,3 @@
-@import "utils/variables";
 @import "styleguide/styleguide";
 @import "~@webitel/ui-sdk/src/css/main.scss";
 
@@ -35,8 +34,8 @@ $table-hover: #F9F9F9;
 
 // OTHER
 $input-padding: 11px 16px 7px;
-// $border-radius: 4px;
-// $transition: 0.2s;
+// var(--border-radius);: 4px;
+// var(--transition);: 0.2s;
 
 * {
   font-family: 'Montserrat Regular', monospace;
@@ -63,7 +62,7 @@ iframe {
 
 i {
   color: $icon-color;
-  transition: $transition;
+  transition: var(--transition);
 }
 
 .mb-0 {
@@ -88,7 +87,7 @@ i {
   cursor: pointer;
 
   &:before {
-    transition: $transition;
+    transition: var(--transition);
   }
 
   &:hover:before {
@@ -107,55 +106,6 @@ i {
     left: 0;
     right: 0;
     height: 1px;
-  }
-}
-
-.label {
-  @extend .typo-body-md;
-
-  position: relative;
-  display: block;
-  margin-bottom: 10px;
-  color: $label-color;
-  transition: $transition;
-
-  .hint {
-    position: absolute;
-    bottom: -2px;
-  }
-}
-
-.default-input {
-  @extend .typo-body-md;
-
-  display: block;
-  width: 100%;
-  /*different top and bottom padding to vertically align text*/
-  padding: $input-padding;
-  border: 1px solid $input;
-  border-radius: $border-radius;
-  outline: none;
-  transition: $transition;
-
-  &::placeholder {
-    color: $input;
-  }
-
-  &:hover:not(:disabled) {
-    border-color: #000;
-  }
-
-  &:focus {
-    border-color: #000;
-
-    &::placeholder {
-      color: transparent;
-    }
-  }
-
-  &:disabled {
-    background: $input-disabled;
-    border-color: $input;
   }
 }
 
@@ -179,7 +129,7 @@ $srollbar-thumb-color: rgba(0, 0, 0, 0.3);
   &::-webkit-scrollbar-thumb {
     width: 10px;
     background-color: $srollbar-thumb-color;
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
   }
 }
 
@@ -209,11 +159,11 @@ button {
 }
 
 span {
-  @extend .typo-body-md;
+  @extend %typo-body-md;
 }
 
 .title {
-  @extend .typo-heading-md;
+  @extend %typo-heading-md;
 }
 
 .call-btn {

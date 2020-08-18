@@ -88,16 +88,16 @@
   }
 
   .header-notifications__wrapper {
-    @extend .cc-scrollbar;
+    @extend %wt-scrollbar;
     position: absolute;
     top: calc(100% + 5px); // icon + 5px
     right: 0;
     max-height: 80vh;
     padding: $header-notifications-gap;
     background: #fff;
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
     box-shadow: $header-notifications-shadow;
-    transition: $transition;
+    transition: var(--transition);
     overflow: auto;
   }
 
@@ -117,12 +117,12 @@
   }
 
   .header-notifications__subject {
-        @extend .typo-heading-md;
+        @extend %typo-heading-md;
         margin-right: 12px;
   }
 
   .header-notifications__description {
-      @extend .typo-body-md;
+      @extend %typo-body-md;
       margin-right: 12px;
   }
 

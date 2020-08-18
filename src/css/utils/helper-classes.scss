@@ -18,10 +18,6 @@
   text-transform: capitalize;
 }
 
-.box-shadow {
-  box-shadow: $box-shadow;
-}
-
 .hidden {
   opacity: 0;
   pointer-events: none;
@@ -34,14 +30,14 @@
   cursor: pointer;
 
   &:hover .icon {
-    fill: $icon-color__hover;
-    stroke: $icon-color__hover;
+    fill: var(--icon--hover-color);
+    stroke: var(--icon--hover-color);
   }
 
   &.active .icon,
   &.opened .icon {
-    fill: $icon-color__active;
-    stroke: $icon-color__active;
+    fill: var(--icon--active-color);
+    stroke: var(--icon--active-color);
   }
 }
 

@@ -195,7 +195,7 @@ $modal-background-color: #171A2A;
   width: 230px;
   height: 298px;
   background-color: $modal-background-color;
-  border-radius: $border-radius;
+  border-radius: var(--border-radius);
   position: fixed;
   right: 5px;
   bottom: 5px;
@@ -232,7 +232,7 @@ $modal-background-color: #171A2A;
 }
 
 .call-window__agent-name {
-  @extend .typo-heading-md;
+  @extend %typo-heading-md;
   color: $white-color;
 }
 
@@ -241,7 +241,7 @@ $modal-background-color: #171A2A;
 }
 
 .call-window__client-name {
-  @extend .typo-body-md;
+  @extend %typo-body-md;
   color: $white-color;
 }
 
@@ -253,7 +253,7 @@ $modal-background-color: #171A2A;
 }
 
 .call-window__time {
-  @extend .typo-body-md;
+  @extend %typo-body-md;
   color: $white-color;
 }
 

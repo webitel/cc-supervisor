@@ -242,15 +242,15 @@
     padding: (7px) (16px);
     margin: 0 20px;
     background-color: $player-bg;
-    box-shadow: $box-shadow;
-    border-radius: $border-radius;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
     z-index: 90;
 
     .icon-btn {
       ::v-deep .icon {
         fill: #fff;
         stroke: #fff;
-        transition: $transition;
+        transition: var(--transition);
         cursor: pointer;
       }
 
@@ -299,7 +299,7 @@
       left: 0;
       top: 0;
       background-color: $player-seeker-color;
-      border-radius: $border-radius;
+      border-radius: var(--border-radius);
       pointer-events: none;
       z-index: 2;
     }
@@ -310,13 +310,13 @@
       left: 0;
       top: 0;
       background-color: $player-seeker-hover-color;
-      border-radius: $border-radius;
+      border-radius: var(--border-radius);
       pointer-events: none;
       z-index: 1;
     }
 
     .player-timer {
-      @extend .typo-body-md;
+      @extend %typo-body-md;
       position: absolute;
       right: 0;
       bottom: (33px);
@@ -324,7 +324,7 @@
       color: #fff;
       transform: translateX(50%);
       background: $player-bg;
-      border-radius: $border-radius;
+      border-radius: var(--border-radius);
     }
   }
 
@@ -336,7 +336,7 @@
     color: #fff;
 
     .player-time-current {
-      @extend .typo-body-sm;
+      @extend %typo-body-sm;
     }
   }
 
@@ -346,7 +346,7 @@
     right: 0;
     padding: (8px) (16px) (11px);
     background: $player-bg;
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
   }
 
   .volume-icon {

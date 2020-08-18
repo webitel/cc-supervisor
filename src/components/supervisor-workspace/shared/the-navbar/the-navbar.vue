@@ -115,12 +115,12 @@ $nav-paddings: 0 38px 0 20px;
 }
 
 .the-nav__wrap {
-  @extend .box-shadow;
   /*flex-basis: 272px;*/
   position: relative;
   /*min-width: 272px;*/
   /*width: 272px;*/
   min-height: 100vh;
+  box-shadow: var(--box-shadow);
   background: $nav-bg-color;
   z-index: 101;
 
@@ -168,12 +168,12 @@ $nav-paddings: 0 38px 0 20px;
         .nav-icon-arrow {
           margin-left: auto;
           transform: rotate(-90deg);
-          transition: $transition;
+          transition: var(--transition);
         }
 
         .nav-icon {
           margin-right: 18px;
-          transition: $transition;
+          transition: var(--transition);
         }
 
         .nav-icon__svg {
@@ -190,7 +190,7 @@ $nav-paddings: 0 38px 0 20px;
         }
 
         .nav-text {
-          transition: $transition;
+          transition: var(--transition);
         }
       }
 

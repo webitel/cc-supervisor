@@ -4,23 +4,21 @@
       <img class="not-found__img" src="../../assets/img/travolta-404.png" alt="404-img">
       <h2 class="not-found__title typo-404-title">{{ $t('page404.title404') }}</h2>
       <p class="not-found__text typo-404-text">{{ $t('page404.text404') }}</p>
-      <btn class="not-found__btn" @click.native="$router.go(-1)">{{ $t('page404.btn404') }}</btn>
+      <wt-button
+        class="not-found__btn"
+        @click="$router.go(-1)">{{ $t('page404.btn404') }}
+      </wt-button>
     </section>
   </div>
 </template>
 
 <script>
-import btn from './btn.vue';
-
 export default {
   name: 'the-not-found-component',
-  components: { btn },
 };
 </script>
 
 <style lang="scss" scoped>
-$bg-color: #171A2A;
-
 .not-found {
   display: flex;
   align-items: center;
@@ -28,7 +26,7 @@ $bg-color: #171A2A;
   min-width: 100vw;
   min-height: 100vh;
   padding: 90px;
-  background: $bg-color;
+  background: var(--main-primary-accent-color);
 
   .not-found-content {
     text-align: center;

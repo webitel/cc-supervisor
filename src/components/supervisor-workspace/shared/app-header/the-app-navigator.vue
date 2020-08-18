@@ -134,16 +134,16 @@
 
   // dropdown part
   .app-navigator__nav-wrapper {
-    @extend .cc-scrollbar;
+    @extend %wt-scrollbar;
     position: absolute;
     top: calc(100% + 5px); // icon + 5px
     right: 0;
     max-height: 80vh;
     padding: $app-navigator-gap;
     background: #fff;
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
     box-shadow: $app-navigator-shadow;
-    transition: $transition;
+    transition: var(--transition);
     overflow: auto;
   }
 
@@ -166,8 +166,8 @@
     height: (120px);
     box-sizing: border-box;
     border: 1px solid $app-navigator-border-color;
-    border-radius: $border-radius;
-    transition: $transition;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
 
     &.active, &:hover {
       border-color: $app-navigator-border-color--hover;
