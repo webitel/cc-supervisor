@@ -16,7 +16,6 @@ const parseQueueList = (items) => items.map((item) => ({
   avgAsaSec: item.avgAsaSec ? +item.avgAsaSec.toFixed(2) : 0,
   avgAwtSec: item.avgAwtSec ? +item.avgAwtSec.toFixed(2) : 0,
   avgAhtSec: item.avgAhtSec ? +item.avgAhtSec.toFixed(2) : 0,
-  team_name: item.team && item.team.name,
   agents: {
     active: item.online || 0,
     waiting: item.pause || 0,

@@ -1,5 +1,5 @@
 import { AgentServiceApiFactory } from 'webitel-sdk';
-import getTimeFromDuration from '@/utils/getTimeFromDuration';
+import convertDuration from '../../utils/convertDuration';
 import configuration from '../utils/openAPIConfig';
 import instance from '../instance';
 
@@ -8,12 +8,12 @@ export const agentFields = ['id', 'name'];
 
 const parseAgentList = (items) => items.map((item) => ({
   ...item,
-  callTime: getTimeFromDuration(+item.callTime),
-  statusDuration: getTimeFromDuration(+item.statusDuration),
+  callTime: convertDuration(item.callTime),
+  statusDuration: convertDuration(item.statusDuration),
   utilization: item.utilization ? `${item.utilization.toFixed(2)}%` : null,
-  online: getTimeFromDuration(+item.online) || '00:00:00',
-  offline: getTimeFromDuration(+item.offline) || '00:00:00',
-  pause: getTimeFromDuration(+item.pause) || '00:00:00',
+  online: convertDuration(item.online),
+  offline: convertDuration(item.offline),
+  pause: convertDuration(item.pause),
   teams: item.teams,
   queues: item.queues,
 }));
@@ -32,7 +32,7 @@ export const getAgentsList = async ({
     // eslint-disable-next-line no-param-reassign
     if (search && search.slice(-1) !== '*') search += '*';
     const start = new Date().setHours(0, 0, 0, 0);
-    const end = Date.now();
+    const end = new Date().setHours(23, 59, 59, 999);
     const res = await agentService.searchAgentStatusStatistic(
       page,
       size,
@@ -61,10 +61,8 @@ export const getAgentsList = async ({
 
 export const getAgent = async (id) => {
   try {
-    let start = new Date();
-    const end = new Date(start).getTime();
-    start.setHours(0, 0, 0, 0);
-    start = start.getTime();
+    const start = new Date().setHours(0, 0, 0, 0);
+    const end = new Date().setHours(23, 59, 59, 999);
     const res = await agentService.searchAgentStatusStatistic(
       1,
       1,

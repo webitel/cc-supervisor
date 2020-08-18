@@ -90,7 +90,7 @@
 import { mapActions, mapState } from 'vuex';
 import { CallDirection } from 'webitel-sdk';
 import Tooltip from '../utils/tooltip.vue';
-import getTimeFromDuration from '../../utils/getTimeFromDuration';
+import convertDuration from '../../utils/convertDuration';
 
 export default {
   name: 'call-window-eavesdrop',
@@ -108,7 +108,7 @@ export default {
       lastDtmf: (state) => state.eavesdropLastDTMF,
       agent: (state) => state.agent,
       clientName: (state) => state.clientName,
-      time: (state) => getTimeFromDuration(state.time),
+      time: (state) => convertDuration(state.time),
       call: (state) => state.call,
     }),
   },

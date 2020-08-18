@@ -104,7 +104,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { CallDirection, CallActions } from 'webitel-sdk';
-import getTimeFromDuration from '../../utils/getTimeFromDuration';
+import convertDuration from '../../utils/convertDuration';
 import ringingSoundMixin from '../../mixins/ringingSoundMixin';
 
 export default {
@@ -121,7 +121,7 @@ export default {
       isVisible: (state) => state.isVisible,
       agent: (state) => state.agent,
       clientName: (state) => state.clientName,
-      time: (state) => getTimeFromDuration(state.time),
+      time: (state) => convertDuration(state.time),
       call: (state) => state.call,
     }),
     animationUrl() {

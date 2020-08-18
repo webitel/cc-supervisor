@@ -1,11 +1,7 @@
 import urlQueryControllerMixin from '../../../mixins/urlQueryControllerMixin';
-import Multiselect from '../../../components/utils/multiselect.vue';
 
 export default {
   mixins: [urlQueryControllerMixin],
-  components: {
-    Multiselect,
-  },
 
   data: () => ({}),
 

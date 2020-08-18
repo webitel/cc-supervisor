@@ -1,5 +1,5 @@
 import { CallServiceApiFactory } from 'webitel-sdk';
-import getTimeFromDuration from '@/utils/getTimeFromDuration';
+import convertDuration from '../../utils/convertDuration';
 import configuration from '../utils/openAPIConfig';
 import instance from '../instance';
 
@@ -11,9 +11,9 @@ export const activeCallFields = [
 
 const parseActiveCallsList = (items) => items.map((item) => ({
   ...item,
-  duration: getTimeFromDuration(+item.duration),
+  duration: convertDuration(item.duration),
   createdAt: new Date(+item.createdAt).toLocaleTimeString()
-  .substr(0, 8),
+  .slice(0, 8),
 }));
 
 export const getActiveCallList = async ({
@@ -32,7 +32,7 @@ export const getActiveCallList = async ({
     // eslint-disable-next-line no-param-reassign
     if (search && search.slice(-1) !== '*') search += '*';
     const start = new Date().setHours(0, 0, 0, 0);
-    const end = Date.now();
+    const end = new Date().setHours(23, 59, 59, 999);
     const res = await callService.searchActiveCall(
       page, // page
       size, // size

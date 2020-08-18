@@ -1,23 +1,23 @@
 <template>
   <aside class="player">
     <div class="player-controls">
-      <icon-btn
-        :icon="'stop'"
+      <wt-icon-btn
+        icon="stop"
         :tooltip="$t('icon.stop')"
-        @click.native="stop"
-      ></icon-btn>
-      <icon-btn
+        @click="stop"
+      ></wt-icon-btn>
+      <wt-icon-btn
         v-if="!playing"
-        :icon="'play'"
+        icon="play"
         :tooltip="$t('icon.play')"
-        @click.native="playing = !playing"
-      ></icon-btn>
-      <icon-btn
+        @click="playing = !playing"
+      ></wt-icon-btn>
+      <wt-icon-btn
         v-else
-        :icon="'pause'"
+        icon="pause"
         :tooltip="$t('icon.pause')"
-        @click.native="playing = !playing"
-      ></icon-btn>
+        @click="playing = !playing"
+      ></wt-icon-btn>
       <div class="player-time">
         <div class="player-time-current">{{convertTimeHHMMSS}}</div>
       </div>
@@ -82,14 +82,12 @@
 
 <script>
   import range from './range.vue';
-  import IconBtn from './icon-btn.vue';
   import eventBus from '../../utils/eventBus';
 
   export default {
     name: 'audio-player',
     components: {
       range,
-      IconBtn,
     },
     props: {
       file: {
