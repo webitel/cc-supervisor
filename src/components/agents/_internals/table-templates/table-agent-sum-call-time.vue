@@ -1,16 +1,12 @@
 <template>
   <div class="call" v-if="item.callTime">
     <span>{{ item.callTime }}</span>
-    <button
+    <wt-icon-btn
       v-if="item.activeCallId"
-      class="icon-btn"
-      @click.prevent="attachCall(item.activeCallId)">
-      <icon>
-        <svg class="icon icon-speaker_off_md grid">
-          <use xlink:href="#icon-speaker_off_md"></use>
-        </svg>
-      </icon>
-    </button>
+      icon="sound-on"
+      color="danger"
+      @click.prevent="$emit('attach-call', item.activeCallId)">
+    </wt-icon-btn>
   </div>
 </template>
 

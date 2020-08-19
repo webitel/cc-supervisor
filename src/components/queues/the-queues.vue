@@ -107,7 +107,7 @@ export default {
   watch: {
     '$route.query': {
       async handler() {
-        await this.loadList();
+        await this.initializeList();
         this.setAutoRefresh();
       },
       immediate: true,
@@ -126,15 +126,19 @@ export default {
       loadDataList: 'FETCH_LIST',
     }),
 
-    async loadList() {
+    async initializeList() {
       this.isLoading = true;
-      const params = this.getQueryParams();
       try {
-        await this.loadDataList(params);
+        await this.loadList();
       } catch {
       } finally {
         this.isLoading = false;
       }
+    },
+
+    loadList() {
+      const params = this.getQueryParams();
+      return this.loadDataList(params);
     },
 
     download() {

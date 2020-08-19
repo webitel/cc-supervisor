@@ -60,7 +60,7 @@
             <table-user :item="item"/>
           </template>
           <template slot="state" slot-scope="{ item }">
-            <table-active-call-state :item="item"/>
+            <table-active-call-state :item="item" @attach-call="attachCall"/>
           </template>
         </wt-table>
         <filter-pagination :is-next="isNext"/>
@@ -121,7 +121,7 @@ export default {
   watch: {
     '$route.query': {
       async handler() {
-        await this.loadList();
+        await this.initializeList();
         this.setAutoRefresh();
       },
       immediate: true,
@@ -141,16 +141,22 @@ export default {
       attachToCall: 'ATTACH_TO_CALL',
       openWindow: 'EAVESDROP_OPEN_WINDOW',
     }),
-    async loadList() {
+
+    async initializeList() {
       this.isLoading = true;
-      const params = this.getQueryParams();
       try {
-        await this.loadDataList(params);
+        await this.loadList();
       } catch {
       } finally {
         this.isLoading = false;
       }
     },
+
+    loadList() {
+      const params = this.getQueryParams();
+      return this.loadDataList(params);
+    },
+
     download() {
       this.downloadCSV({
         fields: activeCallFields,

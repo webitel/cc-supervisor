@@ -3,8 +3,10 @@
     {{ item.state }}
     <wt-icon-btn
       v-if="isActive"
-      icon="speaker-off"
-    ></wt-icon-btn>
+      icon="sound-on"
+      color="success"
+      @click.prevent="$emit('attach-call', item.id)">
+    </wt-icon-btn>
   </div>
 </template>
 

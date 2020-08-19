@@ -4,6 +4,7 @@
       class="app-navigator__btn"
       :class="{'opened': isOpened}"
       icon="app-navigator"
+      :tooltip="$t('appNavigator.title')"
       @click="isOpened = !isOpened"
       v-clickaway="close"
     ></wt-icon-btn>

@@ -85,14 +85,13 @@ export default {
   ],
   data() {
     return {
-      isNext: false,
       isLoading: false,
     };
   },
   watch: {
     '$route.query': {
       async handler() {
-        await this.loadList();
+        await this.initializeList();
         this.setAutoRefresh();
       },
       immediate: true,
@@ -101,23 +100,30 @@ export default {
   computed: {
     ...mapState('agentCalls', {
       data: (state) => state.dataList,
+      isNext: (state) => state.isNext,
     }),
   },
   methods: {
     ...mapActions('agentCalls', {
       loadDataList: 'FETCH_LIST',
     }),
-    async loadList() {
+
+    async initializeList() {
       this.isLoading = true;
-      const params = this.getQueryParams();
-      params.agentId = this.$route.params.id;
       try {
-        this.isNext = await this.loadDataList(params);
+        await this.loadList();
       } catch {
       } finally {
         this.isLoading = false;
       }
     },
+
+    loadList() {
+      const params = this.getQueryParams();
+      params.agentId = this.$route.params.id;
+      return this.loadDataList(params);
+    },
+
     getQueryParams() {
       const { query } = this.$route;
       return convertQuery(query);
