@@ -12,14 +12,13 @@ module.exports = {
     parser: 'babel-eslint',
   },
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-console': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-useless-catch': 'off',
     'no-shadow': 'off',
     'no-empty': 'off',
     'indent': 'off',
-    'no-plusplus': 'off',
-    'max-len': 'off',
+    'no-underscore-dangle': 'off',
   },
   overrides: [
     {

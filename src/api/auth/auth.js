@@ -1,12 +1,9 @@
 import instance from '../instance';
-import router from '../../router/index';
-import getSession from './userinfo';
 
-export const handleToken = async (token) => {
-    localStorage.setItem('access-token', token);
-    instance.defaults.headers['X-Webitel-Access'] = localStorage.getItem('access-token');
-    await getSession();
-    return router.replace('/supervisor/queues');
+const removeToken = () => {
+    localStorage.removeItem('access-token');
+    localStorage.removeItem('domain');
+    instance.defaults.headers['X-Webitel-Access'] = '';
 };
 
 export const logout = async () => {
@@ -14,13 +11,28 @@ export const logout = async () => {
 
     try {
         await instance.post(url, {});
-        // remove tokens
-        localStorage.removeItem('access-token');
-        localStorage.removeItem('domain');
-        instance.defaults.headers['X-Webitel-Access'] = '';
-        // and throw user to auth page
-        return router.replace('/auth');
-    } catch (error) {
-        throw error;
+        removeToken();
+    } catch (err) {
+        throw err;
     }
+};
+
+// gets user by token from localstorage
+// stores response username in vuex
+export const getSession = async () => {
+    const url = '/userinfo';
+    const token = localStorage.getItem('access-token');
+    if (token) {
+        try {
+            return instance.get(url);
+        } catch (err) {
+            throw err;
+        }
+    }
+    return null;
+};
+
+export const setToken = (token) => {
+    localStorage.setItem('access-token', token);
+    instance.defaults.headers['X-Webitel-Access'] = localStorage.getItem('access-token');
 };

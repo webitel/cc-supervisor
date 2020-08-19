@@ -1,23 +1,23 @@
 <template>
   <aside class="player">
     <div class="player-controls">
-      <icon-btn
-        :icon="'stop'"
+      <wt-icon-btn
+        icon="stop"
         :tooltip="$t('icon.stop')"
-        @click.native="stop"
-      ></icon-btn>
-      <icon-btn
+        @click="stop"
+      ></wt-icon-btn>
+      <wt-icon-btn
         v-if="!playing"
-        :icon="'play'"
+        icon="play"
         :tooltip="$t('icon.play')"
-        @click.native="playing = !playing"
-      ></icon-btn>
-      <icon-btn
+        @click="playing = !playing"
+      ></wt-icon-btn>
+      <wt-icon-btn
         v-else
-        :icon="'pause'"
+        icon="pause"
         :tooltip="$t('icon.pause')"
-        @click.native="playing = !playing"
-      ></icon-btn>
+        @click="playing = !playing"
+      ></wt-icon-btn>
       <div class="player-time">
         <div class="player-time-current">{{convertTimeHHMMSS}}</div>
       </div>
@@ -82,14 +82,12 @@
 
 <script>
   import range from './range.vue';
-  import IconBtn from './icon-btn.vue';
   import eventBus from '../../utils/eventBus';
 
   export default {
     name: 'audio-player',
     components: {
       range,
-      IconBtn,
     },
     props: {
       file: {
@@ -244,15 +242,15 @@
     padding: (7px) (16px);
     margin: 0 20px;
     background-color: $player-bg;
-    box-shadow: $box-shadow;
-    border-radius: $border-radius;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
     z-index: 90;
 
     .icon-btn {
       ::v-deep .icon {
         fill: #fff;
         stroke: #fff;
-        transition: $transition;
+        transition: var(--transition);
         cursor: pointer;
       }
 
@@ -301,7 +299,7 @@
       left: 0;
       top: 0;
       background-color: $player-seeker-color;
-      border-radius: $border-radius;
+      border-radius: var(--border-radius);
       pointer-events: none;
       z-index: 2;
     }
@@ -312,13 +310,13 @@
       left: 0;
       top: 0;
       background-color: $player-seeker-hover-color;
-      border-radius: $border-radius;
+      border-radius: var(--border-radius);
       pointer-events: none;
       z-index: 1;
     }
 
     .player-timer {
-      @extend .typo-body-md;
+      @extend %typo-body-md;
       position: absolute;
       right: 0;
       bottom: (33px);
@@ -326,7 +324,7 @@
       color: #fff;
       transform: translateX(50%);
       background: $player-bg;
-      border-radius: $border-radius;
+      border-radius: var(--border-radius);
     }
   }
 
@@ -338,7 +336,7 @@
     color: #fff;
 
     .player-time-current {
-      @extend .typo-body-sm;
+      @extend %typo-body-sm;
     }
   }
 
@@ -348,7 +346,7 @@
     right: 0;
     padding: (8px) (16px) (11px);
     background: $player-bg;
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
   }
 
   .volume-icon {
