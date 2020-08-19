@@ -1,128 +1,98 @@
 <template>
-  <div class="column-select">
-    <button
-      class="icon-btn"
-      @click.prevent="isOpened = true"
-    >
-      <icon>
-        <svg class="icon icon-col-select_md md">
-          <use xlink:href="#icon-col-select_md"></use>
-        </svg>
-      </icon>
-    </button>
-    <popup-container v-if="isOpened">
-      <template slot="popup-header">
-        <h1 class="popup-header__h1">{{$t('table.showColumnsTitle')}}</h1>
-      </template>
-      <template slot="popup-main">
-        <ul class="column-select__list">
-          <li
-            class="column-select__list__item"
-            v-for="(col, key) of draft"
-            :key="key"
-            @click.capture.prevent="col.show = !col.show"
-          >
-            <checkbox :value="col.show"/>
-            <span>{{col.text()}}</span>
-          </li>
-        </ul>
-      </template>
-      <template slot="popup-footer">
-        <div class="popup-actions">
-          <btn
-            class="primary"
-            @click.native="setShownColumns"
-          >{{$t('defaults.add')}}
-          </btn>
-          <btn
-            class="secondary"
-            @click.native="isOpened = false"
-          >{{$t('defaults.close')}}
-          </btn>
-        </div>
-      </template>
-    </popup-container>
-  </div>
+  <wt-popup
+    class="column-select"
+    @close="$emit('close')"
+  >
+    <template slot="header">
+      <br>
+    </template>
+    <template slot="main">
+      <ul class="column-select__list">
+        <li
+          class="column-select__item"
+          v-for="(col, key) of draft"
+          :key="key"
+          @click.capture.prevent="col.show = !col.show"
+        >
+          <wt-checkbox v-model="col.show" :label="col.text"/>
+        </li>
+      </ul>
+    </template>
+    <template slot="actions">
+      <wt-button
+        @click="setShownColumns"
+      >{{ $t('reusable.add') }}
+      </wt-button>
+      <wt-button
+        color="secondary"
+        @click="$emit('close')"
+      >{{ $t('reusable.cancel') }}
+      </wt-button>
+    </template>
+  </wt-popup>
 </template>
 
 <script>
-  import PopupContainer from './popup-container.vue';
-  import Btn from './btn.vue';
-  import Checkbox from './checkbox.vue';
+import deepCopy from 'deep-copy';
 
-  export default {
-    name: 'table-column-select',
-    components: {
-      PopupContainer,
-      Btn,
-      Checkbox,
+export default {
+  name: 'table-column-select',
+  props: {
+    value: {
+      type: Array,
+      required: true,
     },
-    props: {
-      value: {
-        type: Array,
-        required: true,
+  },
+
+  model: {
+    prop: 'value',
+    event: 'change',
+  },
+
+  data: () => ({
+    draft: [], // headers draft
+  }),
+
+  watch: {
+    value: {
+      handler() {
+        this.fillHeadersDraft();
       },
+      immediate: true,
+    },
+  },
+
+  methods: {
+    setShownColumns() {
+      this.$emit('change', this.draft);
     },
 
-    model: {
-      prop: 'value',
-      event: 'change',
+    fillHeadersDraft() {
+      this.draft = deepCopy(this.value);
     },
-
-    data: () => ({
-      isOpened: false,
-      draft: [], // headers draft
-    }),
-
-    watch: {
-      value: {
-        handler() {
-          this.fillHeadersDraft();
-        },
-        immediate: true,
-      },
-    },
-
-    methods: {
-      setShownColumns() {
-        this.$emit('change', this.draft);
-        this.isOpened = false;
-      },
-
-      fillHeadersDraft() {
-        this.draft = [...this.value];
-      },
-    },
-  };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
+.column-select__heading {
+  text-align: center;
+}
 
-  .column-select__list {
-    @extend .cc-scrollbar;
-    max-height: 35vh;
-    min-width: 550px;
-    overflow: auto;
+.column-select__list {
+  @extend %wt-scrollbar;
+  max-height: 35vh;
+  min-width: 550px;
+  overflow: auto;
+}
 
-    &__item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 16px;
-      cursor: pointer;
+.column-select__item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
 
-      .checkbox {
-        margin-right: 10px;
-      }
-    }
-  }
-
-  .popup-actions {
-    .cc-btn {
-      min-width: 120px;
-
-      &.primary {
-        margin-right: 20px;
-      }
-    }
-  }
+.wt-button:first-child {
+  margin-right: 20px;
+}
 </style>

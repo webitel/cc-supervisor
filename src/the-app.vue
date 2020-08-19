@@ -1,25 +1,34 @@
 <template>
-  <!--  :class="$i18n.locale" root element class to control fonts on each locale  -->
-  <router-view :class="$i18n.locale"></router-view>
+  <router-view/>
 </template>
 
 <script>
-import getSession from './api/auth/userinfo';
+import { mapActions } from 'vuex';
+import { getSession } from './api/auth/auth';
 
 export default {
-  name: 'app',
+  name: 'the-app',
 
   created() {
-    getSession();
-    // this.setDomain();
-    this.setLanguage();
     this.setAutoRefresh();
+    this.restoreSession();
+    this.setLanguage();
   },
+
   methods: {
-    // setDomain() {
-    //   const domain = localStorage.getItem('domain');
-    //   if (domain) this.$store.dispatch('userinfo/SET_DOMAIN_ID', domain);
-    // },
+    ...mapActions('userinfo', {
+      setSession: 'SET_SESSION',
+    }),
+
+    async restoreSession() {
+      // ROUTER REDIRECTS EMPTY TOKEN PATHS TO /AUTH, SO THERE'S NO NEED TO CATCH IT
+      try {
+        const userinfo = await getSession();
+        this.setSession(userinfo);
+      } catch {
+        await this.$router.replace('/auth');
+      }
+    },
 
     setLanguage() {
       const lang = localStorage.getItem('lang');
@@ -27,8 +36,8 @@ export default {
     },
 
     setAutoRefresh() {
-      const autorefresh = localStorage.getItem('autorefresh');
-      if (!autorefresh) localStorage.setItem('autorefresh', 10000);
+      const autoRefresh = localStorage.getItem('auto-refresh');
+      if (!autoRefresh) localStorage.setItem('auto-refresh', '10000');
     },
   },
 };

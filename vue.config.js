@@ -9,21 +9,19 @@ process.env.VUE_APP_HISTORY_URL = process.env.NODE_ENV === 'production' ? '/hist
 process.env.VUE_APP_GRAFANA_URL = process.env.NODE_ENV === 'production' ? '/grafana' : 'https://dev.webitel.com/grafana';
 
 module.exports = {
-  // publicPath: '',
-  // lintOnSave: false,
-  css: {
-    loaderOptions: {
-      sass: {
-        prependData: `
-        @import "@/assets/css/main.scss";
-        @import "@/assets/css/objects/objects.scss";
-        @import "@/assets/css/media.scss";
+    // publicPath: '',
+    // lintOnSave: false,
+    css: {
+        loaderOptions: {
+            sass: {
+                prependData: `
+          @import "@/css/main.scss";
       `,
-      },
+            },
+        },
     },
-  },
-  configureWebpack: (config) => {
-    // eslint-disable-next-line no-param-reassign
-    config.devtool = 'source-map';
-  },
+    configureWebpack: (config) => {
+        // eslint-disable-next-line no-param-reassign
+        config.devtool = 'source-map';
+    },
 };

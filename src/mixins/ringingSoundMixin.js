@@ -16,7 +16,8 @@ export default {
   watch: {
     isRinging(value) {
       if (value) {
-        this.ringingAudio.play().catch();
+        this.ringingAudio.play()
+        .catch();
       } else {
         this.ringingAudio.pause();
         this.ringingAudio.currentTime = 0;
@@ -31,7 +32,9 @@ export default {
 
     isRinging() {
       // every on empty array is true
-      return this.call && this.call.state === CallActions.Ringing && this.call.direction === CallDirection.Inbound;
+      return this.call
+        && this.call.state === CallActions.Ringing
+        && this.call.direction === CallDirection.Inbound;
     },
   },
 };

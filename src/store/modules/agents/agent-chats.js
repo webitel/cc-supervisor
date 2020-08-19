@@ -1,4 +1,4 @@
-import { getAgentChatsList } from "../../../api/agents/agent-chats";
+import { getAgentChatsList } from '../../../api/agents/agent-chats';
 
 const state = {
     dataList: [],
@@ -10,14 +10,14 @@ const actions = {
     FETCH_LIST: async (context, id, page, size, search, sort) => {
         const { items, next } = await getAgentChatsList(id, page, size, search, sort);
         context.commit('SET_LIST', items);
-        return next
+        return next;
     },
 };
 
 const mutations = {
     SET_LIST: (state, agents) => {
         state.dataList = agents;
-    }
+    },
 };
 
 export default {
@@ -26,5 +26,5 @@ export default {
     getters,
     actions,
     mutations,
-    modules: {}
+    modules: {},
 };
