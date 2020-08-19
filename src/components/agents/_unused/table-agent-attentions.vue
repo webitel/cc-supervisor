@@ -27,15 +27,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.table-agents {
-  display: flex;
-
-  .table-status {
-    width: 40px;
-
-    &:last-child {
-      margin-left: 16px;
-    }
-  }
-}
 </style>

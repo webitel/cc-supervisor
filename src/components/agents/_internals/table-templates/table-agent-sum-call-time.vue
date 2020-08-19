@@ -1,11 +1,11 @@
 <template>
-  <div class="call" v-if="item.callTime">
-    <span>{{ item.callTime }}</span>
+  <div class="table-agent-sum-call-time" v-if="item.callTime">
+    {{ item.callTime }}
     <wt-icon-btn
       v-if="item.activeCallId"
       icon="sound-on"
-      color="danger"
-      @click.prevent="$emit('attach-call', item.activeCallId)">
+      color="true"
+      @click="$emit('attach-call', item.activeCallId)">
     </wt-icon-btn>
   </div>
 </template>
@@ -23,15 +23,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.table-agents {
+.table-agent-sum-call-time {
   display: flex;
+  align-items: center;
 
-  .table-status {
-    width: 40px;
-
-    &:last-child {
-      margin-left: 16px;
-    }
+  .wt-icon-btn {
+    margin-left: 10px;
   }
 }
 </style>

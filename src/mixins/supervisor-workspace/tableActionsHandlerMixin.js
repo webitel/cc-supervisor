@@ -16,7 +16,7 @@ export default {
     },
 
     refreshList() {
-      this.loadList();
+      this.initializeList();
     },
 
     openColumnSelect() {

@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="table-active-call-state">
     {{ item.state }}
     <wt-icon-btn
       v-if="isActive"
       icon="sound-on"
-      color="success"
-      @click.prevent="$emit('attach-call', item.id)">
+      color="true"
+      @click="$emit('attach-call', item.id)">
     </wt-icon-btn>
   </div>
 </template>
@@ -31,4 +31,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.table-active-call-state {
+  display: flex;
+  align-items: center;
+
+  .wt-icon-btn {
+    margin-left: 10px;
+  }
+}
 </style>
