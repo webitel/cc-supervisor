@@ -32,11 +32,11 @@ export const getQueuesList = async ({
                                       joinedAtFrom,
                                       joinedAtTo,
                                       search = '',
-                                      queueIds,
+                                      queue,
                                       sort = '+priority',
                                       fields,
-                                      teamIds,
-                                      typeIds,
+                                      team,
+                                      queueType,
                                     }) => {
   try {
     // eslint-disable-next-line no-param-reassign
@@ -50,9 +50,9 @@ export const getQueuesList = async ({
       fields,
       sort,
       search,
-      queueIds,
-      teamIds,
-      typeIds,
+      queue,
+      team,
+      queueType,
     );
     return {
       items: res.items ? parseQueueList(res.items) : [],

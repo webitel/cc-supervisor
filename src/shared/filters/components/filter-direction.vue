@@ -5,8 +5,8 @@
     :label="$t('filters.direction')"
     :track-by="trackBy"
     multiple
-    @reset="setQueryArray({ value, filterQuery, queriedProp })"
-    @closed="setQueryArray({ value, filterQuery, queriedProp })"
+    @reset="setValueArrayToQuery({ value, filterQuery, storedProp })"
+    @closed="setValueArrayToQuery({ value, filterQuery, storedProp })"
   ></wt-select>
 </template>
 

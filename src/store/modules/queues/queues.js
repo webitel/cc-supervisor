@@ -17,13 +17,14 @@ const actions = {
     params.joinedAtFrom = joined.start;
     params.joinedAtTo = joined.end;
     if (params.queueType) {
-      params.typeIds = [];
+      let queueType = [];
       if (params.queueType.includes(CallDirection.Inbound)) {
-        params.typeIds = params.typeIds.concat([1, 6]);
+        queueType = queueType.concat([1, 6]);
       }
       if (params.queueType.includes(CallDirection.Outbound)) {
-        params.typeIds = params.typeIds.concat([0, 2, 3, 4, 5]);
+        queueType = queueType.concat([0, 2, 3, 4, 5]);
       }
+      params.queueType = queueType;
     }
     const { items, next } = await getQueuesList(params);
     context.commit('SET_LIST', items);

@@ -1,18 +1,22 @@
-import baseFilterMixin from './baseFilterMixin';
+import baseFilterMixin from './baseFilterMixin/baseFilterMixin';
 
 export default {
   mixins: [baseFilterMixin],
 
   data: () => ({
     value: [],
-    apiMode: true,
+    defaultValue: [],
     trackBy: 'id',
-    queriedProp: 'id',
+    storedProp: 'id',
   }),
 
   methods: {
-    async fillValue(idList) {
-      this.value = await this.fetchSelected(idList);
+    getValue({ filterQuery }) {
+      return this.getValueArrayFromQuery({ filterQuery });
+    },
+
+    async restoreValue(idList) {
+      this.value = (idList && idList.length) ? await this.fetchSelected(idList) : [];
     },
 
     async fetchSelected(idList) {

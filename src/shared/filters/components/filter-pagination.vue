@@ -11,11 +11,11 @@
 </template>
 
 <script>
-import valueFilterMixin from '../mixins/valueFilterMixin';
+import baseFilterMixin from '../mixins/baseFilterMixin/baseFilterMixin';
 
 export default {
   name: 'filter-pagination',
-  mixins: [valueFilterMixin],
+  mixins: [baseFilterMixin],
 
   props: {
     isNext: {
@@ -42,18 +42,18 @@ export default {
     },
 
     restorePage() {
-      this.page = this.parseQueryValue({ filterQuery: 'page' }) || this.page;
+      this.page = this.getValueFromQuery({ filterQuery: 'page' }) || this.page;
     },
 
     restoreSize() {
-      this.size = this.parseQueryValue({ filterQuery: 'size' }) || this.size;
+      this.size = this.getValueFromQuery({ filterQuery: 'size' }) || this.size;
     },
 
     next() {
       this.$emit('input');
       const value = `${+this.page + 1}`;
       this.page = value;
-      this.setQueryValue({
+      this.setValueToQuery({
         filterQuery: 'page',
         value,
       });
@@ -63,7 +63,7 @@ export default {
       this.$emit('input');
       const value = `${+this.page - 1}`;
       this.page = value;
-      this.setQueryValue({
+      this.setValueToQuery({
         filterQuery: 'page',
         value,
       });
@@ -71,7 +71,7 @@ export default {
 
     sizeChange(value) {
       this.$emit('input');
-      this.setQueryValue({
+      this.setValueToQuery({
         filterQuery: 'size',
         value,
       });

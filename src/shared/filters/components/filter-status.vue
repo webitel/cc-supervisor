@@ -5,8 +5,8 @@
     :label="$t('filters.status')"
     :track-by="trackBy"
     multiple
-    @reset="setQueryArray({ value, filterQuery, queriedProp })"
-    @closed="setQueryArray({ value, filterQuery, queriedProp })"
+    @reset="setValueArrayToQuery({ value, filterQuery, storedProp })"
+    @closed="setValueArrayToQuery({ value, filterQuery, storedProp })"
   ></wt-select>
 </template>
 
@@ -20,7 +20,7 @@
 
     data: () => ({
       options: AgentStatus,
-      filterQuery: 'status',
+      filterQuery: 'value',
     }),
   };
 </script>

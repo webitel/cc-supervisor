@@ -2,24 +2,25 @@
   <wt-search-bar
     v-model="value"
     debounce
-    @search="setQueryValue({ filterQuery, value })"
+    @search="setValueToQuery({ filterQuery, value })"
   />
 </template>
 
 <script>
-  import valueFilterMixin from '../mixins/valueFilterMixin';
+  import baseFilterMixin from '../mixins/baseFilterMixin/baseFilterMixin';
 
   export default {
     name: 'filter-search',
-    mixins: [valueFilterMixin],
+    mixins: [baseFilterMixin],
 
     data: () => ({
       value: '',
+      defaultValue: '',
       filterQuery: 'search',
     }),
 
     methods: {
-      restoreValue({ value }) {
+      restoreValue(value) {
         this.value = value;
       },
     },

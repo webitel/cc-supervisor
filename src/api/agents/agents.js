@@ -24,8 +24,8 @@ export const getAgentsList = async ({
                                       search = '',
                                       status,
                                       sort = '+name',
-                                      queueIds,
-                                      teamIds,
+                                      queue,
+                                      team,
                                       callNow,
                                     }) => {
   try {
@@ -41,8 +41,8 @@ export const getAgentsList = async ({
       search,
       undefined, // agent_id[]
       status, // status[]
-      queueIds,
-      teamIds,
+      queue,
+      team,
       undefined, // utilization_from
       undefined, // utilization_to
       callNow,

@@ -129,12 +129,12 @@ export default {
     },
     // callNow(value) {
     //   if (value) {
-    //     this.setQueryValue({
+    //     this.setValueToQuery({
     //       filterQuery: 'callNow',
     //       value: value.toString(),
     //     });
     //   } else {
-    //     this.setQueryValue({
+    //     this.setValueToQuery({
     //       filterQuery: 'callNow',
     //       value: undefined,
     //     });
@@ -142,12 +142,12 @@ export default {
     // },
     // attentionNow(value) {
     //   if (value) {
-    //     this.setQueryValue({
+    //     this.setValueToQuery({
     //       filterQuery: 'attentionNow',
     //       value: value.toString(),
     //     });
     //   } else {
-    //     this.setQueryValue({
+    //     this.setValueToQuery({
     //       filterQuery: 'attentionNow',
     //       value: undefined,
     //     });

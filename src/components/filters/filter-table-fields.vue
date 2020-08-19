@@ -7,12 +7,12 @@
 </template>
 
 <script>
-  import valueFilterMixin from '../../shared/filters/mixins/valueFilterMixin';
+  import baseFilterMixin from '../../shared/filters/mixins/baseFilterMixin/baseFilterMixin';
   import ColumnSelect from '../utils/table-column-select.vue';
 
   export default {
     name: 'filter-table-fields',
-    mixins: [valueFilterMixin],
+    mixins: [baseFilterMixin],
     components: {
       ColumnSelect,
     },
@@ -30,7 +30,7 @@
     data: () => ({
       filterQuery: 'fields',
       separator: ',',
-      queriedProp: 'value',
+      storedProp: 'value',
     }),
 
     model: {
@@ -39,21 +39,21 @@
     },
 
     methods: {
-      // overrides valueFilterMixin method
+      // overrides baseFilterMixin method
       restore({ filterQuery }) {
-        let value = this.$route.query[filterQuery];
+        let value = this.getValueFromQuery({ filterQuery });
         if (!value) {
           // if no value in url, check in localStorage
           value = this.getFromLocalStorage({ filterQuery });
         }
         if (value) {
           // if there's a value, set it to url and to component data
-          this.setQueryValue({ filterQuery, value });
-          this.restoreValue({ value });
+          this.setValueToQuery({ filterQuery, value });
+          this.restoreValue(value);
         }
       },
 
-      restoreValue({ value }) {
+      restoreValue(value) {
         const headers = this.headers.map((header) => ({
           ...header,
           show: !!value.includes(header.value),
@@ -75,10 +75,10 @@
         const params = {
           filterQuery: this.filterQuery,
           value,
-          queriedProp: this.queriedProp,
+          storedProp: this.storedProp,
           separator: this.separator,
         };
-        this.setQueryArray(params);
+        this.setValueArrayToQuery(params);
         this.setToLocalStorage(params);
         this.$emit('change', headers);
       },
@@ -87,15 +87,15 @@
           return localStorage.getItem(`${this.entity}-${filterQuery}`);
       },
 
-      // copy-pasted params from "setQueryArray method
+      // copy-pasted params from "setValueArrayToQuery method
       // for easier future refactors, if method should be abstract
       setToLocalStorage({
                           filterQuery,
                           value,
-                          queriedProp = 'id',
+                          storedProp = 'id',
                           separator = '|',
                         }) {
-        const filter = value.map((item) => item[queriedProp])
+        const filter = value.map((item) => item[storedProp])
           .join(separator);
         localStorage.setItem(`${this.entity}-${filterQuery}`, filter);
       },

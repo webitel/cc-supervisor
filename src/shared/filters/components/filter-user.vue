@@ -2,13 +2,13 @@
   <wt-select
     v-model="value"
     :label="$t('filters.user')"
-    :internal-search="!apiMode"
     :track-by="trackBy"
     :search="fetch"
+    :internal-search="false"
     :close-on-select="false"
     multiple
-    @reset="setQueryArray({ value, filterQuery, queriedProp })"
-    @closed="setQueryArray({ value, filterQuery, queriedProp })"
+    @reset="setValueArrayToQuery({ value, filterQuery, storedProp })"
+    @closed="setValueArrayToQuery({ value, filterQuery, storedProp })"
   ></wt-select>
 </template>
 
@@ -21,7 +21,7 @@
     mixins: [apiFilterMixin],
 
     data: () => ({
-      filterQuery: 'userIds',
+      filterQuery: 'user',
     }),
 
     methods: {

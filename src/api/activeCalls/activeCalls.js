@@ -20,13 +20,13 @@ export const getActiveCallList = async ({
                                           page = 1,
                                           size = 10,
                                           search = '',
-                                          queueIds,
-                                          teamIds,
-                                          agentIds,
+                                          queue,
+                                          team,
+                                          agent,
                                           sort,
                                           direction,
-                                          userIds,
-                                          gatewayIds,
+                                          user,
+                                          gateway,
                                         }) => {
   try {
     // eslint-disable-next-line no-param-reassign
@@ -38,12 +38,12 @@ export const getActiveCallList = async ({
       size, // size
       start, // created_at_from
       end, // created_at_to
-      userIds, // user_id
-      agentIds, // agent_id
-      queueIds, // queue_id
-      teamIds, // team_id
+      user, // user_id
+      agent, // agent_id
+      queue, // queue_id
+      team, // team_id
       undefined, // member_id
-      gatewayIds, // gateway_id
+      gateway, // gateway_id
       search, // q
       undefined, // duration_from
       undefined, // duration_to
