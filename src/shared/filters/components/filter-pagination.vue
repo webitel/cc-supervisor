@@ -29,6 +29,17 @@ export default {
     size: '10',
   }),
 
+  watch: {
+    '$route.query': {
+      handler(newValue, oldValue) {
+        if (newValue.page !== oldValue.page
+          || newValue.size !== oldValue.size) {
+          this.restore();
+        }
+      },
+    },
+  },
+
   computed: {
     isPrev() {
       return +this.page > 1;
@@ -42,11 +53,13 @@ export default {
     },
 
     restorePage() {
-      this.page = this.getValueFromQuery({ filterQuery: 'page' }) || this.page;
+      const page = '1';
+      this.page = this.getValueFromQuery({ filterQuery: 'page' }) || page;
     },
 
     restoreSize() {
-      this.size = this.getValueFromQuery({ filterQuery: 'size' }) || this.size;
+      const size = '10';
+      this.size = this.getValueFromQuery({ filterQuery: 'size' }) || size;
     },
 
     next() {

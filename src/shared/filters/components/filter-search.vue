@@ -15,7 +15,6 @@
 
     data: () => ({
       value: '',
-      defaultValue: '',
       filterQuery: 'search',
     }),
 

@@ -1,7 +1,17 @@
-import urlControllerMixin from '../urlControllerMixin/urlControllerMixin';
+import _urlControllerMixin from '../_urlControllerMixin/_urlControllerMixin';
 
 export default {
-  mixins: [urlControllerMixin],
+  mixins: [_urlControllerMixin],
+
+  watch: {
+    '$route.query': {
+      handler(newValue, oldValue) {
+        if (newValue[this.filterQuery] !== oldValue[this.filterQuery]) {
+          this.restore({ filterQuery: this.filterQuery });
+        }
+      },
+    },
+  },
 
   created() {
     this.restore({ filterQuery: this.filterQuery });

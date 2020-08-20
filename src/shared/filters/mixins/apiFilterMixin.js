@@ -5,7 +5,6 @@ export default {
 
   data: () => ({
     value: [],
-    defaultValue: [],
     trackBy: 'id',
     storedProp: 'id',
   }),

@@ -27,7 +27,7 @@ const parseQueueList = (items) => items.map((item) => ({
 }));
 
 export const getQueuesList = async ({
-                                      page = 0,
+                                      page = 1,
                                       size = 10,
                                       joinedAtFrom,
                                       joinedAtTo,
