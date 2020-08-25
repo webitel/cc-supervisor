@@ -13,7 +13,7 @@ export default {
       let isNext = false;
 
       do {
-        const { items, next } = await this.fetchDownloadList({ ...params, page });
+        const { items, next } = await this.loadDownloadList({ ...params, page });
         csv += this.responseToCSV({ fields, items });
 
         isNext = next;

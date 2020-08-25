@@ -1,8 +1,18 @@
-// import download from '../../utils/downloadFile';
 import { saveAs } from 'file-saver';
 import downloadAllCSVMixin from './downloaders/downloadAllCSVMixin';
 import downloadSelectedCSVMixin from './downloaders/downloadSelectedCSVMixin';
 import { snakeToCamel } from '../../../../api/utils/caseConverters';
+
+const stringifyValue = (value) => {
+  if (typeof value === 'object' && value !== null) {
+    if (Array.isArray(value)) {
+      return value.map((arrValue) => stringifyValue(arrValue)).join('; ');
+    }
+    return value.name || JSON.stringify(value)
+    .replace(',', ' ');
+  }
+  return value;
+};
 
 const responseToCSV = ({ fields, items }) => {
   let csv = '';
@@ -11,10 +21,7 @@ const responseToCSV = ({ fields, items }) => {
     fields.forEach((snakeKey) => {
       const key = snakeToCamel(snakeKey);
       let value = item[key] || '';
-      if (typeof value === 'object' && value !== null) {
-        value = value.name || JSON.stringify(value)
-        .replace(',', ' ');
-      }
+      value = stringifyValue(value);
       result += `${value},`;
     });
     csv += encodeURIComponent(`${result}\n`);

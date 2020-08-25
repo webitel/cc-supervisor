@@ -150,6 +150,12 @@ export default {
       return this.loadDataList(params);
     },
 
+    loadDownloadList(argParams) {
+      const queryParams = this.getQueryParams();
+      const params = { ...queryParams, ...argParams };
+      return this.fetchDownloadList(params);
+    },
+
     getQueryParams() {
       const { query } = this.$route;
       return convertQuery(query);
