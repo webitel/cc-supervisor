@@ -10,7 +10,24 @@ const state = {
 const getters = {};
 
 const actions = {
-  FETCH_LIST: async (context, argParams) => {
+  FETCH_LIST: async (context) => {
+    const params = await context.dispatch('GET_REQUEST_PARAMS');
+    const { items, next } = await getQueuesList(params);
+    context.commit('SET_LIST', items);
+    context.commit('SET_NEXT', next);
+    return next;
+  },
+
+  FETCH_DOWNLOAD_LIST: async (context, additionalParams) => {
+    const queryParams = await context.dispatch('GET_REQUEST_PARAMS');
+    const params = {
+      ...queryParams,
+      ...additionalParams,
+    };
+    return getQueuesList(params);
+  },
+
+  GET_REQUEST_PARAMS: (context, argParams) => {
     const params = { ...argParams };
     if (!params.period) params.period = 'today';
     const joined = parseJoined(params.period);
@@ -26,10 +43,7 @@ const actions = {
       }
       params.queueType = queueType;
     }
-    const { items, next } = await getQueuesList(params);
-    context.commit('SET_LIST', items);
-    context.commit('SET_NEXT', next);
-    return next;
+    return params;
   },
 };
 

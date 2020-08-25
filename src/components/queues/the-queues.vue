@@ -9,7 +9,7 @@
           <filter-search/>
           <wt-button
             :loading="isCSVLoading"
-            @click="download"
+            @click="downloadCSV"
           >{{ $t('defaults.exportCSV') }}
           </wt-button>
         </template>
@@ -62,7 +62,6 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import convertQuery from '../../utils/loadScripts';
-import { queueFields } from '../../api/queues/queues';
 import FilterFields from '../filters/filter-table-fields.vue';
 import FilterSearch from '../../shared/filters/components/filter-search.vue';
 import FilterPagination from '../../shared/filters/components/filter-pagination.vue';
@@ -75,7 +74,7 @@ import TableTeam from './_internals/table-templates/table-team.vue';
 import TableMembers from './_internals/table-templates/table-members.vue';
 import headersMixin from './_internals/queueHeadersMixin';
 import sortFilterMixin from '../../shared/filters/mixins/sortFilterMixin';
-import downloadCSVMixin from '../../mixins/downloadCSV/downloadCSVMixin';
+import downloadCSVMixin from '../../shared/downloads/mixins/downloadCSV/downloadCSVMixin';
 import tableActionsHandlerMixin from '../../mixins/supervisor-workspace/tableActionsHandlerMixin';
 import autoRefreshMixin from '../../mixins/autoRefresh/autoRefreshMixin';
 
@@ -119,11 +118,21 @@ export default {
       data: (state) => state.dataList,
       isNext: (state) => state.isNext,
     }),
+
+    selectedItems() {
+      return this.data.filter((item) => item._isSelected);
+    },
+
+    dataFields() {
+      return this.headers.filter((field) => field.show)
+      .map((field) => field.value);
+    },
   },
 
   methods: {
     ...mapActions('queues', {
       loadDataList: 'FETCH_LIST',
+      fetchDownloadList: 'FETCH_DOWNLOAD_LIST',
     }),
 
     async initializeList() {
@@ -139,13 +148,6 @@ export default {
     loadList() {
       const params = this.getQueryParams();
       return this.loadDataList(params);
-    },
-
-    download() {
-      this.downloadCSV({
-        fields: queueFields,
-        items: this.data,
-      });
     },
 
     getQueryParams() {
