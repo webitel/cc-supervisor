@@ -3,7 +3,7 @@
     <wt-table
       ref="wt-table"
       :headers="headers"
-      :data="data"
+      :data="dataList"
       :selectable="false"
       sortable
       @sort="sort"
@@ -53,7 +53,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import convertQuery from '../../../../utils/loadScripts';
+import queryFiltersMixin from '../../../../shared/queryFilters/mixins/queryFiltersMixin';
 import FilterPagination from '../../../../shared/filters/components/filter-pagination.vue';
 import MediaAction from '../../../utils/table-media-action.vue';
 import TableCallState from './_internals/table-templates/table-call-state.vue';
@@ -78,6 +78,7 @@ export default {
   },
   mixins: [
     headersMixin,
+    queryFiltersMixin,
     sortFilterMixin,
     autoRefreshMixin,
     playMediaMixin,
@@ -99,7 +100,7 @@ export default {
   },
   computed: {
     ...mapState('agentCalls', {
-      data: (state) => state.dataList,
+      dataList: (state) => state.dataList,
       isNext: (state) => state.isNext,
     }),
   },
@@ -119,14 +120,8 @@ export default {
     },
 
     loadList() {
-      const params = this.getQueryParams();
-      params.agentId = this.$route.params.id;
-      return this.loadDataList(params);
-    },
-
-    getQueryParams() {
-      const { query } = this.$route;
-      return convertQuery(query);
+      const agentId = this.$route.params.id;
+      return this.loadDataList({ ...this.filterParams, id: agentId });
     },
   },
 };

@@ -4,7 +4,6 @@ import configuration from '../utils/openAPIConfig';
 import instance from '../instance';
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
-export const agentFields = ['id', 'name'];
 
 const parseAgentList = (items) => items.map((item) => ({
   ...item,
@@ -22,6 +21,7 @@ export const getAgentsList = async ({
                                       page = 0,
                                       size = 10,
                                       search = '',
+                                      ids,
                                       status,
                                       sort = '+name',
                                       queue,
@@ -39,7 +39,7 @@ export const getAgentsList = async ({
       start, // time_from
       end, // time_to
       search,
-      undefined, // agent_id[]
+      ids, // agent_id[]
       status, // status[]
       queue,
       team,

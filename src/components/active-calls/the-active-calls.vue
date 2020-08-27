@@ -5,13 +5,6 @@
         <template slot="title">
           {{ $t('pages.activeCall.title') }}
         </template>
-        <template slot="actions">
-          <wt-button
-            :loading="isCSVLoading"
-            @click="download"
-          >{{ $t('defaults.exportCSV') }}
-          </wt-button>
-        </template>
       </wt-headline>
     </template>
 
@@ -36,7 +29,7 @@
       <div class="table-wrapper" v-show="!isLoading">
         <wt-table
           :headers="headers"
-          :data="data"
+          :data="dataList"
           sortable
           :grid-actions="false"
           @sort="sort"
@@ -71,8 +64,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import convertQuery from '../../utils/loadScripts';
-import { activeCallFields } from '../../api/activeCalls/activeCalls';
+import queryFiltersMixin from '../../shared/queryFilters/mixins/queryFiltersMixin';
 import PageWrapper from '../supervisor-workspace/page-wrapper.vue';
 import ActiveCallsFilters from './_internals/active-calls-filters/active-calls-filters.vue';
 import FilterFields from '../filters/filter-table-fields.vue';
@@ -85,7 +77,6 @@ import TableQueue from './_internals/table-templates/table-queue.vue';
 import TableUser from './_internals/table-templates/table-user.vue';
 import TableActiveCallState from './_internals/table-templates/table-active-call-state.vue';
 import headersMixin from './_internals/activeCallHeadersMixin';
-import downloadCSVMixin from '../../mixins/downloadCSV/downloadCSVMixin';
 import autoRefreshMixin from '../../mixins/autoRefresh/autoRefreshMixin';
 import sortFilterMixin from '../../shared/filters/mixins/sortFilterMixin';
 import tableActionsHandlerMixin from '../../mixins/supervisor-workspace/tableActionsHandlerMixin';
@@ -107,9 +98,9 @@ export default {
   },
   mixins: [
     headersMixin,
+    queryFiltersMixin,
     sortFilterMixin,
     autoRefreshMixin,
-    downloadCSVMixin,
     tableActionsHandlerMixin,
   ],
   data() {
@@ -129,7 +120,7 @@ export default {
   },
   computed: {
     ...mapState('activeCalls', {
-      data: (state) => state.dataList,
+      dataList: (state) => state.dataList,
       isNext: (state) => state.isNext,
     }),
   },
@@ -153,19 +144,7 @@ export default {
     },
 
     loadList() {
-      const params = this.getQueryParams();
-      return this.loadDataList(params);
-    },
-
-    download() {
-      this.downloadCSV({
-        fields: activeCallFields,
-        items: this.data,
-      });
-    },
-    getQueryParams() {
-      const { query } = this.$route;
-      return convertQuery(query);
+      return this.loadDataList(this.filterParams);
     },
 
     async attachCall(id) {

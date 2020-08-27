@@ -9,7 +9,8 @@
           <filter-search/>
           <wt-button
             :loading="isCSVLoading"
-            @click="downloadCSV"
+            :disabled="!dataList.length"
+            @click="exportCSV"
           >{{ $t('defaults.exportCSV') }}
           </wt-button>
         </template>
@@ -35,7 +36,7 @@
       <div class="table-wrapper" v-show="!isLoading">
         <wt-table
           :headers="headers"
-          :data="data"
+          :data="dataList"
           sortable
           :grid-actions="false"
           @sort="sort"
@@ -61,7 +62,6 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import convertQuery from '../../utils/loadScripts';
 import FilterFields from '../filters/filter-table-fields.vue';
 import FilterSearch from '../../shared/filters/components/filter-search.vue';
 import FilterPagination from '../../shared/filters/components/filter-pagination.vue';
@@ -74,9 +74,12 @@ import TableTeam from './_internals/table-templates/table-team.vue';
 import TableMembers from './_internals/table-templates/table-members.vue';
 import headersMixin from './_internals/queueHeadersMixin';
 import sortFilterMixin from '../../shared/filters/mixins/sortFilterMixin';
-import downloadCSVMixin from '../../shared/downloads/mixins/downloadCSV/downloadCSVMixin';
+import exportCSVMixin from '../../shared/CSVExport/mixins/exportCSVMixin';
 import tableActionsHandlerMixin from '../../mixins/supervisor-workspace/tableActionsHandlerMixin';
 import autoRefreshMixin from '../../mixins/autoRefresh/autoRefreshMixin';
+import queryFiltersMixin from '../../shared/queryFilters/mixins/queryFiltersMixin';
+
+import getQueuesList from '../../api/queues/queues';
 
 export default {
   name: 'the-queues',
@@ -93,9 +96,10 @@ export default {
   },
   mixins: [
     headersMixin,
+    queryFiltersMixin,
     sortFilterMixin,
     autoRefreshMixin,
-    downloadCSVMixin,
+    exportCSVMixin,
     tableActionsHandlerMixin,
   ],
   data: () => ({
@@ -113,26 +117,26 @@ export default {
     },
   },
 
+  created() {
+    this.initCSVExport(getQueuesList, { filename: 'queues-stats' });
+  },
+
   computed: {
     ...mapState('queues', {
-      data: (state) => state.dataList,
+      dataList: (state) => state.dataList,
       isNext: (state) => state.isNext,
     }),
 
-    selectedItems() {
-      return this.data.filter((item) => item._isSelected);
-    },
-
-    dataFields() {
-      return this.headers.filter((field) => field.show)
-      .map((field) => field.value);
+    selectedIds() {
+      return this.dataList
+      .filter((item) => item._isSelected)
+      .map((item) => item.queue?.id);
     },
   },
 
   methods: {
     ...mapActions('queues', {
       loadDataList: 'FETCH_LIST',
-      fetchDownloadList: 'FETCH_DOWNLOAD_LIST',
     }),
 
     async initializeList() {
@@ -146,19 +150,7 @@ export default {
     },
 
     loadList() {
-      const params = this.getQueryParams();
-      return this.loadDataList(params);
-    },
-
-    loadDownloadList(argParams) {
-      const queryParams = this.getQueryParams();
-      const params = { ...queryParams, ...argParams };
-      return this.fetchDownloadList(params);
-    },
-
-    getQueryParams() {
-      const { query } = this.$route;
-      return convertQuery(query);
+      return this.loadDataList(this.filterParams);
     },
   },
 };

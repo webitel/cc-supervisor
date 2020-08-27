@@ -9,7 +9,8 @@
           <filter-search/>
           <wt-button
             :loading="isCSVLoading"
-            @click="downloadCSV"
+            :disabled="!dataList.length"
+            @click="exportCSV"
           >{{ $t('defaults.exportCSV') }}
           </wt-button>
         </template>
@@ -37,7 +38,7 @@
       <div class="table-wrapper" v-show="!isLoading">
         <wt-table
           :headers="headers"
-          :data="data"
+          :data="dataList"
           sortable
           :grid-actions="false"
           @sort="sort"
@@ -70,6 +71,8 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import { getAgentsList } from '../../api/agents/agents';
+import queryFiltersMixin from '../../shared/queryFilters/mixins/queryFiltersMixin';
 import PageWrapper from '../supervisor-workspace/page-wrapper.vue';
 import FilterSearch from '../../shared/filters/components/filter-search.vue';
 import FilterFields from '../filters/filter-table-fields.vue';
@@ -86,8 +89,7 @@ import headersMixin from './_internals/agentHeadersMixin';
 import sortFilterMixin from '../../shared/filters/mixins/sortFilterMixin';
 import autoRefreshMixin from '../../mixins/autoRefresh/autoRefreshMixin';
 import tableActionsHandlerMixin from '../../mixins/supervisor-workspace/tableActionsHandlerMixin';
-import downloadCSVMixin from '../../shared/downloads/mixins/downloadCSV/downloadCSVMixin';
-import convertQuery from '../../utils/loadScripts';
+import exportCSVMixin from '../../shared/CSVExport/mixins/exportCSVMixin';
 
 export default {
   name: 'the-agents',
@@ -105,9 +107,10 @@ export default {
   },
   mixins: [
     headersMixin,
+    queryFiltersMixin,
     sortFilterMixin,
     autoRefreshMixin,
-    downloadCSVMixin,
+    exportCSVMixin,
     tableActionsHandlerMixin,
   ],
   data() {
@@ -153,6 +156,10 @@ export default {
     //   }
     // },
   },
+
+  created() {
+    this.initCSVExport(getAgentsList, { filename: 'agents-status' });
+  },
   // mounted() {
   // this.callNow = (this.getValueByQuery({ filterQuery: 'callNow' }) === 'true') || false;
   // this.attentionNow = (
@@ -160,23 +167,19 @@ export default {
   // },
   computed: {
     ...mapState('agents', {
-      data: (state) => state.dataList,
+      dataList: (state) => state.dataList,
       isNext: (state) => state.isNext,
     }),
 
-    selectedItems() {
-      return this.data.filter((item) => item._isSelected);
-    },
-
-    dataFields() {
-      return this.headers.filter((field) => field.show)
-      .map((field) => field.value);
+    selectedIds() {
+      return this.dataList
+      .filter((item) => item._isSelected)
+        .map((item) => item.agentId);
     },
   },
   methods: {
     ...mapActions('agents', {
       loadDataList: 'FETCH_LIST',
-      fetchDownloadList: 'FETCH_DOWNLOAD_LIST',
     }),
     ...mapActions('call', {
       attachToCall: 'ATTACH_TO_CALL',
@@ -194,19 +197,7 @@ export default {
     },
 
     loadList() {
-      const params = this.getQueryParams();
-      return this.loadDataList(params);
-    },
-
-    loadDownloadList(argParams) {
-      const queryParams = this.getQueryParams();
-      const params = { ...queryParams, ...argParams };
-      return this.fetchDownloadList(params);
-    },
-
-    getQueryParams() {
-      const { query } = this.$route;
-      return convertQuery(query);
+      return this.loadDataList(this.filterParams);
     },
 
     async attachCall(id) {
