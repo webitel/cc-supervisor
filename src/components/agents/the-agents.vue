@@ -71,6 +71,8 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
+
 import { getAgentsList } from '../../api/agents/agents';
 import queryFiltersMixin from '../../shared/queryFilters/mixins/queryFiltersMixin';
 import PageWrapper from '../supervisor-workspace/page-wrapper.vue';
@@ -89,7 +91,6 @@ import headersMixin from './_internals/agentHeadersMixin';
 import sortFilterMixin from '../../shared/filters/mixins/sortFilterMixin';
 import autoRefreshMixin from '../../mixins/autoRefresh/autoRefreshMixin';
 import tableActionsHandlerMixin from '../../mixins/supervisor-workspace/tableActionsHandlerMixin';
-import exportCSVMixin from '../../shared/CSVExport/mixins/exportCSVMixin';
 
 export default {
   name: 'the-agents',
