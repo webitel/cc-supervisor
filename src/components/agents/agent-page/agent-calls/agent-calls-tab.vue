@@ -33,12 +33,12 @@
     </wt-table>
     <filter-pagination @input="closeMedia" :is-next="isNext"/>
 
-    <audio-player
+    <wt-player
       v-show="audioURL"
-      :file="audioURL"
+      :src="audioURL"
       @play="isPlayingNow = true"
       @close="closePlayer"
-    ></audio-player>
+    ></wt-player>
 
     <media-select
       ref="media-select"
