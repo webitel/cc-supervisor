@@ -2,6 +2,16 @@ export default {
   data: () => ({
     headersProperties: [
       {
+        value: 'date',
+        show: true,
+        sort: null,
+        field: 'created_at',
+      }, {
+        value: 'time',
+        show: true,
+        sort: null,
+        field: 'created_at',
+      }, {
         value: 'direction',
         show: true,
         sort: null,

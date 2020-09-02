@@ -130,6 +130,8 @@ export default {
       calls: {
         title: 'Calls',
         columns: {
+          date: 'Date',
+          time: 'Time',
           direction: 'Direction',
           call: 'Call',
           billSec: 'Talk',

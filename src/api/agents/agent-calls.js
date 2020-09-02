@@ -9,6 +9,8 @@ export const agentCallFields = ['id', 'from', 'to', 'direction', 'bill_sec', 'ho
 
 const parseAgentCallsList = (items) => items.map((item) => ({
   ...item,
+  date: new Date(+item.createdAt).toLocaleDateString(),
+  time: new Date(+item.createdAt).toLocaleTimeString(),
   holdSec: convertDuration(item.holdSec),
   billSec: convertDuration(item.billSec),
 }));
