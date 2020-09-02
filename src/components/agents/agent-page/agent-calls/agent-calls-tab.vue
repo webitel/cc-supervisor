@@ -121,7 +121,7 @@ export default {
 
     loadList() {
       const agentId = this.$route.params.id;
-      return this.loadDataList({ ...this.filterParams, id: agentId });
+      return this.loadDataList({ ...this.filterParams, agentId });
     },
   },
 };

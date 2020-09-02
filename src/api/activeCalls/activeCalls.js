@@ -1,5 +1,5 @@
 import { CallServiceApiFactory } from 'webitel-sdk';
-import convertDuration from '../../utils/convertDuration';
+import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import configuration from '../utils/openAPIConfig';
 import instance from '../instance';
 
