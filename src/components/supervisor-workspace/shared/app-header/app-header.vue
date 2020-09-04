@@ -1,5 +1,6 @@
 <template>
   <wt-app-header>
+    <wt-navigation-bar :current-app="currentApp" :nav="nav"></wt-navigation-bar>
     <wt-app-navigator :current-app="currentApp" :apps="apps"></wt-app-navigator>
     <wt-header-actions :user="user" @settings="settings" @logout="logoutUser"/>
   </wt-app-header>
@@ -27,6 +28,23 @@ export default {
     ...mapState('userinfo', {
       user: (state) => state,
     }),
+
+    nav() {
+      return [{
+        value: 'queues',
+        name: this.$t('nav.queue'),
+        route: 'queues',
+      }, {
+        value: 'agents',
+        name: this.$t('nav.agents'),
+        route: 'agents',
+      }, {
+        value: 'active-calls',
+        name: this.$t('nav.activeCalls'),
+        route: 'active-calls',
+      },
+      ];
+    },
   },
 
   methods: {
@@ -48,4 +66,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.wt-navigation-bar {
+  margin-right: auto;
+}
 </style>

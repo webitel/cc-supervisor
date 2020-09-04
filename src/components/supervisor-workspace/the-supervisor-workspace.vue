@@ -1,6 +1,5 @@
 <template>
   <main class="the-supervisor-workspace">
-    <app-nav/>
     <div class="the-supervisor-workspace__wrapper">
       <call-window/>
       <call-window-eavesdrop/>
@@ -15,7 +14,6 @@
 
 <script>
 import AppHeader from './shared/app-header/app-header.vue';
-import AppNav from './shared/the-navbar/the-navbar.vue';
 import CallWindow from '../call-window/call-window.vue';
 import CallWindowEavesdrop from '../call-window/call-window-eavesdrop.vue';
 
@@ -23,7 +21,6 @@ export default {
   name: 'the-supervisor-workspace',
   components: {
     AppHeader,
-    AppNav,
     CallWindow,
     CallWindowEavesdrop,
   },
