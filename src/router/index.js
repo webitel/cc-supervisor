@@ -9,7 +9,10 @@ import AgentPage from '../components/agents/agent-page/agent-page.vue';
 import SupervisorWorkspace from '../components/supervisor-workspace/the-supervisor-workspace.vue';
 import notFound from '../components/utils/the-not-found-component.vue';
 
-Vue.use(VueRouter);
+// https://stackoverflow.com/a/55544303
+if (!process || process.env.NODE_ENV !== 'test') {
+  Vue.use(VueRouter);
+}
 
 const routes = [{
     path: '/auth',

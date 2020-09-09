@@ -1,6 +1,6 @@
 import baseFilterMixin from './baseFilterMixin/baseFilterMixin';
 
-export const SortSymbols = Object.freeze({
+const SortSymbols = Object.freeze({
   ASC: 'asc',
   DESC: 'desc',
   NONE: null,

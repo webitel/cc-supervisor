@@ -61,7 +61,6 @@ const getQueuesList = async (params) => {
       queueType,
     } = prepareRequestParams(params);
 
-    console.info(params);
     const res = await queueService.searchQueueReportGeneral(
       page,
       size,
