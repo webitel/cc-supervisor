@@ -1,4 +1,5 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
+import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 import API from '../../../../src/api/queues/queues';
 import queuesStore from '../../../../src/store/modules/queues/queues';
@@ -6,9 +7,10 @@ import Queues from '../../../../src/components/queues/the-queues.vue';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
-const $route = {
-  query: {},
-};
+localVue.use(VueRouter);
+const router = new VueRouter();
+
+const $t = () => {};
 const items = [
   {
     abandoned: 50,
@@ -39,6 +41,7 @@ jest.mock('../../../../src/api/queues/queues');
 describe('Queues page', () => {
   let state;
   let store;
+  let wrapper;
 
   beforeEach(() => {
     state = {};
@@ -50,20 +53,37 @@ describe('Queues page', () => {
         },
       },
     });
-  });
 
-  it('Fills queues list from API', async () => {
-    API.mockImplementationOnce(() => Promise.resolve({ items }));
-    const wrapper = shallowMount(Queues, {
+    API.mockImplementation(() => Promise.resolve({ items }));
+    wrapper = shallowMount(Queues, {
       store,
       localVue,
-      mocks: {
-        $route,
-        $t: () => {},
-      },
+      router,
+      mocks: { $t },
     });
-    await wrapper.vm.$nextTick();
-    expect(wrapper.vm.dataList)
-    .toHaveLength(items.length);
+  });
+
+  it('Calls queues API after $route query change (watcher)', async () => {
+    expect(API).toHaveBeenCalledTimes(1); // initial loading
+    const params = { test: 'jest' };
+    await wrapper.vm.$router.replace({ path: '/', query: params });
+    expect(API).toHaveBeenCalledTimes(2); // initial loading + query change
+  });
+
+  it('Fills queues list from API', () => {
+    expect(wrapper.vm.dataList).toHaveLength(items.length);
+  });
+
+  it('Calls queues API with specified params from $route query', async () => {
+    const params = {
+      page: '1',
+      size: '10',
+      search: 'hello there',
+      team: ['1', '2'],
+      from: `${Date.now()}`,
+      fields: ['id', 'created_at'],
+    };
+    await wrapper.vm.$router.replace({ path: '/', query: params });
+    expect(API).toHaveBeenCalledWith(params);
   });
 });

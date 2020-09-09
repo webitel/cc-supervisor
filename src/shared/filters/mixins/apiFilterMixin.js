@@ -12,7 +12,8 @@ export default {
 
   methods: {
     async restoreValue(idList) {
-      if (idList && idList.length) this.value = await this.fetchSelected(idList);
+      this.value = idList && idList.length
+        ? await this.fetchSelected(idList) : this.defaultValue;
     },
 
     async fetchSelected(idList) {
