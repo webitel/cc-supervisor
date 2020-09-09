@@ -34,7 +34,7 @@ const items = [
   },
 ];
 
-jest.mock('../../../src/api/queues/queues');
+jest.mock('../../../../src/api/queues/queues');
 
 describe('Queues page', () => {
   let state;

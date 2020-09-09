@@ -12,11 +12,21 @@ export default {
     },
 
     setValueToQuery({ filterQuery, value, storedProp = 'id' }) {
-      const newValue = Array.isArray(value)
-        ? value.map((item) => item[storedProp])
-        : value;
+      let newValue = '';
+      if (Array.isArray(value)) {
+        if (value.length && typeof value[0] !== 'object') {
+          newValue = value;
+        } else {
+          newValue = value.map((item) => item[storedProp]);
+        }
+      } else {
+        newValue = value;
+      }
       if (!deepEqual(this.$route.query[filterQuery], newValue)) {
-        this.changeRouteQuery({ value: newValue, filterQuery });
+        this.changeRouteQuery({
+          value: newValue,
+          filterQuery,
+        });
       }
     },
 
