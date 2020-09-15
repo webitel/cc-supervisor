@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  import enumFilterMixin from '../mixins/enumFilterMixin';
+  import enumFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/enumFilterMixin';
   import AgentStatus from '../api/AgentStatusOptions.enum';
 
   export default {

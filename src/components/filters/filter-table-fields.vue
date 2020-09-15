@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import baseFilterMixin from '../../shared/filters/mixins/baseFilterMixin/baseFilterMixin';
+import baseFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/baseFilterMixin/baseFilterMixin';
 import ColumnSelect from '../utils/table-column-select.vue';
 
 export default {
