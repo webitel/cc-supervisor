@@ -10,9 +10,9 @@ localVue.use(Vuex);
 localVue.use(VueRouter);
 const router = new VueRouter();
 
-const $t = () => {};
 const items = [
   {
+    _isSelected: true,
     abandoned: 50,
     avg_aht_sec: 14.157177,
     avg_asa_sec: 56.35288,
@@ -59,7 +59,6 @@ describe('Queues page', () => {
       store,
       localVue,
       router,
-      mocks: { $t },
     });
   });
 
@@ -72,6 +71,10 @@ describe('Queues page', () => {
 
   it('Fills queues list from API', () => {
     expect(wrapper.vm.dataList).toHaveLength(items.length);
+  });
+
+  it('Correctly computes selectedIds', () => {
+    expect(wrapper.vm.selectedIds).toEqual(['124']);
   });
 
   it('Calls queues API with specified params from $route query', async () => {

@@ -20,7 +20,7 @@
       <filter-fields
         v-show="isFilterFieldsOpened"
         v-model="headers"
-        :entity="'queues'"
+        entity="queues"
         @close="isFilterFieldsOpened = false"
       ></filter-fields>
       <div class="actions-panel-wrapper">
