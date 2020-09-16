@@ -104,7 +104,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { CallDirection, CallActions } from 'webitel-sdk';
-import convertDuration from '../../utils/convertDuration';
+import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import ringingSoundMixin from '../../mixins/ringingSoundMixin';
 
 export default {

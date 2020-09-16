@@ -81,8 +81,8 @@
 </template>
 
 <script>
+  import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
   import range from './range.vue';
-  import eventBus from '../../utils/eventBus';
 
   export default {
     name: 'audio-player',
