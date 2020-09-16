@@ -12,8 +12,8 @@ module.exports = {
   },
   collectCoverage: true,
   collectCoverageFrom: [
-    'src/components/queues/**/*.{js,vue}',
-    'src/store/**/*.{js,vue}',
+    'src/components/agents/**/*.{js,vue}',
+    'src/store/agents/**/*.{js,vue}',
     'src/mixins/**/*.{js,vue}',
     '!src/**/index.js', // No need to cover bootstrap file
   ],

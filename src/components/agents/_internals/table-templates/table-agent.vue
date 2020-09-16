@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="table-agent">
     <span class="name-link" @click="openAgentView(item.agentId)">
       {{ item.name }}
     </span>
