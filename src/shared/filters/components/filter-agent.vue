@@ -13,7 +13,7 @@
 </template>
 
 <script>
-  import apiFilterMixin from '../mixins/apiFilterMixin';
+  import apiFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/apiFilterMixin';
   import { getAgents, getAgentsByIds } from '../api/agentFilter';
 
   export default {

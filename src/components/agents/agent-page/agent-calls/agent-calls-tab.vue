@@ -53,6 +53,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import queryFiltersMixin from '../../../../shared/queryFilters/mixins/queryFiltersMixin';
 import FilterPagination from '../../../../shared/filters/components/filter-pagination.vue';
 import MediaAction from '../../../utils/table-media-action.vue';
@@ -60,7 +61,6 @@ import TableCallState from './_internals/table-templates/table-call-state.vue';
 import TableCallClient from './_internals/table-templates/table-call-client.vue';
 import TableCallNumber from './_internals/table-templates/table-call-number.vue';
 import TableCallNotes from './_internals/table-templates/table-call-notes.vue';
-import sortFilterMixin from '../../../../shared/filters/mixins/sortFilterMixin';
 import playMediaMixin from '../../../../mixins/media/playMediaMixin';
 import showMediaMixin from '../../../../mixins/media/showMediaMixin';
 import headersMixin from './_internals/agentPageHeadersMixin';

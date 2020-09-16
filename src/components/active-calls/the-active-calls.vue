@@ -1,5 +1,5 @@
 <template>
-  <page-wrapper>
+  <wt-page-wrapper>
     <template slot="header">
       <wt-headline>
         <template slot="title">
@@ -59,13 +59,13 @@
         <filter-pagination :is-next="isNext"/>
       </div>
     </template>
-  </page-wrapper>
+  </wt-page-wrapper>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import queryFiltersMixin from '../../shared/queryFilters/mixins/queryFiltersMixin';
-import PageWrapper from '../supervisor-workspace/page-wrapper.vue';
 import ActiveCallsFilters from './_internals/active-calls-filters/active-calls-filters.vue';
 import FilterFields from '../filters/filter-table-fields.vue';
 import FilterPagination from '../../shared/filters/components/filter-pagination.vue';
@@ -78,13 +78,11 @@ import TableUser from './_internals/table-templates/table-user.vue';
 import TableActiveCallState from './_internals/table-templates/table-active-call-state.vue';
 import headersMixin from './_internals/activeCallHeadersMixin';
 import autoRefreshMixin from '../../mixins/autoRefresh/autoRefreshMixin';
-import sortFilterMixin from '../../shared/filters/mixins/sortFilterMixin';
 import tableActionsHandlerMixin from '../../mixins/supervisor-workspace/tableActionsHandlerMixin';
 
 export default {
   name: 'the-active-calls',
   components: {
-    PageWrapper,
     FilterFields,
     FilterPagination,
     TableDirection,

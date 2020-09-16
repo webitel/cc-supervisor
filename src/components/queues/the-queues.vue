@@ -1,5 +1,5 @@
 <template>
-  <page-wrapper>
+  <wt-page-wrapper>
     <template slot="header">
       <wt-headline>
         <template slot="title">
@@ -57,25 +57,24 @@
         <filter-pagination :is-next="isNext"/>
       </div>
     </template>
-  </page-wrapper>
+  </wt-page-wrapper>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
 
 import FilterFields from '../filters/filter-table-fields.vue';
 import FilterSearch from '../../shared/filters/components/filter-search.vue';
 import FilterPagination from '../../shared/filters/components/filter-pagination.vue';
 
-import PageWrapper from '../supervisor-workspace/page-wrapper.vue';
 import QueueFilters from './_internals/queue-filters/queue-filters.vue';
 import TableQueue from './_internals/table-templates/table-queue.vue';
 import TableAgents from './_internals/table-templates/table-agents.vue';
 import TableTeam from './_internals/table-templates/table-team.vue';
 import TableMembers from './_internals/table-templates/table-members.vue';
 import headersMixin from './_internals/queueHeadersMixin';
-import sortFilterMixin from '../../shared/filters/mixins/sortFilterMixin';
 import tableActionsHandlerMixin from '../../mixins/supervisor-workspace/tableActionsHandlerMixin';
 import autoRefreshMixin from '../../mixins/autoRefresh/autoRefreshMixin';
 import queryFiltersMixin from '../../shared/queryFilters/mixins/queryFiltersMixin';
@@ -89,7 +88,6 @@ export default {
     FilterFields,
     FilterPagination,
     QueueFilters,
-    PageWrapper,
     TableQueue,
     TableAgents,
     TableTeam,
