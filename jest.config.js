@@ -12,9 +12,21 @@ module.exports = {
   },
   collectCoverage: true,
   collectCoverageFrom: [
-    'src/components/agents/**/*.{js,vue}',
-    'src/store/agents/**/*.{js,vue}',
-    'src/mixins/**/*.{js,vue}',
+    // 'src/api/**/*.{js,vue}',
+
+    // 'src/components/queues/**/*.{js,vue}',
+    // 'src/components/active-calls/**/*.{js,vue}',
+    // 'src/components/agents/**/*.{js,vue}',
+    'src/components/supervisor-workspace/**/*.{js,vue}',
+
+    // 'src/store/agents/**/*.{js,vue}',
+    // 'src/store/queues/**/*.{js,vue}',
+    // 'src/store/activeCalls/**/*.{js,vue}',
+    'src/store/userinfo/**/*.{js,vue}',
+
+    // 'src/shared/**/*.{js,vue}',
+
+    // 'src/mixins/**/*.{js,vue}',
     '!src/**/index.js', // No need to cover bootstrap file
   ],
   setupFiles: [
