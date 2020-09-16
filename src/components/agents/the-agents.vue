@@ -1,5 +1,5 @@
 <template>
-  <page-wrapper>
+  <wt-page-wrapper>
     <template slot="header">
       <wt-headline>
         <template slot="title">
@@ -9,7 +9,8 @@
           <filter-search/>
           <wt-button
             :loading="isCSVLoading"
-            @click="download"
+            :disabled="!dataList.length"
+            @click="exportCSV"
           >{{ $t('defaults.exportCSV') }}
           </wt-button>
         </template>
@@ -37,7 +38,7 @@
       <div class="table-wrapper" v-show="!isLoading">
         <wt-table
           :headers="headers"
-          :data="data"
+          :data="dataList"
           sortable
           :grid-actions="false"
           @sort="sort"
@@ -65,13 +66,16 @@
         <filter-pagination :is-next="isNext"/>
       </div>
     </template>
-  </page-wrapper>
+  </wt-page-wrapper>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import { agentFields } from '../../api/agents/agents';
-import PageWrapper from '../supervisor-workspace/page-wrapper.vue';
+import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
+import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
+
+import { getAgentsList } from '../../api/agents/agents';
+import queryFiltersMixin from '../../shared/queryFilters/mixins/queryFiltersMixin';
 import FilterSearch from '../../shared/filters/components/filter-search.vue';
 import FilterFields from '../filters/filter-table-fields.vue';
 import FilterPagination from '../../shared/filters/components/filter-pagination.vue';
@@ -84,16 +88,12 @@ import TableAgentQueues from './_internals/table-templates/table-agent-queues.vu
 import TableAgentTeams from './_internals/table-templates/table-agent-teams.vue';
 
 import headersMixin from './_internals/agentHeadersMixin';
-import sortFilterMixin from '../../shared/filters/mixins/sortFilterMixin';
 import autoRefreshMixin from '../../mixins/autoRefresh/autoRefreshMixin';
 import tableActionsHandlerMixin from '../../mixins/supervisor-workspace/tableActionsHandlerMixin';
-import downloadCSVMixin from '../../mixins/downloadCSV/downloadCSVMixin';
-import convertQuery from '../../utils/loadScripts';
 
 export default {
   name: 'the-agents',
   components: {
-    PageWrapper,
     FilterSearch,
     FilterFields,
     FilterPagination,
@@ -106,9 +106,10 @@ export default {
   },
   mixins: [
     headersMixin,
+    queryFiltersMixin,
     sortFilterMixin,
     autoRefreshMixin,
-    downloadCSVMixin,
+    exportCSVMixin,
     tableActionsHandlerMixin,
   ],
   data() {
@@ -154,16 +155,26 @@ export default {
     //   }
     // },
   },
-  mounted() {
-    // this.callNow = (this.getValueByQuery({ filterQuery: 'callNow' }) === 'true') || false;
-    // this.attentionNow = (
-    //   this.getValueByQuery({ filterQuery: 'attentionNow' }) === 'true') || false;
+
+  created() {
+    this.initCSVExport(getAgentsList, { filename: 'agents-status' });
   },
+  // mounted() {
+  // this.callNow = (this.getValueByQuery({ filterQuery: 'callNow' }) === 'true') || false;
+  // this.attentionNow = (
+  //   this.getValueByQuery({ filterQuery: 'attentionNow' }) === 'true') || false;
+  // },
   computed: {
     ...mapState('agents', {
-      data: (state) => state.dataList,
+      dataList: (state) => state.dataList,
       isNext: (state) => state.isNext,
     }),
+
+    selectedIds() {
+      return this.dataList
+      .filter((item) => item._isSelected)
+        .map((item) => item.agentId);
+    },
   },
   methods: {
     ...mapActions('agents', {
@@ -185,20 +196,9 @@ export default {
     },
 
     loadList() {
-      const params = this.getQueryParams();
-      return this.loadDataList(params);
+      return this.loadDataList(this.filterParams);
     },
 
-    download() {
-      this.downloadCSV({
-        fields: agentFields,
-        items: this.data,
-      });
-    },
-    getQueryParams() {
-      const { query } = this.$route;
-      return convertQuery(query);
-    },
     async attachCall(id) {
       await this.attachToCall({ id });
       this.openWindow();

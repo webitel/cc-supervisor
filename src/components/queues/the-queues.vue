@@ -1,5 +1,5 @@
 <template>
-  <page-wrapper>
+  <wt-page-wrapper>
     <template slot="header">
       <wt-headline>
         <template slot="title">
@@ -9,7 +9,8 @@
           <filter-search/>
           <wt-button
             :loading="isCSVLoading"
-            @click="download"
+            :disabled="!dataList.length"
+            @click="exportCSV"
           >{{ $t('defaults.exportCSV') }}
           </wt-button>
         </template>
@@ -35,7 +36,7 @@
       <div class="table-wrapper" v-show="!isLoading">
         <wt-table
           :headers="headers"
-          :data="data"
+          :data="dataList"
           sortable
           :grid-actions="false"
           @sort="sort"
@@ -56,28 +57,29 @@
         <filter-pagination :is-next="isNext"/>
       </div>
     </template>
-  </page-wrapper>
+  </wt-page-wrapper>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import convertQuery from '../../utils/loadScripts';
-import { queueFields } from '../../api/queues/queues';
+import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
+import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
+
 import FilterFields from '../filters/filter-table-fields.vue';
 import FilterSearch from '../../shared/filters/components/filter-search.vue';
 import FilterPagination from '../../shared/filters/components/filter-pagination.vue';
 
-import PageWrapper from '../supervisor-workspace/page-wrapper.vue';
 import QueueFilters from './_internals/queue-filters/queue-filters.vue';
 import TableQueue from './_internals/table-templates/table-queue.vue';
 import TableAgents from './_internals/table-templates/table-agents.vue';
 import TableTeam from './_internals/table-templates/table-team.vue';
 import TableMembers from './_internals/table-templates/table-members.vue';
 import headersMixin from './_internals/queueHeadersMixin';
-import sortFilterMixin from '../../shared/filters/mixins/sortFilterMixin';
-import downloadCSVMixin from '../../mixins/downloadCSV/downloadCSVMixin';
 import tableActionsHandlerMixin from '../../mixins/supervisor-workspace/tableActionsHandlerMixin';
 import autoRefreshMixin from '../../mixins/autoRefresh/autoRefreshMixin';
+import queryFiltersMixin from '../../shared/queryFilters/mixins/queryFiltersMixin';
+
+import getQueuesList from '../../api/queues/queues';
 
 export default {
   name: 'the-queues',
@@ -86,7 +88,6 @@ export default {
     FilterFields,
     FilterPagination,
     QueueFilters,
-    PageWrapper,
     TableQueue,
     TableAgents,
     TableTeam,
@@ -94,9 +95,10 @@ export default {
   },
   mixins: [
     headersMixin,
+    queryFiltersMixin,
     sortFilterMixin,
     autoRefreshMixin,
-    downloadCSVMixin,
+    exportCSVMixin,
     tableActionsHandlerMixin,
   ],
   data: () => ({
@@ -114,11 +116,21 @@ export default {
     },
   },
 
+  created() {
+    this.initCSVExport(getQueuesList, { filename: 'queues-stats' });
+  },
+
   computed: {
     ...mapState('queues', {
-      data: (state) => state.dataList,
+      dataList: (state) => state.dataList,
       isNext: (state) => state.isNext,
     }),
+
+    selectedIds() {
+      return this.dataList
+      .filter((item) => item._isSelected)
+      .map((item) => item.queue?.id);
+    },
   },
 
   methods: {
@@ -137,20 +149,7 @@ export default {
     },
 
     loadList() {
-      const params = this.getQueryParams();
-      return this.loadDataList(params);
-    },
-
-    download() {
-      this.downloadCSV({
-        fields: queueFields,
-        items: this.data,
-      });
-    },
-
-    getQueryParams() {
-      const { query } = this.$route;
-      return convertQuery(query);
+      return this.loadDataList(this.filterParams);
     },
   },
 };

@@ -20,6 +20,7 @@ const actions = {
     });
     context.commit('SET_LIST', items);
     context.commit('SET_IS_NEXT', { isNext: next });
+    return { items, next };
   },
 };
 

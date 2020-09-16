@@ -3,7 +3,7 @@
     <wt-table
       ref="wt-table"
       :headers="headers"
-      :data="data"
+      :data="dataList"
       :selectable="false"
       sortable
       @sort="sort"
@@ -33,12 +33,12 @@
     </wt-table>
     <filter-pagination @input="closeMedia" :is-next="isNext"/>
 
-    <audio-player
+    <wt-player
       v-show="audioURL"
-      :file="audioURL"
+      :src="audioURL"
       @play="isPlayingNow = true"
       @close="closePlayer"
-    ></audio-player>
+    ></wt-player>
 
     <media-select
       ref="media-select"
@@ -53,14 +53,14 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import convertQuery from '../../../../utils/loadScripts';
+import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
+import queryFiltersMixin from '../../../../shared/queryFilters/mixins/queryFiltersMixin';
 import FilterPagination from '../../../../shared/filters/components/filter-pagination.vue';
 import MediaAction from '../../../utils/table-media-action.vue';
 import TableCallState from './_internals/table-templates/table-call-state.vue';
 import TableCallClient from './_internals/table-templates/table-call-client.vue';
 import TableCallNumber from './_internals/table-templates/table-call-number.vue';
 import TableCallNotes from './_internals/table-templates/table-call-notes.vue';
-import sortFilterMixin from '../../../../shared/filters/mixins/sortFilterMixin';
 import playMediaMixin from '../../../../mixins/media/playMediaMixin';
 import showMediaMixin from '../../../../mixins/media/showMediaMixin';
 import headersMixin from './_internals/agentPageHeadersMixin';
@@ -78,6 +78,7 @@ export default {
   },
   mixins: [
     headersMixin,
+    queryFiltersMixin,
     sortFilterMixin,
     autoRefreshMixin,
     playMediaMixin,
@@ -99,7 +100,7 @@ export default {
   },
   computed: {
     ...mapState('agentCalls', {
-      data: (state) => state.dataList,
+      dataList: (state) => state.dataList,
       isNext: (state) => state.isNext,
     }),
   },
@@ -119,14 +120,8 @@ export default {
     },
 
     loadList() {
-      const params = this.getQueryParams();
-      params.agentId = this.$route.params.id;
-      return this.loadDataList(params);
-    },
-
-    getQueryParams() {
-      const { query } = this.$route;
-      return convertQuery(query);
+      const agentId = this.$route.params.id;
+      return this.loadDataList({ ...this.filterParams, agentId });
     },
   },
 };

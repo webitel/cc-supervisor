@@ -6,10 +6,13 @@ import Queue from '../components/queues/the-queues.vue';
 import ActiveCalls from '../components/active-calls/the-active-calls.vue';
 import Agents from '../components/agents/the-agents.vue';
 import AgentPage from '../components/agents/agent-page/agent-page.vue';
-import moduleWrap from '../components/supervisor-workspace/the-supervisor-workspace.vue';
+import SupervisorWorkspace from '../components/supervisor-workspace/the-supervisor-workspace.vue';
 import notFound from '../components/utils/the-not-found-component.vue';
 
-Vue.use(VueRouter);
+// https://stackoverflow.com/a/55544303
+if (!process || process.env.NODE_ENV !== 'test') {
+  Vue.use(VueRouter);
+}
 
 const routes = [{
     path: '/auth',
@@ -18,7 +21,7 @@ const routes = [{
 }, {
     path: '/supervisor',
     redirect: { name: 'queues' },
-    component: moduleWrap,
+    component: SupervisorWorkspace,
     children: [{
         path: 'queues',
         name: 'queues',

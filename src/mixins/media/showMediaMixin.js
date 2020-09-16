@@ -15,7 +15,7 @@ export default {
 
     mediaFiles() {
       if (this.isMediaSelectOpened) {
-        return this.data[this.openedMediaIndex]
+        return this.dataList[this.openedMediaIndex]
         .files.filter((file) => file.mimeType.includes('audio')
           || file.mimeType.includes('video'));
       }

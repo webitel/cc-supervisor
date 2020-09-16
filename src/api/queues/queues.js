@@ -1,9 +1,9 @@
-import { QueueServiceApiFactory } from 'webitel-sdk';
+import { CallDirection, QueueServiceApiFactory } from 'webitel-sdk';
+import parseJoined from '../../utils/joined';
 import configuration from '../utils/openAPIConfig';
 import instance from '../instance';
 
 const queueService = new QueueServiceApiFactory(configuration, '', instance);
-export const queueFields = ['id', 'name', 'type', 'team'];
 
 const parseQueueList = (items) => items.map((item) => ({
   ...item,
@@ -26,21 +26,41 @@ const parseQueueList = (items) => items.map((item) => ({
   },
 }));
 
-export const getQueuesList = async ({
-                                      page = 1,
-                                      size = 10,
-                                      joinedAtFrom,
-                                      joinedAtTo,
-                                      search = '',
-                                      queue,
-                                      sort = '+priority',
-                                      fields,
-                                      team,
-                                      queueType,
-                                    }) => {
+const prepareRequestParams = (argParams) => {
+  const params = { ...argParams };
+  if (!params.period) params.period = 'today';
+  const joined = parseJoined(params.period);
+  params.joinedAtFrom = joined.start;
+  params.joinedAtTo = joined.end;
+  if (params.queueType) {
+    let queueType = [];
+    if (params.queueType.includes(CallDirection.Inbound)) {
+      queueType = queueType.concat([1, 6]);
+    }
+    if (params.queueType.includes(CallDirection.Outbound)) {
+      queueType = queueType.concat([0, 2, 3, 4, 5]);
+    }
+    params.queueType = queueType;
+  }
+  if (params.search && params.search.slice(-1) !== '*') params.search += '*';
+  return params;
+};
+
+const getQueuesList = async (params) => {
   try {
-    // eslint-disable-next-line no-param-reassign
-    if (search && search.slice(-1) !== '*') search += '*';
+    const {
+      page = 1,
+      size = 10,
+      joinedAtFrom,
+      joinedAtTo,
+      search = '',
+      ids,
+      sort = '+priority',
+      fields,
+      team,
+      queueType,
+    } = prepareRequestParams(params);
+
     const res = await queueService.searchQueueReportGeneral(
       page,
       size,
@@ -50,7 +70,7 @@ export const getQueuesList = async ({
       fields,
       sort,
       search,
-      queue,
+      ids,
       team,
       queueType,
     );
@@ -62,3 +82,5 @@ export const getQueuesList = async ({
     throw err;
   }
 };
+
+export default getQueuesList;
