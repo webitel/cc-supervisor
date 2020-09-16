@@ -1,4 +1,4 @@
-import baseFilterMixin from './baseFilterMixin';
+import baseFilterMixin from './baseFilterMixin/baseFilterMixin';
 
 export default {
   mixins: [baseFilterMixin],
@@ -6,15 +6,18 @@ export default {
   data: () => ({
     value: [],
     options: [],
-    apiMode: false,
     trackBy: 'value',
-    queriedProp: 'value',
+    storedProp: 'value',
   }),
 
   methods: {
-    fillValue(valueArray) {
+    getValue({ filterQuery }) {
+      return this.getValueArrayFromQuery({ filterQuery });
+    },
+
+    restoreValue(values) {
       this.value = this.options
-        .filter((item) => valueArray.some((value) => `${value}` === item[this.queriedProp]));
+      .filter((item) => values.some((value) => `${value}` === item[this.storedProp]));
     },
   },
 };

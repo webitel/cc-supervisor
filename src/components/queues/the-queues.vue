@@ -25,7 +25,7 @@
       <div class="actions-panel-wrapper">
         <queue-filters/>
         <wt-table-actions
-          :icons="['refresh', 'column-select']"
+          :icons="['refresh', 'column-select', 'filter-reset']"
           @input="tableActionsHandler"
         ></wt-table-actions>
       </div>

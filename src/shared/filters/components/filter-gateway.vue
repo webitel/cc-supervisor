@@ -2,13 +2,13 @@
   <wt-select
     v-model="value"
     :label="$t('filters.gateway')"
-    :internal-search="!apiMode"
     :track-by="trackBy"
     :search="fetch"
     :close-on-select="false"
+    :internal-search="false"
     multiple
-    @reset="setQueryArray({ value, filterQuery, queriedProp })"
-    @closed="setQueryArray({ value, filterQuery, queriedProp })"
+    @reset="setValueArrayToQuery({ value, filterQuery, storedProp })"
+    @closed="setValueArrayToQuery({ value, filterQuery, storedProp })"
   ></wt-select>
 </template>
 
@@ -21,7 +21,7 @@ export default {
   mixins: [apiFilterMixin],
 
   data: () => ({
-    filterQuery: 'gatewayIds',
+    filterQuery: 'gateway',
   }),
 
   methods: {

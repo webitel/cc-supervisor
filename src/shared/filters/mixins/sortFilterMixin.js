@@ -1,4 +1,4 @@
-import valueFilterMixin from './valueFilterMixin';
+import baseFilterMixin from './baseFilterMixin/baseFilterMixin';
 
 export const SortSymbols = Object.freeze({
   ASC: 'asc',
@@ -46,7 +46,10 @@ const decodeSortQuery = ({ value }) => {
 };
 
 export default {
-  mixins: [valueFilterMixin],
+  mixins: [baseFilterMixin],
+  data: () => ({
+    filterQuery: 'sort',
+  }),
   methods: {
     sort(column) {
       const order = getNextSortOrder(column.sort);
@@ -57,7 +60,6 @@ export default {
     },
 
     setValue({ column, order }) {
-      const filterQuery = 'sort';
       this.headers = this.headers.map((col) => ({
         ...col,
         sort: col === column ? order : null,
@@ -66,13 +68,13 @@ export default {
         column,
         order,
       });
-      this.setQueryValue({
+      this.setValueToQuery({
         value,
-        filterQuery,
+        filterQuery: this.filterQuery,
       });
     },
 
-    restoreValue({ value }) {
+    restoreValue(value) {
       const sortedColumns = decodeSortQuery({ value });
       this.headers = this.headers.map((header) => ({
         ...header,

@@ -11,11 +11,11 @@
 </template>
 
 <script>
-import valueFilterMixin from '../mixins/valueFilterMixin';
+import baseFilterMixin from '../mixins/baseFilterMixin/baseFilterMixin';
 
 export default {
   name: 'filter-pagination',
-  mixins: [valueFilterMixin],
+  mixins: [baseFilterMixin],
 
   props: {
     isNext: {
@@ -28,6 +28,17 @@ export default {
     page: '1',
     size: '10',
   }),
+
+  watch: {
+    '$route.query': {
+      handler(newValue, oldValue) {
+        if (newValue.page !== oldValue.page
+          || newValue.size !== oldValue.size) {
+          this.restore();
+        }
+      },
+    },
+  },
 
   computed: {
     isPrev() {
@@ -42,18 +53,20 @@ export default {
     },
 
     restorePage() {
-      this.page = this.parseQueryValue({ filterQuery: 'page' }) || this.page;
+      const page = '1';
+      this.page = this.getValueFromQuery({ filterQuery: 'page' }) || page;
     },
 
     restoreSize() {
-      this.size = this.parseQueryValue({ filterQuery: 'size' }) || this.size;
+      const size = '10';
+      this.size = this.getValueFromQuery({ filterQuery: 'size' }) || size;
     },
 
     next() {
       this.$emit('input');
       const value = `${+this.page + 1}`;
       this.page = value;
-      this.setQueryValue({
+      this.setValueToQuery({
         filterQuery: 'page',
         value,
       });
@@ -63,7 +76,7 @@ export default {
       this.$emit('input');
       const value = `${+this.page - 1}`;
       this.page = value;
-      this.setQueryValue({
+      this.setValueToQuery({
         filterQuery: 'page',
         value,
       });
@@ -71,7 +84,7 @@ export default {
 
     sizeChange(value) {
       this.$emit('input');
-      this.setQueryValue({
+      this.setValueToQuery({
         filterQuery: 'size',
         value,
       });

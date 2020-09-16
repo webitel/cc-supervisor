@@ -26,7 +26,7 @@
       <div class="actions-panel-wrapper">
         <agents-filters/>
         <wt-table-actions
-          :icons="['refresh', 'column-select']"
+          :icons="['refresh', 'column-select', 'filter-reset']"
           @input="tableActionsHandler"
         ></wt-table-actions>
       </div>
@@ -129,12 +129,12 @@ export default {
     },
     // callNow(value) {
     //   if (value) {
-    //     this.setQueryValue({
+    //     this.setValueToQuery({
     //       filterQuery: 'callNow',
     //       value: value.toString(),
     //     });
     //   } else {
-    //     this.setQueryValue({
+    //     this.setValueToQuery({
     //       filterQuery: 'callNow',
     //       value: undefined,
     //     });
@@ -142,12 +142,12 @@ export default {
     // },
     // attentionNow(value) {
     //   if (value) {
-    //     this.setQueryValue({
+    //     this.setValueToQuery({
     //       filterQuery: 'attentionNow',
     //       value: value.toString(),
     //     });
     //   } else {
-    //     this.setQueryValue({
+    //     this.setValueToQuery({
     //       filterQuery: 'attentionNow',
     //       value: undefined,
     //     });

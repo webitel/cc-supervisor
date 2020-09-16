@@ -4,8 +4,8 @@
     :options="options"
     :label="$t('filters.time')"
     :track-by="trackBy"
-    @reset="setQueryValue({ filterQuery, value: value.value })"
-    @closed="setQueryValue({ filterQuery, value: value.value })"
+    @reset="setValueToQuery({ filterQuery, value: value.value })"
+    @closed="setValueToQuery({ filterQuery, value: value.value })"
   ></wt-select>
 </template>
 
