@@ -75,7 +75,6 @@ import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFil
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
 
 import { getAgentsList } from '../../api/agents/agents';
-import queryFiltersMixin from '../../shared/queryFilters/mixins/queryFiltersMixin';
 import FilterSearch from '../../shared/filters/components/filter-search.vue';
 import FilterFields from '../filters/filter-table-fields.vue';
 import FilterPagination from '../../shared/filters/components/filter-pagination.vue';
@@ -106,7 +105,6 @@ export default {
   },
   mixins: [
     headersMixin,
-    queryFiltersMixin,
     sortFilterMixin,
     autoRefreshMixin,
     exportCSVMixin,
@@ -196,7 +194,8 @@ export default {
     },
 
     loadList() {
-      return this.loadDataList(this.filterParams);
+      const { query } = this.$route;
+      return this.loadDataList(query);
     },
 
     async attachCall(id) {
