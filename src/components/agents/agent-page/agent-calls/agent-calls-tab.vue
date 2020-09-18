@@ -54,7 +54,6 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
-import queryFiltersMixin from '../../../../shared/queryFilters/mixins/queryFiltersMixin';
 import FilterPagination from '../../../../shared/filters/components/filter-pagination.vue';
 import MediaAction from '../../../utils/table-media-action.vue';
 import TableCallState from './_internals/table-templates/table-call-state.vue';
@@ -78,7 +77,6 @@ export default {
   },
   mixins: [
     headersMixin,
-    queryFiltersMixin,
     sortFilterMixin,
     autoRefreshMixin,
     playMediaMixin,
@@ -121,7 +119,8 @@ export default {
 
     loadList() {
       const agentId = this.$route.params.id;
-      return this.loadDataList({ ...this.filterParams, agentId });
+      const { query } = this.$route;
+      return this.loadDataList({ ...query, agentId });
     },
   },
 };

@@ -20,7 +20,7 @@
       <filter-fields
         v-show="isFilterFieldsOpened"
         v-model="headers"
-        :entity="'queues'"
+        entity="queues"
         @close="isFilterFieldsOpened = false"
       ></filter-fields>
       <div class="actions-panel-wrapper">
@@ -77,7 +77,6 @@ import TableMembers from './_internals/table-templates/table-members.vue';
 import headersMixin from './_internals/queueHeadersMixin';
 import tableActionsHandlerMixin from '../../mixins/supervisor-workspace/tableActionsHandlerMixin';
 import autoRefreshMixin from '../../mixins/autoRefresh/autoRefreshMixin';
-import queryFiltersMixin from '../../shared/queryFilters/mixins/queryFiltersMixin';
 
 import getQueuesList from '../../api/queues/queues';
 
@@ -95,7 +94,6 @@ export default {
   },
   mixins: [
     headersMixin,
-    queryFiltersMixin,
     sortFilterMixin,
     autoRefreshMixin,
     exportCSVMixin,
@@ -149,7 +147,8 @@ export default {
     },
 
     loadList() {
-      return this.loadDataList(this.filterParams);
+      const { query } = this.$route;
+      return this.loadDataList(query);
     },
   },
 };

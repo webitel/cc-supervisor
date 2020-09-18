@@ -1,8 +1,10 @@
 .DS_Store
 node_modules
 /dist
+/coverage
 package-lock.json
 .editorconfig
+jest.json
 
 # local env files
 .env.local

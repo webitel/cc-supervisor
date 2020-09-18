@@ -1,5 +1,6 @@
 <template>
   <wt-status-select
+    class="table-agent-status"
     :status="item.status"
     :status-duration="item.statusDuration"
     @change="changeStatus"

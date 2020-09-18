@@ -57,8 +57,6 @@ export default {
         await logout();
         await this.$router.replace('/auth');
       } catch {
-      } finally {
-        this.close();
       }
     },
   },

@@ -21,15 +21,11 @@ const actions = {
     context.commit('SET_ITEM', item);
   },
   UPDATE_AGENT_STATUS: async (context, { agentId, status }) => {
-    const { success } = await patchAgentStatus({
-      agentId,
-      status,
-    });
-    if (success) {
-      context.commit('SET_STATUS', {
-        agentId,
-        status,
-      });
+    try {
+      await patchAgentStatus({ agentId, status });
+      context.commit('SET_STATUS', { agentId, status });
+    } catch (err) {
+      throw err;
     }
   },
 };

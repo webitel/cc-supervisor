@@ -31,7 +31,6 @@ export default {
     }),
 
     isRinging() {
-      // every on empty array is true
       return this.call
         && this.call.state === CallActions.Ringing
         && this.call.direction === CallDirection.Inbound;
