@@ -4,6 +4,7 @@ node_modules
 /coverage
 package-lock.json
 .editorconfig
+jest.json
 
 # local env files
 .env.local
