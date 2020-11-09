@@ -10,7 +10,7 @@ process.env.VUE_APP_GRAFANA_URL = process.env.NODE_ENV === 'production' ? '/graf
 
 module.exports = {
     transpileDependencies: ['@webitel/ui-sdk/src'],
-    publicPath: '',
+    publicPath: process.env.NODE_ENV === 'production' ? '' : '/',
     lintOnSave: false,
     css: {
         loaderOptions: {
@@ -25,4 +25,13 @@ module.exports = {
         // eslint-disable-next-line no-param-reassign
         config.devtool = 'source-map';
     },
+  chainWebpack: (config) => {
+    // exclude sprites default building
+    config.module.rule('svg').exclude.add(/^(.*sprites).*\.svg/);
+
+    // use svg-sprite-loader to process icons sprite
+    config.module.rule('svg-sprite').test(/^(.*sprites).*\.svg/)
+    .use('svg-sprite-loader').loader('svg-sprite-loader')
+    .options({ symbolId: () => '' });
+  },
 };
