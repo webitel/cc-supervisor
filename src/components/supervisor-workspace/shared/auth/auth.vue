@@ -42,7 +42,7 @@ export default {
       if (event.data.accessToken) {
         setToken(event.data.accessToken);
         await this.restoreSession();
-        await this.$router.replace('/supervisor');
+        await this.$router.replace('/');
       }
     },
 
