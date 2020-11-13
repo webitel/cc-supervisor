@@ -19,7 +19,7 @@ const routes = [{
     name: 'auth',
     component: Auth,
 }, {
-    path: '/supervisor',
+    path: '/',
     redirect: { name: 'queues' },
     component: SupervisorWorkspace,
     children: [{
