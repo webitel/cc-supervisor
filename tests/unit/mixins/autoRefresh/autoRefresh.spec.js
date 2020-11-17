@@ -4,7 +4,7 @@ import '../../mocks/localStorageMock';
 
 test('autoRefresh triggered function twice', (done) => {
   let counter = 0;
-  localStorage.setItem('auto-refresh', '500');
+  localStorage.setItem('auto-refresh', '10');
   const Component = {
     render() {},
     mixins: [autoRefreshMixin],
@@ -21,5 +21,5 @@ test('autoRefresh triggered function twice', (done) => {
   setTimeout(() => {
     expect(counter).toBe(2);
     done();
-  }, 1001);
+  }, 20);
 });
