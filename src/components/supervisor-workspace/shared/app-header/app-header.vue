@@ -33,15 +33,15 @@ export default {
       return [{
         value: 'queues',
         name: this.$t('nav.queue'),
-        route: '/supervisor/queues',
+        route: '/queues',
       }, {
         value: 'agents',
         name: this.$t('nav.agents'),
-        route: '/supervisor/agents',
+        route: '/agents',
       }, {
         value: 'active-calls',
         name: this.$t('nav.activeCalls'),
-        route: '/supervisor/active-calls',
+        route: '/active-calls',
       },
       ];
     },
