@@ -20,7 +20,8 @@
 
     data: () => ({
       options: AgentStatus,
-      filterQuery: 'value',
+      filterQuery: 'status',
+      storedProp: 'value',
     }),
   };
 </script>
