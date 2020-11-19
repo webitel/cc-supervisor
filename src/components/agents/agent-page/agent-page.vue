@@ -142,6 +142,12 @@ export default {
 <style lang="scss" scoped>
 @import "../../../css/supervisor-workspace/page-wrapper";
 
+.agent-page__content {
+  flex: 1 1 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .agent-page__header {
   display: flex;
   align-items: center;
