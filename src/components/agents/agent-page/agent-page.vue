@@ -6,7 +6,7 @@
         <wt-icon-btn
           icon="arrow-left"
           color="active"
-          @click="$router.push('/supervisor/agents')"
+          @click="$router.push('/agents')"
         ></wt-icon-btn>
 
         <img src="../../../assets/img/default-avatar.svg" alt="Agent avatar">
