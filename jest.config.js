@@ -1,6 +1,6 @@
 module.exports = {
   preset: '@vue/cli-plugin-unit-jest',
-  testMatch: ['**/**/?(*.)+(spec).js'],
+  testMatch: ['**/?(*.)+(spec).js'],
   transform: {
     '^.+\\.jsx?$': '<rootDir>/node_modules/babel-jest',
   },
