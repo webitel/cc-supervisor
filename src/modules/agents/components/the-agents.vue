@@ -18,18 +18,18 @@
     </template>
 
     <template slot="actions-panel">
-      <filter-fields
-        v-show="isFilterFieldsOpened"
-        v-model="headers"
-        :entity="'agents'"
-        @close="isFilterFieldsOpened = false"
-      ></filter-fields>
       <div class="actions-panel-wrapper">
         <agents-filters/>
-        <wt-table-actions
-          :icons="['refresh', 'column-select', 'filter-reset']"
-          @input="tableActionsHandler"
-        ></wt-table-actions>
+        <div class="table-actions-wrapper">
+          <filter-fields
+            v-model="headers"
+            entity="agents"
+          ></filter-fields>
+          <wt-table-actions
+            :icons="['refresh', 'filter-reset']"
+            @input="tableActionsHandler"
+          ></wt-table-actions>
+        </div>
       </div>
     </template>
 
@@ -70,25 +70,25 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
-
-import { getAgentsList } from '../api/agents';
-import FilterSearch from '../../_shared/filters/components/filter-search.vue';
-import FilterFields from '../../_shared/filters/components/filter-table-fields.vue';
-import FilterPagination from '../../_shared/filters/components/filter-pagination.vue';
-import AgentsFilters from './_internals/agent-filters/agent-filters.vue';
-
-import TableAgent from './_internals/table-templates/table-agent.vue';
-import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
-import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
-import TableAgentQueues from './_internals/table-templates/table-agent-queues.vue';
-import TableAgentTeams from './_internals/table-templates/table-agent-teams.vue';
-
-import headersMixin from './_internals/agentHeadersMixin';
+import { mapActions, mapState } from 'vuex';
 import autoRefreshMixin from '../../../app/mixins/autoRefresh/autoRefreshMixin';
 import tableActionsHandlerMixin from '../../../app/mixins/supervisor-workspace/tableActionsHandlerMixin';
+import FilterPagination from '../../_shared/filters/components/filter-pagination.vue';
+import FilterSearch from '../../_shared/filters/components/filter-search.vue';
+import FilterFields from '../../_shared/filters/components/filter-table-fields.vue';
+
+import { getAgentsList } from '../api/agents';
+import AgentsFilters from './_internals/agent-filters/agent-filters.vue';
+
+import headersMixin from './_internals/agentHeadersMixin';
+import TableAgentQueues from './_internals/table-templates/table-agent-queues.vue';
+import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
+import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
+import TableAgentTeams from './_internals/table-templates/table-agent-teams.vue';
+
+import TableAgent from './_internals/table-templates/table-agent.vue';
 
 export default {
   name: 'the-agents',
@@ -112,7 +112,6 @@ export default {
   ],
   data() {
     return {
-      isFilterFieldsOpened: false,
       // callNow: false,
       // attentionNow: false,
       isLoading: false,
@@ -171,7 +170,7 @@ export default {
     selectedIds() {
       return this.dataList
       .filter((item) => item._isSelected)
-        .map((item) => item.agentId);
+      .map((item) => item.agentId);
     },
   },
   methods: {

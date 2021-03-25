@@ -9,18 +9,18 @@
     </template>
 
     <template slot="actions-panel">
-      <filter-fields
-        v-show="isFilterFieldsOpened"
-        v-model="headers"
-        :entity="'active-calls'"
-        @close="isFilterFieldsOpened = false"
-      ></filter-fields>
       <div class="actions-panel-wrapper">
         <active-calls-filters/>
+        <div class="table-actions-wrapper">
+          <filter-fields
+            v-model="headers"
+            entity="active-calls"
+          ></filter-fields>
         <wt-table-actions
-          :icons="['refresh', 'column-select', 'filter-reset']"
+          :icons="['refresh', 'filter-reset']"
           @input="tableActionsHandler"
         ></wt-table-actions>
+        </div>
       </div>
     </template>
 
@@ -101,7 +101,6 @@ export default {
   ],
   data() {
     return {
-      isFilterFieldsOpened: false,
       isLoading: false,
     };
   },

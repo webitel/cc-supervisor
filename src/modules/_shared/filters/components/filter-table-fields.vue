@@ -1,21 +1,17 @@
 <template>
-  <column-select
-    :value="headers"
+  <wt-table-column-select
+    :headers="headers"
+    :static-headers="staticHeaders"
     @change="change"
-    @close="close"
-  ></column-select>
+  ></wt-table-column-select>
 </template>
 
 <script>
 import baseFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/baseFilterMixin/baseFilterMixin';
-import ColumnSelect from '../../../../app/components/utils/table-column-select.vue';
 
 export default {
   name: 'filter-table-fields',
   mixins: [baseFilterMixin],
-  components: {
-    ColumnSelect,
-  },
   props: {
     entity: {
       type: String,
@@ -24,6 +20,9 @@ export default {
     headers: {
       type: Array,
       required: true,
+    },
+    staticHeaders: {
+      type: Array,
     },
   },
 
@@ -40,11 +39,6 @@ export default {
   methods: {
     change(headers) {
       this.setValue(headers);
-      this.close();
-    },
-
-    close() {
-      this.$emit('close');
     },
 
     // overrides baseFilterMixin method

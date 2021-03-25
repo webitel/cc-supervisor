@@ -17,18 +17,19 @@
       </wt-headline>
     </template>
     <template slot="actions-panel">
-      <filter-fields
-        v-show="isFilterFieldsOpened"
-        v-model="headers"
-        entity="queues"
-        @close="isFilterFieldsOpened = false"
-      ></filter-fields>
       <div class="actions-panel-wrapper">
         <queue-filters/>
-        <wt-table-actions
-          :icons="['refresh', 'column-select', 'filter-reset']"
+        <div class="table-actions-wrapper">
+          <filter-fields
+            v-model="headers"
+            entity="queues"
+            :static-headers="['queue', 'agents']"
+          ></filter-fields>
+          <wt-table-actions
+          :icons="['refresh', 'filter-reset']"
           @input="tableActionsHandler"
         ></wt-table-actions>
+        </div>
       </div>
     </template>
     <template slot="main">
@@ -103,7 +104,6 @@ export default {
     tableActionsHandlerMixin,
   ],
   data: () => ({
-    isFilterFieldsOpened: false,
     isLoading: false,
   }),
 

@@ -11,9 +11,13 @@
     flex: 1;
   }
 
-  .wt-table-actions {
-    height: fit-content;
+  .table-actions-wrapper {
+    display: flex;
     margin-top: 24px;
+
+    .wt-table-actions {
+      height: fit-content;
+    }
   }
 }
 
