@@ -13,16 +13,20 @@
 <script>
   import enumFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/enumFilterMixin';
   import AgentStatus from '../api/AgentStatusOptions.enum';
+  import PeriodOptions from '../api/PeriodOptions.enum';
 
   export default {
     name: 'filter-status',
     mixins: [enumFilterMixin],
-
     data: () => ({
-      options: AgentStatus,
       filterQuery: 'status',
       storedProp: 'value',
     }),
+    computed: {
+      options() {
+        return AgentStatus;
+      },
+    },
   };
 </script>
 

@@ -47,7 +47,8 @@ const routes = [{
 
 const router = new VueRouter({
     mode: 'history',
-    base: process.env.BASE_URL, // eslint-disable-next-line no-unused-vars
+    base: process.env.BASE_URL,
+  // eslint-disable-next-line no-unused-vars
     scrollBehavior(to, from, savedPosition) {
         return {
             x: 0,

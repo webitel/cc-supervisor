@@ -17,11 +17,14 @@
   export default {
     name: 'filter-direction',
     mixins: [enumFilterMixin],
-
     data: () => ({
-      options: DirectionOptions,
       filterQuery: 'direction',
     }),
+    computed: {
+      options() {
+        return DirectionOptions;
+      },
+    },
   };
 </script>
 

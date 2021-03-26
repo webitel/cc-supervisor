@@ -21,7 +21,6 @@ export const fetchQueues = async ({
       search,
       undefined,
       fields,
-      null,
       id,
     );
     return formatOptions(response);

@@ -11,18 +11,27 @@
 </template>
 
 <script>
-  import enumFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/enumFilterMixin';
-  import TypeOptions from '../api/TypeOptions.enum';
+import { CallActions } from 'webitel-sdk';
+// import { QueueType } from 'webitel-sdk/types/enums/queues/queue-type.enum';
+import enumFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/enumFilterMixin';
+import TypeOptions from '../api/TypeOptions.enum';
 
-  export default {
-    name: 'filter-queue-type',
-    mixins: [enumFilterMixin],
-
-    data: () => ({
-      options: TypeOptions,
-      filterQuery: 'queue-type',
-    }),
-  };
+export default {
+  name: 'filter-queue-type',
+  mixins: [enumFilterMixin],
+  data: () => ({
+    filterQuery: 'queue-type',
+    foo: 'bar',
+  }),
+  computed: {
+    options() {
+      return Object.keys(QueueType).map((key) => ({
+        name: key,
+        value: QueueType[key],
+      }));
+    },
+  },
+};
 </script>
 
 <style scoped>

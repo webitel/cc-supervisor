@@ -21,7 +21,6 @@ export const fetchTeams = async ({
       search,
       undefined,
       fields,
-      null,
       id,
     );
     return formatOptions(response);

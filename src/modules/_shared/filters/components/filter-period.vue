@@ -11,16 +11,20 @@
 
 <script>
   import enumFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/enumFilterMixin';
+  import DirectionOptions from '../api/DirectionOptions.enum';
   import PeriodOptions from '../api/PeriodOptions.enum';
 
   export default {
     name: 'filter-period',
     mixins: [enumFilterMixin],
-
     data: () => ({
-      options: PeriodOptions,
       filterQuery: 'period',
     }),
+    computed: {
+      options() {
+        return PeriodOptions;
+      },
+    },
   };
 </script>
 
