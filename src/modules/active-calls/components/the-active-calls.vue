@@ -10,7 +10,7 @@
 
     <template slot="actions-panel">
       <div class="actions-panel-wrapper">
-        <active-calls-filters :namespace="namespace"/>
+        <active-calls-filters :namespace="filtersNamespace"/>
         <div class="table-actions-wrapper">
           <filter-fields
             v-model="headers"
@@ -119,6 +119,9 @@ export default {
       dataList: (state) => state.dataList,
       isNext: (state) => state.isNext,
     }),
+    filtersNamespace() {
+      return `${this.namespace}/filters`;
+    },
   },
   methods: {
     ...mapActions('activeCalls', {

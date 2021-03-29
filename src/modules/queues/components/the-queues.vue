@@ -6,7 +6,7 @@
           {{ $t('pages.queue.title') }}
         </template>
         <template slot="actions">
-          <filter-search/>
+          <filter-search :namespace="filtersNamespace" />
           <wt-button
             :loading="isCSVLoading"
             :disabled="!dataList.length"
@@ -18,7 +18,7 @@
     </template>
     <template slot="actions-panel">
       <div class="actions-panel-wrapper">
-        <queue-filters :namespace="namespace" />
+        <queue-filters :namespace="filtersNamespace" />
         <div class="table-actions-wrapper">
           <filter-fields
             v-model="headers"
@@ -133,6 +133,9 @@ export default {
       return this.dataList
       .filter((item) => item._isSelected)
       .map((item) => item.queue?.id);
+    },
+    filtersNamespace() {
+      return `${this.namespace}/filters`;
     },
   },
 

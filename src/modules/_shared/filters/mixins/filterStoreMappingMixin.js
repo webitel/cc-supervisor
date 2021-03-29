@@ -8,10 +8,10 @@ export default {
         return getNamespacedState(state, this.namespace)[this.filterQuery].value;
       },
       storedProp(state) {
-        return getNamespacedState(state, this.namespace)[this.filterQuery].storedProp;
+        return getNamespacedState(state, this.namespace)[this.filterQuery]?.storedProp;
       },
       multiple(state) {
-        return getNamespacedState(state, this.namespace)[this.filterQuery].multiple;
+        return getNamespacedState(state, this.namespace)[this.filterQuery]?.multiple;
       },
     }),
   },

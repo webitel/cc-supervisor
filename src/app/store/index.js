@@ -12,6 +12,12 @@ import call from '../../modules/call-window/store/call';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  actions: {
+    OPEN_SESSION: (context) => {
+      context.dispatch('userinfo/RESTORE_SESSION');
+    },
+    CLOSE_SESSION: () => {},
+  },
   modules: {
     userinfo,
     queues,

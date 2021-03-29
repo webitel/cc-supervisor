@@ -6,7 +6,7 @@
           {{ $t('pages.agent.title') }}
         </template>
         <template slot="actions">
-          <filter-search/>
+          <filter-search :namespace="filtersNamespace" />
           <wt-button
             :loading="isCSVLoading"
             :disabled="!dataList.length"
@@ -19,7 +19,7 @@
 
     <template slot="actions-panel">
       <div class="actions-panel-wrapper">
-        <agents-filters :namespace="namespace"/>
+        <agents-filters :namespace="filtersNamespace" />
         <div class="table-actions-wrapper">
           <filter-fields
             v-model="headers"
@@ -170,6 +170,9 @@ export default {
       return this.dataList
       .filter((item) => item._isSelected)
       .map((item) => item.agentId);
+    },
+    filtersNamespace() {
+      return `${this.namespace}/filters`;
     },
   },
   methods: {

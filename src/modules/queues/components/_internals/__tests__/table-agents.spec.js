@@ -1,23 +1,26 @@
 import { shallowMount } from '@vue/test-utils';
-import TableAgents
-  from '../table-templates/table-agents.vue';
+import TableAgents from '../table-templates/table-agents.vue';
+
+let status;
 
 describe('Queues table Agents', () => {
-  const item = {
-    agents: {
-      waiting: '1',
-      active: '2',
-    },
-  };
-
-  it('renders a component', async () => {
-    const wrapper = shallowMount(TableAgents, { propsData: { item } });
-    expect(wrapper.classes('table-agents')).toBe(true);
+  beforeEach(() => {
+   status = {
+      online: 1,
+      pause: 2,
+      offline: 3,
+    };
+  });
+  it('renders a component', () => {
+    const wrapper = shallowMount(TableAgents, { propsData: { status } });
+    expect(wrapper.classes('table-agents'))
+      .toBe(true);
   });
 
-  it('renders a component with empty values', async () => {
-    item.agents = {};
-    const wrapper = shallowMount(TableAgents, { propsData: { item } });
-    expect(wrapper.classes('table-agents')).toBe(true);
+  it('renders a component with empty values', () => {
+    status = {};
+    const wrapper = shallowMount(TableAgents, { propsData: { status } });
+    expect(wrapper.classes('table-agents'))
+      .toBe(true);
   });
 });
