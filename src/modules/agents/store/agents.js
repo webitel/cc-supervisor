@@ -1,3 +1,4 @@
+import filters from './filters';
 import { getAgentsList, getAgent, patchAgentStatus } from '../api/agents';
 
 const state = {
@@ -60,5 +61,5 @@ export default {
   getters,
   actions,
   mutations,
-  modules: {},
+  modules: { filters },
 };

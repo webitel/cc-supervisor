@@ -24,7 +24,6 @@ export default {
 
   data: () => ({
     filterQuery: 'queue',
-    filterStoreProperty: 'queue',
   }),
 
   methods: {

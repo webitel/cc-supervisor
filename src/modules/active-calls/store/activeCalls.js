@@ -1,3 +1,4 @@
+import filters from './filters';
 import { getActiveCallList } from '../api/activeCalls';
 
 const state = {
@@ -33,5 +34,5 @@ export default {
     getters,
     actions,
     mutations,
-    modules: {},
+    modules: { filters },
 };

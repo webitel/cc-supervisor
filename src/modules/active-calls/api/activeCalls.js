@@ -4,7 +4,7 @@ import configuration from '../../../app/api/utils/openAPIConfig';
 import instance from '../../../app/api/instance';
 
 const callService = new CallServiceApiFactory(configuration, '', instance);
-export const activeCallFields = [
+export const fields = [
   'id', 'created_at', 'direction', 'duration', 'from', 'agent', 'to',
   'destination', 'extension', 'queue', 'state', 'user', 'variables',
 ];
@@ -36,6 +36,9 @@ export const getActiveCallList = async ({
     const res = await callService.searchActiveCall(
       page, // page
       size, // size
+      search,
+      sort,
+      fields,
       start, // created_at_from
       end, // created_at_to
       user, // user_id
@@ -44,18 +47,17 @@ export const getActiveCallList = async ({
       team, // team_id
       undefined, // member_id
       gateway, // gateway_id
-      search, // q
       undefined, // duration_from
       undefined, // duration_to
-      true, // skip_parent
+      undefined, // skip_parent
       undefined, // parent_id
       undefined, // cause
       undefined, // exists_file
-      activeCallFields, // fields
-      sort, // sort
-      undefined, // domain_id
+      undefined, // fields
+      undefined, // sort
+      direction, // domain_id
       undefined, // number
-      direction, // direction
+      undefined, // direction
       undefined, // answered_at_from
       undefined, // answered_at_to
       undefined, // missed

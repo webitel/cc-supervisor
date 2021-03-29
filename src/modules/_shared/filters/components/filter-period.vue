@@ -1,6 +1,6 @@
 <template>
   <wt-select
-    v-model="value"
+    :value="value"
     :options="options"
     :label="$t('filters.time')"
     :track-by="storedProp"
@@ -21,7 +21,6 @@ export default {
   mixins: [enumFilterMixin, filterStoreMappingMixin],
   data: () => ({
     filterQuery: 'period',
-    filterStoreProperty: 'period',
   }),
 
   computed: {

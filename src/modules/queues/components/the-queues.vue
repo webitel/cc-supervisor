@@ -139,6 +139,9 @@ export default {
     ...mapActions('queues', {
       loadDataList: 'FETCH_LIST',
     }),
+    ...mapActions('queues/filters', {
+      dispatchResetFilters: 'RESET_FILTERS',
+    }),
 
     async initializeList() {
       this.isLoading = true;

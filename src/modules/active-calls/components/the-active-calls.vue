@@ -10,7 +10,7 @@
 
     <template slot="actions-panel">
       <div class="actions-panel-wrapper">
-        <active-calls-filters/>
+        <active-calls-filters :namespace="namespace"/>
         <div class="table-actions-wrapper">
           <filter-fields
             v-model="headers"
@@ -101,6 +101,7 @@ export default {
   ],
   data() {
     return {
+      namespace: 'activeCalls',
       isLoading: false,
     };
   },
@@ -122,6 +123,9 @@ export default {
   methods: {
     ...mapActions('activeCalls', {
       loadDataList: 'FETCH_LIST',
+    }),
+    ...mapActions('activeCalls/filters', {
+      dispatchResetFilters: 'RESET_FILTERS',
     }),
     ...mapActions('call', {
       attachToCall: 'ATTACH_TO_CALL',

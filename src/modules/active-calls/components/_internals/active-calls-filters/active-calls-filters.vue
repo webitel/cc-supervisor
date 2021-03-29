@@ -1,10 +1,10 @@
 <template>
   <div class="filter-wrap">
-    <filter-direction class="filter-item"/>
-    <filter-user class="filter-item"/>
-    <filter-gateway class="filter-item"/>
-    <filter-queue class="filter-item"/>
-    <filter-agent class="filter-item"/>
+    <filter-direction class="filter-item" :namespace="filtersNamespace"/>
+    <filter-user class="filter-item" :namespace="filtersNamespace"/>
+    <filter-gateway class="filter-item" :namespace="filtersNamespace"/>
+    <filter-queue class="filter-item" :namespace="filtersNamespace"/>
+    <filter-agent class="filter-item" :namespace="filtersNamespace"/>
   </div>
 </template>
 
@@ -23,6 +23,16 @@ export default {
     FilterQueue,
     FilterDirection,
     FilterGateway,
+  },
+  props: {
+    namespace: {
+      type: String,
+    },
+  },
+  computed: {
+    filtersNamespace() {
+      return `${this.namespace}/filters`;
+    },
   },
 };
 </script>

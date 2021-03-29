@@ -23,7 +23,6 @@ export default {
   mixins: [apiFilterMixin, filterStoreMappingMixin],
   data: () => ({
     filterQuery: 'team',
-    filterStoreProperty: 'team',
   }),
   methods: {
     fetch: getTeams,

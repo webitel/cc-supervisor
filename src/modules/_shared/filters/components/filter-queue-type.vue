@@ -1,10 +1,11 @@
 <template>
   <wt-select
-    v-model="value"
+    :value="value"
     :options="options"
     :label="$t('filters.queueType')"
     :track-by="storedProp"
     :multiple="multiple"
+    :close-on-select="false"
     @input="setValue({ filter: filterQuery, value: $event })"
     @reset="setValueToQuery({ value, filterQuery, storedProp })"
     @closed="setValueToQuery({ value, filterQuery, storedProp })"
@@ -20,8 +21,7 @@ export default {
   name: 'filter-queue-type',
   mixins: [enumFilterMixin, filterStoreMappingMixin],
   data: () => ({
-    filterQuery: 'queue-type',
-    filterStoreProperty: 'queueType',
+    filterQuery: 'queueType',
   }),
   computed: {
     options() {
@@ -30,7 +30,7 @@ export default {
         .filter((key) => isNaN(+key))
         .map((key) => ({
           name: key,
-          value: QueueType[key],
+          value: `${QueueType[key]}`,
         }));
     },
   },

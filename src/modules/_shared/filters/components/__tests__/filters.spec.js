@@ -19,22 +19,46 @@ const $route = { query: {} };
 
 describe('Filter components', () => {
   it('renders agent filter component', () => {
-    const wrapper = shallowMount(FilterAgent, { mocks: { $route } });
+    const namespace = 'activeCalls/filters';
+    const wrapper = shallowMount(FilterAgent, {
+      localVue,
+      store,
+      propsData: { namespace },
+      mocks: { $route },
+    });
     expect(wrapper.findComponent({ name: 'wt-select' }).element).toBeVisible();
   });
 
   it('renders direction filter component', () => {
-    const wrapper = shallowMount(FilterDirection, { mocks: { $route: { query: {} } } });
+    const namespace = 'activeCalls/filters';
+    const wrapper = shallowMount(FilterDirection, {
+      localVue,
+      store,
+      propsData: { namespace },
+      mocks: { $route },
+    });
     expect(wrapper.findComponent({ name: 'wt-select' }).element).toBeVisible();
   });
 
   it('renders gateway filter component', () => {
-    const wrapper = shallowMount(FilterGateway, { mocks: { $route: { query: {} } } });
+    const namespace = 'activeCalls/filters';
+    const wrapper = shallowMount(FilterGateway, {
+      localVue,
+      store,
+      propsData: { namespace },
+      mocks: { $route },
+    });
     expect(wrapper.findComponent({ name: 'wt-select' }).element).toBeVisible();
   });
 
   it('renders pagination filter component', () => {
-    const wrapper = shallowMount(FilterPagination, { mocks: { $route: { query: {} } } });
+    const namespace = 'queues/filters';
+    const wrapper = shallowMount(FilterPagination, {
+      localVue,
+      store,
+      propsData: { namespace },
+      mocks: { $route },
+    });
     expect(wrapper.findComponent({ name: 'wt-pagination' }).element).toBeVisible();
   });
 
@@ -72,17 +96,29 @@ describe('Filter components', () => {
   });
 
   it('renders search filter component', () => {
-    const wrapper = shallowMount(FilterSearch, { mocks: { $route: { query: {} } } });
+    const namespace = 'queues/filters';
+    const wrapper = shallowMount(FilterSearch, {
+      localVue,
+      store,
+      propsData: { namespace },
+      mocks: { $route },
+    });
     expect(wrapper.findComponent({ name: 'wt-search-bar' }).element).toBeVisible();
   });
 
   it('renders status filter component', () => {
-    const wrapper = shallowMount(FilterStatus, { mocks: { $route: { query: {} } } });
+    const namespace = 'agents/filters';
+    const wrapper = shallowMount(FilterStatus, {
+      localVue,
+      store,
+      propsData: { namespace },
+      mocks: { $route },
+    });
     expect(wrapper.findComponent({ name: 'wt-select' }).element).toBeVisible();
   });
 
   it('renders team filter component', () => {
-    const namespace = 'queues/filters';
+    const namespace = 'agents/filters';
     const wrapper = shallowMount(FilterTeam, {
       localVue,
       store,
@@ -93,12 +129,24 @@ describe('Filter components', () => {
   });
 
   it('renders user filter component', () => {
-    const wrapper = shallowMount(FilterUser, { mocks: { $route: { query: {} } } });
+    const namespace = 'activeCalls/filters';
+    const wrapper = shallowMount(FilterUser, {
+      localVue,
+      store,
+      propsData: { namespace },
+      mocks: { $route },
+    });
     expect(wrapper.findComponent({ name: 'wt-select' }).element).toBeVisible();
   });
 
   it('renders utilization filter component', () => {
-    const wrapper = shallowMount(FilterUtilization, { mocks: { $route: { query: {} } } });
+    const namespace = 'agents/filters';
+    const wrapper = shallowMount(FilterUtilization, {
+      localVue,
+      store,
+      propsData: { namespace },
+      mocks: { $route },
+    });
     expect(wrapper.findComponent({ name: 'wt-select' }).element).toBeVisible();
   });
 });

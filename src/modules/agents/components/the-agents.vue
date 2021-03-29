@@ -19,7 +19,7 @@
 
     <template slot="actions-panel">
       <div class="actions-panel-wrapper">
-        <agents-filters/>
+        <agents-filters :namespace="namespace"/>
         <div class="table-actions-wrapper">
           <filter-fields
             v-model="headers"
@@ -112,8 +112,7 @@ export default {
   ],
   data() {
     return {
-      // callNow: false,
-      // attentionNow: false,
+      namespace: 'agents',
       isLoading: false,
     };
   },
@@ -176,6 +175,9 @@ export default {
   methods: {
     ...mapActions('agents', {
       loadDataList: 'FETCH_LIST',
+    }),
+    ...mapActions('agents/filters', {
+      dispatchResetFilters: 'RESET_FILTERS',
     }),
     ...mapActions('call', {
       attachToCall: 'ATTACH_TO_CALL',

@@ -21,7 +21,6 @@ export const fetchAgents = async ({
       search,
       undefined,
       fields,
-      null,
       id,
     );
     return formatOptions(response);

@@ -1,15 +1,9 @@
 <template>
   <div class="filter-wrap">
-    <filter-status class="filter-item"/>
-    <filter-queue class="filter-item"/>
-    <filter-team class="filter-item"/>
-    <filter-utilization class="filter-item"/>
-    <!--    <div class="switcher-label-wrap filter-switch-item">-->
-    <!--      <div class="label">{{ $t('filters.callNow') }}</div>-->
-    <!--      <switcher-->
-    <!--        v-model="callNow"-->
-    <!--      ></switcher>-->
-    <!--    </div>-->
+    <filter-status class="filter-item" :namespace="filtersNamespace"/>
+    <filter-queue class="filter-item" :namespace="filtersNamespace"/>
+    <filter-team class="filter-item" :namespace="filtersNamespace"/>
+    <filter-utilization class="filter-item" :namespace="filtersNamespace"/>
   </div>
 </template>
 
@@ -26,6 +20,16 @@ export default {
     FilterQueue,
     FilterStatus,
     FilterUtilization,
+  },
+  props: {
+    namespace: {
+      type: String,
+    },
+  },
+  computed: {
+    filtersNamespace() {
+      return `${this.namespace}/filters`;
+    },
   },
 };
 </script>

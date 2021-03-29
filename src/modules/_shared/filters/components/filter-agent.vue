@@ -1,34 +1,36 @@
 <template>
   <wt-select
-    v-model="value"
+    :value="value"
     :label="$t('filters.agent')"
-    :track-by="trackBy"
+    :track-by="storedProp"
+    :multiple="multiple"
     :search="fetch"
     :internal-search="false"
     :close-on-select="false"
-    multiple
+    @input="setValue({ filter: filterQuery, value: $event })"
     @reset="setValueToQuery({ value, filterQuery, storedProp })"
     @closed="setValueToQuery({ value, filterQuery, storedProp })"
   ></wt-select>
 </template>
 
 <script>
-  import apiFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/apiFilterMixin';
-  import { getAgents, getAgentsByIds } from '../api/agentFilter';
+import apiFilterMixin from '@webitel/ui-sdk/src/modules/QueryFilters/mixins/apiFilterMixin';
+import { getAgents, getAgentsByIds } from '../api/agentFilter';
+import filterStoreMappingMixin from '../mixins/filterStoreMappingMixin';
 
-  export default {
-    name: 'filter-agent',
-    mixins: [apiFilterMixin],
+export default {
+  name: 'filter-agent',
+  mixins: [apiFilterMixin, filterStoreMappingMixin],
 
-    data: () => ({
-      filterQuery: 'agent',
-    }),
+  data: () => ({
+    filterQuery: 'agent',
+  }),
 
-    methods: {
-      fetch: getAgents,
-      fetchSelected: getAgentsByIds,
-    },
-  };
+  methods: {
+    fetch: getAgents,
+    fetchSelected: getAgentsByIds,
+  },
+};
 </script>
 
 <style scoped>

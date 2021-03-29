@@ -25,6 +25,7 @@ export default {
 
     resetFilters() {
       this.$router.replace({ query: null });
+      this.dispatchResetFilters();
     },
   },
 };
