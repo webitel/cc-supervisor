@@ -49,13 +49,13 @@
             <table-team :item="item"/>
           </template>
           <template slot="agents" slot-scope="{ item }">
-            <table-agents :item="item"/>
+            <table-agents :status="item.agentStatus"/>
           </template>
           <template slot="members" slot-scope="{ item }">
             <table-members :item="item"/>
           </template>
           <template slot="agents-footer">
-            sto tusch mil`onov
+            <table-agents :status="aggs"/>
           </template>
         </wt-table>
         <filter-pagination :is-next="isNext"/>
@@ -125,6 +125,7 @@ export default {
   computed: {
     ...mapState('queues', {
       dataList: (state) => state.dataList,
+      aggs: (state) => state.aggs,
       isNext: (state) => state.isNext,
     }),
 

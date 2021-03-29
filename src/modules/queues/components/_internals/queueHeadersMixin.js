@@ -10,7 +10,7 @@ export default {
         value: 'agents',
         show: true,
         sort: null,
-        field: 'online',
+        field: 'agent_status',
       }, {
         value: 'team',
         show: true,

@@ -2,11 +2,15 @@
   <div class="table-agents">
     <wt-indicator
       color="success"
-      :text="activeCount"
+      :text="online"
     ></wt-indicator>
     <wt-indicator
       color="primary"
-      :text="waitingCount"
+      :text="pause"
+    ></wt-indicator>
+    <wt-indicator
+      color="danger"
+      :text="offline"
     ></wt-indicator>
   </div>
 </template>
@@ -15,17 +19,20 @@
 export default {
   name: 'table-agents',
   props: {
-    item: {
+    status: {
       type: Object,
       required: true,
     },
   },
   computed: {
-    activeCount() {
-      return this.item.agents.active || 0;
+    online() {
+      return this.status.online || 0;
     },
-    waitingCount() {
-      return this.item.agents.waiting || 0;
+    pause() {
+      return this.status.pause || 0;
+    },
+    offline() {
+      return this.status.offline || 0;
     },
   },
 };
@@ -35,11 +42,9 @@ export default {
 .table-agents {
   display: flex;
 
-  .wt-indicator {
-    width: 40px;
-    &:last-child {
-      margin-left: 16px;
-    }
+  .wt-indicator:not(:last-child) {
+    min-width: 54px;
+    margin-right: 10px;
   }
 }
 </style>

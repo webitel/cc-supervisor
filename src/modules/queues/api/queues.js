@@ -1,4 +1,4 @@
-import { CallDirection, QueueServiceApiFactory } from 'webitel-sdk';
+import { QueueServiceApiFactory } from 'webitel-sdk';
 import SdkListGetterApiConsumer
   from 'webitel-sdk/esm2015/api-consumers/ListGetter/sdk-list-getter-api-consumer/sdk-list-getter-api-consumer';
 import instance from '../../../app/api/instance';
@@ -19,9 +19,10 @@ const listResponseHandler = (response) => {
     avgAsaSec: item.avgAsaSec ? +item.avgAsaSec.toFixed(2) : 0,
     avgAwtSec: item.avgAwtSec ? +item.avgAwtSec.toFixed(2) : 0,
     avgAhtSec: item.avgAhtSec ? +item.avgAhtSec.toFixed(2) : 0,
-    agents: {
-      active: item.online || 0,
-      waiting: item.pause || 0,
+    agentStatus: {
+      online: item.online || 0,
+      pause: item.pause || 0,
+      offline: item.offline || 0,
     },
     members: {
       processing: item.processed || 0,
@@ -37,21 +38,7 @@ const listResponseHandler = (response) => {
 const prepareRequestParams = (argParams) => {
   const params = { ...argParams };
   params.queueId = argParams.queue;
-  if (!params.period) params.period = 'today';
-  const joined = parseJoined(params.period);
-  params.joinedAtFrom = joined.start;
-  params.joinedAtTo = joined.end;
-  if (params.queueType) {
-    let queueType = [];
-    if (params.queueType.includes(CallDirection.Inbound)) {
-      queueType = queueType.concat([1, 6]);
-    }
-    if (params.queueType.includes(CallDirection.Outbound)) {
-      queueType = queueType.concat([0, 2, 3, 4, 5]);
-    }
-    params.queueType = queueType;
-  }
-  if (params.search && params.search.slice(-1) !== '*') params.search += '*';
+  Object.assign(params, parseJoined(params.period));
   return params;
 };
 
