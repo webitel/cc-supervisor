@@ -1,0 +1,99 @@
+@import "../../../node_modules/@webitel/ui-sdk/src/css/main";
+
+// PRIMARY COLORS:
+
+// ACCENT COLORS:
+$icon-color: rgba(0, 0, 0, 0.3);
+$accent-color: var(--accent-color);
+
+// SEMANTIC COLORS:
+$true-color: var(--true-color);
+$true-color-hover: #64C74A;
+$false-color: #FF4444;
+$false-color-hover: #FF6565;
+$info-color: $accent-color;
+$chat-color: #708FFF;
+$chat-color-hover: #86A1FF;
+$white-color: #FFFFFF;
+$action-bg: #F9F9F9;
+$action-color: #808080;
+
+* {
+  @extend %typo-body-md;
+}
+
+//disables scrollbar on 100vh auth on small laptops
+body {
+  display: flex;
+  height: auto;
+  background: var(--page-bg-color);
+}
+
+iframe {
+  border: none;
+  outline: none;
+}
+
+i {
+  color: $icon-color;
+  transition: var(--transition);
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.call-btn {
+  background: $true-color;
+  fill: $white-color;
+  border-radius: 50%;
+
+  &:hover {
+    background: $true-color-hover;
+    fill: $white-color;
+  }
+}
+
+.disconnect-btn {
+  background: $false-color;
+  fill: $white-color;
+  border-radius: 50%;
+
+  &:hover {
+    background: $false-color-hover;
+    fill: $white-color;
+  }
+}
+
+.call-window-rec-btn {
+  fill: $white-color;
+
+  &:hover {
+    fill: $accent-color;
+  }
+
+  &--off {
+    fill: $false-color;
+
+    &:hover {
+      fill: $white-color;
+    }
+  }
+}
+
+.call-window-btn {
+  fill: $white-color;
+
+  &:hover {
+    fill: $accent-color;
+  }
+
+  &--off {
+    fill: $accent-color;
+
+    &:hover {
+      fill: $white-color;
+    }
+  }
+}

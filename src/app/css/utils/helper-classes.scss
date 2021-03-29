@@ -1,0 +1,22 @@
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.icon-btn {
+  outline: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:hover .icon {
+    fill: var(--icon--hover-color);
+    stroke: var(--icon--hover-color);
+  }
+
+  &.active .icon,
+  &.opened .icon {
+    fill: var(--icon--active-color);
+    stroke: var(--icon--active-color);
+  }
+}

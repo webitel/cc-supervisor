@@ -1,0 +1,60 @@
+.wt-headline {
+  .wt-button {
+    margin-left: 20px;
+  }
+}
+
+.actions-panel-wrapper {
+  display: flex;
+
+  .filter-wrap {
+    flex: 1;
+  }
+
+  .table-actions-wrapper {
+    display: flex;
+    margin-top: 24px;
+
+    .wt-table-actions {
+      height: fit-content;
+    }
+  }
+}
+
+.main-section-wrapper {
+  position: relative;
+  width: 100%;
+
+  .wt-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.table-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1 1 100%;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+
+  .wt-table {
+    flex-grow: 1;
+    margin-bottom: 20px;
+  }
+
+  .wt-pagination {
+    margin-top: auto;
+    margin-left: auto;
+  }
+}
+
+@import "../../../../../node_modules/@webitel/ui-sdk/src/css/components/atoms/wt-badge/wt-badge";
+::v-deep .table-badge {
+  @extend .wt-badge;
+  margin-left: 10px;
+}
