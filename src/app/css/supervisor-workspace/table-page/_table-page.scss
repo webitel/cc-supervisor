@@ -21,20 +21,34 @@
   }
 }
 
+.main-section-wrapper {
+  position: relative;
+  width: 100%;
+
+  .wt-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
 .table-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   flex: 1 1 100%;
   width: 100%;
+  height: 100%;
   box-sizing: border-box;
 
   .wt-table {
     flex-grow: 1;
+    margin-bottom: 20px;
   }
 
   .wt-pagination {
-    margin-top: 20px;
+    margin-top: auto;
     margin-left: auto;
   }
 }

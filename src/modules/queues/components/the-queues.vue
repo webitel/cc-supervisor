@@ -33,33 +33,35 @@
       </div>
     </template>
     <template slot="main">
-      <wt-loader v-show="isLoading"></wt-loader>
-      <div class="table-wrapper" v-show="!isLoading">
-        <wt-table
-          :headers="headers"
-          :data="dataList"
-          sortable
-          :grid-actions="false"
-          @sort="sort"
-        >
-          <template slot="queue" slot-scope="{ item }">
-            <table-queue :item="item"/>
-          </template>
-          <template slot="team" slot-scope="{ item }">
-            <table-team :item="item"/>
-          </template>
-          <template slot="agents" slot-scope="{ item }">
-            <table-agents :status="item.agentStatus"/>
-          </template>
-          <template slot="members" slot-scope="{ item }">
-            <table-members :item="item"/>
-          </template>
-          <template slot="agents-footer">
-            <table-agents :status="aggs"/>
-          </template>
-        </wt-table>
-        <filter-pagination :is-next="isNext"/>
-      </div>
+      <section class="main-section-wrapper">
+        <wt-loader v-show="isLoading"></wt-loader>
+        <div class="table-wrapper" v-show="!isLoading">
+          <wt-table
+            :headers="headers"
+            :data="dataList"
+            sortable
+            :grid-actions="false"
+            @sort="sort"
+          >
+            <template slot="queue" slot-scope="{ item }">
+              <table-queue :item="item"/>
+            </template>
+            <template slot="team" slot-scope="{ item }">
+              <table-team :item="item"/>
+            </template>
+            <template slot="agents" slot-scope="{ item }">
+              <table-agents :status="item.agentStatus"/>
+            </template>
+            <template slot="members" slot-scope="{ item }">
+              <table-members :item="item"/>
+            </template>
+            <template slot="agents-footer">
+              <table-agents :status="aggs"/>
+            </template>
+          </wt-table>
+          <filter-pagination :is-next="isNext"/>
+        </div>
+      </section>
     </template>
   </wt-page-wrapper>
 </template>
