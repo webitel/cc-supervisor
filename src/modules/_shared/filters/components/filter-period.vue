@@ -3,29 +3,33 @@
     v-model="value"
     :options="options"
     :label="$t('filters.time')"
-    :track-by="trackBy"
-    @reset="setValueToQuery({ filterQuery, value: value.value })"
-    @closed="setValueToQuery({ filterQuery, value: value.value })"
+    :track-by="storedProp"
+    :multiple="multiple"
+    @input="setValue({ filter: filterQuery, value: $event })"
+    @reset="setValueToQuery({ value, filterQuery, storedProp })"
+    @closed="setValueToQuery({ value, filterQuery, storedProp })"
   ></wt-select>
 </template>
 
 <script>
-  import enumFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/enumFilterMixin';
-  import DirectionOptions from '../api/DirectionOptions.enum';
-  import PeriodOptions from '../api/PeriodOptions.enum';
+import enumFilterMixin from '@webitel/ui-sdk/src/modules/QueryFilters/mixins/enumFilterMixin';
+import filterStoreMappingMixin from '../mixins/filterStoreMappingMixin';
+import PeriodOptions from '../api/PeriodOptions.enum';
 
-  export default {
-    name: 'filter-period',
-    mixins: [enumFilterMixin],
-    data: () => ({
-      filterQuery: 'period',
-    }),
-    computed: {
-      options() {
-        return PeriodOptions;
-      },
+export default {
+  name: 'filter-period',
+  mixins: [enumFilterMixin, filterStoreMappingMixin],
+  data: () => ({
+    filterQuery: 'period',
+    filterStoreProperty: 'period',
+  }),
+
+  computed: {
+    options() {
+      return PeriodOptions;
     },
-  };
+  },
+};
 </script>
 
 <style scoped>

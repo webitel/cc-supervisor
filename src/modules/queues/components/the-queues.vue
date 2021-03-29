@@ -18,7 +18,7 @@
     </template>
     <template slot="actions-panel">
       <div class="actions-panel-wrapper">
-        <queue-filters/>
+        <queue-filters :namespace="namespace" />
         <div class="table-actions-wrapper">
           <filter-fields
             v-model="headers"
@@ -104,6 +104,7 @@ export default {
     tableActionsHandlerMixin,
   ],
   data: () => ({
+    namespace: 'queues',
     isLoading: false,
   }),
 

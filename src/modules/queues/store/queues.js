@@ -1,3 +1,4 @@
+import filters from './filters';
 import getQueuesList from '../api/queues';
 
 const state = {
@@ -31,5 +32,5 @@ export default {
   getters,
   actions,
   mutations,
-  modules: {},
+  modules: { filters },
 };

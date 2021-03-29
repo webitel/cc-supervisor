@@ -1,9 +1,9 @@
 <template>
   <div class="filter-wrap">
-    <filter-period class="filter-item"/>
-    <filter-queue class="filter-item"/>
-    <filter-team class="filter-item"/>
-    <filter-type class="filter-item"/>
+    <filter-period class="filter-item" :namespace="filtersNamespace"/>
+    <filter-queue class="filter-item" :namespace="filtersNamespace"/>
+    <filter-team class="filter-item" :namespace="filtersNamespace"/>
+    <filter-type class="filter-item" :namespace="filtersNamespace"/>
   </div>
 </template>
 
@@ -20,6 +20,16 @@ export default {
     FilterTeam,
     FilterQueue,
     FilterPeriod,
+  },
+  props: {
+    namespace: {
+      type: String,
+    },
+  },
+  computed: {
+    filtersNamespace() {
+      return `${this.namespace}/filters`;
+    },
   },
 };
 </script>
