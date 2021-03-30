@@ -1,5 +1,8 @@
 <template>
   <div class="table-agents">
+    <span class="table-agents__count">
+      {{ count }}
+    </span>
     <wt-indicator
       color="success"
       :text="online"
@@ -25,6 +28,9 @@ export default {
     },
   },
   computed: {
+    count() {
+      return this.status.count || 0;
+    },
     online() {
       return this.status.online || 0;
     },
@@ -41,10 +47,16 @@ export default {
 <style lang="scss" scoped>
 .table-agents {
   display: flex;
+  align-items: center;
 
-  .wt-indicator:not(:last-child) {
+  .table-agents__count {
+    @extend %typo-strong-lg;
+    min-width: 30px;
+  }
+
+  .wt-indicator {
     min-width: 54px;
-    margin-right: 10px;
+    margin-left: 10px;
   }
 }
 </style>

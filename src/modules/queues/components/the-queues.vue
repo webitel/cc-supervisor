@@ -23,7 +23,7 @@
           <filter-fields
             v-model="headers"
             entity="queues"
-            :static-headers="['queue', 'agents']"
+            :static-headers="['queue', 'agents', 'free']"
           ></filter-fields>
           <wt-table-actions
           :icons="['refresh', 'filter-reset']"
@@ -46,17 +46,26 @@
             <template slot="queue" slot-scope="{ item }">
               <table-queue :item="item"/>
             </template>
-            <template slot="team" slot-scope="{ item }">
-              <table-team :item="item"/>
-            </template>
             <template slot="agents" slot-scope="{ item }">
               <table-agents :status="item.agentStatus"/>
+            </template>
+            <template slot="free" slot-scope="{ item }">
+              {{ item.agentStatus.free }}
+            </template>
+            <template slot="team" slot-scope="{ item }">
+              <table-team :item="item"/>
             </template>
             <template slot="members" slot-scope="{ item }">
               <table-members :item="item"/>
             </template>
+            <template slot="queue-footer">
+              {{ $t('reusable.total') }}
+            </template>
             <template slot="agents-footer">
               <table-agents :status="aggs"/>
+            </template>
+            <template slot="free-footer">
+              {{ aggs.free }}
             </template>
           </wt-table>
           <filter-pagination :is-next="isNext"/>

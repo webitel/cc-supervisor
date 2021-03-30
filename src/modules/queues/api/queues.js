@@ -7,11 +7,20 @@ import parseJoined from './_internals/joined';
 
 const queueService = new QueueServiceApiFactory(configuration, '', instance);
 
+const defaultAgentStatusObject = {
+  count: 0,
+  online: 0,
+  pause: 0,
+  offline: 0,
+  free: 0,
+};
+
 const listResponseHandler = (response) => {
   const items = response.items.map((item) => ({
     ...item,
     _isSelected: false,
     count: item.count || 0,
+    transferred: item.transferred || 0,
     bridged: item.bridged ? `${+item.bridged.toFixed(2)}%` : 0,
     abandoned: item.abandoned ? `${+item.abandoned.toFixed(2)}%` : 0,
     sumBillSec: item.sumBillSec ? +item.sumBillSec.toFixed(2) : 0,
@@ -19,44 +28,34 @@ const listResponseHandler = (response) => {
     avgAsaSec: item.avgAsaSec ? +item.avgAsaSec.toFixed(2) : 0,
     avgAwtSec: item.avgAwtSec ? +item.avgAwtSec.toFixed(2) : 0,
     avgAhtSec: item.avgAhtSec ? +item.avgAhtSec.toFixed(2) : 0,
-    agentStatus: {
-      online: item.online || 0,
-      pause: item.pause || 0,
-      offline: item.offline || 0,
-    },
+    agentStatus: { ...defaultAgentStatusObject, ...item.agentStatus },
     members: {
       processing: item.processed || 0,
       waiting: item.waiting || 0,
     },
   }));
+  const aggs = { ...defaultAgentStatusObject, ...response.aggs };
   return {
     ...response,
     items,
+    aggs,
   };
 };
 
-const prepareRequestParams = (argParams) => {
-  const params = { ...argParams };
-  params.queueId = argParams.queue;
-  Object.assign(params, parseJoined(params.period));
-  return params;
-};
-
-const _getQueuesList = (getList) => function (params) {
-  const {
-    page = 1,
-    size = 10,
-    joinedAtFrom,
-    joinedAtTo,
-    search = '',
-    sort = '+priority',
-    fields,
-    queueId,
-    team,
-    queueType,
-  } = prepareRequestParams(params);
+const _getQueuesList = (getList) => function ({
+                                                page = 1,
+                                                size = 10,
+                                                period,
+                                                search = '',
+                                                sort = '+priority',
+                                                fields,
+                                                queue,
+                                                team,
+                                                queueType,
+                                              }) {
+  const { joinedAtFrom, joinedAtTo } = parseJoined(period);
   const reqParams = [page, size, joinedAtFrom, joinedAtTo, undefined, fields, sort,
-    search, queueId, team, queueType];
+    search, queue, team, queueType];
   return getList(reqParams);
 };
 
