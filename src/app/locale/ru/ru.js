@@ -1,4 +1,7 @@
 export default {
+  reusable: {
+    total: 'Всего',
+  },
   appNavigator: {
     title: 'Приложения Webitel',
     admin: 'Admin',
@@ -91,10 +94,12 @@ export default {
       columns: {
         queue: 'Очередь',
         agents: 'Операторы',
+        free: 'Свободно',
         team: 'Команда',
         members: 'Обработка/Ожидание',
         count: 'Количество звонков',
         bridged: 'Отвечено',
+        transferred: 'Переведено',
         abandoned: 'Пропущено',
         sumBillSec: 'Разговор',
         avgWrapSec: 'Постобработка',

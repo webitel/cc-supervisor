@@ -1,4 +1,7 @@
 export default {
+  reusable: {
+    total: 'Total',
+  },
   appNavigator: {
     title: 'Webitel applications',
     admin: 'Admin',
@@ -101,10 +104,12 @@ export default {
       columns: {
         queue: 'Queue',
         agents: 'Agents',
+        free: 'Free',
         team: 'Team',
         members: 'Members Processing/Waiting',
         count: 'Calls count',
-        bridged: 'Answer',
+        bridged: 'Answered',
+        transferred: 'Transferred',
         abandoned: 'Abandoned',
         sumBillSec: 'Talk',
         avgWrapSec: 'Wrap up time',
