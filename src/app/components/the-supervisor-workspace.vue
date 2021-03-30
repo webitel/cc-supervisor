@@ -1,21 +1,19 @@
 <template>
   <main class="the-supervisor-workspace">
-    <div class="the-supervisor-workspace__wrapper">
-      <call-window/>
-      <call-window-eavesdrop/>
-      <wt-notifications-bar/>
-      <app-header/>
-      <div class="the-supervisor-workspace__content">
-        <router-view/>
-      </div>
+    <call-window/>
+    <call-window-eavesdrop/>
+    <wt-notifications-bar/>
+    <app-header/>
+    <div class="the-supervisor-workspace__content">
+      <router-view/>
     </div>
   </main>
 </template>
 
 <script>
 import AppHeader from '../../modules/_reusable/app-header/components/app-header.vue';
-import CallWindow from '../../modules/call-window/components/call-window.vue';
 import CallWindowEavesdrop from '../../modules/call-window/components/call-window-eavesdrop.vue';
+import CallWindow from '../../modules/call-window/components/call-window.vue';
 
 export default {
   name: 'the-supervisor-workspace',
@@ -28,25 +26,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../css/supervisor-workspace/the-supervisor-workspace';
+
 .the-supervisor-workspace {
   display: flex;
-  width: 100%;
-}
-
-.the-nav__wrap {
-  flex: 0 0 272px;
-  height: 100%;
-}
-
-// main content itself, without nav but with main header
-.the-supervisor-workspace__wrapper {
-  flex: 1 0 auto;
-  display: flex;
   flex-direction: column;
-  width: 1px;
+  width: 100%;
+  min-height: 100vh;
+  max-height: 200vh;
 }
 
 .the-supervisor-workspace__content {
   flex-grow: 1;
+  max-height: 100%;
+  min-height: 0;
 }
 </style>
