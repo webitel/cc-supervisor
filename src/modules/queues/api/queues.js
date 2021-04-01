@@ -1,5 +1,6 @@
 import { QueueServiceApiFactory } from 'webitel-sdk';
-import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
+// import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
+import SdkListGetterApiConsumer from 'webitel-sdk/esm2015/api-consumers/ListGetter/sdk-list-getter-api-consumer/sdk-list-getter-api-consumer';
 import instance from '../../../app/api/instance';
 import configuration from '../../../app/api/utils/openAPIConfig';
 import parseJoined from './_internals/joined';
