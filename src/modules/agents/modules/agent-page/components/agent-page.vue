@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 import AgentPanel from './agent-panel/agent-panel.vue';
 import AgentCalls from './agent-calls/agent-calls-tab.vue';
@@ -32,7 +33,7 @@ export default {
   },
 
   data: () => ({
-    namespace: 'agents',
+    namespace: 'agents/agentPage',
     isLoading: false,
     currentTab: { value: 'agent-calls' },
   }),
@@ -42,8 +43,10 @@ export default {
   },
 
   computed: {
-    ...mapState('agents', {
-      agent: (state) => state.agent,
+    ...mapState({
+      agent(state) {
+        return getNamespacedState(state, this.namespace).agent;
+      },
     }),
 
     tabs() {
@@ -54,15 +57,17 @@ export default {
     },
   },
   methods: {
-    ...mapActions('agents', {
-      loadAgentPage: 'FETCH_ITEM',
+    ...mapActions({
+      loadAgent(dispatch, payload) {
+        return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
+      },
     }),
 
     async loadPage() {
       this.isLoading = true;
       try {
         const { id } = this.$route.params;
-        await this.loadAgentPage(id);
+        await this.loadAgent(id);
       } catch {
       } finally {
         this.isLoading = false;
