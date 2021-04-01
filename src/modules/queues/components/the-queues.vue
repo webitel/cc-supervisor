@@ -50,7 +50,9 @@
               <table-agents :status="item.agentStatus"/>
             </template>
             <template slot="free" slot-scope="{ item }">
-              {{ item.agentStatus.free }}
+              <div v-if="item.agentStatus">
+                {{ item.agentStatus.free }}
+              </div>
             </template>
             <template slot="team" slot-scope="{ item }">
               <table-team :item="item"/>
@@ -89,7 +91,7 @@ import TableQueue from './_internals/table-templates/table-queue.vue';
 import TableAgents from './_internals/table-templates/table-agents.vue';
 import TableTeam from './_internals/table-templates/table-team.vue';
 import TableMembers from './_internals/table-templates/table-members.vue';
-import headersMixin from './_internals/queueHeadersMixin';
+import headersMixin from '../../../app/mixins/supervisor-workspace/pageHeadersMixin';
 import tableActionsHandlerMixin from '../../../app/mixins/supervisor-workspace/tableActionsHandlerMixin';
 import autoRefreshMixin from '../../../app/mixins/autoRefresh/autoRefreshMixin';
 

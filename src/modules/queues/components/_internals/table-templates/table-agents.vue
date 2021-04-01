@@ -1,7 +1,7 @@
 <template>
   <div class="table-agents">
-    <span class="table-agents__count">
-      {{ count }}
+    <span class="table-agents__total">
+      {{ total }}
     </span>
     <wt-indicator
       color="success"
@@ -28,8 +28,8 @@ export default {
     },
   },
   computed: {
-    count() {
-      return this.status.count || 0;
+    total() {
+      return this.status.total || 0;
     },
     online() {
       return this.status.online || 0;
@@ -49,7 +49,7 @@ export default {
   display: flex;
   align-items: center;
 
-  .table-agents__count {
+  .table-agents__total   {
     @extend %typo-strong-lg;
     min-width: 30px;
   }

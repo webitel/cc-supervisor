@@ -1,6 +1,5 @@
 import { QueueServiceApiFactory } from 'webitel-sdk';
-import SdkListGetterApiConsumer
-  from 'webitel-sdk/esm2015/api-consumers/ListGetter/sdk-list-getter-api-consumer/sdk-list-getter-api-consumer';
+import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../app/api/instance';
 import configuration from '../../../app/api/utils/openAPIConfig';
 import parseJoined from './_internals/joined';
@@ -8,7 +7,7 @@ import parseJoined from './_internals/joined';
 const queueService = new QueueServiceApiFactory(configuration, '', instance);
 
 const defaultAgentStatusObject = {
-  count: 0,
+  total: 0,
   online: 0,
   pause: 0,
   offline: 0,
@@ -52,7 +51,7 @@ const _getQueuesList = (getList) => function ({
                                                 queue,
                                                 team,
                                                 queueType,
-                                              }) {
+                                              } = {}) {
   const { joinedAtFrom, joinedAtTo } = parseJoined(period);
   const reqParams = [page, size, joinedAtFrom, joinedAtTo, undefined, fields, sort,
     search, queue, team, queueType];

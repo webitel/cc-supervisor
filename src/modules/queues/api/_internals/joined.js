@@ -42,7 +42,7 @@ const parseJoined = (time = 'today') => {
       start = new Date(end.getFullYear(), end.getMonth(), end.getDate());
   }
   return {
-    jointedAtFrom: start.getTime(),
+    joinedAtFrom: start.getTime(),
     joinedAtTo: end.getTime(),
   };
 };
