@@ -30,23 +30,23 @@ export const getAgentCallsList = async ({
     const res = await callService.searchHistoryCall(
       page, // page
       size, // size
+      search,
+      sort,
+      agentCallFields,
       start, // created_at_from
       end, // created_at_to
-      undefined, // user_id
+      undefined,
       agentId, // agent_id
       undefined, // queue_id
       undefined, // team_id
       undefined, // member_id
       undefined, // gateway_id
-      search, // q
       undefined, // duration_from
       undefined, // duration_to
       undefined, // skip_parent
       undefined, // parent_id
       undefined, // cause
       undefined, // exists_file
-      agentCallFields, // fields
-      sort, // sort
       undefined, // domain_id
       undefined, // number
       undefined, // direction
