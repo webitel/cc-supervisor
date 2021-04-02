@@ -12,10 +12,10 @@ const actions = {
     const agent = await getAgent(id);
     context.commit('SET_AGENT', agent);
   },
-  SET_AGENT_STATUS: (context, { status, pauseCause }) => {
-    const agentStatus = { status, payload: pauseCause };
-    const duration = 0;
-    context.commit('SET_AGENT_STATUS', { status: agentStatus, duration });
+  SET_AGENT_STATUS: (context, { status }) => {
+    // const agentStatus = { status, payload: pauseCause };
+    const duration = '00:00:00';
+    context.commit('SET_AGENT_STATUS', { status, duration });
   },
 };
 
