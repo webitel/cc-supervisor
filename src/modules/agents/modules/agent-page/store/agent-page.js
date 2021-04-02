@@ -1,4 +1,5 @@
-import { getAgent, patchAgentStatus } from '../api/agent-page';
+import { getAgent } from '../api/agent-page';
+import statusSelect from '../modules/agent-status-select/store/agent-status-select';
 
 const state = {
   agent: {},
@@ -11,13 +12,10 @@ const actions = {
     const agent = await getAgent(id);
     context.commit('SET_AGENT', agent);
   },
-  UPDATE_AGENT_STATUS: async (context, { agentId, status }) => {
-    try {
-      await patchAgentStatus({ agentId, status });
-      context.commit('SET_STATUS', { agentId, status });
-    } catch (err) {
-      throw err;
-    }
+  SET_AGENT_STATUS: (context, { status, pauseCause }) => {
+    const agentStatus = { status, payload: pauseCause };
+    const duration = 0;
+    context.commit('SET_AGENT_STATUS', { status: agentStatus, duration });
   },
 };
 
@@ -25,9 +23,9 @@ const mutations = {
   SET_AGENT: (state, agent) => {
     state.agent = agent;
   },
-  SET_STATUS: (state, { status }) => {
+  SET_AGENT_STATUS: (state, { status, duration }) => {
     state.agent.status = status;
-    state.agent.statusDuration = '00:00:00';
+    state.agent.statusDuration = duration;
   },
 };
 
@@ -37,5 +35,5 @@ export default {
   getters,
   actions,
   mutations,
-  modules: {},
+  modules: { statusSelect },
 };
