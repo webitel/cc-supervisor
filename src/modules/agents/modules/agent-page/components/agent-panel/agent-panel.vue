@@ -12,12 +12,7 @@
       @click="callAgent"
     >{{ $t('pages.agentPage.callAgent') }}
     </wt-button>
-    <wt-status-select
-      class="agent-panel__status-select"
-      :status="agent.status"
-      :status-duration="agent.statusDuration"
-      @change="changeAgentStatus"
-    ></wt-status-select>
+    <agent-status-select :namespace="namespace" @changed="setAgentStatus"/>
     <agent-status-timers :status="agent"></agent-status-timers>
   </wt-headline>
 </template>
@@ -27,10 +22,11 @@ import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedS
 import { mapActions, mapState } from 'vuex';
 import AgentProfile from './_internals/agent-profile.vue';
 import AgentStatusTimers from './_internals/agent-status-timers.vue';
+import AgentStatusSelect from '../../modules/agent-status-select/components/agent-status-select.vue';
 
 export default {
   name: 'agent-panel',
-  components: { AgentProfile, AgentStatusTimers },
+  components: { AgentProfile, AgentStatusSelect, AgentStatusTimers },
   props: {
     namespace: {
       type: String,
@@ -45,20 +41,14 @@ export default {
   },
   methods: {
     ...mapActions({
-      updateStatus(dispatch, payload) {
-        return dispatch(`${this.namespace}/UPDATE_AGENT_STATUS`, payload);
+      setAgentStatus(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_AGENT_STATUS`, payload);
       },
     }),
     ...mapActions('call', {
       openWindow: 'OPEN_WINDOW',
       setCallInfo: 'SET_CALL_INFO',
     }),
-    changeAgentStatus(value) {
-      this.updateStatus({
-        agentId: this.agent.agentId,
-        status: value,
-      });
-    },
     callAgent() {
       this.setCallInfo({
         time: 0,
@@ -80,9 +70,5 @@ export default {
   & > * {
     margin-right: var(--component-spacing);
   }
-}
-
-.agent-panel__status-select {
-  max-width: 200px;
 }
 </style>

@@ -1,21 +1,15 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
-import {
-  patchAgentStatus as patchStatusAPI,
-  getAgent as API,
-} from '../../../api/agents';
-import agentsStore from '../../../store/agents';
-import AgentPage from '../components/agent-page.vue';
+import agentsStore from '../../../../store/agents';
+import AgentPage from '../agent-page.vue';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(VueRouter);
 const router = new VueRouter();
 
-const agent = { agentId: '124', status: 'offline' };
-
-jest.mock('../../../api/agents');
+jest.mock('../../../../api/agents');
 
 describe('Agent page', () => {
   let store;
@@ -28,7 +22,6 @@ describe('Agent page', () => {
       },
     });
 
-    API.mockImplementation(() => Promise.resolve(agent));
     wrapper = shallowMount(AgentPage, {
       store,
       localVue,
@@ -38,11 +31,5 @@ describe('Agent page', () => {
 
   it('renders a component', () => {
     expect(wrapper.classes('agent-page')).toBe(true);
-  });
-
-  it('calls API to change status', () => {
-    const status = 'online';
-    wrapper.findComponent({ name: 'wt-status-select' }).vm.$emit('change', status);
-    expect(patchStatusAPI).toHaveBeenCalledWith({ agentId: agent.agentId, status });
   });
 });
