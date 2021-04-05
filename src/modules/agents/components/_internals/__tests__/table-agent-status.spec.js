@@ -20,12 +20,4 @@ describe('Queues table AgentStatus', () => {
     const wrapper = shallowMount(TableAgentStatus, { propsData: { item } });
     expect(wrapper.classes('table-agent-status')).toBe(true);
   });
-
-  it('calls API to change status', () => {
-    const status = 'online';
-    API.mockImplementation(() => Promise.resolve({}));
-    const wrapper = shallowMount(TableAgentStatus, { localVue, store, propsData: { item } });
-    wrapper.findComponent({ name: 'wt-status-select' }).vm.$emit('change', status);
-    expect(API).toHaveBeenCalledWith({ agentId: item.agentId, status });
-  });
 });

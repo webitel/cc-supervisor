@@ -1,8 +1,8 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import { getAgentCallsList as API } from '../api/agent-calls';
-import agentsCallsStore from '../store/agent-calls';
-import AgentCalls from '../components/agent-calls/agent-calls-tab.vue';
+import { getAgentCallsList as API } from '../../api/agent-calls';
+import agentsCallsStore from '../../store/agent-calls';
+import AgentCalls from '../agent-calls/agent-calls-tab.vue';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -11,7 +11,7 @@ const items = [
   {},
 ];
 
-jest.mock('../api/agent-calls');
+jest.mock('../../api/agent-calls');
 
 describe('Agent calls tab', () => {
   let store;

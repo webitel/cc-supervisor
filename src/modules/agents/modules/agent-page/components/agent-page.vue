@@ -1,80 +1,39 @@
 <template>
-  <section class="agent-page page-wrapper">
-    <wt-loader v-show="isLoading"></wt-loader>
-    <div class="agent-page__content" v-show="!isLoading">
-      <header class="agent-page__header page-wrapper__header">
-        <wt-icon-btn
-          icon="arrow-left"
-          color="active"
-          @click="$router.push('/agents')"
-        ></wt-icon-btn>
-
-        <img src="../../../../../app/assets/img/default-avatar.svg" alt="Agent avatar">
-
-        <div class="agent-page__header__agent-info">
-          <strong class="agent-page__header__agent-name">{{ agent.name }}</strong>
-          <span class="agent-page__header__agent-number">{{ agent.extension }}</span>
-        </div>
-        <wt-button
-          color="success"
-          @click="callAgent"
-        >{{ $t('pages.agentPage.callAgent') }}
-        </wt-button>
-        <wt-status-select
-          v-if="agent.status"
-          :status="agent.status"
-          :status-duration="agent.statusDuration"
-          @change="changeAgentStatus"
-        ></wt-status-select>
-        <wt-indicator
-          color="danger"
-          :text="agent.offline"
-        ></wt-indicator>
-        <wt-indicator
-          color="primary"
-          :text="agent.pause"
-        ></wt-indicator>
-        <wt-indicator
-          color="success"
-          :text="agent.online"
-        ></wt-indicator>
-
-        <wt-select
-          :value="agent.teams"
-          :placeholder="$t('pages.agentPage.team')"
-          :search="getTeams"
-          :internal-search="false"
-          :close-on-select="false"
-          :clearable="false"
-          multiple
-          @reset="setTeam"
-          @closed="setTeam"
-        ></wt-select>
-      </header>
-
-      <section class="agent-page__main">
-        <wt-tabs
-          v-model="currentTab"
-          :tabs="tabs"
-        ></wt-tabs>
-        <component :is="currentTab.value"></component>
-      </section>
-    </div>
-  </section>
+  <wt-page-wrapper class="agent-page">
+    <template slot="header">
+      <agent-panel :namespace="namespace" />
+    </template>
+    <template slot="actions-panel"></template>
+    <template slot="main">
+      <wt-loader v-show="isLoading"></wt-loader>
+      <div class="agent-page__content" v-show="!isLoading">
+        <section class="agent-page__main">
+          <wt-tabs
+            v-model="currentTab"
+            :tabs="tabs"
+          ></wt-tabs>
+          <component :is="currentTab.value"></component>
+        </section>
+      </div>
+    </template>
+  </wt-page-wrapper>
 </template>
 
 <script>
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
-import { getTeams } from '../../../../_shared/filters/api/teamFilter';
+import AgentPanel from './agent-panel/agent-panel.vue';
 import AgentCalls from './agent-calls/agent-calls-tab.vue';
 
 export default {
   name: 'agent-page',
   components: {
+    AgentPanel,
     AgentCalls,
   },
 
   data: () => ({
+    namespace: 'agents/agentPage',
     isLoading: false,
     currentTab: { value: 'agent-calls' },
   }),
@@ -84,8 +43,10 @@ export default {
   },
 
   computed: {
-    ...mapState('agents', {
-      agent: (state) => state.agent,
+    ...mapState({
+      agent(state) {
+        return getNamespacedState(state, this.namespace).agent;
+      },
     }),
 
     tabs() {
@@ -96,40 +57,17 @@ export default {
     },
   },
   methods: {
-    ...mapActions('agents', {
-      loadAgentPage: 'FETCH_ITEM',
-      updateStatus: 'UPDATE_AGENT_STATUS',
+    ...mapActions({
+      loadAgent(dispatch, payload) {
+        return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
+      },
     }),
-
-    ...mapActions('call', {
-      openWindow: 'OPEN_WINDOW',
-      setCallInfo: 'SET_CALL_INFO',
-    }),
-
-    getTeams,
-
-    setTeam() {},
-
-    changeAgentStatus(value) {
-      this.updateStatus({
-        agentId: this.agent.agentId,
-        status: value,
-      });
-    },
-
-    callAgent() {
-      this.setCallInfo({
-        time: 0,
-        agent: this.agent,
-      });
-      this.openWindow();
-    },
 
     async loadPage() {
       this.isLoading = true;
       try {
         const { id } = this.$route.params;
-        await this.loadAgentPage(id);
+        await this.loadAgent(id);
       } catch {
       } finally {
         this.isLoading = false;
@@ -140,51 +78,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../../../app/css/supervisor-workspace/page-wrapper";
-
-.agent-page__content {
-  flex: 1 1 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.agent-page__header {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  padding: 20px 30px;
-
-  & > * {
-    margin-right: 20px;
-  }
-
-  .wt-status-select {
-    max-width: 150px;
-  }
-
-  .wt-select {
-    min-width: 170px;
-    max-width: 250px;
-  }
-}
-
-.agent-page__header__agent-info {
-  display: flex;
-  flex-direction: column;
-
-  .agent-page__header__agent-name {
-    @extend %typo-strong-lg;
-    white-space: nowrap;
-  }
-
-  .agent-page__header__agent-number {
-    @extend %typo-body-lg;
-  }
-}
-
-.agent-page__main {
-  @extend .page-wrapper__main;
-  display: flex;
-  flex-direction: column;
-}
+@import "../../../../../app/css/supervisor-workspace/the-supervisor-workspace";
 </style>

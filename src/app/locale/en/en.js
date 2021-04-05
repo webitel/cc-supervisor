@@ -1,6 +1,7 @@
 export default {
   reusable: {
     total: 'Total',
+    ok: 'Ok',
   },
   appNavigator: {
     title: 'Webitel applications',
@@ -177,5 +178,12 @@ export default {
     mute: 'Mute',
     prompter: 'Prompter',
     conference: 'Conference',
+  },
+  packages: {
+    agentStatusSelect: {
+      pauseCausePopup: {
+        title: 'Select a pause cause',
+      },
+    },
   },
 };
