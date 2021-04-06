@@ -1,5 +1,6 @@
 import { getAgent } from '../api/agent-page';
 import statusSelect from '../modules/agent-status-select/store/agent-status-select';
+import agentCalls from '../modules/agent-calls/store/agent-calls';
 
 const state = {
   agent: {},
@@ -35,5 +36,5 @@ export default {
   getters,
   actions,
   mutations,
-  modules: { statusSelect },
+  modules: { statusSelect, agentCalls },
 };

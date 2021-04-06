@@ -19,8 +19,8 @@
 <script>
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
+import AgentCalls from '../modules/agent-calls/components/agent-calls-tab.vue';
 import AgentPanel from './agent-panel/agent-panel.vue';
-import AgentCalls from './agent-calls/agent-calls-tab.vue';
 
 export default {
   name: 'agent-page',

@@ -12,13 +12,17 @@
         <table-call-state :item="item"/>
       </template>
       <template slot="client" slot-scope="{ item }">
-        <table-call-client :item="item"/>
+        <div v-if="item.from">
+          {{ item.from.name }}
+        </div>
       </template>
       <template slot="phoneNumber" slot-scope="{ item }">
-        <table-call-number :item="item"/>
+        <div v-if="item.from">
+          {{ item.from.number }}
+        </div>
       </template>
       <template slot="notes" slot-scope="{ item }">
-        <table-call-notes :item="item"/>
+        {{ item.notes }}
       </template>
 
       <template slot="actions" slot-scope="{ item, index }">
@@ -52,26 +56,21 @@
 </template>
 
 <script>
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
-import FilterPagination from '../../../../../_shared/filters/components/filter-pagination.vue';
-import MediaAction from '../../../../../../app/components/utils/table-media-action.vue';
+import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
+import MediaAction from '../../../../../../../app/components/utils/table-media-action.vue';
 import TableCallState from './_internals/table-templates/table-call-state.vue';
-import TableCallClient from './_internals/table-templates/table-call-client.vue';
-import TableCallNumber from './_internals/table-templates/table-call-number.vue';
-import TableCallNotes from './_internals/table-templates/table-call-notes.vue';
-import playMediaMixin from '../../../../../../app/mixins/media/playMediaMixin';
-import showMediaMixin from '../../../../../../app/mixins/media/showMediaMixin';
-import headersMixin from './_internals/agentPageHeadersMixin';
-import autoRefreshMixin from '../../../../../../app/mixins/autoRefresh/autoRefreshMixin';
+import playMediaMixin from '../../../../../../../app/mixins/media/playMediaMixin';
+import showMediaMixin from '../../../../../../../app/mixins/media/showMediaMixin';
+import headersMixin from '../../../../../../../app/mixins/supervisor-workspace/pageHeadersMixin';
+import autoRefreshMixin from '../../../../../../../app/mixins/autoRefresh/autoRefreshMixin';
 
 export default {
   name: 'agent-calls-tab',
   components: {
     TableCallState,
-    TableCallClient,
-    TableCallNumber,
-    TableCallNotes,
     FilterPagination,
     MediaAction,
   },
@@ -82,11 +81,10 @@ export default {
     playMediaMixin,
     showMediaMixin,
   ],
-  data() {
-    return {
-      isLoading: false,
-    };
-  },
+  data: () => ({
+    isLoading: false,
+    namespace: 'agents/agentPage/agentCalls',
+  }),
   watch: {
     '$route.query': {
       async handler() {
@@ -97,14 +95,20 @@ export default {
     },
   },
   computed: {
-    ...mapState('agentCalls', {
-      dataList: (state) => state.dataList,
-      isNext: (state) => state.isNext,
+    ...mapState({
+      dataList(state) {
+        return getNamespacedState(state, this.namespace).dataList;
+      },
+      isNext(state) {
+        return getNamespacedState(state, this.namespace).isNext;
+      },
     }),
   },
   methods: {
-    ...mapActions('agentCalls', {
-      loadDataList: 'FETCH_LIST',
+    ...mapActions({
+      loadDataList(dispatch, payload) {
+        return dispatch(`${this.namespace}/FETCH_LIST`, payload);
+      },
     }),
 
     async initializeList() {
@@ -127,7 +131,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../../../../app/css/supervisor-workspace/table-page/table-page';
+@import '../../../../../../../app/css/supervisor-workspace/table-page/table-page';
 
 .agent-calls {
   position: relative;

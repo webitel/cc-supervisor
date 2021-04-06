@@ -1,8 +1,8 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import { getAgentCallsList as API } from '../../api/agent-calls';
-import agentsCallsStore from '../../store/agent-calls';
-import AgentCalls from '../agent-calls/agent-calls-tab.vue';
+import { getAgentCallsList as API } from '../../modules/agent-calls/api/agent-calls';
+import agentsCallsStore from '../../modules/agent-calls/store/agent-calls';
+import AgentCalls from '../../modules/agent-calls/components/agent-calls-tab.vue';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);

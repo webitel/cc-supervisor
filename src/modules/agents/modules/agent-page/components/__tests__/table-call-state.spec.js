@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils';
 import { CallDirection } from 'webitel-sdk';
 import TableCallState
-  from '../agent-calls/_internals/table-templates/table-call-state.vue';
+  from '../../modules/agent-calls/components/_internals/table-templates/table-call-state.vue';
 
 describe('Agent calls table call state', () => {
   const item = {};
