@@ -10,8 +10,7 @@ const callService = new CallServiceApiFactory(configuration, '', instance);
 const listResponseHandler = (response) => {
   const items = response.items.map((item) => ({
     ...item,
-    date: new Date(+item.createdAt).toLocaleDateString(),
-    time: new Date(+item.createdAt).toLocaleTimeString(),
+    createdAt: new Date(+item.createdAt).toLocaleString(),
     holdSec: convertDuration(item.holdSec),
     billSec: convertDuration(item.billSec),
   }));
