@@ -77,6 +77,8 @@ export default {
     rowsPerPage: 'Rows per page:',
   },
   filters: {
+    from: 'From',
+    to: 'To',
     time: 'Time',
     team: 'Team',
     queue: 'Queue',

@@ -4,7 +4,7 @@ export default [
     locale: 'pages.agentPage.calls.columns.createdAt',
     show: true,
     sort: null,
-    width: 'minmax(200px, 2fr)',
+    width: 'minmax(200px, 1fr)',
     field: 'created_at',
   },
   {

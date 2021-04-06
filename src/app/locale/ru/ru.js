@@ -77,6 +77,8 @@ export default {
     rowsPerPage: 'Количество записей:',
   },
   filters: {
+    from: 'От',
+    to: 'До',
     time: 'Время',
     team: 'Команда',
     queue: 'Очередь',

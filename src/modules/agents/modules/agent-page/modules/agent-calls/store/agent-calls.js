@@ -1,3 +1,4 @@
+import filters from './filters';
 import headers from './_internals/headers';
 import AgentCallsAPI from '../api/agent-calls';
 
@@ -59,5 +60,5 @@ export default {
   getters,
   actions,
   mutations,
-  modules: {},
+  modules: { filters },
 };
