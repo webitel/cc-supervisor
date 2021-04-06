@@ -3,7 +3,9 @@
     <template slot="header">
       <agent-panel :namespace="namespace"/>
     </template>
-    <template slot="actions-panel"></template>
+    <template slot="actions-panel">
+      <agent-calls-filters></agent-calls-filters>
+    </template>
     <template slot="main">
       <div class="agent-page__content">
         <wt-tabs
@@ -19,14 +21,16 @@
 <script>
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
-import AgentCalls from '../modules/agent-calls/components/agent-calls-tab.vue';
 import AgentPanel from './agent-panel/agent-panel.vue';
+import AgentCalls from '../modules/agent-calls/components/agent-calls-tab.vue';
+import AgentCallsFilters from '../modules/agent-calls/components/agent-calls-filters.vue';
 
 export default {
   name: 'agent-page',
   components: {
     AgentPanel,
     AgentCalls,
+    AgentCallsFilters,
   },
 
   data: () => ({
