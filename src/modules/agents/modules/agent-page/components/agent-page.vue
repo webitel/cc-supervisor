@@ -1,19 +1,16 @@
 <template>
   <wt-page-wrapper class="agent-page">
     <template slot="header">
-      <agent-panel :namespace="namespace" />
+      <agent-panel :namespace="namespace"/>
     </template>
     <template slot="actions-panel"></template>
     <template slot="main">
-      <wt-loader v-show="isLoading"></wt-loader>
-      <div class="agent-page__content" v-show="!isLoading">
-        <section class="agent-page__main">
-          <wt-tabs
-            v-model="currentTab"
-            :tabs="tabs"
-          ></wt-tabs>
-          <component :is="currentTab.value"></component>
-        </section>
+      <div class="agent-page__content">
+        <wt-tabs
+          v-model="currentTab"
+          :tabs="tabs"
+        ></wt-tabs>
+        <component :is="currentTab.value"></component>
       </div>
     </template>
   </wt-page-wrapper>
@@ -78,5 +75,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../../../app/css/supervisor-workspace/the-supervisor-workspace";
+.agent-page__content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 100%;
+  min-height: 0;
+}
 </style>
