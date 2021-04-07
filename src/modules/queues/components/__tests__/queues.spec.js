@@ -56,7 +56,7 @@ describe('Queues page', () => {
       },
     });
 
-    API.mockImplementation(() => Promise.resolve({ items }))
+    API.getList.mockImplementation(() => Promise.resolve({ items }))
       .mockClear();
   });
 
