@@ -70,18 +70,6 @@ describe('Queues page', () => {
       .toBe(true);
   });
 
-  it('Calls load list after $route query change (watcher)', async () => {
-    const loadListMock = jest.fn();
-    jest.spyOn(Queues.methods, 'loadList').mockImplementation(loadListMock);
-    const wrapper = shallowMount(Queues, {
-      store,
-      localVue,
-      router,
-    });
-    await wrapper.vm.$router.replace({ path: '/', query: { name: 'jest' } });
-    expect(loadListMock).toHaveBeenCalled(); // initial loading + query change
-  });
-
   it('Correctly computes selectedIds', () => {
     const wrapper = shallowMount(Queues, {
       store,
