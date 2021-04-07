@@ -1,21 +1,21 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import { getAgentCallsList as API } from '../../api/agent-calls';
+import AgentCallsAPI from '../../api/agent-calls';
 import agentsCallsStore from '../../store/agent-calls';
-import AgentCalls from '../agent-calls/agent-calls-tab.vue';
+import AgentCalls from '../agent-calls-tab.vue';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-const items = [
-  {},
-];
+const items = [];
+
+const namespace = 'agentCalls';
 
 jest.mock('../../api/agent-calls');
 
 describe('Agent calls tab', () => {
   let store;
-  let wrapper;
+  let mountOptions = {};
 
   beforeEach(() => {
     store = new Vuex.Store({
@@ -24,21 +24,19 @@ describe('Agent calls tab', () => {
       },
     });
 
-    API.mockImplementation(() => Promise.resolve({ items }));
-    wrapper = shallowMount(AgentCalls, {
+    AgentCallsAPI.getList.mockImplementation(() => Promise.resolve({ items }));
+    mountOptions = {
       store,
       localVue,
+      propsData: { namespace },
       mocks: {
         $route: { params: { id: 1 }, query: {} },
       },
-    });
+    };
   });
 
   it('renders a component', () => {
-    expect(wrapper.classes('agent-calls')).toBe(true);
-  });
-
-  it('Fills agent calls list from API', () => {
-    expect(wrapper.vm.dataList).toHaveLength(items.length);
+    const wrapper = shallowMount(AgentCalls, mountOptions);
+      expect(wrapper.exists()).toBe(true);
   });
 });

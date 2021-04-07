@@ -22,7 +22,7 @@ module.exports = {
   //   },
   // },
   collectCoverageFrom: [
-    '!src/**/api/**/*.{js,vue}',
+    // '!src/**/api/**/*.{js,vue}',
 
     'src/modules/**/*.{js,vue}',
     // 'src/**/components/active-calls/**/*.{js,vue}',

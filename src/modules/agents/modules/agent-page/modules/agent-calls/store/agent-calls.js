@@ -1,12 +1,11 @@
 import filters from './filters';
 import headers from './_internals/headers';
-import getQueuesList from '../api/queues';
+import AgentCallsAPI from '../api/agent-calls';
 
 const state = {
   headers,
   dataList: [],
-  aggs: {},
-  isNext: true,
+  isNext: false,
 };
 
 const getters = {
@@ -29,17 +28,16 @@ const actions = {
     const fields = params.fields
       ? context.getters.GET_DATA_FIELDS_BY_VALUE(params.fields)
       : context.getters.DATA_FIELDS;
-    const filters = context.rootGetters['queues/filters/GET_FILTERS'];
+    const filters = context.rootGetters['agents/agentPage/agentCalls/filters/GET_FILTERS'];
     const _params = {
       ...params,
       ...filters,
       fields,
     };
-    const { items, next, aggs = {} } = await getQueuesList(_params);
+    const { items, next } = await AgentCallsAPI.getList(_params);
     context.commit('SET_LIST', items);
-    context.commit('SET_NEXT', next);
-    context.commit('SET_AGGS', aggs);
-    return { items, aggs, next };
+    context.commit('SET_IS_NEXT', { isNext: next });
+    return { items, next };
   },
   SET_HEADERS: (context, headers) => {
     context.commit('SET_HEADERS', headers);
@@ -47,17 +45,14 @@ const actions = {
 };
 
 const mutations = {
-  SET_LIST: (state, queues) => {
-    state.dataList = queues;
-  },
-  SET_AGGS: (state, aggs) => {
-    state.aggs = aggs;
-  },
-  SET_NEXT: (state, isNext) => {
-    state.isNext = isNext;
-  },
   SET_HEADERS: (state, headers) => {
     state.headers = headers;
+  },
+  SET_LIST: (state, agents) => {
+    state.dataList = agents;
+  },
+  SET_IS_NEXT: (state, { isNext }) => {
+    state.isNext = isNext;
   },
 };
 
