@@ -29,7 +29,7 @@ export default class TableStoreModule extends BaseStoreModule {
     GET_DATA_FIELDS_BY_VALUE: (state) => (headerValues) => state.headers
       .reduce((fields, header) => {
         if (headerValues.includes(header.value)) return fields.concat(header.field);
-        return fields;
+        return [...new Set(fields)];
       }, []),
   };
 
