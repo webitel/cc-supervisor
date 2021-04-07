@@ -13,7 +13,7 @@ const calcDuration = (duration) => (duration ? convertDuration(duration) : null)
 const listResponseHandler = (response) => {
   const items = response.items.map((item) => ({
     ...item,
-    createdAt: new Date(+item.createdAt).toLocaleString(),
+    createdAt: item.createdAt ? new Date(+item.createdAt).toLocaleString() : null,
     answeredAt: calcTime(item.answeredAt),
     bridgedAt: calcTime(item.bridgedAt),
     queueBridgedAt: calcTime(item.queueBridgedAt),
@@ -41,9 +41,8 @@ const _getAgentCallsList = (getList) => function ({
                                                     search = '',
                                                     agentId,
                                                     sort = '-created_at',
-                                                    fields,
-                                                    // from = new Date().setHours(0, 0, 0, 0),
-                                                    from = 100,
+                                                    fields = [],
+                                                    from = new Date().setHours(0, 0, 0, 0),
                                                     to = new Date().setHours(23, 59, 59, 999),
                                                   }) {
   const params = [page, size, search, sort, fields.concat(['id', 'files']), from, to, undefined, agentId];

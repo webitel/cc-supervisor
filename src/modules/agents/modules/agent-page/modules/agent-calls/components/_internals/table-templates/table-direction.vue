@@ -1,6 +1,6 @@
 <template>
   <div>
-    <wt-icon :icon="callStateIcon" :color="callStateIconColor"></wt-icon>
+    <wt-icon :icon="directionIcon" :color="directionIconColor"></wt-icon>
   </div>
 </template>
 
@@ -16,13 +16,13 @@ export default {
     },
   },
   computed: {
-    callStateIcon() {
+    directionIcon() {
       if (this.item.direction === CallDirection.Inbound) return 'call-inbound';
       if (this.item.direction === CallDirection.Outbound) return 'call-outbound';
       return '';
     },
-    callStateIconColor() {
-      switch (this.callStateIcon) {
+    directionIconColor() {
+      switch (this.directionIcon) {
         case 'call-inbound': return 'accent';
         case 'call-outbound': return 'true';
         default: return '';
