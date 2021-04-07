@@ -1,10 +1,10 @@
 <template>
-  <wt-page-wrapper class="agent-page">
+  <wt-page-wrapper class="agent-page" :actions-panel="currentTab.actionsPanel">
     <template slot="header">
       <agent-panel :namespace="namespace"/>
     </template>
     <template slot="actions-panel">
-      <agent-calls-filters></agent-calls-filters>
+      <component :is="`${currentTab.value}-filters`" :namespace="currentTab.namespace"></component>
     </template>
     <template slot="main">
       <div class="agent-page__content">
@@ -12,7 +12,7 @@
           v-model="currentTab"
           :tabs="tabs"
         ></wt-tabs>
-        <component :is="currentTab.value"></component>
+        <component :is="currentTab.value" :namespace="currentTab.namespace"></component>
       </div>
     </template>
   </wt-page-wrapper>
@@ -36,10 +36,11 @@ export default {
   data: () => ({
     namespace: 'agents/agentPage',
     isLoading: false,
-    currentTab: { value: 'agent-calls' },
+    currentTab: {},
   }),
 
   created() {
+    this.setInitialTab();
     this.loadPage();
   },
 
@@ -54,6 +55,8 @@ export default {
       return [{
         text: this.$t('pages.agentPage.calls.title'),
         value: 'agent-calls',
+        actionsPanel: true,
+        namespace: `${this.namespace}/agentCalls`,
       }];
     },
   },
@@ -73,6 +76,11 @@ export default {
       } finally {
         this.isLoading = false;
       }
+    },
+
+    setInitialTab() {
+      // eslint-disable-next-line prefer-destructuring
+      if (this.tabs) this.currentTab = this.tabs[0];
     },
   },
 };

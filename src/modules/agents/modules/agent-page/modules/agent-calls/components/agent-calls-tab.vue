@@ -6,7 +6,7 @@
       entity="agentCalls"
     ></filter-fields>
     <wt-table-actions
-      :icons="['refresh', 'filter-reset']"
+      :icons="['refresh']"
       @input="tableActionsHandler"
     ></wt-table-actions>
     </div>
@@ -109,9 +109,13 @@ export default {
     showMediaMixin,
     tableActionsHandlerMixin,
   ],
+  props: {
+    namespace: {
+      type: String,
+    },
+  },
   data: () => ({
     isLoading: false,
-    namespace: 'agents/agentPage/agentCalls',
   }),
   watch: {
     '$route.query': {
@@ -136,9 +140,6 @@ export default {
     ...mapActions({
       loadDataList(dispatch, payload) {
         return dispatch(`${this.namespace}/FETCH_LIST`, payload);
-      },
-      dispatchResetFilters(dispatch, payload) {
-        return dispatch(`${this.namespace}/filters/RESET_FILTERS`, payload);
       },
     }),
 
@@ -165,8 +166,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../../../../../app/css/supervisor-workspace/table-page/table-page';
-
 .agent-calls {
     position: relative;
 

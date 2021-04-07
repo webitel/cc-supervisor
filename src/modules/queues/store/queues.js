@@ -29,8 +29,10 @@ const actions = {
     const fields = params.fields
       ? context.getters.GET_DATA_FIELDS_BY_VALUE(params.fields)
       : context.getters.DATA_FIELDS;
+    const filters = context.rootGetters['queues/filters/GET_FILTERS'];
     const _params = {
       ...params,
+      ...filters,
       fields,
     };
     const { items, next, aggs = {} } = await getQueuesList(_params);
