@@ -35,7 +35,7 @@ const defaultListObject = {
 };
 
 const _getAgentsList = (getList) => function ({
-                                                page = 0,
+                                                page = 1,
                                                 size = 10,
                                                 search = '',
                                                 sort = '+name',
@@ -46,15 +46,20 @@ const _getAgentsList = (getList) => function ({
                                                 status,
                                                 queue,
                                                 team,
+                                                utilization, // utilizationTo
                                                 callNow,
                                               }) {
+  const utilizationFrom = '0';
   const params = [page, size, search, sort, fields, ids, from, to, status, queue, team,
-    undefined, undefined, callNow];
+    utilizationFrom, utilization, callNow];
   return getList(params);
 };
 
 const listGetter = new SdkListGetterApiConsumer(agentService.searchAgentStatusStatistic,
-  { listResponseHandler, defaultListObject })
+  {
+    listResponseHandler,
+    defaultListObject,
+  })
 .setGetListMethod(_getAgentsList);
 
 export const getAgentsList = (params) => listGetter.getList(params);

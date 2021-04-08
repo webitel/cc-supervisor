@@ -24,8 +24,8 @@ const state = {
     multiple: true,
   },
   utilization: {
-    value: [],
-    defaultValue: [],
+    value: {},
+    defaultValue: {},
     storedProp: 'value',
   },
 };
