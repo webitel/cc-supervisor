@@ -81,14 +81,10 @@
 
 <script>
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
 import MediaAction from '../../../../../../../app/components/utils/table-media-action.vue';
-import autoRefreshMixin from '../../../../../../../app/mixins/autoRefresh/autoRefreshMixin';
 import playMediaMixin from '../../../../../../../app/mixins/media/playMediaMixin';
 import showMediaMixin from '../../../../../../../app/mixins/media/showMediaMixin';
-import headersMixin from '../../../../../../../app/mixins/supervisor-workspace/pageHeadersMixin';
-import tableActionsHandlerMixin from '../../../../../../../app/mixins/supervisor-workspace/tableActionsHandlerMixin';
+import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
 import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields.vue';
 import TableDirection from './_internals/table-templates/table-direction.vue';
@@ -102,57 +98,17 @@ export default {
     MediaAction,
   },
   mixins: [
-    headersMixin,
+    tablePageMixin,
     sortFilterMixin,
-    autoRefreshMixin,
     playMediaMixin,
     showMediaMixin,
-    tableActionsHandlerMixin,
   ],
   props: {
     namespace: {
       type: String,
     },
   },
-  data: () => ({
-    isLoading: false,
-  }),
-  watch: {
-    '$route.query': {
-      async handler() {
-        await this.initializeList();
-        this.setAutoRefresh();
-      },
-      immediate: true,
-    },
-  },
-  computed: {
-    ...mapState({
-      dataList(state) {
-        return getNamespacedState(state, this.namespace).dataList;
-      },
-      isNext(state) {
-        return getNamespacedState(state, this.namespace).isNext;
-      },
-    }),
-  },
   methods: {
-    ...mapActions({
-      loadDataList(dispatch, payload) {
-        return dispatch(`${this.namespace}/FETCH_LIST`, payload);
-      },
-    }),
-
-    async initializeList() {
-      this.isLoading = true;
-      try {
-        await this.loadList();
-      } catch {
-      } finally {
-        this.isLoading = false;
-      }
-    },
-
     loadList() {
       const agentId = this.$route.params.id;
       const { query } = this.$route;
