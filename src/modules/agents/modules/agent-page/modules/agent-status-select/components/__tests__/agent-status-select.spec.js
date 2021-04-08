@@ -3,6 +3,11 @@ import Vuex from 'vuex';
 import AgentStatus from '@webitel/ui-sdk/src/enums/AgentStatus/AgentStatus.enum';
 import AgentStatusSelect from '../agent-status-select.vue';
 import statusSelect from '../../store/agent-status-select';
+import PauseCauseAPI from '../../api/pause-cause';
+
+const pauseCauses = [{ name: 'jest1' }, { name: 'jest2' }];
+const getAgentPauseCausesMock = jest.fn(() => ({ items: pauseCauses }));
+jest.spyOn(PauseCauseAPI, 'getList').mockImplementation(getAgentPauseCausesMock);
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -35,6 +40,7 @@ const mountOptions = {
 describe('Agent status select', () => {
   beforeEach(() => {
     updateAgentStatusMock.mockClear();
+    getAgentPauseCausesMock.mockClear();
   });
   it('renders a component', () => {
     const wrapper = shallowMount(AgentStatusSelect, mountOptions);
@@ -51,11 +57,20 @@ describe('Agent status select', () => {
     };
     expect(updateAgentStatusMock.mock.calls[0][1]).toEqual(actionPayload);
   });
-  it('at wt-status-select "change" to "pause" event, pause-cause-popup appears', async () => {
+  it('at wt-status-select "change" to "pause" event, pause causes are loaded', async () => {
     const wrapper = shallowMount(AgentStatusSelect, mountOptions);
     wrapper.findComponent({ name: 'wt-status-select' })
       .vm.$emit('change', AgentStatus.PAUSE);
     await wrapper.vm.$nextTick();
+    expect(getAgentPauseCausesMock).toHaveBeenCalled();
+  });
+  it(`at wt-status-select "change" to "pause" event and pause causes truthy response,
+   pause-cause-popup appears`, async () => {
+    const wrapper = shallowMount(AgentStatusSelect, mountOptions);
+    wrapper.findComponent({ name: 'wt-status-select' })
+      .vm.$emit('change', AgentStatus.PAUSE);
+    await wrapper.vm.$nextTick(); // load pause causes
+    await wrapper.vm.$nextTick(); // render popup
     expect(wrapper.findComponent({ name: 'pause-cause-popup' }).isVisible()).toBe(true);
   });
   it(`at pause-cause-popup "change" event, triggers UPDATE_AGENT_STATUS

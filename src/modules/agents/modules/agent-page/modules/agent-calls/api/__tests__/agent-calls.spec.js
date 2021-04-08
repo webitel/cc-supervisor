@@ -20,15 +20,17 @@ const expectItems = [{
   waitSec: null,
   reportingSec: null,
 }];
+
+/* mock SDK method api response with instance mock
+ jest.spyOn(instance) used instead of jest.mock('@/app/api/instance) because WebStorm
+  doesn't watch path changes in jest.mock()
+ */
 const getMock = jest.fn(() => ({ items }));
 jest.spyOn(instance, 'request')
   .mockImplementation(getMock);
 
 describe('Agent calls API', () => {
-  beforeEach(() => {
-  });
-
-  it('renders a component', async () => {
+  it('getList: correctly processes response', async () => {
     const response = await AgentCallsAPI.getList({});
     expect(getMock)
       .toHaveBeenCalled();
