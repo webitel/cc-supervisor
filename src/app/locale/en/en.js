@@ -90,6 +90,10 @@ export default {
     agent: 'Agent',
     user: 'User',
     gateway: 'Gateway',
+    skill: 'Skill',
+    supervisor: 'Supervisor',
+    auditor: 'Auditor',
+    region: 'Region',
   },
   options: {
     online: 'Online',

@@ -90,6 +90,10 @@ export default {
     agent: 'Оператор',
     user: 'Пользователь',
     gateway: 'Шлюз',
+    skill: 'Навык',
+    supervisor: 'Супервизор',
+    auditor: 'Аудитор',
+    region: 'Регион',
   },
   pages: {
     queue: {

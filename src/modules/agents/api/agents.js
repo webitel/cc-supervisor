@@ -46,12 +46,16 @@ const _getAgentsList = (getList) => function ({
                                                 status,
                                                 queue,
                                                 team,
+                                                skill,
+                                                supervisor,
+                                                auditor,
+                                                region,
                                                 utilization, // utilizationTo
                                                 callNow,
                                               }) {
   const utilizationFrom = '0';
   const params = [page, size, search, sort, fields, ids, from, to, status, queue, team,
-    utilizationFrom, utilization, callNow];
+    utilizationFrom, utilization, callNow, skill, region, supervisor, auditor];
   return getList(params);
 };
 

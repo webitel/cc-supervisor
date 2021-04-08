@@ -17,7 +17,31 @@ const state = {
     storedProp: 'id',
     multiple: true,
   },
+  skill: {
+    value: [],
+    defaultValue: [],
+    storedProp: 'id',
+    multiple: true,
+  },
   team: {
+    value: [],
+    defaultValue: [],
+    storedProp: 'id',
+    multiple: true,
+  },
+  supervisor: {
+    value: [],
+    defaultValue: [],
+    storedProp: 'id',
+    multiple: true,
+  },
+  auditor: {
+    value: [],
+    defaultValue: [],
+    storedProp: 'id',
+    multiple: true,
+  },
+  region: {
     value: [],
     defaultValue: [],
     storedProp: 'id',
