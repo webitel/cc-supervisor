@@ -211,6 +211,8 @@ export default {
     agentStatusSelect: {
       pauseCausePopup: {
         title: 'Select a pause cause',
+        min: 'Min',
+        unlimited: 'Unlimited',
       },
     },
   },

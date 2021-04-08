@@ -4,17 +4,31 @@
       {{ $t('packages.agentStatusSelect.pauseCausePopup.title') }}
     </template>
     <template slot="main">
-      <wt-loader v-show="!isLoaded"/>
-      <form v-show="isLoaded" @submit.prevent="setPause">
-        <wt-radio
-          class="pause-cause-popup__option"
-          v-for="(option, key) of pauseCauses"
-          :selected="selected"
-          :value="option"
-          :label="option"
-          :key="key"
-          @input="select(option)"
-        ></wt-radio>
+      <form @submit.prevent="setPause">
+        <ul>
+          <li
+            class="pause-cause-popup__option"
+            v-for="(option) of options"
+            :key="option.id"
+          >
+            <wt-radio
+              class="pause-cause-popup__option__radio"
+              :selected="selected.id"
+              :value="option.id"
+              :label="option.name"
+              @input="select(option)"
+            ></wt-radio>
+            <div class="pause-cause-popup__option__limits-wrapper">
+              <span :class="{
+                    'pause-cause-popup__option__duration--overflow': isDurationOverflow(option),
+                 }">
+                {{ optionDuration(option) }}
+              </span>
+              /
+              <span>{{ optionLimit(option) }}</span>
+            </div>
+          </li>
+        </ul>
       </form>
     </template>
     <template slot="actions">
@@ -33,35 +47,36 @@
 </template>
 
 <script>
-import PauseCauseAPI from '../../api/pause-cause';
-
 export default {
   name: 'pause-cause-popup',
+  props: {
+    options: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data: () => ({
     selected: '',
-    pauseCauses: [],
-    isLoaded: false,
   }),
-  created() {
-    this.loadPauseCauses();
-  },
-  computed: {
-  },
-
   methods: {
-    async loadPauseCauses() {
-      this.isLoaded = false;
-      try {
-        const response = await PauseCauseAPI.getList();
-        this.pauseCauses = response.items.map((item) => item.name);
-      } catch {}
-      this.isLoaded = true;
+    isDurationOverflow({ durationMin, limitMin }) {
+      return (durationMin > limitMin) && limitMin !== 0;
+    },
+    optionDuration({ durationMin, limitMin }) {
+      return this.isDurationOverflow({ durationMin, limitMin })
+      ? `-${durationMin - limitMin} ${this.$t('packages.agentStatusSelect.pauseCausePopup.min')}`
+        : `${durationMin} ${this.$t('packages.agentStatusSelect.pauseCausePopup.min')}`;
+    },
+    optionLimit({ limitMin }) {
+      return limitMin
+        ? `${limitMin} ${this.$t('packages.agentStatusSelect.pauseCausePopup.min')}`
+        : this.$t('packages.agentStatusSelect.pauseCausePopup.unlimited');
     },
     select(option) {
       this.selected = option;
     },
     setPause() {
-      this.$emit('change', this.selected);
+      this.$emit('change', this.selected.name);
       this.close();
     },
     close() {
@@ -72,7 +87,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.pause-cause-popup__option:not(:last-child) {
-  margin-bottom: var(--component-spacing);
+.pause-cause-popup__option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &:not(:last-child) {
+    margin-bottom: var(--component-spacing);
+  }
+}
+
+.pause-cause-popup__option__limits-wrapper {
+  & > span {
+    @extend %typo-strong-sm;
+    padding: 6px 10px;
+  }
+
+  .pause-cause-popup__option__duration--overflow {
+    color: var(--false-color);
+  }
 }
 </style>
