@@ -22,16 +22,11 @@ module.exports = {
   //   },
   // },
   collectCoverageFrom: [
-    '!src/**/api/**/*.{js,vue}',
-
+    'src/app/components/**/*.{js,vue}',
+    'src/app/mixins/**/*.{js,vue}',
+    'src/app/store/**/*.{js,vue}',
     'src/modules/**/*.{js,vue}',
-    // 'src/**/components/active-calls/**/*.{js,vue}',
-    // 'src/**/components/agents/**/*.{js,vue}',
-    // 'src/**/components/supervisor-workspace/**/*.{js,vue}',
-    // 'src/**/store/**/*.{js,vue}',
-    // 'src/**/_shared/**/*.{js,vue}',
 
-    'src/**/mixins/**/*.{js,vue}',
     '!src/**/index.js', // No need to cover bootstrap file
     '!src/**/main.js', // No need to cover bootstrap file
   ],

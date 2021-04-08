@@ -1,5 +1,7 @@
 import Vuex from 'vuex';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
+import FilterFrom from '../filter-from.vue';
+import FilterTo from '../filter-to.vue';
 import FilterAgent from '../filter-agent.vue';
 import FilterDirection from '../filter-direction.vue';
 import FilterGateway from '../filter-gateway.vue';
@@ -18,6 +20,26 @@ const localVue = createLocalVue().use(Vuex);
 const $route = { query: {} };
 
 describe('Filter components', () => {
+  it('renders from filter component', () => {
+    const namespace = 'agents/agentPage/agentCalls/filters';
+    const wrapper = shallowMount(FilterFrom, {
+      localVue,
+      store,
+      propsData: { namespace },
+      mocks: { $route },
+    });
+    expect(wrapper.findComponent({ name: 'wt-datetimepicker' }).element).toBeVisible();
+  });
+  it('renders To filter component', () => {
+    const namespace = 'agents/agentPage/agentCalls/filters';
+    const wrapper = shallowMount(FilterTo, {
+      localVue,
+      store,
+      propsData: { namespace },
+      mocks: { $route },
+    });
+    expect(wrapper.findComponent({ name: 'wt-datetimepicker' }).element).toBeVisible();
+  });
   it('renders agent filter component', () => {
     const namespace = 'activeCalls/filters';
     const wrapper = shallowMount(FilterAgent, {

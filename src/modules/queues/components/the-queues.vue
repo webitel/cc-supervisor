@@ -78,7 +78,6 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
 
@@ -91,11 +90,8 @@ import TableQueue from './_internals/table-templates/table-queue.vue';
 import TableAgents from './_internals/table-templates/table-agents.vue';
 import TableTeam from './_internals/table-templates/table-team.vue';
 import TableMembers from './_internals/table-templates/table-members.vue';
-import headersMixin from '../../../app/mixins/supervisor-workspace/pageHeadersMixin';
-import tableActionsHandlerMixin from '../../../app/mixins/supervisor-workspace/tableActionsHandlerMixin';
-import autoRefreshMixin from '../../../app/mixins/autoRefresh/autoRefreshMixin';
-
-import getQueuesList from '../api/queues';
+import tablePageMixin from '../../../app/mixins/supervisor-workspace/tablePageMixin';
+import QueuesAPI from '../api/queues';
 
 export default {
   name: 'the-queues',
@@ -110,74 +106,27 @@ export default {
     TableMembers,
   },
   mixins: [
-    headersMixin,
+    tablePageMixin,
     sortFilterMixin,
-    autoRefreshMixin,
     exportCSVMixin,
-    tableActionsHandlerMixin,
   ],
   data: () => ({
     namespace: 'queues',
-    isLoading: false,
   }),
 
-  watch: {
-    '$route.query': {
-      async handler() {
-        await this.initializeList();
-        this.setAutoRefresh();
-      },
-      immediate: true,
-    },
-  },
-
   created() {
-    this.initCSVExport(getQueuesList, { filename: 'queues-stats' });
+    this.initCSVExport(QueuesAPI.getList, { filename: 'queues-stats' });
   },
 
   computed: {
-    ...mapState('queues', {
-      dataList: (state) => state.dataList,
-      aggs: (state) => state.aggs,
-      isNext: (state) => state.isNext,
-    }),
-
     selectedIds() {
       return this.dataList
       .filter((item) => item._isSelected)
       .map((item) => item.queue?.id);
-    },
-    filtersNamespace() {
-      return `${this.namespace}/filters`;
-    },
-  },
-
-  methods: {
-    ...mapActions('queues', {
-      loadDataList: 'FETCH_LIST',
-    }),
-    ...mapActions('queues/filters', {
-      dispatchResetFilters: 'RESET_FILTERS',
-    }),
-
-    async initializeList() {
-      this.isLoading = true;
-      try {
-        await this.loadList();
-      } catch {
-      } finally {
-        this.isLoading = false;
-      }
-    },
-
-    loadList() {
-      const { query } = this.$route;
-      return this.loadDataList(query);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import '../../../app/css/supervisor-workspace/table-page/table-page';
 </style>

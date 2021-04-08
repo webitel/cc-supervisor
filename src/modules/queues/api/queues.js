@@ -65,4 +65,6 @@ const listGetter = new SdkListGetterApiConsumer(queueService.searchQueueReportGe
 
 const getQueuesList = (params) => listGetter.getList(params);
 
-export default getQueuesList;
+export default {
+  getList: getQueuesList,
+};

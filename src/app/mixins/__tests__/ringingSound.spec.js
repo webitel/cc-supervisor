@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import ringingSoundMixin from '../ringingSoundMixin';
+import ringingSoundMixin from '../ringingSoundMixin/ringingSoundMixin';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
