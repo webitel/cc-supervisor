@@ -12,11 +12,17 @@ export default [
     sort: null,
     field: 'status',
   }, {
-    value: 'teams',
-    locale: 'pages.agent.columns.teams',
+    value: 'statusDuration',
+    locale: 'pages.agent.columns.statusDuration',
     show: true,
     sort: null,
-    field: 'teams',
+    field: 'status_duration',
+  }, {
+    value: 'team',
+    locale: 'pages.agent.columns.team',
+    show: true,
+    sort: null,
+    field: 'team',
   }, {
     value: 'queues',
     locale: 'pages.agent.columns.queues',
@@ -35,5 +41,23 @@ export default [
     show: true,
     sort: null,
     field: 'call_time',
+  }, {
+    value: 'chatTime',
+    locale: 'pages.agent.columns.chatTime',
+    show: true,
+    sort: null,
+    field: 'chat_time',
+  }, {
+    value: 'transferred',
+    locale: 'pages.agent.columns.transferred',
+    show: true,
+    sort: null,
+    field: 'transferred',
+  }, {
+    value: 'abandoned',
+    locale: 'pages.agent.columns.abandoned',
+    show: true,
+    sort: null,
+    field: 'abandoned',
   },
 ];

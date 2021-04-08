@@ -10,17 +10,28 @@ const agentService = new AgentServiceApiFactory(configuration, '', instance);
 const listResponseHandler = (response) => {
   const items = response.items.map((item) => ({
     ...item,
-    callTime: convertDuration(item.callTime),
     statusDuration: convertDuration(item.statusDuration),
-    utilization: item.utilization ? `${item.utilization.toFixed(2)}%` : null,
+    utilization: `${item.utilization.toFixed(2)}%`,
     online: convertDuration(item.online),
     offline: convertDuration(item.offline),
     pause: convertDuration(item.pause),
+    callTime: convertDuration(item.callTime),
+    chatTime: convertDuration(item.callTime),
   }));
   return {
     ...response,
     items,
   };
+};
+
+const defaultListObject = {
+  offline: 0,
+  online: 0,
+  pause: 0,
+  statusDuration: 0,
+  transferred: 0,
+  abandoned: 0,
+  utilization: 0,
 };
 
 const _getAgentsList = (getList) => function ({
@@ -43,7 +54,7 @@ const _getAgentsList = (getList) => function ({
 };
 
 const listGetter = new SdkListGetterApiConsumer(agentService.searchAgentStatusStatistic,
-  { listResponseHandler })
+  { listResponseHandler, defaultListObject })
 .setGetListMethod(_getAgentsList);
 
 export const getAgentsList = (params) => listGetter.getList(params);

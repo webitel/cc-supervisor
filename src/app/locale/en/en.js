@@ -126,10 +126,14 @@ export default {
       columns: {
         name: 'Name',
         status: 'Status',
-        teams: 'Teams',
+        statusDuration: 'Status duration',
+        team: 'Team',
         queues: 'Queues',
         utilization: 'Utilization',
-        callTime: 'Call',
+        callTime: 'Call time',
+        chatTime: 'Chat time',
+        transferred: 'Transferred',
+        abandoned: 'Abandoned',
       },
     },
     agentPage: {

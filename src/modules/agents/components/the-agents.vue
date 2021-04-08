@@ -53,11 +53,13 @@
           <template slot="callTime" slot-scope="{ item }">
             <table-agent-call-time :item="item" @attach-call="attachCall"/>
           </template>
-          <template slot="queues" slot-scope="{ item }">
-            <table-agent-queues :item="item"/>
+          <template slot="team" slot-scope="{ item }">
+            <div v-if="item.team">
+              {{ item.team.name }}
+            </div>
           </template>
-          <template slot="teams" slot-scope="{ item }">
-            <table-agent-teams :item="item"/>
+          <template slot="queues" slot-scope="{ item }">
+            <table-queues :item="item" />
           </template>
         </wt-table>
         <filter-pagination :is-next="isNext"/>
@@ -76,10 +78,9 @@ import FilterSearch from '../../_shared/filters/components/filter-search.vue';
 import FilterFields from '../../_shared/filters/components/filter-table-fields.vue';
 import AgentsAPI from '../api/agents';
 import AgentsFilters from './_internals/agent-filters/agent-filters.vue';
-import TableAgentQueues from './_internals/table-templates/table-agent-queues.vue';
 import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
 import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
-import TableAgentTeams from './_internals/table-templates/table-agent-teams.vue';
+import TableQueues from './_internals/table-templates/table-agent-queues.vue';
 import TableAgent from './_internals/table-templates/table-agent.vue';
 
 export default {
@@ -92,8 +93,7 @@ export default {
     TableAgent,
     TableAgentStatus,
     TableAgentCallTime,
-    TableAgentQueues,
-    TableAgentTeams,
+    TableQueues,
   },
   mixins: [
     tablePageMixin,

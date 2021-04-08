@@ -116,10 +116,14 @@ export default {
       columns: {
         name: 'Очередь',
         status: 'Статус',
-        teams: 'Команды',
+        statusDuration: 'Длительность статуса',
+        team: 'Команда',
         queues: 'Очереди',
         utilization: 'Утилизация',
-        callTime: 'Звонок',
+        callTime: 'Время в звонках',
+        chatTime: 'Время в чатах',
+        transferred: 'Переведено',
+        abandoned: 'Потеряно',
       },
     },
     agentPage: {
