@@ -1,5 +1,5 @@
 import TableStoreModule from '../../../app/store/BaseStoreModules/TableStoreModule';
-import filters from './filters';
+import filters from '../modules/filters/store/filters';
 import headers from './_internals/headers';
 import QueuesAPI from '../api/queues';
 

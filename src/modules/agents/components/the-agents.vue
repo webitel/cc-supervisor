@@ -6,7 +6,7 @@
           {{ $t('pages.agent.title') }}
         </template>
         <template slot="actions">
-          <filter-search :namespace="filtersNamespace"/>
+          <filter-search :namespace="filtersNamespace" filter-query="search"/>
           <wt-button
             :loading="isCSVLoading"
             :disabled="!dataList.length"
@@ -69,15 +69,15 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
-import { mapActions } from 'vuex';
+import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import tablePageMixin from '../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../_shared/filters/components/filter-pagination.vue';
-import FilterSearch from '../../_shared/filters/components/filter-search.vue';
 import FilterFields from '../../_shared/filters/components/filter-table-fields.vue';
 import AgentsAPI from '../api/agents';
-import AgentsFilters from './_internals/agent-filters/agent-filters.vue';
+import AgentsFilters from '../modules/filters/components/agent-filters.vue';
 import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
 import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
 import TableQueues from './_internals/table-templates/table-agent-queues.vue';

@@ -16,7 +16,7 @@ import AbstractApiFilter from '@webitel/ui-sdk/src/modules/QueryFilters/componen
 import AbstractEnumFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-enum-filter.vue';
 
 export default {
-  name: 'active-calls-filters',
+  name: 'agent-filters',
   components: {
     AbstractApiFilter,
     AbstractEnumFilter,
@@ -28,11 +28,14 @@ export default {
   },
   data: () => ({
     filters: [
-      { type: 'enum', filterQuery: 'direction' },
-      { type: 'api', filterQuery: 'user' },
-      { type: 'api', filterQuery: 'gateway' },
+      { type: 'enum', filterQuery: 'status' },
       { type: 'api', filterQuery: 'queue' },
-      { type: 'api', filterQuery: 'agent' },
+      { type: 'api', filterQuery: 'skill' },
+      { type: 'api', filterQuery: 'team' },
+      { type: 'api', filterQuery: 'supervisor' },
+      { type: 'api', filterQuery: 'auditor' },
+      { type: 'api', filterQuery: 'region' },
+      { type: 'enum', filterQuery: 'utilization' },
     ],
   }),
 };

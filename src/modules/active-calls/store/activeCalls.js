@@ -1,4 +1,4 @@
-import filters from './filters';
+import filters from '../modules/filters/store/filters';
 import { getActiveCallList } from '../api/activeCalls';
 
 const state = {

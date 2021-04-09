@@ -1,7 +1,7 @@
 import TableStoreModule from '../../../app/store/BaseStoreModules/TableStoreModule';
 import AgentsAPI from '../api/agents';
 import agentPage from '../modules/agent-page/store/agent-page';
-import filters from './filters';
+import filters from '../modules/filters/store/filters';
 import headers from './_internals/headers';
 
 const state = {
