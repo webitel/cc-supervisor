@@ -69,12 +69,12 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
-import { mapActions } from 'vuex';
+import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import tablePageMixin from '../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../_shared/filters/components/filter-pagination.vue';
-import FilterSearch from '../../_shared/filters/components/filter-search.vue';
 import FilterFields from '../../_shared/filters/components/filter-table-fields.vue';
 import AgentsAPI from '../api/agents';
 import AgentsFilters from './_internals/agent-filters/agent-filters.vue';

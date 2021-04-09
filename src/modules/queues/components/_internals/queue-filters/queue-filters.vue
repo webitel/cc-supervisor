@@ -1,26 +1,39 @@
 <template>
   <div class="filter-wrap">
-    <filter-period class="filter-item" :namespace="namespace"/>
-    <filter-queue class="filter-item" :namespace="namespace"/>
-    <filter-team class="filter-item" :namespace="namespace" :disabled="!isAdmin"/>
-    <filter-type class="filter-item" :namespace="namespace"/>
+    <abstract-enum-filter
+      class="filter-item"
+      :namespace="namespace"
+      filter-query="period"
+    />
+    <abstract-api-filter
+      class="filter-item"
+      :namespace="namespace"
+      filter-query="queue"
+    />
+    <abstract-api-filter
+      class="filter-item"
+      :namespace="namespace"
+      :disabled="!isAdmin"
+      filter-query="team"
+    />
+    <abstract-enum-filter
+      class="filter-item"
+      :namespace="namespace"
+      filter-query="queueType"
+    />
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import FilterPeriod from '../../../../_shared/filters/components/filter-period.vue';
-import FilterQueue from '../../../../_shared/filters/components/filter-queue.vue';
-import FilterType from '../../../../_shared/filters/components/filter-queue-type.vue';
-import FilterTeam from '../../../../_shared/filters/components/filter-team.vue';
+import AbstractApiFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-api-filter.vue';
+import AbstractEnumFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-enum-filter.vue';
 
 export default {
   name: 'queue-filters',
   components: {
-    FilterType,
-    FilterTeam,
-    FilterQueue,
-    FilterPeriod,
+    AbstractApiFilter,
+    AbstractEnumFilter,
   },
   props: {
     namespace: {
@@ -30,7 +43,10 @@ export default {
   watch: {
     agent(agent) {
       if (!this.isAdmin && agent.team) {
-        this.setFilter({ filter: 'team', value: agent.team });
+        this.setFilter({
+          filter: 'team',
+          value: agent.team,
+        });
       }
     },
   },
@@ -53,5 +69,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../../../app/css/supervisor-workspace/table-page/table-filters/table-filters';
 </style>

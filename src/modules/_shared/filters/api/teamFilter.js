@@ -1,15 +1,14 @@
 import { AgentTeamServiceApiFactory } from 'webitel-sdk';
 import SdkListGetterApiConsumer
   from 'webitel-sdk/esm2015/api-consumers/ListGetter/sdk-list-getter-api-consumer/sdk-list-getter-api-consumer';
+import { listResponseHandler, defaultParams } from '@webitel/ui-sdk/src/modules/QueryFilters/api/defaults';
 import instance from '../../../../app/api/instance';
 import configuration from '../../../../app/api/utils/openAPIConfig';
-import { formatOptions, defaultParams } from './defaults/defaults';
 
 const teamService = new AgentTeamServiceApiFactory(configuration, '', instance);
 
-const listGetter = new SdkListGetterApiConsumer(teamService.searchAgentTeam, {
-  listResponseHandler: formatOptions,
-});
+const listGetter = new SdkListGetterApiConsumer(teamService.searchAgentTeam,
+  { listResponseHandler });
 
 const getList = (params) => listGetter.getList({ ...defaultParams, ...params });
 

@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import AbstractApiFilter from '../../../../_shared/filters/components/abstract-api-filter.vue';
-import AbstractEnumFilter from '../../../../_shared/filters/components/abstract-enum-filter.vue';
+import AbstractApiFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-api-filter.vue';
+import AbstractEnumFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-enum-filter.vue';
 
 export default {
   name: 'agent-filters',

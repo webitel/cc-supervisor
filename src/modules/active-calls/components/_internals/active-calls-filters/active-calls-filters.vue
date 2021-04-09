@@ -1,37 +1,42 @@
 <template>
   <div class="filter-wrap">
-    <filter-direction class="filter-item" :namespace="namespace"/>
-    <filter-user class="filter-item" :namespace="namespace"/>
-    <filter-gateway class="filter-item" :namespace="namespace"/>
-    <filter-queue class="filter-item" :namespace="namespace"/>
-    <filter-agent class="filter-item" :namespace="namespace"/>
+    <component
+      class="filter-item"
+      v-for="(filter, key) of filters"
+      :key="key"
+      :is="`abstract-${filter.type}-filter`"
+      :filter-query="filter.filterQuery"
+      :namespace="namespace"
+    ></component>
   </div>
 </template>
 
 <script>
-import FilterAgent from '../../../../_shared/filters/components/filter-agent.vue';
-import FilterDirection from '../../../../_shared/filters/components/filter-direction.vue';
-import FilterGateway from '../../../../_shared/filters/components/filter-gateway.vue';
-import FilterQueue from '../../../../_shared/filters/components/filter-queue.vue';
-import FilterUser from '../../../../_shared/filters/components/filter-user.vue';
+import AbstractApiFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-api-filter.vue';
+import AbstractEnumFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-enum-filter.vue';
 
 export default {
   name: 'active-calls-filters',
   components: {
-    FilterAgent,
-    FilterUser,
-    FilterQueue,
-    FilterDirection,
-    FilterGateway,
+    AbstractApiFilter,
+    AbstractEnumFilter,
   },
   props: {
     namespace: {
       type: String,
     },
   },
+  data: () => ({
+    filters: [
+      { type: 'enum', filterQuery: 'direction' },
+      { type: 'api', filterQuery: 'user' },
+      { type: 'api', filterQuery: 'gateway' },
+      { type: 'api', filterQuery: 'queue' },
+      { type: 'api', filterQuery: 'agent' },
+    ],
+  }),
 };
 </script>
 
 <style lang="scss" scoped>
-@import '../../../../../app/css/supervisor-workspace/table-page/table-filters/table-filters';
 </style>

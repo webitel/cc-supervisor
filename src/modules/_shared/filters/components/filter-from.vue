@@ -8,11 +8,10 @@
 
 <script>
 import baseFilterMixin from '@webitel/ui-sdk/src/modules/QueryFilters/mixins/baseFilterMixin/baseFilterMixin';
-import filterStoreMappingMixin from '../mixins/filterStoreMappingMixin';
 
 export default {
   name: 'filter-from',
-  mixins: [baseFilterMixin, filterStoreMappingMixin],
+  mixins: [baseFilterMixin],
   data: () => ({
     filterQuery: 'from',
   }),

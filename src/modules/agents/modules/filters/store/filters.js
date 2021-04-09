@@ -1,16 +1,16 @@
 import QueryFiltersStoreModule
   from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
-import AgentStatusOptions from '../../_shared/filters/api/AgentStatusOptions.enum';
-import QueueFilterAPI from '../../_shared/filters/api/queueFilter';
-import RegionFilterAPI from '../../_shared/filters/api/regionFilter';
-import SkillFilterAPI from '../../_shared/filters/api/skillFilter';
-import SupervisorFilterAPI from '../../_shared/filters/api/supervisorFilter';
-import TeamFilterAPI from '../../_shared/filters/api/teamFilter';
-import AuditorFilterAPI from '../../_shared/filters/api/userFilter';
-import UtilizationOptions from '../../_shared/filters/api/UtilizationOptions.enum';
-import ApiFilterSchema from '../../_shared/filters/classes/ApiFilterSchema';
-import BaseFilterSchema from '../../_shared/filters/classes/BaseFilterSchema';
-import EnumFilterSchema from '../../_shared/filters/classes/EnumFilterSchema';
+import ApiFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema';
+import BaseFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
+import EnumFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema';
+import AgentStatusOptions from '../api/AgentStatusOptions.enum';
+import QueueFilterAPI from '../../../../_shared/filters/api/queueFilter';
+import RegionFilterAPI from '../api/regionFilter';
+import SkillFilterAPI from '../api/skillFilter';
+import SupervisorFilterAPI from '../api/supervisorFilter';
+import TeamFilterAPI from '../../../../_shared/filters/api/teamFilter';
+import AuditorFilterAPI from '../../../../active-calls/modules/filters/api/userFilter';
+import UtilizationOptions from '../api/UtilizationOptions.enum';
 
 const state = {
   search: new BaseFilterSchema(),
