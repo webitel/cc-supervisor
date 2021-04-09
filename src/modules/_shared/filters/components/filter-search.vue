@@ -1,6 +1,6 @@
 <template>
   <wt-search-bar
-    :value="value"
+    :value="filterSchema.value"
     debounce
     @input="setValue({ filter: filterQuery, value: $event })"
     @search="setValueToQuery({ filter: filterQuery, value: $event })"
@@ -14,9 +14,6 @@ import filterStoreMappingMixin from '../mixins/filterStoreMappingMixin';
 export default {
   name: 'filter-search',
   mixins: [baseFilterMixin, filterStoreMappingMixin],
-  data: () => ({
-    filterQuery: 'search',
-  }),
   methods: {
     restoreValue(value) {
       this.setValue({ filterQuery: this.filterQuery, value });

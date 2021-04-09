@@ -6,7 +6,7 @@
           {{ $t('pages.agent.title') }}
         </template>
         <template slot="actions">
-          <filter-search :namespace="filtersNamespace"/>
+          <filter-search :namespace="filtersNamespace" filter-query="search"/>
           <wt-button
             :loading="isCSVLoading"
             :disabled="!dataList.length"
