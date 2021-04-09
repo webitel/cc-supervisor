@@ -85,7 +85,7 @@ import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/fi
 import FilterFields from '../../_shared/filters/components/filter-table-fields.vue';
 import FilterPagination from '../../_shared/filters/components/filter-pagination.vue';
 
-import QueueFilters from './_internals/queue-filters/queue-filters.vue';
+import QueueFilters from '../modules/filters/components/queue-filters.vue';
 import TableQueue from './_internals/table-templates/table-queue.vue';
 import TableAgents from './_internals/table-templates/table-agents.vue';
 import TableTeam from './_internals/table-templates/table-team.vue';

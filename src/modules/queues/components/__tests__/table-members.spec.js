@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import TableMembers
-  from '../table-templates/table-members.vue';
+  from '../_internals/table-templates/table-members.vue';
 
 describe('Queues table Members', () => {
   const item = {

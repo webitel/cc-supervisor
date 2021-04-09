@@ -77,7 +77,7 @@ import tablePageMixin from '../../../app/mixins/supervisor-workspace/tablePageMi
 import FilterPagination from '../../_shared/filters/components/filter-pagination.vue';
 import FilterFields from '../../_shared/filters/components/filter-table-fields.vue';
 import AgentsAPI from '../api/agents';
-import AgentsFilters from './_internals/agent-filters/agent-filters.vue';
+import AgentsFilters from '../modules/filters/components/agent-filters.vue';
 import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
 import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
 import TableQueues from './_internals/table-templates/table-agent-queues.vue';
