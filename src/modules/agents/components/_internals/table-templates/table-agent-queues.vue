@@ -23,5 +23,6 @@ export default {
 <style lang="scss" scoped>
   .wt-badge:not(:last-child) {
     margin-right: var(--component-spacing);
+    margin-bottom: 5px;
   }
 </style>

@@ -216,6 +216,12 @@ export default {
     conference: 'Conference',
   },
   packages: {
+    agentStatus: {
+      online: 'Online',
+      offline: 'Offline',
+      pause: 'Pause',
+      breakOut: 'Break Out',
+    },
     agentStatusSelect: {
       pauseCausePopup: {
         title: 'Select a pause cause',

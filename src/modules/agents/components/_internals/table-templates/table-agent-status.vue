@@ -7,6 +7,7 @@
 
 <script>
 import { AgentStatus } from 'webitel-sdk';
+import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 
 export default {
   name: 'table-agent-status',
@@ -25,7 +26,7 @@ export default {
       }
     },
     statusText() {
-      return this.item.pauseCause || this.item.status;
+      return this.item.pauseCause || this.$t(`packages.agentStatus.${snakeToCamel(this.item.status)}`);
     },
   },
 };

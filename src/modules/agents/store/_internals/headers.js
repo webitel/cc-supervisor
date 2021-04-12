@@ -29,6 +29,7 @@ export default [
     show: true,
     sort: null,
     field: 'queues',
+    width: 'minmax(200px, 1fr)',
   }, {
     value: 'utilization',
     locale: 'pages.agent.columns.utilization',

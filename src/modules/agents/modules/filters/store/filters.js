@@ -45,6 +45,8 @@ const state = {
   utilization: new EnumFilterSchema({
     locale: { label: 'filters.utilization' },
     options: UtilizationOptions,
+    multiple: false,
+    closeOnSelect: true,
   }),
 };
 

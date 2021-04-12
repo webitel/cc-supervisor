@@ -1,3 +1,5 @@
+import { AgentStatus } from 'webitel-sdk';
+
 /**
  * Status to filter
  * @enum
@@ -6,15 +8,19 @@
 const AgentStatusOptions = Object.freeze([
     {
       name: 'Online',
-      value: 'online',
+      value: AgentStatus.Online,
     },
     {
       name: 'Offline',
-      value: 'offline',
+      value: AgentStatus.Offline,
     },
     {
       name: 'Pause',
-      value: 'pause',
+      value: AgentStatus.Pause,
+    },
+    {
+      name: 'Break Out',
+      value: AgentStatus.BreakOut,
     },
   ]);
 
