@@ -1,31 +1,18 @@
 <template>
   <div class="filter-wrap">
-    <abstract-enum-filter
+    <component
       class="filter-item"
+      v-for="(filter, key) of availableFilters"
+      :key="key"
+      :is="`abstract-${filter.type}-filter`"
+      :filter-query="filter.filterQuery"
       :namespace="namespace"
-      filter-query="period"
-    />
-    <abstract-api-filter
-      class="filter-item"
-      :namespace="namespace"
-      filter-query="queue"
-    />
-    <abstract-api-filter
-      class="filter-item"
-      :namespace="namespace"
-      :disabled="!isAdmin"
-      filter-query="team"
-    />
-    <abstract-enum-filter
-      class="filter-item"
-      :namespace="namespace"
-      filter-query="queueType"
-    />
+    ></component>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapState } from 'vuex';
 import AbstractApiFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-api-filter.vue';
 import AbstractEnumFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-enum-filter.vue';
 
@@ -40,16 +27,6 @@ export default {
       type: String,
     },
   },
-  watch: {
-    agent(agent) {
-      if (!this.isAdmin && agent.team) {
-        this.setFilter({
-          filter: 'team',
-          value: agent.team,
-        });
-      }
-    },
-  },
   computed: {
     ...mapState('userinfo', {
       agent: (state) => state.agent,
@@ -57,13 +34,11 @@ export default {
     isAdmin() {
       return this.agent.isAdmin;
     },
-  },
-  methods: {
-    ...mapActions({
-      setFilter(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_FILTER`, payload);
-      },
-    }),
+    availableFilters() {
+      return this.isAdmin
+        ? this.filters
+        : this.filters.filter((filter) => filter.filterQuery !== 'team');
+    },
   },
 };
 </script>
