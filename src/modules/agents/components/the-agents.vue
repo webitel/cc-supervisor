@@ -18,53 +18,53 @@
     </template>
 
     <template slot="actions-panel">
-      <div class="actions-panel-wrapper">
-        <agents-filters :namespace="filtersNamespace"/>
-        <div class="table-actions-wrapper">
-          <filter-fields
-            v-model="headers"
-            entity="agents"
-            :static-headers="['name']"
-          ></filter-fields>
-          <wt-table-actions
-            :icons="['refresh', 'filter-reset']"
-            @input="tableActionsHandler"
-          ></wt-table-actions>
-        </div>
-      </div>
+      <agents-filters :namespace="filtersNamespace"/>
     </template>
 
     <template slot="main">
-      <wt-loader v-show="isLoading"></wt-loader>
-      <div class="table-wrapper" v-show="!isLoading">
-        <wt-table
-          ref="agents-table"
-          :headers="headers"
-          :data="dataList"
-          sortable
-          :grid-actions="false"
-          @sort="sort"
-        >
-          <template slot="name" slot-scope="{ item }">
-            <table-agent :item="item"/>
-          </template>
-          <template slot="status" slot-scope="{ item }">
-            <table-agent-status :item="item"/>
-          </template>
-          <template slot="callTime" slot-scope="{ item }">
-            <table-agent-call-time :item="item" @attach-call="attachCall"/>
-          </template>
-          <template slot="team" slot-scope="{ item }">
-            <div v-if="item.team">
-              {{ item.team.name }}
-            </div>
-          </template>
-          <template slot="queues" slot-scope="{ item }">
-            <table-queues :item="item"/>
-          </template>
-        </wt-table>
-        <filter-pagination :is-next="isNext"/>
-      </div>
+      <section class="main-section-wrapper">
+        <wt-loader v-show="isLoading"></wt-loader>
+        <div class="table-wrapper" v-show="!isLoading">
+          <wt-table-actions
+            class="table-wrapper__actions-wrapper"
+            :icons="['refresh']"
+            @input="tableActionsHandler"
+          >
+            <filter-fields
+              v-model="headers"
+              entity="agents"
+              :static-headers="['name']"
+            ></filter-fields>
+          </wt-table-actions>
+          <wt-table
+            ref="agents-table"
+            :headers="headers"
+            :data="dataList"
+            sortable
+            :grid-actions="false"
+            @sort="sort"
+          >
+            <template slot="name" slot-scope="{ item }">
+              <table-agent :item="item"/>
+            </template>
+            <template slot="status" slot-scope="{ item }">
+              <table-agent-status :item="item"/>
+            </template>
+            <template slot="callTime" slot-scope="{ item }">
+              <table-agent-call-time :item="item" @attach-call="attachCall"/>
+            </template>
+            <template slot="team" slot-scope="{ item }">
+              <div v-if="item.team">
+                {{ item.team.name }}
+              </div>
+            </template>
+            <template slot="queues" slot-scope="{ item }">
+              <table-queues :item="item"/>
+            </template>
+          </wt-table>
+          <filter-pagination :is-next="isNext"/>
+        </div>
+      </section>
     </template>
   </wt-page-wrapper>
 </template>

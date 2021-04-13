@@ -11,6 +11,9 @@ export default {
         case 'filterReset':
           this.resetFilters();
           break;
+        case 'settings':
+          this.toggleFiltersExpansion();
+          break;
         default:
       }
     },

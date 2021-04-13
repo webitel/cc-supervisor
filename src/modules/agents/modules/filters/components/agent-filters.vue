@@ -1,23 +1,24 @@
 <template>
-  <div class="filter-wrap">
+  <wt-filters-panel-wrapper @reset="resetFilters">
     <component
-      class="filter-item"
       v-for="(filter, key) of availableFilters"
       :key="key"
       :is="`abstract-${filter.type}-filter`"
       :filter-query="filter.filterQuery"
       :namespace="namespace"
     ></component>
-  </div>
+  </wt-filters-panel-wrapper>
 </template>
 
 <script>
 import AbstractApiFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-api-filter.vue';
 import AbstractEnumFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-enum-filter.vue';
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
+import tableActionsHandlerMixin from '../../../../../app/mixins/supervisor-workspace/tableActionsHandlerMixin';
 
 export default {
   name: 'agent-filters',
+  mixins: [tableActionsHandlerMixin],
   components: {
     AbstractApiFilter,
     AbstractEnumFilter,
@@ -52,6 +53,13 @@ export default {
         : this.filters.filter((filter) => filter.filterQuery !== 'team'
           && filter.filterQuery !== 'supervisor');
     },
+  },
+  methods: {
+    ...mapActions({
+      dispatchResetFilters(dispatch, payload) {
+        return dispatch(`${this.namespace}/RESET_FILTERS`, payload);
+      },
+    }),
   },
 };
 </script>

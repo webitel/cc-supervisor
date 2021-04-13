@@ -17,25 +17,23 @@
       </wt-headline>
     </template>
     <template slot="actions-panel">
-      <div class="actions-panel-wrapper">
-        <queue-filters :namespace="filtersNamespace" />
-        <div class="table-actions-wrapper">
-          <filter-fields
-            v-model="headers"
-            entity="queues"
-            :static-headers="['queue', 'agents', 'free']"
-          ></filter-fields>
-          <wt-table-actions
-          :icons="['refresh', 'filter-reset']"
-          @input="tableActionsHandler"
-        ></wt-table-actions>
-        </div>
-      </div>
+      <queue-filters :namespace="filtersNamespace"/>
     </template>
     <template slot="main">
       <section class="main-section-wrapper">
         <wt-loader v-show="isLoading"></wt-loader>
         <div class="table-wrapper" v-show="!isLoading">
+          <wt-table-actions
+            class="table-wrapper__actions-wrapper"
+            :icons="['refresh']"
+            @input="tableActionsHandler"
+          >
+            <filter-fields
+              v-model="headers"
+              entity="queues"
+              :static-headers="['queue', 'agents', 'free']"
+            ></filter-fields>
+          </wt-table-actions>
           <wt-table
             :headers="headers"
             :data="dataList"
@@ -81,17 +79,17 @@
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
-
-import FilterFields from '../../_shared/filters/components/filter-table-fields.vue';
+import tablePageMixin from '../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../_shared/filters/components/filter-pagination.vue';
 
-import QueueFilters from '../modules/filters/components/queue-filters.vue';
-import TableQueue from './_internals/table-templates/table-queue.vue';
-import TableAgents from './_internals/table-templates/table-agents.vue';
-import TableTeam from './_internals/table-templates/table-team.vue';
-import TableMembers from './_internals/table-templates/table-members.vue';
-import tablePageMixin from '../../../app/mixins/supervisor-workspace/tablePageMixin';
+import FilterFields from '../../_shared/filters/components/filter-table-fields.vue';
 import QueuesAPI from '../api/queues';
+
+import QueueFilters from '../modules/filters/components/queue-filters.vue';
+import TableAgents from './_internals/table-templates/table-agents.vue';
+import TableMembers from './_internals/table-templates/table-members.vue';
+import TableQueue from './_internals/table-templates/table-queue.vue';
+import TableTeam from './_internals/table-templates/table-team.vue';
 
 export default {
   name: 'the-queues',
