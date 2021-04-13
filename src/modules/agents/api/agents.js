@@ -1,60 +1,74 @@
-import { AgentServiceApiFactory } from 'webitel-sdk';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
-import configuration from '../../../app/api/utils/openAPIConfig';
+import { AgentServiceApiFactory } from 'webitel-sdk';
+import SdkListGetterApiConsumer
+  from 'webitel-sdk/esm2015/api-consumers/ListGetter/sdk-list-getter-api-consumer/sdk-list-getter-api-consumer';
 import instance from '../../../app/api/instance';
+import configuration from '../../../app/api/utils/openAPIConfig';
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
-const parseAgentList = (items) => items.map((item) => ({
-  ...item,
-  callTime: convertDuration(item.callTime),
-  statusDuration: convertDuration(item.statusDuration),
-  utilization: item.utilization ? `${item.utilization.toFixed(2)}%` : null,
-  online: convertDuration(item.online),
-  offline: convertDuration(item.offline),
-  pause: convertDuration(item.pause),
-  teams: item.teams,
-  queues: item.queues,
-}));
+const listResponseHandler = (response) => {
+  const items = response.items.map((item) => ({
+    ...item,
+    _isSelected: false,
+    statusDuration: convertDuration(item.statusDuration),
+    utilization: `${item.utilization.toFixed(2)}%`,
+    online: convertDuration(item.online),
+    offline: convertDuration(item.offline),
+    pause: convertDuration(item.pause),
+    callTime: convertDuration(item.callTime),
+    chatTime: convertDuration(item.callTime),
+  }));
+  return {
+    ...response,
+    items,
+  };
+};
 
-export const getAgentsList = async ({
-                                      page = 0,
-                                      size = 10,
-                                      search = '',
-                                      ids,
-                                      status,
-                                      sort = '+name',
-                                      queue,
-                                      team,
-                                      callNow,
-                                    }) => {
-  try {
-    // eslint-disable-next-line no-param-reassign
-    if (search && search.slice(-1) !== '*') search += '*';
-    const start = new Date().setHours(0, 0, 0, 0);
-    const end = new Date().setHours(23, 59, 59, 999);
-    const res = await agentService.searchAgentStatusStatistic(
-      page,
-      size,
-      start, // time_from
-      end, // time_to
-      search,
-      ids, // agent_id[]
-      status, // status[]
-      queue,
-      team,
-      undefined, // utilization_from
-      undefined, // utilization_to
-      callNow,
-      sort,
-      undefined, // domain_id
-      undefined,
-    );
-    return {
-      items: res.items ? parseAgentList(res.items) : [],
-      next: !!res.next,
-    };
-  } catch (err) {
-    throw err;
-  }
+const defaultListObject = {
+  offline: 0,
+  online: 0,
+  pause: 0,
+  statusDuration: 0,
+  transferred: 0,
+  abandoned: 0,
+  utilization: 0,
+};
+
+const _getAgentsList = (getList) => function ({
+                                                page = 1,
+                                                size = 10,
+                                                search = '',
+                                                sort = '+name',
+                                                ids,
+                                                fields = [],
+                                                from = new Date().setHours(0, 0, 0, 0),
+                                                to = new Date().setHours(23, 59, 59, 999),
+                                                status,
+                                                queue,
+                                                team,
+                                                skill,
+                                                supervisor,
+                                                auditor,
+                                                region,
+                                                utilization, // utilizationTo
+                                                callNow,
+                                              }) {
+  const utilizationFrom = '0';
+  const params = [page, size, search, sort, fields, ids, from, to, status, queue, team,
+    utilizationFrom, utilization, callNow, skill, region, supervisor, auditor];
+  return getList(params);
+};
+
+const listGetter = new SdkListGetterApiConsumer(agentService.searchAgentStatusStatistic,
+  {
+    listResponseHandler,
+    defaultListObject,
+  })
+.setGetListMethod(_getAgentsList);
+
+export const getAgentsList = (params) => listGetter.getList(params);
+
+export default {
+  getList: getAgentsList,
 };

@@ -26,6 +26,16 @@ instance.interceptors.request.use(
         request.data = objCamelToSnake(request.data);
       }
     }
+    if (request.method === 'get') {
+      const searchRegex = /(\?|\&)(q|name)\=([^&]+)/gs;
+      const searches = request.url.match(searchRegex) || [];
+      searches.forEach((search) => {
+        if (search.slice(-1) !== '*') {
+          // eslint-disable-next-line no-param-reassign
+          request.url = request.url.replace(search, `${search}*`);
+        }
+      });
+    }
     return request;
   },
 );

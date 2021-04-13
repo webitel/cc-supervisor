@@ -1,10 +1,10 @@
 <template>
   <div v-if="item.queues">
-    {{ item.queues[0].name }}
-    <span
-      v-if="item.queues.length > 1"
-      class="table-badge"
-    >+ {{ item.queues.length - 1 }}</span>
+    <wt-badge
+      v-for="(queue, key) of item.queues"
+      :key="key"
+    >{{ queue.name }}
+    </wt-badge>
   </div>
 </template>
 
@@ -21,4 +21,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .wt-badge:not(:last-child) {
+    margin-right: var(--component-spacing);
+    margin-bottom: 5px;
+  }
 </style>

@@ -1,47 +1,17 @@
 import { AgentTeamServiceApiFactory } from 'webitel-sdk';
+import SdkListGetterApiConsumer
+  from 'webitel-sdk/esm2015/api-consumers/ListGetter/sdk-list-getter-api-consumer/sdk-list-getter-api-consumer';
+import { listResponseHandler, defaultParams } from '@webitel/ui-sdk/src/modules/QueryFilters/api/defaults';
 import instance from '../../../../app/api/instance';
 import configuration from '../../../../app/api/utils/openAPIConfig';
-import { formatOptions, defaultParams } from './defaults/defaults';
 
 const teamService = new AgentTeamServiceApiFactory(configuration, '', instance);
 
-export const fetchTeams = async ({
-                                   page,
-                                   size,
-                                   search,
-                                   fields,
-                                   id,
-                                 }) => {
-  // eslint-disable-next-line no-param-reassign
-  if (search && search.slice(-1) !== '*') search += '*';
-  try {
-    const response = await teamService.searchAgentTeam(
-      page,
-      size,
-      search,
-      undefined,
-      fields,
-      id,
-    );
-    return formatOptions(response);
-  } catch (err) {
-    throw err;
-  }
-};
+const listGetter = new SdkListGetterApiConsumer(teamService.searchAgentTeam,
+  { listResponseHandler });
 
-export const getTeams = (argParams) => {
-  const params = {
-    ...defaultParams,
-    ...argParams,
-  };
-  return fetchTeams(params);
-};
+const getList = (params) => listGetter.getList({ ...defaultParams, ...params });
 
-export const getTeamsByIds = (idList) => {
-  const params = {
-    ...defaultParams,
-    size: idList.length,
-    id: idList,
-  };
-  return fetchTeams(params);
+export default {
+  getList,
 };

@@ -6,7 +6,7 @@
           {{ $t('pages.queue.title') }}
         </template>
         <template slot="actions">
-          <filter-search :namespace="filtersNamespace" />
+          <filter-search :namespace="filtersNamespace" filter-query="search"/>
           <wt-button
             :loading="isCSVLoading"
             :disabled="!dataList.length"
@@ -80,12 +80,12 @@
 <script>
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
+import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 
 import FilterFields from '../../_shared/filters/components/filter-table-fields.vue';
-import FilterSearch from '../../_shared/filters/components/filter-search.vue';
 import FilterPagination from '../../_shared/filters/components/filter-pagination.vue';
 
-import QueueFilters from './_internals/queue-filters/queue-filters.vue';
+import QueueFilters from '../modules/filters/components/queue-filters.vue';
 import TableQueue from './_internals/table-templates/table-queue.vue';
 import TableAgents from './_internals/table-templates/table-agents.vue';
 import TableTeam from './_internals/table-templates/table-team.vue';

@@ -8,6 +8,7 @@
     ></wt-status-select>
     <pause-cause-popup
       v-if="isPauseCausePopup"
+      :options="pauseCauses"
       @change="handlePauseCauseInput"
       @close="closePauseCausePopup"
     ></pause-cause-popup>
@@ -18,6 +19,7 @@
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import AgentStatus from '@webitel/ui-sdk/src/enums/AgentStatus/AgentStatus.enum';
 import { mapActions, mapState } from 'vuex';
+import PauseCauseAPI from '../api/pause-cause';
 import PauseCausePopup from './_internals/pause-cause-popup.vue';
 
 export default {
@@ -52,13 +54,16 @@ export default {
         return dispatch(`${this.statusSelectNamespace}/UPDATE_AGENT_STATUS`, payload);
       },
     }),
-    handleStatusSelectInput(status) {
+    async handleStatusSelectInput(status) {
       if (status === AgentStatus.PAUSE) {
-        this.openPauseCausePopup();
-        return;
+        await this.loadPauseCauses();
+        if (this.pauseCauses.length) {
+          this.openPauseCausePopup();
+          return;
+        }
       }
       if (status === this.agent.status) return;
-      this.changeStatus({ status });
+      await this.changeStatus({ status });
     },
     handlePauseCauseInput(pauseCause) {
       const status = AgentStatus.PAUSE;
@@ -71,6 +76,14 @@ export default {
         await this.updateStatus(statusPayload);
         this.$emit('changed', statusPayload);
       } catch {}
+    },
+    async loadPauseCauses() {
+      this.isLoaded = false;
+      try {
+        const response = await PauseCauseAPI.getList({ agentId: this.agent.agentId });
+        this.pauseCauses = response.items;
+      } catch {}
+      this.isLoaded = true;
     },
     openPauseCausePopup() {
       this.isPauseCausePopup = true;

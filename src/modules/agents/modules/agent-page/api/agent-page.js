@@ -19,22 +19,17 @@ const parseAgentList = (items) => items.map((item) => ({
 
 export const getAgent = async (id) => {
   try {
-    const start = new Date().setHours(0, 0, 0, 0);
-    const end = new Date().setHours(23, 59, 59, 999);
+    const from = new Date().setHours(0, 0, 0, 0);
+    const to = new Date().setHours(23, 59, 59, 999);
     const res = await agentService.searchAgentStatusStatistic(
       1,
       1,
-      start, // time_from
-      end, // time_to
+      undefined,
+      undefined,
       undefined,
       [id], // agent_id[]
-      undefined, // status[]
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined, // domain_id
-      undefined,
+      from, // time_from
+      to, // time_to
     );
     // return res.items && res.items.length ? parseAgentList(res.items)[0] : {};
     if (Array.isArray(res.items)) {

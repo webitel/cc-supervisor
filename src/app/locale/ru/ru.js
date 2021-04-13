@@ -90,6 +90,10 @@ export default {
     agent: 'Оператор',
     user: 'Пользователь',
     gateway: 'Шлюз',
+    skill: 'Навык',
+    supervisor: 'Супервизор',
+    auditor: 'Аудитор',
+    region: 'Регион',
   },
   pages: {
     queue: {
@@ -116,10 +120,14 @@ export default {
       columns: {
         name: 'Очередь',
         status: 'Статус',
-        teams: 'Команды',
+        statusDuration: 'Длительность статуса',
+        team: 'Команда',
         queues: 'Очереди',
         utilization: 'Утилизация',
-        callTime: 'Звонок',
+        callTime: 'Время в звонках',
+        chatTime: 'Время в чатах',
+        transferred: 'Переведено',
+        abandoned: 'Потеряно',
       },
     },
     agentPage: {
@@ -197,8 +205,16 @@ export default {
     conference: 'Conference',
   },
   packages: {
+    agentStatus: {
+      online: 'Online',
+      offline: 'Offline',
+      pause: 'Pause',
+      breakOut: 'Break Out',
+    },
     agentStatusSelect: {
       pauseCausePopupTitle: 'Выберите причину паузы',
+      min: 'Мин',
+      unlimited: 'Безлимит',
     },
   },
 };

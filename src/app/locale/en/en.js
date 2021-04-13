@@ -90,6 +90,10 @@ export default {
     agent: 'Agent',
     user: 'User',
     gateway: 'Gateway',
+    skill: 'Skill',
+    supervisor: 'Supervisor',
+    auditor: 'Auditor',
+    region: 'Region',
   },
   options: {
     online: 'Online',
@@ -126,10 +130,14 @@ export default {
       columns: {
         name: 'Name',
         status: 'Status',
-        teams: 'Teams',
+        statusDuration: 'Status duration',
+        team: 'Team',
         queues: 'Queues',
         utilization: 'Utilization',
-        callTime: 'Call',
+        callTime: 'Call time',
+        chatTime: 'Chat time',
+        transferred: 'Transferred',
+        abandoned: 'Abandoned',
       },
     },
     agentPage: {
@@ -208,9 +216,17 @@ export default {
     conference: 'Conference',
   },
   packages: {
+    agentStatus: {
+      online: 'Online',
+      offline: 'Offline',
+      pause: 'Pause',
+      breakOut: 'Break Out',
+    },
     agentStatusSelect: {
       pauseCausePopup: {
         title: 'Select a pause cause',
+        min: 'Min',
+        unlimited: 'Unlimited',
       },
     },
   },
