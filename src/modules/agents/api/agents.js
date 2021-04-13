@@ -10,6 +10,7 @@ const agentService = new AgentServiceApiFactory(configuration, '', instance);
 const listResponseHandler = (response) => {
   const items = response.items.map((item) => ({
     ...item,
+    _isSelected: false,
     statusDuration: convertDuration(item.statusDuration),
     utilization: `${item.utilization.toFixed(2)}%`,
     online: convertDuration(item.online),

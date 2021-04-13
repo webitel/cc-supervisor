@@ -21,6 +21,11 @@ describe('Agent Filters wrapper', () => {
     localVue,
     store,
     propsData: { namespace },
+    computed: {
+      isAdmin() {
+        return true;
+      },
+    },
   };
   it('renders a component', () => {
     const wrapper = shallowMount(AgentFilters, mountOptions);

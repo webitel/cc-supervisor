@@ -27,6 +27,14 @@ export default {
       type: String,
     },
   },
+  data: () => ({
+    filters: [
+      { type: 'enum', filterQuery: 'period' },
+      { type: 'api', filterQuery: 'queue' },
+      { type: 'api', filterQuery: 'team' },
+      { type: 'enum', filterQuery: 'queueType' },
+    ],
+  }),
   computed: {
     ...mapState('userinfo', {
       agent: (state) => state.agent,

@@ -8,11 +8,17 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 
 const namespace = 'queues';
+const agent = {
+  isAdmin: false,
+};
 
 const store = new Vuex.Store({
   modules: {
     [namespace]: filters,
-    userinfo,
+    userinfo: {
+      ...userinfo,
+      state: { agent },
+    },
   },
 });
 
@@ -28,15 +34,13 @@ describe('Queue Filters wrapper', () => {
   });
   it('renders all filters', () => {
     const wrapper = shallowMount(QueueFilters, mountOptions);
-    expect(wrapper.findAll('.filter-item').length).toBe(4);
+    expect(wrapper.findAll('.filter-item').length).toBe(wrapper.vm.availableFilters.length);
   });
-  it('if agent has team, it team is set to filter by default', async () => {
-    const agent = { team: { name: 'jest' } };
-    const setFilterMock = jest.fn();
-    jest.spyOn(QueueFilters.methods, 'setFilter').mockImplementationOnce(setFilterMock);
-    const wrapper = shallowMount(QueueFilters, mountOptions);
-    wrapper.vm.$store.commit('userinfo/SET_AGENT_INSTANCE', agent);
-    await wrapper.vm.$nextTick();
-    expect(setFilterMock).toHaveBeenCalledWith({ filter: 'team', value: agent.team });
-  });
+  it('includes team filter is agent is admin', async () => {
+      agent.isAdmin = true;
+      const wrapper = shallowMount(QueueFilters, mountOptions);
+      await wrapper.vm.$nextTick();
+      expect(wrapper.vm.availableFilters.find((filter) => filter.filterQuery === 'team'))
+      .toBeTruthy();
+    });
 });
