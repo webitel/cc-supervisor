@@ -1,15 +1,15 @@
 <template>
   <article class="table-wrapper agent-calls">
-    <div class="table-actions-wrapper">
-      <filter-fields
-      v-model="headers"
-      entity="agentCalls"
-    ></filter-fields>
     <wt-table-actions
+      class="table-wrapper__actions-wrapper"
       :icons="['refresh']"
       @input="tableActionsHandler"
-    ></wt-table-actions>
-    </div>
+    >
+      <filter-fields
+        v-model="headers"
+        entity="agentCalls"
+      ></filter-fields>
+    </wt-table-actions>
     <wt-loader v-show="isLoading"></wt-loader>
     <div class="table-loading-wrapper" v-show="!isLoading">
       <wt-table

@@ -7,7 +7,10 @@ describe('"joined" queues api script', () => {
       joinedAtTo: end.getTime(),
       joinedAtFrom: new Date(end).setHours(0, 0, 0, 0),
     };
-    expect(joined()).toEqual(result);
+    const { joinedAtTo, joinedAtFrom } = joined();
+    // checking approx equality cause new Date() time may not be sync
+    expect(`${joinedAtFrom}`.slice(0, -3)).toEqual(`${result.joinedAtFrom}`.slice(0, -3));
+    expect(`${joinedAtTo}`.slice(0, -3)).toEqual(`${result.joinedAtTo}`.slice(0, -3));
   });
   it('joined: 3hour', () => {
     const end = new Date();
@@ -15,6 +18,9 @@ describe('"joined" queues api script', () => {
       joinedAtTo: end.getTime(),
       joinedAtFrom: new Date(end.setHours(end.getHours() - 3)).getTime(),
     };
-    expect(joined('3hour')).toEqual(result);
+    const { joinedAtTo, joinedAtFrom } = joined('3hour');
+    // checking approx equality cause new Date() time may not be sync
+    expect(`${joinedAtFrom}`.slice(0, -3)).toEqual(`${result.joinedAtFrom}`.slice(0, -3));
+    expect(`${joinedAtTo}`.slice(0, -3)).toEqual(`${result.joinedAtTo}`.slice(0, -3));
   });
 });

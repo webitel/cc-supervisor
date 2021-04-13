@@ -1,25 +1,7 @@
-@import 'table-filters/table-filters';
 
 .wt-headline {
   .wt-button {
     margin-left: 20px;
-  }
-}
-
-.actions-panel-wrapper {
-  display: flex;
-
-  .filter-wrap {
-    flex: 1;
-  }
-
-  .table-actions-wrapper {
-    display: flex;
-    margin-top: 24px;
-
-    .wt-table-actions {
-      height: fit-content;
-    }
   }
 }
 
@@ -45,9 +27,15 @@
   min-height: 0;
   box-sizing: border-box;
 
+  &__actions-wrapper {
+    display: flex;
+    margin-left: auto;
+    margin-bottom: var(--component-spacing);
+  }
+
   .wt-table {
     flex-grow: 1;
-    margin-bottom: 20px;
+    margin-bottom: var(--component-spacing);
   }
 
   .wt-pagination {
