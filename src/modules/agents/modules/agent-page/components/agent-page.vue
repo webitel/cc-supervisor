@@ -9,8 +9,9 @@
     <template slot="main">
       <div class="agent-page__content">
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         ></wt-tabs>
         <component :is="currentTab.value" :namespace="currentTab.namespace"></component>
       </div>
@@ -75,7 +76,10 @@ export default {
         return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
       },
     }),
-
+    changeTab(tab) {
+      this.$router.replace({ query: null }); // reset specific previous tab filters
+      this.currentTab = tab;
+    },
     async loadPage() {
       this.isLoading = true;
       try {
@@ -88,8 +92,7 @@ export default {
     },
 
     setInitialTab() {
-      // eslint-disable-next-line prefer-destructuring
-      if (this.tabs) this.currentTab = this.tabs[1];
+      if (this.tabs) this.changeTab(this.tabs[1]);
     },
   },
 };
