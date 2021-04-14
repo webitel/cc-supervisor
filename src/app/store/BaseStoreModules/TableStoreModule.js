@@ -1,4 +1,5 @@
 import BaseStoreModule from '@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule';
+import router from '../../router';
 
 export default class TableStoreModule extends BaseStoreModule {
   state = {
@@ -8,10 +9,10 @@ export default class TableStoreModule extends BaseStoreModule {
   };
 
   getters = {
-    GET_LIST_PARAMS: (state, getters) => (queryParams) => {
-      const fields = queryParams.fields
+    GET_LIST_PARAMS: (state, getters) => (queryParams = router.currentRoute.query) => {
+      const fields = (queryParams.fields
         ? getters.GET_DATA_FIELDS_BY_VALUE(queryParams.fields)
-        : getters.DATA_FIELDS;
+        : getters.DATA_FIELDS).concat(['id']);
       const filters = getters.GET_FILTERS;
       return {
         ...queryParams,
@@ -34,7 +35,7 @@ export default class TableStoreModule extends BaseStoreModule {
   };
 
   actions = {
-    FETCH_LIST: async (context, params) => {
+    LOAD_DATA_LIST: async (context, params) => {
       const _params = context.getters.GET_LIST_PARAMS(params);
       const { items, next, aggs = {} } = await context.dispatch('GET_LIST', _params);
       context.commit('SET_LIST', items);

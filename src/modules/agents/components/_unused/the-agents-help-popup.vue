@@ -186,7 +186,7 @@
 
 <!--  methods: {-->
 <!--    ...mapActions('agentAttentions', {-->
-<!--      loadDataList: 'FETCH_LIST',-->
+<!--      loadDataList: 'LOAD_DATA_LIST',-->
 <!--      removeItemData: 'REMOVE_ITEM',-->
 <!--    }),-->
 

@@ -9,7 +9,7 @@ const state = {
 const getters = {};
 
 const actions = {
-    FETCH_LIST: async (context, params = {}) => {
+    LOAD_DATA_LIST: async (context, params = {}) => {
         try {
             const { items, next } = await getActiveCallList(params);
             context.commit('SET_LIST', items);

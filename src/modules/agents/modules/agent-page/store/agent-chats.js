@@ -7,7 +7,7 @@ const state = {
 const getters = {};
 
 const actions = {
-    FETCH_LIST: async (context, id, page, size, search, sort) => {
+    LOAD_DATA_LIST: async (context, id, page, size, search, sort) => {
         const { items, next } = await getAgentChatsList(id, page, size, search, sort);
         context.commit('SET_LIST', items);
         return next;

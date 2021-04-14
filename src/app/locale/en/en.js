@@ -2,6 +2,7 @@ export default {
   reusable: {
     total: 'Total',
     ok: 'Ok',
+    close: 'Close',
   },
   appNavigator: {
     title: 'Webitel applications',
@@ -180,6 +181,14 @@ export default {
           queueDurationSec: 'Queue duration',
           result: 'Result',
           sipCode: 'SIP code',
+        },
+      },
+      skills: {
+        title: 'Skills',
+        skills: 'Skill | Skills',
+        capacity: 'Capacity',
+        columns: {
+          enabled: 'Enabled',
         },
       },
     },
