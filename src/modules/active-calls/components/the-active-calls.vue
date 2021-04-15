@@ -125,7 +125,7 @@ export default {
   },
   methods: {
     ...mapActions('activeCalls', {
-      loadDataList: 'FETCH_LIST',
+      loadDataList: 'LOAD_DATA_LIST',
     }),
     ...mapActions('activeCalls/filters', {
       dispatchResetFilters: 'RESET_FILTERS',

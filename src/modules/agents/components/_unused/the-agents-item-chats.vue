@@ -102,7 +102,7 @@
 <!--        },-->
 <!--        methods: {-->
 <!--            ...mapActions('agentChats', {-->
-<!--                loadDataList: 'FETCH_LIST',-->
+<!--                loadDataList: 'LOAD_DATA_LIST',-->
 <!--            }),-->
 <!--            async loadList() {-->
 <!--                this.isLoading = true;-->

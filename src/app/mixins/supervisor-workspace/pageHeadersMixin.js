@@ -12,7 +12,7 @@ export default {
       get() {
         return this.headersValue.map((header) => ({
           ...header,
-          text: this.$t(header.locale),
+          text: Array.isArray(header.locale) ? this.$tc(...header.locale) : this.$t(header.locale),
         }));
       },
       set(value) {

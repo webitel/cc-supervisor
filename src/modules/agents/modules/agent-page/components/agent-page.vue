@@ -9,8 +9,9 @@
     <template slot="main">
       <div class="agent-page__content">
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         ></wt-tabs>
         <component :is="currentTab.value" :namespace="currentTab.namespace"></component>
       </div>
@@ -21,9 +22,10 @@
 <script>
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
-import AgentPanel from './agent-panel/agent-panel.vue';
 import AgentCalls from '../modules/agent-calls/components/agent-calls-tab.vue';
 import AgentCallsFilters from '../modules/agent-calls/modules/filters/components/agent-calls-filters.vue';
+import AgentSkills from '../modules/agent-skills/components/agent-skills-tab.vue';
+import AgentPanel from './agent-panel/agent-panel.vue';
 
 export default {
   name: 'agent-page',
@@ -31,6 +33,7 @@ export default {
     AgentPanel,
     AgentCalls,
     AgentCallsFilters,
+    AgentSkills,
   },
 
   data: () => ({
@@ -52,12 +55,19 @@ export default {
     }),
 
     tabs() {
-      return [{
-        text: this.$t('pages.agentPage.calls.title'),
-        value: 'agent-calls',
-        actionsPanel: true,
-        namespace: `${this.namespace}/agentCalls`,
-      }];
+      return [
+        {
+          text: this.$t('pages.agentPage.calls.title'),
+          value: 'agent-calls',
+          actionsPanel: true,
+          namespace: `${this.namespace}/agentCalls`,
+        }, {
+          text: this.$t('pages.agentPage.skills.title'),
+          value: 'agent-skills',
+          actionsPanel: false,
+          namespace: `${this.namespace}/agentSkills`,
+        },
+      ];
     },
   },
   methods: {
@@ -66,7 +76,10 @@ export default {
         return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
       },
     }),
-
+    changeTab(tab) {
+      this.$router.replace({ query: null }); // reset specific previous tab filters
+      this.currentTab = tab;
+    },
     async loadPage() {
       this.isLoading = true;
       try {
@@ -79,8 +92,7 @@ export default {
     },
 
     setInitialTab() {
-      // eslint-disable-next-line prefer-destructuring
-      if (this.tabs) this.currentTab = this.tabs[0];
+      if (this.tabs) this.changeTab(this.tabs[0]);
     },
   },
 };

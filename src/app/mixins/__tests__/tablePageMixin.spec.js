@@ -22,7 +22,7 @@ describe('table Page Mixin', () => {
       [namespace]: {
         namespaced: true,
         state,
-        actions: { FETCH_LIST: fetchListActionMock },
+        actions: { LOAD_DATA_LIST: fetchListActionMock },
       },
     },
   });
@@ -37,7 +37,7 @@ describe('table Page Mixin', () => {
     data: () => ({ namespace }),
   };
 
-  it('at start, calls FETCH_LIST store action', () => {
+  it('at start, calls LOAD_DATA_LIST store action', () => {
     shallowMount(Component, mountOptions);
     expect(fetchListActionMock).toHaveBeenCalled();
   });

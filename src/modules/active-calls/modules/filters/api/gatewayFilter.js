@@ -1,11 +1,10 @@
-import ApiListGetterApiConsumer
-  from 'webitel-sdk/esm2015/api-consumers/ListGetter/api-list-getter-api-consumer/api-list-getter-api-consumer';
+import { EndpointListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
 import { listResponseHandler, defaultParams } from '@webitel/ui-sdk/src/modules/QueryFilters/api/defaults';
 import instance from '../../../../../app/api/instance';
 
 const baseUrl = '/sip/gateways';
 
-const listGetter = new ApiListGetterApiConsumer({ baseUrl, instance }, {
+const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, {
   listResponseHandler,
 });
 

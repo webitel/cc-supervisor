@@ -37,7 +37,7 @@ export default {
   methods: {
     ...mapActions({
       loadDataList(dispatch, payload) {
-        return dispatch(`${this.namespace}/FETCH_LIST`, payload);
+        return dispatch(`${this.namespace}/LOAD_DATA_LIST`, payload);
       },
       dispatchResetFilters(dispatch, payload) {
         return dispatch(`${this.filtersNamespace}/RESET_FILTERS`, payload);

@@ -16,7 +16,7 @@ describe('Table Store Module: getters', () => {
     const getters = {
       DATA_FIELDS: ['jest'],
     };
-    const expectedParams = { fields: ['jest'], from: 0, agent: [1, 2] };
+    const expectedParams = { fields: ['jest', 'id'], from: 0, agent: [1, 2] };
     expect(module.getters.GET_LIST_PARAMS(state, getters)(query))
       .toEqual(expectedParams);
   });
@@ -42,27 +42,27 @@ describe('Table Store Module: actions', () => {
     context = getContextMock(jest);
     context.getters.GET_LIST_PARAMS = () => ({});
   });
-  it('FETCH_LIST dispatches GET_LIST', async () => {
+  it('LOAD_DATA_LIST dispatches GET_LIST', async () => {
     context.dispatch = jest.fn(() => ({}));
-    await module.actions.FETCH_LIST(context);
+    await module.actions.LOAD_DATA_LIST(context);
     expect(context.dispatch).toHaveBeenCalledWith('GET_LIST', {});
   });
-  it('FETCH_LIST commits SET_LIST with "items", get from GET_LIST', async () => {
+  it('LOAD_DATA_LIST commits SET_LIST with "items", get from GET_LIST', async () => {
     const items = [{ jest: 'jest' }];
     context.dispatch = jest.fn(() => ({ items }));
-    await module.actions.FETCH_LIST(context);
+    await module.actions.LOAD_DATA_LIST(context);
     expect(context.commit).toHaveBeenNthCalledWith(1, 'SET_LIST', items);
   });
-  it('FETCH_LIST commits SET_NEXT with "next", get from GET_LIST', async () => {
+  it('LOAD_DATA_LIST commits SET_NEXT with "next", get from GET_LIST', async () => {
     const next = true;
     context.dispatch = jest.fn(() => ({ next }));
-    await module.actions.FETCH_LIST(context);
+    await module.actions.LOAD_DATA_LIST(context);
     expect(context.commit).toHaveBeenNthCalledWith(2, 'SET_NEXT', next);
   });
-  it('FETCH_LIST commits SET_AGGS with "aggs", get from GET_LIST', async () => {
+  it('LOAD_DATA_LIST commits SET_AGGS with "aggs", get from GET_LIST', async () => {
     const aggs = { jest: 'jest' };
     context.dispatch = jest.fn(() => ({ aggs }));
-    await module.actions.FETCH_LIST(context);
+    await module.actions.LOAD_DATA_LIST(context);
     expect(context.commit).toHaveBeenNthCalledWith(3, 'SET_AGGS', aggs);
   });
   it('SET_HEADERS commits SET_HEADERS with passed value', () => {

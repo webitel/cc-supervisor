@@ -2,6 +2,7 @@ export default {
   reusable: {
     total: 'Всего',
     ok: 'Ок',
+    close: 'Закрыть',
   },
   appNavigator: {
     title: 'Приложения Webitel',
@@ -168,6 +169,14 @@ export default {
           queueDurationSec: 'Длительность в очереди',
           result: 'Результат',
           sipCode: 'SIP код',
+        },
+      },
+      skills: {
+        title: 'Навыки',
+        skills: 'Навык | Навыки',
+        capacity: 'Емкость',
+        columns: {
+          enabled: 'Включен',
         },
       },
     },

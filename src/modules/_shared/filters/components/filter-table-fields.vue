@@ -27,8 +27,8 @@ export default {
   },
 
   data: () => ({
-    filterQuery: 'fields',
     storedProp: 'value',
+    filterQuery: 'fields',
   }),
 
   model: {
