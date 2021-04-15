@@ -92,7 +92,7 @@ export default {
     },
 
     setInitialTab() {
-      if (this.tabs) this.changeTab(this.tabs[1]);
+      if (this.tabs) this.changeTab(this.tabs[0]);
     },
   },
 };

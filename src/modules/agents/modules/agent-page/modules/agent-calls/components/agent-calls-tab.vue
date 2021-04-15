@@ -1,5 +1,5 @@
 <template>
-  <article class="table-wrapper agent-calls">
+  <article class="table-wrapper table-wrapper--tab-table">
     <wt-table-actions
       class="table-wrapper__actions-wrapper"
       :icons="['refresh']"
@@ -122,30 +122,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.agent-calls {
-    position: relative;
-
-  .table-actions-wrapper {
-    align-self: flex-end;
-    display: flex;
-    align-items: center;
-    margin: var(--component-spacing) 0;
-  }
-
-  .wt-loader {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .table-loading-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-    height: 100%;
-    min-height: 0;
-  }
-}
 </style>

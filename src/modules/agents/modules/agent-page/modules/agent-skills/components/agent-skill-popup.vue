@@ -48,7 +48,7 @@ import {
 } from 'vuelidate/lib/validators';
 import { getSkillsList } from '../api/skills';
 import nestedObjectMixin
-  from '../../../../../../../app/mixins/client/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+  from '../../../../../../../packages/client/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
   name: 'agent-skill-popup',

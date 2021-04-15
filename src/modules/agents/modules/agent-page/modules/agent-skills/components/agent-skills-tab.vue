@@ -1,5 +1,5 @@
 <template>
-  <article class="table-wrapper agent-skills">
+  <article class="table-wrapper table-wrapper--tab-table">
     <skill-popup
       v-if="isSkillPopup"
       :namespace="namespace"
@@ -39,10 +39,12 @@
         </template>
         <template slot="actions" slot-scope="{ item, index }">
           <edit-action
+            class="table-action"
             @click="edit(item)"
           ></edit-action>
           <delete-action
-            @click="remove(index)"
+            class="table-action"
+            @click="removeItem(index)"
           ></delete-action>
         </template>
       </wt-table>
@@ -52,24 +54,24 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
+import DeleteAction from '@webitel/ui-sdk/src/components/organisms/wt-table/table-cells/wt-table-delete-action.vue';
+import EditAction from '@webitel/ui-sdk/src/components/organisms/wt-table/table-cells/wt-table-edit-action.vue';
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
 import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields.vue';
 import SkillPopup from './agent-skill-popup.vue';
 
-import DeleteAction from '../../../../../../../../../client/src/app/components/utils/table-cell/default-table-actions/delete-action.vue';
-import EditAction from '../../../../../../../../../client/src/app/components/utils/table-cell/default-table-actions/edit-action.vue';
-
 export default {
   name: 'agent-skills-tab',
   components: {
+    DeleteAction,
+    EditAction,
     FilterFields,
     FilterPagination,
     SkillPopup,
-    DeleteAction,
-    EditAction,
   },
   mixins: [
     tablePageMixin,
@@ -78,13 +80,18 @@ export default {
   props: {
     namespace: {
       type: String,
+      required: true,
     },
   },
   data: () => ({
     isSkillPopup: false,
   }),
-  created() {
-    this.setParentId(this.$route.params.id);
+  computed: {
+   ...mapState({
+     parentId(state) {
+       return getNamespacedState(state, this.namespace).parentId;
+     },
+   }),
   },
   methods: {
     ...mapActions({
@@ -102,20 +109,12 @@ export default {
       },
     }),
     loadList() {
-      const agentId = this.$route.params.id;
-      const { query } = this.$route;
-      return this.loadDataList({
-        ...query,
-        agentId,
-      });
+     this.setParentId(this.$route.params.id);
+      return tablePageMixin.methods.loadList.call(this);
     },
-    edit(item) {
-      this.setId(item.id);
+    edit({ id }) {
+      this.setId(id);
       this.openPopup();
-    },
-    async remove(index) {
-      await this.removeItem(index);
-      this.loadList();
     },
     openPopup() {
       this.isSkillPopup = true;
@@ -128,30 +127,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.agent-skills {
-    position: relative;
-
-  .table-actions-wrapper {
-    align-self: flex-end;
-    display: flex;
-    align-items: center;
-    margin: var(--component-spacing) 0;
-  }
-
-  .wt-loader {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .table-loading-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-    height: 100%;
-    min-height: 0;
-  }
-}
 </style>

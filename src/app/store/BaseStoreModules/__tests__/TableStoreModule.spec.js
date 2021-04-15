@@ -16,7 +16,7 @@ describe('Table Store Module: getters', () => {
     const getters = {
       DATA_FIELDS: ['jest'],
     };
-    const expectedParams = { fields: ['jest'], from: 0, agent: [1, 2] };
+    const expectedParams = { fields: ['jest', 'id'], from: 0, agent: [1, 2] };
     expect(module.getters.GET_LIST_PARAMS(state, getters)(query))
       .toEqual(expectedParams);
   });
