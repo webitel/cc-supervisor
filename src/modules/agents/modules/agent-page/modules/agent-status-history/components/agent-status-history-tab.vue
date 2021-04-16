@@ -4,7 +4,12 @@
       class="table-wrapper__actions-wrapper"
       :icons="['refresh']"
       @input="tableActionsHandler"
-    ></wt-table-actions>
+    >
+      <filter-fields
+        v-model="headers"
+        entity="agentStatusHistory"
+      ></filter-fields>
+    </wt-table-actions>
     <wt-loader v-show="isLoading"></wt-loader>
     <div class="table-loading-wrapper" v-show="!isLoading">
       <wt-table
@@ -26,6 +31,7 @@
 
 <script>
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
+import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields';
 import TableAgentState from './_internals/table-templates/table-agent-state.vue';
 import playMediaMixin from '../../../../../../../app/mixins/media/playMediaMixin';
 import showMediaMixin from '../../../../../../../app/mixins/media/showMediaMixin';
@@ -36,6 +42,7 @@ export default {
   name: 'agent-status-history-tab',
   components: {
     TableAgentState,
+    FilterFields,
     FilterPagination,
   },
   mixins: [
