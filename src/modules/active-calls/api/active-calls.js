@@ -10,8 +10,7 @@ const listResponseHandler = (response) => {
   const items = response.items.map((item) => ({
     ...item,
     duration: convertDuration(item.duration),
-    createdAt: new Date(+item.createdAt).toLocaleTimeString()
-    .slice(0, 8),
+    createdAt: new Date(+item.createdAt).toLocaleTimeString(),
   }));
   return {
     ...response,

@@ -27,6 +27,7 @@ module.exports = {
     'src/app/store/**/*.{js,vue}',
     'src/modules/**/*.{js,vue}',
 
+    '!src/**/_unused/**/*.{js,vue}',
     '!src/**/index.js', // No need to cover bootstrap file
     '!src/**/main.js', // No need to cover bootstrap file
   ],
