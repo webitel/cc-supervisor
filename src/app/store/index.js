@@ -4,7 +4,7 @@ import userinfo from '../../modules/userinfo/store/userinfo';
 import queues from '../../modules/queues/store/queues';
 import agents from '../../modules/agents/store/agents';
 import agentChats from '../../modules/agents/modules/agent-page/store/agent-chats';
-import activeCalls from '../../modules/active-calls/store/activeCalls';
+import activeCalls from '../../modules/active-calls/store/active-calls';
 import agentAttentions from '../../modules/agents/modules/agent-page/store/agent-attentions';
 import call from '../../modules/call-window/store/call';
 

@@ -7,7 +7,7 @@ import AgentStatusOptions from '../api/AgentStatusOptions.enum';
 import QueueFilterAPI from '../../../../_shared/filters/api/queueFilter';
 import RegionFilterAPI from '../api/regionFilter';
 import SkillFilterAPI from '../api/skillFilter';
-import SupervisorFilterAPI from '../api/supervisorFilter';
+import SupervisorFilterAPI from '../../../../_shared/filters/api/supervisorFilter';
 import TeamFilterAPI from '../../../../_shared/filters/api/teamFilter';
 import AuditorFilterAPI from '../../../../active-calls/modules/filters/api/userFilter';
 import UtilizationOptions from '../api/UtilizationOptions.enum';
