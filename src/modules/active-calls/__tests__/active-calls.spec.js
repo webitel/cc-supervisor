@@ -1,8 +1,8 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
-import { getActiveCallList as API } from '../api/activeCalls';
-import activeCallsStore from '../store/activeCalls';
+import { getActiveCallList as API } from '../api/active-calls';
+import activeCallsStore from '../store/active-calls';
 import ActiveCalls from '../components/the-active-calls.vue';
 
 const localVue = createLocalVue();
@@ -21,7 +21,7 @@ const items = [
   },
 ];
 
-jest.mock('../api/activeCalls');
+jest.mock('../api/active-calls');
 
 describe('Active calls page', () => {
   let state;
