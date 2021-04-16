@@ -88,7 +88,9 @@ export default {
       },
     }),
     changeTab(tab) {
-      this.$router.replace({ query: null }); // reset specific previous tab filters
+      if (Object.keys(this.$route.query).length) {
+        this.$router.replace({ query: null }); // reset specific previous tab filters
+      }
       this.currentTab = tab;
     },
     async loadPage() {
@@ -103,7 +105,7 @@ export default {
     },
 
     setInitialTab() {
-      if (this.tabs) this.changeTab(this.tabs[1]);
+      if (this.tabs) this.changeTab(this.tabs[0]);
     },
   },
 };
