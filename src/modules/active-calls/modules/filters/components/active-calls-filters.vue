@@ -1,12 +1,12 @@
 <template>
   <wt-filters-panel-wrapper @reset="resetFilters">
-    <component
-      v-for="(filter, key) of availableFilters"
-      :key="key"
-      :is="`abstract-${filter.type}-filter`"
-      :filter-query="filter.filterQuery"
-      :namespace="namespace"
-    ></component>
+  <component
+    v-for="(filter, key) of availableFilters"
+    :key="key"
+    :is="`abstract-${filter.type}-filter`"
+    :filter-query="filter.filterQuery"
+    :namespace="namespace"
+  ></component>
   </wt-filters-panel-wrapper>
 </template>
 
@@ -14,18 +14,17 @@
 import filtersPanelMixin from '../../../../../app/mixins/supervisor-workspace/filtersPanelMixin';
 
 export default {
-  name: 'agent-filters',
+  name: 'active-calls-filters',
   mixins: [filtersPanelMixin],
   data: () => ({
     filters: [
-      { type: 'enum', filterQuery: 'status' },
+      { type: 'enum', filterQuery: 'direction' },
+      { type: 'api', filterQuery: 'gateway' },
       { type: 'api', filterQuery: 'queue' },
-      { type: 'api', filterQuery: 'skill' },
-      { type: 'api', filterQuery: 'team' },
+      { type: 'api', filterQuery: 'user' },
+      { type: 'api', filterQuery: 'agent' },
       { type: 'api', filterQuery: 'supervisor' },
-      { type: 'api', filterQuery: 'auditor' },
-      { type: 'api', filterQuery: 'region' },
-      { type: 'enum', filterQuery: 'utilization' },
+      { type: 'api', filterQuery: 'team' },
     ],
   }),
   computed: {
