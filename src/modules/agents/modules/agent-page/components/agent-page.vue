@@ -24,6 +24,8 @@ import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedS
 import { mapActions, mapState } from 'vuex';
 import AgentCalls from '../modules/agent-calls/components/agent-calls-tab.vue';
 import AgentCallsFilters from '../modules/agent-calls/modules/filters/components/agent-calls-filters.vue';
+import StatusHistory from '../modules/agent-status-history/components/agent-status-history-tab.vue';
+import StatusHistoryFilters from '../modules/agent-status-history/modules/filters/components/agent-status-history-filters.vue';
 import AgentSkills from '../modules/agent-skills/components/agent-skills-tab.vue';
 import AgentPanel from './agent-panel/agent-panel.vue';
 
@@ -33,6 +35,8 @@ export default {
     AgentPanel,
     AgentCalls,
     AgentCallsFilters,
+    StatusHistory,
+    StatusHistoryFilters,
     AgentSkills,
   },
 
@@ -61,7 +65,14 @@ export default {
           value: 'agent-calls',
           actionsPanel: true,
           namespace: `${this.namespace}/agentCalls`,
-        }, {
+        },
+        {
+          text: this.$t('pages.agentPage.statusHistory.title'),
+          value: 'status-history',
+          actionsPanel: true,
+          namespace: `${this.namespace}/agentStatusHistory`,
+        },
+        {
           text: this.$t('pages.agentPage.skills.title'),
           value: 'agent-skills',
           actionsPanel: false,
@@ -92,7 +103,7 @@ export default {
     },
 
     setInitialTab() {
-      if (this.tabs) this.changeTab(this.tabs[0]);
+      if (this.tabs) this.changeTab(this.tabs[1]);
     },
   },
 };
