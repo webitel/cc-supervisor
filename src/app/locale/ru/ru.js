@@ -1,8 +1,17 @@
 export default {
+  // describes reusable buttons, actions, default titles, and other ui elements
   reusable: {
     total: 'Всего',
     ok: 'Ок',
+    Save: 'Сохранить',
     close: 'Закрыть',
+  },
+  // describes Webitel system entities
+  objects: {
+    team: 'Команда | Команды',
+    supervisor: 'Супервизор | Супервизоры',
+    auditor: 'Аудитор | Аудиторы',
+    region: 'Регион | Регионы',
   },
   appNavigator: {
     title: 'Приложения Webitel',
@@ -133,7 +142,8 @@ export default {
     },
     agentPage: {
       callAgent: 'Позвонить',
-      team: 'Команда',
+      progressiveCount: 'Количество прогрессивных звонков',
+      chatCount: 'Количество чатов',
       general: {
         title: 'Главная',
         pauseCause: {

@@ -66,7 +66,7 @@ export default {
           text: this.$t('pages.agentPage.general.title'),
           value: 'general',
           actionsPanel: false,
-          namespace: `${this.namespace}/agentGeneral`,
+          namespace: this.namespace,
         },
         {
           text: this.$t('pages.agentPage.calls.title'),
@@ -91,6 +91,9 @@ export default {
   },
   methods: {
     ...mapActions({
+      setAgentId(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_AGENT_ID`, payload);
+      },
       loadAgent(dispatch, payload) {
         return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
       },
@@ -105,7 +108,8 @@ export default {
       this.isLoading = true;
       try {
         const { id } = this.$route.params;
-        await this.loadAgent(id);
+        await this.setAgentId(id);
+        await this.loadAgent();
       } catch {
       } finally {
         this.isLoading = false;

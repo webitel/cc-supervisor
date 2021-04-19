@@ -1,17 +1,17 @@
 export default {
+  // describes reusable buttons, actions, default titles, and other ui elements
   reusable: {
     total: 'Total',
     ok: 'Ok',
+    save: 'Save',
     close: 'Close',
   },
-  appNavigator: {
-    title: 'Webitel applications',
-    admin: 'Admin',
-    agent: 'Agent Workspace',
-    supervisor: 'Supervisor Workspace',
-    audit: 'Audit',
-    history: 'Call History',
-    grafana: 'Grafana',
+  // describes Webitel system entities
+  objects: {
+    team: 'Team | Teams',
+    supervisor: 'Supervisor | Supervisors',
+    auditor: 'Auditor | Auditors',
+    region: 'Region | Regions',
   },
   auth: {
     register: 'Register',
@@ -32,27 +32,10 @@ export default {
     missed: 'Missed',
     disconnect: 'Disconnect',
   },
-  settings: {
-    settings: 'Settings',
-    changePassword: 'Change password',
-    language: 'Language',
-    autoRefresh: 'AutoRefresh interval',
-  },
-  header: {
-    logout: 'Log out',
-    docs: 'Docs',
-  },
   nav: {
     queue: 'Queue',
     agents: 'Agents',
     activeCalls: 'Active Calls',
-  },
-  icon: {
-    docs: 'Docs',
-    logout: 'Logout',
-    account: 'Account',
-    appNavigator: 'App navigator',
-    settings: 'Settings',
   },
   validation: {
     email: 'Should look email-like',
@@ -66,6 +49,7 @@ export default {
     numeric: 'Should be numeric',
     requiredArrayValue: 'Array should not be empty',
   },
+  // DEPRECATED: these locales should be moved to "reusable"
   defaults: {
     search: 'Search',
     exportCSV: 'Export CSV',
@@ -143,9 +127,11 @@ export default {
     },
     agentPage: {
       callAgent: 'Call',
-      team: 'Team',
+      progressiveCount: 'Progressive calls count',
+      chatCount: 'Chat count',
       general: {
         title: 'General',
+        team: 'Team',
         pauseCause: {
           columns: {
             name: 'Name',

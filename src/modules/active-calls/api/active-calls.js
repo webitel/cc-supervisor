@@ -30,6 +30,7 @@ const _getActiveCallsList = (getList) => function ({
                                                      queue,
                                                      team,
                                                      agent,
+                                                     supervisor,
                                                      sort,
                                                      direction,
                                                      user,
@@ -37,8 +38,10 @@ const _getActiveCallsList = (getList) => function ({
                                                    }) {
   const params = [page, size, search, sort, fields, undefined, undefined, user, agent, queue, team,
     undefined, gateway, undefined, undefined, undefined, undefined, undefined, undefined,
-    undefined, undefined, direction];
-  return getList(params);};
+    undefined, undefined, direction, undefined, undefined, undefined, undefined, undefined,
+    supervisor];
+  return getList(params);
+};
 
 const listGetter = new SdkListGetterApiConsumer(callService.searchActiveCall,
   {
