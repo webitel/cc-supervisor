@@ -144,6 +144,16 @@ export default {
     agentPage: {
       callAgent: 'Call',
       team: 'Team',
+      general: {
+        title: 'General',
+        pauseCause: {
+          columns: {
+            name: 'Name',
+            duration: 'Duration',
+            limit: 'Limit',
+          },
+        },
+      },
       calls: {
         title: 'Calls',
         columns: {

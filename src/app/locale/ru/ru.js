@@ -132,6 +132,18 @@ export default {
       },
     },
     agentPage: {
+      callAgent: 'Позвонить',
+      team: 'Команда',
+      general: {
+        title: 'Главная',
+        pauseCause: {
+          columns: {
+            name: 'Название',
+            duration: 'Длительность',
+            limit: 'Лимит',
+          },
+        },
+      },
       calls: {
         title: 'Звонки',
         columns: {

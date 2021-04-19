@@ -1,5 +1,6 @@
 import { getAgent } from '../api/agent-page';
 import statusSelect from '../modules/agent-status-select/store/agent-status-select';
+import agentGeneral from '../modules/agent-general/store/agent-general';
 import agentCalls from '../modules/agent-calls/store/agent-calls';
 import agentStatusHistory from '../modules/agent-status-history/store/agent-status-history';
 import agentSkills from '../modules/agent-skills/store/agent-skills';
@@ -40,6 +41,7 @@ export default {
   mutations,
   modules: {
     statusSelect,
+    agentGeneral,
     agentCalls,
     agentStatusHistory,
     agentSkills,
