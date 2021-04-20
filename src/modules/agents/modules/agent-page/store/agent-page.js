@@ -19,7 +19,7 @@ const actions = {
     context.commit('SET_AGENT_ID', id);
   },
   LOAD_AGENT: async (context) => {
-    const agent = await AgentAPI.get(context.state.agentId);
+    const agent = await AgentAPI.get({ itemId: context.state.agentId });
     context.commit('SET_AGENT', editProxy(agent));
   },
   SET_AGENT_STATUS: (context, { status }) => {

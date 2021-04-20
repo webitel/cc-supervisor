@@ -32,13 +32,13 @@
       :value="agent.progressiveCount"
       :label="$t('pages.agentPage.progressiveCount')"
       type="number"
-      @input="setItemProp({ prop: 'progressiveCount', value: $event })"
+      @input="setItemProp({ prop: 'progressiveCount', value: +$event })"
     ></wt-input>
     <wt-input
       :value="agent.chatCount"
       :label="$t('pages.agentPage.chatCount')"
       type="number"
-      @input="setItemProp({ prop: 'chatCount', value: $event })"
+      @input="setItemProp({ prop: 'chatCount', value: +$event })"
     ></wt-input>
     <wt-button
       :disabled="disabledSave"
