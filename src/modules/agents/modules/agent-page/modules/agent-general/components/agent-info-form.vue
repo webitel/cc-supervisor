@@ -8,6 +8,7 @@
       @input="setItemProp({ prop: 'team', value: $event })"
     ></wt-select>
     <wt-select
+      v-if="!isSupervisor"
       :value="agent.supervisor"
       :label="$tc('objects.supervisor')"
       :search="searchSupervisors"
@@ -50,10 +51,10 @@
 <script>
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapState, mapActions } from 'vuex';
-import teamFilter from '../../../../../../_shared/filters/api/teamFilter';
-import supervisorFilter from '../../../../../../_shared/filters/api/supervisorFilter';
-import userFilter from '../../../../../../active-calls/modules/filters/api/userFilter';
-import regionFilter from '../../../../filters/api/regionFilter';
+import teamLookupApi from '../../../../../../_shared/lookups/api/teamLookupApi';
+import supervisorLookupApi from '../../../../../../_shared/lookups/api/supervisorLookupApi';
+import userLookupApi from '../../../../../../_shared/lookups/api/userLookupApi';
+import regionLookupApi from '../../../../../../_shared/lookups/api/regionLookupApi';
 
 export default {
   name: 'agent-info-form',
@@ -69,6 +70,12 @@ export default {
         return getNamespacedState(state, this.namespace).agent;
       },
     }),
+    ...mapState('userinfo', {
+      agentUserinfo: (state) => state.agent,
+    }),
+    isSupervisor() {
+      return this.agentUserinfo?.isSupervisor;
+    },
     disabledSave() {
       return !this.agent._dirty;
     },
@@ -82,10 +89,10 @@ export default {
         return dispatch(`${this.namespace}/UPDATE_AGENT`, payload);
       },
     }),
-    searchTeams: teamFilter.getList,
-    searchSupervisors: supervisorFilter.getList,
-    searchAuditors: userFilter.getList,
-    searchRegions: regionFilter.getList,
+    searchTeams: teamLookupApi,
+    searchSupervisors: supervisorLookupApi,
+    searchAuditors: userLookupApi,
+    searchRegions: regionLookupApi,
   },
 };
 </script>

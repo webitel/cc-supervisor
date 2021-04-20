@@ -1,18 +1,4 @@
 export default {
-  // describes reusable buttons, actions, default titles, and other ui elements
-  reusable: {
-    total: 'Total',
-    ok: 'Ok',
-    save: 'Save',
-    close: 'Close',
-  },
-  // describes Webitel system entities
-  objects: {
-    team: 'Team | Teams',
-    supervisor: 'Supervisor | Supervisors',
-    auditor: 'Auditor | Auditors',
-    region: 'Region | Regions',
-  },
   auth: {
     register: 'Register',
     login: 'Login',
@@ -36,18 +22,6 @@ export default {
     queue: 'Queue',
     agents: 'Agents',
     activeCalls: 'Active Calls',
-  },
-  validation: {
-    email: 'Should look email-like',
-    required: 'This field is required',
-    sameAs: 'Incorrect password',
-    gatewayHostValidator: 'Should look like IPv4 or FQDN',
-    ipValidator: 'Should look like IPv4',
-    macValidator: 'Should look like MAC',
-    minValue: 'Value should be at least',
-    maxValue: 'Value should be not much',
-    numeric: 'Should be numeric',
-    requiredArrayValue: 'Array should not be empty',
   },
   // DEPRECATED: these locales should be moved to "reusable"
   defaults: {

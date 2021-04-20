@@ -1,6 +1,5 @@
 import { AgentServiceApiFactory } from 'webitel-sdk';
 import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
-import { listResponseHandler, defaultParams } from '@webitel/ui-sdk/src/modules/QueryFilters/api/defaults';
 import instance from '../../../../app/api/instance';
 import configuration from '../../../../app/api/utils/openAPIConfig';
 
@@ -19,13 +18,9 @@ const _getSupervisorsList = (getList) => function ({
   return getList(params);
 };
 
-const listGetter = new SdkListGetterApiConsumer(agentService.searchAgent, {
-  listResponseHandler,
-})
+const listGetter = new SdkListGetterApiConsumer(agentService.searchAgent)
 .setGetListMethod(_getSupervisorsList);
 
-const getList = (params) => listGetter.getList({ ...defaultParams, ...params });
+const getList = (params) => listGetter.getLookup(params);
 
-export default {
-  getList,
-};
+export default getList;

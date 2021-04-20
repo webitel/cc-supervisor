@@ -1,18 +1,4 @@
 export default {
-  // describes reusable buttons, actions, default titles, and other ui elements
-  reusable: {
-    total: 'Всего',
-    ok: 'Ок',
-    Save: 'Сохранить',
-    close: 'Закрыть',
-  },
-  // describes Webitel system entities
-  objects: {
-    team: 'Команда | Команды',
-    supervisor: 'Супервизор | Супервизоры',
-    auditor: 'Аудитор | Аудиторы',
-    region: 'Регион | Регионы',
-  },
   appNavigator: {
     title: 'Приложения Webitel',
     admin: 'Admin',
@@ -62,18 +48,6 @@ export default {
     account: 'Аккаунт',
     appNavigator: 'Навигатор приложений',
     settings: 'Настройки',
-  },
-  validation: {
-    email: 'Введите адрес электронной почты',
-    required: 'Обязательное поле для заполнения',
-    sameAs: 'Неверный пароль',
-    gatewayHostValidator: 'Should look like IPv4 or FQDN',
-    ipValidator: 'Should look like IPv4',
-    macValidator: 'Should look like MAC',
-    minValue: 'Значение должно быть не менее',
-    maxValue: 'Значение должно быть не слишком большим',
-    numeric: 'Должны быть цифры',
-    requiredArrayValue: 'Поле не должно быть пустым',
   },
   defaults: {
     search: 'Поиск',

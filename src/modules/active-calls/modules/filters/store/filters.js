@@ -1,13 +1,13 @@
 import QueryFiltersStoreModule from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
 import ApiFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema';
 import EnumFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema';
-import SupervisorFilterAPI from '../../../../_shared/filters/api/supervisorFilter';
-import TeamFilterAPI from '../../../../_shared/filters/api/teamFilter';
-import DirectionOptions from '../api/DirectionOptions.enum';
-import UserFilterAPI from '../api/userFilter';
-import GatewayFilterAPI from '../api/gatewayFilter';
-import QueueFilterAPI from '../../../../_shared/filters/api/queueFilter';
-import AgentFilterAPI from '../../../../_shared/filters/api/agentFilter';
+import SupervisorFilterAPI from '../../../../_shared/lookups/api/supervisorLookupApi';
+import TeamFilterAPI from '../../../../_shared/lookups/api/teamLookupApi';
+import DirectionOptions from '../../../../_shared/lookups/lookups/DirectionOptions.lookup';
+import UserFilterAPI from '../../../../_shared/lookups/api/userLookupApi';
+import GatewayFilterAPI from '../../../../_shared/lookups/api/gatewayLookupApi';
+import QueueFilterAPI from '../../../../_shared/lookups/api/queueLookupApi';
+import AgentFilterAPI from '../../../../_shared/lookups/api/agentLookupApi';
 
 const state = {
   direction: new EnumFilterSchema({

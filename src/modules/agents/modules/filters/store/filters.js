@@ -3,14 +3,14 @@ import QueryFiltersStoreModule
 import ApiFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema';
 import BaseFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
 import EnumFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema';
-import AgentStatusOptions from '../api/AgentStatusOptions.enum';
-import QueueFilterAPI from '../../../../_shared/filters/api/queueFilter';
-import RegionFilterAPI from '../api/regionFilter';
-import SkillFilterAPI from '../api/skillFilter';
-import SupervisorFilterAPI from '../../../../_shared/filters/api/supervisorFilter';
-import TeamFilterAPI from '../../../../_shared/filters/api/teamFilter';
-import AuditorFilterAPI from '../../../../active-calls/modules/filters/api/userFilter';
-import UtilizationOptions from '../api/UtilizationOptions.enum';
+import AgentStatusOptions from '../../../../_shared/lookups/lookups/AgentStatusOptions.lookup';
+import QueueFilterAPI from '../../../../_shared/lookups/api/queueLookupApi';
+import RegionFilterAPI from '../../../../_shared/lookups/api/regionLookupApi';
+import SkillFilterAPI from '../../../../_shared/lookups/api/skillLookupApi';
+import SupervisorFilterAPI from '../../../../_shared/lookups/api/supervisorLookupApi';
+import TeamFilterAPI from '../../../../_shared/lookups/api/teamLookupApi';
+import AuditorFilterAPI from '../../../../_shared/lookups/api/userLookupApi';
+import UtilizationOptions from '../../../../_shared/lookups/lookups/UtilizationOptions.lookup';
 
 const state = {
   search: new BaseFilterSchema(),
