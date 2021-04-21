@@ -1,4 +1,4 @@
-import { getAgentChatsList } from '../../api/agent-chats';
+import { getAgentChatsList } from '../../api/_unused/agent-chats';
 
 const state = {
     dataList: [],
