@@ -30,12 +30,6 @@ describe('Agent Page store actions', () => {
     await agentPage.actions.LOAD_AGENT(context);
     expect(context.commit).toHaveBeenCalledWith('SET_AGENT', agent);
   });
-  it('SET_AGENT_STATUS commits SET_AGENT_STATUS with received status', () => {
-    const status = { status: 'jest' };
-    const expectedStatus = { status, duration: '00:00:00' };
-    agentPage.actions.SET_AGENT_STATUS(context, { status });
-    expect(context.commit).toHaveBeenCalledWith('SET_AGENT_STATUS', expectedStatus);
-  });
   it('UPDATE_AGENT calls AgentAPI patch with agent object and id', () => {
     const expectedPatchParams = { id: agentId, changes: agent };
     agentPage.actions.UPDATE_AGENT(context);
@@ -56,12 +50,5 @@ describe('Agent Page store mutations', () => {
   it('SET_AGENT sets received agent to state', () => {
     agentPage.mutations.SET_AGENT(state, agent);
     expect(state.agent).toEqual(agent);
-  });
-  it('SET_AGENT_STATUS sets received status to state', () => {
-    state.agent = {};
-    const status = { duration: '00:12:00', status: 'jestin\'' };
-    agentPage.mutations.SET_AGENT_STATUS(state, status);
-    expect(state.agent.status).toEqual(status.status);
-    expect(state.agent.statusDuration).toEqual(status.duration);
   });
 });

@@ -12,7 +12,7 @@
       @click="callAgent"
     >{{ $t('pages.agentPage.callAgent') }}
     </wt-button>
-    <agent-status-select :namespace="namespace" @changed="setAgentStatus"/>
+    <agent-status-select :namespace="namespace" @changed="loadAgent"/>
     <agent-status-timers :status="agent"></agent-status-timers>
   </wt-headline>
 </template>
@@ -41,8 +41,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      setAgentStatus(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_AGENT_STATUS`, payload);
+      loadAgent(dispatch, payload) {
+        return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
       },
     }),
     ...mapActions('call', {

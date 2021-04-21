@@ -7,10 +7,10 @@ const agent = {
   name: 'jest',
 };
 
-const SET_AGENT_STATUS_MOCK = jest.fn();
+const LOAD_AGENT_MOCK = jest.fn();
 
-jest.spyOn(agents.modules.agentPage.actions, 'SET_AGENT_STATUS')
-  .mockImplementationOnce(SET_AGENT_STATUS_MOCK);
+jest.spyOn(agents.modules.agentPage.actions, 'LOAD_AGENT')
+  .mockImplementationOnce(LOAD_AGENT_MOCK);
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -35,12 +35,12 @@ describe('Agent panel', () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it('calls "SET_AGENT_STATUS" at @changed agent-status-select event', () => {
+  it('calls "LOAD_AGENT" at @changed agent-status-select event', () => {
     const wrapper = shallowMount(AgentPanel, mountOptions);
     const newStatus = { status: 'jest' };
     wrapper.findComponent({ name: 'agent-status-select' })
       .vm.$emit('changed', newStatus);
-    expect(SET_AGENT_STATUS_MOCK.mock.calls[0][1]).toEqual(newStatus);
+    expect(LOAD_AGENT_MOCK.mock.calls[0][1]).toEqual(newStatus);
   });
 
   it('calls "callAgent" method at call btn click', () => {
