@@ -114,7 +114,7 @@ export default {
     },
   },
   created() {
-    this.initCSVExport(AgentsAPI.getList, { filename: 'agents-status' });
+    this.initCSVExport(AgentsAPI.getList, { filename: 'agents' });
   },
   computed: {
     selectedIds() {

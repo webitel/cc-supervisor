@@ -99,7 +99,7 @@ export default {
         abandoned: 'Abandoned',
       },
     },
-    agentPage: {
+    card: {
       callAgent: 'Call',
       progressiveCount: 'Progressive calls count',
       chatCount: 'Chat count',
