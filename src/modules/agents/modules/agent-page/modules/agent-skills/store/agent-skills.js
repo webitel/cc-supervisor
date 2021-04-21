@@ -14,9 +14,9 @@ const resettableItemState = {
 
 const tableStoreModule = new TableStoreModule().getModule();
 
-const agentSkills = new NestedObjectStoreModule({ resettableItemState, headers })
+const skills = new NestedObjectStoreModule({ resettableItemState, headers })
   .attachAPIModule(AgentSkillsAPI)
   .generateAPIActions()
   .getModule({ ...tableStoreModule });
 
-export default agentSkills;
+export default skills;

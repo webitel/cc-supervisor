@@ -9,7 +9,7 @@ localVue.use(Vuex);
 
 const items = [];
 
-const namespace = 'agentCalls';
+const namespace = 'calls';
 
 jest.mock('../../api/agent-calls');
 
@@ -20,7 +20,7 @@ describe('Agent calls tab', () => {
   beforeEach(() => {
     store = new Vuex.Store({
       modules: {
-        agentCalls: agentsCallsStore,
+        calls: agentsCallsStore,
       },
     });
 

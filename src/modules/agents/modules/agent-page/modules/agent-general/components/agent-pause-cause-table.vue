@@ -47,7 +47,7 @@ const prettifyPauseCauseDuration = (min) => {
 };
 
 export default {
-  name: 'agent-general-tab',
+  name: 'agent-pause-cause-table',
   mixins: [
     tablePageMixin,
     sortFilterMixin,

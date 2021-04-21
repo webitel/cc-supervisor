@@ -1,6 +1,6 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
-import agentPage from '../../store/agent-page';
+import card from '../../store/agent-page';
 import AgentPage from '../agent-page.vue';
 
 const localVue = createLocalVue();
@@ -33,8 +33,8 @@ describe('Agent page', () => {
         agents: {
           namespaced: true,
           modules: {
-            agentPage: {
-              // ...agentPage,
+            card: {
+              // ...card,
               namespaced: true,
               actions: actionsMock,
             },

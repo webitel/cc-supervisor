@@ -1,14 +1,14 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import AgentSkillPopup from '../agent-skill-popup.vue';
-import agentSkills from '../../store/agent-skills';
+import skills from '../../store/agent-skills';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-const namespace = 'agentSkills';
+const namespace = 'skills';
 const store = new Vuex.Store({
-  modules: { [namespace]: agentSkills },
+  modules: { [namespace]: skills },
 });
 
 

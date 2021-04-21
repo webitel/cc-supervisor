@@ -3,7 +3,7 @@ import AgentCallsFilters from '../agent-calls-filters.vue';
 import tableActionsHandlerMixin
   from '../../../../../../../../../../app/mixins/supervisor-workspace/tableActionsHandlerMixin';
 
-const namespace = 'agentCalls';
+const namespace = 'calls';
 
 describe('Agent calls filters', () => {
   it('renders a component', () => {

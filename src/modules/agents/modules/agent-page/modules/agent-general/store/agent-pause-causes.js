@@ -6,8 +6,8 @@ const state = {
   headers,
 };
 
-const agentCalls = new TableStoreModule({ state })
+const agentPauseCause = new TableStoreModule({ state })
   .attachAPIModule(AgentPauseCauseAPI)
   .generateAPIActions()
   .getModule();
-export default agentCalls;
+export default agentPauseCause;

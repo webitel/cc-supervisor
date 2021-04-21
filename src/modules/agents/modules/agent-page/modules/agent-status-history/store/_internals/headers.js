@@ -1,28 +1,28 @@
 export default [
   {
     value: 'state',
-    locale: 'pages.agentPage.statusHistory.columns.state',
+    locale: 'pages.card.statusHistory.columns.state',
     show: true,
     sort: null,
     field: 'state',
   },
   {
     value: 'from',
-    locale: 'pages.agentPage.statusHistory.columns.from',
+    locale: 'pages.card.statusHistory.columns.from',
     show: true,
     sort: null,
     field: 'joined_at',
   },
   {
     value: 'to',
-    locale: 'pages.agentPage.statusHistory.columns.to',
+    locale: 'pages.card.statusHistory.columns.to',
     show: true,
     sort: null,
     field: 'joined_at',
   },
   {
     value: 'duration',
-    locale: 'pages.agentPage.statusHistory.columns.duration',
+    locale: 'pages.card.statusHistory.columns.duration',
     show: true,
     sort: null,
     field: 'duration',

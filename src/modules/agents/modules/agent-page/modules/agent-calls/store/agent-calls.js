@@ -8,12 +8,12 @@ const state = {
 };
 
 const getters = {
-  GET_FILTERS: (state, getters, rootState, rootGetters) => rootGetters['agents/agentPage/agentCalls/filters/GET_FILTERS'],
+  GET_FILTERS: (state, getters, rootState, rootGetters) => rootGetters['agents/card/calls/filters/GET_FILTERS'],
 };
 
-const agentCalls = new TableStoreModule({ state })
+const calls = new TableStoreModule({ state })
   .setChildModules({ filters })
   .attachAPIModule(AgentCallsAPI)
   .generateAPIActions()
   .getModule({ getters });
-export default agentCalls;
+export default calls;

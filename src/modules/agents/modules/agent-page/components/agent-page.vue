@@ -45,7 +45,7 @@ export default {
   },
 
   data: () => ({
-    namespace: 'agents/agentPage',
+    namespace: 'agents/card',
     isLoading: false,
     currentTab: {},
   }),
@@ -65,28 +65,28 @@ export default {
     tabs() {
       return [
         {
-          text: this.$t('pages.agentPage.general.title'),
+          text: this.$t('pages.card.general.title'),
           value: 'general',
           actionsPanel: false,
           namespace: this.namespace,
         },
         {
-          text: this.$t('pages.agentPage.calls.title'),
+          text: this.$t('pages.card.calls.title'),
           value: 'calls',
           actionsPanel: true,
-          namespace: `${this.namespace}/agentCalls`,
+          namespace: `${this.namespace}/calls`,
         },
         {
-          text: this.$t('pages.agentPage.statusHistory.title'),
+          text: this.$t('pages.card.statusHistory.title'),
           value: 'status-history',
           actionsPanel: true,
-          namespace: `${this.namespace}/agentStatusHistory`,
+          namespace: `${this.namespace}/statusHistory`,
         },
         {
-          text: this.$t('pages.agentPage.skills.title'),
+          text: this.$t('pages.card.skills.title'),
           value: 'skills',
           actionsPanel: false,
-          namespace: `${this.namespace}/agentSkills`,
+          namespace: `${this.namespace}/skills`,
         },
       ];
     },

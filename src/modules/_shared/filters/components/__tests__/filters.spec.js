@@ -10,7 +10,7 @@ const $route = { query: {} };
 
 describe('Filter components', () => {
   it('renders from filter component', () => {
-    const namespace = 'agents/agentPage/agentCalls/filters';
+    const namespace = 'agents/card/calls/filters';
     const wrapper = shallowMount(FilterFrom, {
       localVue,
       store,
@@ -20,7 +20,7 @@ describe('Filter components', () => {
     expect(wrapper.findComponent({ name: 'wt-datetimepicker' }).element).toBeVisible();
   });
   it('renders To filter component', () => {
-    const namespace = 'agents/agentPage/agentCalls/filters';
+    const namespace = 'agents/card/calls/filters';
     const wrapper = shallowMount(FilterTo, {
       localVue,
       store,

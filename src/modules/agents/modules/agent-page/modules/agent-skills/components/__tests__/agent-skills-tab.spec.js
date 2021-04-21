@@ -1,7 +1,7 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import AgentSkillsTab from '../agent-skills-tab.vue';
-import agentSkills from '../../store/agent-skills';
+import skills from '../../store/agent-skills';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -9,14 +9,14 @@ localVue.use(Vuex);
 const id = 1;
 const $route = { params: { id }, query: {} };
 
-const namespace = 'agentSkills';
+const namespace = 'skills';
 const SET_PARENT_ITEM_ID = jest.fn();
 const SET_ITEM_ID = jest.fn();
 const store = new Vuex.Store({
   modules: {
     [namespace]: {
-      ...agentSkills,
-      actions: { ...agentSkills.actions, SET_PARENT_ITEM_ID, SET_ITEM_ID },
+      ...skills,
+      actions: { ...skills.actions, SET_PARENT_ITEM_ID, SET_ITEM_ID },
     },
   },
 });

@@ -114,7 +114,7 @@ export default {
         abandoned: 'Потеряно',
       },
     },
-    agentPage: {
+    card: {
       callAgent: 'Позвонить',
       progressiveCount: 'Количество прогрессивных звонков',
       chatCount: 'Количество чатов',

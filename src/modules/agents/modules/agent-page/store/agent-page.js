@@ -1,10 +1,10 @@
 import editProxy from '@webitel/ui-sdk/src/scripts/editProxy';
 import AgentAPI from '../api/agent-page';
 import statusSelect from '../modules/agent-status-select/store/agent-status-select';
-import agentGeneral from '../modules/agent-general/store/agent-general';
-import agentCalls from '../modules/agent-calls/store/agent-calls';
-import agentStatusHistory from '../modules/agent-status-history/store/agent-status-history';
-import agentSkills from '../modules/agent-skills/store/agent-skills';
+import pauseCause from '../modules/agent-general/store/agent-pause-causes';
+import calls from '../modules/agent-calls/store/agent-calls';
+import statusHistory from '../modules/agent-status-history/store/agent-status-history';
+import skills from '../modules/agent-skills/store/agent-skills';
 
 const state = {
   agentId: null,
@@ -56,9 +56,9 @@ export default {
   mutations,
   modules: {
     statusSelect,
-    agentGeneral,
-    agentCalls,
-    agentStatusHistory,
-    agentSkills,
+    pauseCause,
+    calls,
+    statusHistory,
+    skills,
   },
 };

@@ -9,7 +9,7 @@ const agent = {
 
 const LOAD_AGENT_MOCK = jest.fn();
 
-jest.spyOn(agents.modules.agentPage.actions, 'LOAD_AGENT')
+jest.spyOn(agents.modules.card.actions, 'LOAD_AGENT')
   .mockImplementationOnce(LOAD_AGENT_MOCK);
 
 const localVue = createLocalVue();
@@ -22,7 +22,7 @@ describe('Agent panel', () => {
   const mountOptions = {
     localVue,
     store,
-    propsData: { namespace: 'agents/agentPage' },
+    propsData: { namespace: 'agents/card' },
     computed: {
       agent() {
         return agent;

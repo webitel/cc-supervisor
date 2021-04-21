@@ -7,7 +7,7 @@
 
 <script>
 import InfoForm from './agent-info-form.vue';
-import StatusTable from './agent-status-table.vue';
+import StatusTable from './agent-pause-cause-table.vue';
 
 export default {
   name: 'agent-general-tab',
@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     statusTableNamespace() {
-      return `${this.namespace}/agentGeneral`;
+      return `${this.namespace}/pauseCause`;
     },
   },
 };

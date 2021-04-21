@@ -1,5 +1,5 @@
 import TableStoreModule from '../../../app/store/BaseStoreModules/TableStoreModule';
-import agentPage from '../../agents/modules/agent-page/store/agent-page';
+import card from '../../agents/modules/agent-page/store/agent-page';
 import ActiveCallsAPI from '../api/active-calls';
 import filters from '../modules/filters/store/filters';
 import headers from './_internals/headers';
@@ -14,7 +14,7 @@ const getters = {
 
 const activeCalls = new TableStoreModule({ state })
 .setChildModules({
-  agentPage,
+  card,
   filters,
 })
 .attachAPIModule(ActiveCallsAPI)

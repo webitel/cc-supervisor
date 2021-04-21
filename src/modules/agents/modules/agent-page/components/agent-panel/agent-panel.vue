@@ -10,7 +10,7 @@
       class="agent-panel__call-btn"
       color="success"
       @click="callAgent"
-    >{{ $t('pages.agentPage.callAgent') }}
+    >{{ $t('pages.card.callAgent') }}
     </wt-button>
     <agent-status-select :namespace="namespace" @changed="loadAgent"/>
     <agent-status-timers :status="agent"></agent-status-timers>

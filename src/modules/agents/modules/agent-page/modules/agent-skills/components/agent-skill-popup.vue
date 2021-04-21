@@ -1,14 +1,14 @@
 <template>
   <wt-popup min-width="480" overflow @close="close">
     <template slot="title">
-      {{ $tc('pages.agentPage.skills.skills', 1) }}
+      {{ $tc('pages.card.skills.skills', 1) }}
     </template>
     <template slot="main">
       <form>
         <wt-select
           :value="itemInstance.skill"
           :v="$v.itemInstance.skill"
-          :label="$tc('pages.agentPage.skills.skills', 1)"
+          :label="$tc('pages.card.skills.skills', 1)"
           :search="loadDropdownOptionsList"
           :internal-search="false"
           :clearable="false"
@@ -18,7 +18,7 @@
         <wt-input
           :value="itemInstance.capacity"
           :v="$v.itemInstance.capacity"
-          :label="$t('pages.agentPage.skills.capacity')"
+          :label="$t('pages.card.skills.capacity')"
           :number-min="0"
           :number-max="100"
           type="number"

@@ -9,7 +9,7 @@ localVue.use(Vuex);
 
 const items = [];
 
-const namespace = 'agentStatusHistory';
+const namespace = 'statusHistory';
 
 jest.mock('../../api/agent-status-history');
 
@@ -20,7 +20,7 @@ describe('Agent Status History tab', () => {
   beforeEach(() => {
     store = new Vuex.Store({
       modules: {
-        agentStatusHistory: agentsStatusHistoryStore,
+        statusHistory: agentsStatusHistoryStore,
       },
     });
 

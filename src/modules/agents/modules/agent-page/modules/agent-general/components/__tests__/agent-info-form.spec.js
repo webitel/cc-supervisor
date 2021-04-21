@@ -5,7 +5,7 @@ import AgentInfoForm from '../agent-info-form.vue';
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-const namespace = 'agentPage';
+const namespace = 'card';
 const agent = {};
 const store = new Vuex.Store({
   modules: {

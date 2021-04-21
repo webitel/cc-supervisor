@@ -31,13 +31,13 @@
     ></wt-select>
     <wt-input
       :value="agent.progressiveCount"
-      :label="$t('pages.agentPage.progressiveCount')"
+      :label="$t('pages.card.progressiveCount')"
       type="number"
       @input="setItemProp({ prop: 'progressiveCount', value: +$event })"
     ></wt-input>
     <wt-input
       :value="agent.chatCount"
-      :label="$t('pages.agentPage.chatCount')"
+      :label="$t('pages.card.chatCount')"
       type="number"
       @input="setItemProp({ prop: 'chatCount', value: +$event })"
     ></wt-input>

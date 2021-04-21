@@ -3,7 +3,7 @@ import AgentStatusHistoryFilters from '../agent-status-history-filters.vue';
 import tableActionsHandlerMixin
   from '../../../../../../../../../../app/mixins/supervisor-workspace/tableActionsHandlerMixin';
 
-const namespace = 'agentStatusHistory';
+const namespace = 'statusHistory';
 
 describe('Agent Status History filters', () => {
   it('renders a component', () => {

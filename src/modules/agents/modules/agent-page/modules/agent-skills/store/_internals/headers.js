@@ -1,21 +1,21 @@
 export default [
   {
     value: 'skill',
-    locale: ['pages.agentPage.skills.skills', 1],
+    locale: ['pages.card.skills.skills', 1],
     show: true,
     sort: null,
     field: 'skill',
   },
   {
     value: 'capacity',
-    locale: 'pages.agentPage.skills.capacity',
+    locale: 'pages.card.skills.capacity',
     show: true,
     sort: null,
     field: 'capacity',
   },
   {
     value: 'enabled',
-    locale: 'pages.agentPage.skills.columns.enabled',
+    locale: 'pages.card.skills.columns.enabled',
     show: true,
     sort: null,
     field: 'enabled',

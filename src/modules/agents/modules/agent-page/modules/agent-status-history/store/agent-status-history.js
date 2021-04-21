@@ -8,12 +8,12 @@ const state = {
 };
 
 const getters = {
-  GET_FILTERS: (state, getters, rootState, rootGetters) => rootGetters['agents/agentPage/agentStatusHistory/filters/GET_FILTERS'],
+  GET_FILTERS: (state, getters, rootState, rootGetters) => rootGetters['agents/card/statusHistory/filters/GET_FILTERS'],
 };
 
-const agentCalls = new TableStoreModule({ state })
+const statusHistory = new TableStoreModule({ state })
   .setChildModules({ filters })
   .attachAPIModule(AgentStatusHistoryAPI)
   .generateAPIActions()
   .getModule({ getters });
-export default agentCalls;
+export default statusHistory;
