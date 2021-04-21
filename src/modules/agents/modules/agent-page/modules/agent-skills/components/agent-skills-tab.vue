@@ -1,5 +1,5 @@
 <template>
-  <article class="table-wrapper table-wrapper--tab-table">
+  <section class="table-wrapper table-wrapper--tab-table">
     <skill-popup
       v-if="isSkillPopup"
       :namespace="namespace"
@@ -50,7 +50,7 @@
       </wt-table>
       <filter-pagination :is-next="isNext"/>
     </div>
-  </article>
+  </section>
 </template>
 
 <script>

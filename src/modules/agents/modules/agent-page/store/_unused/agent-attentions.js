@@ -1,4 +1,4 @@
-import { getAgentAttentionsList, deleteAgentAttention } from '../api/agent-attentions';
+import { getAgentAttentionsList, deleteAgentAttention } from '../../api/_unused/agent-attentions';
 
 const state = {
     dataList: [],

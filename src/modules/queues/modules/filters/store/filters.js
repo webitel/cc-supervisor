@@ -4,8 +4,8 @@ import ApiFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/Ap
 import BaseFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
 import EnumFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema';
 import PeriodOptions from '../api/PeriodOptions.enum';
-import QueueFilterAPI from '../../../../_shared/filters/api/queueFilter';
-import TeamFilterAPI from '../../../../_shared/filters/api/teamFilter';
+import QueueFilterAPI from '../../../../_shared/lookups/api/queueLookupApi';
+import TeamFilterAPI from '../../../../_shared/lookups/api/teamLookupApi';
 import QueueTypeOptions from '../api/QueueTypeOptions';
 
 const state = {

@@ -31,10 +31,8 @@
 
 <script>
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
-import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields';
+import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields.vue';
 import TableAgentState from './_internals/table-templates/table-agent-state.vue';
-import playMediaMixin from '../../../../../../../app/mixins/media/playMediaMixin';
-import showMediaMixin from '../../../../../../../app/mixins/media/showMediaMixin';
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
 
@@ -48,8 +46,6 @@ export default {
   mixins: [
     tablePageMixin,
     sortFilterMixin,
-    playMediaMixin,
-    showMediaMixin,
   ],
   props: {
     namespace: {

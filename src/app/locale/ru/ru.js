@@ -1,9 +1,4 @@
 export default {
-  reusable: {
-    total: 'Всего',
-    ok: 'Ок',
-    close: 'Закрыть',
-  },
   appNavigator: {
     title: 'Приложения Webitel',
     admin: 'Admin',
@@ -53,18 +48,6 @@ export default {
     account: 'Аккаунт',
     appNavigator: 'Навигатор приложений',
     settings: 'Настройки',
-  },
-  validation: {
-    email: 'Введите адрес электронной почты',
-    required: 'Обязательное поле для заполнения',
-    sameAs: 'Неверный пароль',
-    gatewayHostValidator: 'Should look like IPv4 or FQDN',
-    ipValidator: 'Should look like IPv4',
-    macValidator: 'Should look like MAC',
-    minValue: 'Значение должно быть не менее',
-    maxValue: 'Значение должно быть не слишком большим',
-    numeric: 'Должны быть цифры',
-    requiredArrayValue: 'Поле не должно быть пустым',
   },
   defaults: {
     search: 'Поиск',
@@ -132,6 +115,19 @@ export default {
       },
     },
     agentPage: {
+      callAgent: 'Позвонить',
+      progressiveCount: 'Количество прогрессивных звонков',
+      chatCount: 'Количество чатов',
+      general: {
+        title: 'Главная',
+        pauseCause: {
+          columns: {
+            name: 'Название',
+            duration: 'Длительность',
+            limit: 'Лимит',
+          },
+        },
+      },
       calls: {
         title: 'Звонки',
         columns: {

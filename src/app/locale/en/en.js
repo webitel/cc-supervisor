@@ -1,18 +1,4 @@
 export default {
-  reusable: {
-    total: 'Total',
-    ok: 'Ok',
-    close: 'Close',
-  },
-  appNavigator: {
-    title: 'Webitel applications',
-    admin: 'Admin',
-    agent: 'Agent Workspace',
-    supervisor: 'Supervisor Workspace',
-    audit: 'Audit',
-    history: 'Call History',
-    grafana: 'Grafana',
-  },
   auth: {
     register: 'Register',
     login: 'Login',
@@ -32,40 +18,12 @@ export default {
     missed: 'Missed',
     disconnect: 'Disconnect',
   },
-  settings: {
-    settings: 'Settings',
-    changePassword: 'Change password',
-    language: 'Language',
-    autoRefresh: 'AutoRefresh interval',
-  },
-  header: {
-    logout: 'Log out',
-    docs: 'Docs',
-  },
   nav: {
     queue: 'Queue',
     agents: 'Agents',
     activeCalls: 'Active Calls',
   },
-  icon: {
-    docs: 'Docs',
-    logout: 'Logout',
-    account: 'Account',
-    appNavigator: 'App navigator',
-    settings: 'Settings',
-  },
-  validation: {
-    email: 'Should look email-like',
-    required: 'This field is required',
-    sameAs: 'Incorrect password',
-    gatewayHostValidator: 'Should look like IPv4 or FQDN',
-    ipValidator: 'Should look like IPv4',
-    macValidator: 'Should look like MAC',
-    minValue: 'Value should be at least',
-    maxValue: 'Value should be not much',
-    numeric: 'Should be numeric',
-    requiredArrayValue: 'Array should not be empty',
-  },
+  // DEPRECATED: these locales should be moved to "reusable"
   defaults: {
     search: 'Search',
     exportCSV: 'Export CSV',
@@ -143,7 +101,19 @@ export default {
     },
     agentPage: {
       callAgent: 'Call',
-      team: 'Team',
+      progressiveCount: 'Progressive calls count',
+      chatCount: 'Chat count',
+      general: {
+        title: 'General',
+        team: 'Team',
+        pauseCause: {
+          columns: {
+            name: 'Name',
+            duration: 'Duration',
+            limit: 'Limit',
+          },
+        },
+      },
       calls: {
         title: 'Calls',
         columns: {

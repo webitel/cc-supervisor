@@ -1,3 +1,4 @@
+import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { AgentServiceApiFactory } from 'webitel-sdk';
 import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../../../app/api/instance';
@@ -8,8 +9,7 @@ const agentPauseCauseService = new AgentServiceApiFactory(configuration, '', ins
 const _getAgentPauseCauses = (getList) => function ({
                                                       agentId,
                                                     } = {}) {
-  const allowChange = true;
-  const params = [agentId, allowChange];
+  const params = [agentId];
   return getList(params);
 };
 
@@ -21,7 +21,7 @@ const defaultListObject = {
 
 const listGetter = new SdkListGetterApiConsumer(agentPauseCauseService.searchPauseCauseForAgent,
   { defaultListObject })
-  .setGetListMethod(_getAgentPauseCauses);
+.setGetListMethod(_getAgentPauseCauses);
 
 export const getAgentPauseCauses = (params) => listGetter.getList(params);
 

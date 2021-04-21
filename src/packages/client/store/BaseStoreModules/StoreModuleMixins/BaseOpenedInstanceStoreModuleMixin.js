@@ -1,5 +1,5 @@
 import deepCopy from 'deep-copy';
-import proxy from './editProxy';
+import proxy from '@webitel/ui-sdk/src/scripts/editProxy';
 
 const state = {
   itemId: 0,

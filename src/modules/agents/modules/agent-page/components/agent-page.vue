@@ -22,22 +22,24 @@
 <script>
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
-import AgentCalls from '../modules/agent-calls/components/agent-calls-tab.vue';
-import AgentCallsFilters from '../modules/agent-calls/modules/filters/components/agent-calls-filters.vue';
+import Calls from '../modules/agent-calls/components/agent-calls-tab.vue';
+import CallsFilters from '../modules/agent-calls/modules/filters/components/agent-calls-filters.vue';
+import General from '../modules/agent-general/components/agent-general-tab.vue';
+import Skills from '../modules/agent-skills/components/agent-skills-tab.vue';
 import StatusHistory from '../modules/agent-status-history/components/agent-status-history-tab.vue';
 import StatusHistoryFilters from '../modules/agent-status-history/modules/filters/components/agent-status-history-filters.vue';
-import AgentSkills from '../modules/agent-skills/components/agent-skills-tab.vue';
 import AgentPanel from './agent-panel/agent-panel.vue';
 
 export default {
   name: 'agent-page',
   components: {
     AgentPanel,
-    AgentCalls,
-    AgentCallsFilters,
+    General,
+    Calls,
+    CallsFilters,
+    Skills,
     StatusHistory,
     StatusHistoryFilters,
-    AgentSkills,
   },
 
   data: () => ({
@@ -61,8 +63,14 @@ export default {
     tabs() {
       return [
         {
+          text: this.$t('pages.agentPage.general.title'),
+          value: 'general',
+          actionsPanel: false,
+          namespace: this.namespace,
+        },
+        {
           text: this.$t('pages.agentPage.calls.title'),
-          value: 'agent-calls',
+          value: 'calls',
           actionsPanel: true,
           namespace: `${this.namespace}/agentCalls`,
         },
@@ -74,7 +82,7 @@ export default {
         },
         {
           text: this.$t('pages.agentPage.skills.title'),
-          value: 'agent-skills',
+          value: 'skills',
           actionsPanel: false,
           namespace: `${this.namespace}/agentSkills`,
         },
@@ -83,6 +91,9 @@ export default {
   },
   methods: {
     ...mapActions({
+      setAgentId(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_AGENT_ID`, payload);
+      },
       loadAgent(dispatch, payload) {
         return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
       },
@@ -97,7 +108,8 @@ export default {
       this.isLoading = true;
       try {
         const { id } = this.$route.params;
-        await this.loadAgent(id);
+        await this.setAgentId(id);
+        await this.loadAgent();
       } catch {
       } finally {
         this.isLoading = false;
