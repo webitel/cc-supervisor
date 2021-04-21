@@ -29,9 +29,11 @@ import Skills from '../modules/agent-skills/components/agent-skills-tab.vue';
 import StatusHistory from '../modules/agent-status-history/components/agent-status-history-tab.vue';
 import StatusHistoryFilters from '../modules/agent-status-history/modules/filters/components/agent-status-history-filters.vue';
 import AgentPanel from './agent-panel/agent-panel.vue';
+import autoRefreshMixin from '../../../../../app/mixins/autoRefresh/autoRefreshMixin';
 
 export default {
   name: 'agent-page',
+  mixins: [autoRefreshMixin],
   components: {
     AgentPanel,
     General,
@@ -115,9 +117,11 @@ export default {
         this.isLoading = false;
       }
     },
-
     setInitialTab() {
       if (this.tabs) this.changeTab(this.tabs[0]);
+    },
+    makeAutoRefresh() {
+      return this.loadAgent();
     },
   },
 };

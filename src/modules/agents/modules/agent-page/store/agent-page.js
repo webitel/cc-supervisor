@@ -21,11 +21,6 @@ const actions = {
     const agent = await AgentAPI.get({ itemId: context.state.agentId });
     context.commit('SET_AGENT', editProxy(agent));
   },
-  SET_AGENT_STATUS: (context, { status }) => {
-    // const agentStatus = { status, payload: pauseCause };
-    const duration = '00:00:00';
-    context.commit('SET_AGENT_STATUS', { status, duration });
-  },
   SET_AGENT_PROPERTY: (context, { prop, value }) => {
     context.commit('SET_AGENT_PROPERTY', { prop, value });
   },
@@ -47,10 +42,6 @@ const mutations = {
   },
   SET_AGENT: (state, agent) => {
     state.agent = agent;
-  },
-  SET_AGENT_STATUS: (state, { status, duration }) => {
-    state.agent.status = status;
-    state.agent.statusDuration = duration;
   },
   SET_AGENT_PROPERTY: (state, { prop, value }) => {
     state.agent[prop] = value;

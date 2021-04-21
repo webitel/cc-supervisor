@@ -13,7 +13,6 @@ export default {
     '$route.query': {
       async handler() {
         await this.initializeList();
-        this.setAutoRefresh();
       },
       immediate: true,
     },
