@@ -1,5 +1,12 @@
 <template>
-  <article class="agent-status-table">
+  <article class="table-wrapper table-wrapper--tab-table">
+    <wt-table-actions
+      class="table-wrapper__actions-wrapper"
+      :icons="['refresh']"
+      @input="tableActionsHandler"
+    ></wt-table-actions>
+    <wt-loader v-show="isLoading"></wt-loader>
+    <div class="table-loading-wrapper" v-show="!isLoading">
       <wt-table
         :headers="headers"
         :data="dataList"
@@ -23,6 +30,7 @@
           </span>
         </template>
       </wt-table>
+    </div>
     </article>
 </template>
 
