@@ -111,7 +111,7 @@ export default {
         callTime: 'Время в звонках',
         chatTime: 'Время в чатах',
         transferred: 'Переведено',
-        abandoned: 'Потеряно',
+        missed: 'Пропущено',
       },
     },
     card: {

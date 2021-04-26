@@ -96,7 +96,7 @@ export default {
         callTime: 'Call time',
         chatTime: 'Chat time',
         transferred: 'Transferred',
-        abandoned: 'Abandoned',
+        missed: 'Missed',
       },
     },
     card: {

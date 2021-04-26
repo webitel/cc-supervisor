@@ -55,10 +55,10 @@ export default [
     sort: null,
     field: 'transferred',
   }, {
-    value: 'abandoned',
-    locale: 'pages.agent.columns.abandoned',
+    value: 'missed',
+    locale: 'pages.agent.columns.missed',
     show: true,
     sort: null,
-    field: 'abandoned',
+    field: 'missed',
   },
 ];

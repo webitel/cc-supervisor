@@ -16,7 +16,7 @@ const listResponseHandler = (response) => {
     offline: convertDuration(item.offline),
     pause: convertDuration(item.pause),
     callTime: convertDuration(item.callTime),
-    chatTime: convertDuration(item.callTime),
+    chatTime: convertDuration(item.chatTime),
   }));
   return {
     ...response,
@@ -30,7 +30,7 @@ const defaultListObject = {
   pause: 0,
   statusDuration: 0,
   transferred: 0,
-  abandoned: 0,
+  missed: 0,
   utilization: 0,
 };
 

@@ -6,7 +6,7 @@ const items = [{
 const expectResponse = {
   items: [{
     _isSelected: false,
-    abandoned: 0,
+    missed: 0,
     transferred: 0,
     statusDuration: '00:00:00',
     utilization: '0.00%',
