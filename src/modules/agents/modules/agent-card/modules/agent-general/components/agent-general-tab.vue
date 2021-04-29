@@ -31,6 +31,7 @@ export default {
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-column-gap: var(--component-spacing);
+  min-height: 0;
   margin-top: var(--component-spacing);
 
   @media #{$media} and #{$media-width-sm} {
