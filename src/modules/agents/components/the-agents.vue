@@ -85,6 +85,13 @@ import TableAgentStatus from './_internals/table-templates/table-agent-status.vu
 import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
 import TableAgent from './_internals/table-templates/table-agent.vue';
 
+const collectBreakoutIndexes = (dataList) => (
+  dataList.reduce((indexes, dataRow, dataRowIndex) => {
+    if (dataRow.status === AgentStatus.BreakOut) return indexes.concat(dataRowIndex);
+    return indexes;
+  }, [])
+);
+
 export default {
   name: 'the-agents',
   components: {
@@ -128,21 +135,26 @@ export default {
       attachToCall: 'ATTACH_TO_CALL',
       openWindow: 'EAVESDROP_OPEN_WINDOW',
     }),
-    highlightBreakoutAgents() {
-      const breakoutIndexes = this.dataList.reduce((indexes, dataRow, dataRowIndex) => {
-        if (dataRow.status === AgentStatus.BreakOut) return indexes.concat(dataRowIndex);
-        return indexes;
-      }, []);
+    async highlightBreakoutAgents() {
+      const breakoutIndexes = collectBreakoutIndexes(this.dataList);
+      await this.$nextTick(); // wait for table to render
+      this.clearHighlights();
       if (!breakoutIndexes.length) return;
       this.highlightRows(breakoutIndexes);
     },
-    async highlightRows(breakoutIndexes) {
-      await this.$nextTick(); // wait for table to render
+    highlightRows(breakoutIndexes) {
       const table = this.$refs['agents-table'];
       breakoutIndexes.forEach((index) => {
         const className = `wt-table__tr__${index}`;
         const row = table.$el.querySelector(`.${className}`);
         if (row) row.classList.add('wt-table__tr--highlight-breakout');
+      });
+    },
+    clearHighlights() {
+      const table = this.$refs['agents-table'];
+      const highlightedRows = table.$el.querySelectorAll('.wt-table__tr--highlight-breakout');
+      highlightedRows.forEach((row) => {
+        row.classList.remove('wt-table__tr--highlight-breakout');
       });
     },
     async attachCall(id) {
