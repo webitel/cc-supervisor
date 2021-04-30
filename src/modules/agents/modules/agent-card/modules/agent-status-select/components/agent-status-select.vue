@@ -96,7 +96,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.agent-status-select__status-select {
-  max-width: 200px;
+.agent-status-select .agent-status-select__status-select {
+  width: 150px;
 }
 </style>

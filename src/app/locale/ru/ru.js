@@ -122,14 +122,14 @@ export default {
         title: 'Главная',
         pauseCause: {
           columns: {
-            name: 'Название',
-            duration: 'Длительность',
+            name: 'Причина паузы',
+            duration: 'Прогрес',
             limit: 'Лимит',
           },
         },
       },
       calls: {
-        title: 'Звонки',
+        title: 'Журнал',
         columns: {
           cause: 'Причина окончания',
           direction: 'Направление',
@@ -171,8 +171,8 @@ export default {
         title: 'История статусов',
         columns: {
           state: 'Статус',
-          from: 'От',
-          to: 'До',
+          from: 'Начало',
+          to: 'Конец',
           duration: 'Длительность',
           states: {
             online: 'Онлайн',

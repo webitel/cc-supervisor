@@ -108,21 +108,21 @@ export default {
         team: 'Team',
         pauseCause: {
           columns: {
-            name: 'Name',
-            duration: 'Duration',
+            name: 'Reason of pause',
+            duration: 'Progress',
             limit: 'Limit',
           },
         },
       },
       calls: {
-        title: 'Calls',
+        title: 'Work log',
         columns: {
           cause: 'Hangup cause',
           direction: 'Direction',
           duration: 'Duration',
           from: 'From',
           to: 'To',
-          createdAt: 'Date & Time:',
+          createdAt: 'Date & Time',
           gateway: 'Gateway',
           queue: 'Queue',
           team: 'Team',
@@ -154,7 +154,7 @@ export default {
         },
       },
       statusHistory: {
-        title: 'Status history',
+        title: 'Statuses history',
         states: {
           online: 'Online',
           offline: 'Offline',
@@ -172,8 +172,8 @@ export default {
         },
         columns: {
           state: 'Status',
-          from: 'From',
-          to: 'To',
+          from: 'Start',
+          to: 'End',
           duration: 'Duration',
         },
       },

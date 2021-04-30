@@ -84,6 +84,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.wt-table {
+  @extend %wt-scrollbar;
+}
+
 .wt-progress-bar {
   margin-left: var(--component-spacing);
 }

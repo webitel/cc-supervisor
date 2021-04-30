@@ -58,19 +58,20 @@ describe('Agents page', () => {
     .toEqual(['124']);
   });
 
-  it('Correctly computes rows to highlight initially', () => {
+  it('Correctly computes rows to highlight initially', async () => {
     const dataList = [
       { status: AgentStatus.BreakOut },
       { status: AgentStatus.Pause },
       { status: AgentStatus.BreakOut },
     ];
     jest.spyOn(Agents.methods, 'highlightRows');
-    shallowMount(Agents, {
+    const wrapper = shallowMount(Agents, {
       ...mountOptions,
       computed: {
         dataList() { return dataList; },
       },
     });
+    await wrapper.vm.$nextTick(); // wait for table to render
     expect(Agents.methods.highlightRows)
     .toHaveBeenCalledWith([0, 2]);
   });

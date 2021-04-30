@@ -13,7 +13,6 @@ const store = new Vuex.Store({
       namespaced: true,
       state: { agent },
     },
-    userinfo: { namespaced: true },
   },
 });
 

@@ -122,4 +122,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.wt-player {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 45px; // above pagination, na oko
+}
 </style>
