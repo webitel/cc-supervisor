@@ -64,17 +64,17 @@ export default {
       required: true,
     },
   },
+  created() {
+    this.loadAgent();
+  },
   computed: {
     ...mapState({
       agent(state) {
         return getNamespacedState(state, this.namespace).agent;
       },
     }),
-    ...mapState('userinfo', {
-      agentUserinfo: (state) => state.agent,
-    }),
     isSupervisor() {
-      return this.agentUserinfo?.isSupervisor;
+      return this.agent?.isSupervisor;
     },
     disabledSave() {
       return !this.agent._dirty;
@@ -82,6 +82,9 @@ export default {
   },
   methods: {
     ...mapActions({
+      loadAgent(dispatch, payload) {
+        return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
+      },
       setItemProp(dispatch, payload) {
         return dispatch(`${this.namespace}/SET_AGENT_PROPERTY`, payload);
       },

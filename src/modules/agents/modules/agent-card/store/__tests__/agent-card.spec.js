@@ -5,11 +5,9 @@ import AgentAPI from '../../api/agent-card';
 const agentId = 123;
 const agent = { agentId, name: 'jest' };
 
-describe('Agent Page store actions', () => {
+describe('Agent Card store actions', () => {
   const _getAgent = jest.fn(() => agent);
-  const _patchAgent = jest.fn(() => agent);
   jest.spyOn(AgentAPI, 'get').mockImplementation(_getAgent);
-  jest.spyOn(AgentAPI, 'patch').mockImplementation(_patchAgent);
 
   let context;
   beforeEach(() => {
@@ -30,14 +28,9 @@ describe('Agent Page store actions', () => {
     await card.actions.LOAD_AGENT(context);
     expect(context.commit).toHaveBeenCalledWith('SET_AGENT', agent);
   });
-  it('UPDATE_AGENT calls AgentAPI patch with agent object and id', () => {
-    const expectedPatchParams = { id: agentId, changes: agent };
-    card.actions.UPDATE_AGENT(context);
-    expect(_patchAgent).toHaveBeenCalledWith(expectedPatchParams);
-  });
 });
 
-describe('Agent Page store mutations', () => {
+describe('Agent Card store mutations', () => {
   let state;
   beforeEach(() => {
     state = {};

@@ -1,6 +1,6 @@
 <template>
   <section class="agent-general-tab">
-    <info-form :namespace="namespace"></info-form>
+    <info-form :namespace="agentFormNamespace"></info-form>
     <status-table :namespace="statusTableNamespace"></status-table>
   </section>
 </template>
@@ -19,6 +19,9 @@ export default {
     },
   },
   computed: {
+    agentFormNamespace() {
+      return `${this.namespace}/agentEdit`;
+    },
     statusTableNamespace() {
       return `${this.namespace}/pauseCause`;
     },
