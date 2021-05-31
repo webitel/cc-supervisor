@@ -3,7 +3,7 @@ export default {
     register: 'Register',
     login: 'Login',
     registerReset: 'Reset password',
-    detailsSubtitle: 'Enter your details below',
+    detailsSubtitle: 'Enter your details',
     resetPasswordLink: 'Forgot password?',
     user: 'Username',
     password: 'Password',
@@ -14,9 +14,9 @@ export default {
     loginSubmit: 'Log in',
   },
   callState: {
-    end: 'End',
+    end: 'Ended',
     missed: 'Missed',
-    disconnect: 'Disconnect',
+    disconnect: 'Disconnected',
   },
   nav: {
     queue: 'Queue',
@@ -31,10 +31,6 @@ export default {
     close: 'Close',
     save: 'Save',
   },
-  table: {
-    showColumnsTitle: 'Select columns to show:',
-    rowsPerPage: 'Rows per page:',
-  },
   filters: {
     from: 'From',
     to: 'To',
@@ -44,7 +40,7 @@ export default {
     queueType: 'Queue Type',
     status: 'Status',
     utilization: 'Utilization progress',
-    callNow: 'Call now',
+    callNow: 'On a call',
     direction: 'Direction',
     agent: 'Agent',
     user: 'User',
@@ -52,17 +48,7 @@ export default {
     skill: 'Skill',
     supervisor: 'Supervisor',
     auditor: 'Auditor',
-    region: 'Region',
-  },
-  options: {
-    online: 'Online',
-    offline: 'Offline',
-    pause: 'Pause',
-    inbound: 'Inbound',
-    outbound: 'Outbound',
-    today: 'Today',
-    hour: 'hour',
-    min: 'min',
+    region: 'Location',
   },
   pages: {
     queue: {
@@ -72,7 +58,7 @@ export default {
         agents: 'Agents',
         free: 'Free',
         team: 'Team',
-        members: 'Members Processing/Waiting',
+        members: 'Members processing/Waiting',
         count: 'Calls count',
         bridged: 'Answered',
         transferred: 'Transferred',
@@ -101,11 +87,10 @@ export default {
     },
     card: {
       callAgent: 'Call',
-      progressiveCount: 'Progressive calls count',
-      chatCount: 'Chat count',
+      progressiveCount: 'Progressive call count',
+      chatCount: 'Progressive chat count',
       general: {
         title: 'General',
-        team: 'Team',
         pauseCause: {
           columns: {
             name: 'Reason of pause',
@@ -122,7 +107,7 @@ export default {
           duration: 'Duration',
           from: 'From',
           to: 'To',
-          createdAt: 'Date & Time',
+          createdAt: 'Date & time',
           gateway: 'Gateway',
           queue: 'Queue',
           team: 'Team',
@@ -167,7 +152,7 @@ export default {
           bridged: 'Bridged',
           hold: 'Hold',
           missed: 'Missed',
-          wrapTime: 'Wrap time',
+          wrapTime: 'Wrap up time',
           processing: 'Processing',
         },
         columns: {
@@ -182,7 +167,7 @@ export default {
         skills: 'Skill | Skills',
         capacity: 'Capacity',
         columns: {
-          enabled: 'Enabled',
+          enabled: 'State',
         },
       },
     },
@@ -206,7 +191,7 @@ export default {
   },
   page404: {
     title404: "Looks like you're lost",
-    text404: 'Sorry, we can\'t find the page you want.',
+    text404: 'Sorry, I can\'t find the page you want',
     btn404: 'Go back',
   },
   callWindow: {
@@ -227,7 +212,7 @@ export default {
     },
     agentStatusSelect: {
       pauseCausePopup: {
-        title: 'Select a pause cause',
+        title: 'Choose a reason of pause',
         min: 'Min',
         unlimited: 'Unlimited',
       },
