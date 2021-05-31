@@ -102,6 +102,10 @@ export default {
 
 <style lang="scss" scoped>
 .agent-info-form {
+  @extend %wt-scrollbar;
+  padding: var(--component-padding);
+  overflow: auto;
+
   .wt-select, .wt-input {
     margin-bottom: var(--component-spacing);
   }
