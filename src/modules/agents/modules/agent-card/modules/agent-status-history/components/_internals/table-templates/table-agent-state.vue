@@ -36,7 +36,7 @@ export default {
       return 'secondary';
     },
     statusText() {
-      return this.item.pauseCause || this.$t(`pages.card.statusHistory.states.${snakeToCamel(this.item.state)}`);
+      return this.item.payload || this.item.pauseCause || this.$t(`pages.card.statusHistory.states.${snakeToCamel(this.item.state)}`);
     },
   },
 };
