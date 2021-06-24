@@ -40,7 +40,7 @@
             <template slot="from" slot-scope="{ item }">
               <div v-if="item.from">
                 {{ item.from.number }}
-              </div>>
+              </div>
             </template>
             <template slot="to" slot-scope="{ item }">
               <div v-if="item.to">
