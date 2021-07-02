@@ -67,6 +67,8 @@ export default {
         avgAsaSec: 'ASA',
         avgAwtSec: 'AWT',
         avgAhtSec: 'AHT',
+        sl20: 'SL/20',
+        sl30: 'SL/30',
       },
     },
     agent: {

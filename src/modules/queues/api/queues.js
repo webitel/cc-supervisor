@@ -27,6 +27,8 @@ const listResponseHandler = (response) => {
     avgAsaSec: item.avgAsaSec ? +item.avgAsaSec.toFixed(2) : 0,
     avgAwtSec: item.avgAwtSec ? +item.avgAwtSec.toFixed(2) : 0,
     avgAhtSec: item.avgAhtSec ? +item.avgAhtSec.toFixed(2) : 0,
+    sl20: item.sl20 ? `${+item.sl20.toFixed(2)}%` : 0,
+    sl30: item.sl30 ? `${+item.sl30.toFixed(2)}%` : 0,
     agentStatus: { ...defaultAgentStatusObject, ...item.agentStatus },
     members: {
       processing: item.processed || 0,
@@ -52,7 +54,10 @@ const _getQueuesList = (getList) => function ({
                                                 team,
                                                 queueType,
                                               } = {}) {
-  const { joinedAtFrom, joinedAtTo } = parseJoined(period);
+  const {
+    joinedAtFrom,
+    joinedAtTo
+  } = parseJoined(period);
   const reqParams = [page, size, joinedAtFrom, joinedAtTo, undefined, fields, sort,
     search, queue, team, queueType];
   return getList(reqParams);

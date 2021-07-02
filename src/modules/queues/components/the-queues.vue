@@ -19,10 +19,12 @@
     <template slot="actions-panel">
       <queue-filters :namespace="filtersNamespace"/>
     </template>
+<!--Це те що мені треба WTEL-1924 -->
     <template slot="main">
       <section class="main-section-wrapper">
         <wt-loader v-show="isLoading"></wt-loader>
         <div class="table-wrapper" v-show="!isLoading">
+<!--Врапер з кнопкою при кліку на яку відбувається виклик попапу-->
           <wt-table-actions
             class="table-wrapper__actions-wrapper"
             :icons="['refresh']"
