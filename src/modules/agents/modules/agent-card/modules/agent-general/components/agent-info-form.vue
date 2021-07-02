@@ -13,6 +13,8 @@
       :label="$tc('objects.supervisor')"
       :search="searchSupervisors"
       :internal-search="false"
+      :close-on-select="false"
+      multiple
       @input="setItemProp({ prop: 'supervisor', value: $event })"
     ></wt-select>
     <wt-select
@@ -20,6 +22,8 @@
       :label="$tc('objects.auditor')"
       :search="searchAuditors"
       :internal-search="false"
+      :close-on-select="false"
+      multiple
       @input="setItemProp({ prop: 'auditor', value: $event })"
     ></wt-select>
     <wt-select
