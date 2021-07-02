@@ -1,4 +1,5 @@
 import editProxy from '@webitel/ui-sdk/src/scripts/editProxy';
+import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import AgentAPI from '../api/agent-edit';
 
 const state = {
@@ -18,7 +19,12 @@ const actions = {
     context.commit('SET_AGENT_PROPERTY', { prop, value });
   },
   UPDATE_AGENT: async (context) => {
-    const payload = { id: context.getters.AGENT_ID, changes: context.state.agent };
+    const payload = { id: context.getters.AGENT_ID, changes: { ...context.state.agent } };
+    // strange patch formatting :(
+    ['team', 'supervisor', 'auditor', 'region'].forEach((key) => {
+      const prop = payload.changes[key];
+      if (typeof prop === 'object' && isEmpty(prop)) payload.changes[key] = { id: null };
+    });
     try {
       await AgentAPI.patch(payload);
     } catch {
