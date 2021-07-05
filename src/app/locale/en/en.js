@@ -85,6 +85,7 @@ export default {
         chatTime: 'Chat time',
         transferred: 'Transferred',
         missed: 'Missed',
+        occupancy: 'Occupancy',
       },
     },
     card: {

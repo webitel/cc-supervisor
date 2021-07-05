@@ -61,4 +61,11 @@ export default [
     sort: null,
     field: 'missed',
   },
+  {
+    value: 'occupancy',
+    locale: 'pages.agent.columns.occupancy',
+    show: true,
+    sort: null,
+    field: 'occupancy',
+  },
 ];
