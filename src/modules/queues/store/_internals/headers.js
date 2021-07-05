@@ -95,5 +95,19 @@ export default [
     sort: null,
     field: 'avg_aht_sec',
     width: 'minmax(120px, 1fr)',
+  }, {
+    value: 'sl20',
+    locale: 'pages.queue.columns.sl20',
+    show: false,
+    sort: null,
+    field: 'sl20',
+    width: 'minmax(120px, 1fr)',
+  }, {
+    value: 'sl30',
+    locale: 'pages.queue.columns.sl30',
+    show: false,
+    sort: null,
+    field: 'sl30',
+    width: 'minmax(120px, 1fr)',
   },
 ];
