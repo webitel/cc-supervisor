@@ -40,6 +40,8 @@ const expectResponse = {
     processed: 1,
     sumBillSec: 60,
     transferred: 0,
+    sl20: 0,
+    sl30: 0,
   }],
   next: false,
 };
