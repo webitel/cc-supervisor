@@ -20,11 +20,18 @@ const actions = {
   },
   UPDATE_AGENT: async (context) => {
     const payload = { id: context.getters.AGENT_ID, changes: { ...context.state.agent } };
+
     // strange patch formatting :(
-    ['team', 'supervisor', 'auditor', 'region'].forEach((key) => {
+    ['team', 'region'].forEach((key) => {
       const prop = payload.changes[key];
       if (typeof prop === 'object' && isEmpty(prop)) payload.changes[key] = { id: null };
     });
+    // strange patch formatting :(
+    ['supervisor', 'auditor'].forEach((key) => {
+      const prop = payload.changes[key];
+      if (typeof prop === 'object' && isEmpty(prop)) payload.changes[key] = [{ id: null }];
+    });
+
     try {
       await AgentAPI.patch(payload);
     } catch {
