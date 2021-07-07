@@ -84,6 +84,7 @@ export default {
         chatTime: 'Час у чатах',
         transferred: 'Переведено',
         missed: 'Пропущено',
+        occupancy: 'Зайнятість',
       },
     },
     card: {

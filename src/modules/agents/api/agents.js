@@ -12,6 +12,7 @@ const listResponseHandler = (response) => {
     _isSelected: false,
     statusDuration: convertDuration(item.statusDuration),
     utilization: `${item.utilization.toFixed(2)}%`,
+    occupancy: `${item.occupancy.toFixed(2)}%`,
     online: convertDuration(item.online),
     offline: convertDuration(item.offline),
     pause: convertDuration(item.pause),
@@ -32,6 +33,7 @@ const defaultListObject = {
   transferred: 0,
   missed: 0,
   utilization: 0,
+  occupancy: 0,
 };
 
 const _getAgentsList = (getList) => function ({
@@ -64,7 +66,7 @@ const listGetter = new SdkListGetterApiConsumer(agentService.searchAgentStatusSt
     listResponseHandler,
     defaultListObject,
   })
-.setGetListMethod(_getAgentsList);
+  .setGetListMethod(_getAgentsList);
 
 export const getAgentsList = (params) => listGetter.getList(params);
 

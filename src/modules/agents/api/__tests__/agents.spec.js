@@ -15,6 +15,7 @@ const expectResponse = {
     pause: '00:00:00',
     callTime: '00:00:00',
     chatTime: '00:00:00',
+    occupancy: '0.00%',
   }],
   next: false,
 };
