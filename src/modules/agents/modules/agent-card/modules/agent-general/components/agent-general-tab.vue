@@ -37,7 +37,7 @@ export default {
   min-height: 0;
   margin-top: var(--component-spacing);
 
-  @media #{$media} and #{$media-width-sm} {
+  @media (#{$media} and #{$media-width-sm}) {
     grid-template-columns: 1fr;
   }
 }
