@@ -6,11 +6,16 @@ import configuration from '../../../app/api/utils/openAPIConfig';
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
+const convertStatusDuration = (value) => {
+  if (value > 60 * 60 * 24) return '>24:00:00';
+  return convertDuration(value);
+};
+
 const listResponseHandler = (response) => {
   const items = response.items.map((item) => ({
     ...item,
     _isSelected: false,
-    statusDuration: convertDuration(item.statusDuration),
+    statusDuration: convertStatusDuration(item.statusDuration),
     utilization: `${item.utilization.toFixed(2)}%`,
     online: convertDuration(item.online),
     offline: convertDuration(item.offline),
