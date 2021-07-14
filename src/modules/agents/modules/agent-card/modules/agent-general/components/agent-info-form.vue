@@ -48,7 +48,7 @@
     <wt-button
       :disabled="disabledSave"
       @click="save"
-    >{{ $t('reusable.save') }}</wt-button>
+    >{{ $t('defaults.save') }}</wt-button>
   </form>
 </template>
 
