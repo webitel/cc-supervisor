@@ -2,7 +2,6 @@
 node_modules
 /dist
 /coverage
-package-lock.json
 .editorconfig
 jest.json
 

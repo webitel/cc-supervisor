@@ -9,6 +9,8 @@ process.env.VUE_APP_HISTORY_URL = process.env.NODE_ENV === 'production' ? '/hist
 process.env.VUE_APP_GRAFANA_URL = process.env.NODE_ENV === 'production' ? '/grafana' : 'https://dev.webitel.com/grafana';
 process.env.VUE_APP_SETTINGS_URL = process.env.NODE_ENV === 'production' ? '/settings' : 'https://dev.webitel.com/settings';
 
+process.env.VUE_APP_PACKAGE_VERSION = require('./package.json').version;
+
 module.exports = {
     transpileDependencies: ['@webitel/ui-sdk/src'],
     // publicPath: process.env.NODE_ENV === 'production' ? '' : '/',
@@ -18,7 +20,7 @@ module.exports = {
         loaderOptions: {
             sass: {
                 prependData: `
-          @import "@/css/main.scss";
+          @import "@/app/css/main.scss";
       `,
             },
         },

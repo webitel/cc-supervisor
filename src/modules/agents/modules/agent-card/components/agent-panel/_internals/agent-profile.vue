@@ -1,0 +1,47 @@
+<template>
+  <article class="agent-profile">
+    <div class="agent-profile__pic">
+      <img
+        class="agent-profile__pic__img"
+        src="../../../../../../../app/assets/img/default-avatar.svg"
+        alt="Agent avatar"
+      >
+    </div>
+    <strong class="agent-profile__name">{{ name }}</strong>
+  </article>
+</template>
+
+<script>
+export default {
+  name: 'agent-profile',
+  props: {
+    name: {
+      type: String,
+      default: '',
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.agent-profile {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+
+  .agent-profile__pic {
+    width: 40px;
+    height: 40px;
+    margin-right: var(--component-spacing);
+
+    &__img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .agent-panel__name {
+    @extend %typo-strong-lg;
+  }
+}
+</style>
