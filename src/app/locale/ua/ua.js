@@ -156,6 +156,7 @@ export default {
           missed: 'Пропущений',
           wrapTime: 'Постобробка',
           processing: 'Обробка',
+          chat: 'Чат',
         },
         columns: {
           state: 'Статус',

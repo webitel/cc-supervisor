@@ -157,6 +157,7 @@ export default {
           missed: 'Missed',
           wrapTime: 'Wrap up time',
           processing: 'Processing',
+          chat: 'Chat',
         },
         columns: {
           state: 'Status',

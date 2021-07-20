@@ -10,7 +10,7 @@ const listResponseHandler = (response) => {
   const items = response.items.map((item) => ({
     ...item,
     from: new Date(+item.joinedAt).toLocaleString(),
-    to: item.duration ? new Date(item.joinedAt - item.duration * 1000).toLocaleString() : null,
+    to: item.duration ? new Date(+item.joinedAt + item.duration * 1000).toLocaleString() : null,
     duration: convertDuration(item.duration),
   }));
   return {
