@@ -8,7 +8,7 @@ import Agents from '../../modules/agents/components/the-agents.vue';
 import AgentPage from '../../modules/agents/modules/agent-card/components/agent-card.vue';
 import SupervisorWorkspace from '../components/the-supervisor-workspace.vue';
 import notFound from '../components/utils/the-not-found-component.vue';
-import TheStartPage from '../../modules/start-page/components/the-start-page';
+import TheStartPage from '../../modules/start-page/components/the-start-page.vue';
 
 // https://stackoverflow.com/a/55544303
 if (!process || process.env.NODE_ENV !== 'test') {
