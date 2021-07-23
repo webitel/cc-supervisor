@@ -85,6 +85,10 @@ import TableDirection from './_internals/table-templates/table-direction.vue';
 
 export default {
   name: 'the-active-calls',
+  mixins: [
+    tablePageMixin,
+    sortFilterMixin,
+  ],
   components: {
     FilterFields,
     FilterPagination,
@@ -92,10 +96,6 @@ export default {
     TableActiveCallState,
     ActiveCallsFilters,
   },
-  mixins: [
-    tablePageMixin,
-    sortFilterMixin,
-  ],
   data: () => ({
     namespace: 'activeCalls',
   }),

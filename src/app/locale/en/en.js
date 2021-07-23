@@ -18,11 +18,6 @@ export default {
     missed: 'Missed',
     disconnect: 'Disconnected',
   },
-  nav: {
-    queue: 'Queue',
-    agents: 'Agents',
-    activeCalls: 'Active Calls',
-  },
   // DEPRECATED: these locales should be moved to "reusable"
   defaults: {
     search: 'Search',
