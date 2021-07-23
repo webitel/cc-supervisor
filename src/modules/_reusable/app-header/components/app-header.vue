@@ -78,7 +78,7 @@ export default {
         value: SupervisorSections.ACTIVE_CALLS,
         name: this.$t(`WebitelApplications.${WebitelApplications.SUPERVISOR}.sections.${SupervisorSections.ACTIVE_CALLS}`),
         route: '/active-calls',
-      }].filter((nav) => true || this.checkNavAccess(nav));
+      }].filter((nav) => this.checkNavAccess(nav));
     },
   },
 

@@ -9,6 +9,7 @@ import Agents from '../../modules/agents/components/the-agents.vue';
 import AgentPage from '../../modules/agents/modules/agent-card/components/agent-card.vue';
 import SupervisorWorkspace from '../components/the-supervisor-workspace.vue';
 import notFound from '../components/utils/the-not-found-component.vue';
+import AccessDenied from '../components/utils/access-denied-component.vue';
 import store from '../store';
 
 const checkRouteAccess = ((to, from, next) => {
@@ -54,6 +55,10 @@ const routes = [{
         component: ActiveCalls,
         beforeEnter: checkRouteAccess,
     }],
+}, {
+  path: '/access-denied',
+  name: 'access-denied',
+  component: AccessDenied,
 }, {
     path: '*',
     name: 'not-found',
