@@ -1,20 +1,19 @@
 <template>
   <div class="start-page-wrapper">
-    <the-card v-for="card in cardData" :key="card.title" :card="card"/>
+    <start-page-card v-for="card in cardData" :key="card.title" :card="card"/>
   </div>
 </template>
 
 <script>
-import TheCard from './start-page-card.vue';
+import StartPageCard from './start-page-card.vue';
 import queuesSectionPic from '../assets/queues-section-pic.svg';
 import agentsSectionPic from '../assets/agents-section-pic.svg';
 import activeCallSectionPic from '../assets/active-calls-section-pic.svg';
 
 export default {
   name: 'the-start-page',
-  components: { TheCard },
-  data() {
-    return {
+  components: { StartPageCard },
+  data: () => ({
       cardData: [
         {
           title: 'Queue',
@@ -36,8 +35,7 @@ export default {
           text: 'Tuesday is the second day of the week, and is in many ways similar to Monday. Not a whole lot changes, schedule-wise, between Tuesday and Monday; most individuals go to school or work and return home to watch television, play video games, make plans with friends, spend time with family, read, or engage in a similar leisure-related activity.',
         },
       ],
-    };
-  },
+  }),
 };
 </script>
 

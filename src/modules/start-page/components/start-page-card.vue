@@ -2,19 +2,17 @@
   <article class="start-page-card">
     <header class="start-page-card__header">
       <!--      it is an image in order to test, will be icon-->
-      <!--      <img v-if="card.disabled" src="https://eimg.pravda.com/images/doc/a/7/a7a20b6&#45;&#45;&#45;&#45;&#45;&#45;.jpg">-->
+      <img v-if="card.disabled" src="https://eimg.pravda.com/images/doc/a/7/a7a20b6------.jpg">
       {{ card.title }}
     </header>
-    <section class="start-page-card__image">
+    <section>
       <img :src="card.image" :alt="card.title">
-    </section>
-    <section class="start-page-card__description">
-      <p>
+      <p class="start-page-card__description">
         {{ card.text }}
       </p>
     </section>
     <footer>
-      <wt-button wide color="primary" :disabled="card.disabled" @click="open">
+      <wt-button :disabled="card.disabled" wide color="primary" @click="open">
         Open
       </wt-button>
     </footer>
@@ -25,7 +23,11 @@
 
 export default {
   name: 'the-card',
-  props: { card: Object, required: true },
+  props: {
+    card: {
+      type: Object, required: true,
+    },
+  },
   methods: {
     open() {
       this.$router.push(this.card.path);
@@ -37,19 +39,15 @@ export default {
 <style lang="scss" scoped>
 .start-page-card {
   width: 410px;
-  margin: var(--component-spacing);
   padding: var(--component-padding);
+  margin: var(--component-spacing);
+  color: var(--contrast-color);
   border-radius: var(--border-radius);
   background-color: var(--main-color);
-  color: var(--contrast-color);
 }
 
 .start-page-card__header {
   @extend %typo-heading-md;
-}
-
-.start-page-card__image {
-  width: 100%;
 }
 
 .start-page-card__description {
