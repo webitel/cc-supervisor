@@ -12,7 +12,7 @@
       </p>
     </section>
     <footer>
-      <wt-button :disabled="card.disabled" wide color="primary" @click="open">
+      <wt-button :disabled="card.disabled" wide @click="open">
         Open
       </wt-button>
     </footer>
@@ -22,10 +22,11 @@
 <script>
 
 export default {
-  name: 'the-card',
+  name: 'start-page-card',
   props: {
     card: {
-      type: Object, required: true,
+      type: Object,
+      required: true,
     },
   },
   methods: {

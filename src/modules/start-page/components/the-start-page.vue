@@ -1,6 +1,6 @@
 <template>
   <div class="start-page-wrapper">
-    <start-page-card v-for="card in cardData" :key="card.title" :card="card"/>
+    <start-page-card v-for="card of cardData" :key="card.title" :card="card"/>
   </div>
 </template>
 
