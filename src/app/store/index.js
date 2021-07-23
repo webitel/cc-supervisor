@@ -12,8 +12,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   actions: {
-    OPEN_SESSION: (context) => {
-      context.dispatch('userinfo/RESTORE_SESSION');
+    OPEN_SESSION: async (context) => {
+      await context.dispatch('userinfo/OPEN_SESSION');
     },
     CLOSE_SESSION: () => {},
   },

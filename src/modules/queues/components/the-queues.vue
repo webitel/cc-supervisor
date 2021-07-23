@@ -93,6 +93,11 @@ import TableTeam from './_internals/table-templates/table-team.vue';
 
 export default {
   name: 'the-queues',
+  mixins: [
+    tablePageMixin,
+    sortFilterMixin,
+    exportCSVMixin,
+  ],
   components: {
     FilterSearch,
     FilterFields,
@@ -103,11 +108,6 @@ export default {
     TableTeam,
     TableMembers,
   },
-  mixins: [
-    tablePageMixin,
-    sortFilterMixin,
-    exportCSVMixin,
-  ],
   data: () => ({
     namespace: 'queues',
   }),

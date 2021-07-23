@@ -18,11 +18,6 @@ export default {
     missed: 'Пропущено',
     disconnect: 'Разъединено',
   },
-  nav: {
-    queue: 'Очередь',
-    agents: 'Агенты',
-    activeCalls: 'Активные звонки',
-  },
   defaults: {
     search: 'Поиск',
     exportCSV: 'Экспорт CSV',

@@ -31,6 +31,7 @@ const createVueInstance = () => {
 // init IIFE
 (async () => {
   const config = await fetchConfig();
+  await store.dispatch('OPEN_SESSION');
   Vue.prototype.$config = config;
   createVueInstance();
 })();

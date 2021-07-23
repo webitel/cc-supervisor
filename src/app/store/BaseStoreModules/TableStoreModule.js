@@ -1,5 +1,4 @@
 import BaseStoreModule from '@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule';
-import router from '../../router';
 
 export default class TableStoreModule extends BaseStoreModule {
   state = {
@@ -9,7 +8,7 @@ export default class TableStoreModule extends BaseStoreModule {
   };
 
   getters = {
-    GET_LIST_PARAMS: (state, getters) => (queryParams = router.currentRoute.query) => {
+    GET_LIST_PARAMS: (state, getters) => (queryParams) => {
       const fields = (queryParams.fields
         ? getters.GET_DATA_FIELDS_BY_VALUE(queryParams.fields)
         : getters.DATA_FIELDS).concat(['id']);
