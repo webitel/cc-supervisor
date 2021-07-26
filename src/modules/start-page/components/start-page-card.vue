@@ -2,11 +2,11 @@
   <article class="start-page-card">
     <header class="start-page-card__header">
       <!--      it is an image in order to test, will be icon-->
-      <img v-if="card.disabled" src="https://eimg.pravda.com/images/doc/a/7/a7a20b6------.jpg">
-      {{ card.title }}
+      <wt-icon v-if="card.disabled" icon="lock" color="false" />
+      {{ card.name }}
     </header>
     <section>
-      <img :src="card.image" :alt="card.title">
+      <img :src="card.image" :alt="card.name">
       <p class="start-page-card__description">
         {{ card.text }}
       </p>
@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     open() {
-      this.$router.push(this.card.path);
+      this.$router.push(this.card.route);
     },
   },
 };

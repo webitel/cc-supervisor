@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import SupervisorSections from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
+import SupervisorSections
+  from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
 
 import Auth from '@webitel/ui-sdk/src/modules/Userinfo/components/the-auth.vue';
 import Queue from '../../modules/queues/components/the-queues.vue';
@@ -37,24 +38,24 @@ const routes = [{
   component: SupervisorWorkspace,
   children: [{
     path: 'queues',
-        name: SupervisorSections.QUEUES,
+    name: SupervisorSections.QUEUES,
     component: Queue,
-        beforeEnter: checkRouteAccess,
+    beforeEnter: checkRouteAccess,
   }, {
     path: 'agents',
-        name: SupervisorSections.AGENTS,
-        component: Agents,
-        beforeEnter: checkRouteAccess,
-    }, {
-        path: 'agents/:id',
-        name: `${SupervisorSections.AGENTS}-card`,
-        component: AgentPage,
-        beforeEnter: checkRouteAccess,
-    }, {
-        path: 'active-calls',
-        name: SupervisorSections.ACTIVE_CALLS,
-        component: ActiveCalls,
-        beforeEnter: checkRouteAccess,
+    name: SupervisorSections.AGENTS,
+    component: Agents,
+    beforeEnter: checkRouteAccess,
+  }, {
+    path: 'agents/:id',
+    name: `${SupervisorSections.AGENTS}-card`,
+    component: AgentPage,
+    beforeEnter: checkRouteAccess,
+  }, {
+    path: 'active-calls',
+    name: SupervisorSections.ACTIVE_CALLS,
+    component: ActiveCalls,
+    beforeEnter: checkRouteAccess,
   }, {
     path: 'start-page',
     name: 'the-start-page',
@@ -66,9 +67,9 @@ const routes = [{
   name: 'access-denied',
   component: AccessDenied,
 }, {
-    path: '*',
-    name: 'not-found',
-    component: notFound,
+  path: '*',
+  name: 'not-found',
+  component: notFound,
 }];
 
 const router = new VueRouter({
