@@ -40,6 +40,10 @@ i {
   transition: var(--transition);
 }
 
+img {
+  width: 100%;
+}
+
 .hidden {
   opacity: 0;
   pointer-events: none;

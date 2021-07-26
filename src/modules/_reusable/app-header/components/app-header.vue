@@ -15,7 +15,7 @@
 import { mapState, mapGetters } from 'vuex';
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 import authAPI from '@webitel/ui-sdk/src/modules/Userinfo/api/auth';
-import navAccessMixin from '../../../../app/mixins/supervisor-workspace/navAccessMixin';
+import navAccessMixin from '../../../../app/mixins/supervisor-workspace/navMixin';
 
 export default {
   name: 'app-header',
