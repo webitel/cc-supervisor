@@ -1,6 +1,10 @@
 <template>
   <div class="start-page-wrapper">
-    <start-page-card v-for="card of navCards" :key="card.value" :card="card"/>
+    <start-page-card
+      v-for="(card) of navCards"
+      :key="card.value"
+      :card="card"
+    />
   </div>
 </template>
 
@@ -49,12 +53,14 @@ export default {
 
 <style scoped>
 .start-page-wrapper {
-  height: 100%;
-  min-width: 490px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  box-sizing: border-box;
+  min-width: 440px;
+  min-height: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 440px);
   justify-content: center;
-  align-items: center;
+  align-content: center;
+  grid-gap: var(--component-spacing);
+  padding: var(--component-padding);
 }
 </style>

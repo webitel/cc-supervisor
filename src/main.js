@@ -30,8 +30,13 @@ const createVueInstance = () => {
 
 // init IIFE
 (async () => {
-  const config = await fetchConfig();
-  await store.dispatch('OPEN_SESSION');
-  Vue.prototype.$config = config;
-  createVueInstance();
+  try {
+    const config = await fetchConfig();
+    await store.dispatch('OPEN_SESSION');
+    Vue.prototype.$config = config;
+  } catch (err) {
+    console.error('before app mount error:', err);
+  } finally {
+    createVueInstance();
+  }
 })();
