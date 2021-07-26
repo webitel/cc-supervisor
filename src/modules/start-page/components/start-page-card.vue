@@ -1,8 +1,7 @@
 <template>
   <article class="start-page-card">
     <header class="start-page-card__header">
-      <!--      it is an image in order to test, will be icon-->
-      <wt-icon v-if="card.disabled" icon="lock" color="false" />
+      <wt-icon v-if="card.disabled" icon="lock" color="false"/>
       {{ card.name }}
     </header>
     <section>
@@ -12,8 +11,12 @@
       </p>
     </section>
     <footer>
-      <wt-button :disabled="card.disabled" wide @click="open">
-        Open
+      <wt-button
+          :disabled="card.disabled"
+          wide
+          @click="open"
+      >
+        {{ $t('reusable.open') }}
       </wt-button>
     </footer>
   </article>
@@ -41,7 +44,6 @@ export default {
 .start-page-card {
   width: 410px;
   padding: var(--component-padding);
-  margin: var(--component-spacing);
   color: var(--contrast-color);
   border-radius: var(--border-radius);
   background-color: var(--main-color);
@@ -61,9 +63,5 @@ export default {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-}
-
-.start-page-card__header img {
-  width: 10%;
 }
 </style>
