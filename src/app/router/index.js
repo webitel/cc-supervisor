@@ -9,6 +9,7 @@ import Agents from '../../modules/agents/components/the-agents.vue';
 import AgentPage from '../../modules/agents/modules/agent-card/components/agent-card.vue';
 import SupervisorWorkspace from '../components/the-supervisor-workspace.vue';
 import notFound from '../components/utils/the-not-found-component.vue';
+import AccessDenied from '../components/utils/access-denied-component.vue';
 import TheStartPage from '../../modules/start-page/components/the-start-page.vue';
 import store from '../store';
 
@@ -61,9 +62,13 @@ const routes = [{
   },
   ],
 }, {
-  path: '*',
-  name: 'not-found',
-  component: notFound,
+  path: '/access-denied',
+  name: 'access-denied',
+  component: AccessDenied,
+}, {
+    path: '*',
+    name: 'not-found',
+    component: notFound,
 }];
 
 const router = new VueRouter({

@@ -14,12 +14,12 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
-import SupervisorSections from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
 import authAPI from '@webitel/ui-sdk/src/modules/Userinfo/api/auth';
+import navAccessMixin from '../../../../app/mixins/supervisor-workspace/navAccessMixin';
 
 export default {
   name: 'app-header',
-
+  mixins: [navAccessMixin],
   data: () => ({
     buildInfo: {
       release: process.env.VUE_APP_PACKAGE_VERSION,
@@ -33,7 +33,6 @@ export default {
     }),
     ...mapGetters('userinfo', {
       checkAppAccess: 'CHECK_APP_ACCESS',
-      checkNavAccess: 'CHECK_OBJECT_ACCESS',
     }),
     apps() {
       const agent = {
@@ -63,22 +62,6 @@ export default {
       const apps = [admin, supervisor, agent, history, audit];
       if (this.$config?.ON_SITE) apps.push(grafana);
       return apps.filter(({ name }) => this.checkAppAccess(name));
-    },
-
-    nav() {
-      return [{
-        value: SupervisorSections.QUEUES,
-        name: this.$t(`WebitelApplications.${WebitelApplications.SUPERVISOR}.sections.${SupervisorSections.QUEUES}`),
-        route: '/queues',
-      }, {
-        value: SupervisorSections.AGENTS,
-        name: this.$t(`WebitelApplications.${WebitelApplications.SUPERVISOR}.sections.${SupervisorSections.AGENTS}`),
-        route: '/agents',
-      }, {
-        value: SupervisorSections.ACTIVE_CALLS,
-        name: this.$t(`WebitelApplications.${WebitelApplications.SUPERVISOR}.sections.${SupervisorSections.ACTIVE_CALLS}`),
-        route: '/active-calls',
-      }].filter((nav) => true || this.checkNavAccess(nav));
     },
   },
 
