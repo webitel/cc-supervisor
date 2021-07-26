@@ -22,7 +22,7 @@ describe('App Header', () => {
       modules: {
         userinfo: {
           ...userInfoStore,
-          state: user,
+          state: { ...userInfoStore.state, ...user },
         },
       },
     });
