@@ -21,7 +21,7 @@ export default {
         if (navItem.value === 'queues') {
           return {
             image: queuesSectionPic,
-            text: 'blablablaQueues',
+            text: this.$t('pages.queue.description'),
             ...navItem,
           };
         }
@@ -29,8 +29,7 @@ export default {
         if (navItem.value === 'agents') {
           return {
             image: agentsSectionPic,
-            text: 'blablablaAgents',
-            disabled: true,
+            text: this.$t('pages.agent.description'),
             ...navItem,
           };
         }
@@ -38,7 +37,7 @@ export default {
         if (navItem.value === 'activeCalls') {
           return {
             image: activeCallSectionPic,
-            text: 'blablablaActiveCalls',
+            text: this.$t('pages.activeCall.description'),
             ...navItem,
           };
         }
@@ -50,9 +49,12 @@ export default {
 
 <style scoped>
 .start-page-wrapper {
+  height: 100%;
+  min-width: 490px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  min-width: 490px;
+  justify-content: center;
+  align-items: center;
 }
 </style>
