@@ -1,36 +1,24 @@
-import router from '../../../app/router';
-import { getCliInstance } from '../../../app/api/callWSConnection';
-import { getSession } from '../../_reusable/auth/api/auth';
+import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
+import UserinfoStoreModule from '@webitel/ui-sdk/src/modules/Userinfo/store/UserinfoStoreModule';
 
-const defaultState = () => ({
-  agent: {},
-  domainId: 0,
-  name: '',
-  username: '',
-  account: '',
-  userId: 0,
-  scope: [],
-  roles: [],
-  license: [],
-  language: localStorage.getItem('lang'),
-});
+// register api's
+import authAPI from '@webitel/ui-sdk/src/modules/Userinfo/api/auth';
+import userinfoAPI from '@webitel/ui-sdk/src/modules/Userinfo/api/userinfo';
+import instance from '../../../app/api/instance';
+
+import { getCliInstance } from '../../../app/api/callWSConnection';
+
+authAPI.setInstance(instance);
+userinfoAPI.setInstance(instance);
 
 const state = {
-  ...defaultState(),
+  thisApp: WebitelApplications.SUPERVISOR,
+  agent: {},
 };
 
-const getters = {};
-
 const actions = {
-  RESTORE_SESSION: async (context) => {
-    try {
-      const userinfo = await getSession();
-      context.dispatch('SUBSCRIBE_AGENT_STATUS');
-      await context.dispatch('SET_SESSION', userinfo);
-    } catch (err) {
-      await router.replace('/auth');
-      throw err;
-    }
+  AFTER_OPEN_SESSION_HOOK: (context) => {
+    context.dispatch('SUBSCRIBE_AGENT_STATUS');
   },
   SUBSCRIBE_AGENT_STATUS: async (context) => {
     const client = await getCliInstance();
@@ -45,43 +33,14 @@ const actions = {
       throw err;
     }
   },
-  SET_SESSION: (context, session) => {
-    context.commit('SET_SESSION', session);
-  },
-  SET_DOMAIN_ID: (context, domainId) => {
-    context.commit('SET_DOMAIN_ID', domainId);
-  },
-  RESET_STATE: (context) => {
-    context.commit('RESET_STATE');
-  },
 };
 
 const mutations = {
-  SET_SESSION: (state, session) => {
-    state.domainId = session.dc;
-    state.account = session.preferredUsername;
-    state.roles = session.roles;
-    state.scope = session.scope;
-    state.userId = session.userId;
-    state.license = session.license;
-    state.username = session.username;
-    state.name = session.name;
-  },
   SET_AGENT_INSTANCE: (state, agent) => {
     state.agent = agent;
   },
-  SET_DOMAIN_ID: (state, domainId) => {
-    state.domainId = domainId;
-  },
-  RESET_STATE: (state) => {
-    Object.assign(state, defaultState());
-  },
 };
 
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations,
-};
+const userinfo = new UserinfoStoreModule().getModule({ state, actions, mutations });
+
+export default userinfo;

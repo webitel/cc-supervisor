@@ -18,11 +18,6 @@ export default {
     missed: 'Missed',
     disconnect: 'Disconnected',
   },
-  nav: {
-    queue: 'Queue',
-    agents: 'Agents',
-    activeCalls: 'Active Calls',
-  },
   // DEPRECATED: these locales should be moved to "reusable"
   defaults: {
     search: 'Search',
@@ -192,11 +187,6 @@ export default {
         dtmf: 'DTMF',
       },
     },
-  },
-  page404: {
-    title404: "Looks like you're lost",
-    text404: 'Sorry, I can\'t find the page you want',
-    btn404: 'Go back',
   },
   callWindow: {
     client: 'Client',

@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import * as logoutAPI from '../../auth/api/auth';
+import authAPI from '@webitel/ui-sdk/src/modules/Userinfo/api/auth';
 import AppHeader
   from '../components/app-header.vue';
 import userInfoStore from '../../../userinfo/store/userinfo';
@@ -13,7 +13,7 @@ const user = {
   account: 'account',
 };
 
-jest.spyOn(logoutAPI, 'logout');
+jest.spyOn(authAPI, 'logout');
 describe('App Header', () => {
   let store;
 
@@ -22,7 +22,7 @@ describe('App Header', () => {
       modules: {
         userinfo: {
           ...userInfoStore,
-          state: user,
+          state: { ...userInfoStore.state, ...user },
         },
       },
     });
@@ -39,7 +39,7 @@ describe('App Header', () => {
   it('calls API logout at user logout action', () => {
     const wrapper = shallowMount(AppHeader, { localVue, store });
     wrapper.findComponent({ name: 'wt-header-actions' }).vm.$emit('logout');
-    expect(logoutAPI.logout).toHaveBeenCalled();
+    expect(authAPI.logout).toHaveBeenCalled();
   });
 
   it('opens settings at user settings action', () => {

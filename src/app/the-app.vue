@@ -9,7 +9,6 @@ export default {
   name: 'the-app',
   created() {
     this.setAutoRefresh();
-    this.openSession();
     this.setLanguage();
   },
   destroyed() {
@@ -17,7 +16,6 @@ export default {
   },
   methods: {
     ...mapActions({
-      openSession: 'OPEN_SESSION',
       closeSession: 'CLOSE_SESSION',
     }),
 

@@ -18,11 +18,6 @@ export default {
     missed: 'Пропущено',
     disconnect: 'Разъединено',
   },
-  nav: {
-    queue: 'Очередь',
-    agents: 'Агенты',
-    activeCalls: 'Активные звонки',
-  },
   defaults: {
     search: 'Поиск',
     exportCSV: 'Экспорт CSV',
@@ -191,11 +186,6 @@ export default {
         dtmf: 'DTMF',
       },
     },
-  },
-  page404: {
-    title404: 'Похоже, вы потерялись',
-    text404: 'Извините, я не могу найти то, что вы ищете',
-    btn404: 'Вернуться назад',
   },
   callWindow: {
     client: 'Абонент',
