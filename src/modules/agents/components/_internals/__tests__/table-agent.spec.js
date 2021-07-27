@@ -17,6 +17,6 @@ describe('Queues table Agent', () => {
   it('renders a component with outbound value', () => {
     const wrapper = shallowMount(TableAgent, { mocks: { $router }, propsData: { item } });
     wrapper.find('.name-link').trigger('click');
-    expect($router.push).toHaveBeenCalledWith({ name: 'agent-page', params: { id: item.agentId } });
+    expect($router.push).toHaveBeenCalledWith({ name: 'agents-card', params: { id: item.agentId } });
   });
 });
