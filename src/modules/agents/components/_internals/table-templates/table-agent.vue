@@ -16,11 +16,14 @@ export default {
     },
   },
   methods: {
+    // openAgentView(agentId) {
+    //   this.$router.push({
+    //     name: 'agent-page',
+    //     params: { id: agentId },
+    //   });
+    // },
     openAgentView(agentId) {
-      this.$router.push({
-        name: 'agent-page',
-        params: { id: agentId },
-      });
+      this.$router.push(`agents/${agentId}`);
     },
   },
 };
