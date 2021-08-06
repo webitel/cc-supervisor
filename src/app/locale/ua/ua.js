@@ -1,3 +1,6 @@
+import SupervisorSections
+  from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
+
 export default {
   auth: {
     register: 'Створити',
@@ -47,7 +50,6 @@ export default {
   pages: {
     queue: {
       title: 'Черги',
-      description: 'У цьому розділі можна стежити за чергами.',
       columns: {
         queue: 'Черга',
         agents: 'Оператори',
@@ -69,7 +71,6 @@ export default {
     },
     agent: {
       title: 'Оператори',
-      description: 'У цьому розділі можна контролювати роботу операторів, відстежувати їх статуси та історію дзвінків, а також керувати їх навичками.',
       columns: {
         name: 'Черга',
         status: 'Статус',
@@ -173,7 +174,6 @@ export default {
     },
     activeCall: {
       title: 'Активні дзвінки',
-      description: 'У цьому розділі можна стежити за активними дзвінками і мати можливість під\'єднатися до них.',
       columns: {
         createdAt: 'Почався о',
         direction: 'Напрям',
@@ -188,6 +188,21 @@ export default {
         user: 'Користувач',
         dtmf: 'DTMF',
       },
+    },
+    startPage: {
+      [SupervisorSections.QUEUES]: {
+        name: 'Черги',
+        text: 'У цьому розділі можна стежити за чергами.',
+      },
+      [SupervisorSections.AGENTS]: {
+        name: 'Оператори',
+        text: 'У цьому розділі можна контролювати роботу операторів, відстежувати їх статуси та історію дзвінків, а також керувати їх навичками.',
+      },
+      [SupervisorSections.ACTIVE_CALLS]: {
+        name: 'Активні дзвінки',
+        text: 'У цьому розділі можна стежити за активними дзвінками і мати можливість під\'єднатися до них.',
+
+},
     },
   },
   callWindow: {
