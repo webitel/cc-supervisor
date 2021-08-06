@@ -1,3 +1,6 @@
+import SupervisorSections
+  from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
+
 export default {
   auth: {
     register: 'Register',
@@ -188,15 +191,15 @@ export default {
       },
     },
     startPage: {
-      queues: {
+      [SupervisorSections.QUEUES]: {
         name: 'Queues',
         text: 'In this section, you can monitor queues.',
       },
-      agents: {
+      [SupervisorSections.AGENTS]: {
         name: 'Agents',
         text: 'In this section you can control agents work, track their statuses and call history and manage their skills.',
       },
-      activeCalls: {
+      [SupervisorSections.ACTIVE_CALLS]: {
         name: 'Active calls',
         text: 'In this section, you can monitor active calls and connect to the call.',
       },

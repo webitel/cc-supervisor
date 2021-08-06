@@ -1,3 +1,6 @@
+import SupervisorSections
+  from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
+
 export default {
   auth: {
     register: 'Створити',
