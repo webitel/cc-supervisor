@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import SupervisorSections
+  from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
 import StartPageCard from './start-page-card.vue';
 import queuesSectionPic from '../assets/queues-section-pic.svg';
 import agentsSectionPic from '../assets/agents-section-pic.svg';
@@ -22,16 +24,16 @@ export default {
   computed: {
     navCards() {
       const cardSectionPic = {
-          queues: queuesSectionPic,
-          agents: agentsSectionPic,
-          activeCalls: activeCallsSectionPic,
+          [SupervisorSections.QUEUES]: queuesSectionPic,
+          [SupervisorSections.AGENTS]: agentsSectionPic,
+          [SupervisorSections.ACTIVE_CALLS]: activeCallsSectionPic,
         };
       return this.nav.map((navItem) => ({
           ...navItem,
           disabled: !this.checkNavAccess({ name: navItem.value }),
           name: this.$t(`pages.startPage.${navItem.value}.name`),
           text: this.$t(`pages.startPage.${navItem.value}.text`),
-          image: cardSectionPic[`${navItem.value}`],
+          image: cardSectionPic[navItem.value],
         }));
     },
   },
