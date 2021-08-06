@@ -22,7 +22,7 @@ export default {
         value: SupervisorSections.ACTIVE_CALLS,
         name: this.$t(`WebitelApplications.${WebitelApplications.SUPERVISOR}.sections.${SupervisorSections.ACTIVE_CALLS}`),
         route: '/active-calls',
-      }].filter((nav) => this.checkNavAccess({ name: nav.value }));
+      }];
     },
   },
 };

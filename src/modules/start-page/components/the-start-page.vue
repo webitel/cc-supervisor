@@ -12,7 +12,7 @@
 import StartPageCard from './start-page-card.vue';
 import queuesSectionPic from '../assets/queues-section-pic.svg';
 import agentsSectionPic from '../assets/agents-section-pic.svg';
-import activeCallSectionPic from '../assets/active-calls-section-pic.svg';
+import activeCallsSectionPic from '../assets/active-calls-section-pic.svg';
 import navMixin from '../../../app/mixins/supervisor-workspace/navMixin';
 
 export default {
@@ -21,31 +21,18 @@ export default {
   components: { StartPageCard },
   computed: {
     navCards() {
-      return this.nav.map((navItem) => {
-        if (navItem.value === 'queues') {
-          return {
-            image: queuesSectionPic,
-            text: this.$t('pages.queue.description'),
-            ...navItem,
-          };
-        }
-
-        if (navItem.value === 'agents') {
-          return {
-            image: agentsSectionPic,
-            text: this.$t('pages.agent.description'),
-            ...navItem,
-          };
-        }
-
-        if (navItem.value === 'activeCalls') {
-          return {
-            image: activeCallSectionPic,
-            text: this.$t('pages.activeCall.description'),
-            ...navItem,
-          };
-        }
-      });
+      const cardSectionPic = {
+          queues: queuesSectionPic,
+          agents: agentsSectionPic,
+          activeCalls: activeCallsSectionPic,
+        };
+      return this.nav.map((navItem) => ({
+          ...navItem,
+          disabled: !this.checkNavAccess({ name: navItem.value }),
+          name: this.$t(`pages.startPage.${navItem.value}.name`),
+          text: this.$t(`pages.startPage.${navItem.value}.text`),
+          image: cardSectionPic[`${navItem.value}`],
+        }));
     },
   },
 };

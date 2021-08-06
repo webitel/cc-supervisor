@@ -48,7 +48,6 @@ export default {
   pages: {
     queue: {
       title: 'Queues',
-      description: 'In this section, you can monitor queues.',
       columns: {
         queue: 'Queue',
         agents: 'Agents',
@@ -70,7 +69,6 @@ export default {
     },
     agent: {
       title: 'Agents',
-      description: 'In this section you can control agents work, track their statuses and call history and manage their skills.',
       columns: {
         name: 'Name',
         status: 'Status',
@@ -174,7 +172,6 @@ export default {
     },
     activeCall: {
       title: 'Active calls',
-      description: 'In this section, you can monitor active calls and connect to the call.',
       columns: {
         createdAt: 'Started at',
         direction: 'Direction',
@@ -188,6 +185,20 @@ export default {
         state: 'Result',
         user: 'User',
         dtmf: 'DTMF',
+      },
+    },
+    startPage: {
+      queues: {
+        name: 'Queues',
+        text: 'In this section, you can monitor queues.',
+      },
+      agents: {
+        name: 'Agents',
+        text: 'In this section you can control agents work, track their statuses and call history and manage their skills.',
+      },
+      activeCalls: {
+        name: 'Active calls',
+        text: 'In this section, you can monitor active calls and connect to the call.',
       },
     },
   },

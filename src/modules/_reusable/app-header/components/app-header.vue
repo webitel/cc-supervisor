@@ -1,6 +1,6 @@
 <template>
   <wt-app-header>
-    <wt-navigation-bar :current-app="currentApp" :nav="nav"></wt-navigation-bar>
+    <wt-navigation-bar :current-app="currentApp" :nav="navAccess"></wt-navigation-bar>
     <wt-app-navigator :current-app="currentApp" :apps="apps"></wt-app-navigator>
     <wt-header-actions
       :user="user"
@@ -62,6 +62,9 @@ export default {
       const apps = [admin, supervisor, agent, history, audit];
       if (this.$config?.ON_SITE) apps.push(grafana);
       return apps.filter(({ name }) => this.checkAppAccess(name));
+    },
+    navAccess() {
+      return this.nav.filter((nav) => this.checkNavAccess({ name: nav.value }));
     },
   },
 

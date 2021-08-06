@@ -31,6 +31,9 @@ export default {
       type: Object,
       required: true,
     },
+    disabled: {
+      type: Boolean,
+    },
   },
   methods: {
     open() {
