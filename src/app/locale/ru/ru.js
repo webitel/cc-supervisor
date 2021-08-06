@@ -1,3 +1,6 @@
+import SupervisorSections
+  from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
+
 export default {
   auth: {
     register: 'Создать',
@@ -187,15 +190,15 @@ export default {
       },
     },
     startPage: {
-      queues: {
+      [SupervisorSections.QUEUES]: {
         name: 'Очереди',
         text: 'В этом разделе можно следить за очередями.',
       },
-      agents: {
+      [SupervisorSections.AGENTS]: {
         name: 'Операторы',
         text: 'В этом разделе можна контролировать работу операторов, отслеживать их статусы и историю звонков, а также управлять их навыками.',
       },
-      activeCalls: {
+      [SupervisorSections.ACTIVE_CALLS]: {
         name: 'Активные звонки',
         text: 'В этом разделе можно следить за активными звонками и иметь возможность подключится к ним.',
       },
