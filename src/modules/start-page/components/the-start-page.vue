@@ -46,7 +46,7 @@ export default {
   min-width: 440px;
   min-height: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 440px);
+  grid-template-columns: repeat(auto-fit, 410px);
   justify-content: center;
   align-content: center;
   grid-gap: var(--component-spacing);

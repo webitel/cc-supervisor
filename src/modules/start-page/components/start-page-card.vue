@@ -4,7 +4,7 @@
       <wt-icon v-if="card.disabled" icon="lock" color="false"/>
       {{ card.name }}
     </header>
-    <section>
+    <section class="start-page-card__main-section">
       <img :src="card.image" :alt="card.name">
       <p class="start-page-card__description">
         {{ card.text }}
@@ -42,6 +42,7 @@ export default {
 
 <style lang="scss" scoped>
 .start-page-card {
+  box-sizing: border-box;
   width: 410px;
   padding: var(--component-padding);
   color: var(--contrast-color);
@@ -51,12 +52,22 @@ export default {
 
 .start-page-card__header {
   @extend %typo-heading-md;
+  display: flex;
+  align-items: center;
+}
+
+.start-page-card__header .wt-icon {
+  margin-right: var(--icon-spacing);
+}
+
+.start-page-card__main-section {
+  margin-bottom: var(--component-spacing);
 }
 
 .start-page-card__description {
   @extend %typo-body-md;
   height: 42px;
-  margin: var(--component-spacing) 0;
+  margin-top: var(--component-spacing);
   //in order to cut text after 3rd line:
   overflow: hidden;
   text-overflow: ellipsis;
