@@ -60,6 +60,10 @@ export default {
   margin-right: var(--icon-spacing);
 }
 
+.start-page-card__main-section {
+  margin-bottom: var(--component-spacing);
+}
+
 .start-page-card__description {
   @extend %typo-body-md;
   height: 42px;
@@ -70,9 +74,5 @@ export default {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-}
-
-.start-page-card__main-section {
-  margin-bottom: var(--component-spacing);
 }
 </style>
