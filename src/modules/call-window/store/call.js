@@ -1,7 +1,7 @@
 import { CallActions } from 'webitel-sdk';
 import { getCliInstance } from '../../../app/api/callWSConnection';
 
-// const callParams = { disableStun: true };
+const callParams = { disableStun: true };
 
 const callHandler = (context) => (action, call) => {
   switch (action) {
@@ -123,7 +123,7 @@ const actions = {
     destination.replace(/[^0-9a-zA-z\+\*#]/g, '');
     const client = await getCliInstance();
     try {
-      await client.call({ destination });
+      await client.call({ destination, params: callParams });
     } catch (err) {
       console.error(err);
     }
