@@ -74,7 +74,7 @@ export default {
 
   methods: {
     async loadDropdownOptionsList(search) {
-      const response = await getSkillsList({ search });
+      const response = await getSkillsList({ search, size: 50 });
       return response.items.map((item) => ({
         name: item.name,
         id: item.id,

@@ -19,11 +19,11 @@ const state = {
     locale: { label: 'filters.status' },
   }),
   queue: new ApiFilterSchema({
-    API: QueueFilterAPI,
+    API: (params) => QueueFilterAPI({ ...params, size: 50 }), // бо клієнт хоче щоб все вміщалось ))
     locale: { label: 'filters.queue' },
   }),
   skill: new ApiFilterSchema({
-    API: SkillFilterAPI,
+    API: (params) => SkillFilterAPI({ ...params, size: 50 }), // бо клієнт хоче щоб все вміщалось ))
     locale: { label: 'filters.skill' },
   }),
   team: new ApiFilterSchema({
