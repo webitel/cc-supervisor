@@ -26,12 +26,12 @@ describe('Agent History table Agent State', () => {
     expect(wrapper.vm.statusColor).toBe('success');
   });
 
-  it('if state is Offline, stateColor is danger', () => {
+  it('if state is Offline, stateColor is disabled', () => {
     const state = AgentStatus.Offline;
     const wrapper = shallowMount(TableAgentState, {
       propsData: { item: { state } },
     });
-    expect(wrapper.vm.statusColor).toBe('danger');
+    expect(wrapper.vm.statusColor).toBe('disabled');
   });
 
   it('if state is BreakOut, stateColor is break-out', () => {

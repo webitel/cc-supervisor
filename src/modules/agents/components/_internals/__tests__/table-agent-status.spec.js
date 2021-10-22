@@ -27,11 +27,11 @@ describe('Queues table AgentStatus', () => {
     expect(wrapper.vm.statusColor).toBe('success');
   });
 
-  it('if status is Offline, statusColor is danger', () => {
+  it('if status is Offline, statusColor is disabled', () => {
     const status = AgentStatus.Offline;
     const wrapper = shallowMount(TableAgentStatus, {
       propsData: { item: { status } },
     });
-    expect(wrapper.vm.statusColor).toBe('danger');
+    expect(wrapper.vm.statusColor).toBe('disabled');
   });
 });
