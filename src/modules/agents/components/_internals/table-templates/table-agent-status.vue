@@ -21,7 +21,7 @@ export default {
     statusColor() {
       switch (this.item.status) {
         case AgentStatus.Online: return 'success';
-        case AgentStatus.Offline: return 'danger';
+        case AgentStatus.Offline: return 'disabled';
        default: return 'primary';
       }
     },

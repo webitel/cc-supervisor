@@ -31,7 +31,7 @@ export default {
       } if (pauseStates.includes(this.item.state)) {
         return 'primary';
       } if (dangerStates.includes(this.item.state)) {
-        return 'danger';
+        return 'disabled';
       }
       return 'secondary';
     },

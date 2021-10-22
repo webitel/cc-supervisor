@@ -12,7 +12,7 @@
       :text="pause"
     ></wt-indicator>
     <wt-indicator
-      color="danger"
+      color="disabled"
       :text="offline"
     ></wt-indicator>
   </div>
