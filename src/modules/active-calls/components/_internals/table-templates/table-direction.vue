@@ -26,7 +26,7 @@ export default {
     },
     directionIconColor() {
       return this.item.direction === CallDirection.Outbound
-        ? 'true' : 'accent';
+        ? 'success' : 'accent';
     },
   },
 };
