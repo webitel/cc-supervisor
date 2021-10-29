@@ -16,7 +16,7 @@ describe('Agent calls direction cell', () => {
     item.direction = CallDirection.Outbound;
     const wrapper = shallowMount(TableDirection, { propsData: { item } });
     expect(wrapper.vm.directionIcon).toBe('call-outbound');
-    expect(wrapper.vm.directionIconColor).toBe('true');
+    expect(wrapper.vm.directionIconColor).toBe('success');
   });
   it('correctly computes inbound direction icon and color', () => {
     item.direction = CallDirection.Inbound;
