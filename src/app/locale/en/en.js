@@ -47,6 +47,7 @@ export default {
     supervisor: 'Supervisor',
     auditor: 'Auditor',
     region: 'Location',
+    result: 'Result',
   },
   pages: {
     queue: {
