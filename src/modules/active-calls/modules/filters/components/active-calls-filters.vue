@@ -19,6 +19,7 @@ export default {
   data: () => ({
     filters: [
       { type: 'enum', filterQuery: 'direction' },
+      { type: 'enum', filterQuery: 'result' },
       { type: 'api', filterQuery: 'gateway' },
       { type: 'api', filterQuery: 'queue' },
       { type: 'api', filterQuery: 'user' },

@@ -46,6 +46,7 @@ export default {
     supervisor: 'Супервизор',
     auditor: 'Аудитор',
     region: 'Площадка',
+    result: 'Результат',
   },
   pages: {
     queue: {
