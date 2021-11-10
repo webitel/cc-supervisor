@@ -15,7 +15,8 @@ const state = {
     options: DirectionOptions,
     locale: { label: 'filters.direction' },
   }),
-  result: new EnumFilterSchema({
+  // From the backend comes the state, which is filtered in the "Result" select
+  state: new EnumFilterSchema({
     options: ResultFilterOptions,
     locale: { label: 'filters.result' },
   }),
