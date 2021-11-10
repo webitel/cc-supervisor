@@ -8,15 +8,14 @@ import GatewayFilterAPI from '../../../../_shared/lookups/api/gatewayLookupApi';
 import QueueFilterAPI from '../../../../_shared/lookups/api/queueLookupApi';
 import AgentFilterAPI from '../../../../_shared/lookups/api/agentLookupApi';
 import DirectionOptions from '../../../../_shared/lookups/lookups/DirectionOptions.lookup';
-import ResultFilterOptions from '../stateFilter/ResultFilter.lookup';
+import ResultFilterOptions from '../resultFilter/ResultFilter.lookup';
 
 const state = {
   direction: new EnumFilterSchema({
     options: DirectionOptions,
     locale: { label: 'filters.direction' },
   }),
-  // From the backend comes the state, which is filtered in the "Result" select
-  state: new EnumFilterSchema({
+  result: new EnumFilterSchema({
     options: ResultFilterOptions,
     locale: { label: 'filters.result' },
   }),

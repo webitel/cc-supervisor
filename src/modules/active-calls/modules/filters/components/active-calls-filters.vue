@@ -19,8 +19,7 @@ export default {
   data: () => ({
     filters: [
       { type: 'enum', filterQuery: 'direction' },
-      // From the backend comes the state, which is filtered in the "Result" select
-      { type: 'enum', filterQuery: 'state' },
+      { type: 'enum', filterQuery: 'result' },
       { type: 'api', filterQuery: 'gateway' },
       { type: 'api', filterQuery: 'queue' },
       { type: 'api', filterQuery: 'user' },
