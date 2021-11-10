@@ -35,7 +35,7 @@ const _getActiveCallsList = (getList) => function ({
                                                      direction,
                                                      user,
                                                      gateway,
-                                                     result = ['active', 'ringing', 'bridge', 'hangup', 'hold'],
+                                                     result,
                                                    }) {
   const params = [page, size, search, sort, fields, undefined, undefined, user, agent, queue, team,
     undefined, gateway, undefined, undefined, undefined, undefined, undefined, undefined,

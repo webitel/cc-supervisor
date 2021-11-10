@@ -8,7 +8,7 @@ import GatewayFilterAPI from '../../../../_shared/lookups/api/gatewayLookupApi';
 import QueueFilterAPI from '../../../../_shared/lookups/api/queueLookupApi';
 import AgentFilterAPI from '../../../../_shared/lookups/api/agentLookupApi';
 import DirectionOptions from '../../../../_shared/lookups/lookups/DirectionOptions.lookup';
-import ResultFilterOptions from '../stateFilter/ResultFilter.lookup';
+import ResultFilterOptions from '../resultFilter/ResultFilter.lookup';
 
 const state = {
   direction: new EnumFilterSchema({
