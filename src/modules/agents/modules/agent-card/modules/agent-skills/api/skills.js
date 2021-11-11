@@ -7,8 +7,10 @@ const skillService = new SkillServiceApiFactory(configuration, '', instance);
 
 const listGetter = new SdkListGetterApiConsumer(skillService.searchSkill);
 
-export const getSkillsList = (params) => listGetter.getList(params);
+const getSkillsList = (params) => listGetter.getList(params);
+const getSkillsLookup = (params) => listGetter.getLookup(params);
 
 export default {
   getList: getSkillsList,
+  getLookup: getSkillsLookup,
 };

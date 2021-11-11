@@ -9,8 +9,7 @@
           :value="itemInstance.skill"
           :v="$v.itemInstance.skill"
           :label="$tc('pages.card.skills.skills', 1)"
-          :search="loadDropdownOptionsList"
-          :internal-search="false"
+          :search-method="loadDropdownOptionsList"
           :clearable="false"
           required
           @input="setItemProp({ prop: 'skill', value: $event })"
@@ -46,7 +45,7 @@
 import {
  maxValue, minValue, numeric, required,
 } from 'vuelidate/lib/validators';
-import { getSkillsList } from '../api/skills';
+import SkillsAPI from '../api/skills';
 import nestedObjectMixin
   from '../../../../../../../packages/client/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
@@ -73,13 +72,7 @@ export default {
   },
 
   methods: {
-    async loadDropdownOptionsList(search) {
-      const response = await getSkillsList({ search, size: 50 });
-      return response.items.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
-    },
+    loadDropdownOptionsList: SkillsAPI.getLookup,
   },
 };
 </script>

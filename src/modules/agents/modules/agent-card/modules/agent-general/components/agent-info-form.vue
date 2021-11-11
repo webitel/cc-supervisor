@@ -3,16 +3,14 @@
     <wt-select
       :value="agent.team"
       :label="$tc('objects.team')"
-      :search="searchTeams"
-      :internal-search="false"
+      :search-method="searchTeams"
       @input="setItemProp({ prop: 'team', value: $event })"
     ></wt-select>
     <wt-select
       v-if="!isSupervisor"
       :value="agent.supervisor"
       :label="$tc('objects.supervisor')"
-      :search="searchSupervisors"
-      :internal-search="false"
+      :search-method="searchSupervisors"
       :close-on-select="false"
       multiple
       @input="setItemProp({ prop: 'supervisor', value: $event })"
@@ -20,8 +18,7 @@
     <wt-select
       :value="agent.auditor"
       :label="$tc('objects.auditor')"
-      :search="searchAuditors"
-      :internal-search="false"
+      :search-method="searchAuditors"
       :close-on-select="false"
       multiple
       @input="setItemProp({ prop: 'auditor', value: $event })"
@@ -29,8 +26,7 @@
     <wt-select
       :value="agent.region"
       :label="$tc('objects.region')"
-      :search="searchRegions"
-      :internal-search="false"
+      :search-method="searchRegions"
       @input="setItemProp({ prop: 'region', value: $event })"
     ></wt-select>
     <wt-input
