@@ -47,6 +47,13 @@ export default {
     auditor: 'Аудитор',
     region: 'Розміщення',
     result: 'Результат',
+    period: {
+      options: {
+        today: 'Сьогодні',
+        h: '{h} година | {h} годин',
+        m: '{m} хвилина | {m} хвилин',
+      },
+    },
   },
   pages: {
     queue: {
