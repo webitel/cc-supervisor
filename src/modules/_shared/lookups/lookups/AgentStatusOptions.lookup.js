@@ -1,4 +1,5 @@
 import { AgentStatus } from 'webitel-sdk';
+import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 
 /**
  * Status to filter
@@ -7,20 +8,20 @@ import { AgentStatus } from 'webitel-sdk';
  */
 const AgentStatusOptions = Object.freeze([
     {
-      name: 'Online',
       value: AgentStatus.Online,
+      locale: `objects.agent.status.${AgentStatus.Online}`,
     },
     {
-      name: 'Offline',
       value: AgentStatus.Offline,
+      locale: `objects.agent.status.${AgentStatus.Offline}`,
     },
     {
-      name: 'Pause',
       value: AgentStatus.Pause,
+      locale: `objects.agent.status.${AgentStatus.Pause}`,
     },
     {
-      name: 'Break Out',
       value: AgentStatus.BreakOut,
+      locale: `objects.agent.status.${snakeToCamel(AgentStatus.BreakOut)}`,
     },
   ]);
 

@@ -47,6 +47,13 @@ export default {
     auditor: 'Аудитор',
     region: 'Площадка',
     result: 'Результат',
+    period: {
+      options: {
+        today: 'Сегодня',
+        h: '{h} час | {h} часов',
+        m: '{m} минута | {m} минут',
+      },
+    },
   },
   pages: {
     queue: {

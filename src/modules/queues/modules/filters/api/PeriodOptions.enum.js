@@ -5,27 +5,27 @@
  */
 const PeriodOptions = Object.freeze([
   {
-    name: 'Today',
+   locale: 'filters.period.options.today',
     value: 'today',
   },
   {
-    name: '6 hour',
+    locale: ['filters.period.options.h', 2, { h: 6 }],
     value: '6hour',
   },
   {
-    name: '3 hour',
+    locale: ['filters.period.options.h', 2, { h: 3 }],
     value: '3hour',
   },
   {
-    name: '1 hour',
+    locale: ['filters.period.options.h', 1, { h: 1 }],
     value: '1hour',
   },
   {
-    name: '30 min',
+    locale: ['filters.period.options.m', 2, { m: 30 }],
     value: '30min',
   },
   {
-    name: '15 min',
+    locale: ['filters.period.options.m', 2, { m: 15 }],
     value: '15min',
   },
 ]);

@@ -6,4 +6,5 @@ export default Object.keys(QueueType)
 .map((key) => ({
   name: key,
   value: `${QueueType[key]}`,
+  locale: `objects.queue.type.${QueueType[key]}`,
 }));

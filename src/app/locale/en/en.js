@@ -48,6 +48,13 @@ export default {
     auditor: 'Auditor',
     region: 'Location',
     result: 'Result',
+    period: {
+      options: {
+        today: 'Today',
+        h: '{h} hour | {h} hours',
+        m: '{m} minute | {m} minutes',
+      },
+    },
   },
   pages: {
     queue: {
