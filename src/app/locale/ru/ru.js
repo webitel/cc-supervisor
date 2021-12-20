@@ -80,7 +80,7 @@ export default {
     agent: {
       title: 'Операторы',
       columns: {
-        name: 'Очередь',
+        name: 'Имя',
         status: 'Статус',
         statusDuration: 'Длительность статуса',
         team: 'Команда',
