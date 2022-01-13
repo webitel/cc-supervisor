@@ -1,8 +1,8 @@
 <template>
   <wt-filters-panel-wrapper @reset="resetFilters">
     <component
-      v-for="(filter, key) of availableFilters"
-      :key="key"
+      v-for="(filter) of availableFilters"
+      :key="filter.filterQuery"
       :is="`abstract-${filter.type}-filter`"
       :filter-query="filter.filterQuery"
       :namespace="namespace"
