@@ -148,7 +148,7 @@ export default {
         },
       },
       statusHistory: {
-        title: 'Statuses history',
+        title: 'State history',
         states: {
           online: 'Online',
           offline: 'Offline',
@@ -166,7 +166,7 @@ export default {
           chat: 'Chat',
         },
         columns: {
-          state: 'Status',
+          state: 'State',
           from: 'Start',
           to: 'End',
           duration: 'Duration',
