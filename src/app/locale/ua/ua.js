@@ -147,7 +147,7 @@ export default {
         },
       },
       statusHistory: {
-        title: 'Історія статусів',
+        title: 'Історія станів',
         states: {
           online: 'Онлайн',
           offline: 'Офлайн',
@@ -165,7 +165,7 @@ export default {
           chat: 'Чат',
         },
         columns: {
-          state: 'Статус',
+          state: 'Стан',
           from: 'Початок',
           to: 'Кінець',
           duration: 'Тривалість',
