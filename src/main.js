@@ -1,14 +1,14 @@
 import Vue from 'vue';
 import Vuelidate from 'vuelidate';
-import App from './the-app.vue';
-import router from './router';
-import store from './store';
-import i18n from './locale/i18n';
-import Icon from './components/utils/icon-wrap.vue';
+import App from './app/the-app.vue';
+import router from './app/router';
+import store from './app/store';
+import i18n from './app/locale/i18n';
+import Icon from './app/components/utils/icon-wrap.vue';
 
-import './plugins/webitel-ui';
+import './app/plugins/webitel-ui';
 
-import './css/main.scss';
+import './app/css/main.scss';
 
 Vue.config.productionTip = false;
 Vue.component('icon', Icon);
@@ -30,7 +30,13 @@ const createVueInstance = () => {
 
 // init IIFE
 (async () => {
-  const config = await fetchConfig();
-  Vue.prototype.$config = config;
-  createVueInstance();
+  try {
+    const config = await fetchConfig();
+    await store.dispatch('OPEN_SESSION');
+    Vue.prototype.$config = config;
+  } catch (err) {
+    console.error('before app mount error:', err);
+  } finally {
+    createVueInstance();
+  }
 })();
