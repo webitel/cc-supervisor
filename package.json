@@ -14,7 +14,7 @@
   "dependencies": {
     "@webitel/cc-ui-sdk": "^0.1.17",
     "@webitel/ui-sdk": "^0.9.56",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "core-js": "^3.6.4",
     "css-loader": "^3.4.2",
     "csv-stringify": "^5.5.1",
