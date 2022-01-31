@@ -6,10 +6,10 @@
           {{ $t('pages.agent.title') }}
         </template>
         <template slot="actions">
-          <filter-search :namespace="filtersNamespace" filter-query="search"/>
+          <filter-search :namespace="filtersNamespace" filter-query="search" />
           <wt-button
-            :loading="isCSVLoading"
             :disabled="!dataList.length"
+            :loading="isCSVLoading"
             @click="exportCSV"
           >{{ $t('defaults.exportCSV') }}
           </wt-button>
@@ -18,40 +18,40 @@
     </template>
 
     <template slot="actions-panel">
-      <agents-filters :namespace="filtersNamespace"/>
+      <agents-filters :namespace="filtersNamespace" />
     </template>
 
     <template slot="main">
       <section class="main-section-wrapper">
         <wt-loader v-show="isLoading"></wt-loader>
-        <div class="table-wrapper" v-show="!isLoading">
+        <div v-show="!isLoading" class="table-wrapper">
           <wt-table-actions
-            class="table-wrapper__actions-wrapper"
             :icons="['refresh']"
+            class="table-wrapper__actions-wrapper"
             @input="tableActionsHandler"
           >
             <filter-fields
               v-model="headers"
-              entity="agents"
               :static-headers="['name']"
+              entity="agents"
             ></filter-fields>
           </wt-table-actions>
           <wt-table
             ref="agents-table"
-            :headers="headers"
             :data="dataList"
-            sortable
             :grid-actions="false"
+            :headers="headers"
+            sortable
             @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
-              <table-agent :item="item"/>
+              <table-agent :item="item" />
             </template>
             <template slot="status" slot-scope="{ item }">
-              <table-agent-status :item="item"/>
+              <table-agent-status :item="item" />
             </template>
             <template slot="callTime" slot-scope="{ item }">
-              <table-agent-call-time :item="item" @attach-call="attachCall"/>
+              <table-agent-call-time :item="item" @attach-call="attachCall" />
             </template>
             <template slot="team" slot-scope="{ item }">
               <div v-if="item.team">
@@ -59,10 +59,10 @@
               </div>
             </template>
             <template slot="queues" slot-scope="{ item }">
-              <table-queues :item="item"/>
+              <table-queues :item="item" />
             </template>
           </wt-table>
-          <filter-pagination :is-next="isNext"/>
+          <filter-pagination :is-next="isNext" />
         </div>
       </section>
     </template>
@@ -126,8 +126,8 @@ export default {
   computed: {
     selectedIds() {
       return this.dataList
-      .filter((item) => item._isSelected)
-      .map((item) => item.agentId);
+                 .filter((item) => item._isSelected)
+                 .map((item) => item.agentId);
     },
   },
   methods: {
