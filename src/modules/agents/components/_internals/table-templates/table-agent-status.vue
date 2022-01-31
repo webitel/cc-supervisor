@@ -22,6 +22,7 @@ export default {
       switch (this.item.status) {
         case AgentStatus.Online: return 'success';
         case AgentStatus.Offline: return 'disabled';
+        case AgentStatus.BreakOut: return 'secondary';
        default: return 'primary';
       }
     },
