@@ -68,8 +68,8 @@
   }
 }
 
-@import "../../../../../node_modules/@webitel/ui-sdk/src/css/components/atoms/wt-badge/wt-badge";
+@import "../../../../../node_modules/@webitel/ui-sdk/src/css/components/atoms/wt-chip/wt-chip";
 ::v-deep .table-badge {
-  @extend .wt-badge;
+  @extend .wt-chip;
   margin-left: 10px;
 }
