@@ -51,7 +51,7 @@ export default {
 }
 
 .start-page-card__header {
-  @extend %typo-heading-md;
+  @extend %typo-heading-2;
   display: flex;
   align-items: center;
 }
@@ -65,7 +65,7 @@ export default {
 }
 
 .start-page-card__description {
-  @extend %typo-body-md;
+  @extend %typo-body-2;
   height: 42px;
   margin-top: var(--component-spacing);
   //in order to cut text after 3rd line:

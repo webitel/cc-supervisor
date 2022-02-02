@@ -41,7 +41,7 @@ export default {
   }
 
   .agent-panel__name {
-    @extend %typo-strong-lg;
+    @extend %typo-subtitle-1;
   }
 }
 </style>

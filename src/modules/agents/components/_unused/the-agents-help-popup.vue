@@ -248,7 +248,7 @@
 <!--  }-->
 
 <!--  &__title {-->
-<!--    @extend %typo-heading-md;-->
+<!--    @extend %typo-heading-2;-->
 <!--    margin-right: 1px;-->
 <!--  }-->
 
@@ -257,7 +257,7 @@
 <!--  }-->
 
 <!--  &__description {-->
-<!--    @extend %typo-body-md;-->
+<!--    @extend %typo-body-2;-->
 <!--    margin-right: 2px;-->
 <!--  }-->
 
@@ -293,7 +293,7 @@
 <!--}-->
 
 <!--.agent-name {-->
-<!--  @extend %typo-heading-md;-->
+<!--  @extend %typo-heading-2;-->
 <!--  text-decoration-line: underline;-->
 <!--}-->
 
