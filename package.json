@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@webitel/cc-ui-sdk": "^0.1.19",
-    "@webitel/ui-sdk": "^1.0.1",
+    "@webitel/ui-sdk": "^1.0.2",
     "axios": "^0.21.1",
     "core-js": "^3.6.4",
     "css-loader": "^3.4.2",
