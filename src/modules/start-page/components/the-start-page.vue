@@ -49,7 +49,7 @@ export default {
   grid-template-columns: repeat(auto-fit, 410px);
   justify-content: center;
   align-content: center;
-  grid-gap: var(--component-spacing);
-  padding: var(--component-padding);
+  grid-gap: var(--spacing-sm);
+  padding: var(--spacing-sm);
 }
 </style>

@@ -30,16 +30,16 @@
   &__actions-wrapper {
     display: flex;
     margin-left: auto;
-    margin-bottom: var(--component-spacing);
+    margin-bottom: var(--spacing-sm);
   }
 
   .wt-table {
     flex-grow: 1;
-    margin-bottom: var(--component-spacing);
+    margin-bottom: var(--spacing-sm);
   }
 
   .table-action:not(:last-child) {
-    margin-right: var(--component-spacing);
+    margin-right: var(--spacing-sm);
   }
 
   .wt-pagination {

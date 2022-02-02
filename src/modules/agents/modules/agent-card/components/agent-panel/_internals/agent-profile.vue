@@ -32,7 +32,7 @@ export default {
   .agent-profile__pic {
     width: 40px;
     height: 40px;
-    margin-right: var(--component-spacing);
+    margin-right: var(--spacing-sm);
 
     &__img {
       width: 100%;
