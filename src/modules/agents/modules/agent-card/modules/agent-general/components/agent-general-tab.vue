@@ -33,9 +33,9 @@ export default {
 .agent-general-tab {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  grid-column-gap: var(--component-spacing);
+  grid-column-gap: var(--spacing-sm);
   min-height: 0;
-  margin-top: var(--component-spacing);
+  margin-top: var(--spacing-sm);
 
   @media (#{$media} and #{$media-width-sm}) {
     grid-template-columns: 1fr;

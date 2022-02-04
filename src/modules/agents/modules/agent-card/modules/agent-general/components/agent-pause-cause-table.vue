@@ -89,7 +89,7 @@ export default {
 }
 
 .wt-progress-bar {
-  margin-left: var(--component-spacing);
+  margin-left: var(--spacing-sm);
 }
 
 .agent-pause-cause-timing {

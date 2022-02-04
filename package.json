@@ -12,8 +12,8 @@
     "link-local-webitel-sdk": "rm -rf node_modules/webitel-sdk && ln -s /home/user/Projects/webitel_sdk/dist node_modules/webitel-sdk"
   },
   "dependencies": {
-    "@webitel/cc-ui-sdk": "^0.1.17",
-    "@webitel/ui-sdk": "^0.9.56",
+    "@webitel/cc-ui-sdk": "^0.1.21",
+    "@webitel/ui-sdk": "^1.0.10",
     "axios": "^0.21.1",
     "core-js": "^3.6.4",
     "css-loader": "^3.4.2",

@@ -1,10 +1,10 @@
 <template>
   <div v-if="item.queues">
-    <wt-badge
+    <wt-chip
       v-for="(queue, key) of item.queues"
       :key="key"
     >{{ queue.name }}
-    </wt-badge>
+    </wt-chip>
   </div>
 </template>
 
@@ -21,8 +21,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .wt-badge:not(:last-child) {
-    margin-right: var(--component-spacing);
+  .wt-chip:not(:last-child) {
+    margin-right: var(--spacing-sm);
     margin-bottom: 5px;
   }
 </style>

@@ -82,13 +82,13 @@ export default {
   justify-content: space-between;
   align-items: center;
   &:not(:last-child) {
-    margin-bottom: var(--component-spacing);
+    margin-bottom: var(--spacing-sm);
   }
 }
 
 .pause-cause-popup__option__limits-wrapper {
   & > span {
-    @extend %typo-strong-sm;
+    @extend %typo-caption;
     padding: 6px 10px;
   }
 

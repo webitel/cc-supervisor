@@ -20,7 +20,7 @@ $action-bg: #F9F9F9;
 $action-color: #808080;
 
 * {
-  @extend %typo-body-md;
+  @extend %typo-body-2;
 }
 
 //disables scrollbar on 100vh auth on small laptops

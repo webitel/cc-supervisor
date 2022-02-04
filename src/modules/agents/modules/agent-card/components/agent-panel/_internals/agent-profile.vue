@@ -32,7 +32,7 @@ export default {
   .agent-profile__pic {
     width: 40px;
     height: 40px;
-    margin-right: var(--component-spacing);
+    margin-right: var(--spacing-sm);
 
     &__img {
       width: 100%;
@@ -41,7 +41,7 @@ export default {
   }
 
   .agent-panel__name {
-    @extend %typo-strong-lg;
+    @extend %typo-subtitle-1;
   }
 }
 </style>

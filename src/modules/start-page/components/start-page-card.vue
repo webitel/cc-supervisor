@@ -44,30 +44,30 @@ export default {
 .start-page-card {
   box-sizing: border-box;
   width: 410px;
-  padding: var(--component-padding);
+  padding: var(--spacing-sm);
   color: var(--contrast-color);
   border-radius: var(--border-radius);
   background-color: var(--main-color);
 }
 
 .start-page-card__header {
-  @extend %typo-heading-md;
+  @extend %typo-heading-2;
   display: flex;
   align-items: center;
 }
 
 .start-page-card__header .wt-icon {
-  margin-right: var(--icon-spacing);
+  margin-right: var(--spacing-xs);
 }
 
 .start-page-card__main-section {
-  margin-bottom: var(--component-spacing);
+  margin-bottom: var(--spacing-sm);
 }
 
 .start-page-card__description {
-  @extend %typo-body-md;
+  @extend %typo-body-2;
   height: 42px;
-  margin-top: var(--component-spacing);
+  margin-top: var(--spacing-sm);
   //in order to cut text after 3rd line:
   overflow: hidden;
   text-overflow: ellipsis;
