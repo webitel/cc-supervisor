@@ -17,7 +17,7 @@ describe('Filter components', () => {
       propsData: { namespace },
       mocks: { $route },
     });
-    expect(wrapper.findComponent({ name: 'wt-datetimepicker' }).element).toBeVisible();
+    expect(wrapper.findComponent({ name: 'wt-datetimepicker' }).isVisible()).toBe(true);
   });
   it('renders To filter component', () => {
     const namespace = 'agents/card/calls/filters';
@@ -27,7 +27,7 @@ describe('Filter components', () => {
       propsData: { namespace },
       mocks: { $route },
     });
-    expect(wrapper.findComponent({ name: 'wt-datetimepicker' }).element).toBeVisible();
+    expect(wrapper.findComponent({ name: 'wt-datetimepicker' }).isVisible()).toBe(true);
   });
 
   it('renders pagination filter component', () => {
@@ -38,6 +38,6 @@ describe('Filter components', () => {
       propsData: { namespace },
       mocks: { $route },
     });
-    expect(wrapper.findComponent({ name: 'wt-pagination' }).element).toBeVisible();
+    expect(wrapper.findComponent({ name: 'wt-pagination' }).isVisible()).toBe(true);
   });
 });
