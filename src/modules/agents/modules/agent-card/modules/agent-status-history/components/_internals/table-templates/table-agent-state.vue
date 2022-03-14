@@ -1,7 +1,7 @@
 <template>
-  <section>
+  <div>
     {{ statusText }}
-  </section>
+  </div>
 </template>
 
 <script>
