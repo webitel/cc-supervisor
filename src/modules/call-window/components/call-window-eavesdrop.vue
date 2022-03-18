@@ -24,7 +24,9 @@
             <span
               v-if="clientName"
               class="call-window__client-name"
+              @click="copyNumber"
             >{{ $t('callWindow.client') }}: {{ clientName }}</span>
+            <tooltip v-if="isCopied" visible>{{ $t('callWindow.copied') }}</tooltip>
     </div>
     <div class="call-window__speaker-icon-container">
       <icon>
@@ -87,6 +89,7 @@
 </template>
 
 <script>
+import copy from 'clipboard-copy';
 import { mapActions, mapState } from 'vuex';
 import { CallDirection } from 'webitel-sdk';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
@@ -100,6 +103,7 @@ export default {
   data() {
     return {
       inbound: CallDirection.Inbound,
+      isCopied: false,
     };
   },
   computed: {
@@ -145,6 +149,13 @@ export default {
       return animation
         ? `${baseUrl}animations/call-sonars/${animation}/${animation}.html`
         : false;
+    },
+    copyNumber() {
+      copy(this.clientName);
+      this.isCopied = true;
+      setTimeout(() => {
+        this.isCopied = false;
+      }, 1500);
     },
   },
 };
@@ -218,6 +229,7 @@ $modal-background-color: #171A2A;
 .call-window__client-name {
   @extend %typo-body-2;
   color: $white-color;
+  cursor: pointer;
 }
 
 .call-window__time-container {
