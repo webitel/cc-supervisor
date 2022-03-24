@@ -22,10 +22,9 @@
     </div>
     <div class="call-window__client-name-container">
             <span
-              v-if="clientName"
               class="call-window__client-name"
               @click="copyNumber"
-            >{{ $t('callWindow.client') }}: {{ clientName }}</span>
+            >{{ $t('callWindow.client') }}: {{ client.name }}</span>
             <tooltip v-if="isCopied" visible>{{ $t('callWindow.copied') }}</tooltip>
     </div>
     <div class="call-window__speaker-icon-container">
@@ -111,7 +110,7 @@ export default {
       isOpened: (state) => state.isEavesdropOpened,
       lastDtmf: (state) => state.eavesdropLastDTMF,
       agent: (state) => state.agent,
-      clientName: (state) => state.clientName,
+      client: (state) => state.client,
       time: (state) => convertDuration(state.time),
       call: (state) => state.call,
     }),
@@ -151,7 +150,7 @@ export default {
         : false;
     },
     copyNumber() {
-      copy(this.clientName);
+      copy(this.client.number);
       this.isCopied = true;
       setTimeout(() => {
         this.isCopied = false;
