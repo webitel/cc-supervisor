@@ -56,6 +56,11 @@ export default {
     },
   },
   pages: {
+    shared: {
+      columns: {
+        blindTransfer: 'Blind transfer',
+      },
+    },
     queue: {
       title: 'Queues',
       columns: {

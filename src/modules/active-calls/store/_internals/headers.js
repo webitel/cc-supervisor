@@ -65,5 +65,11 @@ export default [
     show: true,
     sort: null,
     field: 'user',
+  }, {
+    value: 'blindTransfer',
+    locale: 'pages.shared.columns.blindTransfer',
+    show: false,
+    sort: null,
+    field: 'blind_transfer',
   },
 ];
