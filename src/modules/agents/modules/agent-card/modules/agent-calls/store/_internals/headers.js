@@ -210,4 +210,11 @@ export default [
     sort: null,
     field: 'cause',
   },
+  {
+    value: 'blindTransfer',
+    locale: 'pages.shared.columns.blindTransfer',
+    show: false,
+    sort: null,
+    field: 'blind_transfer',
+  },
 ];

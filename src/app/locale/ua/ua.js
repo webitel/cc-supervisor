@@ -55,6 +55,11 @@ export default {
     },
   },
   pages: {
+    shared: {
+      columns: {
+        blindTransfer: 'Сліпий трансфер',
+      },
+    },
     queue: {
       title: 'Черги',
       columns: {

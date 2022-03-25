@@ -55,6 +55,11 @@ export default {
     },
   },
   pages: {
+    shared: {
+      columns: {
+        blindTransfer: 'Слепой перевод',
+      },
+    },
     queue: {
       title: 'Очереди',
       columns: {
