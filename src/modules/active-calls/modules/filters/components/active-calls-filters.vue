@@ -7,15 +7,20 @@
     :filter-query="filter.filterQuery"
     :namespace="namespace"
   ></component>
+    <skip-parent-filter
+      :namespace="namespace"
+    ></skip-parent-filter>
   </wt-filters-panel-wrapper>
 </template>
 
 <script>
 import filtersPanelMixin from '../../../../../app/mixins/supervisor-workspace/filtersPanelMixin';
+import SkipParentFilter from './skip-parent-filter.vue';
 
 export default {
   name: 'active-calls-filters',
   mixins: [filtersPanelMixin],
+  components: { SkipParentFilter },
   data: () => ({
     filters: [
       { type: 'enum', filterQuery: 'direction' },

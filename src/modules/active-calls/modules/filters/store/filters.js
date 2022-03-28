@@ -1,3 +1,4 @@
+import BaseFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
 import QueryFiltersStoreModule from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
 import ApiFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema';
 import EnumFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema';
@@ -42,6 +43,9 @@ const state = {
   supervisor: new ApiFilterSchema({
     API: SupervisorFilterAPI,
     locale: { label: 'filters.supervisor' },
+  }),
+  skipParent: new BaseFilterSchema({
+    defaultValue: true,
   }),
 };
 
