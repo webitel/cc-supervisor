@@ -7,9 +7,9 @@
     :filter-query="filter.filterQuery"
     :namespace="namespace"
   ></component>
-    <skip-parent-filter
-      :namespace="namespace"
-    ></skip-parent-filter>
+<!--    <skip-parent-filter-->
+<!--      :namespace="namespace"-->
+<!--    ></skip-parent-filter>-->
   </wt-filters-panel-wrapper>
 </template>
 

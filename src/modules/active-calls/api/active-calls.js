@@ -36,7 +36,7 @@ const _getActiveCallsList = (getList) => function({
                                                     user,
                                                     gateway,
                                                     result,
-                                                    skipParent,
+                                                    skipParent = true,
                                                   }) {
   const params = [
     page,

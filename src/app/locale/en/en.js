@@ -47,7 +47,6 @@ export default {
     auditor: 'Auditor',
     region: 'Location',
     result: 'Result',
-    skipParent: 'Skip parent',
     period: {
       options: {
         today: 'Today',

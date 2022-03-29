@@ -46,7 +46,6 @@ export default {
     auditor: 'Аудитор',
     region: 'Розміщення',
     result: 'Результат',
-    skipParent: 'Skip parent',
     period: {
       options: {
         today: 'Сьогодні',
