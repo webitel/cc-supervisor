@@ -1,6 +1,6 @@
 {
   "name": "cc-supervisor",
-  "version": "22.01.0",
+  "version": "22.03.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -13,10 +13,9 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@vue/vue2-jest": "^27.0.0-alpha.4",
     "@webitel/cc-ui-sdk": "^0.1.21",
     "@webitel/ui-sdk": "^1.0.23",
-    "axios": "^0.21.1",
+    "axios": "^0.26.0",
     "clipboard-copy": "^4.0.1",
     "core-js": "^3.6.4",
     "css-loader": "^3.4.2",
@@ -38,6 +37,7 @@
     "webitel-sdk": "^0.1.83"
   },
   "devDependencies": {
+    "@vue/vue2-jest": "^27.0.0-alpha.4",
     "@testing-library/jest-dom": "^5.11.4",
     "@vue/cli-plugin-babel": "~4.3.0",
     "@vue/cli-plugin-eslint": "~4.3.0",
