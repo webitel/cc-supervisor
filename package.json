@@ -1,6 +1,6 @@
 {
   "name": "cc-supervisor",
-  "version": "22.01.1",
+  "version": "22.03.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
