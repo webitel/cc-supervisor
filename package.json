@@ -9,12 +9,14 @@
     "build-and-run-locally": "npm run build && sudo docker run -p 80:80 -v ${PWD}/dist:/usr/share/nginx/html:rw -v ${HOME}/default.conf:/etc/nginx/conf.d/default.conf:ro -v ${PWD}/dist:/www/supervisor:rw -v ${HOME}/Projects/web-client-auth/dist:/www/auth:ro --rm nginx",
     "lint": "vue-cli-service lint --fix",
     "link-local-webitel-ui": "rm -rf node_modules/@webitel/ui-sdk && ln -s /home/user/Projects/webitel-ui-sdk node_modules/@webitel/ui-sdk",
-    "link-local-webitel-sdk": "rm -rf node_modules/webitel-sdk && ln -s /home/user/Projects/webitel_sdk/dist node_modules/webitel-sdk"
+    "link-local-webitel-sdk": "rm -rf node_modules/webitel-sdk && ln -s /home/user/Projects/webitel_sdk/dist node_modules/webitel-sdk",
+    "prepare": "husky install"
   },
   "dependencies": {
-    "@webitel/cc-ui-sdk": "0.1.17",
-    "@webitel/ui-sdk": "^0.9.56",
-    "axios": "^0.21.1",
+    "@webitel/cc-ui-sdk": "^0.1.21",
+    "@webitel/ui-sdk": "^1.0.23",
+    "axios": "^0.26.0",
+    "clipboard-copy": "^4.0.1",
     "core-js": "^3.6.4",
     "css-loader": "^3.4.2",
     "csv-stringify": "^5.5.1",
@@ -35,11 +37,12 @@
     "webitel-sdk": "^0.1.83"
   },
   "devDependencies": {
+    "@vue/vue2-jest": "^27.0.0-alpha.4",
     "@testing-library/jest-dom": "^5.11.4",
     "@vue/cli-plugin-babel": "~4.3.0",
     "@vue/cli-plugin-eslint": "~4.3.0",
     "@vue/cli-plugin-router": "~4.3.0",
-    "@vue/cli-plugin-unit-jest": "~4.4.0",
+    "@vue/cli-plugin-unit-jest": "^5.0.4",
     "@vue/cli-plugin-vuex": "~4.3.0",
     "@vue/cli-service": "~4.3.0",
     "@vue/eslint-config-airbnb": "^5.0.2",
@@ -49,7 +52,8 @@
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^6.2.2",
-    "node-sass": "^4.12.0",
+    "husky": "^7.0.0",
+    "sass": "^1.49.11",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"
   }

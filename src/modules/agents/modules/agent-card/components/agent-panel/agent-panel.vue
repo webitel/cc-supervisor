@@ -68,7 +68,7 @@ export default {
   flex-wrap: wrap;
 
   & > * {
-    margin-right: var(--component-spacing);
+    margin-right: var(--spacing-sm);
   }
 }
 </style>

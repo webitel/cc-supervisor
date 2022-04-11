@@ -11,8 +11,10 @@ const callHandler = (context) => (action, call) => {
       context.commit('SET_TIME', 0);
       context.commit('SET_AGENT', { name: call.displayName });
       if (context.state.isEavesdrop) {
-        // eslint-disable-next-line camelcase
-        const client = call.variables?.eavesdrop_name || '';
+        const client = {
+          name: call.variables?.eavesdrop_name || call.destination,
+          number: call.destination,
+        };
         context.commit('SET_EAVESDROP_IS_OPENED', true);
         context.commit('SET_CLIENT', client);
       } else {
@@ -66,7 +68,7 @@ const defaultState = () => ({
   timer: null,
   call: null,
   agent: {},
-  clientName: '',
+  client: {},
   time: 0,
   isOpened: false,
   isVisible: false,
@@ -173,9 +175,9 @@ const actions = {
       // context.commit('SET_IS_HOLD', !isHold);
     }
   },
-  SET_CALL_INFO: async (context, { agent, clientName }) => {
+  SET_CALL_INFO: async (context, { agent, client }) => {
     context.commit('SET_AGENT', agent);
-    context.commit('SET_CLIENT', clientName || '');
+    context.commit('SET_CLIENT', client);
   },
 
   ATTACH_TO_CALL: async (context, { id }) => {
@@ -228,8 +230,8 @@ const mutations = {
   SET_AGENT: (state, agent) => {
     state.agent = agent;
   },
-  SET_CLIENT: (state, clientName) => {
-    state.clientName = clientName;
+  SET_CLIENT: (state, client) => {
+    state.client = client;
   },
   SET_TIME: (state, time) => {
     state.time = time;

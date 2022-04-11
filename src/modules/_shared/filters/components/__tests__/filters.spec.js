@@ -27,7 +27,7 @@ describe('Filter components', () => {
       propsData: { namespace },
       mocks: { $route },
     });
-    expect(wrapper.findComponent({ name: 'wt-datetimepicker' }).isVisible()).toBe(true );
+    expect(wrapper.findComponent({ name: 'wt-datetimepicker' }).isVisible()).toBe(true);
   });
 
   it('renders pagination filter component', () => {

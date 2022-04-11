@@ -21,7 +21,7 @@
   $tooltip-box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
 
   .tooltip {
-    @extend %typo-body-sm;
+    @extend %typo-caption;
     position: absolute;
     display: inline-block;
     padding: 10px 15px;

@@ -1,5 +1,4 @@
-import SupervisorSections
-  from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
+import SupervisorSections from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
 
 export default {
   auth: {
@@ -56,6 +55,11 @@ export default {
     },
   },
   pages: {
+    shared: {
+      columns: {
+        blindTransfer: 'Сліпий трансфер',
+      },
+    },
     queue: {
       title: 'Черги',
       columns: {
@@ -221,6 +225,7 @@ export default {
     mute: 'Mute',
     prompter: 'Prompter',
     conference: 'Conference',
+    copied: 'Скопійовано!',
   },
   packages: {
     agentStatus: {

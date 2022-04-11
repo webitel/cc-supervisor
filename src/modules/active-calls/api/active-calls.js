@@ -22,34 +22,62 @@ const defaultListObject = {
   duration: 0,
 };
 
-const _getActiveCallsList = (getList) => function ({
-                                                     page = 1,
-                                                     size = 10,
-                                                     search = '',
-                                                     fields,
-                                                     queue,
-                                                     team,
-                                                     agent,
-                                                     supervisor,
-                                                     sort,
-                                                     direction,
-                                                     user,
-                                                     gateway,
-                                                     result,
-                                                   }) {
-  const params = [page, size, search, sort, fields, undefined, undefined, user, agent, queue, team,
-    undefined, gateway, undefined, undefined, undefined, undefined, undefined, undefined,
-    undefined, undefined, direction, undefined, undefined, undefined, undefined, undefined,
-    supervisor, result];
+const _getActiveCallsList = (getList) => function({
+                                                    page = 1,
+                                                    size = 10,
+                                                    search = '',
+                                                    fields,
+                                                    queue,
+                                                    team,
+                                                    agent,
+                                                    supervisor,
+                                                    sort,
+                                                    direction,
+                                                    user,
+                                                    gateway,
+                                                    result,
+                                                    skipParent = true,
+                                                  }) {
+  const params = [
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    undefined,
+    undefined,
+    user,
+    agent,
+    queue,
+    team,
+    undefined,
+    gateway,
+    undefined,
+    undefined,
+    skipParent,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    direction,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    supervisor,
+    result,
+  ];
   return getList(params);
 };
 
 const listGetter = new SdkListGetterApiConsumer(callService.searchActiveCall,
-  {
-    listResponseHandler,
-    defaultListObject,
-  })
-.setGetListMethod(_getActiveCallsList);
+                                                {
+                                                  listResponseHandler,
+                                                  defaultListObject,
+                                                })
+  .setGetListMethod(_getActiveCallsList);
 
 export const getActiveCallList = (params) => listGetter.getList(params);
 

@@ -22,9 +22,10 @@
     </div>
     <div class="call-window__client-name-container">
             <span
-              v-if="clientName"
               class="call-window__client-name"
-            >{{ $t('callWindow.client') }}: {{ clientName }}</span>
+              @click="copyNumber"
+            >{{ $t('callWindow.client') }}: {{ client.name }}</span>
+            <tooltip v-if="isCopied" visible>{{ $t('callWindow.copied') }}</tooltip>
     </div>
     <div class="call-window__speaker-icon-container">
       <icon>
@@ -87,6 +88,7 @@
 </template>
 
 <script>
+import copy from 'clipboard-copy';
 import { mapActions, mapState } from 'vuex';
 import { CallDirection } from 'webitel-sdk';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
@@ -100,6 +102,7 @@ export default {
   data() {
     return {
       inbound: CallDirection.Inbound,
+      isCopied: false,
     };
   },
   computed: {
@@ -107,7 +110,7 @@ export default {
       isOpened: (state) => state.isEavesdropOpened,
       lastDtmf: (state) => state.eavesdropLastDTMF,
       agent: (state) => state.agent,
-      clientName: (state) => state.clientName,
+      client: (state) => state.client,
       time: (state) => convertDuration(state.time),
       call: (state) => state.call,
     }),
@@ -145,6 +148,13 @@ export default {
       return animation
         ? `${baseUrl}animations/call-sonars/${animation}/${animation}.html`
         : false;
+    },
+    copyNumber() {
+      copy(this.client.number);
+      this.isCopied = true;
+      setTimeout(() => {
+        this.isCopied = false;
+      }, 1500);
     },
   },
 };
@@ -207,7 +217,7 @@ $modal-background-color: #171A2A;
 }
 
 .call-window__agent-name {
-  @extend %typo-heading-md;
+  @extend %typo-heading-2;
   color: $white-color;
 }
 
@@ -216,8 +226,9 @@ $modal-background-color: #171A2A;
 }
 
 .call-window__client-name {
-  @extend %typo-body-md;
+  @extend %typo-body-2;
   color: $white-color;
+  cursor: pointer;
 }
 
 .call-window__time-container {
@@ -228,7 +239,7 @@ $modal-background-color: #171A2A;
 }
 
 .call-window__time {
-  @extend %typo-body-md;
+  @extend %typo-body-2;
   color: $white-color;
 }
 

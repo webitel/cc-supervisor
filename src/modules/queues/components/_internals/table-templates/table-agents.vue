@@ -50,7 +50,7 @@ export default {
   align-items: center;
 
   .table-agents__total   {
-    @extend %typo-strong-lg;
+    @extend %typo-subtitle-1;
     min-width: 30px;
   }
 
