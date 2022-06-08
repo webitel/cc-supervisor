@@ -12,8 +12,9 @@ process.env.VUE_APP_APPLICATION_HUB_URL = process.env.NODE_ENV === 'production' 
 
 process.env.VUE_APP_PACKAGE_VERSION = require('./package.json').version;
 
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+
 module.exports = {
-    transpileDependencies: ['@webitel/ui-sdk/src'],
     // publicPath: process.env.NODE_ENV === 'production' ? '' : '/',
     publicPath: '/supervisor',
     lintOnSave: false,
@@ -27,6 +28,8 @@ module.exports = {
         },
     },
   chainWebpack: (config) => {
+    config.plugin('polyfills').use(NodePolyfillPlugin);
+
     config.module
       .rule('svg')
       .exclude.add(/^(.*sprite).*\.svg/); // same as in svg-sprite-loader
