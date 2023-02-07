@@ -27,7 +27,7 @@ const callHandler = (context) => (action, call) => {
       if (context.state.isEavesdrop) {
         // eslint-disable-next-line camelcase
         const client = call.variables?.eavesdrop_name || '';
-        context.commit('SET_TIME', +call.variables.eavesdrop_duration);
+        // context.commit('SET_TIME', +call.variables.eavesdrop_duration);
         context.commit('SET_EAVESDROP_IS_OPENED', true);
         context.commit('SET_IS_EAVESDROP', false);
         context.commit('SET_CLIENT', client);

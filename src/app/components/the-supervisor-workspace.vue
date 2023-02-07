@@ -16,7 +16,7 @@ import { mapGetters } from 'vuex';
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 import AppHeader from '../../modules/_reusable/app-header/components/app-header.vue';
 import CallWindowEavesdrop from '../../modules/call-window/components/call-window-eavesdrop.vue';
-import CallWindow from '../../modules/call-window/components/call-window.vue';
+import CallWindow from '../../modules/call-window/components/call-window-conversation.vue';
 
 export default {
   name: 'the-supervisor-workspace',
