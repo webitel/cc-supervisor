@@ -46,15 +46,15 @@ export default {
       },
     }),
     ...mapActions('call', {
+      call: 'CALL',
       openWindow: 'OPEN_WINDOW',
       setCallInfo: 'SET_CALL_INFO',
     }),
     callAgent() {
       this.setCallInfo({
-        time: 0,
         agent: this.agent,
       });
-      this.openWindow();
+      this.call();
     },
   },
 };

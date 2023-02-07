@@ -1,103 +1,108 @@
 <template>
-  <div v-if="isOpened" class="call-window">
-    <button class="icon-btn close-button" @click.prevent="closeWindow">
-      <icon>
-        <svg class="icon icon-close_md md call-window-btn">
-          <use xlink:href="#icon-close_md"></use>
-        </svg>
-      </icon>
-    </button>
-    <div class="call-window__agent-container">
-      <icon class="call-window__agent-img">
-        <svg class="icon icon-agent_md xl white-color">
-          <use xlink:href="#icon-agent_md"></use>
-        </svg>
-      </icon>
-    </div>
-    <div class="call-window__agent-name-container">
-            <span
-              v-if="agent"
-              class="call-window__agent-name"
-            >{{ $t('callWindow.agent') }}: {{ agent.name }}</span>
-    </div>
-    <div class="call-window__client-name-container">
-            <span
-              class="call-window__client-name"
-              @click="copyNumber"
-            >{{ $t('callWindow.client') }}: {{ client.name }}</span>
-            <tooltip v-if="isCopied" visible>{{ $t('callWindow.copied') }}</tooltip>
-    </div>
-    <div class="call-window__speaker-icon-container">
-      <icon>
-        <svg class="icon icon-speaker_on_md md call-window__speaker-icon">
-          <use xlink:href="#icon-speaker_on_md"></use>
-        </svg>
-      </icon>
-    </div>
-    <div class="call-window__time-container">
-      <span class="call-window__time">{{ $t('callWindow.duration') }}: {{ time }}</span>
-    </div>
-    <div class="call-window__action-container">
-      <button class="icon-btn button-padding" @click.prevent="">
-        <icon>
-          <svg class="icon icon-send_message_md md call-window-btn">
-            <use xlink:href="#icon-send_message_md"></use>
-          </svg>
-        </icon>
-      </button>
-      <button v-if="lastDtmf == 0" class="icon-btn call-window__action-item" @click.prevent="">
-        <icon>
-          <svg class="icon icon-mic_off_md md call-window-btn--off">
-            <use xlink:href="#icon-mic_off_md"></use>
-          </svg>
-        </icon>
-        <tooltip>{{ $t('callWindow.mute') }}</tooltip>
-      </button>
-      <button v-else class="icon-btn call-window__action-item" @click.prevent="mute">
-        <icon>
-          <svg class="icon icon-mic_on_md md call-window-btn">
-            <use xlink:href="#icon-mic_on_md"></use>
-          </svg>
-        </icon>
-        <tooltip>{{ $t('callWindow.mute') }}</tooltip>
-      </button>
-      <button class="icon-btn call-window__action-item" @click.prevent="prompter">
-        <icon>
-          <svg
-            class="icon icon-prompter_md md call-window-btn"
-            :class="{'call-window-btn--off': lastDtmf === 2}"
-          >
-            <use xlink:href="#icon-prompter_md"></use>
-          </svg>
-        </icon>
-        <tooltip>{{ $t('callWindow.prompter') }}</tooltip>
-      </button>
-      <button class="icon-btn call-window__action-item" @click.prevent="conference">
-        <icon>
-          <svg
-            class="icon icon-agents_md md call-window-btn"
-            :class="{'call-window-btn--off': lastDtmf === 3}"
-          >
-            <use xlink:href="#icon-agents_md"></use>
-          </svg>
-        </icon>
-        <tooltip>{{ $t('callWindow.conference') }}</tooltip>
-      </button>
-    </div>
-  </div>
+  <call-window-wrapper v-if="isOpened">
+    <template v-slot:header="{ isExpanded }">
+      <div class="call-window-eavesdrop-state-icon">
+        <wt-icon
+          v-show="!isExpanded"
+          :icon="stateIcon"
+          color="danger"
+        ></wt-icon>
+      </div>
+      <wt-avatar
+        size="lg"
+      ></wt-avatar>
+      <wt-rounded-action
+        icon="close"
+        color="danger"
+        rounded
+        @click="closeWindow"
+      ></wt-rounded-action>
+    </template>
+    <template v-slot:title>
+      <div>
+        <div v-if="agent">
+          {{ $t('callWindow.agent') }}: {{ agent.name }}
+        </div>
+        <div v-if="client">
+          <wt-tooltip>
+            <template v-slot:activator>
+              <div
+                class="call-window-eavesdrop-title__subtitle"
+                tabindex="0"
+                @click="copyNumber"
+                @keydown.enter="copyNumber"
+              >
+                {{ $t('callWindow.client') }}: {{ client.name }}
+              </div>
+            </template>
+            <div v-if="isCopied">
+              {{ $t('callWindow.copied') }}
+            </div>
+          </wt-tooltip>
+        </div>
+      </div>
+    </template>
+    <template v-slot:content>
+      <div class="call-window-eavesdrop-content">
+        <wt-icon
+          :icon="stateIcon"
+          color="danger"
+          size="lg"
+        ></wt-icon>
+        <p class="call-window-eavesdrop-content__duration">
+          {{ $t('callWindow.duration') }}: {{ startTime }}
+        </p>
+      </div>
+    </template>
+    <template v-slot:footer>
+      <div class="call-window-eavesdrop-footer">
+        <wt-rounded-action
+          :icon="isMuted ? 'mic-muted' : 'mic'"
+          :active="isMuted"
+          rounded
+          @click="mute"
+        ></wt-rounded-action>
+        <wt-tooltip>
+          <template v-slot:activator>
+            <wt-rounded-action
+              :active="isPrompt"
+              icon="prompter"
+              :color="isPrompt ? 'danger' : 'default'"
+              rounded
+              @click="prompter"
+            ></wt-rounded-action>
+          </template>
+          {{ $t('callWindow.prompter') }}
+        </wt-tooltip>
+        <wt-tooltip>
+          <template v-slot:activator>
+            <wt-rounded-action
+              :active="isConference"
+              :color="isPrompt ? 'danger' : 'default'"
+              icon="conference"
+              rounded
+              @click="conference"
+            ></wt-rounded-action>
+          </template>
+          {{ $t('callWindow.conference') }}
+        </wt-tooltip>
+      </div>
+    </template>
+  </call-window-wrapper>
 </template>
 
 <script>
 import copy from 'clipboard-copy';
 import { mapActions, mapState } from 'vuex';
-import { CallDirection } from 'webitel-sdk';
-import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
-import Tooltip from '../../../app/components/utils/tooltip.vue';
+import { CallDirection, EavesdropState } from 'webitel-sdk';
+import CallWindowWrapper from './call-window-wrapper.vue';
+import timerMixin from '../mixins/timerMixin/timerMixin';
 
 export default {
   name: 'call-window-eavesdrop',
+  mixins: [timerMixin],
   components: {
-    Tooltip,
+    CallWindowWrapper,
   },
   data() {
     return {
@@ -108,46 +113,37 @@ export default {
   computed: {
     ...mapState('call', {
       isOpened: (state) => state.isEavesdropOpened,
-      lastDtmf: (state) => state.eavesdropLastDTMF,
       agent: (state) => state.agent,
       client: (state) => state.client,
-      time: (state) => convertDuration(state.time),
       call: (state) => state.call,
     }),
+    stateIcon() {
+      if (this.isPrompt) return 'prompter';
+      if (this.isConference) return 'conference';
+      return 'sv-ear';
+    },
+    isMuted() {
+      return this.call.eavesdropIsMuted;
+    },
+    isPrompt() {
+      return this.call.eavesdropIsPrompt;
+    },
+    isConference() {
+      return this.call.eavesdropIsConference;
+    },
   },
   methods: {
     ...mapActions('call', {
       closeWindow: 'EAVESDROP_CLOSE_WINDOW',
-      sendDtmf: 'SEND_DTMF',
     }),
     mute() {
-      this.sendDtmf({ dtmf: '0' });
+      this.call.changeEavesdropState(EavesdropState.Muted);
     },
     prompter() {
-      this.sendDtmf({ dtmf: '2' });
+      this.call.changeEavesdropState(EavesdropState.Prompt);
     },
     conference() {
-      this.sendDtmf({ dtmf: '3' });
-    },
-    animationUrl() {
-      const baseUrl = process.env.BASE_URL; // to resolve iframe equalizer path after build
-      const animation = 'ringing';
-      // switch (this.call.state) {
-      // case CallActions.Ringing:
-      //     animation = 'ringing';
-      //     break;
-      // case CallActions.Hold:
-      //     animation = 'hold';
-      //     break;
-      // case CallActions.Active:
-      //     animation = 'active';
-      //     break;
-      // default:
-      //     break;
-      // }
-      return animation
-        ? `${baseUrl}animations/call-sonars/${animation}/${animation}.html`
-        : false;
+      this.call.changeEavesdropState(EavesdropState.Conference);
     },
     copyNumber() {
       copy(this.client.number);
@@ -161,136 +157,36 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$modal-background-color: #171A2A;
-
-.tooltip {
-  top: calc(100% - 60px); // icon height + 11px margin
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.call-window {
-  width: 230px;
-  height: 298px;
-  background-color: $modal-background-color;
-  border-radius: var(--border-radius);
-  position: fixed;
-  right: 5px;
-  bottom: 5px;
-  z-index: 100;
-}
-
-.call-window__agent-container {
-  padding: 0px 40px;
-  align-items: center;
-  margin-top: 30px;
+.call-window-eavesdrop-state-icon {
+  width: 40px;
+  height: 40px;
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.call-window__agent-btn-leave {
-  margin-right: -20px;
-}
-
-.call-window__agent-img {
-  margin: 0px 20px;
-  margin-left: 50px;
-
-  &__call {
-    margin-left: 50px;
-  }
-}
-
-.call-window__speaker-icon-container {
-  text-align: center;
-  width: 100%;
-  position: absolute;
-  bottom: 125px;
-}
-
-.call-window__speaker-icon {
-  fill: $false-color;
-}
-
-.call-window__agent-name-container {
-  margin-top: 10px;
-  text-align: center;
-}
-
-.call-window__agent-name {
-  @extend %typo-heading-2;
-  color: $white-color;
-}
-
-.call-window__client-name-container {
-  text-align: center;
-}
-
-.call-window__client-name {
+.call-window-eavesdrop-title__subtitle {
   @extend %typo-body-2;
-  color: $white-color;
   cursor: pointer;
 }
 
-.call-window__time-container {
-  text-align: center;
-  width: 100%;
-  position: absolute;
-  bottom: 94px;
+.call-window-eavesdrop-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
 }
 
-.call-window__time {
+.call-window-eavesdrop-content__duration {
   @extend %typo-body-2;
-  color: $white-color;
 }
 
-.call-window__action-container {
-  position: absolute;
-  bottom: 30px;
-  height: 24px;
-  // margin: 0px 55px;
-  text-align: center;
-  width: 100%;
+.call-window-eavesdrop-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
 }
-
-.button-padding {
-  padding: 0px;
-}
-
-.call-window__action-item {
-  @extend .button-padding;
-  margin-left: 16px;
-
-  &:hover .tooltip {
-    opacity: 1;
-    pointer-events: auto;
-  }
-}
-
-.close-button {
-  position: absolute;
-  right: 3px;
-  top: 3px;
-  width: 24px;
-  height: 24px;
-  padding: unset;
-}
-
-.white-color {
-  fill: $white-color;
-}
-
-.btn-call {
-  position: absolute;
-}
-
-// .disconnect-btn {
-//     background-color: $false-color;
-//     border-radius: 50%;
-// }
-
-// .connect-btn {
-//     background-color: $true-color;
-//     border-radius: 50%;
-// }
 
 </style>
