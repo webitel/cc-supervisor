@@ -64,7 +64,6 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import { CallDirection } from 'webitel-sdk';
 import ringingSoundMixin from '../../../app/mixins/ringingSoundMixin/ringingSoundMixin';
 import CallWindowWrapper from './call-window-wrapper.vue';
 import ActiveSonar from '../assets/call-sonars/active-sonar.svg';
@@ -83,10 +82,8 @@ export default {
   },
   computed: {
     ...mapState('call', {
-      isOpened: (state) => state.isOpened,
       isVisible: (state) => state.isVisible,
       agent: (state) => state.agent,
-      clientName: (state) => state.clientName,
       call: (state) => state.call,
     }),
     sonar() {
@@ -104,9 +101,6 @@ export default {
     allowHold() {
       return this.call && this.call.allowHold;
     },
-    isAnswerAllowed() {
-      return this.call && this.call.allowAnswer && this.call.direction === CallDirection.Inbound;
-    },
   },
   methods: {
     ...mapActions('call', {
@@ -122,9 +116,6 @@ export default {
       toggleHold: 'TOGGLE_HOLD',
 
     }),
-    async initWorkspace() {
-      await this.subscribeCalls();
-    },
   },
 };
 </script>

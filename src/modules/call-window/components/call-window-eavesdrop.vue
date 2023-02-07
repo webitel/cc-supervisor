@@ -12,10 +12,10 @@
         size="lg"
       ></wt-avatar>
       <wt-rounded-action
-        @click="closeWindow"
         icon="close"
         color="danger"
         rounded
+        @click="closeWindow"
       ></wt-rounded-action>
     </template>
     <template v-slot:title>
@@ -113,7 +113,6 @@ export default {
   computed: {
     ...mapState('call', {
       isOpened: (state) => state.isEavesdropOpened,
-      lastDtmf: (state) => state.eavesdropLastDTMF,
       agent: (state) => state.agent,
       client: (state) => state.client,
       call: (state) => state.call,
@@ -136,7 +135,6 @@ export default {
   methods: {
     ...mapActions('call', {
       closeWindow: 'EAVESDROP_CLOSE_WINDOW',
-      sendDtmf: 'SEND_DTMF',
     }),
     mute() {
       this.call.changeEavesdropState(EavesdropState.Muted);
