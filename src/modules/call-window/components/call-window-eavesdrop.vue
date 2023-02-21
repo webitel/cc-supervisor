@@ -78,7 +78,7 @@
           <template v-slot:activator>
             <wt-rounded-action
               :active="isConference"
-              :color="isPrompt ? 'danger' : 'default'"
+              :color="isConference ? 'danger' : 'default'"
               icon="conference"
               rounded
               @click="conference"
