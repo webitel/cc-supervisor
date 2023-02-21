@@ -43,7 +43,10 @@
         <p>{{ isRinging ? 'Ringing...' : startTime }}</p>
       </div>
     </template>
-    <template v-slot:footer>
+    <template
+      v-slot:footer
+      v-if="!isRinging"
+    >
       <div class="call-window-conversation-footer">
         <wt-rounded-action
           :icon="isMuted ? 'mic-muted' : 'mic'"
