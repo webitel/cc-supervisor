@@ -20,11 +20,12 @@ $action-bg: #F9F9F9;
 $action-color: #808080;
 
 * {
-  @extend %typo-body-2;
+  box-sizing: border-box;
 }
 
 //disables scrollbar on 100vh auth on small laptops
 body {
+  @extend %typo-body-1;
   display: flex;
   height: auto;
   background: var(--page-bg-color);

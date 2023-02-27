@@ -54,14 +54,14 @@ describe('Agent panel', () => {
 
   it('calls "setCallInfo" and "openWindowMock" mapped methods at call btn click', () => {
     const setCallInfoMock = jest.fn();
-    const openWindowMock = jest.fn();
+    const callMock = jest.fn();
     jest.spyOn(AgentPanel.methods, 'setCallInfo')
       .mockImplementationOnce(setCallInfoMock);
-    jest.spyOn(AgentPanel.methods, 'openWindow')
-      .mockImplementationOnce(openWindowMock);
+    jest.spyOn(AgentPanel.methods, 'call')
+      .mockImplementationOnce(callMock);
     const wrapper = shallowMount(AgentPanel, mountOptions);
     wrapper.findComponent({ name: 'wt-button' }).vm.$emit('click');
     expect(setCallInfoMock).toHaveBeenCalled();
-    expect(openWindowMock).toHaveBeenCalled();
+    expect(callMock).toHaveBeenCalled();
   });
 });
