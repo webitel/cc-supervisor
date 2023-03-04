@@ -1,15 +1,12 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Vuex from 'vuex';
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import ActiveCallsFilters from '../active-calls-filters.vue';
 import filters from '../../store/filters';
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
 
 const namespace = 'activeCalls';
 const agent = { isAdmin: true };
 
-const store = new Vuex.Store({
+const store = createStore({
   modules: {
     [namespace]: filters,
     userinfo: {
@@ -21,9 +18,10 @@ const store = new Vuex.Store({
 
 describe('Active Calls Filters wrapper', () => {
   const mountOptions = {
-    localVue,
-    store,
-    propsData: { namespace },
+    global: {
+      plugins: [store],
+    },
+    props: { namespace },
   };
   it('renders a component', () => {
     const wrapper = shallowMount(ActiveCallsFilters, mountOptions);

@@ -1,5 +1,4 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import SupervisorSections
   from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
 
@@ -22,11 +21,6 @@ const checkRouteAccess = ((to, from, next) => {
     next('/access-denied');
   }
 });
-
-// https://stackoverflow.com/a/55544303
-if (!process || process.env.NODE_ENV !== 'test') {
-  Vue.use(VueRouter);
-}
 
 const routes = [{
   path: '/auth',
@@ -67,19 +61,18 @@ const routes = [{
   name: 'access-denied',
   component: AccessDenied,
 }, {
-  path: '*',
+  path: '/:pathMatch(.*)*',
   name: 'not-found',
   component: notFound,
 }];
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
   // eslint-disable-next-line no-unused-vars
   scrollBehavior(to, from, savedPosition) {
     return {
-      x: 0,
-      y: 0,
+      left: 0,
+      top: 0,
     };
   },
   routes,

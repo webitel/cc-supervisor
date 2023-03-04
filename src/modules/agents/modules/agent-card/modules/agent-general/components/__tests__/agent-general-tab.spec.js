@@ -5,7 +5,7 @@ const namespace = 'card';
 
 describe('Agent General Tab', () => {
   const mountOptions = {
-    propsData: { namespace },
+    props: { namespace },
   };
   it('renders a component', () => {
     const wrapper = shallowMount(AgentGeneralTab, mountOptions);

@@ -31,6 +31,10 @@ body {
   background: var(--page-bg-color);
 }
 
+#app {
+  width: 100%;
+}
+
 iframe {
   border: none;
   outline: none;

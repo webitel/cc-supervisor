@@ -3,7 +3,11 @@
 }
 
 .the-supervisor-workspace__content {
+  display: flex;
+  flex-direction: column;
+
   .wt-page-wrapper {
+    flex-grow: 1;
     height: 100%;
     min-height: 0;
 

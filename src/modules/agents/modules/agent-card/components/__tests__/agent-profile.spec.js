@@ -10,7 +10,7 @@ describe('Agent profile', () => {
   it('renders name passed as prop', () => {
     const name = 'jest';
     const wrapper = shallowMount(AgentProfile, {
-      propsData: { name },
+      props: { name },
     });
     expect(wrapper.find('.agent-profile__name').text())
       .toBe(name);

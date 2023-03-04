@@ -1,11 +1,8 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Vuex from 'vuex';
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import AgentCallsAPI from '../../api/agent-calls';
 import agentsCallsStore from '../../store/agent-calls';
 import AgentCalls from '../agent-calls-tab.vue';
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
 
 const items = [];
 
@@ -18,7 +15,7 @@ describe('Agent calls tab', () => {
   let mountOptions = {};
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         calls: agentsCallsStore,
       },
@@ -26,17 +23,18 @@ describe('Agent calls tab', () => {
 
     AgentCallsAPI.getList.mockImplementation(() => Promise.resolve({ items }));
     mountOptions = {
-      store,
-      localVue,
-      propsData: { namespace },
-      mocks: {
-        $route: { params: { id: 1 }, query: {} },
+      props: { namespace },
+      global: {
+        plugins: [store],
+        mocks: {
+          $route: { params: { id: 1 }, query: {} },
+        },
       },
     };
   });
 
   it('renders a component', () => {
     const wrapper = shallowMount(AgentCalls, mountOptions);
-      expect(wrapper.exists()).toBe(true);
+    expect(wrapper.exists()).toBe(true);
   });
 });

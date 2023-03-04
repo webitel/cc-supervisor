@@ -1,12 +1,12 @@
 <template>
   <wt-page-wrapper class="agent-page" :actions-panel="currentTab.actionsPanel">
-    <template slot="header">
+    <template v-slot:header>
       <agent-panel :namespace="namespace"/>
     </template>
-    <template slot="actions-panel">
+    <template v-slot:actions-panel>
       <component :is="`${currentTab.value}-filters`" :namespace="currentTab.namespace"></component>
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <div class="agent-page__content">
         <wt-tabs
           :current="currentTab"

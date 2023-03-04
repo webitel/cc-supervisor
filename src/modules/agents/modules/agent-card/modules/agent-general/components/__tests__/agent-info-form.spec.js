@@ -1,13 +1,10 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Vuex from 'vuex';
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import AgentInfoForm from '../agent-info-form.vue';
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
 
 const namespace = 'card';
 const agent = {};
-const store = new Vuex.Store({
+const store = createStore({
   modules: {
     [namespace]: {
       namespaced: true,
@@ -18,9 +15,10 @@ const store = new Vuex.Store({
 
 describe('Agent Info Form', () => {
   const mountOptions = {
-    localVue,
-    store,
-    propsData: { namespace },
+    global: {
+      plugins: [store],
+    },
+    props: { namespace },
   };
   it('renders a component', () => {
     const wrapper = shallowMount(AgentInfoForm, mountOptions);

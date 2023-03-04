@@ -12,14 +12,14 @@ describe('Queues table Agents', () => {
     };
   });
   it('renders a component', () => {
-    const wrapper = shallowMount(TableAgents, { propsData: { status } });
+    const wrapper = shallowMount(TableAgents, { props: { status } });
     expect(wrapper.classes('table-agents'))
       .toBe(true);
   });
 
   it('renders a component with empty values', () => {
     status = {};
-    const wrapper = shallowMount(TableAgents, { propsData: { status } });
+    const wrapper = shallowMount(TableAgents, { props: { status } });
     expect(wrapper.classes('table-agents'))
       .toBe(true);
   });

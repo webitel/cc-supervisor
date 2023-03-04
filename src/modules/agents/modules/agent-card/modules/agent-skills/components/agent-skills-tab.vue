@@ -26,18 +26,18 @@
         sortable
         @sort="sort"
       >
-        <template slot="skill" slot-scope="{ item }">
+        <template v-slot:skill="{ item }">
           <div v-if="item.skill">
             {{ item.skill.name }}
           </div>
         </template>
-        <template slot="enabled" slot-scope="{ item, index }">
+        <template v-slot:enabled="{ item, index }">
           <wt-switcher
             :value="item.enabled"
             @change="patchItemProperty({ item, index, value: $event, prop: 'enabled' })"
           ></wt-switcher>
         </template>
-        <template slot="actions" slot-scope="{ item, index }">
+        <template v-slot:actions="{ item, index }">
           <edit-action
             class="table-action"
             @click="edit(item)"

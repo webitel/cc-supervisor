@@ -1,15 +1,15 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils';
-import VueRouter from 'vue-router';
-import Vuex from 'vuex';
+import { shallowMount } from '@vue/test-utils';
+import { createRouter, createWebHistory } from 'vue-router';
+import { createStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
 import agentsStore from '../../store/agents';
 import Agents from '../the-agents.vue';
 import API from '../../api/agents';
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueRouter);
-const router = new VueRouter();
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [],
+});
 
 const items = [];
 
@@ -23,16 +23,16 @@ describe('Agents page', () => {
 
   beforeEach(() => {
     state = {};
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
-        agents: agentsStore
+        agents: agentsStore,
       },
     });
 
     mountOptions = {
-      store,
-      localVue,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     };
   });
 

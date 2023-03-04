@@ -1,10 +1,7 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils';
-import Vuex from 'vuex';
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import card from '../../store/agent-card';
 import AgentPage from '../agent-card.vue';
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
 
 jest.mock('../../../../api/agents');
 
@@ -28,7 +25,7 @@ describe('Agent page', () => {
     actionsMock.SET_AGENT_ID.mockClear();
     actionsMock.LOAD_AGENT.mockClear();
 
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         agents: {
           namespaced: true,
@@ -44,11 +41,12 @@ describe('Agent page', () => {
     });
 
     mountOptions = {
-      store,
-      localVue,
-      mocks: {
-        $router,
-        $route,
+      global: {
+        mocks: {
+          $router,
+          $route,
+        },
+        plugins: [store],
       },
     };
   });
