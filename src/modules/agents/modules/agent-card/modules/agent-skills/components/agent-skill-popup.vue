@@ -1,13 +1,13 @@
 <template>
   <wt-popup min-width="480" overflow @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $tc('pages.card.skills.skills', 1) }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <form>
         <wt-select
           :value="itemInstance.skill"
-          :v="$v.itemInstance.skill"
+          :v="v$.itemInstance.skill"
           :label="$tc('pages.card.skills.skills', 1)"
           :search-method="loadDropdownOptionsList"
           :clearable="false"
@@ -16,7 +16,7 @@
         ></wt-select>
         <wt-input
           :value="itemInstance.capacity"
-          :v="$v.itemInstance.capacity"
+          :v="v$.itemInstance.capacity"
           :label="$t('pages.card.skills.capacity')"
           :number-min="0"
           :number-max="100"
@@ -26,7 +26,7 @@
         ></wt-input>
       </form>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button
         :disabled="computeDisabled"
         @click="save"
@@ -42,9 +42,10 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
 import {
  maxValue, minValue, numeric, required,
-} from 'vuelidate/lib/validators';
+} from '@vuelidate/validators';
 import SkillsAPI from '../api/skills';
 import nestedObjectMixin
   from '../../../../../../../packages/client/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
@@ -58,7 +59,9 @@ export default {
       required: true,
     },
   },
-
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       skill: { required },

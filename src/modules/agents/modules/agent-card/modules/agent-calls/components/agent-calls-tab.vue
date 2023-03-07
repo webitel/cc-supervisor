@@ -20,35 +20,35 @@
         sortable
         @sort="sort"
       >
-        <template slot="direction" slot-scope="{ item }">
+        <template v-slot:direction="{ item }">
           <table-direction :item="item"/>
         </template>
-        <template slot="user" slot-scope="{ item }">
+        <template v-slot:user="{ item }">
           <div v-if="item.user">
             {{ item.user.name }}
           </div>
         </template>
-        <template slot="from" slot-scope="{ item }">
+        <template v-slot:from="{ item }">
           <div v-if="item.from">
             {{ item.from.name }}
           </div>
         </template>
-        <template slot="to" slot-scope="{ item }">
+        <template v-slot:to="{ item }">
           <div v-if="item.to">
             {{ item.to.name }}
           </div>
         </template>
-        <template slot="team" slot-scope="{ item }">
+        <template v-slot:team="{ item }">
           <div v-if="item.team">
             {{ item.team.name }}
           </div>
         </template>
-        <template slot="queue" slot-scope="{ item }">
+        <template v-slot:queue="{ item }">
           <div v-if="item.queue">
             {{ item.queue.name }}
           </div>
         </template>
-        <template slot="actions" slot-scope="{ item, index }">
+        <template v-slot:actions="{ item, index }">
           <media-action
             v-if="item.files"
             class="table-action"

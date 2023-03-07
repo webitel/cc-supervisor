@@ -1,18 +1,15 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Vuex from 'vuex';
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import QueueFilters from '../queue-filters.vue';
 import filters from '../../store/filters';
 import userinfo from '../../../../../userinfo/store/userinfo';
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
 
 const namespace = 'queues';
 const agent = {
   isAdmin: false,
 };
 
-const store = new Vuex.Store({
+const store = createStore({
   modules: {
     [namespace]: filters,
     userinfo: {
@@ -24,9 +21,10 @@ const store = new Vuex.Store({
 
 describe('Queue Filters wrapper', () => {
   const mountOptions = {
-    localVue,
-    store,
-    propsData: { namespace },
+    global: {
+      plugins: [store],
+    },
+    props: { namespace },
   };
   it('renders a component', () => {
     const wrapper = shallowMount(QueueFilters, mountOptions);

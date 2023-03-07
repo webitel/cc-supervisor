@@ -1,10 +1,7 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Vuex from 'vuex';
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import AgentSkillsTab from '../agent-skills-tab.vue';
 import skills from '../../store/agent-skills';
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
 
 const id = 1;
 const $route = { params: { id }, query: {} };
@@ -12,7 +9,7 @@ const $route = { params: { id }, query: {} };
 const namespace = 'skills';
 const SET_PARENT_ITEM_ID = jest.fn();
 const SET_ITEM_ID = jest.fn();
-const store = new Vuex.Store({
+const store = createStore({
   modules: {
     [namespace]: {
       ...skills,
@@ -23,10 +20,11 @@ const store = new Vuex.Store({
 
 describe('Agent Skills Tab', () => {
   const mountOptions = {
-    localVue,
-    store,
-    propsData: { namespace },
-    mocks: { $route },
+    props: { namespace },
+    global: {
+      plugins: [store],
+      mocks: { $route },
+    },
   };
   it('renders a component', () => {
     const wrapper = shallowMount(AgentSkillsTab, mountOptions);

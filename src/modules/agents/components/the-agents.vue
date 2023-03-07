@@ -1,11 +1,11 @@
 <template>
   <wt-page-wrapper>
-    <template slot="header">
+    <template v-slot:header>
       <wt-headline>
-        <template slot="title">
+        <template v-slot:title>
           {{ $t('pages.agent.title') }}
         </template>
-        <template slot="actions">
+        <template v-slot:actions>
           <filter-search :namespace="filtersNamespace" filter-query="search" />
           <wt-button
             :disabled="!dataList.length"
@@ -17,11 +17,11 @@
       </wt-headline>
     </template>
 
-    <template slot="actions-panel">
+    <template v-slot:actions-panel>
       <agents-filters :namespace="filtersNamespace" />
     </template>
 
-    <template slot="main">
+    <template v-slot:main>
       <section class="main-section-wrapper">
         <wt-loader v-show="isLoading"></wt-loader>
         <div v-show="!isLoading" class="table-wrapper">
@@ -44,21 +44,21 @@
             sortable
             @sort="sort"
           >
-            <template slot="name" slot-scope="{ item }">
+            <template v-slot:name="{ item }">
               <table-agent :item="item" />
             </template>
-            <template slot="status" slot-scope="{ item }">
+            <template v-slot:status="{ item }">
               <table-agent-status :item="item" />
             </template>
-            <template slot="callTime" slot-scope="{ item }">
+            <template v-slot:callTime="{ item }">
               <table-agent-call-time :item="item" @attach-call="attachCall" />
             </template>
-            <template slot="team" slot-scope="{ item }">
+            <template v-slot:team="{ item }">
               <div v-if="item.team">
                 {{ item.team.name }}
               </div>
             </template>
-            <template slot="queues" slot-scope="{ item }">
+            <template v-slot:queues="{ item }">
               <table-queues :item="item" />
             </template>
           </wt-table>

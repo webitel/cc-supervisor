@@ -11,13 +11,13 @@ describe('Queues table Members', () => {
   };
 
   it('renders a component', async () => {
-    const wrapper = shallowMount(TableMembers, { propsData: { item } });
+    const wrapper = shallowMount(TableMembers, { props: { item } });
     expect(wrapper.classes('table-members')).toBe(true);
   });
 
   it('renders a component with empty values', async () => {
     item.members = {};
-    const wrapper = shallowMount(TableMembers, { propsData: { item } });
+    const wrapper = shallowMount(TableMembers, { props: { item } });
     expect(wrapper.classes('table-members')).toBe(true);
   });
 });

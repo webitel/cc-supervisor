@@ -10,12 +10,12 @@ describe('Queues table Agent', () => {
   const item = { agentId: '1' };
 
   it('renders a component with outbound value', () => {
-    const wrapper = shallowMount(TableAgent, { propsData: { item } });
+    const wrapper = shallowMount(TableAgent, { props: { item } });
     expect(wrapper.classes('table-agent')).toBe(true);
   });
 
   it('renders a component with outbound value', () => {
-    const wrapper = shallowMount(TableAgent, { mocks: { $router }, propsData: { item } });
+    const wrapper = shallowMount(TableAgent, { mocks: { $router }, props: { item } });
     wrapper.find('.name-link').trigger('click');
     expect($router.push).toHaveBeenCalledWith({ name: 'agents-card', params: { id: item.agentId } });
   });

@@ -7,7 +7,7 @@ const namespace = 'calls';
 
 describe('Agent calls filters', () => {
   it('renders a component', () => {
-    const wrapper = shallowMount(AgentCallsFilters, { propsData: { namespace } });
+    const wrapper = shallowMount(AgentCallsFilters, { props: { namespace } });
     expect(wrapper.exists()).toBe(true);
   });
   it('reset filters action', () => {

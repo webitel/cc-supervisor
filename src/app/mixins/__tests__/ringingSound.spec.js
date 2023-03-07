@@ -1,12 +1,9 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Vuex from 'vuex';
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import ringingSoundMixin from '../ringingSoundMixin/ringingSoundMixin';
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-
 describe('Ringing sound mixin', () => {
-  const store = new Vuex.Store({
+  const store = createStore({
     modules: {
       call: {
         state: { call: { direction: 'inbound', state: 'ringing' } },
@@ -20,7 +17,11 @@ describe('Ringing sound mixin', () => {
     mixins: [ringingSoundMixin],
     data: () => ({ ringingAudio }),
   };
-  const wrapper = shallowMount(Component, { localVue, store });
+  const wrapper = shallowMount(Component, {
+    global: {
+      plugins: [store],
+    },
+  });
 
   it('renders a component', () => {
   expect(wrapper.exists()).toBe(true);

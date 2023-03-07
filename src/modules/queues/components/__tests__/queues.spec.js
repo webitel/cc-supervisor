@@ -1,14 +1,14 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils';
-import VueRouter from 'vue-router';
-import Vuex from 'vuex';
+import { shallowMount } from '@vue/test-utils';
+import { createRouter, createWebHistory } from 'vue-router';
+import { createStore } from 'vuex';
 import API from '../../api/queues';
 import queuesStore from '../../store/queues';
 import Queues from '../the-queues.vue';
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueRouter);
-const router = new VueRouter();
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [],
+});
 
 const items = [
   {
@@ -47,7 +47,7 @@ describe('Queues page', () => {
 
   beforeEach(() => {
     state = {};
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         queues: {
           ...queuesStore,
@@ -62,9 +62,9 @@ describe('Queues page', () => {
 
   it('renders a component', () => {
     const wrapper = shallowMount(Queues, {
-      store,
-      localVue,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
     expect(wrapper.exists())
       .toBe(true);
@@ -72,9 +72,9 @@ describe('Queues page', () => {
 
   it('Correctly computes selectedIds', () => {
     const wrapper = shallowMount(Queues, {
-      store,
-      localVue,
-      router,
+      global: {
+        plugins: [store, router],
+      },
       computed: {
         dataList() {
           return [

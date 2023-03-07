@@ -7,7 +7,7 @@ const namespace = 'statusHistory';
 
 describe('Agent Status History filters', () => {
   it('renders a component', () => {
-    const wrapper = shallowMount(AgentStatusHistoryFilters, { propsData: { namespace } });
+    const wrapper = shallowMount(AgentStatusHistoryFilters, { props: { namespace } });
     expect(wrapper.exists()).toBe(true);
   });
   it('reset filters action', () => {

@@ -13,7 +13,7 @@
         :grid-actions="false"
         :selectable="false"
       >
-        <template slot="duration" slot-scope="{ item }">
+        <template v-slot:duration="{ item }">
           <span
             class="agent-pause-cause-timing"
             :class="{'agent-pause-cause-timing--highlight': isDurationOverflow(item)}"
@@ -24,7 +24,7 @@
             :color="pauseCauseProgressColor(item)"
           ></wt-progress-bar>
         </template>
-        <template slot="limit" slot-scope="{ item }">
+        <template v-slot:limit="{ item }">
           <span class="agent-pause-cause-timing">
             {{ prettifyPauseCauseDuration(item.limitMin) }}
           </span>

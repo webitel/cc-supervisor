@@ -1,12 +1,12 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Vuex from 'vuex';
-import VueRouter from 'vue-router';
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
+import { createRouter, createWebHistory } from 'vue-router';
 import tablePageMixin from '../supervisor-workspace/tablePageMixin';
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueRouter);
-const router = new VueRouter();
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [],
+});
 
 describe('table Page Mixin', () => {
   const namespace = 'jest';
@@ -17,7 +17,7 @@ describe('table Page Mixin', () => {
   };
   const fetchListActionMock = jest.fn();
 
-  const store = new Vuex.Store({
+  const store = createStore({
     modules: {
       [namespace]: {
         namespaced: true,
@@ -31,9 +31,9 @@ describe('table Page Mixin', () => {
     mixins: [tablePageMixin],
   };
   const mountOptions = {
-    localVue,
-    store,
-    router,
+    global: {
+      plugins: [store, router],
+    },
     data: () => ({ namespace }),
   };
 
