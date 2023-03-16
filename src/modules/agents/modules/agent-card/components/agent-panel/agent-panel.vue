@@ -1,19 +1,23 @@
 <template>
   <wt-headline class="agent-panel">
-    <wt-icon-btn
-      icon="arrow-left"
-      color="active"
-      @click="$router.push('/agents')"
-    ></wt-icon-btn>
-    <agent-profile :name="agent.name"></agent-profile>
-    <wt-button
-      class="agent-panel__call-btn"
-      color="success"
-      @click="callAgent"
-    >{{ $t('pages.card.callAgent') }}
-    </wt-button>
-    <agent-status-select :namespace="namespace" @changed="loadAgent"/>
-    <agent-status-timers :status="agent"></agent-status-timers>
+    <div class="profile-wrap">
+      <wt-icon-btn
+        icon="back"
+        color="active"
+        @click="$router.push('/agents')"
+      ></wt-icon-btn>
+      <agent-profile :name="agent.name"></agent-profile>
+    </div>
+    <div class="status-wrap">
+      <agent-status-select :namespace="namespace" @changed="loadAgent"/>
+      <agent-status-timers :status="agent"></agent-status-timers>
+      <wt-button
+        class="agent-panel__call-btn"
+        color="success"
+        @click="callAgent"
+      >{{ $t('pages.card.callAgent') }}
+      </wt-button>
+    </div>
   </wt-headline>
 </template>
 
@@ -63,12 +67,21 @@ export default {
 <style lang="scss" scoped>
 .wt-headline.agent-panel {
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: wrap;
+  //align-items: center;
 
-  & > * {
-    margin-right: var(--spacing-sm);
+  & > div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  //& > * {
+  //  margin-right: var(--spacing-sm);
+  //}
+
+  &__call-btn {
+    padding: var(--spacing-sm);
   }
 }
 </style>

@@ -7,7 +7,7 @@
         alt="Agent avatar"
       >
     </div>
-    <strong class="agent-profile__name">{{ name }}</strong>
+    <span class="agent-profile__name">{{ name }}</span>
   </article>
 </template>
 
