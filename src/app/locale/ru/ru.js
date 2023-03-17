@@ -101,6 +101,8 @@ export default {
       callAgent: 'Позвонить',
       progressiveCount: 'Количество одновременных звонков',
       chatCount: 'Количество одновременных чатов',
+      ratedCalls: 'Оцененные звонки',
+      score: 'Рейтинг',
       general: {
         title: 'Главная',
         pauseCause: {

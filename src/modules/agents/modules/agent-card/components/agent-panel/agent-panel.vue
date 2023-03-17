@@ -7,6 +7,22 @@
         @click="$router.push('/agents')"
       ></wt-icon-btn>
       <agent-profile :name="agent.name"></agent-profile>
+      <div class="total-score">
+        <wt-icon
+          class="total-score__icon"
+          icon="total-score"
+          size="md"
+        ></wt-icon>
+        <span>{{ $t('pages.card.score') }}: {{ agent.scoreRequired || 0 }}</span>
+      </div>
+      <div class="rated-calls">
+        <wt-icon
+          class="rated-calls__icon"
+          icon="rated-calls"
+          size="md"
+        ></wt-icon>
+        <span>{{ $t('pages.card.ratedCalls') }}: {{ agent.scoreCount || 0 }}</span>
+      </div>
     </div>
     <div class="status-wrap">
       <agent-status-select :namespace="namespace" @changed="loadAgent"/>
@@ -39,6 +55,7 @@ export default {
   computed: {
     ...mapState({
       agent(state) {
+        console.log('state:', state);
         return getNamespacedState(state, this.namespace).agent;
       },
     }),
@@ -82,6 +99,22 @@ export default {
 
   &__call-btn {
     padding: var(--spacing-sm);
+  }
+
+  .profile-wrap {
+    gap: var(--spacing-sm);
+  }
+
+  .total-score, .rated-calls {
+    display: flex;
+    gap: var(--spacing-xs);
+    span {
+      @extend %typo-body-1;
+    }
+  }
+
+  .agent-status-timers {
+    margin-left: var(--spacing-sm);
   }
 }
 </style>

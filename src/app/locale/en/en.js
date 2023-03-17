@@ -102,6 +102,8 @@ export default {
       callAgent: 'Call',
       progressiveCount: 'Progressive call count',
       chatCount: 'Progressive chat count',
+      ratedCalls: 'Rated calls',
+      score: 'Score',
       general: {
         title: 'General',
         pauseCause: {

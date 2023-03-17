@@ -12,7 +12,6 @@ const getters = {
   GET_FILTERS: (state, getters, rootState, rootGetters) => rootGetters['agents/filters/GET_FILTERS'],
 };
 
-
 const agents = new TableStoreModule({ state })
 .setChildModules({
   card,
