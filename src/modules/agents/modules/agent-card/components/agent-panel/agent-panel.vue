@@ -55,7 +55,6 @@ export default {
   computed: {
     ...mapState({
       agent(state) {
-        console.log('state:', state);
         return getNamespacedState(state, this.namespace).agent;
       },
     }),
@@ -84,7 +83,6 @@ export default {
 <style lang="scss" scoped>
 .wt-headline.agent-panel {
   display: flex;
-  //align-items: center;
 
   & > div {
     display: flex;
@@ -93,21 +91,15 @@ export default {
     flex-wrap: wrap;
   }
 
-  //& > * {
-  //  margin-right: var(--spacing-sm);
-  //}
-
   &__call-btn {
     padding: var(--spacing-sm);
-  }
-
-  .profile-wrap {
-    gap: var(--spacing-sm);
   }
 
   .total-score, .rated-calls {
     display: flex;
     gap: var(--spacing-xs);
+    margin-right: var(--spacing-sm);
+
     span {
       @extend %typo-body-1;
     }
