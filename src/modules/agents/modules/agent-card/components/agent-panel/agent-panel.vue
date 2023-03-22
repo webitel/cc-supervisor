@@ -13,7 +13,7 @@
           icon="total-score"
           size="md"
         ></wt-icon>
-        <span>{{ $t('pages.card.score') }}: {{ agent.scoreRequired || 0 }}</span>
+        <span>{{ $t('pages.card.score') }}: {{ Math.round(agent.scoreRequiredAvg) || 0 }}</span>
       </div>
       <div class="rated-calls">
         <wt-icon
