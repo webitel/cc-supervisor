@@ -147,6 +147,8 @@ export default {
           queueWaitSec: 'Тривалість очікування в черзі',
           queueDurationSec: 'Тривалість в черзі',
           result: 'Результат',
+          ratedBy: 'Ким оцінений',
+          score: 'Оцінка',
           sipCode: 'SIP-код',
         },
       },

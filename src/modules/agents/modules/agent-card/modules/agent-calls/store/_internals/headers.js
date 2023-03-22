@@ -217,4 +217,18 @@ export default [
     sort: null,
     field: 'blind_transfer',
   },
+  {
+    value: 'scoreRequired',
+    locale: 'pages.card.calls.columns.score',
+    show: false,
+    sort: null,
+    field: 'score_required',
+  },
+  {
+    value: 'ratedBy',
+    locale: 'pages.card.calls.columns.ratedBy',
+    show: false,
+    sort: null,
+    field: 'rated_by',
+  },
 ];
