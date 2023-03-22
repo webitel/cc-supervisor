@@ -108,6 +108,165 @@ export default {
       type: String,
     },
   },
+  mounted() {
+    console.log('call:', this.dataList[2]);
+    // const some = {
+    //   "items": [
+    //     {
+    //       "agent": {
+    //         "id": "string",
+    //         "name": "string"
+    //       },
+    //       "agent_description": "string",
+    //       "annotations": [
+    //         {
+    //           "call_id": "string",
+    //           "created_at": "string",
+    //           "created_by": {
+    //             "id": "string",
+    //             "name": "string"
+    //           },
+    //           "end_sec": 0,
+    //           "id": "string",
+    //           "note": "string",
+    //           "start_sec": 0,
+    //           "updated_at": "string",
+    //           "updated_by": {
+    //             "id": "string",
+    //             "name": "string"
+    //           }
+    //         }
+    //       ],
+    //       "answered_at": "string",
+    //       "app_id": "string",
+    //       "bill_sec": 0,
+    //       "blind_transfer": "string",
+    //       "bridged_at": "string",
+    //       "cause": "string",
+    //       "created_at": "string",
+    //       "destination": "string",
+    //       "direction": "string",
+    //       "display": "string",
+    //       "duration": 0,
+    //       "extension": "string",
+    //       "files": [
+    //         {
+    //           "id": "string",
+    //           "mime_type": "string",
+    //           "name": "string",
+    //           "size": "string",
+    //           "start_at": "string",
+    //           "stop_at": "string"
+    //         }
+    //       ],
+    //       "files_job": [
+    //         {
+    //           "action": "undefined",
+    //           "created_at": "string",
+    //           "error_detail": "string",
+    //           "file_id": "string",
+    //           "id": "string",
+    //           "state": "idle"
+    //         }
+    //       ],
+    //       "from": {
+    //         "id": "string",
+    //         "name": "string",
+    //         "number": "string",
+    //         "type": "string"
+    //       },
+    //       "gateway": {
+    //         "id": "string",
+    //         "name": "string"
+    //       },
+    //       "grantee": {
+    //         "id": "string",
+    //         "name": "string"
+    //       },
+    //       "hangup_at": "string",
+    //       "hangup_by": "string",
+    //       "hangup_disposition": "string",
+    //       "has_children": true,
+    //       "hold": [
+    //         {
+    //           "sec": 0,
+    //           "start": "string",
+    //           "stop": "string"
+    //         }
+    //       ],
+    //       "id": "string",
+    //       "joined_at": "string",
+    //       "leaving_at": "string",
+    //       "member": {
+    //         "id": "string",
+    //         "name": "string"
+    //       },
+    //       "parent_id": "string",
+    //       "queue": {
+    //         "id": "string",
+    //         "name": "string"
+    //       },
+    //       "queue_bridged_at": "string",
+    //       "queue_duration_sec": 0,
+    //       "queue_wait_sec": 0,
+    //       "rate_id": "string",
+    //       "rated_by": {
+    //         "id": "string",
+    //         "name": "string"
+    //       },
+    //       "rated_user": {
+    //         "id": "string",
+    //         "name": "string"
+    //       },
+    //       "reporting_at": "string",
+    //       "reporting_sec": 0,
+    //       "result": "string",
+    //       "score_optional": 0,
+    //       "score_required": 0,
+    //       "sip_code": 0,
+    //       "stored_at": "string",
+    //       "tags": [
+    //         "string"
+    //       ],
+    //       "talk_sec": 0,
+    //       "team": {
+    //         "id": "string",
+    //         "name": "string"
+    //       },
+    //       "to": {
+    //         "id": "string",
+    //         "name": "string",
+    //         "number": "string",
+    //         "type": "string"
+    //       },
+    //       "transcripts": [
+    //         {
+    //           "file": {
+    //             "id": "string",
+    //             "name": "string"
+    //           },
+    //           "file_id": "string",
+    //           "id": "string",
+    //           "locale": "string"
+    //         }
+    //       ],
+    //       "transfer_from": "string",
+    //       "transfer_to": "string",
+    //       "type": "string",
+    //       "user": {
+    //         "id": "string",
+    //         "name": "string"
+    //       },
+    //       "variables": {
+    //         "additionalProp1": "string",
+    //         "additionalProp2": "string",
+    //         "additionalProp3": "string"
+    //       },
+    //       "wait_sec": 0
+    //     }
+    //   ],
+    // }
+  },
   methods: {
     loadList() {
       const agentId = this.$route.params.id;

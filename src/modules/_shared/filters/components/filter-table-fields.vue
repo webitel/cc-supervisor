@@ -36,8 +36,13 @@ export default {
     event: 'change',
   },
 
+  mounted() {
+    console.log('headers in pop up:', this.headers);
+  },
+
   methods: {
     change(headers) {
+      console.log('headers:', headers);
       this.setValue(headers);
     },
 
@@ -58,6 +63,7 @@ export default {
     },
 
     restoreValue(value) {
+      console.log('restoreValue', value);
       const headers = this.headers.map((header) => ({
         ...header,
         show: !!value.includes(header.value),
