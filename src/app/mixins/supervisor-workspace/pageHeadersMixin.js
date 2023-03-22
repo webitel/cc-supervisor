@@ -5,13 +5,11 @@ export default {
   computed: {
     ...mapState({
       headersValue(state) {
-        console.log('headersValue state:', state, 'this.namespace:', this.namespace);
         return getNamespacedState(state, this.namespace).headers;
       },
     }),
     headers: {
       get() {
-        console.log('get headers:', this.headersValue);
         return this.headersValue.map((header) => ({
           ...header,
           text: Array.isArray(header.locale) ? this.$tc(...header.locale) : this.$t(header.locale),
