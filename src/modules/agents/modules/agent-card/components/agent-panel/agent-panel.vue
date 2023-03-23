@@ -1,6 +1,6 @@
 <template>
   <wt-headline class="agent-panel">
-    <div class="profile-wrap">
+    <div class="agent-panel-wrap">
       <wt-icon-btn
         icon="back"
         color="active"
@@ -13,7 +13,7 @@
           icon="total-score"
           size="md"
         ></wt-icon>
-        <span>{{ $t('pages.card.score') }}: {{ Math.round(agent.scoreRequiredAvg) || 0 }}</span>
+        <span>{{ $t('pages.card.score') }}: {{ scoreRequired }}</span>
       </div>
       <div class="rated-calls">
         <wt-icon
@@ -21,10 +21,10 @@
           icon="rated-calls"
           size="md"
         ></wt-icon>
-        <span>{{ $t('pages.card.ratedCalls') }}: {{ agent.scoreCount || 0 }}</span>
+        <span>{{ $t('pages.card.ratedCalls') }}: {{ scoreCount }}</span>
       </div>
     </div>
-    <div class="status-wrap">
+    <div class="agent-panel-wrap">
       <agent-status-select :namespace="namespace" @changed="loadAgent"/>
       <agent-status-timers :status="agent"></agent-status-timers>
       <wt-button
@@ -58,6 +58,12 @@ export default {
         return getNamespacedState(state, this.namespace).agent;
       },
     }),
+    scoreCount() {
+      return this.agent.scoreCount || 0;
+    },
+    scoreRequired() {
+      return Math.round(this.agent.scoreRequiredAvg) || 0;
+    },
   },
   methods: {
     ...mapActions({
@@ -84,7 +90,7 @@ export default {
 .wt-headline.agent-panel {
   display: flex;
 
-  & > div {
+  .agent-panel-wrap {
     display: flex;
     align-items: center;
     justify-content: flex-start;
