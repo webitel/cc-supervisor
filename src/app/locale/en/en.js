@@ -148,6 +148,8 @@ export default {
           queueWaitSec: 'Queue wait',
           queueDurationSec: 'Queue duration',
           result: 'Result',
+          ratedBy: 'Rated by',
+          score: 'Score',
           sipCode: 'SIP code',
         },
       },

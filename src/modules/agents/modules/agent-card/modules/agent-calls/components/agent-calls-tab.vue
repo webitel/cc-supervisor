@@ -48,6 +48,11 @@
             {{ item.queue.name }}
           </div>
         </template>
+        <template v-slot:ratedBy="{ item }">
+          <div v-if="item.ratedBy">
+            {{ item.ratedBy.name }}
+          </div>
+        </template>
         <template v-slot:actions="{ item, index }">
           <media-action
             v-if="item.files"
