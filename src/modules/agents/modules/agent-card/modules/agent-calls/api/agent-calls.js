@@ -28,6 +28,7 @@ const listResponseHandler = (response) => {
     queueWaitSec: calcDuration(item.queueWaitSec),
     queueDurationSec: calcDuration(item.queueDurationSec),
     scoreRequired: item.scoreRequired ? Math.round(item.scoreRequired) : null,
+    rated: !!item.ratedBy,
   }));
   return {
     ...response,

@@ -54,6 +54,13 @@ export default {
         m: '{m} minute | {m} minutes',
       },
     },
+    rated: {
+      title: 'Rated',
+      options: {
+        yes: 'Yes',
+        no: 'No',
+      },
+    },
   },
   pages: {
     shared: {
