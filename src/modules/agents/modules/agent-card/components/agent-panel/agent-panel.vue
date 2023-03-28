@@ -7,21 +7,23 @@
         @click="$router.push('/agents')"
       ></wt-icon-btn>
       <agent-profile :name="agent.name"></agent-profile>
-      <div class="total-score">
+      <div class="agent-panel-rating">
         <wt-icon
-          class="total-score__icon"
           icon="total-score"
           size="md"
         ></wt-icon>
-        <span>{{ $t('pages.card.score') }}: {{ scoreRequired }}</span>
+        <span class="agent-panel-rating__text">
+          {{ $t('pages.card.score') }}: {{ scoreRequired }}
+        </span>
       </div>
-      <div class="rated-calls">
+      <div class="agent-panel-rating">
         <wt-icon
-          class="rated-calls__icon"
           icon="rated-calls"
           size="md"
         ></wt-icon>
-        <span>{{ $t('pages.card.ratedCalls') }}: {{ scoreCount }}</span>
+        <span class="agent-panel-rating__text">
+          {{ $t('pages.card.ratedCalls') }}: {{ scoreCount }}
+        </span>
       </div>
     </div>
     <div class="agent-panel-wrap">
@@ -101,12 +103,12 @@ export default {
     padding: var(--spacing-sm);
   }
 
-  .total-score, .rated-calls {
+  .agent-panel-rating {
     display: flex;
     gap: var(--spacing-xs);
     margin-right: var(--spacing-sm);
 
-    span {
+    &__text {
       @extend %typo-body-1;
     }
   }
