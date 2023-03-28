@@ -2,7 +2,7 @@
   <wt-filters-panel-wrapper @reset="resetFilters">
     <filter-from :namespace="filtersNamespace"/>
     <filter-to :namespace="filtersNamespace"/>
-    <abstract-enum-filter filter-query="rated" :namespace="filtersNamespace"/>
+    <abstract-api-filter filter-query="rated" :namespace="filtersNamespace"/>
   </wt-filters-panel-wrapper>
 </template>
 
@@ -25,9 +25,6 @@ export default {
     namespace: {
       type: String,
     },
-  },
-  mounted() {
-    console.log('store state:', this.$store.state);
   },
   computed: {
     filtersNamespace() {
