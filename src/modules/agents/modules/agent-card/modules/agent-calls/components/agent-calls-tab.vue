@@ -1,15 +1,5 @@
 <template>
   <section class="table-wrapper table-wrapper--tab-table">
-    <wt-table-actions
-      class="table-wrapper__actions-wrapper"
-      :icons="['refresh']"
-      @input="tableActionsHandler"
-    >
-      <filter-fields
-        v-model="headers"
-        entity="agentCalls"
-      ></filter-fields>
-    </wt-table-actions>
     <wt-loader v-show="isLoading"></wt-loader>
     <div class="table-loading-wrapper" v-show="!isLoading">
       <wt-table
@@ -91,14 +81,12 @@ import playMediaMixin from '../../../../../../../app/mixins/media/playMediaMixin
 import showMediaMixin from '../../../../../../../app/mixins/media/showMediaMixin';
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
-import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields.vue';
 import TableDirection from './_internals/table-templates/table-direction.vue';
 
 export default {
   name: 'agent-calls-tab',
   components: {
     TableDirection,
-    FilterFields,
     FilterPagination,
     MediaAction,
   },
