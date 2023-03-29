@@ -2,7 +2,13 @@
   <wt-filters-panel-wrapper @reset="resetFilters">
     <filter-from :namespace="filtersNamespace"/>
     <filter-to :namespace="filtersNamespace"/>
-    <abstract-api-filter filter-query="rated" :namespace="filtersNamespace"/>
+    <component
+      v-for="(filter) of availableFilters"
+      :key="filter.filterQuery"
+      :is="`abstract-${filter.type}-filter`"
+      :filter-query="filter.filterQuery"
+      :namespace="filtersNamespace"
+    ></component>
   </wt-filters-panel-wrapper>
 </template>
 
@@ -26,6 +32,12 @@ export default {
       type: String,
     },
   },
+  data: () => ({
+    filters: [
+      { type: 'enum', filterQuery: 'rated' },
+      { type: 'api', filterQuery: 'ratedBy' },
+    ],
+  }),
   computed: {
     filtersNamespace() {
       return `${this.namespace}/filters`;

@@ -53,6 +53,14 @@ export default {
         m: '{m} хвилина | {m} хвилин',
       },
     },
+    rated: {
+      title: 'Оцінені',
+      options: {
+        yes: 'Так',
+        no: 'Ні',
+      },
+    },
+    ratedBy: 'Оцінені ким',
   },
   pages: {
     shared: {

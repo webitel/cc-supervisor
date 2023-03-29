@@ -61,6 +61,7 @@ export default {
         no: 'No',
       },
     },
+    ratedBy: 'Rated by',
   },
   pages: {
     shared: {

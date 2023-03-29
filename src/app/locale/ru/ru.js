@@ -53,6 +53,14 @@ export default {
         m: '{m} минута | {m} минут',
       },
     },
+    rated: {
+      title: 'Оцененные',
+      options: {
+        yes: 'Да',
+        no: 'Нет',
+      },
+    },
+    ratedBy: 'Оценены кем',
   },
   pages: {
     shared: {
