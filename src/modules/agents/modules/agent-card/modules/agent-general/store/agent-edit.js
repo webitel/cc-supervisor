@@ -1,9 +1,9 @@
-import editProxy from '@webitel/ui-sdk/src/scripts/editProxy';
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import AgentAPI from '../api/agent-edit';
 
 const state = {
   agent: {},
+  isChanged: false,
 };
 
 const getters = {
@@ -13,10 +13,11 @@ const getters = {
 const actions = {
   LOAD_AGENT: async (context) => {
     const agent = await AgentAPI.get({ itemId: context.getters.AGENT_ID });
-    context.commit('SET_AGENT', editProxy(agent));
+    context.commit('SET_AGENT', agent);
   },
   SET_AGENT_PROPERTY: (context, { prop, value }) => {
     context.commit('SET_AGENT_PROPERTY', { prop, value });
+    context.commit('SET_AGENT_PROPERTY', { prop: '_dirty', value: true });
   },
   UPDATE_AGENT: async (context) => {
     const payload = { id: context.getters.AGENT_ID, changes: { ...context.state.agent } };
