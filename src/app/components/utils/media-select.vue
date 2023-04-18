@@ -8,7 +8,7 @@
         @click.prevent.stop="togglePlay(file.id)"
       >
         <wt-icon :icon="mediaIcon(file)"></wt-icon>
-        <div class="media-select__item__name">{{ file.name | truncate }}</div>
+        <div class="media-select__item__name">{{ file.name }}</div>
       </li>
     </ul>
   </div>
