@@ -100,9 +100,9 @@ export default {
         return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
       },
     }),
-    changeTab(tab) {
+    async changeTab(tab) {
       if (Object.keys(this.$route.query).length) {
-        this.$router.replace({ query: null }); // reset specific previous tab filters
+        await this.$router.replace({ query: null }); // reset specific previous tab filters
       }
       this.currentTab = tab;
     },
