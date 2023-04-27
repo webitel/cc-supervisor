@@ -38,14 +38,16 @@
           ></wt-switcher>
         </template>
         <template v-slot:actions="{ item, index }">
-          <edit-action
+          <wt-icon-action
             class="table-action"
+            action="edit"
             @click="edit(item)"
-          ></edit-action>
-          <delete-action
+          ></wt-icon-action>
+          <wt-icon-action
             class="table-action"
+            action="delete"
             @click="removeItem(index)"
-          ></delete-action>
+          ></wt-icon-action>
         </template>
       </wt-table>
       <filter-pagination :is-next="isNext"/>
@@ -57,8 +59,6 @@
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
-import DeleteAction from '@webitel/ui-sdk/src/components/organisms/wt-table/table-cells/wt-table-delete-action.vue';
-import EditAction from '@webitel/ui-sdk/src/components/organisms/wt-table/table-cells/wt-table-edit-action.vue';
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
 import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields.vue';
@@ -67,8 +67,6 @@ import SkillPopup from './agent-skill-popup.vue';
 export default {
   name: 'agent-skills-tab',
   components: {
-    DeleteAction,
-    EditAction,
     FilterFields,
     FilterPagination,
     SkillPopup,
