@@ -1,6 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
-import card from '../../store/agent-card';
 import AgentPage from '../agent-card.vue';
 
 jest.mock('../../../../api/agents');
@@ -56,8 +55,9 @@ describe('Agent page', () => {
     expect(wrapper.classes('agent-page'))
     .toBe(true);
   });
-  it('initially sets 1st tab as current', () => {
+  it('initially sets 1st tab as current', async () => {
     const wrapper = shallowMount(AgentPage, mountOptions);
+    await wrapper.vm.$nextTick();
     expect(wrapper.vm.currentTab)
     .toEqual(wrapper.vm.tabs[0]);
   });
