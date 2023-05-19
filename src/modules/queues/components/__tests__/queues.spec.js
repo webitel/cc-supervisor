@@ -1,14 +1,9 @@
 import { shallowMount } from '@vue/test-utils';
-import { createRouter, createWebHistory } from 'vue-router';
 import { createStore } from 'vuex';
+import router from '../../../../app/router';
 import API from '../../api/queues';
 import queuesStore from '../../store/queues';
 import Queues from '../the-queues.vue';
-
-const router = createRouter({
-  history: createWebHistory(),
-  routes: [],
-});
 
 const items = [
   {
@@ -76,6 +71,7 @@ describe('Queues page', () => {
         plugins: [store, router],
       },
       computed: {
+        ...Queues.computed,
         dataList() {
           return [
             { queue: { name: 'jest', id: '123' }, _isSelected: false },

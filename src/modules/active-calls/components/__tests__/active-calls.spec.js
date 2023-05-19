@@ -1,14 +1,9 @@
 import { shallowMount } from '@vue/test-utils';
-import { createRouter, createWebHistory } from 'vue-router';
 import { createStore } from 'vuex';
+import router from '../../../../app/router';
 import activeCallsStore from '../../store/active-calls';
 import ActiveCalls from '../the-active-calls.vue';
 import API from '../../api/active-calls';
-
-const router = createRouter({
-  history: createWebHistory(),
-  routes: [],
-});
 
 const items = [];
 

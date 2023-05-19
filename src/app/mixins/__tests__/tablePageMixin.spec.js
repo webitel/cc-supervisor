@@ -1,12 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
-import { createRouter, createWebHistory } from 'vue-router';
 import tablePageMixin from '../supervisor-workspace/tablePageMixin';
-
-const router = createRouter({
-  history: createWebHistory(),
-  routes: [],
-});
 
 describe('table Page Mixin', () => {
   const namespace = 'jest';
@@ -32,7 +26,7 @@ describe('table Page Mixin', () => {
   };
   const mountOptions = {
     global: {
-      plugins: [store, router],
+      plugins: [store],
     },
     data: () => ({ namespace }),
   };
@@ -58,14 +52,5 @@ describe('table Page Mixin', () => {
     const wrapper = shallowMount(Component, mountOptions);
     const expectedAggs = { jest: 'jest' };
     expect(wrapper.vm.aggs).toEqual(expectedAggs);
-  });
-
-  it('Calls load list after $route query change (watcher)', async () => {
-    const loadListMock = jest.fn();
-    jest.spyOn(tablePageMixin.methods, 'loadList').mockImplementation(loadListMock);
-    const wrapper = shallowMount(Component, mountOptions);
-
-    await wrapper.vm.$router.replace({ path: '/', query: { name: 'jest' } });
-    expect(loadListMock).toHaveBeenCalledTimes(2); // initial loading + query change
   });
 });

@@ -64,7 +64,9 @@ describe('Agent status select', () => {
   });
   it(`at wt-status-select "change" to "pause" event and pause causes truthy response,
    pause-cause-popup appears`, async () => {
+    jest.spyOn(AgentStatusSelect.methods, 'loadPauseCauses').mockImplementationOnce(() => {});
     const wrapper = mount(AgentStatusSelect, mountOptions);
+    await wrapper.setData({ pauseCauses: [1, 2] });
     wrapper.findComponent({ name: 'wt-status-select' })
       .vm.$emit('change', AgentStatus.PAUSE);
     await wrapper.vm.$nextTick(); // load pause causes
