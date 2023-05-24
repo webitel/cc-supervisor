@@ -64,7 +64,7 @@ export default {
       return this.agent.scoreCount || 0;
     },
     scoreRequired() {
-      return Math.round(this.agent.scoreRequiredAvg) || 0;
+      return (this.agent.scoreRequiredAvg || 0).toFixed(2);
     },
   },
   methods: {
