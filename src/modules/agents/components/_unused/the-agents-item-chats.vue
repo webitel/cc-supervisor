@@ -134,7 +134,7 @@
 <!--    text-decoration: underline;-->
 <!--}-->
 <!--.viber {-->
-<!--    background: $viber-color;-->
+<!--    background: v$iber-color;-->
 <!--    fill: $white-color;-->
 <!--    border-radius: 50%;-->
 <!--}-->

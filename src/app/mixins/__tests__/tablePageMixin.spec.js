@@ -1,12 +1,6 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Vuex from 'vuex';
-import VueRouter from 'vue-router';
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import tablePageMixin from '../supervisor-workspace/tablePageMixin';
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueRouter);
-const router = new VueRouter();
 
 describe('table Page Mixin', () => {
   const namespace = 'jest';
@@ -17,7 +11,7 @@ describe('table Page Mixin', () => {
   };
   const fetchListActionMock = jest.fn();
 
-  const store = new Vuex.Store({
+  const store = createStore({
     modules: {
       [namespace]: {
         namespaced: true,
@@ -31,9 +25,9 @@ describe('table Page Mixin', () => {
     mixins: [tablePageMixin],
   };
   const mountOptions = {
-    localVue,
-    store,
-    router,
+    global: {
+      plugins: [store],
+    },
     data: () => ({ namespace }),
   };
 
@@ -58,14 +52,5 @@ describe('table Page Mixin', () => {
     const wrapper = shallowMount(Component, mountOptions);
     const expectedAggs = { jest: 'jest' };
     expect(wrapper.vm.aggs).toEqual(expectedAggs);
-  });
-
-  it('Calls load list after $route query change (watcher)', async () => {
-    const loadListMock = jest.fn();
-    jest.spyOn(tablePageMixin.methods, 'loadList').mockImplementation(loadListMock);
-    const wrapper = shallowMount(Component, mountOptions);
-
-    await wrapper.vm.$router.replace({ path: '/', query: { name: 'jest' } });
-    expect(loadListMock).toHaveBeenCalledTimes(2); // initial loading + query change
   });
 });

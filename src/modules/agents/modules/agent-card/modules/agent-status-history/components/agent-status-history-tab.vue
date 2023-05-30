@@ -20,7 +20,7 @@
         sortable
         @sort="sort"
       >
-        <template slot="state" slot-scope="{ item }">
+        <template v-slot:state="{ item }">
           <table-agent-state :item="item"/>
         </template>
       </wt-table>

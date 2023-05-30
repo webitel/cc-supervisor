@@ -1,15 +1,10 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils';
-import VueRouter from 'vue-router';
-import Vuex from 'vuex';
+import { mount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
+import router from '../../../../app/router';
 import agentsStore from '../../store/agents';
 import Agents from '../the-agents.vue';
 import API from '../../api/agents';
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueRouter);
-const router = new VueRouter();
 
 const items = [];
 
@@ -23,21 +18,26 @@ describe('Agents page', () => {
 
   beforeEach(() => {
     state = {};
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
-        agents: agentsStore
+        agents: agentsStore,
       },
     });
 
     mountOptions = {
-      store,
-      localVue,
-      router,
+      shallow: true,
+      global: {
+        stubs: {
+          WtPageWrapper: false,
+          WtTable: false,
+        },
+        plugins: [store, router],
+      },
     };
   });
 
   it('renders a component', () => {
-    const wrapper = shallowMount(Agents, mountOptions);
+    const wrapper = mount(Agents, mountOptions);
     expect(wrapper.exists())
     .toBe(true);
   });
@@ -50,9 +50,12 @@ describe('Agents page', () => {
       _isSelected: false,
       agentId: '1224',
     }];
-    const wrapper = shallowMount(Agents, {
+    const wrapper = mount(Agents, {
       ...mountOptions,
-      computed: { dataList() { return dataList; } },
+      computed: {
+        ...Agents.computed,
+        dataList() { return dataList; },
+      },
     });
     expect(wrapper.vm.selectedIds)
     .toEqual(['124']);
@@ -65,9 +68,11 @@ describe('Agents page', () => {
       { status: AgentStatus.BreakOut },
     ];
     jest.spyOn(Agents.methods, 'highlightRows');
-    const wrapper = shallowMount(Agents, {
+
+    const wrapper = mount(Agents, {
       ...mountOptions,
       computed: {
+        ...Agents.computed,
         dataList() { return dataList; },
       },
     });

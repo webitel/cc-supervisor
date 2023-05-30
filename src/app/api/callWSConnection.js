@@ -1,4 +1,5 @@
 import { Client } from 'webitel-sdk';
+import { reactive } from 'vue';
 
 const { hostname, protocol } = window.location;
 const origin = (`${protocol}//${hostname}`).replace(/^http/, 'ws');
@@ -17,7 +18,14 @@ const createCliInstance = async () => {
     // debug: true,
   };
 
-  const cli = new Client(config);
+  // why reactive? https://github.com/vuejs/core/discussions/7811#discussioncomment-5181921
+  const cli = reactive(new Client(config));
+
+  // why reactive? https://github.com/vuejs/core/discussions/7811#discussioncomment-5181921
+  // cli.conversationStore = reactive(cli.conversationStore);
+  cli.callStore = reactive(cli.callStore);
+  // cli.jobStore = reactive(cli.jobStore);
+
   await cli.connect();
   await cli.auth();
   window.cli = cli;

@@ -1,16 +1,13 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Vuex from 'vuex';
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import AgentStatusAPI from '../../api/agent-pause-causes';
 import agentStatusStore from '../../store/agent-pause-causes';
 import AgentPauseCauseTable from '../agent-pause-cause-table.vue';
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-
 jest.mock('../../api/agent-pause-causes');
 
 const namespace = 'agentPauseCause';
-const store = new Vuex.Store({
+const store = createStore({
   modules: { [namespace]: agentStatusStore },
 });
 
@@ -19,12 +16,13 @@ AgentStatusAPI.getList.mockImplementation(() => Promise.resolve({ items }));
 
 describe('Agent Pause Cause Table', () => {
   const mountOptions = {
-    localVue,
-    store,
-    propsData: { namespace },
-    mocks: {
-      $route: { query: '' },
+    global: {
+      plugins: [store],
+      mocks: {
+        $route: { query: '' },
+      },
     },
+    props: { namespace },
   };
   it('renders a component', () => {
     const wrapper = shallowMount(AgentPauseCauseTable, mountOptions);

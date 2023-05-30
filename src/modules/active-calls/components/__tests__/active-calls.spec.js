@@ -1,14 +1,9 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils';
-import VueRouter from 'vue-router';
-import Vuex from 'vuex';
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
+import router from '../../../../app/router';
 import activeCallsStore from '../../store/active-calls';
 import ActiveCalls from '../the-active-calls.vue';
 import API from '../../api/active-calls';
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueRouter);
-const router = new VueRouter();
 
 const items = [];
 
@@ -20,16 +15,16 @@ describe('Active Calls page', () => {
   let mountOptions;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         activeCalls: activeCallsStore,
       },
     });
 
     mountOptions = {
-      store,
-      localVue,
-      router,
+      global: {
+        plugins: [router, store],
+      },
     };
   });
 

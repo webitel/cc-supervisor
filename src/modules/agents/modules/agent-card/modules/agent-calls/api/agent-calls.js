@@ -27,6 +27,7 @@ const listResponseHandler = (response) => {
     reportingSec: calcDuration(item.reportingSec),
     queueWaitSec: calcDuration(item.queueWaitSec),
     queueDurationSec: calcDuration(item.queueDurationSec),
+    scoreRequired: item.scoreRequired ? (+item.scoreRequired).toFixed(2) : null,
   }));
   return {
     ...response,
@@ -39,17 +40,25 @@ const _getAgentCallsList = (getList) => function ({
                                                     size = 10,
                                                     search = '',
                                                     agentId,
+                                                    rated,
+                                                    ratedBy,
                                                     sort = '-created_at',
                                                     fields = [],
                                                     from = new Date().setHours(0, 0, 0, 0),
                                                     to = new Date().setHours(23, 59, 59, 999),
                                                   }) {
-  const params = [page, size, search, sort, fields.concat(['id', 'files']), from, to, undefined, agentId];
+  const params = [page, size, search, sort, fields.concat(['id', 'files']), from, to, undefined, agentId,
+    undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined,
+    undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined,
+    undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined,
+    undefined, undefined, undefined, undefined, undefined, rated, ratedBy];
   return getList(params);
 };
 
-const listGetter = new SdkListGetterApiConsumer(callService.searchHistoryCall,
-  { listResponseHandler })
+const listGetter = new SdkListGetterApiConsumer(
+  callService.searchHistoryCall,
+  { listResponseHandler },
+)
   .setGetListMethod(_getAgentCallsList);
 
 export const getAgentCallsList = (params) => listGetter.getList(params);

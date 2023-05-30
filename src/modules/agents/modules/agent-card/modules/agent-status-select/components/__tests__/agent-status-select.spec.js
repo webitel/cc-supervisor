@@ -1,5 +1,5 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Vuex from 'vuex';
+import { shallowMount, mount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import AgentStatus from '@webitel/ui-sdk/src/enums/AgentStatus/AgentStatus.enum';
 import AgentStatusSelect from '../agent-status-select.vue';
 import statusSelect from '../../store/agent-status-select';
@@ -8,9 +8,6 @@ import PauseCauseAPI from '../../api/pause-cause';
 const pauseCauses = [{ name: 'jest1' }, { name: 'jest2' }];
 const getAgentPauseCausesMock = jest.fn(() => ({ items: pauseCauses }));
 jest.spyOn(PauseCauseAPI, 'getList').mockImplementation(getAgentPauseCausesMock);
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
 
 const namespace = 'agents';
 const agent = {
@@ -21,7 +18,7 @@ const updateAgentStatusMock = jest.fn();
 jest.spyOn(statusSelect.actions, 'UPDATE_AGENT_STATUS')
   .mockImplementation(updateAgentStatusMock);
 
-const store = new Vuex.Store({
+const store = createStore({
   modules: {
     [namespace]: {
       state: { agent },
@@ -32,9 +29,10 @@ const store = new Vuex.Store({
 });
 
 const mountOptions = {
-  localVue,
-  store,
-  propsData: { namespace },
+  global: {
+    plugins: [store],
+  },
+  props: { namespace },
 };
 
 describe('Agent status select', () => {
@@ -66,7 +64,9 @@ describe('Agent status select', () => {
   });
   it(`at wt-status-select "change" to "pause" event and pause causes truthy response,
    pause-cause-popup appears`, async () => {
-    const wrapper = shallowMount(AgentStatusSelect, mountOptions);
+    jest.spyOn(AgentStatusSelect.methods, 'loadPauseCauses').mockImplementationOnce(() => {});
+    const wrapper = mount(AgentStatusSelect, mountOptions);
+    await wrapper.setData({ pauseCauses: [1, 2] });
     wrapper.findComponent({ name: 'wt-status-select' })
       .vm.$emit('change', AgentStatus.PAUSE);
     await wrapper.vm.$nextTick(); // load pause causes

@@ -7,7 +7,8 @@
 </template>
 
 <script>
-import baseFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/baseFilterMixin/baseFilterMixin';
+import baseFilterMixin
+  from '@webitel/ui-sdk/src/modules/QueryFilters/mixins/baseFilterMixin/baseFilterMixin';
 
 export default {
   name: 'filter-table-fields',
@@ -79,7 +80,7 @@ export default {
 
     getFromLocalStorage({ filterQuery }) {
       const value = localStorage.getItem(`${this.entity}-${filterQuery}`);
-      return value ? value.split(',').map((item) => ({ value: item })) : '';
+      return value ? value.split(',') : null;
     },
 
     // copy-pasted params from "setValueArrayToQuery method

@@ -1,4 +1,4 @@
-import { shallowMount } from '@vue/test-utils';
+import { shallowMount, mount } from '@vue/test-utils';
 import { CallActions, CallDirection } from 'webitel-sdk';
 import CallWindowConversation from '../call-window-conversation.vue';
 
@@ -11,6 +11,7 @@ describe('CallWindowConversation', () => {
     call = {};
     agent = {};
     computed = {
+      ...CallWindowConversation.computed,
       now() { return Date.now(); },
       isVisible() { return true; },
       call() { return call; },
@@ -34,9 +35,9 @@ describe('CallWindowConversation', () => {
     const mock = jest.fn();
     jest.spyOn(CallWindowConversation.methods, 'answerCall')
     .mockImplementationOnce(mock);
-    const wrapper = shallowMount(CallWindowConversation, { computed });
+    const wrapper = mount(CallWindowConversation, { computed });
     const answerBtn = wrapper.findAllComponents({ name: 'wt-rounded-action' })
-    .wrappers.find((btn) => btn.props().icon === 'call-ringing');
+    .find((btn) => btn.props().icon === 'call-ringing');
 
     expect(answerBtn.isVisible()).toBe(true);
     answerBtn.vm.$emit('click');
@@ -44,7 +45,7 @@ describe('CallWindowConversation', () => {
   });
 
   it('shows sonar in header if not ringing and isnt expanded (by default)', () => {
-    const wrapper = shallowMount(CallWindowConversation, { computed });
+    const wrapper = mount(CallWindowConversation, { computed });
     const answerBtn = wrapper.find('.call-window-conversation-header__sonar');
     expect(answerBtn.isVisible()).toBe(true);
   });
@@ -56,46 +57,49 @@ describe('CallWindowConversation', () => {
     const mock = jest.fn();
     jest.spyOn(CallWindowConversation.methods, 'leaveCall')
     .mockImplementationOnce(mock);
-    const wrapper = shallowMount(CallWindowConversation, { computed });
+    const wrapper = mount(CallWindowConversation, { computed });
     const answerBtn = wrapper.findAllComponents({ name: 'wt-rounded-action' })
-    .wrappers.find((btn) => btn.props().icon === 'call-end');
+    .find((btn) => btn.props().icon === 'call-end');
 
     expect(answerBtn.isVisible()).toBe(true);
     answerBtn.vm.$emit('click');
     expect(mock).toHaveBeenCalled();
   });
 
-  it('shows main sonar if not ringing and is expanded', () => {
-    const wrapper = shallowMount(CallWindowConversation, {
+  it('shows main sonar if not ringing and is expanded', async () => {
+    const wrapper = mount(CallWindowConversation, {
       computed,
       data: () => ({ isExpanded: true }),
     });
+    await wrapper.findComponent({ name: 'call-window-wrapper' }).setData({ isExpanded: true });
     const answerBtn = wrapper.find('.call-window-conversation-content__sonar-wrapper');
     expect(answerBtn.isVisible()).toBe(true);
   });
 
-  it('mutes call', () => {
+  it('mutes call', async () => {
     const mock = jest.fn();
     jest.spyOn(CallWindowConversation.methods, 'toggleMute')
     .mockImplementationOnce(mock);
-    const wrapper = shallowMount(CallWindowConversation, { computed });
+    const wrapper = mount(CallWindowConversation, { computed });
+    await wrapper.findComponent({ name: 'call-window-wrapper' }).setData({ isExpanded: true });
     const answerBtn = wrapper.findAllComponents({ name: 'wt-rounded-action' })
-    .wrappers.find((btn) => btn.props().icon === 'mic');
+    .find((btn) => btn.props().icon === 'mic');
 
     expect(answerBtn.isVisible()).toBe(true);
     answerBtn.vm.$emit('click');
     expect(mock).toHaveBeenCalled();
   });
 
-  it('holds call', () => {
+  it('holds call', async () => {
     call.allowHold = true;
 
     const mock = jest.fn();
     jest.spyOn(CallWindowConversation.methods, 'toggleHold')
     .mockImplementationOnce(mock);
-    const wrapper = shallowMount(CallWindowConversation, { computed });
+    const wrapper = mount(CallWindowConversation, { computed });
+    await wrapper.findComponent({ name: 'call-window-wrapper' }).setData({ isExpanded: true });
     const answerBtn = wrapper.findAllComponents({ name: 'wt-rounded-action' })
-    .wrappers.find((btn) => btn.props().icon === 'hold');
+    .find((btn) => btn.props().icon === 'hold');
 
     expect(answerBtn.isVisible()).toBe(true);
     answerBtn.vm.$emit('click');

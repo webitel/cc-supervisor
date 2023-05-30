@@ -9,18 +9,18 @@ describe('Agent calls direction cell', () => {
    item = {};
   });
   it('renders a component', () => {
-    const wrapper = shallowMount(TableDirection, { propsData: { item } });
+    const wrapper = shallowMount(TableDirection, { props: { item } });
     expect(wrapper.exists()).toBe(true);
   });
   it('correctly computes outbound direction icon and color', () => {
     item.direction = CallDirection.Outbound;
-    const wrapper = shallowMount(TableDirection, { propsData: { item } });
+    const wrapper = shallowMount(TableDirection, { props: { item } });
     expect(wrapper.vm.directionIcon).toBe('call-outbound');
     expect(wrapper.vm.directionIconColor).toBe('success');
   });
   it('correctly computes inbound direction icon and color', () => {
     item.direction = CallDirection.Inbound;
-    const wrapper = shallowMount(TableDirection, { propsData: { item } });
+    const wrapper = shallowMount(TableDirection, { props: { item } });
     expect(wrapper.vm.directionIcon).toBe('call-inbound');
     expect(wrapper.vm.directionIconColor).toBe('accent');
   });

@@ -53,6 +53,14 @@ export default {
         m: '{m} хвилина | {m} хвилин',
       },
     },
+    rated: {
+      title: 'Оцінені',
+      options: {
+        yes: 'Так',
+        no: 'Ні',
+      },
+    },
+    ratedBy: 'Оцінені ким',
   },
   pages: {
     shared: {
@@ -101,6 +109,8 @@ export default {
       callAgent: 'Подзвонити',
       progressiveCount: 'Кількість одночасних дзвінків',
       chatCount: 'Кількість одночасних чатів',
+      ratedCalls: 'Оцінені дзвінки',
+      score: 'Рейтинг',
       general: {
         title: 'Головна',
         pauseCause: {
@@ -147,6 +157,8 @@ export default {
           queueWaitSec: 'Тривалість очікування в черзі',
           queueDurationSec: 'Тривалість в черзі',
           result: 'Результат',
+          ratedBy: 'Ким оцінений',
+          score: 'Оцінка',
           sipCode: 'SIP-код',
         },
       },

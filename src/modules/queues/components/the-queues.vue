@@ -1,11 +1,11 @@
 <template>
   <wt-page-wrapper>
-    <template slot="header">
+    <template v-slot:header>
       <wt-headline>
-        <template slot="title">
+        <template v-slot:title>
           {{ $t('pages.queue.title') }}
         </template>
-        <template slot="actions">
+        <template v-slot:actions>
           <filter-search :namespace="filtersNamespace" filter-query="search"/>
           <wt-button
             :loading="isCSVLoading"
@@ -16,10 +16,10 @@
         </template>
       </wt-headline>
     </template>
-    <template slot="actions-panel">
+    <template v-slot:actions-panel>
       <queue-filters :namespace="filtersNamespace"/>
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <section class="main-section-wrapper">
         <wt-loader v-show="isLoading"></wt-loader>
         <div class="table-wrapper" v-show="!isLoading">
@@ -41,30 +41,30 @@
             :grid-actions="false"
             @sort="sort"
           >
-            <template slot="queue" slot-scope="{ item }">
+            <template v-slot:queue="{ item }">
               <table-queue :item="item"/>
             </template>
-            <template slot="agents" slot-scope="{ item }">
+            <template v-slot:agents="{ item }">
               <table-agents :status="item.agentStatus"/>
             </template>
-            <template slot="free" slot-scope="{ item }">
+            <template v-slot:free="{ item }">
               <div v-if="item.agentStatus">
                 {{ item.agentStatus.free }}
               </div>
             </template>
-            <template slot="team" slot-scope="{ item }">
+            <template v-slot:team="{ item }">
               <table-team :item="item"/>
             </template>
-            <template slot="members" slot-scope="{ item }">
+            <template v-slot:members="{ item }">
               <table-members :item="item"/>
             </template>
-            <template slot="queue-footer">
+            <template v-slot:queue-footer>
               {{ $t('reusable.total') }}
             </template>
-            <template slot="agents-footer">
+            <template v-slot:agents-footer>
               <table-agents :status="aggs"/>
             </template>
-            <template slot="free-footer">
+            <template v-slot:free-footer>
               {{ aggs.free }}
             </template>
           </wt-table>

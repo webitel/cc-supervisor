@@ -54,6 +54,14 @@ export default {
         m: '{m} minute | {m} minutes',
       },
     },
+    rated: {
+      title: 'Rated',
+      options: {
+        yes: 'Yes',
+        no: 'No',
+      },
+    },
+    ratedBy: 'Rated by',
   },
   pages: {
     shared: {
@@ -102,6 +110,8 @@ export default {
       callAgent: 'Call',
       progressiveCount: 'Progressive call count',
       chatCount: 'Progressive chat count',
+      ratedCalls: 'Rated calls',
+      score: 'Score',
       general: {
         title: 'General',
         pauseCause: {
@@ -148,6 +158,8 @@ export default {
           queueWaitSec: 'Queue wait',
           queueDurationSec: 'Queue duration',
           result: 'Result',
+          ratedBy: 'Rated by',
+          score: 'Score',
           sipCode: 'SIP code',
         },
       },

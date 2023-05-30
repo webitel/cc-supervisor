@@ -2,6 +2,13 @@
   <wt-filters-panel-wrapper @reset="resetFilters">
     <filter-from :namespace="filtersNamespace"/>
     <filter-to :namespace="filtersNamespace"/>
+    <component
+      v-for="(filter) of availableFilters"
+      :key="filter.filterQuery"
+      :is="`abstract-${filter.type}-filter`"
+      :filter-query="filter.filterQuery"
+      :namespace="filtersNamespace"
+    ></component>
   </wt-filters-panel-wrapper>
 </template>
 
@@ -9,12 +16,13 @@
 import { mapActions } from 'vuex';
 import tableActionsHandlerMixin
   from '../../../../../../../../../app/mixins/supervisor-workspace/tableActionsHandlerMixin';
+import filtersPanelMixin from '../../../../../../../../../app/mixins/supervisor-workspace/filtersPanelMixin';
 import FilterFrom from '../../../../../../../../_shared/filters/components/filter-from.vue';
 import FilterTo from '../../../../../../../../_shared/filters/components/filter-to.vue';
 
 export default {
   name: 'agent-calls-filters',
-  mixins: [tableActionsHandlerMixin],
+  mixins: [filtersPanelMixin],
   components: {
     FilterFrom,
     FilterTo,
@@ -24,6 +32,12 @@ export default {
       type: String,
     },
   },
+  data: () => ({
+    filters: [
+      { type: 'enum', filterQuery: 'rated' },
+      { type: 'api', filterQuery: 'ratedBy' },
+    ],
+  }),
   computed: {
     filtersNamespace() {
       return `${this.namespace}/filters`;

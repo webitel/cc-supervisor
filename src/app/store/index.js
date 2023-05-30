@@ -1,5 +1,4 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import { createStore } from 'vuex';
 import now from '@webitel/cc-ui-sdk/src/store/modules/now/reactive-now';
 import userinfo from '../../modules/userinfo/store/userinfo';
 import queues from '../../modules/queues/store/queues';
@@ -8,10 +7,7 @@ import agentChats from '../../modules/agents/modules/agent-card/store/_unused/ag
 import activeCalls from '../../modules/active-calls/store/active-calls';
 import agentAttentions from '../../modules/agents/modules/agent-card/store/_unused/agent-attentions';
 import call from '../../modules/call-window/store/call';
-
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+export default new createStore({
   actions: {
     OPEN_SESSION: async (context) => Promise.all([
         context.dispatch('userinfo/OPEN_SESSION'),

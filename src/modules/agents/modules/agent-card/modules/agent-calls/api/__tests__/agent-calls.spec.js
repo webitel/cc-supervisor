@@ -19,6 +19,7 @@ const expectItems = [{
   holdSec: null,
   waitSec: null,
   reportingSec: null,
+  scoreRequired: null,
 }];
 
 /* mock SDK method api response with instance mock

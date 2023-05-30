@@ -12,6 +12,7 @@ describe('CallWindowEavesdrop', () => {
     agent = {};
     client = {};
     computed = {
+      ...CallWindowEavesdrop.computed,
       now() { return Date.now(); },
       isOpened() { return true; },
       call() { return call; },
@@ -26,9 +27,9 @@ describe('CallWindowEavesdrop', () => {
   });
 
   it('by default shows ear icon at header', () => {
-    const wrapper = shallowMount(CallWindowEavesdrop, { computed });
+    const wrapper = mount(CallWindowEavesdrop, { computed });
     const btn = wrapper.findAllComponents({ name: 'wt-icon' })
-    .wrappers.find((btn) => btn.props().icon === 'sv-ear');
+    .find((btn) => btn.props().icon === 'sv-ear');
 
     expect(btn.isVisible()).toBe(true);
   });
@@ -37,35 +38,38 @@ describe('CallWindowEavesdrop', () => {
     const mock = jest.fn();
     jest.spyOn(CallWindowEavesdrop.methods, 'closeWindow')
     .mockImplementationOnce(mock);
-    const wrapper = shallowMount(CallWindowEavesdrop, { computed });
+    const wrapper = mount(CallWindowEavesdrop, { computed });
     const btn = wrapper.findAllComponents({ name: 'wt-rounded-action' })
-    .wrappers.find((btn) => btn.props().icon === 'close');
+    .find((btn) => btn.props().icon === 'close');
 
     expect(btn.isVisible()).toBe(true);
     btn.vm.$emit('click');
     expect(mock).toHaveBeenCalled();
   });
 
-  it('at isExpanded=true shows main ear icon', () => {
-    const wrapper = shallowMount(CallWindowEavesdrop, {
+  it('at isExpanded=true shows main ear icon', async () => {
+    const wrapper = mount(CallWindowEavesdrop, {
       computed,
       data: () => ({ isExpanded: true }),
     });
+    await wrapper.findComponent({ name: 'call-window-wrapper' }).setData({ isExpanded: true });
+    console.info(wrapper.html());
     const btn = wrapper
     .find('.call-window-eavesdrop-content')
     .findAllComponents({ name: 'wt-icon' })
-    .wrappers.find((btn) => btn.props().icon === 'sv-ear');
+    .find((btn) => btn.props().icon === 'sv-ear');
 
     expect(btn.isVisible()).toBe(true);
   });
 
-  it('mutes call', () => {
+  it('mutes call', async () => {
     const mock = jest.fn();
     jest.spyOn(CallWindowEavesdrop.methods, 'mute')
     .mockImplementationOnce(mock);
-    const wrapper = shallowMount(CallWindowEavesdrop, { computed });
+    const wrapper = mount(CallWindowEavesdrop, { computed });
+    await wrapper.findComponent({ name: 'call-window-wrapper' }).setData({ isExpanded: true });
     const btn = wrapper.findAllComponents({ name: 'wt-rounded-action' })
-    .wrappers.find((btn) => btn.props().icon === 'mic');
+    .find((btn) => btn.props().icon === 'mic');
 
     expect(btn.isVisible()).toBe(true);
     btn.vm.$emit('click');
@@ -86,7 +90,7 @@ describe('CallWindowEavesdrop', () => {
     await wrapper.vm.$nextTick();
 
     const btn = wrapper.findAllComponents({ name: 'wt-rounded-action' })
-    .wrappers.find((btn) => btn.props().icon === 'prompter');
+    .find((btn) => btn.props().icon === 'prompter');
 
     expect(btn.isVisible()).toBe(true);
     btn.vm.$emit('click');
@@ -107,7 +111,7 @@ describe('CallWindowEavesdrop', () => {
     await wrapper.vm.$nextTick();
 
     const btn = wrapper.findAllComponents({ name: 'wt-rounded-action' })
-    .wrappers.find((btn) => btn.props().icon === 'conference');
+    .find((btn) => btn.props().icon === 'conference');
 
     expect(btn.isVisible()).toBe(true);
     btn.vm.$emit('click');

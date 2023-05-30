@@ -1,10 +1,6 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils';
-import Vuex from 'vuex';
-import card from '../../store/agent-card';
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import AgentPage from '../agent-card.vue';
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
 
 jest.mock('../../../../api/agents');
 
@@ -28,7 +24,7 @@ describe('Agent page', () => {
     actionsMock.SET_AGENT_ID.mockClear();
     actionsMock.LOAD_AGENT.mockClear();
 
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         agents: {
           namespaced: true,
@@ -44,11 +40,12 @@ describe('Agent page', () => {
     });
 
     mountOptions = {
-      store,
-      localVue,
-      mocks: {
-        $router,
-        $route,
+      global: {
+        mocks: {
+          $router,
+          $route,
+        },
+        plugins: [store],
       },
     };
   });
@@ -58,8 +55,9 @@ describe('Agent page', () => {
     expect(wrapper.classes('agent-page'))
     .toBe(true);
   });
-  it('initially sets 1st tab as current', () => {
+  it('initially sets 1st tab as current', async () => {
     const wrapper = shallowMount(AgentPage, mountOptions);
+    await wrapper.vm.$nextTick();
     expect(wrapper.vm.currentTab)
     .toEqual(wrapper.vm.tabs[0]);
   });
