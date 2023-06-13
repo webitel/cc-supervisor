@@ -20,6 +20,7 @@ import navAccessMixin from '../../../../app/mixins/supervisor-workspace/navMixin
 export default {
   name: 'app-header',
   mixins: [navAccessMixin],
+  inject: ['$config'],
   data: () => ({
     buildInfo: {
       release: process.env.VUE_APP_PACKAGE_VERSION,
