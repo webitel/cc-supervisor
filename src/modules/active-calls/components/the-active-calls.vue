@@ -15,7 +15,14 @@
     <template v-slot:main>
       <section class="main-section-wrapper">
         <wt-loader v-show="isLoading"></wt-loader>
-        <div class="table-wrapper" v-show="!isLoading">
+        <wt-dummy
+          v-if="dummyValue && !isLoading"
+          :src="dummyValue.src"
+          :locale="dummyValue.locale"
+          :size="300"
+          class="main-section-wrapper__dummy"
+        ></wt-dummy>
+        <div class="table-wrapper" v-show="!isLoading && !dummyValue">
           <wt-table-actions
             class="table-wrapper__actions-wrapper"
             :icons="['refresh']"
@@ -82,6 +89,8 @@ import FilterFields from '../../_shared/filters/components/filter-table-fields.v
 import ActiveCallsFilters from '../modules/filters/components/active-calls-filters.vue';
 import TableActiveCallState from './_internals/table-templates/table-active-call-state.vue';
 import TableDirection from './_internals/table-templates/table-direction.vue';
+import Dummy from '../assets/sv-dummy.svg';
+import DummyAfterSearch from '../assets/sv-dummy-after-search.svg';
 
 export default {
   name: 'the-active-calls',
@@ -99,6 +108,23 @@ export default {
   data: () => ({
     namespace: 'activeCalls',
   }),
+  computed: {
+    dummyValue() {
+      if (!this.dataList.length) {
+        if (Object.values(this.$route.query).some((query) => query.length)) {
+          return {
+            src: DummyAfterSearch,
+            locale: this.$t('pages.activeCall.empty.resultSearch'),
+          };
+        }
+        return {
+          src: Dummy,
+          locale: this.$t('pages.activeCall.empty.workspace'),
+        };
+      }
+      return '';
+    },
+  },
   methods: {
     ...mapActions('call', {
       attachToCall: 'ATTACH_TO_CALL',
@@ -114,4 +140,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.main-section-wrapper__dummy {
+  min-height: 100%;
+}
 </style>
