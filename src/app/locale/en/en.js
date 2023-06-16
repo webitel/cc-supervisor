@@ -213,6 +213,10 @@ export default {
         user: 'User',
         dtmf: 'DTMF',
       },
+      empty: {
+        workspace: 'No active calls at the moment',
+        resultSearch: 'Please check the filters query',
+      },
     },
     startPage: {
       [SupervisorSections.QUEUES]: {

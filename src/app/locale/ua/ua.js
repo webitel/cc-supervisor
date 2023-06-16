@@ -212,6 +212,10 @@ export default {
         user: 'Користувач',
         dtmf: 'DTMF',
       },
+      empty: {
+        workspace: 'Немає активних дзвінків',
+        resultSearch: 'Будь ласка, перевірте налаштування фільтрів',
+      },
     },
     startPage: {
       [SupervisorSections.QUEUES]: {
