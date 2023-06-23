@@ -18,7 +18,7 @@
         <wt-dummy
           v-if="dummyValue && !isLoading"
           :src="dummyValue.src"
-          :locale="dummyValue.locale"
+          :text="dummyValue.text"
           :size="300"
           class="main-section-wrapper__dummy"
         ></wt-dummy>
@@ -114,12 +114,12 @@ export default {
         if (Object.values(this.$route.query).some((query) => query.length)) {
           return {
             src: DummyAfterSearch,
-            locale: this.$t('pages.activeCall.empty.resultSearch'),
+            text: this.$t('pages.activeCall.empty.resultSearch'),
           };
         }
         return {
           src: Dummy,
-          locale: this.$t('pages.activeCall.empty.workspace'),
+          text: this.$t('pages.activeCall.empty.workspace'),
         };
       }
       return '';
