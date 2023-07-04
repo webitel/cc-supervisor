@@ -40,7 +40,7 @@ export default class TableStoreModule extends BaseStoreModule {
        preventively disable isNext to handle case when user is clicking
         "next" faster than actual request is made
       */
-      context.commit('SET_IS_NEXT', false);
+      context.commit('SET_NEXT', false);
 
       const _params = context.getters.GET_LIST_PARAMS(params);
       const { items, next, aggs = {} } = await context.dispatch('GET_LIST', _params);

@@ -51,19 +51,19 @@ describe('Table Store Module: actions', () => {
     const items = [{ jest: 'jest' }];
     context.dispatch = jest.fn(() => ({ items }));
     await module.actions.LOAD_DATA_LIST(context);
-    expect(context.commit).toHaveBeenNthCalledWith(1, 'SET_LIST', items);
+    expect(context.commit).toHaveBeenNthCalledWith(2, 'SET_LIST', items);
   });
   it('LOAD_DATA_LIST commits SET_NEXT with "next", get from GET_LIST', async () => {
     const next = true;
     context.dispatch = jest.fn(() => ({ next }));
     await module.actions.LOAD_DATA_LIST(context);
-    expect(context.commit).toHaveBeenNthCalledWith(2, 'SET_NEXT', next);
+    expect(context.commit).toHaveBeenNthCalledWith(3, 'SET_NEXT', next);
   });
   it('LOAD_DATA_LIST commits SET_AGGS with "aggs", get from GET_LIST', async () => {
     const aggs = { jest: 'jest' };
     context.dispatch = jest.fn(() => ({ aggs }));
     await module.actions.LOAD_DATA_LIST(context);
-    expect(context.commit).toHaveBeenNthCalledWith(3, 'SET_AGGS', aggs);
+    expect(context.commit).toHaveBeenNthCalledWith(4, 'SET_AGGS', aggs);
   });
   it('SET_HEADERS commits SET_HEADERS with passed value', () => {
     module.actions.SET_HEADERS(context, headers);
