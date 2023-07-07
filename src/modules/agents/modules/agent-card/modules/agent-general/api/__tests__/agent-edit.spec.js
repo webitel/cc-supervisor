@@ -1,4 +1,4 @@
-import instance from '../../../../../../../../app/api/instance';
+import instance from '../../../../../../../../app/api/old/instance';
 import AgentAPI from '../agent-edit';
 
 /* mock SDK method api response with instance mock

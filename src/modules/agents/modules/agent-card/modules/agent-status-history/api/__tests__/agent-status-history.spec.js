@@ -1,4 +1,4 @@
-import instance from '../../../../../../../../app/api/instance';
+import instance from '../../../../../../../../app/api/old/instance';
 import AgentStatusHistoryAPI from '../agent-status-history';
 
 const time = 123;

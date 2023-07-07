@@ -1,4 +1,4 @@
-import instance from '../../../../../../../../app/api/instance';
+import instance from '../../../../../../../../app/api/old/instance';
 import PauseCauseAPI from '../pause-cause';
 
 const items = [{ id: 1, name: 'jest' }];

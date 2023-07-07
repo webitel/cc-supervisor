@@ -1,4 +1,4 @@
-import instance from '../../../../app/api/instance';
+import instance from '../../../../app/api/old/instance';
 import QueuesAPI from '../queues';
 
 const items = [{
