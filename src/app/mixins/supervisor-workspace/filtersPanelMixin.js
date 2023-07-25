@@ -1,6 +1,8 @@
-import AbstractApiFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-api-filter.vue';
-import AbstractEnumFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-enum-filter.vue';
+// import AbstractApiFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-api-filter.vue';
+// import AbstractEnumFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-enum-filter.vue';
 import { mapActions, mapState } from 'vuex';
+import AbstractApiFilter from '../../../modules/queues/modules/filters/components/api-filter.vue';
+import AbstractEnumFilter from '../../../modules/queues/modules/filters/components/enum-filter.vue';
 import tableActionsHandlerMixin from './tableActionsHandlerMixin';
 
 export default {
