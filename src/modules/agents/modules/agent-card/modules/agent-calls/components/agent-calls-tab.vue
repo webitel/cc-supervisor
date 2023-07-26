@@ -48,6 +48,11 @@
             {{ item.queue.name }}
           </div>
         </template>
+        <template v-slot:gateway="{ item }">
+          <div v-if="item.gateway">
+            {{ item.gateway.name }}
+          </div>
+        </template>
         <template v-slot:ratedBy="{ item }">
           <div v-if="item.ratedBy">
             {{ item.ratedBy.name }}
