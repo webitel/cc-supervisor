@@ -85,6 +85,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import MediaAction from '../../../../../../../app/components/utils/table-media-action.vue';
 import playMediaMixin from '../../../../../../../app/mixins/media/playMediaMixin';
@@ -113,13 +114,17 @@ export default {
       type: String,
     },
   },
+  computed: {
+    ...mapState('userinfo', {
+      userId: (state) => state.userId,
+    }),
+  },
   methods: {
     loadList() {
-      const agentId = this.$route.params.id;
       const { query } = this.$route;
       return this.loadDataList({
         ...query,
-        agentId,
+        userId: this.userId,
       });
     },
   },

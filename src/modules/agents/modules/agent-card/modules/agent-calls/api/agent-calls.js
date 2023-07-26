@@ -40,6 +40,7 @@ const _getAgentCallsList = (getList) => function ({
                                                     size = 10,
                                                     search = '',
                                                     agentId,
+  userId,
                                                     rated,
                                                     ratedBy,
                                                     sort = '-created_at',
@@ -47,7 +48,7 @@ const _getAgentCallsList = (getList) => function ({
                                                     from = new Date().setHours(0, 0, 0, 0),
                                                     to = new Date().setHours(23, 59, 59, 999),
                                                   }) {
-  const params = [page, size, search, sort, fields.concat(['id', 'files']), from, to, undefined, agentId,
+  const params = [page, size, search, sort, fields.concat(['id', 'files']), from, to, userId, agentId,
     undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined,
     undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined,
     undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined,
