@@ -120,8 +120,8 @@ export default {
     },
   },
   computed: {
-    ...mapState('userinfo', {
-      userId: (state) => state.userId,
+    ...mapState('agents/card', {
+      userId: (state) => state.agent.user.id,
     }),
   },
   methods: {

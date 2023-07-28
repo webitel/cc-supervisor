@@ -1,4 +1,4 @@
-import editProxy from '@webitel/ui-sdk/src/scripts/editProxy';
+  import editProxy from '@webitel/ui-sdk/src/scripts/editProxy';
 import AgentAPI from '../api/agent-card';
 import statusSelect from '../modules/agent-status-select/store/agent-status-select';
 import agentEdit from '../modules/agent-general/store/agent-edit';
