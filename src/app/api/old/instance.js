@@ -1,6 +1,10 @@
 import axios from 'axios';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import { objCamelToSnake, objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import updateTokenInterceptor
+  from '@webitel/ui-sdk/src/api/interceptors/request/updateToken.interceptor';
+import handleUnauthorizedInterceptor
+  from '@webitel/ui-sdk/src/api/interceptors/response/handleUnauthorized.interceptor';
 
 // global API configuration
 // 'X-Webitel-Access' ~ 'X-Access-Token'
@@ -8,8 +12,6 @@ const instance = axios.create({
   baseURL: process.env.VUE_APP_API_URL,
   headers: {
     'X-Webitel-Access': localStorage.getItem('access-token') || '',
-    // 'X-Webitel-Access': 'USER_TOKEN',
-    // 'X-Webitel-Access': 'ITS_TOKEN',
   },
 });
 
@@ -40,6 +42,8 @@ instance.interceptors.request.use(
   },
 );
 
+instance.interceptors.request.use(...updateTokenInterceptor);
+
 instance.interceptors.response.use(
   (response) => objSnakeToCamel(response.data),
   (error) => { // catches 401 error across all api's
@@ -55,5 +59,7 @@ instance.interceptors.response.use(
     return Promise.reject(error.response.data);
   },
 );
+
+instance.interceptors.response.use(...handleUnauthorizedInterceptor);
 
 export default instance;
