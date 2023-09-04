@@ -14,6 +14,7 @@ jest.spyOn(agents.modules.card.actions, 'LOAD_AGENT')
 
 const store = createStore({
   modules: { agents },
+  state: { api: {} },
 });
 
 describe('Agent panel', () => {
@@ -34,10 +35,10 @@ describe('Agent panel', () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it('calls "LOAD_AGENT" at @changed agent-status-select event', () => {
+  it('calls "LOAD_AGENT" at @changed wt-cc-agent-status-select event', () => {
     const wrapper = mount(AgentPanel, mountOptions);
     const newStatus = { status: 'jest' };
-    wrapper.findComponent({ name: 'agent-status-select' })
+    wrapper.findComponent({ name: 'wt-cc-agent-status-select' })
       .vm.$emit('changed', newStatus);
     expect(LOAD_AGENT_MOCK.mock.calls[0][1]).toEqual(newStatus);
   });

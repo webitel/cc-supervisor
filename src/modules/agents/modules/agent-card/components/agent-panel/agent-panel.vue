@@ -50,7 +50,6 @@ import { mapActions, mapState } from 'vuex';
 import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/components/wt-cc-agent-status-select.vue';
 import AgentProfile from './_internals/agent-profile.vue';
 import AgentStatusTimers from './_internals/agent-status-timers.vue';
-// import AgentStatusSelect from '../../modules/agent-status-select/components/agent-status-select.vue';
 
 export default {
   name: 'agent-panel',

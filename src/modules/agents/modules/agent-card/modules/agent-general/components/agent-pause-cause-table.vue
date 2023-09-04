@@ -31,14 +31,13 @@
         </template>
       </wt-table>
     </div>
-    </article>
+  </article>
 </template>
 
 <script>
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
-import pauseCauseDurationMixin from '../../agent-status-select/mixins/pauseCauseDurationMixin';
 
 const prettifyPauseCauseDuration = (min) => {
   const SEC_IN_MIN = 60;
@@ -51,7 +50,6 @@ export default {
   mixins: [
     tablePageMixin,
     sortFilterMixin,
-    pauseCauseDurationMixin,
   ],
   props: {
     namespace: {
@@ -60,10 +58,23 @@ export default {
     },
   },
   methods: {
+    isDurationOverflow({ durationMin, limitMin }) {
+      return (durationMin > limitMin) && limitMin !== 0;
+    },
+    optionDuration({ durationMin, limitMin }) {
+      return this.isDurationOverflow({ durationMin, limitMin })
+        ? `-${durationMin - limitMin} ${this.$t('packages.agentStatusSelect.pauseCausePopup.min')}`
+        : `${durationMin} ${this.$t('packages.agentStatusSelect.pauseCausePopup.min')}`;
+    },
+    optionLimit({ limitMin }) {
+      return limitMin
+        ? `${limitMin} ${this.$t('packages.agentStatusSelect.pauseCausePopup.min')}`
+        : this.$t('packages.agentStatusSelect.pauseCausePopup.unlimited');
+    },
     prettifyPauseCauseDuration,
     duration({ durationMin, limitMin }) {
       return this.isDurationOverflow({ durationMin, limitMin })
-      ? `-${prettifyPauseCauseDuration(durationMin - limitMin)}`
+        ? `-${prettifyPauseCauseDuration(durationMin - limitMin)}`
         : prettifyPauseCauseDuration(durationMin);
     },
     pauseCauseProgressColor({ durationMin, limitMin }) {
