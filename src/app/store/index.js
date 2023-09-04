@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import now from '@webitel/cc-ui-sdk/src/store/modules/now/reactive-now';
+import ReactiveNowStoreModule from '@webitel/ui-sdk/src/store/ReactiveNowStoreModule/ReactiveNowStoreModule';
 import userinfo from '../../modules/userinfo/store/userinfo';
 import queues from '../../modules/queues/store/queues';
 import agents from '../../modules/agents/store/agents';
@@ -7,7 +7,13 @@ import agentChats from '../../modules/agents/modules/agent-card/store/_unused/ag
 import activeCalls from '../../modules/active-calls/store/active-calls';
 import agentAttentions from '../../modules/agents/modules/agent-card/store/_unused/agent-attentions';
 import call from '../../modules/call-window/store/call';
-export default new createStore({
+import instance from '../api/instance';
+import OpenAPIConfig from '../api/utils/openAPIConfig';
+
+export default createStore({
+  state: {
+    api: { instance, OpenAPIConfig },
+  },
   actions: {
     OPEN_SESSION: async (context) => Promise.all([
         context.dispatch('userinfo/OPEN_SESSION'),
@@ -24,7 +30,7 @@ export default new createStore({
     agentChats,
     agentAttentions,
     call,
-    now,
+    now: new ReactiveNowStoreModule().getModule(),
     activeCalls,
   },
 });

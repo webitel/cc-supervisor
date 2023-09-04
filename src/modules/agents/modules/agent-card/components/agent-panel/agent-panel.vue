@@ -27,7 +27,12 @@
       </div>
     </div>
     <div class="agent-panel-wrap">
-      <agent-status-select :namespace="namespace" @changed="loadAgent"/>
+      <agent-status-select
+        :agent-id="agent.agentId"
+        :status="agent.status"
+        :status-duration="agent.statusDuration"
+        @changed="loadAgent"
+      ></agent-status-select>
       <agent-status-timers :status="agent"></agent-status-timers>
       <wt-button
         class="agent-panel__call-btn"
@@ -42,9 +47,10 @@
 <script>
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
+import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/components/wt-cc-agent-status-select.vue';
 import AgentProfile from './_internals/agent-profile.vue';
 import AgentStatusTimers from './_internals/agent-status-timers.vue';
-import AgentStatusSelect from '../../modules/agent-status-select/components/agent-status-select.vue';
+// import AgentStatusSelect from '../../modules/agent-status-select/components/agent-status-select.vue';
 
 export default {
   name: 'agent-panel',
