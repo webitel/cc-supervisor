@@ -1,12 +1,13 @@
 <template>
   <wt-filters-panel-wrapper @reset="resetFilters">
-  <component
-    v-for="(filter) of availableFilters"
-    :key="filter.filterQuery"
-    :is="`abstract-${filter.type}-filter`"
-    :filter-query="filter.filterQuery"
-    :namespace="namespace"
-  ></component>
+    <component
+      :is="`abstract-${filter.type}-filter`"
+      v-for="(filter) of availableFilters"
+      :key="filter.filterQuery"
+      :filter-query="filter.filterQuery"
+      :namespace="namespace"
+      option-label
+    ></component>
 <!--    <skip-parent-filter-->
 <!--      :namespace="namespace"-->
 <!--    ></skip-parent-filter>-->
