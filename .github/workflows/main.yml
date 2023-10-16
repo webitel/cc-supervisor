@@ -1,4 +1,4 @@
-name: Workspace CI
+name: Supervisor CI
 
 on:
   push:
