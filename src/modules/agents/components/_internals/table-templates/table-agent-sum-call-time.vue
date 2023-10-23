@@ -4,7 +4,6 @@
     <wt-icon-btn
       v-if="item.activeCallId"
       icon="sound-on"
-      color="true"
       @click="$emit('attach-call', item.activeCallId)">
     </wt-icon-btn>
   </div>

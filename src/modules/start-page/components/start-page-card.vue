@@ -1,7 +1,7 @@
 <template>
   <article class="start-page-card">
     <header class="start-page-card__header">
-      <wt-icon v-if="card.disabled" icon="lock" color="false"/>
+      <wt-icon v-if="card.disabled" icon="lock"/>
       {{ card.name }}
     </header>
     <section class="start-page-card__main-section">

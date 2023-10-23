@@ -5,7 +5,7 @@
         <wt-icon
           v-show="!isExpanded"
           :icon="stateIcon"
-          color="danger"
+          color="error"
         ></wt-icon>
       </div>
       <wt-avatar
@@ -13,7 +13,7 @@
       ></wt-avatar>
       <wt-rounded-action
         icon="close"
-        color="danger"
+        color="error"
         rounded
         @click="closeWindow"
       ></wt-rounded-action>
@@ -46,7 +46,7 @@
       <div class="call-window-eavesdrop-content">
         <wt-icon
           :icon="stateIcon"
-          color="danger"
+          color="error"
           size="lg"
         ></wt-icon>
         <p class="call-window-eavesdrop-content__duration">

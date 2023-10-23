@@ -23,7 +23,7 @@ export default {
     },
     directionIconColor() {
       switch (this.directionIcon) {
-        case 'call-inbound': return 'accent';
+        case 'call-inbound': return 'primary';
         case 'call-outbound': return 'success';
         default: return '';
       }
