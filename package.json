@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.18.2",
+    "@happy-dom/jest-environment": "^12.9.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@vue/cli-plugin-babel": "~5.0.8",
     "@vue/cli-plugin-eslint": "~5.0.8",
@@ -47,6 +48,7 @@
     "eslint-plugin-vue": "^8.7.1",
     "husky": "^7.0.0",
     "jest-environment-jsdom": "^29.4.3",
+    "jest-mock-axios": "^4.7.3",
     "jsdom": "^16.4.0",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "sass": "^1.52.1",
