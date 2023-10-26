@@ -22,6 +22,6 @@ describe('Agent calls direction cell', () => {
     item.direction = CallDirection.Inbound;
     const wrapper = shallowMount(TableDirection, { props: { item } });
     expect(wrapper.vm.directionIcon).toBe('call-inbound');
-    expect(wrapper.vm.directionIconColor).toBe('accent');
+    expect(wrapper.vm.directionIconColor).toBe('primary');
   });
 });
