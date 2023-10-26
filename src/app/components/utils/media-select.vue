@@ -75,7 +75,7 @@ export default {
       background: var(--accent-secondary-color);
 
       .wt-icon ::v-deep .wt-icon__icon {
-        fill: var(--icon--hover-color);
+        fill: var(--icon-btn-hover-color);
       }
     }
 
