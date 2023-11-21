@@ -4,11 +4,8 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake,
   merge,
-  mergeEach,
   notify,
-  sanitize,
   snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
@@ -55,35 +52,11 @@ const listResponseHandler = (response) => {
   };
 };
 
-// const _getQueuesList = (getList) => function ({
-//                                                 page = 1,
-//                                                 size = 10,
-//                                                 period,
-//                                                 search = '',
-//                                                 sort = '+priority',
-//                                                 fields,
-//                                                 queue,
-//                                                 team,
-//                                                 queueType,
-//                                               } = {}) {
-//   const {
-//     joinedAtFrom,
-//     joinedAtTo
-//   } = parseJoined(period);
-//   const reqParams = [page, size, joinedAtFrom, joinedAtTo, undefined, fields, sort,
-//     search, queue, team, queueType];
-//   return getList(reqParams);
-// };
-
-// const listGetter = new SdkListGetterApiConsumer(queueService.searchQueueReportGeneral,
-//   { listResponseHandler })
-//   .setGetListMethod(_getQueuesList);
-
 const getQueuesList = async (params) => {
 
   const {
-    page = 1,
-    size = 10,
+    page,
+    size,
     period,
     search = '',
     sort = '+priority',
@@ -115,18 +88,18 @@ const getQueuesList = async (params) => {
       team,
       queueType,
     );
-    const { items, next } = applyTransform(response.data, [
+    const { items, next, aggs } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
       listResponseHandler,
     ]);
     return {
       items,
+      aggs,
       next,
     };
   } catch (err) {
     throw applyTransform(err, [
-
       notify,
     ]);
   }

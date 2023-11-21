@@ -1,7 +1,6 @@
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { AgentServiceApiFactory } from 'webitel-sdk';
-import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../app/api/old/instance';
+import instance from '../../../app/api/instance';
 import configuration from '../../../app/api/utils/openAPIConfig';
 import applyTransform, {
   merge, mergeEach,
@@ -18,38 +17,6 @@ const convertStatusDuration = (value) => {
   return convertDuration(value);
 };
 
-const _getAgentsList = (getList) => function ({
-                                                page = 1,
-                                                size = 10,
-                                                search = '',
-                                                sort = '+name',
-                                                ids,
-                                                fields = [],
-                                                from = new Date().setHours(0, 0, 0, 0),
-                                                to = new Date().setHours(23, 59, 59, 999),
-                                                status,
-                                                queue,
-                                                team,
-                                                skill,
-                                                supervisor,
-                                                auditor,
-                                                region,
-                                                utilization, // utilizationTo
-                                                callNow,
-                                              }) {
-  const utilizationFrom = '0';
-  const params = [page, size, search, sort, fields, ids, from, to, status, queue, team,
-    utilizationFrom, utilization, callNow, skill, region, supervisor, auditor];
-  return getList(params);
-};
-
-// const listGetter = new SdkListGetterApiConsumer(agentService.searchAgentStatusStatistic,
-//   {
-//     listResponseHandler,
-//     defaultListObject,
-//   })
-//   .setGetListMethod(_getAgentsList);
-
 export const getAgentsList = async (params) => {
   const defaultObject = {
     offline: 0,
@@ -62,8 +29,8 @@ export const getAgentsList = async (params) => {
     occupancy: 0,
   };
 
-  const responseHandler = (response) => {
-    const items = response.items.map((item) => ({
+  const itemsHandler = (items) => {
+    return items.map((item) => ({
       ...item,
       _isSelected: false,
       statusDuration: convertStatusDuration(item.statusDuration),
@@ -75,21 +42,25 @@ export const getAgentsList = async (params) => {
       callTime: convertDuration(item.callTime),
       chatTime: convertDuration(item.chatTime),
     }));
-    return {
-      ...response,
-      items,
-    };
+  };
+
+  const defaultParams = {
+    search: '',
+    sort: '+name',
+    fields: [],
+    from: new Date().setHours(0, 0, 0),
+    to: new Date().setHours(23, 59, 59, 999),
   };
 
   const {
-    page = 1,
-    size = 10,
-    search = '',
-    sort = '+name',
+    page,
+    size,
+    search,
+    sort,
     ids,
-    fields = [],
-    from = new Date().setHours(0, 0, 0, 0),
-    to = new Date().setHours(23, 59, 59, 999),
+    fields,
+    from,
+    to,
     status,
     queue,
     team,
@@ -101,6 +72,7 @@ export const getAgentsList = async (params) => {
     callNow,
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
+    merge(defaultParams),
     starToSearch('search'),
   ]);
 
@@ -130,11 +102,11 @@ export const getAgentsList = async (params) => {
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
-      responseHandler,
     ]);
     return {
       items: applyTransform(items, [
         mergeEach(defaultObject),
+        itemsHandler,
       ]),
       next,
     };
