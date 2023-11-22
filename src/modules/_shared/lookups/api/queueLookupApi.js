@@ -4,11 +4,8 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake,
   merge,
-  mergeEach,
   notify,
-  sanitize,
   snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
@@ -17,8 +14,42 @@ import configuration from '../../../../app/api/utils/openAPIConfig';
 
 const queueService = new QueueServiceApiFactory(configuration, '', instance);
 
-// const listGetter = new SdkListGetterApiConsumer(queueService.searchQueue);
 
-const getList = (params) => listGetter.getLookup(params);
+const getList = async (params) => {
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
+
+  try {
+    const response = await queueService.searchQueue(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
 
 export default getList;

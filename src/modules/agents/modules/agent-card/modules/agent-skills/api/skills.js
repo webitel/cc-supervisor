@@ -4,11 +4,8 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake,
   merge,
-  mergeEach,
   notify,
-  sanitize,
   snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
@@ -16,8 +13,6 @@ import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/utils/openAPIConfig';
 
 const skillService = new SkillServiceApiFactory(configuration, '', instance);
-
-// const listGetter = new SdkListGetterApiConsumer(skillService.searchSkill);
 
 const getSkillsList = async (params) => {
   const {
