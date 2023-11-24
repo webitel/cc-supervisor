@@ -53,19 +53,24 @@ const listResponseHandler = (response) => {
 };
 
 const getQueuesList = async (params) => {
+  const defaultParams = {
+    search: '',
+    sort: '+priority',
+  };
 
   const {
     page,
     size,
     period,
-    search = '',
-    sort = '+priority',
+    search,
+    sort,
     fields,
     queue,
     team,
     queueType,
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
+    merge(defaultParams),
     starToSearch('search'),
   ]);
 

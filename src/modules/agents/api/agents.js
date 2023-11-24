@@ -18,6 +18,13 @@ const convertStatusDuration = (value) => {
 };
 
 export const getAgentsList = async (params) => {
+  const defaultParams = {
+    search: '',
+    sort: '+name',
+    fields: [],
+    from: new Date().setHours(0, 0, 0, 0),
+    to: new Date().setHours(23, 59, 59, 999),
+  };
   const defaultObject = {
     offline: 0,
     online: 0,
@@ -42,14 +49,6 @@ export const getAgentsList = async (params) => {
       callTime: convertDuration(item.callTime),
       chatTime: convertDuration(item.chatTime),
     }));
-  };
-
-  const defaultParams = {
-    search: '',
-    sort: '+name',
-    fields: [],
-    from: new Date().setHours(0, 0, 0),
-    to: new Date().setHours(23, 59, 59, 999),
   };
 
   const {

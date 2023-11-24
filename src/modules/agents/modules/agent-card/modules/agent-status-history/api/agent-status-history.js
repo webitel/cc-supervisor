@@ -12,8 +12,7 @@ import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
 export const getAgentHistoryList = async (params) => {
-
-  const defaultObject = {
+  const defaultParams = {
     sort: '-joined_at',
     from: new Date().setHours(0, 0, 0),
     to: new Date().setHours(23, 59, 59, 999),
@@ -37,6 +36,7 @@ export const getAgentHistoryList = async (params) => {
     agentId,
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
+    merge(defaultParams),
     starToSearch('search'),
   ]);
 
@@ -55,7 +55,6 @@ export const getAgentHistoryList = async (params) => {
     ]);
     return {
       items: applyTransform(items, [
-        mergeEach(defaultObject),
         listHandler,
       ]),
       next,
