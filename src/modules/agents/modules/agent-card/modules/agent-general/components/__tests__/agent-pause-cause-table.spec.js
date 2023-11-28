@@ -46,7 +46,7 @@ describe('Agent Pause Cause Table', () => {
   it('pauseCauseProgressColor correctly computes "danger" color', () => {
     const wrapper = shallowMount(AgentPauseCauseTable, mountOptions);
     const pauseCause = { durationMin: 12, limitMin: 10 };
-    expect(wrapper.vm.pauseCauseProgressColor(pauseCause)).toBe('danger');
+    expect(wrapper.vm.pauseCauseProgressColor(pauseCause)).toBe('error');
   });
   it('pauseCauseProgressColor correctly computes "primary" color', () => {
     const wrapper = shallowMount(AgentPauseCauseTable, mountOptions);
