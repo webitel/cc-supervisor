@@ -78,7 +78,7 @@ export default {
         : prettifyPauseCauseDuration(durationMin);
     },
     pauseCauseProgressColor({ durationMin, limitMin }) {
-      if (this.isDurationOverflow({ durationMin, limitMin })) return 'danger';
+      if (this.isDurationOverflow({ durationMin, limitMin })) return 'error';
       if (durationMin <= (limitMin * 0.75)) return 'success';
       return 'primary';
     },
