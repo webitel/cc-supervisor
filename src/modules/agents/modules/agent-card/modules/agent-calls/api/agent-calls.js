@@ -1,19 +1,18 @@
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { CallServiceApiFactory } from 'webitel-sdk';
-import instance from '../../../../../../../app/api/instance';
-import configuration from '../../../../../../../app/api/utils/openAPIConfig';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   merge, notify,
   snakeToCamel,
-  starToSearch
-} from "@webitel/ui-sdk/src/api/transformers";
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import instance from '../../../../../../../app/api/instance';
+import configuration from '../../../../../../../app/api/utils/openAPIConfig';
 
 const callService = new CallServiceApiFactory(configuration, '', instance);
 
 const calcTime = (time) => (time ? new Date(+time).toLocaleTimeString() : null);
 const calcDuration = (duration) => (duration ? convertDuration(duration) : null);
-
 
 export const getAgentCallsList = async (params) => {
   const defaultParams = {
@@ -22,9 +21,8 @@ export const getAgentCallsList = async (params) => {
     fields: [],
     from: new Date().setHours(0, 0, 0, 0),
     to: new Date().setHours(23, 59, 59, 999),
-  }
-  const listHandler = (items) => {
-    return items.map((item) => ({
+  };
+  const listHandler = (items) => items.map((item) => ({
       ...item,
       createdAt: item.createdAt ? new Date(+item.createdAt).toLocaleString() : null,
       answeredAt: calcTime(item.answeredAt),
@@ -43,7 +41,6 @@ export const getAgentCallsList = async (params) => {
       queueDurationSec: calcDuration(item.queueDurationSec),
       scoreRequired: item.scoreRequired ? (+item.scoreRequired).toFixed(2) : null,
     }));
-  };
 
   const {
     page,
@@ -74,7 +71,7 @@ export const getAgentCallsList = async (params) => {
       undefined, undefined, undefined, undefined,
       undefined, undefined, undefined, undefined,
       undefined, undefined, undefined, undefined,
-      undefined, rated, ratedBy
+      undefined, rated, ratedBy,
     );
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),

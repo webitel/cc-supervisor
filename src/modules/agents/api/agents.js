@@ -1,14 +1,14 @@
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { AgentServiceApiFactory } from 'webitel-sdk';
-import instance from '../../../app/api/instance';
-import configuration from '../../../app/api/utils/openAPIConfig';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   merge, mergeEach,
   notify,
   snakeToCamel,
-  starToSearch
-} from "@webitel/ui-sdk/src/api/transformers";
-import {getDefaultGetListResponse, getDefaultGetParams} from "@webitel/ui-sdk/src/api/defaults";
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import instance from '../../../app/api/instance';
+import configuration from '../../../app/api/utils/openAPIConfig';
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
@@ -36,8 +36,7 @@ export const getAgentsList = async (params) => {
     occupancy: 0,
   };
 
-  const itemsHandler = (items) => {
-    return items.map((item) => ({
+  const itemsHandler = (items) => items.map((item) => ({
       ...item,
       _isSelected: false,
       statusDuration: convertStatusDuration(item.statusDuration),
@@ -49,7 +48,6 @@ export const getAgentsList = async (params) => {
       callTime: convertDuration(item.callTime),
       chatTime: convertDuration(item.chatTime),
     }));
-  };
 
   const {
     page,

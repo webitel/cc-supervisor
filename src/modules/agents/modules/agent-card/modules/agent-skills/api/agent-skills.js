@@ -10,20 +10,8 @@ import applyTransform, {
 } from '@webitel/ui-sdk/src/api/transformers';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/utils/openAPIConfig';
-1
+
 const agentSkillService = new AgentSkillServiceApiFactory(configuration, '', instance);
-
-// const defaultObject = {
-//   skill: {},
-//   capacity: 0,
-//   enabled: false,
-// };
-
-// const defaultSingleObject = {
-//   skill: {},
-//   capacity: 0,
-//   enabled: false,
-// };
 
 const fieldsToSend = ['capacity', 'agentId', 'skill', 'enabled'];
 
@@ -32,10 +20,7 @@ const preRequestHandler = (parentId) => (item) => ({
   agentId: parentId,
 });
 
-// const listGetter = new SdkListGetterApiConsumer(agentSkillService.searchAgentSkill,
-//   { defaultListObject });
 export const getAgentSkillsList = async (params) => {
-  console.log('(є проблема тут??) getAgentSkillsList:',  params);
   const defaultObject = {
   skill: {},
   capacity: 0,
@@ -81,8 +66,6 @@ export const getAgentSkillsList = async (params) => {
   }
 };
 
-// const itemGetter = new SdkGetterApiConsumer(agentSkillService.readAgentSkill,
-//   { defaultSingleObject });
 export const getAgentSkill = async ({ parentId, itemId: id }) => {
   const defaultObject = {
   skill: {},
@@ -102,19 +85,14 @@ export const getAgentSkill = async ({ parentId, itemId: id }) => {
   }
 };
 
-// const itemCreator = new SdkCreatorApiConsumer(agentSkillService.createAgentSkill,
-//   {
-//     fieldsToSend,
-//     preRequestHandler,
-//   });
-export const addAgentSkill = async ({ parentId, itemInstance }) => {
-  const item = applyTransform(itemInstance, [
-    preRequestHandler(parentId),
+export const addAgentSkill = async (params) => {
+  const item = applyTransform(params.itemInstance, [
+    preRequestHandler(params.parentId),
     sanitize(fieldsToSend),
     camelToSnake(),
   ]);
   try {
-    const response = await agentSkillService.createAgentSkill(parentId, item);
+    const response = await agentSkillService.createAgentSkill(params.parentId, item);
     return applyTransform(response.data, [
       snakeToCamel(),
     ]);
@@ -125,7 +103,6 @@ export const addAgentSkill = async ({ parentId, itemInstance }) => {
   }
 };
 
-// const itemPatcher = new SdkPatcherApiConsumer(agentSkillService.patchAgentSkill, { fieldsToSend });
 export const patchAgentSkill = async ({ changes, id, parentId }) => {
   const body = applyTransform(changes, [
     sanitize(fieldsToSend),
@@ -143,11 +120,6 @@ export const patchAgentSkill = async ({ changes, id, parentId }) => {
   }
 };
 
-// const itemUpdater = new SdkUpdaterApiConsumer(agentSkillService.updateAgentSkill,
-//   {
-//     fieldsToSend,
-//     preRequestHandler,
-//   });
 export const updateAgentSkill = async ({
                                          itemInstance,
                                          itemId: id,
@@ -170,7 +142,6 @@ export const updateAgentSkill = async ({
   }
 };
 
-// const itemDeleter = new SdkDeleterApiConsumer(agentSkillService.deleteAgentSkill);
 export const deleteAgentSkill = async ({ parentId, id }) => {
   try {
     const response = await agentSkillService.deleteAgentSkill(parentId, id);
