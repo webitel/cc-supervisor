@@ -1,4 +1,4 @@
-import instance from '../../../../../../../../app/api/old/instance';
+import instance from '../../../../../../../../app/api/instance';
 import SkillsAPI from '../skills';
 
 const items = [{
@@ -17,14 +17,18 @@ const expectResponse = {
 jest.spyOn(instance) used instead of jest.mock('@/app/api/instance) because WebStorm
 doesn't watch path changes in jest.mock()
 */
-const getMock = jest.fn(() => ({ items }));
-jest.spyOn(instance, 'request')
-.mockImplementation(getMock);
+
+jest.spyOn(instance, 'request');
 
 describe('Skills API', () => {
   it('getList: correctly processes response', async () => {
+    const listMock = instance.request.mockImplementationOnce(() => Promise.resolve({
+      data: {
+        items,
+      },
+    }));
     const response = await SkillsAPI.getList({});
-    expect(getMock)
+    expect(listMock)
     .toHaveBeenCalled();
     expect(response)
     .toEqual(expectResponse);

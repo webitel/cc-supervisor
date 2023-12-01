@@ -1,4 +1,4 @@
-import instance from '../../../../../../../../app/api/old/instance';
+import instance from '../../../../../../../../app/api/instance';
 import AgentStatusHistoryAPI from '../agent-status-history';
 
 const time = 123;
@@ -15,16 +15,18 @@ const expectItems = [{
  jest.spyOn(instance) used instead of jest.mock('@/app/api/instance) because WebStorm
   doesn't watch path changes in jest.mock()
  */
-const getMock = jest.fn(() => ({ items }));
-jest.spyOn(instance, 'request')
-  .mockImplementation(getMock);
+jest.fn(() => ({ items }));
+jest.spyOn(instance, 'request');
 
 describe('Agent Status History API', () => {
   it('getList: correctly processes response', async () => {
+    const getMock = instance.request.mockImplementationOnce(() => Promise.resolve({
+      data: {
+        items,
+      },
+    }));
     const response = await AgentStatusHistoryAPI.getList({});
-    expect(getMock)
-      .toHaveBeenCalled();
-    expect(response)
-      .toEqual({ next: false, items: expectItems });
+    expect(getMock).toHaveBeenCalled();
+    expect(response).toEqual({ next: false, items: expectItems });
   });
 });

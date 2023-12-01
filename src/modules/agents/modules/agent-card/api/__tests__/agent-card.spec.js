@@ -1,4 +1,4 @@
-import instance from '../../../../../../app/api/old/instance';
+import instance from '../../../../../../app/api/instance';
 import AgentAPI from '../agent-card';
 
 /* mock SDK method api response with instance mock
@@ -6,21 +6,24 @@ import AgentAPI from '../agent-card';
   doesn't watch path changes in jest.mock()
  */
 
+jest.spyOn(instance, 'request');
+
+const item = { name: 'jest' };
+const expectedResponse = {
+  name: 'jest',
+  offline: '00:00:00',
+  online: '00:00:00',
+  pause: '00:00:00',
+  statusDuration: '00:00:00',
+};
+
 describe('Agent Page API', () => {
   it('get: correctly processes response', async () => {
-    const response = { name: 'jest' };
-    const getMock = jest.fn(() => response);
-    jest.spyOn(instance, 'request')
-    .mockImplementation(getMock);
-    const expectedResponse = {
-      name: 'jest',
-      offline: '00:00:00',
-      online: '00:00:00',
-      pause: '00:00:00',
-      statusDuration: '00:00:00',
-    };
-    const getResponse = await AgentAPI.get({ itemId: 1 });
+    const getMock = instance.request.mockImplementationOnce((() => Promise.resolve({
+      data: item,
+    })));
+    const response = await AgentAPI.get({ itemId: 1 });
     expect(getMock).toHaveBeenCalled();
-    expect(getResponse).toEqual(expectedResponse);
+    expect(response).toEqual(expectedResponse);
   });
 });

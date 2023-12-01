@@ -1,4 +1,4 @@
-import instance from '../../../../../../../../app/api/old/instance';
+import instance from '../../../../../../../../app/api/instance';
 import AgentSkillsAPI from '../agent-skills';
 
 /* mock SDK method api response with instance mock
@@ -14,6 +14,7 @@ const items = [{
   skill: { name: 'skill' },
   id: 2,
 }];
+
 const expectResponse = {
   items: [{
     skill: { name: 'skill' },
@@ -24,44 +25,60 @@ const expectResponse = {
   next: false,
 };
 
-const itemInstance = { skill: { name: 'jest' }, agentId: parentId };
+const itemInstance = { skill: { name: 'jest' } };
+const expectItemInstance = { skill: { name: 'jest' }, agentId: parentId };
 
 describe('Agent Skills API', () => {
   it('getList: correctly processes response', async () => {
-    const getMock = jest.fn(() => ({ items }));
-    instance.request.mockImplementationOnce(getMock);
+    const getMock = instance.request.mockImplementationOnce(() => Promise.resolve({
+      data: {
+        items,
+      },
+    }));
     const response = await AgentSkillsAPI.getList({ parentId });
     expect(getMock).toHaveBeenCalled();
     expect(response).toEqual(expectResponse);
   });
   it('get: correctly processes response', async () => {
-    const getMock = jest.fn(() => items[0]);
-    instance.request.mockImplementationOnce(getMock);
+    const getMock = instance.request.mockImplementationOnce(() => Promise.resolve({
+      data: items[0],
+    }));
     const response = await AgentSkillsAPI.get({ parentId, itemId: id });
     expect(getMock).toHaveBeenCalled();
     expect(response).toEqual(expectResponse.items[0]);
   });
   it('add: correctly passes item to axios', async () => {
-    const addMock = jest.fn();
-    instance.request.mockImplementationOnce(addMock);
-    await AgentSkillsAPI.add({ parentId, itemInstance });
-    expect(addMock.mock.calls[0][0].data).toBe(JSON.stringify(itemInstance));
+    instance.request.mockImplementationOnce(() => Promise.resolve({
+     data: {
+       ...itemInstance,
+       agentId: parentId,
+     },
+    }));
+    const response = await AgentSkillsAPI.add({ parentId, itemInstance });
+    expect(response).toStrictEqual(expectItemInstance);
   });
   it('update: correctly passes item to axios', async () => {
-    const updateMock = jest.fn();
-    instance.request.mockImplementationOnce(updateMock);
-    await AgentSkillsAPI.update({ parentId, itemId: id, itemInstance });
-    expect(updateMock.mock.calls[0][0].data).toBe(JSON.stringify(itemInstance));
+    instance.request.mockImplementationOnce(() => Promise.resolve({
+      data: {
+        ...itemInstance,
+        agentId: parentId,
+      },
+    }));
+    const response = await AgentSkillsAPI.update({ parentId, itemId: id, itemInstance });
+    expect(response).toStrictEqual(expectItemInstance);
   });
   it('patch: correctly passes item to axios', async () => {
-    const patchMock = jest.fn();
-    instance.request.mockImplementationOnce(patchMock);
-    await AgentSkillsAPI.patch({ parentId, id, changes: itemInstance });
-    expect(patchMock.mock.calls[0][0].data).toBe(JSON.stringify(itemInstance));
+    instance.request.mockImplementationOnce(() => Promise.resolve({
+      data: {
+        ...itemInstance,
+        agentId: parentId,
+      },
+    }));
+    const response = await AgentSkillsAPI.patch({ parentId, id, changes: itemInstance });
+    expect(response).toStrictEqual(expectItemInstance);
   });
   it('delete: correctly calls axios delete', async () => {
-    const deleteMock = jest.fn();
-    instance.request.mockImplementationOnce(deleteMock);
+    const deleteMock = instance.request.mockImplementationOnce(() => Promise.resolve({}));
     await AgentSkillsAPI.delete({ parentId, id });
     expect(deleteMock).toHaveBeenCalled();
   });

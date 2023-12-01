@@ -5,6 +5,7 @@ import applyTransform, {
   snakeToCamel,
   camelToSnake,
   sanitize,
+  log,
 } from '@webitel/ui-sdk/src/api/transformers';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/utils/openAPIConfig';
@@ -42,6 +43,7 @@ const patchAgent = async ({ changes, id }) => {
     const response = await agentService.patchAgent(id, body);
     return applyTransform(response.data, [
       snakeToCamel(),
+      log,
     ]);
   } catch (err) {
     throw applyTransform(err, [
