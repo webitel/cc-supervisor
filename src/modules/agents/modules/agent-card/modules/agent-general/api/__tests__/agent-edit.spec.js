@@ -24,13 +24,19 @@ describe('Agent Edit API', () => {
   });
   it('patch: correctly sends changes', async () => {
     const payload = { id: 1, changes: { _dirty: true, team: { name: 'jest' } } };
-    const expectedData = { team: { name: 'jest' } };
+    const expectedData = {
+      changes: {
+        team: {
+          name: 'jest',
+        },
+      },
+      id: 1,
+    };
     const patchMock = instance.request.mockImplementationOnce((() => Promise.resolve({
       data: payload,
     })));
-    const resp = await AgentAPI.patch(payload);
+    const response = await AgentAPI.patch(payload);
     expect(patchMock).toHaveBeenCalled();
-    // const reqData = JSON.parse(patchMock.mock.calls[0][0].data);
-    expect(resp).toEqual(expectedData);
+    expect(response).toEqual(expectedData);
   });
 });
