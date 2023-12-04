@@ -43,7 +43,6 @@ const patchAgent = async ({ changes, id }) => {
     const response = await agentService.patchAgent(id, body);
     return applyTransform(response.data, [
       snakeToCamel(),
-      log,
     ]);
   } catch (err) {
     throw applyTransform(err, [

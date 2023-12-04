@@ -23,9 +23,17 @@ describe('Agent Edit API', () => {
     expect(response).toEqual(expectedResponse);
   });
   it('patch: correctly sends changes', async () => {
-    const payload = { id: 1, changes: { _dirty: true, team: { name: 'jest' } } };
+    const payload = {
+      id: 1,
+      changes:
+        {
+          _dirty: true,
+          team: { name: 'jest' }
+        }
+    };
     const expectedData = {
       changes: {
+        _dirty: true,
         team: {
           name: 'jest',
         },
