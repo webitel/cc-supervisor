@@ -1,4 +1,4 @@
-import instance from '../../../../app/api/old/instance';
+import instance from '../../../../app/api/instance';
 import AgentsAPI from '../agents';
 
 const items = [{
@@ -31,8 +31,13 @@ jest.spyOn(instance, 'request')
 
 describe('Agents API', () => {
   it('getList: correctly processes response', async () => {
+    const listMock = instance.request.mockImplementationOnce(() => Promise.resolve({
+      data: {
+        items,
+      },
+    }));
     const response = await AgentsAPI.getList({});
-    expect(getMock)
+    expect(listMock)
     .toHaveBeenCalled();
     expect(response)
     .toEqual(expectResponse);

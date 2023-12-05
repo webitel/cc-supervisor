@@ -1,14 +1,60 @@
 import { SkillServiceApiFactory } from 'webitel-sdk';
-import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../../../app/api/old/instance';
+import {
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  merge,
+  notify,
+  snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/utils/openAPIConfig';
 
 const skillService = new SkillServiceApiFactory(configuration, '', instance);
 
-const listGetter = new SdkListGetterApiConsumer(skillService.searchSkill);
+const getSkillsList = async (params) => {
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
 
-const getSkillsList = (params) => listGetter.getList(params);
-const getSkillsLookup = (params) => listGetter.getLookup(params);
+  try {
+    const response = await skillService.searchSkill(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const getSkillsLookup = (params) => getSkillsList({
+  ...params,
+  fields: params.fields || ['id', 'name'],
+});
 
 export default {
   getList: getSkillsList,

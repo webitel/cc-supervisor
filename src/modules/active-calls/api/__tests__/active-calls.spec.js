@@ -1,4 +1,4 @@
-import instance from '../../../../app/api/old/instance';
+import instance from '../../../../app/api/instance';
 import ActiveCallsAPI from '../active-calls';
 
 const time = 123;
@@ -24,8 +24,13 @@ jest.spyOn(instance, 'request')
 
 describe('Active Calls API', () => {
   it('getList: correctly processes response', async () => {
+    const listMock = instance.request.mockImplementationOnce(() => Promise.resolve({
+      data: {
+        items,
+      },
+    }));
     const response = await ActiveCallsAPI.getList({});
-    expect(getMock)
+    expect(listMock)
     .toHaveBeenCalled();
     expect(response)
     .toEqual(expectResponse);

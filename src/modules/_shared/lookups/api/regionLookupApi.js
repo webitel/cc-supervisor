@@ -1,12 +1,54 @@
 import { RegionServiceApiFactory } from 'webitel-sdk';
-import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../app/api/old/instance';
+import {
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  merge,
+  notify,
+  snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import instance from '../../../../app/api/instance';
 import configuration from '../../../../app/api/utils/openAPIConfig';
 
 const regionService = new RegionServiceApiFactory(configuration, '', instance);
 
-const listGetter = new SdkListGetterApiConsumer(regionService.searchRegion);
+const getList = async (params) => {
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
 
-const getList = (params) => listGetter.getLookup(params);
+  try {
+    const response = await regionService.searchRegion(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
 
 export default getList;

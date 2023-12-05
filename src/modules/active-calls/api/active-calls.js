@@ -1,85 +1,104 @@
+import {
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  merge, mergeEach, notify, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { CallServiceApiFactory } from 'webitel-sdk';
-import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../app/api/old/instance';
+import instance from '../../../app/api/instance';
 import configuration from '../../../app/api/utils/openAPIConfig';
 
 const callService = new CallServiceApiFactory(configuration, '', instance);
 
-const listResponseHandler = (response) => {
-  const items = response.items.map((item) => ({
-    ...item,
-    duration: convertDuration(item.duration),
-    createdAt: new Date(+item.createdAt).toLocaleTimeString(),
-  }));
-  return {
-    ...response,
-    items,
+export const getActiveCallList = async (params) => {
+  const defaultParams = {
+    search: '',
+    skipParent: true,
   };
-};
 
-const defaultListObject = {
-  duration: 0,
-};
+  const defaultObject = {
+    duration: 0,
+  };
 
-const _getActiveCallsList = (getList) => function({
-                                                    page = 1,
-                                                    size = 10,
-                                                    search = '',
-                                                    fields,
-                                                    queue,
-                                                    team,
-                                                    agent,
-                                                    supervisor,
-                                                    sort,
-                                                    direction,
-                                                    user,
-                                                    gateway,
-                                                    result,
-                                                    skipParent = true,
-                                                  }) {
-  const params = [
+  const listHandler = (items) => items.map((item) => ({
+      ...item,
+      duration: convertDuration(item.duration),
+      createdAt: new Date(+item.createdAt).toLocaleTimeString(),
+    }));
+
+  const {
     page,
     size,
     search,
-    sort,
     fields,
-    undefined,
-    undefined,
-    user,
-    agent,
     queue,
     team,
-    undefined,
-    gateway,
-    undefined,
-    undefined,
-    skipParent,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    direction,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
+    agent,
     supervisor,
+    sort,
+    direction,
+    user,
+    gateway,
     result,
-  ];
-  return getList(params);
+    skipParent,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    merge(defaultParams),
+    starToSearch('search'),
+  ]);
+
+  try {
+    const response = await callService.searchActiveCall(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      undefined,
+      undefined,
+      user,
+      agent,
+      queue,
+      team,
+      undefined,
+      gateway,
+      undefined,
+      undefined,
+      skipParent,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      direction,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      supervisor,
+      result,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+        listHandler,
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
 };
-
-const listGetter = new SdkListGetterApiConsumer(callService.searchActiveCall,
-                                                {
-                                                  listResponseHandler,
-                                                  defaultListObject,
-                                                })
-  .setGetListMethod(_getActiveCallsList);
-
-export const getActiveCallList = (params) => listGetter.getList(params);
 
 export default {
   getList: getActiveCallList,

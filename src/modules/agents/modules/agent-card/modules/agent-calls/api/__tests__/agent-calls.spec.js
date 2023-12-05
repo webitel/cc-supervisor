@@ -1,4 +1,4 @@
-import instance from '../../../../../../../../app/api/old/instance';
+import instance from '../../../../../../../../app/api/instance';
 import AgentCallsAPI from '../agent-calls';
 
 const time = 123;
@@ -32,10 +32,15 @@ jest.spyOn(instance, 'request')
 
 describe('Agent calls API', () => {
   it('getList: correctly processes response', async () => {
+    const listMock = instance.request.mockImplementationOnce(() => Promise.resolve({
+      data: {
+        items,
+      },
+    }));
     const response = await AgentCallsAPI.getList({});
-    expect(getMock)
-      .toHaveBeenCalled();
+    expect(listMock)
+    .toHaveBeenCalled();
     expect(response)
-      .toEqual({ next: false, items: expectItems });
+    .toEqual({ next: false, items: expectItems });
   });
 });

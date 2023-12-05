@@ -1,4 +1,4 @@
-import instance from '../../../../app/api/old/instance';
+import instance from '../../../../app/api/instance';
 import QueuesAPI from '../queues';
 
 const items = [{
@@ -57,8 +57,13 @@ jest.spyOn(instance, 'request')
 
 describe('Queues API', () => {
   it('getList: correctly processes response', async () => {
-    const response = await QueuesAPI.getList();
-    expect(getMock)
+    const listMock = instance.request.mockImplementationOnce(() => Promise.resolve({
+      data: {
+        items,
+      },
+    }));
+    const response = await QueuesAPI.getList({});
+    expect(listMock)
     .toHaveBeenCalled();
     expect(response)
     .toEqual(expectResponse);

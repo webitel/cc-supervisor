@@ -1,59 +1,157 @@
 import { AgentSkillServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkCreatorApiConsumer,
-  SdkDeleterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkListGetterApiConsumer,
-  SdkPatcherApiConsumer,
-  SdkUpdaterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../../../app/api/old/instance';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake, mergeEach,
+  merge, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/utils/openAPIConfig';
 
 const agentSkillService = new AgentSkillServiceApiFactory(configuration, '', instance);
 
-const defaultListObject = {
-  skill: {},
-  capacity: 0,
-  enabled: false,
-};
-
-const defaultSingleObject = {
-  skill: {},
-  capacity: 0,
-  enabled: false,
-};
-
 const fieldsToSend = ['capacity', 'agentId', 'skill', 'enabled'];
 
-const preRequestHandler = (item, parentId) => ({
+const preRequestHandler = (parentId) => (item) => ({
   ...item,
   agentId: parentId,
 });
 
-const listGetter = new SdkListGetterApiConsumer(agentSkillService.searchAgentSkill,
-  { defaultListObject });
-const itemGetter = new SdkGetterApiConsumer(agentSkillService.readAgentSkill,
-  { defaultSingleObject });
-const itemCreator = new SdkCreatorApiConsumer(agentSkillService.createAgentSkill,
-  {
-    fieldsToSend,
-    preRequestHandler,
-  });
-const itemPatcher = new SdkPatcherApiConsumer(agentSkillService.patchAgentSkill, { fieldsToSend });
-const itemUpdater = new SdkUpdaterApiConsumer(agentSkillService.updateAgentSkill,
-  {
-    fieldsToSend,
-    preRequestHandler,
-  });
-const itemDeleter = new SdkDeleterApiConsumer(agentSkillService.deleteAgentSkill);
+export const getAgentSkillsList = async (params) => {
+  const defaultObject = {
+  skill: {},
+  capacity: 0,
+  enabled: false,
+};
+  const {
+    parentId,
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
 
-export const getAgentSkillsList = (params) => listGetter.getNestedList(params);
-export const getAgentSkill = (params) => itemGetter.getNestedItem(params);
-export const addAgentSkill = (params) => itemCreator.createNestedItem(params);
-export const patchAgentSkill = (params) => itemPatcher.patchNestedItem(params);
-export const updateAgentSkill = (params) => itemUpdater.updateNestedItem(params);
-export const deleteAgentSkill = (params) => itemDeleter.deleteNestedItem(params);
+  try {
+    const response = await agentSkillService.searchAgentSkill(
+      parentId,
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+export const getAgentSkill = async ({ parentId, itemId: id }) => {
+  const defaultObject = {
+  skill: {},
+  capacity: 0,
+  enabled: false,
+};
+  try {
+    const response = await agentSkillService.readAgentSkill(parentId, id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      merge(defaultObject),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+export const addAgentSkill = async (params) => {
+  const item = applyTransform(params.itemInstance, [
+    preRequestHandler(params.parentId),
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await agentSkillService.createAgentSkill(params.parentId, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+export const patchAgentSkill = async ({ changes, id, parentId }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await agentSkillService.patchAgentSkill(parentId, id, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+export const updateAgentSkill = async ({
+                                         itemInstance,
+                                         itemId: id,
+                                         parentId,
+                                       }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler(parentId),
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await agentSkillService.updateAgentSkill(parentId, id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+export const deleteAgentSkill = async ({ parentId, id }) => {
+  try {
+    const response = await agentSkillService.deleteAgentSkill(parentId, id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
 
 export default {
   getList: getAgentSkillsList,

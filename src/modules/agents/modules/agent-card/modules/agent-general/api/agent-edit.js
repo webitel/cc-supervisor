@@ -1,25 +1,55 @@
 import { AgentServiceApiFactory } from 'webitel-sdk';
-import { SdkGetterApiConsumer, SdkPatcherApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../../../app/api/old/instance';
+import applyTransform, {
+  merge,
+  notify,
+  snakeToCamel,
+  camelToSnake,
+  sanitize,
+  log,
+} from '@webitel/ui-sdk/src/api/transformers';
+import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/utils/openAPIConfig';
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
-const defaultSingleObject = {
-  _dirty: false,
-  progressiveCount: 0,
-  chatCount: 0,
-};
-
 const fieldsToSend = ['team', 'supervisor', 'auditor', 'region', 'progressiveCount', 'chatCount'];
 
-const sdkGetterApiConsumer = new SdkGetterApiConsumer(agentService.readAgent, {
-  defaultSingleObject,
-});
-const sdkPatcherApiConsumer = new SdkPatcherApiConsumer(agentService.patchAgent, { fieldsToSend });
+const getAgent = async ({ itemId: id }) => {
+  const defaultObject = {
+    _dirty: false,
+    progressiveCount: 0,
+    chatCount: 0,
+  };
 
-const getAgent = (params) => sdkGetterApiConsumer.getItem(params);
-const patchAgent = (params) => sdkPatcherApiConsumer.patchItem(params);
+  try {
+    const response = await agentService.readAgent(id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      merge(defaultObject),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const patchAgent = async ({ changes, id }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await agentService.patchAgent(id, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
 
 export default {
   get: getAgent,

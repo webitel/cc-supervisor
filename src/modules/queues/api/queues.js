@@ -1,6 +1,15 @@
 import { QueueServiceApiFactory } from 'webitel-sdk';
-import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../app/api/old/instance';
+import {
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  merge,
+  notify,
+  snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import instance from '../../../app/api/instance';
 import configuration from '../../../app/api/utils/openAPIConfig';
 import parseJoined from './_internals/joined';
 
@@ -43,31 +52,63 @@ const listResponseHandler = (response) => {
   };
 };
 
-const _getQueuesList = (getList) => function ({
-                                                page = 1,
-                                                size = 10,
-                                                period,
-                                                search = '',
-                                                sort = '+priority',
-                                                fields,
-                                                queue,
-                                                team,
-                                                queueType,
-                                              } = {}) {
+const getQueuesList = async (params) => {
+  const defaultParams = {
+    search: '',
+    sort: '+priority',
+  };
+
+  const {
+    page,
+    size,
+    period,
+    search,
+    sort,
+    fields,
+    queue,
+    team,
+    queueType,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    merge(defaultParams),
+    starToSearch('search'),
+  ]);
+
   const {
     joinedAtFrom,
     joinedAtTo
   } = parseJoined(period);
-  const reqParams = [page, size, joinedAtFrom, joinedAtTo, undefined, fields, sort,
-    search, queue, team, queueType];
-  return getList(reqParams);
+
+  try {
+    const response = await queueService.searchQueueReportGeneral(
+      page,
+      size,
+      joinedAtFrom,
+      joinedAtTo,
+      undefined,
+      fields,
+      sort,
+      search,
+      queue,
+      team,
+      queueType,
+    );
+    const { items, next, aggs } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+      listResponseHandler,
+    ]);
+    return {
+      items,
+      aggs,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
 };
-
-const listGetter = new SdkListGetterApiConsumer(queueService.searchQueueReportGeneral,
-  { listResponseHandler })
-  .setGetListMethod(_getQueuesList);
-
-const getQueuesList = (params) => listGetter.getList(params);
 
 export default {
   getList: getQueuesList,
