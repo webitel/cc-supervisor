@@ -11,10 +11,16 @@
 <script>
 import SupervisorSections
   from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
+import { mapState } from 'vuex';
 import StartPageCard from './start-page-card.vue';
-import queuesSectionPic from '../assets/queues-section-pic.svg';
-import agentsSectionPic from '../assets/agents-section-pic.svg';
-import activeCallsSectionPic from '../assets/active-calls-section-pic.svg';
+
+import QueuesSecDark from '../assets/queues-section-dark.svg';
+import QueuesSecLight from '../assets/queues-section-light.svg';
+import AgentsSecDark from '../assets/agents-section-dark.svg';
+import AgentsSecLight from '../assets/agents-section-light.svg';
+import ActiveCallsSecDark from '../assets/active-calls-section-dark.svg';
+import ActiveCallsSecLight from '../assets/active-calls-section-light.svg';
+
 import navMixin from '../../../app/mixins/supervisor-workspace/navMixin';
 
 export default {
@@ -22,18 +28,30 @@ export default {
   mixins: [navMixin],
   components: { StartPageCard },
   computed: {
+    ...mapState('appearance', {
+      theme: (state) => state.theme,
+    }),
     navCards() {
       const cardSectionPic = {
-          [SupervisorSections.QUEUES]: queuesSectionPic,
-          [SupervisorSections.AGENTS]: agentsSectionPic,
-          [SupervisorSections.ACTIVE_CALLS]: activeCallsSectionPic,
+          [SupervisorSections.QUEUES]: {
+            dark: QueuesSecDark,
+            light: QueuesSecLight,
+          },
+          [SupervisorSections.AGENTS]: {
+            dark: AgentsSecDark,
+            light: AgentsSecLight,
+          },
+          [SupervisorSections.ACTIVE_CALLS]: {
+            dark: ActiveCallsSecDark,
+            light: ActiveCallsSecLight,
+          },
         };
       return this.nav.map((navItem) => ({
           ...navItem,
           disabled: !this.checkNavAccess({ name: navItem.value }),
           name: this.$t(`pages.startPage.${navItem.value}.name`),
           text: this.$t(`pages.startPage.${navItem.value}.text`),
-          image: cardSectionPic[navItem.value],
+          image: this.theme === 'dark' ? cardSectionPic[navItem.value].dark : cardSectionPic[navItem.value].light,
         }));
     },
   },

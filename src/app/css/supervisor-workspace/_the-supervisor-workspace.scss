@@ -31,7 +31,7 @@
             position: -webkit-sticky;
             position: sticky;
             top: 0;
-            background: var(--main-color);
+            background: var(--content-wrapper-color);
             min-width: 100%;
             width: fit-content;
             z-index: 1;
@@ -41,7 +41,7 @@
             position: -webkit-sticky;
             position: sticky;
             bottom: 0;
-            background: var(--main-color);
+            background: var(--content-wrapper-color);
             min-width: 100%;
             width: fit-content;
             border-color: var(--secondary-color);

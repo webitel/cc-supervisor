@@ -30,11 +30,11 @@ export default {
   font-weight: normal;
 
   &.high {
-    color: var(--false-color);
+    color: var(--error-color);
   }
 
   &.low {
-    color: var(--true-color);
+    color: var(--success-color);
   }
 }
 </style>

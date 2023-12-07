@@ -53,14 +53,14 @@ $width: 232px;
   bottom: var(--spacing-xs);
   padding: var(--spacing-xs);
   z-index: 101;
-  background: var(--page-bg-color);
+  background: var(--wt-page-wrapper-background-color);
   border-radius: 16px;
   box-shadow: var(--elevation-10);
 
   .call-window-content-wrapper {
     width: $width;
     padding: var(--spacing-lg);
-    background: var(--main-color);
+    background: var(--content-wrapper-color);
     border-radius: 16px;
   }
 

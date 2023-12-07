@@ -109,7 +109,7 @@ export default {
   word-break: keep-all;
 
   &--highlight {
-    color: var(--false-color);
+    color: var(--error-color);
   }
 }
 </style>

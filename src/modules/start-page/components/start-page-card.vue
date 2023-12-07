@@ -45,9 +45,9 @@ export default {
   box-sizing: border-box;
   width: 410px;
   padding: var(--spacing-sm);
-  color: var(--contrast-color);
+  color: var(--text-main-color);
   border-radius: var(--border-radius);
-  background-color: var(--main-color);
+  background-color: var(--content-wrapper-color);
 }
 
 .start-page-card__header {

@@ -1,6 +1,7 @@
 <template>
   <wt-app-header>
     <wt-navigation-bar :current-app="currentApp" :nav="navAccess"></wt-navigation-bar>
+    <wt-dark-mode-switcher />
     <wt-app-navigator :current-app="currentApp" :apps="apps"></wt-app-navigator>
     <wt-header-actions
       :user="user"
@@ -15,10 +16,14 @@
 import { mapState, mapGetters } from 'vuex';
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 import authAPI from '@webitel/ui-sdk/src/modules/Userinfo/api/auth';
+import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
 import navAccessMixin from '../../../../app/mixins/supervisor-workspace/navMixin';
 
 export default {
   name: 'app-header',
+  components: {
+    WtDarkModeSwitcher,
+  },
   mixins: [navAccessMixin],
   inject: ['$config'],
   data: () => ({
@@ -91,7 +96,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wt-navigation-bar {
+.wt-dark-mode-switcher {
   margin-right: auto;
 }
 </style>
