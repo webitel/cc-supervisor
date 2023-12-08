@@ -1,8 +1,16 @@
 <template>
   <wt-app-header>
-    <wt-navigation-bar :current-app="currentApp" :nav="navAccess"></wt-navigation-bar>
+    <wt-navigation-bar
+      :current-app="currentApp"
+      :nav="navAccess"
+      :dark-mode="darkMode"
+    ></wt-navigation-bar>
     <wt-dark-mode-switcher />
-    <wt-app-navigator :current-app="currentApp" :apps="apps"></wt-app-navigator>
+    <wt-app-navigator
+      :current-app="currentApp"
+      :apps="apps"
+      :dark-mode="darkMode"
+    ></wt-app-navigator>
     <wt-header-actions
       :user="user"
       :build-info="buildInfo"
@@ -39,6 +47,9 @@ export default {
     }),
     ...mapGetters('userinfo', {
       checkAppAccess: 'CHECK_APP_ACCESS',
+    }),
+    ...mapGetters('appearance', {
+      darkMode: 'DARK_MODE',
     }),
     apps() {
       const agent = {
