@@ -55,7 +55,7 @@ export default {
 
     loadList() {
       const { query } = this.$route;
-      if (query) return this.loadDataList(query);
+      return this.loadDataList(query);
     },
   },
 };

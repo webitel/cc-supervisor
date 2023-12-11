@@ -20,6 +20,7 @@ const getAgent = async ({ itemId: id }) => {
     progressiveCount: 0,
     chatCount: 0,
   };
+
   try {
     const response = await agentService.readAgent(id);
     return applyTransform(response.data, [

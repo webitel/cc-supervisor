@@ -16,6 +16,7 @@ export const getAgentPauseCauses = async ({ agentId }) => {
     durationMin: 0,
     limitMin: 0,
   };
+
   try {
     const response = await agentPauseCauseService.searchPauseCauseForAgent(agentId);
     const { items, next } = applyTransform(response.data, [
