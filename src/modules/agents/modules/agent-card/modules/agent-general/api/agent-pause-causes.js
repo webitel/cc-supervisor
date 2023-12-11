@@ -10,14 +10,14 @@ import configuration from '../../../../../../../app/api/utils/openAPIConfig';
 
 const agentPauseCauseService = new AgentServiceApiFactory(configuration, '', instance);
 
-export const getAgentPauseCauses = async (params) => {
+export const getAgentPauseCauses = async ({ agentId }) => {
   const defaultObject = {
     name: '',
     durationMin: 0,
     limitMin: 0,
   };
   try {
-    const response = await agentPauseCauseService.searchPauseCauseForAgent(params.agentId);
+    const response = await agentPauseCauseService.searchPauseCauseForAgent(agentId);
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),

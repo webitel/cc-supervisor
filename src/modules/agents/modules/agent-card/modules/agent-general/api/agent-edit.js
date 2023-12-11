@@ -14,15 +14,14 @@ const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['team', 'supervisor', 'auditor', 'region', 'progressiveCount', 'chatCount'];
 
-const getAgent = async (params) => {
+const getAgent = async ({ itemId: id }) => {
   const defaultObject = {
     _dirty: false,
     progressiveCount: 0,
     chatCount: 0,
   };
-console.log('getAgent edit params:', params);
   try {
-    const response = await agentService.readAgent(params.itemId);
+    const response = await agentService.readAgent(id);
     return applyTransform(response.data, [
       snakeToCamel(),
       merge(defaultObject),
