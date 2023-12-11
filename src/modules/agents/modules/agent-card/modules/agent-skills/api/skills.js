@@ -26,7 +26,6 @@ const getSkillsList = async (params) => {
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
-
   try {
     const response = await skillService.searchSkill(
       page,
