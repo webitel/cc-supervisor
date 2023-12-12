@@ -1,5 +1,6 @@
 import editProxy from '@webitel/ui-sdk/src/scripts/editProxy';
 import AgentAPI from '../api/agent-card';
+import WidgetsAPI from '../api/widgetsAPI';
 import agentEdit from '../modules/agent-general/store/agent-edit';
 import pauseCause from '../modules/agent-general/store/agent-pause-causes';
 import calls from '../modules/agent-calls/store/agent-calls';
@@ -9,6 +10,10 @@ import skills from '../modules/agent-skills/store/agent-skills';
 const state = {
   agentId: null,
   agent: {},
+  score: {
+    scoreCount: 0,
+    scoreRequiredAvg: 0,
+  },
 };
 
 const getters = {};
@@ -21,6 +26,10 @@ const actions = {
     const agent = await AgentAPI.get({ itemId: context.state.agentId });
     context.commit('SET_AGENT', editProxy(agent));
   },
+  LOAD_SCORE_DATA: async (context) => {
+    const score = await WidgetsAPI.getWidgets();
+    context.commit('SET_SCORE', score);
+  },
 };
 
 const mutations = {
@@ -29,6 +38,9 @@ const mutations = {
   },
   SET_AGENT: (state, agent) => {
     state.agent = agent;
+  },
+  SET_SCORE: (state, score) => {
+    state.score = score;
   },
 };
 

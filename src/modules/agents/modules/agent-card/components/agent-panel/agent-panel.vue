@@ -64,18 +64,24 @@ export default {
       agent(state) {
         return getNamespacedState(state, this.namespace).agent;
       },
+      score(state) {
+        return getNamespacedState(state, this.namespace).score;
+      },
     }),
     scoreCount() {
-      return this.agent.scoreCount || 0;
+      return this.score.scoreCount || 0;
     },
     scoreRequired() {
-      return (this.agent.scoreRequiredAvg || 0).toFixed(2);
+      return (this.score.scoreRequiredAvg || 0).toFixed(2);
     },
   },
   methods: {
     ...mapActions({
       loadAgent(dispatch, payload) {
         return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
+      },
+      loadScoreData(dispatch) {
+        return dispatch(`${this.namespace}/LOAD_SCORE_DATA`);
       },
     }),
     ...mapActions('call', {
@@ -89,6 +95,9 @@ export default {
       });
       this.call();
     },
+  },
+  mounted() {
+    this.loadScoreData();
   },
 };
 </script>
