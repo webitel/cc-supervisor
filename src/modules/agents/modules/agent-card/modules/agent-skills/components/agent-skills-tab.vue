@@ -107,7 +107,8 @@ export default {
       },
     }),
     loadList() {
-     this.setParentId(this.$route.params.id);
+      if (!this.$route.params.id) return;
+      this.setParentId(this.$route.params.id);
       return tablePageMixin.methods.loadList.call(this);
     },
     edit({ id }) {

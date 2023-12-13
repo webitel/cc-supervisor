@@ -56,6 +56,8 @@ export default {
     loadList() {
       const agentId = this.$route.params.id;
       const { query } = this.$route;
+
+      if (agentId)
       return this.loadDataList({
         ...query,
         agentId,
