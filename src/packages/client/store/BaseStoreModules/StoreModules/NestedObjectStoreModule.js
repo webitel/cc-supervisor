@@ -25,7 +25,6 @@ export default class NestedObjectStoreModule extends BaseStoreModule {
       }
     },
     RESET_STATE: (context) => {
-      console.log('RESET_STATE');
       context.commit('RESET_STATE');
     },
   };
