@@ -76,7 +76,7 @@ const actions = {
     } catch (err) {
       throw err;
     } finally {
-      context.dispatch('LOAD_DATA_LIST');
+      context.dispatch('LOAD_DATA_LIST', context.state.parentId );
     }
   },
 };
