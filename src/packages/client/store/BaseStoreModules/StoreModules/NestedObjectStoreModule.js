@@ -15,13 +15,13 @@ export default class NestedObjectStoreModule extends BaseStoreModule {
       if (!context.state.itemId) {
         const { id } = await context.dispatch('POST_ITEM');
         context.dispatch('SET_ITEM_ID', id);
-        await context.dispatch('LOAD_DATA_LIST');
+        await context.dispatch('LOAD_DATA_LIST', context.state.parentId );
       }
     },
     UPDATE_ITEM: async (context) => {
       if (context.state.itemInstance._dirty) {
         await context.dispatch('UPD_ITEM');
-        await context.dispatch('LOAD_DATA_LIST');
+        await context.dispatch('LOAD_DATA_LIST', context.state.parentId );
       }
     },
     RESET_STATE: (context) => {
