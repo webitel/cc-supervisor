@@ -7,10 +7,19 @@ const agent = {
   name: 'jest',
 };
 
+const score = {
+  scoreCount: 0,
+  scoreRequiredAvg: 0,
+};
+
 const LOAD_AGENT_MOCK = jest.fn();
+const LOAD_SCORE_DATA_MOCK = jest.fn();
 
 jest.spyOn(agents.modules.card.actions, 'LOAD_AGENT')
-  .mockImplementationOnce(LOAD_AGENT_MOCK);
+.mockImplementationOnce(LOAD_AGENT_MOCK);
+
+jest.spyOn(agents.modules.card.actions, 'LOAD_SCORE_DATA')
+.mockImplementation(LOAD_SCORE_DATA_MOCK);
 
 const store = createStore({
   modules: { agents },
@@ -26,6 +35,9 @@ describe('Agent panel', () => {
     computed: {
       agent() {
         return agent;
+      },
+      score() {
+        return score;
       },
     },
   };
