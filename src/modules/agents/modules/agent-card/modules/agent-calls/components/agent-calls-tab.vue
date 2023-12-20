@@ -59,13 +59,13 @@
           </div>
         </template>
         <template v-slot:actions="{ item, index }">
-          <media-action
-            v-if="item.files"
-            class="table-action"
-            :class="{'active': openedMediaIndex === index}"
-            :is-any-files-playing="isAnyFilesPlaying(item.files)"
-            @click="openMedia(index, $event)"
-          ></media-action>
+<!--          <media-action-->
+<!--            v-if="item.files"-->
+<!--            class="table-action"-->
+<!--            :class="{'active': openedMediaIndex === index}"-->
+<!--            :is-any-files-playing="isAnyFilesPlaying(item.files)"-->
+<!--            @click="openMedia(index, $event)"-->
+<!--          ></media-action>-->
         </template>
       </wt-table>
       <filter-pagination @input="closeMedia" :is-next="isNext"/>
