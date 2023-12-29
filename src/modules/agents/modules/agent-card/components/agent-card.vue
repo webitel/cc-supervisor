@@ -91,7 +91,6 @@ export default {
     },
   },
   unmounted() {
-    console.log('unmounted');
     this.resetCallsFilters();
     this.resetStatusHistoryFilters();
   },
