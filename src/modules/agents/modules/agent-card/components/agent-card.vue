@@ -61,7 +61,6 @@ export default {
         return getNamespacedState(state, this.namespace).agent;
       },
     }),
-
     tabs() {
       return [
         {
@@ -91,6 +90,10 @@ export default {
       ];
     },
   },
+  unmounted() {
+    this.resetCallsFilters();
+    this.resetStatusHistoryFilters();
+  },
   methods: {
     ...mapActions({
       setAgentId(dispatch, payload) {
@@ -98,6 +101,12 @@ export default {
       },
       loadAgent(dispatch, payload) {
         return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
+      },
+      resetCallsFilters(dispatch) {
+        return dispatch(`${this.namespace}/calls/filters/RESET_FILTERS`);
+      },
+      resetStatusHistoryFilters(dispatch) {
+        return dispatch(`${this.namespace}/statusHistory/filters/RESET_FILTERS`);
       },
     }),
     async changeTab(tab) {
