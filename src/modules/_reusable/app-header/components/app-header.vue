@@ -5,9 +5,11 @@
       :nav="navAccess"
       :dark-mode="darkMode"
     ></wt-navigation-bar>
-    <wt-logo
-      :dark-mode="darkMode"
-    />
+    <a :href="startPageHref">
+      <wt-logo
+        :dark-mode="darkMode"
+      />
+    </a>
     <wt-dark-mode-switcher />
     <wt-app-navigator
       :current-app="currentApp"
@@ -54,6 +56,9 @@ export default {
     ...mapGetters('appearance', {
       darkMode: 'DARK_MODE',
     }),
+    startPageHref() {
+      return process.env.VUE_APP_APPLICATION_HUB_URL;
+    },
     apps() {
       const agent = {
         name: WebitelApplications.AGENT,
