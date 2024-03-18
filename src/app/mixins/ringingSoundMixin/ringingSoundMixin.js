@@ -1,8 +1,7 @@
 import { mapState } from 'vuex';
 import { CallActions, CallDirection } from 'webitel-sdk';
 // import isIncomingRinging from '../store/modules/call/scripts/isIncomingRinging';
-
-const AUDIO_URL = require('../../../../public/ringing.mp3');
+import AUDIO_URL from './ringing.mp3';
 
 export default {
   data: () => ({
