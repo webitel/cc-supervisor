@@ -3,11 +3,11 @@
   "version": "24.02.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
-    "build-and-run-locally": "npm run build && sudo docker run -p 80:80 -v ${PWD}/dist:/usr/share/nginx/html:rw -v ${HOME}/default.conf:/etc/nginx/conf.d/default.conf:ro -v ${PWD}/dist:/www/supervisor:rw -v ${HOME}/Projects/web-client-auth/dist:/www/auth:ro --rm nginx",
-    "lint": "vue-cli-service lint --fix",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "test:unit": "vitest",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
     "link-local-webitel-ui": "rm -rf node_modules/@webitel/ui-sdk && ln -s /home/user/Projects/webitel-ui-sdk node_modules/@webitel/ui-sdk",
     "link-local-webitel-sdk": "rm -rf node_modules/webitel-sdk && ln -s /home/user/Projects/webitel_sdk/dist node_modules/webitel-sdk",
     "prepare": "husky install"
@@ -22,6 +22,9 @@
     "core-js": "^3.6.4",
     "deep-copy": "^1.4.2",
     "deep-equal": "^2.0.3",
+    "vite-plugin-node-polyfills": "^0.21.0",
+    "vite-plugin-require": "^1.1.14",
+    "vite-tsconfig-paths": "^4.3.2",
     "vue": "^3.3.8",
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.1.6",
@@ -29,35 +32,27 @@
     "webitel-sdk": "^23.12.8"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.18.2",
     "@happy-dom/jest-environment": "^12.9.1",
     "@testing-library/jest-dom": "^5.11.4",
-    "@vue/cli-plugin-babel": "~5.0.8",
-    "@vue/cli-plugin-eslint": "~5.0.8",
-    "@vue/cli-plugin-router": "~5.0.8",
-    "@vue/cli-plugin-unit-jest": "~5.0.8",
-    "@vue/cli-plugin-vuex": "~5.0.8",
-    "@vue/cli-service": "~5.0.8",
+    "@vitejs/plugin-vue": "^5.0.4",
     "@vue/compiler-sfc": "^3.2.47",
     "@vue/eslint-config-airbnb": "^6.0.0",
     "@vue/test-utils": "^2.3.0",
     "@vue/vue3-jest": "^29.2.2",
-    "babel-preset-vite": "^1.1.0",
     "bamboo-jest-reporter": "^1.0.3",
-    "eslint": "^8.16.0",
+    "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^8.7.1",
     "husky": "^7.0.0",
     "jest-mock-axios": "^4.7.3",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "sass": "^1.52.1",
-    "sass-loader": "^8.0.2",
-    "svg-sprite-loader": "^6.0.11"
+    "vite": "^5.1.6",
+    "vite-plugin-svg-sprite": "^0.5.0"
   },
   "overrides": {
     "@vue/vue3-jest": "^29.2.2",
     "vue": "^3.3.8",
-    "babel-jest": "^29.*",
     "jest": "^29.*"
   }
 }
