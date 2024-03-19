@@ -2,13 +2,13 @@ import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
 import AgentPage from '../agent-card.vue';
 
-jest.mock('../../../../api/agents');
+vi.mock('../../../../api/agents');
 
 const agentId = 1;
-const $router = { replace: jest.fn() };
+const $router = { replace: vi.fn() };
 const $route = {
   params: { id: agentId },
-  query: { q: 'jest' },
+  query: { q: 'vi' },
 };
 
 describe('Agent page', () => {
@@ -16,8 +16,8 @@ describe('Agent page', () => {
   let mountOptions = {};
 
   const actionsMock = {
-    SET_AGENT_ID: jest.fn(),
-    LOAD_AGENT: jest.fn(),
+    SET_AGENT_ID: vi.fn(),
+    LOAD_AGENT: vi.fn(),
   };
 
   beforeEach(() => {

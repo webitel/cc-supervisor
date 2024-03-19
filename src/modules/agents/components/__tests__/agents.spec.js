@@ -8,7 +8,7 @@ import API from '../../api/agents';
 
 const items = [];
 
-jest.spyOn(API, 'getList')
+vi.spyOn(API, 'getList')
   .mockImplementation(() => ({ items }));
 
 describe('Agents page', () => {
@@ -67,7 +67,7 @@ describe('Agents page', () => {
       { status: AgentStatus.Pause },
       { status: AgentStatus.BreakOut },
     ];
-    jest.spyOn(Agents.methods, 'highlightRows');
+    vi.spyOn(Agents.methods, 'highlightRows');
 
     const wrapper = mount(Agents, {
       ...mountOptions,

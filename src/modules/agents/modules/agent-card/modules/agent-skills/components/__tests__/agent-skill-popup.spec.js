@@ -9,7 +9,7 @@ const store = createStore({
 });
 
 describe('Agent Skill Popup', () => {
-  const v$ = { itemInstance: { $touch: jest.fn() } };
+  const v$ = { itemInstance: { $touch: vi.fn() } };
   const mountOptions = {
     props: { namespace },
     global: {

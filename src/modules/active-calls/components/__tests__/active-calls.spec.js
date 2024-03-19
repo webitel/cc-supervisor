@@ -7,7 +7,7 @@ import API from '../../api/active-calls';
 
 const items = [];
 
-jest.spyOn(API, 'getList')
+vi.spyOn(API, 'getList')
 .mockImplementation(() => ({ items }));
 
 describe('Active Calls page', () => {

@@ -11,7 +11,7 @@ describe('Ringing sound mixin', () => {
       },
     },
   });
-  const ringingAudio = { play: jest.fn(), pause: jest.fn() };
+  const ringingAudio = { play: vi.fn(), pause: vi.fn() };
   const Component = {
     render() {},
     mixins: [ringingSoundMixin],

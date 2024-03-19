@@ -10,7 +10,7 @@ const user = {
   account: 'account',
 };
 
-jest.spyOn(authAPI, 'logout');
+vi.spyOn(authAPI, 'logout');
 describe('App Header', () => {
   let store;
 
@@ -48,7 +48,7 @@ describe('App Header', () => {
   });
 
   it('opens settings at user settings action', () => {
-    const open = jest.fn();
+    const open = vi.fn();
     Object.defineProperty(window, 'open', {
       configurable: true, get() { return open; },
     });

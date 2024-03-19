@@ -3,17 +3,17 @@ import agentEdit from '../agent-edit';
 import AgentAPI from '../../api/agent-edit';
 
 const agentId = 123;
-const agent = { agentId, name: 'jest' };
+const agent = { agentId, name: 'vi' };
 
 describe('Agent Edit store actions', () => {
-  const _getAgent = jest.fn(() => agent);
-  const _patchAgent = jest.fn(() => agent);
-  jest.spyOn(AgentAPI, 'get').mockImplementation(_getAgent);
-  jest.spyOn(AgentAPI, 'patch').mockImplementation(_patchAgent);
+  const _getAgent = vi.fn(() => agent);
+  const _patchAgent = vi.fn(() => agent);
+  vi.spyOn(AgentAPI, 'get').mockImplementation(_getAgent);
+  vi.spyOn(AgentAPI, 'patch').mockImplementation(_patchAgent);
 
   let context;
   beforeEach(() => {
-    context = getContextMock(jest);
+    context = getContextMock(vi);
     context.state.agent = agent;
     context.getters.AGENT_ID = agentId;
   });

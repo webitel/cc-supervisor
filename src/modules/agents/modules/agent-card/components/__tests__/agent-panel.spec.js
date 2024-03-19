@@ -4,7 +4,7 @@ import agents from '../../../../store/agents';
 import AgentPanel from '../agent-panel/agent-panel.vue';
 
 const agent = {
-  name: 'jest',
+  name: 'vi',
 };
 
 const score = {
@@ -12,13 +12,13 @@ const score = {
   scoreRequiredAvg: 0,
 };
 
-const LOAD_AGENT_MOCK = jest.fn();
-const LOAD_SCORE_DATA_MOCK = jest.fn();
+const LOAD_AGENT_MOCK = vi.fn();
+const LOAD_SCORE_DATA_MOCK = vi.fn();
 
-jest.spyOn(agents.modules.card.actions, 'LOAD_AGENT')
+vi.spyOn(agents.modules.card.actions, 'LOAD_AGENT')
 .mockImplementationOnce(LOAD_AGENT_MOCK);
 
-jest.spyOn(agents.modules.card.actions, 'LOAD_SCORE_DATA')
+vi.spyOn(agents.modules.card.actions, 'LOAD_SCORE_DATA')
 .mockImplementation(LOAD_SCORE_DATA_MOCK);
 
 const store = createStore({
@@ -49,15 +49,15 @@ describe('Agent panel', () => {
 
   it('calls "LOAD_AGENT" at @changed wt-cc-agent-status-select event', () => {
     const wrapper = mount(AgentPanel, mountOptions);
-    const newStatus = { status: 'jest' };
+    const newStatus = { status: 'vi' };
     wrapper.findComponent({ name: 'wt-cc-agent-status-select' })
       .vm.$emit('changed', newStatus);
     expect(LOAD_AGENT_MOCK.mock.calls[0][1]).toEqual(newStatus);
   });
 
   it('calls "callAgent" method at call btn click', () => {
-    const callAgentMock = jest.fn();
-    jest.spyOn(AgentPanel.methods, 'callAgent')
+    const callAgentMock = vi.fn();
+    vi.spyOn(AgentPanel.methods, 'callAgent')
       .mockImplementationOnce(callAgentMock);
     const wrapper = mount(AgentPanel, mountOptions);
     wrapper.findComponent({ name: 'wt-button' }).vm.$emit('click');
@@ -65,11 +65,11 @@ describe('Agent panel', () => {
   });
 
   it('calls "setCallInfo" and "openWindowMock" mapped methods at call btn click', () => {
-    const setCallInfoMock = jest.fn();
-    const callMock = jest.fn();
-    jest.spyOn(AgentPanel.methods, 'setCallInfo')
+    const setCallInfoMock = vi.fn();
+    const callMock = vi.fn();
+    vi.spyOn(AgentPanel.methods, 'setCallInfo')
       .mockImplementationOnce(setCallInfoMock);
-    jest.spyOn(AgentPanel.methods, 'call')
+    vi.spyOn(AgentPanel.methods, 'call')
       .mockImplementationOnce(callMock);
     const wrapper = mount(AgentPanel, mountOptions);
     wrapper.findComponent({ name: 'wt-button' }).vm.$emit('click');

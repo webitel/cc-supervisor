@@ -8,7 +8,7 @@ const items = [];
 
 const namespace = 'calls';
 
-jest.mock('../../api/agent-calls');
+vi.mock('../../api/agent-calls');
 
 describe('Agent calls tab', () => {
   let store;

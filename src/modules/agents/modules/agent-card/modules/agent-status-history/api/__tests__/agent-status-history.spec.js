@@ -2,21 +2,21 @@ import instance from '../../../../../../../../app/api/instance';
 import AgentStatusHistoryAPI from '../agent-status-history';
 
 const time = 123;
-const items = [{ state: 'jest', joinedAt: time }];
+const items = [{ state: 'vi', joinedAt: time }];
 const expectItems = [{
   joinedAt: time,
   duration: '00:00:00',
   from: new Date(time).toLocaleString(),
   to: null,
-  state: 'jest',
+  state: 'vi',
 }];
 
 /* mock SDK method api response with instance mock
- jest.spyOn(instance) used instead of jest.mock('@/app/api/instance) because WebStorm
-  doesn't watch path changes in jest.mock()
+ vi.spyOn(instance) used instead of vi.mock('@/app/api/instance) because WebStorm
+  doesn't watch path changes in vi.mock()
  */
-jest.fn(() => ({ items }));
-jest.spyOn(instance, 'request');
+vi.fn(() => ({ items }));
+vi.spyOn(instance, 'request');
 
 describe('Agent Status History API', () => {
   it('getList: correctly processes response', async () => {

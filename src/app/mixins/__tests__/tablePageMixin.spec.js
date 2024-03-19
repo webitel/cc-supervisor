@@ -3,13 +3,13 @@ import { createStore } from 'vuex';
 import tablePageMixin from '../supervisor-workspace/tablePageMixin';
 
 describe('table Page Mixin', () => {
-  const namespace = 'jest';
+  const namespace = 'vi';
   const state = {
-    dataList: [{ jest: 'jest' }],
-    aggs: { jest: 'jest' },
+    dataList: [{ vi: 'vi' }],
+    aggs: { vi: 'vi' },
     isNext: true,
   };
-  const fetchListActionMock = jest.fn();
+  const fetchListActionMock = vi.fn();
 
   const store = createStore({
     modules: {
@@ -38,7 +38,7 @@ describe('table Page Mixin', () => {
 
   it('correctly maps store dataList state prop', () => {
     const wrapper = shallowMount(Component, mountOptions);
-    const expectedDataList = [{ jest: 'jest' }];
+    const expectedDataList = [{ vi: 'vi' }];
     expect(wrapper.vm.dataList).toEqual(expectedDataList);
   });
 
@@ -50,7 +50,7 @@ describe('table Page Mixin', () => {
 
   it('correctly maps store aggs state prop', () => {
     const wrapper = shallowMount(Component, mountOptions);
-    const expectedAggs = { jest: 'jest' };
+    const expectedAggs = { vi: 'vi' };
     expect(wrapper.vm.aggs).toEqual(expectedAggs);
   });
 });

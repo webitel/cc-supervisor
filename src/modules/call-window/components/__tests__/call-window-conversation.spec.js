@@ -18,8 +18,8 @@ describe('CallWindowConversation', () => {
       agent() { return agent; },
     };
 
-    jest.spyOn(CallWindowConversation.methods, 'subscribeCalls')
-    .mockImplementationOnce(jest.fn());
+    vi.spyOn(CallWindowConversation.methods, 'subscribeCalls')
+    .mockImplementationOnce(vi.fn());
   });
 
   it('renders a component', () => {
@@ -32,8 +32,8 @@ describe('CallWindowConversation', () => {
     call.state = CallActions.Ringing;
     call.direction = CallDirection.Inbound;
 
-    const mock = jest.fn();
-    jest.spyOn(CallWindowConversation.methods, 'answerCall')
+    const mock = vi.fn();
+    vi.spyOn(CallWindowConversation.methods, 'answerCall')
     .mockImplementationOnce(mock);
     const wrapper = mount(CallWindowConversation, { computed });
     const answerBtn = wrapper.findAllComponents({ name: 'wt-rounded-action' })
@@ -54,8 +54,8 @@ describe('CallWindowConversation', () => {
     // active
     call.active = true;
 
-    const mock = jest.fn();
-    jest.spyOn(CallWindowConversation.methods, 'leaveCall')
+    const mock = vi.fn();
+    vi.spyOn(CallWindowConversation.methods, 'leaveCall')
     .mockImplementationOnce(mock);
     const wrapper = mount(CallWindowConversation, { computed });
     const answerBtn = wrapper.findAllComponents({ name: 'wt-rounded-action' })
@@ -77,8 +77,8 @@ describe('CallWindowConversation', () => {
   });
 
   it('mutes call', async () => {
-    const mock = jest.fn();
-    jest.spyOn(CallWindowConversation.methods, 'toggleMute')
+    const mock = vi.fn();
+    vi.spyOn(CallWindowConversation.methods, 'toggleMute')
     .mockImplementationOnce(mock);
     const wrapper = mount(CallWindowConversation, { computed });
     await wrapper.findComponent({ name: 'call-window-wrapper' }).setData({ isExpanded: true });
@@ -93,8 +93,8 @@ describe('CallWindowConversation', () => {
   it('holds call', async () => {
     call.allowHold = true;
 
-    const mock = jest.fn();
-    jest.spyOn(CallWindowConversation.methods, 'toggleHold')
+    const mock = vi.fn();
+    vi.spyOn(CallWindowConversation.methods, 'toggleHold')
     .mockImplementationOnce(mock);
     const wrapper = mount(CallWindowConversation, { computed });
     await wrapper.findComponent({ name: 'call-window-wrapper' }).setData({ isExpanded: true });

@@ -2,15 +2,15 @@ import instance from '../../../../../../app/api/instance';
 import AgentAPI from '../agent-card';
 
 /* mock SDK method api response with instance mock
- jest.spyOn(instance) used instead of jest.mock('@/app/api/instance) because WebStorm
-  doesn't watch path changes in jest.mock()
+ vi.spyOn(instance) used instead of vi.mock('@/app/api/instance) because WebStorm
+  doesn't watch path changes in vi.mock()
  */
 
-jest.spyOn(instance, 'request');
+vi.spyOn(instance, 'request');
 
-const item = { name: 'jest' };
+const item = { name: 'vi' };
 const expectedResponse = {
-  name: 'jest',
+  name: 'vi',
   offline: '00:00:00',
   online: '00:00:00',
   pause: '00:00:00',

@@ -2,17 +2,17 @@ import instance from '../../../../../../../../app/api/instance';
 import AgentAPI from '../agent-edit';
 
 /* mock SDK method api response with instance mock
- jest.spyOn(instance) used instead of jest.mock('@/app/api/instance) because WebStorm
-  doesn't watch path changes in jest.mock()
+ vi.spyOn(instance) used instead of vi.mock('@/app/api/instance) because WebStorm
+  doesn't watch path changes in vi.mock()
  */
-jest.spyOn(instance, 'request');
+vi.spyOn(instance, 'request');
 describe('Agent Edit API', () => {
   it('get: correctly processes response', async () => {
-    const item = { name: 'jest' };
+    const item = { name: 'vi' };
     const expectedResponse = {
       _dirty: false,
       chatCount: 0,
-      name: 'jest',
+      name: 'vi',
       progressiveCount: 0,
     };
     const getMock = instance.request.mockImplementationOnce((() => Promise.resolve({
@@ -28,14 +28,14 @@ describe('Agent Edit API', () => {
       changes:
         {
           _dirty: true,
-          team: { name: 'jest' }
+          team: { name: 'vi' }
         }
     };
     const expectedData = {
       changes: {
         _dirty: true,
         team: {
-          name: 'jest',
+          name: 'vi',
         },
       },
       id: 1,

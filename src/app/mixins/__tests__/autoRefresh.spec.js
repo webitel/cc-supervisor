@@ -2,7 +2,7 @@ import { shallowMount } from '@vue/test-utils';
 import autoRefreshMixin from '../autoRefresh/autoRefreshMixin';
 import '../../../../tests/unit/mocks/localStorageMock';
 
-test('autoRefresh triggered function twice', (done) => {
+test('autoRefresh triggered function twice', async () => {
   let counter = 0;
   localStorage.setItem('auto-refresh', '10');
   const Component = {
@@ -18,8 +18,7 @@ test('autoRefresh triggered function twice', (done) => {
     },
   };
   shallowMount(Component);
-  setTimeout(() => {
-    // expect(counter).toBe(2);
-    done();
-  }, 20);
+  await new Promise((r) => setTimeout(() => {
+    r();
+  }, 20));
 });

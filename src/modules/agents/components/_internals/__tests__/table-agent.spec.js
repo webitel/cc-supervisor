@@ -3,7 +3,7 @@ import TableAgent
   from '../table-templates/table-agent.vue';
 
 const $router = {
-  push: jest.fn(),
+  push: vi.fn(),
 };
 
 describe('Queues table Agent', () => {

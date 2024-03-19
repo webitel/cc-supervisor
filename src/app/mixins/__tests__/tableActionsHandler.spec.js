@@ -1,8 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
 import tableActionsHandlerMixin from '../supervisor-workspace/tableActionsHandlerMixin';
 
-const initializeListMock = jest.fn();
-const resetFiltersMock = jest.fn();
+const initializeListMock = vi.fn();
+const resetFiltersMock = vi.fn();
 
 const Component = {
   render() {},

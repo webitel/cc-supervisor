@@ -8,7 +8,7 @@ const items = [];
 
 const namespace = 'statusHistory';
 
-jest.mock('../../api/agent-status-history');
+vi.mock('../../api/agent-status-history');
 
 describe('Agent Status History tab', () => {
   let store;
