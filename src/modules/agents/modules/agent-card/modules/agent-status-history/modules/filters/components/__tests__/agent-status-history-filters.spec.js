@@ -11,8 +11,8 @@ describe('Agent Status History filters', () => {
     expect(wrapper.exists()).toBe(true);
   });
   it('reset filters action', () => {
-    const resetFiltersMock = jest.fn();
-    jest.spyOn(tableActionsHandlerMixin.methods, 'resetFilters').mockImplementationOnce(resetFiltersMock);
+    const resetFiltersMock = vi.fn();
+    vi.spyOn(tableActionsHandlerMixin.methods, 'resetFilters').mockImplementationOnce(resetFiltersMock);
     const wrapper = shallowMount(AgentStatusHistoryFilters);
     wrapper.vm.tableActionsHandler('filterReset');
     expect(resetFiltersMock).toHaveBeenCalled();

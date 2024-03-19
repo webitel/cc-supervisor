@@ -2,10 +2,10 @@ import instance from '../../../../../../../../app/api/instance';
 import AgentSkillsAPI from '../agent-skills';
 
 /* mock SDK method api response with instance mock
-jest.spyOn(instance) used instead of jest.mock('@/app/api/instance) because WebStorm
-doesn't watch path changes in jest.mock()
+vi.spyOn(instance) used instead of vi.mock('@/app/api/instance) because WebStorm
+doesn't watch path changes in vi.mock()
 */
-jest.spyOn(instance, 'request');
+vi.spyOn(instance, 'request');
 
 const parentId = '1';
 const id = '2';
@@ -25,8 +25,8 @@ const expectResponse = {
   next: false,
 };
 
-const itemInstance = { skill: { name: 'jest' } };
-const expectItemInstance = { skill: { name: 'jest' }, agentId: parentId };
+const itemInstance = { skill: { name: 'vi' } };
+const expectItemInstance = { skill: { name: 'vi' }, agentId: parentId };
 
 describe('Agent Skills API', () => {
   it('getList: correctly processes response', async () => {

@@ -8,7 +8,7 @@ describe('Agent profile', () => {
       .toBe(true);
   });
   it('renders name passed as prop', () => {
-    const name = 'jest';
+    const name = 'vi';
     const wrapper = shallowMount(AgentProfile, {
       props: { name },
     });

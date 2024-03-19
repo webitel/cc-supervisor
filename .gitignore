@@ -3,7 +3,6 @@ node_modules
 /dist
 /coverage
 .editorconfig
-jest.json
 
 # local env files
 .env.local

@@ -4,7 +4,7 @@ import AgentStatusAPI from '../../api/agent-pause-causes';
 import agentStatusStore from '../../store/agent-pause-causes';
 import AgentPauseCauseTable from '../agent-pause-cause-table.vue';
 
-jest.mock('../../api/agent-pause-causes');
+vi.mock('../../api/agent-pause-causes');
 
 const namespace = 'agentPauseCause';
 const store = createStore({

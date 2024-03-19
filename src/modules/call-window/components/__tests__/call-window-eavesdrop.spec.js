@@ -35,8 +35,8 @@ describe('CallWindowEavesdrop', () => {
   });
 
   it('closes window at "close" click', () => {
-    const mock = jest.fn();
-    jest.spyOn(CallWindowEavesdrop.methods, 'closeWindow')
+    const mock = vi.fn();
+    vi.spyOn(CallWindowEavesdrop.methods, 'closeWindow')
     .mockImplementationOnce(mock);
     const wrapper = mount(CallWindowEavesdrop, { computed });
     const btn = wrapper.findAllComponents({ name: 'wt-rounded-action' })
@@ -63,8 +63,8 @@ describe('CallWindowEavesdrop', () => {
   });
 
   it('mutes call', async () => {
-    const mock = jest.fn();
-    jest.spyOn(CallWindowEavesdrop.methods, 'mute')
+    const mock = vi.fn();
+    vi.spyOn(CallWindowEavesdrop.methods, 'mute')
     .mockImplementationOnce(mock);
     const wrapper = mount(CallWindowEavesdrop, { computed });
     await wrapper.findComponent({ name: 'call-window-wrapper' }).setData({ isExpanded: true });
@@ -77,8 +77,8 @@ describe('CallWindowEavesdrop', () => {
   });
 
   it('prompts call', async () => {
-    const mock = jest.fn();
-    jest.spyOn(CallWindowEavesdrop.methods, 'prompter')
+    const mock = vi.fn();
+    vi.spyOn(CallWindowEavesdrop.methods, 'prompter')
     .mockImplementationOnce(mock);
 
     // mount all components to get conference button from wt-tooltip slot
@@ -98,8 +98,8 @@ describe('CallWindowEavesdrop', () => {
   });
 
   it('conferences call', async () => {
-    const mock = jest.fn();
-    jest.spyOn(CallWindowEavesdrop.methods, 'conference')
+    const mock = vi.fn();
+    vi.spyOn(CallWindowEavesdrop.methods, 'conference')
     .mockImplementationOnce(mock);
 
     // mount all components to get conference button from wt-tooltip slot

@@ -14,11 +14,11 @@ const expectResponse = {
 };
 
 /* mock SDK method api response with instance mock
-jest.spyOn(instance) used instead of jest.mock('@/app/api/instance) because WebStorm
-doesn't watch path changes in jest.mock()
+vi.spyOn(instance) used instead of vi.mock('@/app/api/instance) because WebStorm
+doesn't watch path changes in vi.mock()
 */
 
-jest.spyOn(instance, 'request');
+vi.spyOn(instance, 'request');
 
 describe('Skills API', () => {
   it('getList: correctly processes response', async () => {

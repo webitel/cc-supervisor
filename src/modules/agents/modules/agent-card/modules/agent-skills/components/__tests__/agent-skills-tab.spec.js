@@ -7,8 +7,8 @@ const id = 1;
 const $route = { params: { id }, query: {} };
 
 const namespace = 'skills';
-const SET_PARENT_ITEM_ID = jest.fn();
-const SET_ITEM_ID = jest.fn();
+const SET_PARENT_ITEM_ID = vi.fn();
+const SET_ITEM_ID = vi.fn();
 const store = createStore({
   modules: {
     [namespace]: {
@@ -36,7 +36,7 @@ describe('Agent Skills Tab', () => {
     expect(SET_PARENT_ITEM_ID.mock.calls[0][1]).toBe(id);
   });
   it('"edit" calls SET_ITEM_ID with passed item.id', () => {
-    const item = { id: 'jest' };
+    const item = { id: 'vi' };
     const wrapper = shallowMount(AgentSkillsTab, mountOptions);
     wrapper.vm.edit(item);
     expect(SET_ITEM_ID.mock.calls[0][1]).toBe(item.id);

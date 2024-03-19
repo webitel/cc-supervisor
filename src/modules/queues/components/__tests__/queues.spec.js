@@ -34,7 +34,7 @@ const items = [
   },
 ];
 
-jest.mock('../../api/queues');
+vi.mock('../../api/queues');
 
 describe('Queues page', () => {
   let state;
@@ -74,8 +74,8 @@ describe('Queues page', () => {
         ...Queues.computed,
         dataList() {
           return [
-            { queue: { name: 'jest', id: '123' }, _isSelected: false },
-            { queue: { name: 'jest', id: '124' }, _isSelected: true },
+            { queue: { name: 'vi', id: '123' }, _isSelected: false },
+            { queue: { name: 'vi', id: '124' }, _isSelected: true },
           ];
         },
       },

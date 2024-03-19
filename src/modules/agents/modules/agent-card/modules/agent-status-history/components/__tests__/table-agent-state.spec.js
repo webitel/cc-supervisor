@@ -10,7 +10,7 @@ describe('Agent History table Agent State', () => {
   });
 
   it('if pause cause is passed, renders it', () => {
-    const pauseCause = 'jest';
+    const pauseCause = 'vi';
     const wrapper = shallowMount(TableAgentState, {
       props: { item: { ...item, pauseCause } },
     });

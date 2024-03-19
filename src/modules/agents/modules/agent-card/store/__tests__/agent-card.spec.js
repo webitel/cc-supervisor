@@ -3,15 +3,15 @@ import card from '../agent-card';
 import AgentAPI from '../../api/agent-card';
 
 const agentId = 123;
-const agent = { agentId, name: 'jest' };
+const agent = { agentId, name: 'vi' };
 
 describe('Agent Card store actions', () => {
-  const _getAgent = jest.fn(() => agent);
-  jest.spyOn(AgentAPI, 'get').mockImplementation(_getAgent);
+  const _getAgent = vi.fn(() => agent);
+  vi.spyOn(AgentAPI, 'get').mockImplementation(_getAgent);
 
   let context;
   beforeEach(() => {
-    context = getContextMock(jest);
+    context = getContextMock(vi);
     context.state = { agent, agentId };
   });
 
