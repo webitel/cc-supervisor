@@ -1,6 +1,5 @@
 import { mount } from '@vue/test-utils';
 import { createStore } from 'vuex';
-import authAPI from '@webitel/ui-sdk/src/modules/Userinfo/api/auth';
 import AppHeader
   from '../components/app-header.vue';
 import userInfoStore from '../../../userinfo/store/userinfo';
@@ -10,7 +9,6 @@ const user = {
   account: 'account',
 };
 
-vi.spyOn(authAPI, 'logout');
 describe('App Header', () => {
   let store;
 
@@ -38,13 +36,14 @@ describe('App Header', () => {
   });
 
   it('calls API logout at user logout action', () => {
+    const mock = vi.spyOn(AppHeader.methods, 'logout').mockImplementationOnce(vi.fn());
     const wrapper = mount(AppHeader, {
       global: {
         plugins: [store],
       },
     });
     wrapper.findComponent({ name: 'wt-header-actions' }).vm.$emit('logout');
-    expect(authAPI.logout).toHaveBeenCalled();
+    expect(mock).toHaveBeenCalled();
   });
 
   it('opens settings at user settings action', () => {

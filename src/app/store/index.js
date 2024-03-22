@@ -17,7 +17,7 @@ export default createStore({
   },
   actions: {
     OPEN_SESSION: async (context) => Promise.all([
-        context.dispatch('userinfo/OPEN_SESSION'),
+        context.dispatch('userinfo/OPEN_SESSION', { instance }),
         context.dispatch('now/SET_NOW_WATCHER', null, { root: true }),
       ]),
     CLOSE_SESSION: (context) => Promise.all([

@@ -9,6 +9,24 @@ import WebitelUi from './app/plugins/webitel-ui';
 
 // import './app/css/main.scss';
 
+const setTokenFromUrl = () => {
+  try {
+    const queryMap = window.location.search.slice(1)
+    .split('&')
+    .reduce((obj, query) => {
+      const [key, value] = query.split('=');
+      obj[key] = value;
+      return obj;
+    }, {});
+
+    if (queryMap.accessToken) {
+      localStorage.setItem('access-token', queryMap.accessToken);
+    }
+  } catch (err) {
+    console.error('Error restoring token from url', err);
+  }
+};
+
 const fetchConfig = async () => {
   const response = await fetch(`${import.meta.env.BASE_URL}/config.json`);
   return response.json();
@@ -27,6 +45,7 @@ const createVueInstance = () => {
 (async () => {
   let config;
   try {
+    setTokenFromUrl();
     config = await fetchConfig();
     await store.dispatch('OPEN_SESSION');
   } catch (err) {
