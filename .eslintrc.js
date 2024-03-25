@@ -16,4 +16,15 @@ module.exports = {
     'indent': 'off',
     'no-underscore-dangle': 'off',
   },
+  overrides: [
+    {
+      files: [
+        '**/__tests__/*.{j,t}s?(x)',
+        '**/tests/unit/**/*.spec.{j,t}s?(x)',
+      ],
+      env: {
+        es2022: true,
+      },
+    },
+  ],
 };
