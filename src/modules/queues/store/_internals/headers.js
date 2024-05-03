@@ -12,14 +12,17 @@ export default [
     sort: null,
     field: 'agent_status',
     width: '250px',
-  }, {
-    value: 'free',
-    locale: 'pages.queue.columns.free',
-    show: true,
-    sort: null,
-    field: 'agent_status',
-    width: 'minmax(120px, 1fr)',
-  }, {
+  },
+  // {
+  //   value: 'free',
+  //   locale: 'pages.queue.columns.free',
+  //   show: true,
+  //   sort: null,
+  //   field: 'agent_status',
+  //   width: 'minmax(120px, 1fr)',
+  // },
+  // https://webitel.atlassian.net/browse/WTEL-4411
+  {
     value: 'team',
     locale: 'pages.queue.columns.team',
     show: true,
