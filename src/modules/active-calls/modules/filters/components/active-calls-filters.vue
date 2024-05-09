@@ -6,6 +6,7 @@
     :is="`abstract-${filter.type}-filter`"
     :filter-query="filter.filterQuery"
     :namespace="namespace"
+    :disabled="filter.disabled"
   ></component>
 <!--    <skip-parent-filter-->
 <!--      :namespace="namespace"-->
@@ -14,6 +15,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import filtersPanelMixin from '../../../../../app/mixins/supervisor-workspace/filtersPanelMixin';
 import SkipParentFilter from './skip-parent-filter.vue';
 
@@ -21,23 +23,30 @@ export default {
   name: 'active-calls-filters',
   mixins: [filtersPanelMixin],
   components: { SkipParentFilter },
-  data: () => ({
-    filters: [
-      { type: 'enum', filterQuery: 'direction' },
-      { type: 'enum', filterQuery: 'result' },
-      { type: 'api', filterQuery: 'gateway' },
-      { type: 'api', filterQuery: 'queue' },
-      { type: 'api', filterQuery: 'user' },
-      { type: 'api', filterQuery: 'agent' },
-      { type: 'api', filterQuery: 'supervisor' },
-      { type: 'api', filterQuery: 'team' },
-    ],
-  }),
   computed: {
+    ...mapGetters('userinfo', {
+      allowUsers: 'ALLOW_USERS_ACCESS',
+      allowQueues: 'ALLOW_QUEUES_ACCESS',
+      allowAgents: 'ALLOW_AGENTS_ACCESS',
+      allowGateways: 'ALLOW_GATEWAYS_ACCESS',
+    }),
+    // add _ to because mixin data.filters overlaps computed.filters
+    _filters() {
+      return [
+        { type: 'enum', filterQuery: 'direction' },
+        { type: 'enum', filterQuery: 'result' },
+        { type: 'api', filterQuery: 'gateway', disabled: !this.allowGateways },
+        { type: 'api', filterQuery: 'queue', disabled: !this.allowQueues },
+        { type: 'api', filterQuery: 'user', disabled: !this.allowUsers },
+        { type: 'api', filterQuery: 'agent', disabled: !this.allowAgents },
+        { type: 'api', filterQuery: 'supervisor' },
+        { type: 'api', filterQuery: 'team' },
+      ];
+    },
     availableFilters() {
       return this.isAdmin
-        ? this.filters
-        : this.filters.filter((filter) => filter.filterQuery !== 'team'
+        ? this._filters
+        : this._filters.filter((filter) => filter.filterQuery !== 'team'
           && filter.filterQuery !== 'supervisor');
     },
   },

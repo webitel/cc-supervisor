@@ -16,6 +16,13 @@ const state = {
   agent: {},
 };
 
+const getters = {
+  ALLOW_USERS_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'users'),
+  ALLOW_AGENTS_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'cc_agent'),
+  ALLOW_QUEUES_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'cc_queue'),
+  ALLOW_GATEWAYS_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'gateways'),
+};
+
 const actions = {
   AFTER_OPEN_SESSION_HOOK: (context) => {
     context.dispatch('SUBSCRIBE_AGENT_STATUS');
@@ -41,6 +48,11 @@ const mutations = {
   },
 };
 
-const userinfo = new UserinfoStoreModule().getModule({ state, actions, mutations });
+const userinfo = new UserinfoStoreModule().getModule({
+  state,
+  getters,
+  actions,
+  mutations,
+});
 
 export default userinfo;
