@@ -1,5 +1,6 @@
 import { mapActions, mapState } from 'vuex';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import getNamespacedState
+  from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 
 export default {
   computed: {
@@ -8,16 +9,13 @@ export default {
         return getNamespacedState(state, this.namespace).headers;
       },
     }),
-    headers: {
-      get() {
-        return this.headersValue.map((header) => ({
-          ...header,
-          text: Array.isArray(header.locale) ? this.$tc(...header.locale) : this.$t(header.locale),
-        }));
-      },
-      set(value) {
-        this.setHeaders(value);
-      },
+    headers() {
+      return this.headersValue.map((header) => ({
+        ...header,
+        text: Array.isArray(header.locale)
+          ? this.$tc(...header.locale)
+          : this.$t(header.locale),
+      }));
     },
   },
   methods: {

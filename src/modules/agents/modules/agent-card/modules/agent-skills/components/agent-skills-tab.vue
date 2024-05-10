@@ -11,8 +11,9 @@
       @input="tableActionsHandler"
     >
       <filter-fields
-        v-model="headers"
+        :headers="headers"
         entity="agentSkills"
+        @change="setHeaders"
       ></filter-fields>
       <wt-icon-btn icon="plus" @click="openPopup"></wt-icon-btn>
     </wt-table-actions>

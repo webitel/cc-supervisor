@@ -6,8 +6,9 @@
       @input="tableActionsHandler"
     >
       <filter-fields
-        v-model="headers"
+        :headers="headers"
         entity="agentStatusHistory"
+        @change="setHeaders"
       ></filter-fields>
     </wt-table-actions>
     <wt-loader v-show="isLoading"></wt-loader>

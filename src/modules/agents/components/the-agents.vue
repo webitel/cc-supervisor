@@ -31,9 +31,10 @@
             @input="tableActionsHandler"
           >
             <filter-fields
-              v-model="headers"
+              :headers="headers"
               :static-headers="['name']"
               entity="agents"
+              @change="setHeaders"
             ></filter-fields>
           </wt-table-actions>
           <wt-table

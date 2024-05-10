@@ -29,9 +29,10 @@
             @input="tableActionsHandler"
           >
             <filter-fields
-              v-model="headers"
-              entity="queues"
+              :headers="headers"
               :static-headers="['queue', 'agents', 'free']"
+              entity="queues"
+              @change="setHeaders"
             ></filter-fields>
           </wt-table-actions>
           <wt-table
