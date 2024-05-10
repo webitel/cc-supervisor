@@ -32,11 +32,6 @@ export default {
     filterQuery: 'fields',
   }),
 
-  model: {
-    prop: 'headers',
-    event: 'change',
-  },
-
   methods: {
     change(headers) {
       this.setValue(headers);

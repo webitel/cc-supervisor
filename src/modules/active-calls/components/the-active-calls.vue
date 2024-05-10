@@ -28,8 +28,9 @@
             @input="tableActionsHandler"
           >
             <filter-fields
-              v-model="headers"
+              :headers="headers"
               entity="active-calls"
+              @change="setHeaders"
             ></filter-fields>
           </wt-table-actions>
           <wt-table
