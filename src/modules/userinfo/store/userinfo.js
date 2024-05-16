@@ -12,6 +12,8 @@ const getters = {
   ALLOW_AGENTS_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'cc_agent'),
   ALLOW_QUEUES_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'cc_queue'),
   ALLOW_GATEWAYS_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'gateways'),
+  ALLOW_SKILLS_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'dictionaries'),
+  ALLOW_REGIONS_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'dictionaries'),
 };
 
 const actions = {

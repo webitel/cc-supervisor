@@ -6,33 +6,43 @@
       :is="`abstract-${filter.type}-filter`"
       :filter-query="filter.filterQuery"
       :namespace="namespace"
+      :disabled="filter.disabled"
     ></component>
   </wt-filters-panel-wrapper>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import filtersPanelMixin from '../../../../../app/mixins/supervisor-workspace/filtersPanelMixin';
 
 export default {
   name: 'agent-filters',
   mixins: [filtersPanelMixin],
-  data: () => ({
-    filters: [
-      { type: 'enum', filterQuery: 'status' },
-      { type: 'api', filterQuery: 'queue' },
-      { type: 'api', filterQuery: 'skill' },
-      { type: 'api', filterQuery: 'team' },
-      { type: 'api', filterQuery: 'supervisor' },
-      { type: 'api', filterQuery: 'auditor' },
-      { type: 'api', filterQuery: 'region' },
-      { type: 'enum', filterQuery: 'utilization' },
-    ],
-  }),
   computed: {
+    ...mapGetters('userinfo', {
+      allowUsers: 'ALLOW_USERS_ACCESS',
+      allowQueues: 'ALLOW_QUEUES_ACCESS',
+      allowAgents: 'ALLOW_AGENTS_ACCESS',
+      allowSkills: 'ALLOW_SKILLS_ACCESS',
+      allowRegions: 'ALLOW_REGIONS_ACCESS',
+    }),
+    // add _ to because mixin data.filters overlaps computed.filters
+    _filters() {
+      return [
+        { type: 'enum', filterQuery: 'status' },
+        { type: 'api', filterQuery: 'queue', disabled: !this.allowQueues },
+        { type: 'api', filterQuery: 'skill', disabled: !this.allowSkills },
+        { type: 'api', filterQuery: 'team' },
+        { type: 'api', filterQuery: 'supervisor' },
+        { type: 'api', filterQuery: 'auditor', disabled: !this.allowUsers },
+        { type: 'api', filterQuery: 'region', disabled: !this.allowRegions },
+        { type: 'enum', filterQuery: 'utilization' },
+      ];
+    },
     availableFilters() {
       return this.isAdmin
-        ? this.filters
-        : this.filters.filter((filter) => filter.filterQuery !== 'team'
+        ? this._filters
+        : this._filters.filter((filter) => filter.filterQuery !== 'team'
           && filter.filterQuery !== 'supervisor');
     },
   },
