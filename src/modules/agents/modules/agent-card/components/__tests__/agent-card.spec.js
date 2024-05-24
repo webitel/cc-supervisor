@@ -5,10 +5,11 @@ import AgentPage from '../agent-card.vue';
 vi.mock('../../../../api/agents');
 
 const agentId = 1;
-const $router = { replace: vi.fn() };
+const $router = { replace: vi.fn(), push: vi.fn() };
 const $route = {
   params: { id: agentId },
   query: { q: 'vi' },
+  matched: [{ name: 'general' }],
 };
 
 describe('Agent page', () => {

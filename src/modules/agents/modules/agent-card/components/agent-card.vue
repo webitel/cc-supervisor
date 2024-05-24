@@ -93,7 +93,7 @@ export default {
       ];
     },
     currentTab() {
-      return this.tabs.find(({ pathName }) => this.$route?.matched?.find(({ name }) => name === pathName));
+      return this.tabs.find(({ pathName }) => this.$route?.matched?.find(({ name }) => name === pathName)) || this.tabs[0];
     },
   },
   unmounted() {
