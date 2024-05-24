@@ -7,7 +7,7 @@
         :key="key"
         @click.prevent.stop="togglePlay(file.id)"
       >
-        <wt-icon :icon="mediaIcon(file)"></wt-icon>
+        <wt-icon :icon="mediaIcon(file)"/>
         <div class="media-select__item__name">{{ file.name }}</div>
       </li>
     </ul>

@@ -65,8 +65,8 @@
             class="table-action"
             :class="{'active': openedMediaIndex === index}"
             :is-any-files-playing="isAnyFilesPlaying(item.files)"
-            @click="openMedia(index, $event)"
-          ></media-action>
+            @click="openMedia(index, item.files)"
+          />
         </template>
       </wt-table>
       <filter-pagination @input="closeMedia" :is-next="isNext"/>
@@ -76,7 +76,7 @@
         :src="audioURL"
         @play="isPlayingNow = true"
         @close="closePlayer"
-      ></wt-player>
+      />
 
       <media-select
         ref="media-select"
