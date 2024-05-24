@@ -62,11 +62,12 @@
         <template v-slot:actions="{ item, index }">
           <media-action
             v-if="item.files"
+            :currently-playing="currentlyPlaying"
+            :files="item.files"
             class="table-action"
-            :class="{'active': openedMediaIndex === index}"
-            :is-any-files-playing="isAnyFilesPlaying(item.files)"
-            @click="openMedia(index, item.files)"
-          />
+            @play="play"
+            @stop="closePlayer"
+          ></media-action>
         </template>
       </wt-table>
       <filter-pagination @input="closeMedia" :is-next="isNext"/>
@@ -78,14 +79,14 @@
         @close="closePlayer"
       />
 
-      <media-select
-        ref="media-select"
-        v-show="isMediaSelectOpened"
-        :files="mediaFiles"
-        :currently-playing="currentlyPlaying"
-        @play="play"
-        @close="closeMedia"
-      ></media-select>
+<!--      <media-select-->
+<!--        ref="media-select"-->
+<!--        v-show="isMediaSelectOpened"-->
+<!--        :files="mediaFiles"-->
+<!--        :currently-playing="currentlyPlaying"-->
+<!--        @play="play"-->
+<!--        @close="closeMedia"-->
+<!--      ></media-select>-->
     </div>
   </section>
 </template>
