@@ -30,6 +30,7 @@ import StatusHistory from '../modules/agent-status-history/components/agent-stat
 import StatusHistoryFilters from '../modules/agent-status-history/modules/filters/components/agent-status-history-filters.vue';
 import AgentPanel from './agent-panel/agent-panel.vue';
 import autoRefreshMixin from '../../../../../app/mixins/autoRefresh/autoRefreshMixin';
+import AgentTabPathNames from '../../../../../app/router/AgentTabPathNames.enum';
 
 export default {
   name: 'agent-card',
@@ -47,11 +48,9 @@ export default {
   data: () => ({
     namespace: 'agents/card',
     isLoading: false,
-    currentTab: {},
   }),
 
   created() {
-    this.setInitialTab();
     this.loadPage();
   },
 
@@ -68,26 +67,33 @@ export default {
           value: 'general',
           actionsPanel: false,
           namespace: this.namespace,
+          pathName: `${AgentTabPathNames.GENERAL}`,
         },
         {
           text: this.$t('pages.card.calls.title'),
           value: 'calls',
           actionsPanel: true,
           namespace: `${this.namespace}/calls`,
+          pathName: `${AgentTabPathNames.CALLS}`,
         },
         {
           text: this.$t('pages.card.statusHistory.title'),
           value: 'status-history',
           actionsPanel: true,
           namespace: `${this.namespace}/statusHistory`,
+          pathName: `${AgentTabPathNames.STATUSES}`,
         },
         {
           text: this.$t('pages.card.skills.title'),
           value: 'skills',
           actionsPanel: false,
           namespace: `${this.namespace}/skills`,
+          pathName: `${AgentTabPathNames.SKILLS}`,
         },
       ];
+    },
+    currentTab() {
+      return this.tabs.find(({ pathName }) => this.$route?.matched?.find(({ name }) => name === pathName));
     },
   },
   unmounted() {
@@ -113,7 +119,7 @@ export default {
       if (Object.keys(this.$route.query).length) {
         await this.$router.replace({ query: null }); // reset specific previous tab filters
       }
-      this.currentTab = tab;
+      this.$router.push({ name: tab.pathName });
     },
     async loadPage() {
       this.isLoading = true;
@@ -125,9 +131,6 @@ export default {
       } finally {
         this.isLoading = false;
       }
-    },
-    setInitialTab() {
-      if (this.tabs) this.changeTab(this.tabs[0]);
     },
     makeAutoRefresh() {
       return this.loadAgent();

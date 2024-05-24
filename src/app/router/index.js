@@ -12,6 +12,11 @@ import TheStartPage
 import SupervisorWorkspace from '../components/the-supervisor-workspace.vue';
 import AccessDenied from '../components/utils/access-denied-component.vue';
 import notFound from '../components/utils/the-not-found-component.vue';
+import AgentGeneralTab 
+  from '../../modules/agents/modules/agent-card/modules/agent-general/components/agent-general-tab.vue';
+import AgentCallsTab 
+  from '../../modules/agents/modules/agent-card/modules/agent-calls/components/agent-calls-tab.vue';
+import AgentTabPathNames from './AgentTabPathNames.enum';
 import store from '../store';
 
 const checkRouteAccess = ((to, from, next) => {
@@ -43,7 +48,27 @@ const routes = [
         path: 'agents/:id',
         name: `${SupervisorSections.AGENTS}-card`,
         component: AgentPage,
+        redirect: { name: `${AgentTabPathNames.GENERAL}` },
         beforeEnter: checkRouteAccess,
+        children: [
+          {
+            path: 'general',
+            name:  `${AgentTabPathNames.GENERAL}`,
+            component: AgentGeneralTab,
+          }, {
+            path: 'calls',
+            name:  `${AgentTabPathNames.CALLS}`,
+            component: AgentCallsTab,
+          }, {
+            path: 'statuses',
+            name:  `${AgentTabPathNames.STATUSES}`,
+            component: AgentGeneralTab,
+          }, {
+            path: 'skills',
+            name:  `${AgentTabPathNames.SKILLS}`,
+            component: AgentCallsTab,
+          }
+        ]
       }, {
         path: 'active-calls',
         name: SupervisorSections.ACTIVE_CALLS,
