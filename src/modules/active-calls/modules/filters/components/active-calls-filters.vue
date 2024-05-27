@@ -1,7 +1,7 @@
 <template>
   <wt-filters-panel-wrapper @reset="resetFilters">
   <component
-    v-for="(filter) of availableFilters"
+    v-for="(filter) of activeCallsFilters"
     :key="filter.filterQuery"
     :is="`abstract-${filter.type}-filter`"
     :filter-query="filter.filterQuery"
@@ -30,8 +30,8 @@ export default {
       allowAgents: 'ALLOW_AGENTS_ACCESS',
       allowGateways: 'ALLOW_GATEWAYS_ACCESS',
     }),
-    // add _ to because mixin data.filters overlaps computed.filters
-    _filters() {
+    // not just "filters" because mixin data.filters overlaps computed.filters
+    activeCallsFilters() {
       return [
         { type: 'enum', filterQuery: 'direction' },
         { type: 'enum', filterQuery: 'result' },
@@ -42,12 +42,6 @@ export default {
         { type: 'api', filterQuery: 'supervisor' },
         { type: 'api', filterQuery: 'team' },
       ];
-    },
-    availableFilters() {
-      return this.isAdmin
-        ? this._filters
-        : this._filters.filter((filter) => filter.filterQuery !== 'team'
-          && filter.filterQuery !== 'supervisor');
     },
   },
 };
