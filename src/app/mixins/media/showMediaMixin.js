@@ -57,12 +57,13 @@ import generateMediaURL from './scripts/generateMediaURL';
 export default {
   data: () => ({
     audioURL: '',
-    currentlyPlaying: '0',
+    currentlyPlaying: '',
     isPlayingNow: false,
   }),
 
   methods: {
     play(fileId) {
+      console.log('play fileId:', fileId);
       if (fileId) {
         this.currentlyPlaying = fileId;
         this.audioURL = generateMediaURL(fileId);

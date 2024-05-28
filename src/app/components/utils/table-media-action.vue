@@ -61,9 +61,11 @@ export default {
   },
   computed: {
     isAnyFilesPlaying() {
+      console.log('this.files:', this.files);
       return this.files.some((file) => file.id === this.currentlyPlaying);
     },
     contextOptions() {
+      console.log('this.files.length:', this.files.length);
       return this.files.map(({ name, id }) => ({ text: name, id }));
     },
   },

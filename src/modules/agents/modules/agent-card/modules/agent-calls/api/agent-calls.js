@@ -41,7 +41,7 @@ export const getAgentCallsList = async (params) => {
       queueDurationSec: calcDuration(item.queueDurationSec),
       scoreRequired: item.scoreRequired ? (+item.scoreRequired).toFixed(2) : null,
     }));
-
+  console.log('params:', params);
   const {
     page,
     size,
@@ -62,7 +62,7 @@ export const getAgentCallsList = async (params) => {
 
   try {
     const response = await callService.searchHistoryCall(
-      page, size, search, sort, fields.concat(['id', 'files']), from, to, userId, agentId,
+      page, size, search, sort, fields.concat(['id', 'files']), from, to, undefined, agentId,
       undefined, undefined, undefined, undefined,
       undefined, undefined, undefined, undefined,
       undefined, undefined, undefined, undefined,
@@ -70,13 +70,14 @@ export const getAgentCallsList = async (params) => {
       undefined, undefined, undefined, undefined,
       undefined, undefined, undefined, undefined,
       undefined, undefined, undefined, undefined,
-      undefined, undefined, undefined, undefined,
+      userId, undefined, undefined, undefined,
       undefined, rated, ratedBy,
     );
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
     ]);
+    console.log('items:', items);
     return {
       items: applyTransform(items, [
         listHandler,

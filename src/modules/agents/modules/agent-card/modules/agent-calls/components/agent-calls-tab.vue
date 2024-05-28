@@ -67,7 +67,8 @@
             class="table-action"
             @play="play"
             @stop="closePlayer"
-          ></media-action>
+          />
+          {{ just }}
         </template>
       </wt-table>
       <filter-pagination @input="closeMedia" :is-next="isNext"/>
@@ -125,6 +126,10 @@ export default {
     ...mapState('agents/card', {
       userId: (state) => state.agent.user.id,
     }),
+    just() {
+      console.log('loadList:', this.dataList)
+      return '';
+    }
   },
   methods: {
     loadList() {
