@@ -16,6 +16,10 @@ import AgentGeneralTab
   from '../../modules/agents/modules/agent-card/modules/agent-general/components/agent-general-tab.vue';
 import AgentCallsTab 
   from '../../modules/agents/modules/agent-card/modules/agent-calls/components/agent-calls-tab.vue';
+import AgentStatusHistoryTab 
+  from '../../modules/agents/modules/agent-card/modules/agent-status-history/components/agent-status-history-tab.vue'; 
+import AgentSkillsTab
+  from '../../modules/agents/modules/agent-card/modules/agent-skills/components/agent-skills-tab.vue';
 import AgentTabPathNames from './AgentTabPathNames.enum';
 import store from '../store';
 
@@ -62,11 +66,11 @@ const routes = [
           }, {
             path: 'statuses',
             name:  `${AgentTabPathNames.STATUSES}`,
-            component: AgentGeneralTab,
+            component: AgentStatusHistoryTab,
           }, {
             path: 'skills',
             name:  `${AgentTabPathNames.SKILLS}`,
-            component: AgentCallsTab,
+            component: AgentSkillsTab,
           }
         ]
       }, {
