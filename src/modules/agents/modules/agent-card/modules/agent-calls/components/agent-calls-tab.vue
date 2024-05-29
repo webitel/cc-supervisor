@@ -60,15 +60,20 @@
           </div>
         </template>
         <template v-slot:actions="{ item, index }">
+<!--          <media-action-->
+<!--            v-if="item.files"-->
+<!--            class="table-action"-->
+<!--            :class="{'active': openedMediaIndex === index}"-->
+<!--            :is-any-files-playing="isAnyFilesPlaying(item.files)"-->
+<!--            @click="openMedia(index, $event)"-->
+<!--          />-->
           <media-action
             v-if="item.files"
-            :currently-playing="currentlyPlaying"
-            :files="item.files"
+            :call="item"
             class="table-action"
             @play="play"
             @stop="closePlayer"
           />
-          {{ just }}
         </template>
       </wt-table>
       <filter-pagination @input="closeMedia" :is-next="isNext"/>
@@ -76,7 +81,6 @@
       <wt-player
         v-show="audioURL"
         :src="audioURL"
-        @play="isPlayingNow = true"
         @close="closePlayer"
       />
 
@@ -126,10 +130,6 @@ export default {
     ...mapState('agents/card', {
       userId: (state) => state.agent.user.id,
     }),
-    just() {
-      console.log('loadList:', this.dataList)
-      return '';
-    }
   },
   methods: {
     loadList() {

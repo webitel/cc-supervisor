@@ -1,7 +1,7 @@
 <!--<template>-->
 <!--  <wt-icon-btn-->
 <!--    :icon="isAnyFilesPlaying ? 'pause': 'play'"-->
-<!--    @click="$emit('click', $event)"-->
+<!--    @click="$emit(isAnyFilesPlaying ? 'stop' : 'play', $event)"-->
 <!--  >-->
 <!--  </wt-icon-btn>-->
 <!--</template>-->
@@ -31,15 +31,16 @@
     @click="handleOptionSelect"
   >
     <template v-slot:activator>
+      {{ callsPlayingId }}
       <wt-icon-btn
-        :icon="isAnyFilesPlaying ? 'stop': 'play'">
-      </wt-icon-btn>
+        :icon="isAnyPlayingNow ? 'stop': 'play'"
+      />
     </template>
     <template v-slot:option="{ text, id }">
       <div class="table-media-action__option">
         <wt-icon
           :icon="id === currentlyPlaying ? 'stop' : 'play'"
-        ></wt-icon>
+        />
         {{ text }}
       </div>
     </template>
@@ -48,33 +49,45 @@
 
 <script>
 
+import playMediaMixin from "../../mixins/media/playMediaMixin";
+
 export default {
   name: 'table-media-action',
+  mixins: [playMediaMixin],
   props: {
-    files: {
+    call: {
       type: Array,
       required: true,
     },
-    currentlyPlaying: {
-      type: String,
-    },
+    // callsPlayingId: {
+    //   type: String,
+    // },
   },
+  data: () => ({
+    currentlyPlaying: '', //id
+  }),
   computed: {
-    isAnyFilesPlaying() {
-      console.log('this.files:', this.files);
-      return this.files.some((file) => file.id === this.currentlyPlaying);
+    isAnyPlayingNow() {
+      console.log('isAnyPlayingNow: this.callsPlayingId:', this.callsPlayingId)
+      return this.callsPlayingId === this.call.id;
+      // return this.call.files.some((file) => file.id === this.currentlyPlaying);
     },
     contextOptions() {
-      console.log('this.files.length:', this.files.length);
-      return this.files.map(({ name, id }) => ({ text: name, id }));
+      console.log('this.files.length:', this.call.files.length);
+      return this.call.files.map(({ name, id }) => ({ text: name, id }));
     },
   },
   methods: {
     handleOptionSelect({ option }) {
+      // console.log('index:', index);
       if (this.currentlyPlaying === option.id) {
-        this.$emit('stop');
+        this.currentlyPlaying = '';
+        // this.isPlayingNow = false;
+        // this.$emit('stop');
       } else {
-        this.$emit('play', option.id);
+        this.currentlyPlaying = option.id;
+        // this.isPlayingNow = true;
+        this.$emit('play', option.id, this.call.id);
       }
     },
   },
