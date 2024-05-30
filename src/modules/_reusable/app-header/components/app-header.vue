@@ -56,7 +56,7 @@ export default {
       darkMode: 'DARK_MODE',
     }),
     startPageHref() {
-      return import.meta.env.VITE_APPLICATION_HUB_URL;
+      return import.meta.env.VITE_START_PAGE_URL;
     },
     apps() {
       const agent = {
