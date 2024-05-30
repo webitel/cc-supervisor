@@ -4,7 +4,7 @@ import SupervisorSections
 const AgentTabPathNames = Object.freeze({
   GENERAL: `${SupervisorSections.AGENTS}-card-general`,
   CALLS: `${SupervisorSections.AGENTS}-card-calls`,
-  STATUSES: `${SupervisorSections.AGENTS}-card-statuses`,
+  STATUS_HISTORY: `${SupervisorSections.AGENTS}-card-status-history`,
   SKILLS: `${SupervisorSections.AGENTS}-card-skills`
 });
 

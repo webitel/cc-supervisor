@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper class="agent-page" :actions-panel="currentTab.actionsPanel">
+  <wt-page-wrapper class="agent-page" :actions-panel="currentTab?.actionsPanel">
     <template v-slot:header>
       <agent-panel :namespace="namespace"/>
     </template>
@@ -67,33 +67,33 @@ export default {
           value: 'general',
           actionsPanel: false,
           namespace: this.namespace,
-          pathName: `${AgentTabPathNames.GENERAL}`,
+          pathName: AgentTabPathNames.GENERAL,
         },
         {
           text: this.$t('pages.card.calls.title'),
           value: 'calls',
           actionsPanel: true,
           namespace: `${this.namespace}/calls`,
-          pathName: `${AgentTabPathNames.CALLS}`,
+          pathName: AgentTabPathNames.CALLS,
         },
         {
           text: this.$t('pages.card.statusHistory.title'),
           value: 'status-history',
           actionsPanel: true,
           namespace: `${this.namespace}/statusHistory`,
-          pathName: `${AgentTabPathNames.STATUSES}`,
+          pathName: AgentTabPathNames.STATUS_HISTORY,
         },
         {
           text: this.$t('pages.card.skills.title'),
           value: 'skills',
           actionsPanel: false,
           namespace: `${this.namespace}/skills`,
-          pathName: `${AgentTabPathNames.SKILLS}`,
+          pathName: AgentTabPathNames.SKILLS,
         },
       ];
     },
     currentTab() {
-      return this.tabs.find(({ pathName }) => this.$route?.matched?.find(({ name }) => name === pathName)) || this.tabs[0];
+      return this.tabs.find(({ pathName }) => this.$route.name === pathName);
     },
   },
   unmounted() {
@@ -115,10 +115,7 @@ export default {
         return dispatch(`${this.namespace}/statusHistory/filters/RESET_FILTERS`);
       },
     }),
-    async changeTab(tab) {
-      if (Object.keys(this.$route.query).length) {
-        await this.$router.replace({ query: null }); // reset specific previous tab filters
-      }
+    changeTab(tab) {
       this.$router.push({ name: tab.pathName });
     },
     async loadPage() {

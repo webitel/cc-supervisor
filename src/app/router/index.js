@@ -52,24 +52,24 @@ const routes = [
         path: 'agents/:id',
         name: `${SupervisorSections.AGENTS}-card`,
         component: AgentPage,
-        redirect: { name: `${AgentTabPathNames.GENERAL}` },
+        redirect: { name: AgentTabPathNames.GENERAL },
         beforeEnter: checkRouteAccess,
         children: [
           {
             path: 'general',
-            name:  `${AgentTabPathNames.GENERAL}`,
+            name:  AgentTabPathNames.GENERAL,
             component: AgentGeneralTab,
           }, {
             path: 'calls',
-            name:  `${AgentTabPathNames.CALLS}`,
+            name:  AgentTabPathNames.CALLS,
             component: AgentCallsTab,
           }, {
-            path: 'statuses',
-            name:  `${AgentTabPathNames.STATUSES}`,
+            path: 'status-history',
+            name:  AgentTabPathNames.STATUS_HISTORY,
             component: AgentStatusHistoryTab,
           }, {
             path: 'skills',
-            name:  `${AgentTabPathNames.SKILLS}`,
+            name:  AgentTabPathNames.SKILLS,
             component: AgentSkillsTab,
           }
         ]
