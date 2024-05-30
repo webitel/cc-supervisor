@@ -62,8 +62,8 @@
         <template v-slot:actions="{ item, index }">
           <agent-calls-media-action
             v-if="item.files"
-            :item="item"
-            :currently-playing-item-id="currentlyPlayingCallId"
+            :call="item"
+            :playing-call-id="playingCallId"
             class="table-action"
             @play="play"
             @stop="closePlayer"
@@ -111,7 +111,7 @@ export default {
   },
   data: () => ({
     audioURL: '',
-    currentlyPlayingCallId: '',
+    playingCallId: '',
   }),
   computed: {
     ...mapState('agents/card', {
@@ -129,7 +129,7 @@ export default {
     play(fileId, callId) {
       if (fileId) {
         this.audioURL = generateMediaURL(fileId);
-        this.currentlyPlayingCallId = callId;
+        this.playingCallId = callId;
       } else {
         this.closePlayer();
       }
@@ -137,7 +137,7 @@ export default {
 
     closePlayer() {
       this.audioURL = '';
-      this.currentlyPlayingCallId = '';
+      this.playingCallId = '';
     },
   },
 };
