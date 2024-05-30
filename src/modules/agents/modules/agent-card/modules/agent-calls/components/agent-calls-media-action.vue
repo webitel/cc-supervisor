@@ -24,7 +24,7 @@
 <script>
 
 export default {
-  name: 'table-media-action',
+  name: 'agent-calls-media-action',
   props: {
     currentlyPlayingItemId: {
       type: String,

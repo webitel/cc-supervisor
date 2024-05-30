@@ -60,7 +60,7 @@
           </div>
         </template>
         <template v-slot:actions="{ item, index }">
-          <media-action
+          <agent-calls-media-action
             v-if="item.files"
             :item="item"
             :currently-playing-item-id="currentlyPlayingCallId"
@@ -85,12 +85,12 @@
 <script>
 import { mapState } from 'vuex';
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
-import MediaAction from '../../../../../../../app/components/utils/table-media-action.vue';
-import playMediaMixin from '../../../../../../../app/mixins/media/playMediaMixin';
+import AgentCallsMediaAction from './agent-calls-media-action.vue';
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
 import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields.vue';
 import TableDirection from './_internals/table-templates/table-direction.vue';
+import generateMediaURL from "../../../../../../../app/plugins/generateMediaURL";
 
 export default {
   name: 'agent-calls-tab',
@@ -98,18 +98,21 @@ export default {
     TableDirection,
     FilterFields,
     FilterPagination,
-    MediaAction,
+    AgentCallsMediaAction,
   },
   mixins: [
     tablePageMixin,
     sortFilterMixin,
-    playMediaMixin,
   ],
   props: {
     namespace: {
       type: String,
     },
   },
+  data: () => ({
+    audioURL: '',
+    currentlyPlayingCallId: '',
+  }),
   computed: {
     ...mapState('agents/card', {
       userId: (state) => state.agent.user.id,
@@ -122,6 +125,19 @@ export default {
         ...query,
         userId: this.userId,
       });
+    },
+    play(fileId, callId) {
+      if (fileId) {
+        this.audioURL = generateMediaURL(fileId);
+        this.currentlyPlayingCallId = callId;
+      } else {
+        this.closePlayer();
+      }
+    },
+
+    closePlayer() {
+      this.audioURL = '';
+      this.currentlyPlayingCallId = '';
     },
   },
 };
