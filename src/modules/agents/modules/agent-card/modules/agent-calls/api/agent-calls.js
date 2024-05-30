@@ -41,7 +41,6 @@ export const getAgentCallsList = async (params) => {
       queueDurationSec: calcDuration(item.queueDurationSec),
       scoreRequired: item.scoreRequired ? (+item.scoreRequired).toFixed(2) : null,
     }));
-  // console.log('params:', params);
   const {
     page,
     size,
@@ -77,7 +76,6 @@ export const getAgentCallsList = async (params) => {
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
     ]);
-    // console.log('items:', items);
     return {
       items: applyTransform(items, [
         listHandler,

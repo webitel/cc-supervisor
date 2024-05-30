@@ -9,7 +9,6 @@ export default {
   methods: {
     play(fileId, callId) {
       if (fileId) {
-        console.log('play callId:', callId);
         this.audioURL = generateMediaURL(fileId);
         this.currentlyPlayingCallId = callId;
       } else {

@@ -47,10 +47,6 @@ export default {
   },
   methods: {
     handleFilesSelect({ option }) {
-      // if (this.currentlyPlayingOptionId !== option.id || !this.isCallPlayingNow) {
-      //   this.currentlyPlayingOptionId = option.id;
-      //   this.$emit('play', option.id, this.call.id);
-      // }
       if (this.currentlyPlayingFileId === option.id && this.isItemsFilePlayingNow) {
         this.currentlyPlayingFileId = '';
         this.$emit('stop');

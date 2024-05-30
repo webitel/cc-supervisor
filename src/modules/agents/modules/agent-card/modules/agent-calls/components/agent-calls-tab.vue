@@ -13,7 +13,6 @@
     </wt-table-actions>
     <wt-loader v-show="isLoading"></wt-loader>
     <div class="table-loading-wrapper" v-show="!isLoading">
-      currentlyPlayingCallId: {{ currentlyPlayingCallId }}
       <wt-table
         ref="wt-table"
         :headers="headers"
