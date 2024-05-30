@@ -1,45 +1,19 @@
-<!--<template>-->
-<!--  <wt-icon-btn-->
-<!--    :icon="isAnyFilesPlaying ? 'pause': 'play'"-->
-<!--    @click="$emit(isAnyFilesPlaying ? 'stop' : 'play', $event)"-->
-<!--  >-->
-<!--  </wt-icon-btn>-->
-<!--</template>-->
-
-<!--<script>-->
-
-<!--export default {-->
-<!--  name: 'table-media-action',-->
-<!--  props: {-->
-<!--    isAnyFilesPlaying: {-->
-<!--      type: Boolean,-->
-<!--      default: false,-->
-<!--    },-->
-<!--  },-->
-<!--};-->
-<!--</script>-->
-
-<!--<style scoped>-->
-
-<!--</style>-->
-
 <template>
   <wt-context-menu
     class="table-media-action"
-    :options="contextOptions"
+    :options="files"
     max-width="400px"
-    @click="handleOptionSelect"
+    @click="handleFilesSelect"
   >
     <template v-slot:activator>
-      {{ callsPlayingId }}
       <wt-icon-btn
-        :icon="isAnyPlayingNow ? 'stop': 'play'"
+        :icon="isItemsFilePlayingNow ? 'stop': 'play'"
       />
     </template>
     <template v-slot:option="{ text, id }">
       <div class="table-media-action__option">
         <wt-icon
-          :icon="id === currentlyPlaying ? 'stop' : 'play'"
+          :icon="id === currentlyPlayingFileId && isItemsFilePlayingNow ? 'stop' : 'play'"
         />
         {{ text }}
       </div>
@@ -49,45 +23,40 @@
 
 <script>
 
-import playMediaMixin from "../../mixins/media/playMediaMixin";
-
 export default {
   name: 'table-media-action',
-  mixins: [playMediaMixin],
   props: {
-    call: {
+    currentlyPlayingItemId: {
+      type: String,
+    },
+    item: {
       type: Array,
       required: true,
     },
-    // callsPlayingId: {
-    //   type: String,
-    // },
   },
   data: () => ({
-    currentlyPlaying: '', //id
+    currentlyPlayingFileId: '',
   }),
   computed: {
-    isAnyPlayingNow() {
-      console.log('isAnyPlayingNow: this.callsPlayingId:', this.callsPlayingId)
-      return this.callsPlayingId === this.call.id;
-      // return this.call.files.some((file) => file.id === this.currentlyPlaying);
+    isItemsFilePlayingNow() {
+      return this.currentlyPlayingItemId === this.item.id;
     },
-    contextOptions() {
-      console.log('this.files.length:', this.call.files.length);
-      return this.call.files.map(({ name, id }) => ({ text: name, id }));
+    files() {
+      return this.item.files.map(({ name, id }) => ({ text: name, id }));
     },
   },
   methods: {
-    handleOptionSelect({ option }) {
-      // console.log('index:', index);
-      if (this.currentlyPlaying === option.id) {
-        this.currentlyPlaying = '';
-        // this.isPlayingNow = false;
-        // this.$emit('stop');
+    handleFilesSelect({ option }) {
+      // if (this.currentlyPlayingOptionId !== option.id || !this.isCallPlayingNow) {
+      //   this.currentlyPlayingOptionId = option.id;
+      //   this.$emit('play', option.id, this.call.id);
+      // }
+      if (this.currentlyPlayingFileId === option.id && this.isItemsFilePlayingNow) {
+        this.currentlyPlayingFileId = '';
+        this.$emit('stop');
       } else {
-        this.currentlyPlaying = option.id;
-        // this.isPlayingNow = true;
-        this.$emit('play', option.id, this.call.id);
+        this.currentlyPlayingFileId = option.id;
+        this.$emit('play', option.id, this.item.id);
       }
     },
   },

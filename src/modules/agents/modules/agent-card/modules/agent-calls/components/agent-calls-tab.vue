@@ -13,6 +13,7 @@
     </wt-table-actions>
     <wt-loader v-show="isLoading"></wt-loader>
     <div class="table-loading-wrapper" v-show="!isLoading">
+      currentlyPlayingCallId: {{ currentlyPlayingCallId }}
       <wt-table
         ref="wt-table"
         :headers="headers"
@@ -60,38 +61,24 @@
           </div>
         </template>
         <template v-slot:actions="{ item, index }">
-<!--          <media-action-->
-<!--            v-if="item.files"-->
-<!--            class="table-action"-->
-<!--            :class="{'active': openedMediaIndex === index}"-->
-<!--            :is-any-files-playing="isAnyFilesPlaying(item.files)"-->
-<!--            @click="openMedia(index, $event)"-->
-<!--          />-->
           <media-action
             v-if="item.files"
-            :call="item"
+            :item="item"
+            :currently-playing-item-id="currentlyPlayingCallId"
             class="table-action"
             @play="play"
             @stop="closePlayer"
           />
         </template>
       </wt-table>
-      <filter-pagination @input="closeMedia" :is-next="isNext"/>
+
+      <filter-pagination @input="closePlayer" :is-next="isNext"/>
 
       <wt-player
         v-show="audioURL"
         :src="audioURL"
         @close="closePlayer"
       />
-
-<!--      <media-select-->
-<!--        ref="media-select"-->
-<!--        v-show="isMediaSelectOpened"-->
-<!--        :files="mediaFiles"-->
-<!--        :currently-playing="currentlyPlaying"-->
-<!--        @play="play"-->
-<!--        @close="closeMedia"-->
-<!--      ></media-select>-->
     </div>
   </section>
 </template>
@@ -101,7 +88,6 @@ import { mapState } from 'vuex';
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import MediaAction from '../../../../../../../app/components/utils/table-media-action.vue';
 import playMediaMixin from '../../../../../../../app/mixins/media/playMediaMixin';
-import showMediaMixin from '../../../../../../../app/mixins/media/showMediaMixin';
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
 import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields.vue';
@@ -119,7 +105,6 @@ export default {
     tablePageMixin,
     sortFilterMixin,
     playMediaMixin,
-    showMediaMixin,
   ],
   props: {
     namespace: {

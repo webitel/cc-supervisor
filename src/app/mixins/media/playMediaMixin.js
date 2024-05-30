@@ -3,7 +3,7 @@ import generateMediaURL from './scripts/generateMediaURL';
 export default {
   data: () => ({
     audioURL: '',
-    callsPlayingId: '', // id of call which record (file) is playing now
+    currentlyPlayingCallId: '',
   }),
 
   methods: {
@@ -11,8 +11,7 @@ export default {
       if (fileId) {
         console.log('play callId:', callId);
         this.audioURL = generateMediaURL(fileId);
-        this.callsPlayingId = callId;
-        // console.log('this.isPlayngNow:', this.isPlayingNow);
+        this.currentlyPlayingCallId = callId;
       } else {
         this.closePlayer();
       }
@@ -20,7 +19,7 @@ export default {
 
     closePlayer() {
       this.audioURL = '';
-      this.callsPlayingId = '';
+      this.currentlyPlayingCallId = '';
     },
   },
 };
