@@ -10,12 +10,12 @@
         :icon="callMediaIcon"
       />
     </template>
-    <template v-slot:option="{ text, id }">
+    <template v-slot:option="{ name, id }">
       <div class="table-media-action__option">
         <wt-icon
           :icon="changeFileMediaIcon(id)"
         />
-        {{ text }}
+        {{ name }}
       </div>
     </template>
   </wt-context-menu>
@@ -29,6 +29,7 @@ export default {
     playingCallId: {
       type: String,
     },
+    // need to know, because sometimes we can have same media fails in different calls
     call: {
       type: Array,
       required: true,
@@ -44,7 +45,7 @@ export default {
       // because we can have same files with same id in different calls (because of calls transfer)
     },
     files() {
-      return this.call.files.map(({ name, id }) => ({ text: name, id }));
+      return this.call.files.map(({ name, id }) => ({ name, id }));
     },
     callMediaIcon() {
       return this.isCallsFilePlaying ? 'stop': 'play';
@@ -52,12 +53,15 @@ export default {
   },
   methods: {
     handleFilesSelect({ option }) {
-      if (this.playingFileId === option.id && this.isCallsFilePlaying) {
+      if (option.id === this.playingFileId  && this.isCallsFilePlaying) {
         this.playingFileId = '';
         this.$emit('stop');
       } else {
         this.playingFileId = option.id;
-        this.$emit('play', option.id, this.call.id);
+        this.$emit('play', {
+          fileId: option.id,
+          callId: this.call.id,
+        });
       }
     },
     changeFileMediaIcon(id) {

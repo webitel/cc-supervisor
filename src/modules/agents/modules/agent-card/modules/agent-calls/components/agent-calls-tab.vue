@@ -126,7 +126,7 @@ export default {
         userId: this.userId,
       });
     },
-    play(fileId, callId) {
+    play({ fileId, callId }) {
       if (fileId) {
         this.audioURL = generateMediaURL(fileId);
         this.playingCallId = callId;
