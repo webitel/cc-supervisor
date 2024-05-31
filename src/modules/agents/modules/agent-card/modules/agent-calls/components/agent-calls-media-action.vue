@@ -1,7 +1,7 @@
 <template>
   <wt-context-menu
     class="table-media-action"
-    :options="files"
+    :options="call.files"
     max-width="400px"
     @click="handleFilesSelect"
   >
@@ -43,9 +43,6 @@ export default {
       return this.playingCallId === this.call.id;
       // define the file of this call is playing,
       // because we can have same files with same id in different calls (because of calls transfer)
-    },
-    files() {
-      return this.call.files.map(({ name, id }) => ({ name, id }));
     },
     callMediaIcon() {
       return this.isCallsFilePlaying ? 'stop': 'play';
