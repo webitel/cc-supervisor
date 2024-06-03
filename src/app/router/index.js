@@ -68,7 +68,7 @@ const routes = [
             name:  AgentTabPathNames.STATUS_HISTORY,
             component: AgentStatusHistoryTab,
           }, {
-            path: 'skills',
+            path: 'skills/:skillId?',
             name:  AgentTabPathNames.SKILLS,
             component: AgentSkillsTab,
           }

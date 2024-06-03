@@ -10,9 +10,10 @@ export default {
     isLoading: false,
   }),
   watch: {
-    '$route.query': {
-      async handler() {
-        await this.initializeList();
+    '$route': {
+      async handler(to, from) {
+        const isQueryChnage = to.path === from?.path && JSON.stringify(to.query) !== JSON.stringify(from.query);
+        if (isQueryChnage) await this.initializeList();
       },
       immediate: true,
     },
@@ -58,4 +59,7 @@ export default {
       return this.loadDataList(query);
     },
   },
+  mounted() {
+    this.initializeList();
+  }
 };
