@@ -12,9 +12,6 @@ export default {
       checkCallsAccess: 'ALLOW_CALLS_ACCESS',
     }),
     nav() {
-      console.log('checkAgentsAccess:', this.checkAgentsAccess);
-      console.log('checkQueuesAccess:', this.checkQueuesAccess);
-      console.log('checkCallsAccess:', this.checkCallsAccess);
       return [{
         value: SupervisorSections.QUEUES,
         name: this.$t(`WebitelApplications.${WebitelApplications.SUPERVISOR}.sections.${SupervisorSections.QUEUES}`),

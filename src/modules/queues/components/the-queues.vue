@@ -114,7 +114,6 @@ export default {
   }),
 
   created() {
-    console.log('created Queue');
     this.initCSVExport(QueuesAPI.getList, { filename: 'queues-stats' });
   },
 

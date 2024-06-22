@@ -108,7 +108,6 @@ export const getAgentsList = async (params) => {
       next,
     };
   } catch (err) {
-    console.log('err:', err);
     throw applyTransform(err, [
       notify,
     ]);
