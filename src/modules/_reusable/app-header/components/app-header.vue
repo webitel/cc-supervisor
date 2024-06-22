@@ -4,7 +4,7 @@
       :current-app="currentApp"
       :nav="navAccess"
       :dark-mode="darkMode"
-    ></wt-navigation-bar>
+    />
     <a :href="startPageHref">
       <wt-logo
         :dark-mode="darkMode"
@@ -15,7 +15,7 @@
       :current-app="currentApp"
       :apps="apps"
       :dark-mode="darkMode"
-    ></wt-app-navigator>
+    />
     <wt-header-actions
       :user="user"
       :build-info="buildInfo"
@@ -92,7 +92,7 @@ export default {
       return apps.filter(({ name }) => this.checkAppAccess(name));
     },
     navAccess() {
-      return this.nav.filter((nav) => this.checkNavAccess({ name: nav.value }));
+      return this.nav.filter((nav) => nav.access);
     },
   },
 

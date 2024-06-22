@@ -29,6 +29,7 @@ export default {
       allowQueues: 'ALLOW_QUEUES_ACCESS',
       allowAgents: 'ALLOW_AGENTS_ACCESS',
       allowGateways: 'ALLOW_GATEWAYS_ACCESS',
+      allowTeams: 'ALLOW_TEAMS_ACCESS',
     }),
     // not just "filters" because mixin data.filters overlaps computed.filters
     activeCallsFilters() {
@@ -39,8 +40,8 @@ export default {
         { type: 'api', filterQuery: 'queue', disabled: !this.allowQueues },
         { type: 'api', filterQuery: 'user', disabled: !this.allowUsers },
         { type: 'api', filterQuery: 'agent', disabled: !this.allowAgents },
-        { type: 'api', filterQuery: 'supervisor' },
-        { type: 'api', filterQuery: 'team' },
+        { type: 'api', filterQuery: 'supervisor', disabled: !this.allowAgents }, // !this.allowAgents because we use agents api for this filter
+        { type: 'api', filterQuery: 'team', disabled: !this.allowTeams },
       ];
     },
   },
