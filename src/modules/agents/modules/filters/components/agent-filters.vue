@@ -29,7 +29,6 @@ export default {
     }),
     // not just "filters" because mixin data.filters overlaps computed.filters
     agentFilters() {
-      console.log('allowQueues:', this.allowQueues);
       return [
         { type: 'enum', filterQuery: 'status' },
         { type: 'api', filterQuery: 'queue', disabled: !this.allowQueues },
