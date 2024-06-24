@@ -7,7 +7,17 @@ import userInfoStore from '../../../userinfo/store/userinfo';
 const user = {
   username: 'username',
   account: 'account',
+  scope: {
+    id: '14',
+    class: 'cc_queue',
+    access: 'xrwd',
+  }
 };
+const getters = {
+  checkQueuesAccess: () => () => { return true },
+  checkAgentsAccess: () => () => { return false },
+  checkCallsAccess: () => () => { return true },
+}
 
 describe('App Header', () => {
   let store;
@@ -18,6 +28,7 @@ describe('App Header', () => {
         userinfo: {
           ...userInfoStore,
           state: { ...userInfoStore.state, ...user },
+          getters,
         },
       },
     });
