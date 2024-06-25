@@ -11,9 +11,17 @@ const getters = {
   ALLOW_USERS_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'users'),
   ALLOW_AGENTS_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'cc_agent'),
   ALLOW_QUEUES_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'cc_queue'),
+  ALLOW_TEAMS_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'cc_team'),
   ALLOW_GATEWAYS_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'gateways'),
   ALLOW_SKILLS_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'dictionaries'),
   ALLOW_REGIONS_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'dictionaries'),
+  ALLOW_CALLS_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'calls'),
+  GET_OBJECT_SCOPE_BY_CLASS: (state) => (scopeClass) => {
+    return Object.values(state.scope).find((object) => object.class === scopeClass)
+  },
+  ALLOW_SECTION_ACCESS: (state, getters) => ({ scopeClass, name, route }) => {
+    return getters.GET_OBJECT_SCOPE_BY_CLASS(scopeClass) && getters.CHECK_OBJECT_ACCESS({ name, route });
+  },
 };
 
 const actions = {

@@ -48,7 +48,7 @@ export default {
         };
       return this.nav.map((navItem) => ({
           ...navItem,
-          disabled: !this.checkNavAccess({ name: navItem.value }),
+          disabled: !this.checkNavAccess({ name: navItem.value, scopeClass: navItem.class }),
           name: this.$t(`pages.startPage.${navItem.value}.name`),
           text: this.$t(`pages.startPage.${navItem.value}.text`),
           image: this.theme === 'dark' ? cardSectionPic[navItem.value].dark : cardSectionPic[navItem.value].light,

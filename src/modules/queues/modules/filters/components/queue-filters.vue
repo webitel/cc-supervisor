@@ -21,13 +21,14 @@ export default {
   computed: {
     ...mapGetters('userinfo', {
       allowQueues: 'ALLOW_QUEUES_ACCESS',
+      allowTeams: 'ALLOW_TEAMS_ACCESS',
     }),
     // not just "filters" because mixin data.filters overlaps computed.filters
     queueFilters() {
       return [
         { type: 'enum', filterQuery: 'period' },
         { type: 'api', filterQuery: 'queue', disabled: !this.allowQueues },
-        { type: 'api', filterQuery: 'team' },
+        { type: 'api', filterQuery: 'team', disabled: !this.allowTeams },
         { type: 'enum', filterQuery: 'queueType' },
       ];
     },

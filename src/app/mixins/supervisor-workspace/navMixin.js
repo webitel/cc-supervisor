@@ -7,21 +7,24 @@ import WebitelApplications
 export default {
   computed: {
     ...mapGetters('userinfo', {
-      checkNavAccess: 'CHECK_OBJECT_ACCESS',
+      checkNavAccess: 'ALLOW_SECTION_ACCESS',
     }),
     nav() {
       return [{
         value: SupervisorSections.QUEUES,
         name: this.$t(`WebitelApplications.${WebitelApplications.SUPERVISOR}.sections.${SupervisorSections.QUEUES}`),
         route: '/queues',
+        class: 'cc_queue',
       }, {
         value: SupervisorSections.AGENTS,
         name: this.$t(`WebitelApplications.${WebitelApplications.SUPERVISOR}.sections.${SupervisorSections.AGENTS}`),
         route: '/agents',
+        class: 'cc_agent',
       }, {
         value: SupervisorSections.ACTIVE_CALLS,
         name: this.$t(`WebitelApplications.${WebitelApplications.SUPERVISOR}.sections.${SupervisorSections.ACTIVE_CALLS}`),
         route: '/active-calls',
+        class: 'calls',
       }];
     },
   },
