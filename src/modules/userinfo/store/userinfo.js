@@ -8,6 +8,7 @@ const state = {
 };
 
 const getters = {
+  THIS_APP: (state) => state.thisApp,
   ALLOW_USERS_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'users'),
   ALLOW_AGENTS_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'cc_agent'),
   ALLOW_QUEUES_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'cc_queue'),
@@ -16,6 +17,15 @@ const getters = {
   ALLOW_SKILLS_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'dictionaries'),
   ALLOW_REGIONS_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'dictionaries'),
   ALLOW_CALLS_ACCESS: (state) => state.scope?.some(({ class: scopeClass }) => scopeClass === 'calls'),
+  GET_OBJECT_SCOPE_BY_CLASS: (state) => (scopeClass) => {
+    return Object.values(state.scope).find((object) => object.class === scopeClass)
+  },
+  ALLOW_SECTION_ACCESS: (state, getters) => ({ scopeClass, name, route }) => {
+    console.log('scopeClass:', scopeClass,
+      'GET_OBJECT_SCOPE_BY_CLASS:', getters.GET_OBJECT_SCOPE_BY_CLASS(scopeClass),
+      'CHECK_OBJECT_ACCESS:', getters.CHECK_OBJECT_ACCESS({ name, route }));
+    return getters.GET_OBJECT_SCOPE_BY_CLASS(scopeClass) && getters.CHECK_OBJECT_ACCESS({ name, route });
+  },
 };
 
 const actions = {

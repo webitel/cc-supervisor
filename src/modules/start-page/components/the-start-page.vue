@@ -46,15 +46,13 @@ export default {
             light: ActiveCallsSecLight,
           },
         };
-      return this.nav.map((navItem) => {
-        return {
+      return this.nav.map((navItem) => ({
           ...navItem,
-          disabled: !navItem.access,
+          disabled: !this.checkNavAccess({ name: navItem.value, scopeClass: navItem.class }),
           name: this.$t(`pages.startPage.${navItem.value}.name`),
           text: this.$t(`pages.startPage.${navItem.value}.text`),
           image: this.theme === 'dark' ? cardSectionPic[navItem.value].dark : cardSectionPic[navItem.value].light,
-        }
-      });
+        }));
     },
   },
 };

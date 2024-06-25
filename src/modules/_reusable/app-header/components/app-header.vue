@@ -92,7 +92,7 @@ export default {
       return apps.filter(({ name }) => this.checkAppAccess(name));
     },
     navAccess() {
-      return this.nav.filter((nav) => nav.access);
+      return this.nav.filter((nav) => this.checkNavAccess({ name: nav.value, scopeClass: nav.class }));
     },
   },
 
