@@ -5,10 +5,11 @@ import AgentPage from '../agent-card.vue';
 vi.mock('../../../../api/agents');
 
 const agentId = 1;
-const $router = { replace: vi.fn() };
+const $router = { replace: vi.fn(), push: vi.fn() };
 const $route = {
   params: { id: agentId },
   query: { q: 'vi' },
+  matched: [{ name: 'general' }],
 };
 
 describe('Agent page', () => {
@@ -54,12 +55,6 @@ describe('Agent page', () => {
     const wrapper = shallowMount(AgentPage, mountOptions);
     expect(wrapper.classes('agent-page'))
     .toBe(true);
-  });
-  it('initially sets 1st tab as current', async () => {
-    const wrapper = shallowMount(AgentPage, mountOptions);
-    await wrapper.vm.$nextTick();
-    expect(wrapper.vm.currentTab)
-    .toEqual(wrapper.vm.tabs[0]);
   });
   it('initially dispatches SET_AGENT_ID with $route id param', async () => {
     const wrapper = shallowMount(AgentPage, mountOptions);

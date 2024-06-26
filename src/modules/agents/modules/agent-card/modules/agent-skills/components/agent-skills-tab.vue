@@ -15,7 +15,10 @@
         entity="agentSkills"
         @change="setHeaders"
       ></filter-fields>
-      <wt-icon-btn icon="plus" @click="openPopup"></wt-icon-btn>
+      <wt-icon-action
+        action="add"
+        @click="addItem"
+      />
     </wt-table-actions>
     <wt-loader v-show="isLoading"></wt-loader>
     <div class="table-loading-wrapper" v-show="!isLoading">
@@ -42,7 +45,7 @@
           <wt-icon-action
             class="table-action"
             action="edit"
-            @click="edit(item)"
+            @click="editItem(item)"
           ></wt-icon-action>
           <wt-icon-action
             class="table-action"
@@ -91,6 +94,9 @@ export default {
        return getNamespacedState(state, this.namespace).parentId;
      },
    }),
+   skillId() {
+    return this.$route.params.skillId;
+   }
   },
   methods: {
     ...mapActions({
@@ -112,7 +118,7 @@ export default {
       this.setParentId(this.$route.params.id);
       return tablePageMixin.methods.loadList.call(this);
     },
-    edit({ id }) {
+    edit(id) {
       this.setId(id);
       this.openPopup();
     },
@@ -120,7 +126,31 @@ export default {
       this.isSkillPopup = true;
     },
     closePopup() {
+      this.deleteSkillIdParam();
       this.isSkillPopup = false;
+    },
+    addItem() {
+      this.openPopup();
+      return this.$router.push({
+        ...this.$route,
+        params: { skillId: 'new' },
+      });
+    },
+    editItem({ id }) {
+      this.edit(id);
+      this.$router.push({
+        ...this.$route,
+        params: { skillId: id },
+      });
+    },
+    deleteSkillIdParam() {
+      const params = { ...this.$route.params };
+      delete params.skillId;
+
+      return this.$router.push({
+        ...this.$route,
+        params,
+      });
     },
   },
 };
