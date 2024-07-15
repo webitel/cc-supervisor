@@ -1,7 +1,7 @@
 <template>
   <wt-filters-panel-wrapper @reset="resetFilters">
   <component
-    v-for="(filter) of availableFilters"
+    v-for="(filter) of activeCallsFilters"
     :key="filter.filterQuery"
     :is="`abstract-${filter.type}-filter`"
     :filter-query="filter.filterQuery"
@@ -29,9 +29,10 @@ export default {
       allowQueues: 'ALLOW_QUEUES_ACCESS',
       allowAgents: 'ALLOW_AGENTS_ACCESS',
       allowGateways: 'ALLOW_GATEWAYS_ACCESS',
+      allowTeams: 'ALLOW_TEAMS_ACCESS',
     }),
-    // add _ to because mixin data.filters overlaps computed.filters
-    _filters() {
+    // not just "filters" because mixin data.filters overlaps computed.filters
+    activeCallsFilters() {
       return [
         { type: 'enum', filterQuery: 'direction' },
         { type: 'enum', filterQuery: 'result' },
@@ -39,15 +40,9 @@ export default {
         { type: 'api', filterQuery: 'queue', disabled: !this.allowQueues },
         { type: 'api', filterQuery: 'user', disabled: !this.allowUsers },
         { type: 'api', filterQuery: 'agent', disabled: !this.allowAgents },
-        { type: 'api', filterQuery: 'supervisor' },
-        { type: 'api', filterQuery: 'team' },
+        { type: 'api', filterQuery: 'supervisor', disabled: !this.allowAgents }, // !this.allowAgents because we use agents api for this filter
+        { type: 'api', filterQuery: 'team', disabled: !this.allowTeams },
       ];
-    },
-    availableFilters() {
-      return this.isAdmin
-        ? this._filters
-        : this._filters.filter((filter) => filter.filterQuery !== 'team'
-          && filter.filterQuery !== 'supervisor');
     },
   },
 };

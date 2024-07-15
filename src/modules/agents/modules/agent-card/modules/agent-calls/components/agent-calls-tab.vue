@@ -60,32 +60,24 @@
           </div>
         </template>
         <template v-slot:actions="{ item, index }">
-          <media-action
+          <agent-calls-media-action
             v-if="item.files"
+            :call="item"
+            :playing-call-id="playingCallId"
             class="table-action"
-            :class="{'active': openedMediaIndex === index}"
-            :is-any-files-playing="isAnyFilesPlaying(item.files)"
-            @click="openMedia(index, $event)"
-          ></media-action>
+            @play="play"
+            @stop="closePlayer"
+          />
         </template>
       </wt-table>
-      <filter-pagination @input="closeMedia" :is-next="isNext"/>
+
+      <filter-pagination @input="closePlayer" :is-next="isNext"/>
 
       <wt-player
         v-show="audioURL"
         :src="audioURL"
-        @play="isPlayingNow = true"
         @close="closePlayer"
-      ></wt-player>
-
-      <media-select
-        ref="media-select"
-        v-show="isMediaSelectOpened"
-        :files="mediaFiles"
-        :currently-playing="currentlyPlaying"
-        @play="play"
-        @close="closeMedia"
-      ></media-select>
+      />
     </div>
   </section>
 </template>
@@ -93,13 +85,12 @@
 <script>
 import { mapState } from 'vuex';
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
-import MediaAction from '../../../../../../../app/components/utils/table-media-action.vue';
-import playMediaMixin from '../../../../../../../app/mixins/media/playMediaMixin';
-import showMediaMixin from '../../../../../../../app/mixins/media/showMediaMixin';
+import AgentCallsMediaAction from './agent-calls-media-action.vue';
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
 import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields.vue';
 import TableDirection from './_internals/table-templates/table-direction.vue';
+import generateMediaURL from "../../../../../../../app/plugins/generateMediaURL";
 
 export default {
   name: 'agent-calls-tab',
@@ -107,19 +98,21 @@ export default {
     TableDirection,
     FilterFields,
     FilterPagination,
-    MediaAction,
+    AgentCallsMediaAction,
   },
   mixins: [
     tablePageMixin,
     sortFilterMixin,
-    playMediaMixin,
-    showMediaMixin,
   ],
   props: {
     namespace: {
       type: String,
     },
   },
+  data: () => ({
+    audioURL: '',
+    playingCallId: '',
+  }),
   computed: {
     ...mapState('agents/card', {
       userId: (state) => state.agent.user.id,
@@ -132,6 +125,19 @@ export default {
         ...query,
         userId: this.userId,
       });
+    },
+    play({ fileId, callId }) {
+      if (fileId) {
+        this.audioURL = generateMediaURL(fileId);
+        this.playingCallId = callId;
+      } else {
+        this.closePlayer();
+      }
+    },
+
+    closePlayer() {
+      this.audioURL = '';
+      this.playingCallId = '';
     },
   },
 };

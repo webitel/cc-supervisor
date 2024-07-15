@@ -14,7 +14,7 @@
 
     <template v-slot:main>
       <section class="main-section-wrapper">
-        <wt-loader v-show="isLoading"></wt-loader>
+        <wt-loader v-show="isLoading"/>
         <wt-dummy
           v-if="dummyValue && !isLoading"
           :src="dummyValue.src"

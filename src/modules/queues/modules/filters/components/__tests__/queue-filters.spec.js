@@ -30,11 +30,4 @@ describe('Queue Filters wrapper', () => {
     const wrapper = shallowMount(QueueFilters, mountOptions);
     expect(wrapper.exists()).toBe(true);
   });
-  it('includes team filter is agent is admin', async () => {
-      agent.isAdmin = true;
-      const wrapper = shallowMount(QueueFilters, mountOptions);
-      await wrapper.vm.$nextTick();
-      expect(wrapper.vm.availableFilters.find((filter) => filter.filterQuery === 'team'))
-      .toBeTruthy();
-    });
 });

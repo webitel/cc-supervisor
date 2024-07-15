@@ -1,7 +1,7 @@
 <template>
   <wt-filters-panel-wrapper @reset="resetFilters">
   <component
-      v-for="(filter) of availableFilters"
+      v-for="(filter) of queueFilters"
       :key="filter.filterQuery"
       :is="`abstract-${filter.type}-filter`"
       :filter-query="filter.filterQuery"
@@ -21,20 +21,16 @@ export default {
   computed: {
     ...mapGetters('userinfo', {
       allowQueues: 'ALLOW_QUEUES_ACCESS',
+      allowTeams: 'ALLOW_TEAMS_ACCESS',
     }),
-    // add _ to because mixin data.filters overlaps computed.filters
-    _filters() {
+    // not just "filters" because mixin data.filters overlaps computed.filters
+    queueFilters() {
       return [
         { type: 'enum', filterQuery: 'period' },
         { type: 'api', filterQuery: 'queue', disabled: !this.allowQueues },
-        { type: 'api', filterQuery: 'team' },
+        { type: 'api', filterQuery: 'team', disabled: !this.allowTeams },
         { type: 'enum', filterQuery: 'queueType' },
       ];
-    },
-    availableFilters() {
-      return this.isAdmin
-        ? this._filters
-        : this._filters.filter((filter) => filter.filterQuery !== 'team');
     },
   },
 };

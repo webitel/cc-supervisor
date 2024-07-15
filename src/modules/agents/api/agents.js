@@ -4,8 +4,7 @@ import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/
 import applyTransform, {
   merge, mergeEach,
   notify,
-  snakeToCamel,
-  starToSearch,
+  snakeToCamel
 } from '@webitel/ui-sdk/src/api/transformers';
 import instance from '../../../app/api/instance';
 import configuration from '../../../app/api/utils/openAPIConfig';
@@ -69,8 +68,7 @@ export const getAgentsList = async (params) => {
     callNow,
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    merge(defaultParams),
-    starToSearch('search'),
+    merge(defaultParams)
   ]);
 
   const utilizationFrom = '0';
