@@ -37,7 +37,7 @@ export default [
     width: 'minmax(120px, 1fr)',
   }, {
     value: 'count',
-    locale: 'pages.queue.columns.count',
+    locale: 'pages.queue.columns.activities',
     show: true,
     sort: null,
     field: 'count',

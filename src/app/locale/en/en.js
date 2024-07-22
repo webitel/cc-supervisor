@@ -78,6 +78,7 @@ export default {
         team: 'Team',
         members: 'Members processing/Waiting',
         count: 'Calls count',
+        activities : 'Activities',
         bridged: 'Answered',
         transferred: 'Transferred',
         abandoned: 'Abandoned',
