@@ -77,7 +77,6 @@ export default {
         free: 'Бос',
         team: 'Команда',
         members: 'Өңдеуде/Күтуде',
-        count: 'Қоңыраулар саны',
         bridged: 'Қосылды',
         transferred: 'Ауыстырылды',
         abandoned: 'Өткізіп жіберді',
