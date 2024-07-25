@@ -76,7 +76,6 @@ export default {
         free: 'Вільних',
         team: 'Команда',
         members: 'В обробці/Очікують',
-        count: 'Кількість дзвінків',
         activities : 'Активності',
         bridged: 'З\'єднано',
         transferred: 'Переведено',
