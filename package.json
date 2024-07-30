@@ -14,7 +14,7 @@
     "@vue/compat": "^3.3.8",
     "@vuelidate/core": "^2.0.0",
     "@vuelidate/validators": "^2.0.0",
-    "@webitel/ui-sdk": "=24.4.38",
+    "@webitel/ui-sdk": "^24.8.8",
     "axios": "^1.6.5",
     "clipboard-copy": "^4.0.1",
     "deep-copy": "^1.4.2",
@@ -26,17 +26,17 @@
     "webitel-sdk": "^23.12.28"
   },
   "devDependencies": {
-    "happy-dom": "^13.10.1",
     "@vitejs/plugin-vue": "^5.0.4",
+    "@vitest/coverage-v8": "^1.4.0",
     "@vue/test-utils": "^2.3.0",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^8.7.1",
+    "happy-dom": "^13.10.1",
     "sass": "^1.52.1",
     "tslib": "^2.6.2",
     "vite": "^5.1.6",
-    "@vitest/coverage-v8": "^1.4.0",
-    "vitest": "^1.4.0",
     "vite-plugin-node-polyfills": "^0.21.0",
-    "vite-plugin-svg-sprite": "^0.5.0"
+    "vite-plugin-svg-sprite": "^0.5.0",
+    "vitest": "^1.4.0"
   }
 }
