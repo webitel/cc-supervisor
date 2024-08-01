@@ -1,11 +1,17 @@
 import SupervisorSections
   from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
 import { createRouter, createWebHistory } from 'vue-router';
+import AgentTabsPathName from "./_internals/AgentTabsPathName.enum.js";
 import ActiveCalls
   from '../../modules/active-calls/components/the-active-calls.vue';
 import Agents from '../../modules/agents/components/the-agents.vue';
 import AgentPage
   from '../../modules/agents/modules/agent-card/components/agent-card.vue';
+const General  = import( '../../modules/agents/modules/agent-card/modules/agent-general/components/agent-general-tab.vue');
+const Skills  = import( '../../modules/agents/modules/agent-card/modules/agent-skills/components/agent-skills-tab.vue');
+const StatusHistory  = import( '../../modules/agents/modules/agent-card/modules/agent-status-history/components/agent-status-history-tab.vue');
+const Calls  = import( '../../modules/agents/modules/agent-card/modules/agent-calls/components/agent-calls-tab.vue');
+
 import Queue from '../../modules/queues/components/the-queues.vue';
 import TheStartPage
   from '../../modules/start-page/components/the-start-page.vue';
@@ -43,7 +49,30 @@ const routes = [
         path: 'agents/:id',
         name: `${SupervisorSections.AGENTS}-card`,
         component: AgentPage,
+        redirect: { name: AgentTabsPathName.GENERAL },
         beforeEnter: checkRouteAccess,
+        children: [
+          {
+            path: 'general',
+            name: AgentTabsPathName.GENERAL,
+            component: General,
+          },
+          {
+            path: 'work-logs',
+            name: AgentTabsPathName.WORK_LOG,
+            component: Calls,
+          },
+          {
+            path: 'state-history',
+            name: AgentTabsPathName.STATE_HISTORY,
+            component: StatusHistory
+          },
+          {
+            path: 'skills/:skillId?',
+            name: AgentTabsPathName.SKILLS,
+            component: Skills,
+          }
+        ],
       }, {
         path: 'active-calls',
         name: SupervisorSections.ACTIVE_CALLS,

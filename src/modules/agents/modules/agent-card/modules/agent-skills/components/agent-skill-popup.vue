@@ -1,5 +1,11 @@
 <template>
-  <wt-popup min-width="480" overflow @close="close">
+  <wt-popup
+    v-bind="$attrs"
+    :shown="!!skillId"
+    size="sm"
+    overflow
+    @close="close"
+    >
     <template v-slot:title>
       {{ $tc('pages.card.skills.skills', 1) }}
     </template>
@@ -46,6 +52,7 @@ import { useVuelidate } from '@vuelidate/core';
 import {
  maxValue, minValue, numeric, required,
 } from '@vuelidate/validators';
+import { mapActions } from "vuex";
 import SkillsAPI from '../api/skills';
 import nestedObjectMixin
   from '../../../../../../../packages/client/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
@@ -60,8 +67,13 @@ export default {
     },
   },
   setup: () => ({
-    v$: useVuelidate(),
+    v$: useVuelidate({$stopPropagation: true}),
   }),
+  computed: {
+    skillId() {
+      return this.$route.params.skillId;
+    },
+  },
   validations: {
     itemInstance: {
       skill: { required },
@@ -75,7 +87,21 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      setId(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
+      },
+    }),
     loadDropdownOptionsList: SkillsAPI.getLookup,
+  },
+
+  watch: {
+    skillId: {
+       handler(id) {
+        this.setId(id);
+        this.loadItem();
+      }, immediate: true,
+    },
   },
 };
 </script>

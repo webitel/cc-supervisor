@@ -1,7 +1,6 @@
 <template>
   <section class="table-wrapper table-wrapper--tab-table">
     <skill-popup
-      v-if="isSkillPopup"
       :namespace="namespace"
       @close="closePopup"
     ></skill-popup>
@@ -15,7 +14,7 @@
         entity="agentSkills"
         @change="setHeaders"
       ></filter-fields>
-      <wt-icon-btn icon="plus" @click="openPopup"></wt-icon-btn>
+      <wt-icon-btn icon="plus" @click="setSkillId('new')"></wt-icon-btn>
     </wt-table-actions>
     <wt-loader v-show="isLoading"></wt-loader>
     <div class="table-loading-wrapper" v-show="!isLoading">
@@ -42,7 +41,7 @@
           <wt-icon-action
             class="table-action"
             action="edit"
-            @click="edit(item)"
+            @click="setSkillId(item.id)"
           ></wt-icon-action>
           <wt-icon-action
             class="table-action"
@@ -82,9 +81,6 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-    isSkillPopup: false,
-  }),
   computed: {
    ...mapState({
      parentId(state) {
@@ -112,15 +108,14 @@ export default {
       this.setParentId(this.$route.params.id);
       return tablePageMixin.methods.loadList.call(this);
     },
-    edit({ id }) {
+    setSkillId(id) {
       this.setId(id);
-      this.openPopup();
-    },
-    openPopup() {
-      this.isSkillPopup = true;
+      return this.$router.push({
+        params: { skillId: id },
+      });
     },
     closePopup() {
-      this.isSkillPopup = false;
+      return this.$router.go(-1);
     },
   },
 };
