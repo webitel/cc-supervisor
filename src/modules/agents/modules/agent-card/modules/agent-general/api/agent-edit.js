@@ -6,7 +6,7 @@ import applyTransform, {
   camelToSnake,
   sanitize,
   log,
-} from '@webitel/ui-sdk/src/api/transformers';
+} from '@webitel/ui-sdk/src/api/transformers/index.js';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/utils/openAPIConfig';
 
