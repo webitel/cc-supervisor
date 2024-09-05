@@ -38,7 +38,7 @@ describe('Agent Skills Tab', () => {
   it('"edit" calls SET_ITEM_ID with passed item.id', () => {
     const item = { id: 'vi' };
     const wrapper = shallowMount(AgentSkillsTab, mountOptions);
-    wrapper.vm.edit(item);
+    wrapper.vm.setSkillId(item.id);
     expect(SET_ITEM_ID.mock.calls[0][1]).toBe(item.id);
   });
 });
