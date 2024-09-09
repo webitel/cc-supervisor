@@ -57,6 +57,11 @@ export default ({ mode }) => {
         enabled: true,
         reporter: 'json',
       },
+      server: {
+        deps: {
+          inline: ['@webitel/ui-sdk'],
+        },
+      },
       environment: 'happy-dom',
       setupFiles: ['./tests/config/config.js'],
     },
