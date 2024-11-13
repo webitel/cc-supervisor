@@ -1,18 +1,15 @@
 <template>
-  <div class="start-page-wrapper">
-    <start-page-card
-      v-for="(card) of navCards"
-      :key="card.value"
-      :card="card"
-    />
-  </div>
+  <wt-start-page
+    :nav="navCards"
+    :dark-mode="theme === 'dark'"
+  />
 </template>
 
 <script>
 import SupervisorSections
   from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
 import { mapState } from 'vuex';
-import StartPageCard from './start-page-card.vue';
+import WtStartPage from '@webitel/ui-sdk/src/components/on-demand/wt-start-page/components/wt-start-page.vue';
 
 import QueuesSecDark from '../assets/queues-section-dark.svg';
 import QueuesSecLight from '../assets/queues-section-light.svg';
@@ -26,48 +23,42 @@ import navMixin from '../../../app/mixins/supervisor-workspace/navMixin';
 export default {
   name: 'the-start-page',
   mixins: [navMixin],
-  components: { StartPageCard },
+  components: {
+    WtStartPage,
+  },
   computed: {
     ...mapState('appearance', {
       theme: (state) => state.theme,
     }),
     navCards() {
       const cardSectionPic = {
-          [SupervisorSections.QUEUES]: {
-            dark: QueuesSecDark,
-            light: QueuesSecLight,
-          },
-          [SupervisorSections.AGENTS]: {
-            dark: AgentsSecDark,
-            light: AgentsSecLight,
-          },
-          [SupervisorSections.ACTIVE_CALLS]: {
-            dark: ActiveCallsSecDark,
-            light: ActiveCallsSecLight,
-          },
-        };
+        [SupervisorSections.QUEUES]: {
+          dark: QueuesSecDark,
+          light: QueuesSecLight,
+        },
+        [SupervisorSections.AGENTS]: {
+          dark: AgentsSecDark,
+          light: AgentsSecLight,
+        },
+        [SupervisorSections.ACTIVE_CALLS]: {
+          dark: ActiveCallsSecDark,
+          light: ActiveCallsSecLight,
+        },
+      };
       return this.nav.map((navItem) => ({
-          ...navItem,
-          disabled: !this.checkNavAccess({ name: navItem.value, scopeClass: navItem.class }),
-          name: this.$t(`pages.startPage.${navItem.value}.name`),
-          text: this.$t(`pages.startPage.${navItem.value}.text`),
-          image: this.theme === 'dark' ? cardSectionPic[navItem.value].dark : cardSectionPic[navItem.value].light,
-        }));
+        ...navItem,
+        disabled: !this.checkNavAccess({ name: navItem.value, scopeClass: navItem.class }),
+        name: this.$t(`pages.startPage.${navItem.value}.name`),
+        text: this.$t(`pages.startPage.${navItem.value}.text`),
+        images: {
+          light: cardSectionPic[navItem.value].light,
+          dark: cardSectionPic[navItem.value].dark,
+        },
+      }));
     },
   },
 };
 </script>
 
 <style scoped>
-.start-page-wrapper {
-  box-sizing: border-box;
-  min-width: 440px;
-  min-height: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 410px);
-  justify-content: center;
-  align-content: center;
-  grid-gap: var(--spacing-sm);
-  padding: var(--spacing-sm);
-}
 </style>
