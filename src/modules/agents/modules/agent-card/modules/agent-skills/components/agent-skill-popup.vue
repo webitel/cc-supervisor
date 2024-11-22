@@ -34,7 +34,7 @@
     </template>
     <template v-slot:actions>
       <wt-button
-        :disabled="computeDisabled"
+        :disabled="v$.$error || v$.$invalid"
         @click="save"
       >{{ $t('reusable.add') }}
       </wt-button>
@@ -67,7 +67,7 @@ export default {
     },
   },
   setup: () => ({
-    v$: useVuelidate({$stopPropagation: true}),
+    v$: useVuelidate({$stopPropagation: true, $autoDirty: true }),
   }),
   computed: {
     skillId() {
