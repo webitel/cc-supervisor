@@ -2,7 +2,9 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults/index.js';
 import applyTransform, {
-  merge, notify, snakeToCamel,
+  merge,
+  notify,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
@@ -57,6 +59,28 @@ const getAgent = async (params) => {
   }
 };
 
+const getScore = async ({ agentId }) => {
+  try {
+    const response = await agentService.searchAgentStatusStatisticItem(
+      agentId,
+      '0', // why 0? https://webitel.atlassian.net/browse/WTEL-5439?focusedCommentId=641601
+      '0',
+      );
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      ({
+         scoreCount = 0,
+         scoreRequiredAvg = 0,
+       }) => ({ scoreCount, scoreRequiredAvg }),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
 export default {
   get: getAgent,
+  getScore,
 };

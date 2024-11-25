@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from 'vite';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import vue from '@vitejs/plugin-vue';
 import createSvgSpritePlugin from 'vite-plugin-svg-sprite';
+import vueDevTools from 'vite-plugin-vue-devtools';
 
 export default ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -37,6 +38,9 @@ export default ({ mode }) => {
             },
           },
         },
+      }),
+      vueDevTools({
+        launchEditor: 'webstorm',
       }),
       // https://www.npmjs.com/package/vite-plugin-node-polyfills
       nodePolyfills({
