@@ -10,14 +10,15 @@
     "lint:fix": "eslint --fix --ext .js,.vue src",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "i": "npm i"
   },
   "type": "module",
   "dependencies": {
     "@vue/compat": "3.5.1",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
-    "@webitel/ui-sdk": "^24.10.74",
+    "@webitel/ui-sdk": "^24.10.90",
     "axios": "^1.7.7",
     "clipboard-copy": "^4.0.1",
     "deep-copy": "^1.4.2",
