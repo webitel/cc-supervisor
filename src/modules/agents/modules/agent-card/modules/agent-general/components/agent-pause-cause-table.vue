@@ -97,6 +97,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/ui-sdk/src/css/main';
+
 .wt-table {
   @extend %wt-scrollbar;
 }

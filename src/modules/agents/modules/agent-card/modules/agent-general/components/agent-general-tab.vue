@@ -30,6 +30,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/ui-sdk/src/css/main' as *;
+
 .agent-general-tab {
   display: grid;
   grid-template-columns: 1fr 2fr;
