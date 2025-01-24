@@ -3,6 +3,7 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import vue from '@vitejs/plugin-vue';
 import createSvgSpritePlugin from 'vite-plugin-svg-sprite';
 import vueDevTools from 'vite-plugin-vue-devtools';
+import { resolve } from 'path'
 
 export default ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -20,15 +21,17 @@ export default ({ mode }) => {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: `@import "./src/app/css/main.scss";`,
+          api: 'modern',
+          additionalData: `@use "@/app/css/main.scss" as *;`,
         },
       },
     },
-    // resolve: {
-    //   alias: {
-    //     vue: '@vue/compat',
-    //   },
-    // },
+    resolve: {
+      alias: {
+        // vue: '@vue/compat',
+        '@': resolve(__dirname, 'src')
+      },
+    },
     plugins: [
       vue({
         template: {

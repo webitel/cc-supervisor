@@ -101,6 +101,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/ui-sdk/src/css/main';
+
 .agent-info-form {
   @extend %wt-scrollbar;
   padding: var(--spacing-sm);
