@@ -1,6 +1,10 @@
 @forward '@webitel/ui-sdk/src/css/main';
 @use 'supervisor-workspace';
 
+* {
+  box-sizing: border-box;
+}
+
 //disables scrollbar on 100vh auth on small laptops
 body {
   @extend %typo-body-1;
@@ -14,8 +18,18 @@ body {
   width: 100%;
 }
 
+iframe {
+  border: none;
+  outline: none;
+}
+
 img {
   width: 100%;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .call-btn {
