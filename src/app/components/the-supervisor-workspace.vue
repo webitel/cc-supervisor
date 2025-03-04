@@ -43,7 +43,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../css/supervisor-workspace/the-supervisor-workspace';
+@use '../css/supervisor-workspace/the-supervisor-workspace';
 
 .the-supervisor-workspace {
   display: flex;
