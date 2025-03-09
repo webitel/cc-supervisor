@@ -5,27 +5,22 @@ import store from './app/store';
 import i18n from './app/locale/i18n';
 import './app/assets/icons/sprite';
 
-import WebitelUi from './app/plugins/webitel-ui';
+import { webitelUiOptions, webitelUiPlugin } from './app/plugins/webitel-ui';
 
 // import './app/css/main.scss';
 
-const setTokenFromUrl = () => {
+const setTokenFromUrl = (): void => {
   try {
-    const queryMap = window.location.search.slice(1)
-    .split('&')
-    .reduce((obj, query) => {
-      const [key, value] = query.split('=');
-      obj[key] = value;
-      return obj;
-    }, {});
-
-    if (queryMap.accessToken) {
-      localStorage.setItem('access-token', queryMap.accessToken);
+    const params = new URLSearchParams(window.location.search);
+    const accessToken = params.get('accessToken');
+    if (accessToken) {
+      localStorage.setItem('access-token', accessToken);
     }
   } catch (err) {
-    console.error('Error restoring token from url', err);
+    console.error('Error restoring token from URL', err);
   }
 };
+
 
 const fetchConfig = async () => {
   const response = await fetch(`${import.meta.env.BASE_URL}/config.json`);
@@ -37,7 +32,7 @@ const createVueInstance = () => {
     .use(router)
     .use(store)
     .use(i18n)
-    .use(...WebitelUi);
+    .use(webitelUiPlugin, webitelUiOptions)
   return app;
 };
 
