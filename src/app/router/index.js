@@ -1,7 +1,6 @@
-import { type RouteRecordRaw, RouteLocationNormalized, NavigationGuardNext} from 'vue-router';
-import RoutePaths from './_internals/RoutePaths';
 import SupervisorSections
-  from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum.js';
+  from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
+import RoutePaths from './_internals/RoutePaths.enum.js';
 import { createRouter, createWebHistory } from 'vue-router';
 import AgentTabsPathName from "./_internals/AgentTabsPathName.enum.js";
 import ActiveCalls
@@ -20,9 +19,9 @@ import TheStartPage
 import SupervisorWorkspace from '../components/the-supervisor-workspace.vue';
 import AccessDenied from '../components/utils/access-denied-component.vue';
 import notFound from '../components/utils/the-not-found-component.vue';
-import store from '../store/index.js';
+import store from '../store';
 
-const checkRouteAccess = ((to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
+const checkRouteAccess = ((to, from, next) => {
   const hasReadAccess = store.getters['userinfo/CHECK_OBJECT_ACCESS']({ route: to });
   if (hasReadAccess) {
     next();
@@ -31,7 +30,7 @@ const checkRouteAccess = ((to: RouteLocationNormalized, _from: RouteLocationNorm
   }
 });
 
-const routes: RouteRecordRaw[] = [
+const routes = [
   {
     path: '/',
     redirect: { name: 'the-start-page' },
@@ -84,7 +83,7 @@ const routes: RouteRecordRaw[] = [
         path: RoutePaths.StartPage,
         name: 'the-start-page',
         component: TheStartPage,
-      },
+      }
     ],
   }, {
     path: '/access-denied',
@@ -99,7 +98,8 @@ const routes: RouteRecordRaw[] = [
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  scrollBehavior(_to, _from, _savedPosition) {
+  // eslint-disable-next-line no-unused-vars
+  scrollBehavior(to, from, savedPosition) {
     return {
       left: 0,
       top: 0,
@@ -108,7 +108,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, _from, next) => {
+router.beforeEach((to, from, next) => {
   if (!localStorage.getItem('access-token') && !to.query.accessToken) {
     const desiredUrl =  encodeURIComponent(window.location.href);
     const authUrl = import.meta.env.VITE_AUTH_URL;

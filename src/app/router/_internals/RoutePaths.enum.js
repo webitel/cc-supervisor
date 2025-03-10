@@ -1,5 +1,5 @@
-const RoutePaths = {
+const RoutePaths = Object.freeze({
   StartPage: '/start-page',
-} as const;
+});
 
 export default RoutePaths;

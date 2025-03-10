@@ -25,12 +25,12 @@
   </wt-app-header>
 </template>
 
-<script lang="ts">
+<script>
 import { mapState, mapGetters, mapActions } from 'vuex';
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
 import navAccessMixin from '../../../../app/mixins/supervisor-workspace/navMixin';
-import RoutePaths from '../../../../app/router/_internals/RoutePaths';
+import RoutePaths from '../../../../app/router/_internals/RoutePaths.enum';
 
 export default {
   name: 'app-header',
