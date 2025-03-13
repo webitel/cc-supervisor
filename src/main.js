@@ -31,7 +31,6 @@ const fetchConfig = async () => {
   const response = await fetch(`${import.meta.env.BASE_URL}/config.json`);
   return response.json();
 };
-
 const createVueInstance = () => {
   const app = createApp(App)
     .use(router)

@@ -1,5 +1,6 @@
 import SupervisorSections
   from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
+import RoutePaths from './_internals/RoutePaths.enum.js';
 import { createRouter, createWebHistory } from 'vue-router';
 import AgentTabsPathName from "./_internals/AgentTabsPathName.enum.js";
 import ActiveCalls
@@ -79,10 +80,10 @@ const routes = [
         component: ActiveCalls,
         beforeEnter: checkRouteAccess,
       }, {
-        path: 'start-page',
+        path: RoutePaths.StartPage,
         name: 'the-start-page',
         component: TheStartPage,
-      },
+      }
     ],
   }, {
     path: '/access-denied',
