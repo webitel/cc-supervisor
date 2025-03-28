@@ -1,9 +1,9 @@
 <template>
   <wt-filters-panel-wrapper @reset="resetFilters">
     <component
+      :is="`abstract-${filter.type}-filter`"
       v-for="(filter) of agentFilters"
       :key="filter.filterQuery"
-      :is="`abstract-${filter.type}-filter`"
       :filter-query="filter.filterQuery"
       :namespace="namespace"
       :disabled="filter.disabled"
@@ -13,10 +13,11 @@
 
 <script>
 import { mapGetters } from 'vuex';
+
 import filtersPanelMixin from '../../../../../app/mixins/supervisor-workspace/filtersPanelMixin';
 
 export default {
-  name: 'agent-filters',
+  name: 'AgentFilters',
   mixins: [filtersPanelMixin],
   computed: {
     ...mapGetters('userinfo', {

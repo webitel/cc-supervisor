@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: 'table-agent-queues',
+  name: 'TableAgentQueues',
   props: {
     item: {
       type: Object,

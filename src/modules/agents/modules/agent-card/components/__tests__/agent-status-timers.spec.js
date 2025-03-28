@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+
 import AgentStatusTimers from '../agent-panel/_internals/agent-status-timers.vue';
 
 describe('Agent status timers', () => {

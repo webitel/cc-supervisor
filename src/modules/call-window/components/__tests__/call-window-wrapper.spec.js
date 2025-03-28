@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+
 import CallWindowWrapper from '../call-window-wrapper.vue';
 
 describe('CallWindowWrapper', () => {

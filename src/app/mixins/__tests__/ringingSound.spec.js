@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
+
 import ringingSoundMixin from '../ringingSoundMixin/ringingSoundMixin';
 
 describe('Ringing sound mixin', () => {

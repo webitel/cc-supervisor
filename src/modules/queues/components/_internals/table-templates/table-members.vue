@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: 'table-members',
+  name: 'TableMembers',
   props: {
     item: {
       type: Object,

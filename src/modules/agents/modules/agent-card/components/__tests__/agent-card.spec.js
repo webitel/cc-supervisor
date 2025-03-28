@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
+
 import AgentPage from '../agent-card.vue';
 
 vi.mock('../../../../api/agents');

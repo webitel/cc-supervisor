@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import { CallDirection } from 'webitel-sdk';
+
 import TableDirection
   from '../_internals/table-templates/table-direction.vue';
 

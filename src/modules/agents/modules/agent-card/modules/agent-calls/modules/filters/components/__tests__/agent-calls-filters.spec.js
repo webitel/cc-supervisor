@@ -1,7 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
-import AgentCallsFilters from '../agent-calls-filters.vue';
+
 import tableActionsHandlerMixin
   from '../../../../../../../../../../app/mixins/supervisor-workspace/tableActionsHandlerMixin';
+import AgentCallsFilters from '../agent-calls-filters.vue';
 
 const namespace = 'calls';
 

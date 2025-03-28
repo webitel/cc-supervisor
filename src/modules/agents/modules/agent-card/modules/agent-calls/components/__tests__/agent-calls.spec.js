@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
+
 import AgentCallsAPI from '../../api/agent-calls';
 import agentsCallsStore from '../../store/agent-calls';
 import AgentCalls from '../agent-calls-tab.vue';

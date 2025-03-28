@@ -1,6 +1,6 @@
 import getContextMock from '../../../../../../../../../tests/unit/mocks/store/contextMock';
-import agentEdit from '../agent-edit';
 import AgentAPI from '../../api/agent-edit';
+import agentEdit from '../agent-edit';
 
 const agentId = 123;
 const agent = { agentId, name: 'vi' };

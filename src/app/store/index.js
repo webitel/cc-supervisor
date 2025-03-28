@@ -1,13 +1,14 @@
-import { createStore } from 'vuex';
 import ReactiveNowStoreModule from '@webitel/ui-sdk/src/store/ReactiveNowStoreModule/ReactiveNowStoreModule';
-import userinfo from '../../modules/userinfo/store/userinfo';
-import queues from '../../modules/queues/store/queues';
-import agents from '../../modules/agents/store/agents';
-import agentChats from '../../modules/agents/modules/agent-card/store/_unused/agent-chats';
+import { createStore } from 'vuex';
+
 import activeCalls from '../../modules/active-calls/store/active-calls';
 import agentAttentions from '../../modules/agents/modules/agent-card/store/_unused/agent-attentions';
-import call from '../../modules/call-window/store/call';
+import agentChats from '../../modules/agents/modules/agent-card/store/_unused/agent-chats';
+import agents from '../../modules/agents/store/agents';
 import appearance from '../../modules/appearance/store/appearance';
+import call from '../../modules/call-window/store/call';
+import queues from '../../modules/queues/store/queues';
+import userinfo from '../../modules/userinfo/store/userinfo';
 import instance from '../api/instance';
 import OpenAPIConfig from '../api/utils/openAPIConfig';
 

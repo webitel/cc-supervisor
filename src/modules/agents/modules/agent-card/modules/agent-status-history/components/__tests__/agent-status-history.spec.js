@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
+
 import AgentStatusHistoryAPI from '../../api/agent-status-history';
 import agentsStatusHistoryStore from '../../store/agent-status-history';
 import AgentStatusHistory from '../agent-status-history-tab.vue';

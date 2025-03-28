@@ -1,11 +1,11 @@
 <template>
   <wt-page-wrapper>
-    <template v-slot:header>
+    <template #header>
       <wt-headline>
-        <template v-slot:title>
+        <template #title>
           {{ $t('pages.agent.title') }}
         </template>
-        <template v-slot:actions>
+        <template #actions>
           <filter-search :namespace="filtersNamespace" filter-query="search" />
           <wt-button
             :disabled="!dataList.length"
@@ -17,11 +17,11 @@
       </wt-headline>
     </template>
 
-    <template v-slot:actions-panel>
+    <template #actions-panel>
       <agents-filters :namespace="filtersNamespace" />
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <section class="main-section-wrapper">
         <wt-loader v-show="isLoading"></wt-loader>
         <div v-show="!isLoading" class="table-wrapper">
@@ -45,21 +45,21 @@
             sortable
             @sort="sort"
           >
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               <table-agent :item="item" />
             </template>
-            <template v-slot:status="{ item }">
+            <template #status="{ item }">
               <table-agent-status :item="item" />
             </template>
-            <template v-slot:callTime="{ item }">
+            <template #callTime="{ item }">
               <table-agent-call-time :item="item" @attach-call="attachCall" />
             </template>
-            <template v-slot:team="{ item }">
+            <template #team="{ item }">
               <div v-if="item.team">
                 {{ item.team.name }}
               </div>
             </template>
-            <template v-slot:queues="{ item }">
+            <template #queues="{ item }">
               <table-queues :item="item" />
             </template>
           </wt-table>
@@ -76,15 +76,16 @@ import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportC
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import { mapActions } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
+
 import tablePageMixin from '../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../_shared/filters/components/filter-pagination.vue';
 import FilterFields from '../../_shared/filters/components/filter-table-fields.vue';
 import AgentsAPI from '../api/agents';
 import AgentsFilters from '../modules/filters/components/agent-filters.vue';
+import TableAgent from './_internals/table-templates/table-agent.vue';
 import TableQueues from './_internals/table-templates/table-agent-queues.vue';
 import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
 import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
-import TableAgent from './_internals/table-templates/table-agent.vue';
 
 const collectBreakoutIndexes = (dataList) => (
   dataList.reduce((indexes, dataRow, dataRowIndex) => {
@@ -94,7 +95,7 @@ const collectBreakoutIndexes = (dataList) => (
 );
 
 export default {
-  name: 'the-agents',
+  name: 'TheAgents',
   components: {
     FilterSearch,
     FilterFields,
@@ -113,6 +114,13 @@ export default {
   data: () => ({
     namespace: 'agents',
   }),
+  computed: {
+    selectedIds() {
+      return this.dataList
+                 .filter((item) => item._isSelected)
+                 .map((item) => item.agentId);
+    },
+  },
   watch: {
     dataList: {
       handler() {
@@ -123,13 +131,6 @@ export default {
   },
   created() {
     this.initCSVExport(AgentsAPI.getList, { filename: 'agents' });
-  },
-  computed: {
-    selectedIds() {
-      return this.dataList
-                 .filter((item) => item._isSelected)
-                 .map((item) => item.agentId);
-    },
   },
   methods: {
     ...mapActions('call', {

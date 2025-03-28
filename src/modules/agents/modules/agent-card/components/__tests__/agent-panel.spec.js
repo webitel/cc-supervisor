@@ -1,5 +1,6 @@
-import { shallowMount, mount } from '@vue/test-utils';
+import { mount,shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
+
 import agents from '../../../../store/agents';
 import AgentPanel from '../agent-panel/agent-panel.vue';
 

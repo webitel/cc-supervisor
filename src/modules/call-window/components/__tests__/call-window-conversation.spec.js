@@ -1,5 +1,6 @@
-import { shallowMount, mount } from '@vue/test-utils';
+import { mount,shallowMount } from '@vue/test-utils';
 import { CallActions, CallDirection } from 'webitel-sdk';
+
 import CallWindowConversation from '../call-window-conversation.vue';
 
 describe('CallWindowConversation', () => {

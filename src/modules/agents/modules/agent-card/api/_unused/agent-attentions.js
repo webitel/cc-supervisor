@@ -1,6 +1,6 @@
 export const agentAttentionFields = ['id', 'name'];
 
-// eslint-disable-next-line arrow-body-style
+ 
 const getAttentionList = () => {
     return [
         {
@@ -31,7 +31,7 @@ const getAttentionList = () => {
 };
 
 export const getAgentAttentionsList = async ({
-    // eslint-disable-next-line no-unused-vars
+     
     id, page = 0, size = 20, search = '', sort = '+name',
 }) => {
     try {
@@ -42,9 +42,9 @@ export const getAgentAttentionsList = async ({
 };
 
 export const deleteAgentAttention = async ({
-    // eslint-disable-next-line no-unused-vars
+     
     agentId, attentionId,
-// eslint-disable-next-line arrow-body-style
+ 
 }) => {
     // try {
         return { success: true };

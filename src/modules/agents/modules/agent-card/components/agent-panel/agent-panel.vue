@@ -45,14 +45,15 @@
 </template>
 
 <script>
+import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/components/wt-cc-agent-status-select.vue';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
-import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/components/wt-cc-agent-status-select.vue';
+
 import AgentProfile from './_internals/agent-profile.vue';
 import AgentStatusTimers from './_internals/agent-status-timers.vue';
 
 export default {
-  name: 'agent-panel',
+  name: 'AgentPanel',
   components: { AgentProfile, AgentStatusSelect, AgentStatusTimers },
   props: {
     namespace: {

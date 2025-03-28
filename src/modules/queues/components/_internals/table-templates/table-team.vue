@@ -6,7 +6,7 @@
 
 <script>
   export default {
-    name: 'table-team',
+    name: 'TableTeam',
     props: {
       item: {
         type: Object,

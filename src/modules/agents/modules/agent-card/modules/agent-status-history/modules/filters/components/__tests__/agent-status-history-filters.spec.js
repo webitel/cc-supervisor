@@ -1,7 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
-import AgentStatusHistoryFilters from '../agent-status-history-filters.vue';
+
 import tableActionsHandlerMixin
   from '../../../../../../../../../../app/mixins/supervisor-workspace/tableActionsHandlerMixin';
+import AgentStatusHistoryFilters from '../agent-status-history-filters.vue';
 
 const namespace = 'statusHistory';
 

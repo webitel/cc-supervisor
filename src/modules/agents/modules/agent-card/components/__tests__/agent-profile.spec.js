@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+
 import AgentProfile from '../agent-panel/_internals/agent-profile.vue';
 
 describe('Agent profile', () => {

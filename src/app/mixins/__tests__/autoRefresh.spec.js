@@ -1,6 +1,8 @@
-import { shallowMount } from '@vue/test-utils';
-import autoRefreshMixin from '../autoRefresh/autoRefreshMixin';
 import '../../../../tests/unit/mocks/localStorageMock';
+
+import { shallowMount } from '@vue/test-utils';
+
+import autoRefreshMixin from '../autoRefresh/autoRefreshMixin';
 
 test('autoRefresh triggered function twice', async () => {
   let counter = 0;

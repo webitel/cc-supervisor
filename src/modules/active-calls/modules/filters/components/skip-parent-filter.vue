@@ -10,7 +10,7 @@
 import baseFilterMixin from '@webitel/ui-sdk/src/modules/QueryFilters/mixins/baseFilterMixin/baseFilterMixin';
 
 export default {
-  name: 'skip-parent-filter',
+  name: 'SkipParentFilter',
   mixins: [baseFilterMixin],
   data: () => ({
     filterQuery: 'skipParent',

@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'the-not-found-component',
+  name: 'TheNotFoundComponent',
 };
 </script>
 

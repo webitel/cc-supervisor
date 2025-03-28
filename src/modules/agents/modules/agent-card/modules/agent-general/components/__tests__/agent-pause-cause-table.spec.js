@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
+
 import AgentStatusAPI from '../../api/agent-pause-causes';
 import agentStatusStore from '../../store/agent-pause-causes';
 import AgentPauseCauseTable from '../agent-pause-cause-table.vue';

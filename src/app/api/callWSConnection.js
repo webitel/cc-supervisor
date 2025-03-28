@@ -1,5 +1,5 @@
-import { Client } from 'webitel-sdk';
 import { reactive, shallowReactive } from 'vue';
+import { Client } from 'webitel-sdk';
 
 const { hostname, protocol } = window.location;
 const origin = (`${protocol}//${hostname}`).replace(/^http/, 'ws');

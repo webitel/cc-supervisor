@@ -1,8 +1,9 @@
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
-import QueueFilters from '../queue-filters.vue';
-import filters from '../../store/filters';
+
 import userinfo from '../../../../../userinfo/store/userinfo';
+import filters from '../../store/filters';
+import QueueFilters from '../queue-filters.vue';
 
 const namespace = 'queues';
 const agent = {

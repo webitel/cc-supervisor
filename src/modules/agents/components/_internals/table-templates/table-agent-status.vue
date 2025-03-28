@@ -6,11 +6,11 @@
 </template>
 
 <script>
-import { AgentStatus } from 'webitel-sdk';
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import { AgentStatus } from 'webitel-sdk';
 
 export default {
-  name: 'table-agent-status',
+  name: 'TableAgentStatus',
   props: {
     item: {
       type: Object,

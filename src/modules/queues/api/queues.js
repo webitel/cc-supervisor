@@ -1,4 +1,3 @@
-import { QueueServiceApiFactory } from 'webitel-sdk';
 import {
   getDefaultGetListResponse,
   getDefaultGetParams,
@@ -9,6 +8,8 @@ import applyTransform, {
   snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
+import { QueueServiceApiFactory } from 'webitel-sdk';
+
 import instance from '../../../app/api/instance';
 import configuration from '../../../app/api/utils/openAPIConfig';
 import parseJoined from './_internals/joined';

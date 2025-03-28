@@ -1,7 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
-import ActiveCallsFilters from '../active-calls-filters.vue';
+
 import filters from '../../store/filters';
+import ActiveCallsFilters from '../active-calls-filters.vue';
 
 const namespace = 'activeCalls';
 const agent = { isAdmin: true };

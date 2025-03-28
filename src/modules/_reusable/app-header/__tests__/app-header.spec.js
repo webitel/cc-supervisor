@@ -1,8 +1,9 @@
 import { mount } from '@vue/test-utils';
 import { createStore } from 'vuex';
+
+import userInfoStore from '../../../userinfo/store/userinfo';
 import AppHeader
   from '../components/app-header.vue';
-import userInfoStore from '../../../userinfo/store/userinfo';
 
 const user = {
   username: 'username',

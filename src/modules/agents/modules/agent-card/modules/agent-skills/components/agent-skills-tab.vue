@@ -17,7 +17,7 @@
       <wt-icon-btn icon="plus" @click="setSkillId('new')"></wt-icon-btn>
     </wt-table-actions>
     <wt-loader v-show="isLoading"></wt-loader>
-    <div class="table-loading-wrapper" v-show="!isLoading">
+    <div v-show="!isLoading" class="table-loading-wrapper">
       <wt-table
         ref="wt-table"
         :headers="headers"
@@ -26,18 +26,18 @@
         sortable
         @sort="sort"
       >
-        <template v-slot:skill="{ item }">
+        <template #skill="{ item }">
           <div v-if="item.skill">
             {{ item.skill.name }}
           </div>
         </template>
-        <template v-slot:enabled="{ item, index }">
+        <template #enabled="{ item, index }">
           <wt-switcher
             :value="item.enabled"
             @change="patchItemProperty({ item, index, value: $event, prop: 'enabled' })"
           ></wt-switcher>
         </template>
-        <template v-slot:actions="{ item, index }">
+        <template #actions="{ item, index }">
           <wt-icon-action
             class="table-action"
             action="edit"
@@ -56,16 +56,17 @@
 </template>
 
 <script>
+import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
-import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
+
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
 import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields.vue';
 import SkillPopup from './agent-skill-popup.vue';
 
 export default {
-  name: 'agent-skills-tab',
+  name: 'AgentSkillsTab',
   components: {
     FilterFields,
     FilterPagination,

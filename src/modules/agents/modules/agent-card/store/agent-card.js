@@ -1,10 +1,11 @@
 import editProxy from '@webitel/ui-sdk/src/scripts/editProxy';
+
 import AgentAPI from '../api/agent-card';
+import calls from '../modules/agent-calls/store/agent-calls';
 import agentEdit from '../modules/agent-general/store/agent-edit';
 import pauseCause from '../modules/agent-general/store/agent-pause-causes';
-import calls from '../modules/agent-calls/store/agent-calls';
-import statusHistory from '../modules/agent-status-history/store/agent-status-history';
 import skills from '../modules/agent-skills/store/agent-skills';
+import statusHistory from '../modules/agent-status-history/store/agent-status-history';
 
 const state = {
   agentId: null,

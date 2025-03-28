@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: 'table-agents',
+  name: 'TableAgents',
   props: {
     status: {
       type: Object,

@@ -1,7 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
-import AgentFilters from '../agent-filters.vue';
+
 import filters from '../../store/filters';
+import AgentFilters from '../agent-filters.vue';
 
 const namespace = 'agents';
 const agent = { isAdmin: true };

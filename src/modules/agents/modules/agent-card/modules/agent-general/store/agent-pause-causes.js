@@ -1,6 +1,6 @@
 import TableStoreModule from '../../../../../../../app/store/BaseStoreModules/TableStoreModule';
-import headers from './_internals/headers';
 import AgentPauseCauseAPI from '../api/agent-pause-causes';
+import headers from './_internals/headers';
 
 const state = {
   headers,

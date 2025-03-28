@@ -1,13 +1,14 @@
 import SupervisorSections
   from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
-import RoutePaths from './_internals/RoutePaths.enum.js';
 import { createRouter, createWebHistory } from 'vue-router';
-import AgentTabsPathName from "./_internals/AgentTabsPathName.enum.js";
+
 import ActiveCalls
   from '../../modules/active-calls/components/the-active-calls.vue';
 import Agents from '../../modules/agents/components/the-agents.vue';
 import AgentPage
   from '../../modules/agents/modules/agent-card/components/agent-card.vue';
+import AgentTabsPathName from "./_internals/AgentTabsPathName.enum.js";
+import RoutePaths from './_internals/RoutePaths.enum.js';
 const General  = import( '../../modules/agents/modules/agent-card/modules/agent-general/components/agent-general-tab.vue');
 const Skills  = import( '../../modules/agents/modules/agent-card/modules/agent-skills/components/agent-skills-tab.vue');
 const StatusHistory  = import( '../../modules/agents/modules/agent-card/modules/agent-status-history/components/agent-status-history-tab.vue');
@@ -98,7 +99,7 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  // eslint-disable-next-line no-unused-vars
+   
   scrollBehavior(to, from, savedPosition) {
     return {
       left: 0,

@@ -13,7 +13,7 @@
 import theAgentsHelpPopup from './the-agents-help-popup.vue';
 
 export default {
-  name: 'table-agent-attentions',
+  name: 'TableAgentAttentions',
   components: {
     theAgentsHelpPopup,
   },

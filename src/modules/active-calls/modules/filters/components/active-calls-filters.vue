@@ -1,9 +1,9 @@
 <template>
   <wt-filters-panel-wrapper @reset="resetFilters">
   <component
+    :is="`abstract-${filter.type}-filter`"
     v-for="(filter) of activeCallsFilters"
     :key="filter.filterQuery"
-    :is="`abstract-${filter.type}-filter`"
     :filter-query="filter.filterQuery"
     :namespace="namespace"
     :disabled="filter.disabled"
@@ -16,13 +16,14 @@
 
 <script>
 import { mapGetters } from 'vuex';
+
 import filtersPanelMixin from '../../../../../app/mixins/supervisor-workspace/filtersPanelMixin';
 import SkipParentFilter from './skip-parent-filter.vue';
 
 export default {
-  name: 'active-calls-filters',
-  mixins: [filtersPanelMixin],
+  name: 'ActiveCallsFilters',
   components: { SkipParentFilter },
+  mixins: [filtersPanelMixin],
   computed: {
     ...mapGetters('userinfo', {
       allowUsers: 'ALLOW_USERS_ACCESS',

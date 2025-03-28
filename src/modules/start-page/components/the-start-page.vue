@@ -6,26 +6,25 @@
 </template>
 
 <script>
+import WtStartPage from '@webitel/ui-sdk/src/components/on-demand/wt-start-page/components/wt-start-page.vue';
 import SupervisorSections
   from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
 import { mapState } from 'vuex';
-import WtStartPage from '@webitel/ui-sdk/src/components/on-demand/wt-start-page/components/wt-start-page.vue';
-
-import QueuesSecDark from '../assets/queues-section-dark.svg';
-import QueuesSecLight from '../assets/queues-section-light.svg';
-import AgentsSecDark from '../assets/agents-section-dark.svg';
-import AgentsSecLight from '../assets/agents-section-light.svg';
-import ActiveCallsSecDark from '../assets/active-calls-section-dark.svg';
-import ActiveCallsSecLight from '../assets/active-calls-section-light.svg';
 
 import navMixin from '../../../app/mixins/supervisor-workspace/navMixin';
+import ActiveCallsSecDark from '../assets/active-calls-section-dark.svg';
+import ActiveCallsSecLight from '../assets/active-calls-section-light.svg';
+import AgentsSecDark from '../assets/agents-section-dark.svg';
+import AgentsSecLight from '../assets/agents-section-light.svg';
+import QueuesSecDark from '../assets/queues-section-dark.svg';
+import QueuesSecLight from '../assets/queues-section-light.svg';
 
 export default {
-  name: 'the-start-page',
-  mixins: [navMixin],
+  name: 'TheStartPage',
   components: {
     WtStartPage,
   },
+  mixins: [navMixin],
   computed: {
     ...mapState('appearance', {
       theme: (state) => state.theme,

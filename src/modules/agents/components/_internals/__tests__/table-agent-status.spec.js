@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import { AgentStatus } from 'webitel-sdk';
+
 import TableAgentStatus
   from '../table-templates/table-agent-status.vue';
 

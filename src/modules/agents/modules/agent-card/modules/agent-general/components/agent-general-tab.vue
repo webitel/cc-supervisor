@@ -10,7 +10,7 @@ import InfoForm from './agent-info-form.vue';
 import StatusTable from './agent-pause-cause-table.vue';
 
 export default {
-  name: 'agent-general-tab',
+  name: 'AgentGeneralTab',
   components: { InfoForm, StatusTable },
   props: {
     namespace: {

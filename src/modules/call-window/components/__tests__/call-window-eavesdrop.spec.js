@@ -1,4 +1,5 @@
 import { mount, shallowMount } from '@vue/test-utils';
+
 import CallWindowEavesdrop from '../call-window-eavesdrop.vue';
 
 describe('CallWindowEavesdrop', () => {

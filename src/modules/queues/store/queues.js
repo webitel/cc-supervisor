@@ -1,7 +1,7 @@
 import TableStoreModule from '../../../app/store/BaseStoreModules/TableStoreModule';
+import QueuesAPI from '../api/queues';
 import filters from '../modules/filters/store/filters';
 import headers from './_internals/headers';
-import QueuesAPI from '../api/queues';
 
 const state = {
   headers,

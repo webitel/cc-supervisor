@@ -12,14 +12,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
+import { mapGetters } from 'vuex';
+
 import AppHeader from '../../modules/_reusable/app-header/components/app-header.vue';
-import CallWindowEavesdrop from '../../modules/call-window/components/call-window-eavesdrop.vue';
 import CallWindow from '../../modules/call-window/components/call-window-conversation.vue';
+import CallWindowEavesdrop from '../../modules/call-window/components/call-window-eavesdrop.vue';
 
 export default {
-  name: 'the-supervisor-workspace',
+  name: 'TheSupervisorWorkspace',
   components: {
     AppHeader,
     CallWindow,

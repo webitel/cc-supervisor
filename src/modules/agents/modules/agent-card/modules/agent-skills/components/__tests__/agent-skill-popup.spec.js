@@ -1,7 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
-import AgentSkillPopup from '../agent-skill-popup.vue';
+
 import skills from '../../store/agent-skills';
+import AgentSkillPopup from '../agent-skill-popup.vue';
 
 const namespace = 'skills';
 const store = createStore({

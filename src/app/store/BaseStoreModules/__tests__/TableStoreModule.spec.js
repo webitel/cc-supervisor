@@ -1,5 +1,5 @@
-import TableStoreModule from '../TableStoreModule';
 import getContextMock from '../../../../../tests/unit/mocks/store/contextMock';
+import TableStoreModule from '../TableStoreModule';
 
 const headers = [
   { value: 'h1', show: true, field: 'shown_field' },

@@ -50,14 +50,15 @@
 
 <script>
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapState, mapActions } from 'vuex';
-import teamLookupApi from '../../../../../../_shared/lookups/api/teamLookupApi';
-import supervisorLookupApi from '../../../../../../_shared/lookups/api/supervisorLookupApi';
-import userLookupApi from '../../../../../../_shared/lookups/api/userLookupApi';
+import { mapActions,mapState } from 'vuex';
+
 import regionLookupApi from '../../../../../../_shared/lookups/api/regionLookupApi';
+import supervisorLookupApi from '../../../../../../_shared/lookups/api/supervisorLookupApi';
+import teamLookupApi from '../../../../../../_shared/lookups/api/teamLookupApi';
+import userLookupApi from '../../../../../../_shared/lookups/api/userLookupApi';
 
 export default {
-  name: 'agent-info-form',
+  name: 'AgentInfoForm',
   props: {
     namespace: {
       type: String,

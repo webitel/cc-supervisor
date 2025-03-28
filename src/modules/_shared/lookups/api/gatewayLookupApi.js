@@ -4,13 +4,14 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults/index.js';
 import applyTransform, {
   camelToSnake,
+  generateUrl,
   merge,
   notify,
   sanitize,
   snakeToCamel,
   starToSearch,
-  generateUrl,
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
+
 import instance from '../../../../app/api/instance';
 
 const baseUrl = '/sip/gateways';

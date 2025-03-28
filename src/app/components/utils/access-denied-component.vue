@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'access-denied-component',
+  name: 'AccessDeniedComponent',
 };
 </script>
 

@@ -1,5 +1,6 @@
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
+
 import autoRefreshMixin from '../autoRefresh/autoRefreshMixin';
 import pageHeadersMixin from './pageHeadersMixin';
 import tableActionsHandlerMixin from './tableActionsHandlerMixin';

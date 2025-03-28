@@ -1,6 +1,6 @@
 export const agentChatFields = ['id', 'name'];
 
-// eslint-disable-next-line arrow-body-style
+ 
 const getChatList = () => {
     return [
         {
@@ -71,7 +71,7 @@ const getChatList = () => {
 };
 
 export const getAgentChatsList = async ({
-    // eslint-disable-next-line no-unused-vars
+     
     id, page = 0, size = 20, search = '', sort = '+name',
 }) => {
     try {

@@ -1,8 +1,8 @@
 import TableStoreModule from '../../../../../../../app/store/BaseStoreModules/TableStoreModule';
-import headers from './_internals/headers';
-import AgentSkillsAPI from '../api/agent-skills';
 import NestedObjectStoreModule
   from '../../../../../../../packages/client/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import AgentSkillsAPI from '../api/agent-skills';
+import headers from './_internals/headers';
 
 const resettableItemState = {
   itemInstance: {

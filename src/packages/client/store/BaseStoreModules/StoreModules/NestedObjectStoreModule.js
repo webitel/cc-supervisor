@@ -1,7 +1,8 @@
-import deepCopy from 'deep-copy';
 import BaseStoreModule from '@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule';
-import BaseTableModule from '../StoreModuleMixins/BaseTableStoreModuleMixin';
+import deepCopy from 'deep-copy';
+
 import BaseOpenedInstanceModule from '../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin';
+import BaseTableModule from '../StoreModuleMixins/BaseTableStoreModuleMixin';
 
 const DEFAULT_STATE = BaseTableModule.generateState();
 const DEFAULT_ITEM_STATE = BaseOpenedInstanceModule.generateState();

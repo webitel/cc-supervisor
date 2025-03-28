@@ -6,14 +6,14 @@
       @input="tableActionsHandler"
     ></wt-table-actions>
     <wt-loader v-show="isLoading"></wt-loader>
-    <div class="table-loading-wrapper" v-show="!isLoading">
+    <div v-show="!isLoading" class="table-loading-wrapper">
       <wt-table
         :headers="headers"
         :data="dataList"
         :grid-actions="false"
         :selectable="false"
       >
-        <template v-slot:duration="{ item }">
+        <template #duration="{ item }">
           <span
             class="agent-pause-cause-timing"
             :class="{'agent-pause-cause-timing--highlight': isDurationOverflow(item)}"
@@ -24,7 +24,7 @@
             :color="pauseCauseProgressColor(item)"
           ></wt-progress-bar>
         </template>
-        <template v-slot:limit="{ item }">
+        <template #limit="{ item }">
           <span class="agent-pause-cause-timing">
             {{ prettifyPauseCauseDuration(item.limitMin) }}
           </span>
@@ -37,6 +37,7 @@
 <script>
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
+
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
 
 const prettifyPauseCauseDuration = (min) => {
@@ -46,7 +47,7 @@ const prettifyPauseCauseDuration = (min) => {
 };
 
 export default {
-  name: 'agent-pause-cause-table',
+  name: 'AgentPauseCauseTable',
   mixins: [
     tablePageMixin,
     sortFilterMixin,

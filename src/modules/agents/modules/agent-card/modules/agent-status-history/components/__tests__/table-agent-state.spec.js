@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+
 import TableAgentState from '../_internals/table-templates/table-agent-state.vue';
 
 describe('Agent History table Agent State', () => {

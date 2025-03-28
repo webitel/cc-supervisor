@@ -6,7 +6,7 @@
 
 <script>
   export default {
-    name: 'table-queue',
+    name: 'TableQueue',
     props: {
       item: {
         type: Object,

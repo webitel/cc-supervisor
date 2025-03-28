@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+
 import tableActionsHandlerMixin from '../supervisor-workspace/tableActionsHandlerMixin';
 
 const initializeListMock = vi.fn();

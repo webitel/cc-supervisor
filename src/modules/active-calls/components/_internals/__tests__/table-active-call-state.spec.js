@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+
 import TableActiveCallState
   from '../table-templates/table-active-call-state.vue';
 

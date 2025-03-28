@@ -1,5 +1,5 @@
 <template>
-  <div class="table-agent-sum-call-time" v-if="item.callTime">
+  <div v-if="item.callTime" class="table-agent-sum-call-time">
     {{ item.callTime }}
     <wt-icon-btn
       v-if="item.activeCallId"
@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'table-agent-status',
+  name: 'TableAgentStatus',
   props: {
     item: {
       type: Object,

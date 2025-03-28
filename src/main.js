@@ -1,11 +1,12 @@
-import { createApp } from 'vue';
-import App from './app/the-app.vue';
-import router from './app/router';
-import store from './app/store';
-import i18n from './app/locale/i18n';
 import './app/assets/icons/sprite';
 
+import { createApp } from 'vue';
+
+import i18n from './app/locale/i18n';
 import WebitelUi from './app/plugins/webitel-ui';
+import router from './app/router';
+import store from './app/store';
+import App from './app/the-app.vue';
 
 // import './app/css/main.scss';
 

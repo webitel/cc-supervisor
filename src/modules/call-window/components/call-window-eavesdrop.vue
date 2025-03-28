@@ -1,6 +1,6 @@
 <template>
   <call-window-wrapper v-if="isOpened">
-    <template v-slot:header="{ isExpanded }">
+    <template #header="{ isExpanded }">
       <div class="call-window-eavesdrop-state-icon">
         <wt-icon
           v-show="!isExpanded"
@@ -18,14 +18,14 @@
         @click="closeWindow"
       ></wt-rounded-action>
     </template>
-    <template v-slot:title>
+    <template #title>
       <div>
         <div v-if="agent">
           {{ $t('callWindow.agent') }}: {{ agent.name }}
         </div>
         <div v-if="client">
           <wt-tooltip>
-            <template v-slot:activator>
+            <template #activator>
               <div
                 class="call-window-eavesdrop-title__subtitle"
                 tabindex="0"
@@ -42,7 +42,7 @@
         </div>
       </div>
     </template>
-    <template v-slot:content>
+    <template #content>
       <div class="call-window-eavesdrop-content">
         <wt-icon
           :icon="stateIcon"
@@ -54,7 +54,7 @@
         </p>
       </div>
     </template>
-    <template v-slot:footer>
+    <template #footer>
       <div class="call-window-eavesdrop-footer">
         <wt-rounded-action
           :icon="isMuted ? 'mic-muted' : 'mic'"
@@ -63,7 +63,7 @@
           @click="mute"
         ></wt-rounded-action>
         <wt-tooltip>
-          <template v-slot:activator>
+          <template #activator>
             <wt-rounded-action
               :active="isPrompt"
               icon="prompter"
@@ -75,7 +75,7 @@
           {{ $t('callWindow.prompter') }}
         </wt-tooltip>
         <wt-tooltip>
-          <template v-slot:activator>
+          <template #activator>
             <wt-rounded-action
               :active="isConference"
               :color="isConference ? 'danger' : 'default'"
@@ -95,15 +95,16 @@
 import copy from 'clipboard-copy';
 import { mapActions, mapState } from 'vuex';
 import { CallDirection, EavesdropState } from 'webitel-sdk';
-import CallWindowWrapper from './call-window-wrapper.vue';
+
 import timerMixin from '../mixins/timerMixin/timerMixin';
+import CallWindowWrapper from './call-window-wrapper.vue';
 
 export default {
-  name: 'call-window-eavesdrop',
-  mixins: [timerMixin],
+  name: 'CallWindowEavesdrop',
   components: {
     CallWindowWrapper,
   },
+  mixins: [timerMixin],
   data() {
     return {
       inbound: CallDirection.Inbound,

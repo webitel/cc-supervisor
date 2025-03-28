@@ -1,8 +1,9 @@
 import { mount } from '@vue/test-utils';
-import FilterFrom from '../filter-from.vue';
-import FilterTo from '../filter-to.vue';
-import FilterPagination from '../filter-pagination.vue';
+
 import store from '../../../../../app/store/index';
+import FilterFrom from '../filter-from.vue';
+import FilterPagination from '../filter-pagination.vue';
+import FilterTo from '../filter-to.vue';
 
 const $route = { query: {} };
 

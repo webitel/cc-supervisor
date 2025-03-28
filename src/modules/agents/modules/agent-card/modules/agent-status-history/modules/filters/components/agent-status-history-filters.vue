@@ -7,17 +7,18 @@
 
 <script>
 import { mapActions } from 'vuex';
+
 import tableActionsHandlerMixin from '../../../../../../../../../app/mixins/supervisor-workspace/tableActionsHandlerMixin';
 import FilterFrom from '../../../../../../../../_shared/filters/components/filter-from.vue';
 import FilterTo from '../../../../../../../../_shared/filters/components/filter-to.vue';
 
 export default {
-  name: 'agent-status-history-filters',
-  mixins: [tableActionsHandlerMixin],
+  name: 'AgentStatusHistoryFilters',
   components: {
     FilterFrom,
     FilterTo,
   },
+  mixins: [tableActionsHandlerMixin],
   props: {
     namespace: {
       type: String,

@@ -3,9 +3,9 @@
     <filter-from :namespace="filtersNamespace"/>
     <filter-to :namespace="filtersNamespace"/>
     <component
+      :is="`abstract-${filter.type}-filter`"
       v-for="(filter) of availableFilters"
       :key="filter.filterQuery"
-      :is="`abstract-${filter.type}-filter`"
       :filter-query="filter.filterQuery"
       :namespace="filtersNamespace"
     ></component>
@@ -14,19 +14,20 @@
 
 <script>
 import { mapActions } from 'vuex';
+
+import filtersPanelMixin from '../../../../../../../../../app/mixins/supervisor-workspace/filtersPanelMixin';
 import tableActionsHandlerMixin
   from '../../../../../../../../../app/mixins/supervisor-workspace/tableActionsHandlerMixin';
-import filtersPanelMixin from '../../../../../../../../../app/mixins/supervisor-workspace/filtersPanelMixin';
 import FilterFrom from '../../../../../../../../_shared/filters/components/filter-from.vue';
 import FilterTo from '../../../../../../../../_shared/filters/components/filter-to.vue';
 
 export default {
-  name: 'agent-calls-filters',
-  mixins: [filtersPanelMixin],
+  name: 'AgentCallsFilters',
   components: {
     FilterFrom,
     FilterTo,
   },
+  mixins: [filtersPanelMixin],
   props: {
     namespace: {
       type: String,

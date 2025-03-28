@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
+
 import AgentInfoForm from '../agent-info-form.vue';
 
 const namespace = 'card';

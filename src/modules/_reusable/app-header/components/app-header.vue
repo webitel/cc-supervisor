@@ -26,14 +26,15 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex';
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
+import { mapActions,mapGetters, mapState } from 'vuex';
+
 import navAccessMixin from '../../../../app/mixins/supervisor-workspace/navMixin';
 import RoutePaths from '../../../../app/router/_internals/RoutePaths.enum';
 
 export default {
-  name: 'app-header',
+  name: 'AppHeader',
   components: {
     WtDarkModeSwitcher,
   },

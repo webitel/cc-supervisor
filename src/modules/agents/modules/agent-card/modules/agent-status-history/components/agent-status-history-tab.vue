@@ -12,7 +12,7 @@
       ></filter-fields>
     </wt-table-actions>
     <wt-loader v-show="isLoading"></wt-loader>
-    <div class="table-loading-wrapper" v-show="!isLoading">
+    <div v-show="!isLoading" class="table-loading-wrapper">
       <wt-table
         :headers="headers"
         :data="dataList"
@@ -21,7 +21,7 @@
         sortable
         @sort="sort"
       >
-        <template v-slot:state="{ item }">
+        <template #state="{ item }">
           <table-agent-state :item="item"/>
         </template>
       </wt-table>
@@ -32,13 +32,14 @@
 
 <script>
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
-import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields.vue';
-import TableAgentState from './_internals/table-templates/table-agent-state.vue';
+
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
+import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields.vue';
+import TableAgentState from './_internals/table-templates/table-agent-state.vue';
 
 export default {
-  name: 'agent-status-history-tab',
+  name: 'AgentStatusHistoryTab',
   components: {
     TableAgentState,
     FilterFields,

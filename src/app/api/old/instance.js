@@ -1,10 +1,10 @@
-import axios from 'axios';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
-import { objCamelToSnake, objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import updateTokenInterceptor
   from '@webitel/ui-sdk/src/api/interceptors/request/updateToken.interceptor';
 import handleUnauthorizedInterceptor
   from '@webitel/ui-sdk/src/api/interceptors/response/handleUnauthorized.interceptor';
+import { objCamelToSnake, objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
+import axios from 'axios';
 
 // global API configuration
 // 'X-Webitel-Access' ~ 'X-Access-Token'
@@ -21,10 +21,10 @@ instance.interceptors.request.use(
       || request.method === 'put'
       || request.method === 'patch') {
       if (typeof request.data === 'string') {
-        // eslint-disable-next-line no-param-reassign
+         
         request.data = JSON.stringify(objCamelToSnake(JSON.parse(request.data)));
       } else {
-        // eslint-disable-next-line no-param-reassign
+         
         request.data = objCamelToSnake(request.data);
       }
     }
@@ -33,7 +33,7 @@ instance.interceptors.request.use(
       const searches = request.url.match(searchRegex) || [];
       searches.forEach((search) => {
         if (search.slice(-1) !== '*') {
-          // eslint-disable-next-line no-param-reassign
+           
           request.url = request.url.replace(search, `${search}*`);
         }
       });

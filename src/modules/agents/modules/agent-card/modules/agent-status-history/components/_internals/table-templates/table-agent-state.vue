@@ -8,7 +8,7 @@
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 
 export default {
-  name: 'table-agent-state',
+  name: 'TableAgentState',
   props: {
     item: {
       type: Object,

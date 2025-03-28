@@ -8,7 +8,7 @@
 import { CallDirection } from 'webitel-sdk';
 
 export default {
-  name: 'table-direction',
+  name: 'TableDirection',
   props: {
     item: {
       type: Object,

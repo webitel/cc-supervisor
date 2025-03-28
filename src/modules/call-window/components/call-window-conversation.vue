@@ -1,6 +1,6 @@
 <template>
   <call-window-wrapper v-show="isVisible">
-    <template v-slot:header="{ isExpanded }">
+    <template #header="{ isExpanded }">
       <div class="call-window-conversation-header-before">
         <wt-rounded-action
           v-if="isRinging"
@@ -10,8 +10,8 @@
           @click="answerCall"
         ></wt-rounded-action>
         <img
-          class="call-window-conversation-header__sonar"
           v-else-if="!isExpanded"
+          class="call-window-conversation-header__sonar"
           :src="sonar"
           alt=""
         >
@@ -29,10 +29,10 @@
         ></wt-rounded-action>
       </div>
     </template>
-    <template v-slot:title>
+    <template #title>
       {{ agent.name }}
     </template>
-    <template v-slot:content>
+    <template #content>
       <div class="call-window-conversation-content">
         <div class="call-window-conversation-content__sonar-wrapper">
           <img
@@ -44,8 +44,8 @@
       </div>
     </template>
     <template
-      v-slot:footer
       v-if="!isRinging"
+      #footer
     >
       <div class="call-window-conversation-footer">
         <wt-rounded-action
@@ -67,19 +67,20 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+
 import ringingSoundMixin from '../../../app/mixins/ringingSoundMixin/ringingSoundMixin';
-import CallWindowWrapper from './call-window-wrapper.vue';
 import ActiveSonar from '../assets/call-sonars/active-sonar.svg';
 import HoldSonar from '../assets/call-sonars/hold-sonar.svg';
 import timerMixin from '../mixins/timerMixin/timerMixin';
+import CallWindowWrapper from './call-window-wrapper.vue';
 
 export default {
-  name: 'call-window-conversation',
+  name: 'CallWindowConversation',
+  components: { CallWindowWrapper },
   mixins: [
     ringingSoundMixin,
     timerMixin,
   ],
-  components: { CallWindowWrapper },
   mounted() {
     this.subscribeCalls();
   },

@@ -1,5 +1,5 @@
-import { AgentStatus } from 'webitel-sdk';
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import { AgentStatus } from 'webitel-sdk';
 
 /**
  * Status to filter

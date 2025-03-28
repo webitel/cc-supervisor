@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
+
 import router from '../../../../app/router';
 import API from '../../api/queues';
 import queuesStore from '../../store/queues';

@@ -1,4 +1,5 @@
 import { CallActions } from 'webitel-sdk';
+
 import { getCliInstance } from '../../../app/api/callWSConnection';
 
 const callParams = { disableStun: true };
@@ -25,7 +26,7 @@ const callHandler = (context) => (action, call) => {
       break;
     case CallActions.Active:
       if (context.state.isEavesdrop) {
-        // eslint-disable-next-line camelcase
+         
         const client = call.variables?.eavesdrop_name || '';
         // context.commit('SET_TIME', +call.variables.eavesdrop_duration);
         context.commit('SET_EAVESDROP_IS_OPENED', true);

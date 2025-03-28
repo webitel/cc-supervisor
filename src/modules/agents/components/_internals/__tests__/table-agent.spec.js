@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+
 import TableAgent
   from '../table-templates/table-agent.vue';
 

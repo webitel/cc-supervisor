@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
+
 import tablePageMixin from '../supervisor-workspace/tablePageMixin';
 
 describe('table Page Mixin', () => {

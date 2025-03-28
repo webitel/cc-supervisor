@@ -1,10 +1,11 @@
 import { mount } from '@vue/test-utils';
 import { createStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
+
 import router from '../../../../app/router';
+import API from '../../api/agents';
 import agentsStore from '../../store/agents';
 import Agents from '../the-agents.vue';
-import API from '../../api/agents';
 
 const items = [];
 

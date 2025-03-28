@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+
 import AgentGeneralTab from '../agent-general-tab.vue';
 
 const namespace = 'card';

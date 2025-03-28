@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  name: 'agent-status-timers',
+  name: 'AgentStatusTimers',
   props: {
     status: {
       type: Object,

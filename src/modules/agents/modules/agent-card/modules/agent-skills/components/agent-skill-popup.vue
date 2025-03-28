@@ -6,10 +6,10 @@
     overflow
     @close="close"
     >
-    <template v-slot:title>
+    <template #title>
       {{ $tc('pages.card.skills.skills', 1) }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <form>
         <wt-select
           :value="itemInstance.skill"
@@ -32,7 +32,7 @@
         ></wt-input>
       </form>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="v$.$error || v$.$invalid"
         @click="save"
@@ -53,12 +53,13 @@ import {
  maxValue, minValue, numeric, required,
 } from '@vuelidate/validators';
 import { mapActions } from "vuex";
-import SkillsAPI from '../api/skills';
+
 import nestedObjectMixin
   from '../../../../../../../packages/client/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import SkillsAPI from '../api/skills';
 
 export default {
-  name: 'agent-skill-popup',
+  name: 'AgentSkillPopup',
   mixins: [nestedObjectMixin],
   props: {
     namespace: {

@@ -1,7 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
-import AgentSkillsTab from '../agent-skills-tab.vue';
+
 import skills from '../../store/agent-skills';
+import AgentSkillsTab from '../agent-skills-tab.vue';
 
 const id = 1;
 const $route = { params: { id }, query: {} };

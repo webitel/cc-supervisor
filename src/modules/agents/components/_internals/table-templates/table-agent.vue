@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'table-agent-status',
+  name: 'TableAgentStatus',
   props: {
     item: {
       type: Object,

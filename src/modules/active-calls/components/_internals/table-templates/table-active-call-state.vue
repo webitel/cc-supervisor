@@ -13,7 +13,7 @@
 import { CallActions } from 'webitel-sdk';
 
 export default {
-  name: 'table-active-call-state',
+  name: 'TableActiveCallState',
   props: {
     item: {
       type: Object,

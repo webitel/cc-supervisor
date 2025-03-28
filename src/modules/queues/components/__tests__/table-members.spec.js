@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+
 import TableMembers
   from '../_internals/table-templates/table-members.vue';
 

@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'agent-profile',
+  name: 'AgentProfile',
   props: {
     name: {
       type: String,

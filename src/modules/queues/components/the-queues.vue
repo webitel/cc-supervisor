@@ -1,11 +1,11 @@
 <template>
   <wt-page-wrapper>
-    <template v-slot:header>
+    <template #header>
       <wt-headline>
-        <template v-slot:title>
+        <template #title>
           {{ $t('pages.queue.title') }}
         </template>
-        <template v-slot:actions>
+        <template #actions>
           <filter-search :namespace="filtersNamespace" filter-query="search"/>
           <wt-button
             :loading="isCSVLoading"
@@ -16,13 +16,13 @@
         </template>
       </wt-headline>
     </template>
-    <template v-slot:actions-panel>
+    <template #actions-panel>
       <queue-filters :namespace="filtersNamespace"/>
     </template>
-    <template v-slot:main>
+    <template #main>
       <section class="main-section-wrapper">
         <wt-loader v-show="isLoading"></wt-loader>
-        <div class="table-wrapper" v-show="!isLoading">
+        <div v-show="!isLoading" class="table-wrapper">
           <wt-table-actions
             class="table-wrapper__actions-wrapper"
             :icons="['refresh']"
@@ -42,30 +42,30 @@
             :grid-actions="false"
             @sort="sort"
           >
-            <template v-slot:queue="{ item }">
+            <template #queue="{ item }">
               <table-queue :item="item"/>
             </template>
-            <template v-slot:agents="{ item }">
+            <template #agents="{ item }">
               <table-agents :status="item.agentStatus"/>
             </template>
-            <template v-slot:free="{ item }">
+            <template #free="{ item }">
               <div v-if="item.agentStatus">
                 {{ item.agentStatus.free }}
               </div>
             </template>
-            <template v-slot:team="{ item }">
+            <template #team="{ item }">
               <table-team :item="item"/>
             </template>
-            <template v-slot:members="{ item }">
+            <template #members="{ item }">
               <table-members :item="item"/>
             </template>
-            <template v-slot:queue-footer>
+            <template #queue-footer>
               {{ $t('reusable.total') }}
             </template>
-            <template v-slot:agents-footer>
+            <template #agents-footer>
               <table-agents :status="aggs"/>
             </template>
-            <template v-slot:free-footer>
+            <template #free-footer>
               {{ aggs.free }}
             </template>
           </wt-table>
@@ -80,12 +80,11 @@
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
+
 import tablePageMixin from '../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../_shared/filters/components/filter-pagination.vue';
-
 import FilterFields from '../../_shared/filters/components/filter-table-fields.vue';
 import QueuesAPI from '../api/queues';
-
 import QueueFilters from '../modules/filters/components/queue-filters.vue';
 import TableAgents from './_internals/table-templates/table-agents.vue';
 import TableMembers from './_internals/table-templates/table-members.vue';
@@ -93,12 +92,7 @@ import TableQueue from './_internals/table-templates/table-queue.vue';
 import TableTeam from './_internals/table-templates/table-team.vue';
 
 export default {
-  name: 'the-queues',
-  mixins: [
-    tablePageMixin,
-    sortFilterMixin,
-    exportCSVMixin,
-  ],
+  name: 'TheQueues',
   components: {
     FilterSearch,
     FilterFields,
@@ -109,13 +103,14 @@ export default {
     TableTeam,
     TableMembers,
   },
+  mixins: [
+    tablePageMixin,
+    sortFilterMixin,
+    exportCSVMixin,
+  ],
   data: () => ({
     namespace: 'queues',
   }),
-
-  created() {
-    this.initCSVExport(QueuesAPI.getList, { filename: 'queues-stats' });
-  },
 
   computed: {
     selectedIds() {
@@ -123,6 +118,10 @@ export default {
       .filter((item) => item._isSelected)
       .map((item) => item.queue?.id);
     },
+  },
+
+  created() {
+    this.initCSVExport(QueuesAPI.getList, { filename: 'queues-stats' });
   },
 };
 </script>

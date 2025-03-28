@@ -1,9 +1,10 @@
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
+
 import router from '../../../../app/router';
+import API from '../../api/active-calls';
 import activeCallsStore from '../../store/active-calls';
 import ActiveCalls from '../the-active-calls.vue';
-import API from '../../api/active-calls';
 
 const items = [];
 

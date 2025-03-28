@@ -11,7 +11,7 @@ import baseFilterMixin
   from '@webitel/ui-sdk/src/modules/QueryFilters/mixins/baseFilterMixin/baseFilterMixin';
 
 export default {
-  name: 'filter-table-fields',
+  name: 'FilterTableFields',
   mixins: [baseFilterMixin],
   props: {
     entity: {

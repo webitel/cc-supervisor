@@ -6,12 +6,12 @@
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'the-app',
+  name: 'TheApp',
   created() {
     this.setAutoRefresh();
     this.setLanguage();
   },
-  destroyed() {
+  unmounted() {
     this.closeSession();
   },
   methods: {

@@ -1,8 +1,8 @@
-import { mapGetters } from 'vuex';
 import SupervisorSections
   from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
 import WebitelApplications
   from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
+import { mapGetters } from 'vuex';
 
 export default {
   computed: {

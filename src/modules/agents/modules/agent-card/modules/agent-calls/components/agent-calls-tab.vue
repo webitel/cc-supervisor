@@ -12,7 +12,7 @@
       ></filter-fields>
     </wt-table-actions>
     <wt-loader v-show="isLoading"></wt-loader>
-    <div class="table-loading-wrapper" v-show="!isLoading">
+    <div v-show="!isLoading" class="table-loading-wrapper">
       <wt-table
         ref="wt-table"
         :headers="headers"
@@ -21,45 +21,45 @@
         sortable
         @sort="sort"
       >
-        <template v-slot:direction="{ item }">
+        <template #direction="{ item }">
           <table-direction :item="item"/>
         </template>
-        <template v-slot:user="{ item }">
+        <template #user="{ item }">
           <div v-if="item.user">
             {{ item.user.name }}
           </div>
         </template>
-        <template v-slot:from="{ item }">
+        <template #from="{ item }">
           <div v-if="item.from">
             {{ item.from.name }}
           </div>
         </template>
-        <template v-slot:to="{ item }">
+        <template #to="{ item }">
           <div v-if="item.to">
             {{ item.to.name }}
           </div>
         </template>
-        <template v-slot:team="{ item }">
+        <template #team="{ item }">
           <div v-if="item.team">
             {{ item.team.name }}
           </div>
         </template>
-        <template v-slot:queue="{ item }">
+        <template #queue="{ item }">
           <div v-if="item.queue">
             {{ item.queue.name }}
           </div>
         </template>
-        <template v-slot:gateway="{ item }">
+        <template #gateway="{ item }">
           <div v-if="item.gateway">
             {{ item.gateway.name }}
           </div>
         </template>
-        <template v-slot:ratedBy="{ item }">
+        <template #ratedBy="{ item }">
           <div v-if="item.ratedBy">
             {{ item.ratedBy.name }}
           </div>
         </template>
-        <template v-slot:actions="{ item, index }">
+        <template #actions="{ item, index }">
           <agent-calls-media-action
             v-if="item.files"
             :call="item"
@@ -71,7 +71,7 @@
         </template>
       </wt-table>
 
-      <filter-pagination @input="closePlayer" :is-next="isNext"/>
+      <filter-pagination :is-next="isNext" @input="closePlayer"/>
 
       <wt-player
         v-show="audioURL"
@@ -83,17 +83,18 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
-import AgentCallsMediaAction from './agent-calls-media-action.vue';
+import { mapState } from 'vuex';
+
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
+import generateMediaURL from "../../../../../../../app/plugins/generateMediaURL";
 import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
 import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields.vue';
 import TableDirection from './_internals/table-templates/table-direction.vue';
-import generateMediaURL from "../../../../../../../app/plugins/generateMediaURL";
+import AgentCallsMediaAction from './agent-calls-media-action.vue';
 
 export default {
-  name: 'agent-calls-tab',
+  name: 'AgentCallsTab',
   components: {
     TableDirection,
     FilterFields,

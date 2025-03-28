@@ -1,5 +1,6 @@
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 import UserinfoStoreModule from '@webitel/ui-sdk/src/modules/Userinfo/store/UserinfoStoreModule';
+
 import { getCliInstance } from '../../../app/api/callWSConnection';
 
 const state = {

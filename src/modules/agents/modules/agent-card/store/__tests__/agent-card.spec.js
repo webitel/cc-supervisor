@@ -1,6 +1,6 @@
 import getContextMock from '../../../../../../../tests/unit/mocks/store/contextMock';
-import card from '../agent-card';
 import AgentAPI from '../../api/agent-card';
+import card from '../agent-card';
 
 const agentId = 123;
 const agent = { agentId, name: 'vi' };

@@ -1,4 +1,5 @@
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
+
 import AgentAPI from '../api/agent-edit';
 
 const state = {

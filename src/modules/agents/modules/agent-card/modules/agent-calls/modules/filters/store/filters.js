@@ -1,11 +1,12 @@
+import ApiFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema';
+import BaseFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
 import EnumFilterSchema
   from '@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema';
 import QueryFiltersStoreModule from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
-import BaseFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
-import ApiFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema';
+
+import UserAPI from '../../../../../../../../_shared/lookups/api/userLookupApi';
 import RatedCallsOptionsLookup
   from '../../../../../../../../_shared/lookups/lookups/RatedCallsOptions.lookup';
-import UserAPI from '../../../../../../../../_shared/lookups/api/userLookupApi';
 
 
 const state = {

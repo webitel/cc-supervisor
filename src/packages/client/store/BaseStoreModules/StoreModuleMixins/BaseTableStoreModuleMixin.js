@@ -1,5 +1,5 @@
-import deepCopy from 'deep-copy';
 import { SortSymbols, sortToQueryAdapter } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
+import deepCopy from 'deep-copy';
 
 const state = {
   headers: [],

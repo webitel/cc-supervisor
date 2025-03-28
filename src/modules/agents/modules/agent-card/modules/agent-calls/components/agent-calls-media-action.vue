@@ -5,12 +5,12 @@
     max-width="400px"
     @click="handleFilesSelect"
   >
-    <template v-slot:activator>
+    <template #activator>
       <wt-icon-btn
         :icon="callMediaIcon"
       />
     </template>
-    <template v-slot:option="{ name, id }">
+    <template #option="{ name, id }">
       <div class="table-media-action__option">
         <wt-icon
           :icon="changeFileMediaIcon(id)"
@@ -24,7 +24,7 @@
 <script>
 
 export default {
-  name: 'agent-calls-media-action',
+  name: 'AgentCallsMediaAction',
   props: {
     playingCallId: {
       type: String,
