@@ -30,7 +30,8 @@ export default ({ mode }) => {
     resolve: {
       alias: {
         // vue: '@vue/compat',
-        '@': resolve(__dirname, 'src')
+        '@': resolve(__dirname, 'src'),
+        '@aliasedDeps/api-services/axios': resolve(__dirname, 'src/app/api/instance'),
       },
     },
     plugins: [
