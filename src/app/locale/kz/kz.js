@@ -82,6 +82,11 @@ export default {
         abandoned: 'Өткізіп жіберді',
         sumBillSec: 'Әңгіме',
         avgWrapSec: ' кейінгі өңдеу',
+        avgAsaSec: 'ASA',
+        avgAwtSec: 'AWT',
+        avgAhtSec: 'AHT',
+        sl20: 'SL/20',
+        sl30: 'SL/30',
       },
     },
     agent: {
@@ -205,6 +210,7 @@ export default {
         queue: 'Кезек',
         state: 'Нәтиже',
         user: 'Пайдаланушы',
+        dtmf: 'DTMF',
       },
       empty: {
         workspace: 'Белсенді қоңырау жоқ',
@@ -231,6 +237,9 @@ export default {
     call: 'Қоңырау',
     agent: 'Оператор',
     duration: 'Ұзақтығы',
+    mute: 'Дыбысты өшіру',
+    prompter: 'Суфлер',
+    conference: 'Конференция',
     copied: 'Көшірілді!',
   },
   packages: {
