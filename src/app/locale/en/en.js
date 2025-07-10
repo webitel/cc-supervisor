@@ -77,7 +77,7 @@ export default {
         free: 'Free',
         team: 'Team',
         members: 'Members processing/Waiting',
-        activities : 'Activities',
+        activities: 'Activities',
         bridged: 'Answered',
         transferred: 'Transferred',
         abandoned: 'Abandoned',

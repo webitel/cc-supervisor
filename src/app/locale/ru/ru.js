@@ -76,7 +76,7 @@ export default {
         free: 'Свободно',
         team: 'Команда',
         members: 'В обработке/Ожидают',
-        activities : 'Активности',
+        activities: 'Активности',
         bridged: 'Соединено',
         transferred: 'Переведено',
         abandoned: 'Пропущено',
