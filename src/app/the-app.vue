@@ -1,5 +1,5 @@
 <template>
-  <router-view/>
+  <router-view />
 </template>
 
 <script>
@@ -22,6 +22,8 @@ export default {
     setLanguage() {
       const lang = localStorage.getItem('lang');
       if (lang) this.$i18n.locale = lang;
+      const fallbackLang = localStorage.getItem('fallbackLang');
+      if (fallbackLang) this.$i18n.fallbackLocale = fallbackLang;
     },
 
     setAutoRefresh() {
@@ -32,5 +34,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>
