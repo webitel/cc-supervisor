@@ -2,14 +2,14 @@
   <form class="agent-info-form">
     <wt-select
       :value="agent.team"
-      :label="$tc('objects.team')"
+      :label="$t('objects.team')"
       :search-method="searchTeams"
       @input="setItemProp({ prop: 'team', value: $event })"
     ></wt-select>
     <wt-select
       v-if="!isSupervisor"
       :value="agent.supervisor"
-      :label="$tc('objects.supervisor')"
+      :label="$t('objects.supervisor')"
       :search-method="searchSupervisors"
       :close-on-select="false"
       multiple
@@ -17,7 +17,7 @@
     ></wt-select>
     <wt-select
       :value="agent.auditor"
-      :label="$tc('objects.auditor')"
+      :label="$t('objects.auditor')"
       :search-method="searchAuditors"
       :close-on-select="false"
       multiple
@@ -25,7 +25,7 @@
     ></wt-select>
     <wt-select
       :value="agent.region"
-      :label="$tc('objects.region')"
+      :label="$t('objects.region')"
       :search-method="searchRegions"
       @input="setItemProp({ prop: 'region', value: $event })"
     ></wt-select>
