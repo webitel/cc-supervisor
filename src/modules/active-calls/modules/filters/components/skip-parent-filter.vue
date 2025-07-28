@@ -2,7 +2,7 @@
   <wt-checkbox
     :selected="value"
     :label="$t('filters.skipParent')"
-    @change="handleChange"
+    @update:selected="handleChange"
   ></wt-checkbox>
 </template>
 
