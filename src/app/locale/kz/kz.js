@@ -20,6 +20,7 @@ export default {
     missed: 'Жіберіп алды',
     disconnect: 'Ажыратылды',
   },
+  // DEPRECATED: these locales should be moved to "reusable"
   defaults: {
     search: 'Іздеу',
     exportCSV: 'CSV экспорттау',

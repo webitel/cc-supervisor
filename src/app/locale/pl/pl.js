@@ -20,6 +20,7 @@ export default {
     missed: 'Nieodebrane',
     disconnect: 'Rozłączone',
   },
+  // DEPRECATED: these locales should be moved to "reusable"
   defaults: {
     search: 'Szukaj',
     exportCSV: 'Eksportuj CSV',

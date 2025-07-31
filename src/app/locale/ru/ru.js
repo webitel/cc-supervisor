@@ -20,6 +20,7 @@ export default {
     missed: 'Пропущено',
     disconnect: 'Разъединено',
   },
+  // DEPRECATED: these locales should be moved to "reusable"
   defaults: {
     search: 'Поиск',
     exportCSV: 'Экспорт CSV',

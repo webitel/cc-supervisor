@@ -20,6 +20,7 @@ export default {
     missed: 'Pierdut',
     disconnect: 'Deconectat',
   },
+  // DEPRECATED: these locales should be moved to "reusable"
   defaults: {
     search: 'Căutare',
     exportCSV: 'Exportă CSV',

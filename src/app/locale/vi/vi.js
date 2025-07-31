@@ -20,6 +20,7 @@ export default {
     missed: 'Bỏ lỡ',
     disconnect: 'Ngắt kết nối',
   },
+  // DEPRECATED: these locales should be moved to "reusable"
   defaults: {
     search: 'Tìm kiếm',
     exportCSV: 'Xuất CSV',
