@@ -29,23 +29,14 @@ export default {
     save: 'Зберегти',
   },
   filters: {
-    from: 'Від',
-    to: 'До',
     time: 'Час',
-    team: 'Команда',
-    queue: 'Черга',
     queueType: 'Тип черги',
     status: 'Статус',
     utilization: 'Прогрес по утилізації',
     callNow: 'Розмовляє',
     direction: 'Напрям',
-    agent: 'Оператор',
-    user: 'Користувач',
-    gateway: 'Шлюз',
     skill: 'Навичка',
-    supervisor: 'Супервізор',
     auditor: 'Аудитор',
-    region: 'Розміщення',
     result: 'Результат',
     period: {
       options: {
@@ -54,14 +45,6 @@ export default {
         m: '{m} хвилина | {m} хвилин',
       },
     },
-    rated: {
-      title: 'Оцінені',
-      options: {
-        yes: 'Так',
-        no: 'Ні',
-      },
-    },
-    ratedBy: 'Оцінені ким',
   },
   pages: {
     shared: {

@@ -29,23 +29,14 @@ export default {
     save: 'Guardar',
   },
   filters: {
-    from: 'Desde',
-    to: 'Hasta',
     time: 'Hora',
-    team: 'Equipo',
-    queue: 'Cola',
     queueType: 'Tipo de cola',
     status: 'Estado',
     utilization: 'Progreso de utilización',
     callNow: 'En llamada',
     direction: 'Dirección',
-    agent: 'Agente',
-    user: 'Usuario',
-    gateway: 'Gateway',
     skill: 'Habilidad',
-    supervisor: 'Supervisor',
     auditor: 'Auditor',
-    region: 'Ubicación',
     result: 'Resultado',
     period: {
       options: {
@@ -54,14 +45,6 @@ export default {
         m: '{m} minuto | {m} minutos',
       },
     },
-    rated: {
-      title: 'Calificado',
-      options: {
-        yes: 'Sí',
-        no: 'No',
-      },
-    },
-    ratedBy: 'Calificado por',
   },
   pages: {
     shared: {

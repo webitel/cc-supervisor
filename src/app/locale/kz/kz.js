@@ -29,23 +29,14 @@ export default {
     save: 'Сақтау',
   },
   filters: {
-    from: 'Бастап',
-    to: 'Дейін',
     time: 'Уақыт',
-    team: 'Команда',
-    queue: 'Кезек',
     queueType: 'Кезек түрі',
     status: 'Мәртебе',
     utilization: 'Пайдалану прогресі',
     callNow: 'Қоңырауда',
     direction: 'Бағыт',
-    agent: 'Оператор',
-    user: 'Пайдаланушы',
-    gateway: 'Шлюз',
     skill: 'Дағды',
-    supervisor: 'Супервизор',
     auditor: 'Аудитор',
-    region: 'Орналасуы',
     result: 'Нәтиже',
     period: {
       options: {
@@ -54,14 +45,6 @@ export default {
         m: '{m} минут | {m} минуттар',
       },
     },
-    rated: {
-      title: 'Бағаланған',
-      options: {
-        yes: 'Иә',
-        no: 'Жоқ',
-      },
-    },
-    ratedBy: 'Кім бағалады',
   },
   pages: {
     shared: {

@@ -19,14 +19,14 @@ const state = {
     defaultValue: new Date().setHours(23, 59, 59, 999),
   }),
   rated: new EnumFilterSchema({
-    locale: { label: 'filters.rated.title' },
+    locale: { label: 'webitelUI.filters.rated' },
     options: RatedCallsOptionsLookup,
     multiple: false,
     closeOnSelect: true,
   }),
   ratedBy: new ApiFilterSchema({
     API: UserAPI,
-    locale: { label: 'filters.ratedBy' },
+    locale: { label: 'webitelUI.filters.ratedBy' },
   }),
 };
 

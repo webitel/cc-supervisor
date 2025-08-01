@@ -21,7 +21,7 @@ const state = {
   }),
   queue: new ApiFilterSchema({
     API: (params) => QueueFilterAPI({ ...params, size: 50 }), // бо клієнт хоче щоб все вміщалось ))
-    locale: { label: 'filters.queue' },
+    locale: { label: 'webitelUI.filters.queue' },
   }),
   skill: new ApiFilterSchema({
     API: (params) => SkillFilterAPI({ ...params, size: 50 }), // бо клієнт хоче щоб все вміщалось ))
@@ -29,11 +29,11 @@ const state = {
   }),
   team: new ApiFilterSchema({
     API: TeamFilterAPI,
-    locale: { label: 'filters.team' },
+    locale: { label: 'webitelUI.filters.team' },
   }),
   supervisor: new ApiFilterSchema({
     API: SupervisorFilterAPI,
-    locale: { label: 'filters.supervisor' },
+    locale: { label: 'objects.supervisor' },
   }),
   auditor: new ApiFilterSchema({
     API: AuditorFilterAPI,
@@ -41,7 +41,7 @@ const state = {
   }),
   region: new ApiFilterSchema({
     API: RegionFilterAPI,
-    locale: { label: 'filters.region' },
+    locale: { label: 'objects.region' },
   }),
   utilization: new EnumFilterSchema({
     locale: { label: 'filters.utilization' },

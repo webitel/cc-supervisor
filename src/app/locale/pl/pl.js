@@ -29,23 +29,14 @@ export default {
     save: 'Zapisz',
   },
   filters: {
-    from: 'Od',
-    to: 'Do',
     time: 'Czas',
-    team: 'Zespół',
-    queue: 'Kolejka',
     queueType: 'Typ kolejki',
     status: 'Status',
     utilization: 'Postęp wykorzystania',
     callNow: 'W trakcie rozmowy',
     direction: 'Kierunek',
-    agent: 'Agent',
-    user: 'Użytkownik',
-    gateway: 'Bramka',
     skill: 'Umiejętność',
-    supervisor: 'Supervisor',
     auditor: 'Audytor',
-    region: 'Lokalizacja',
     result: 'Wynik',
     period: {
       options: {
@@ -54,14 +45,6 @@ export default {
         m: '{m} minuta | {m} minuty',
       },
     },
-    rated: {
-      title: 'Ocenione',
-      options: {
-        yes: 'Tak',
-        no: 'Nie',
-      },
-    },
-    ratedBy: 'Ocenione przez',
   },
   pages: {
     shared: {
