@@ -23,27 +23,27 @@ const state = {
   }),
   user: new ApiFilterSchema({
     API: UserFilterAPI,
-    locale: { label: 'filters.user' },
+    locale: { label: 'objects.user' },
   }),
   gateway: new ApiFilterSchema({
     API: GatewayFilterAPI,
-    locale: { label: 'filters.gateway' },
+    locale: { label: 'objects.gateway' },
   }),
   queue: new ApiFilterSchema({
     API: QueueFilterAPI,
-    locale: { label: 'filters.queue' },
+    locale: { label: 'objects.queue.queue' },
   }),
   agent: new ApiFilterSchema({
     API: AgentFilterAPI,
-    locale: { label: 'filters.agent' },
+    locale: { label: 'objects.agent.agent' },
   }),
   team: new ApiFilterSchema({
     API: TeamFilterAPI,
-    locale: { label: 'filters.team' },
+    locale: { label: 'objects.team' },
   }),
   supervisor: new ApiFilterSchema({
     API: SupervisorFilterAPI,
-    locale: { label: 'filters.supervisor' },
+    locale: { label: 'objects.supervisor' },
   }),
   skipParent: new BaseFilterSchema({
     defaultValue: true,

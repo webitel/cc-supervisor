@@ -5,9 +5,10 @@
     max-width="400px"
     @click="handleFilesSelect"
   >
-    <template #activator>
+    <template #activator="{ toggle }">
       <wt-icon-btn
         :icon="callMediaIcon"
+        @click="toggle"
       />
     </template>
     <template #option="{ name, id }">

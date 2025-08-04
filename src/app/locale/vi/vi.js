@@ -20,6 +20,7 @@ export default {
     missed: 'Bỏ lỡ',
     disconnect: 'Ngắt kết nối',
   },
+  // DEPRECATED: these locales should be moved to "reusable"
   defaults: {
     search: 'Tìm kiếm',
     exportCSV: 'Xuất CSV',
@@ -28,23 +29,14 @@ export default {
     save: 'Lưu',
   },
   filters: {
-    from: 'Từ',
-    to: 'Đến',
     time: 'Thời gian',
-    team: 'Nhóm',
-    queue: 'Hàng đợi',
     queueType: 'Loại hàng đợi',
     status: 'Trạng thái',
     utilization: 'Tiến độ sử dụng',
     callNow: 'Đang gọi',
     direction: 'Hướng',
-    agent: 'Tác vụ',
-    user: 'Người dùng',
-    gateway: 'Cổng',
     skill: 'Kỹ năng',
-    supervisor: 'Giám sát',
     auditor: 'Kiểm toán viên',
-    region: 'Vị trí',
     result: 'Kết quả',
     period: {
       options: {
@@ -53,14 +45,6 @@ export default {
         m: '{m} phút',
       },
     },
-    rated: {
-      title: 'Được đánh giá',
-      options: {
-        yes: 'Có',
-        no: 'Không',
-      },
-    },
-    ratedBy: 'Được đánh giá bởi',
   },
   pages: {
     shared: {

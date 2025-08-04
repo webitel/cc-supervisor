@@ -17,11 +17,11 @@ const state = {
   }),
   queue: new ApiFilterSchema({
     API: (params) => QueueFilterAPI({ ...params, size: 50 }), // бо клієнт хоче щоб все вміщалось ))
-    locale: { label: 'filters.queue' },
+    locale: { label: 'webitelUI.filters.queue' },
   }),
   team: new ApiFilterSchema({
     API: TeamFilterAPI,
-    locale: { label: 'filters.team' },
+    locale: { label: 'webitelUI.filters.team' },
   }),
   queueType: new EnumFilterSchema({
     options: QueueTypeOptions,

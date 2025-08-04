@@ -20,6 +20,7 @@ export default {
     missed: 'Pierdut',
     disconnect: 'Deconectat',
   },
+  // DEPRECATED: these locales should be moved to "reusable"
   defaults: {
     search: 'Căutare',
     exportCSV: 'Exportă CSV',
@@ -28,23 +29,14 @@ export default {
     save: 'Salvează',
   },
   filters: {
-    from: 'De la',
-    to: 'Până la',
     time: 'Timp',
-    team: 'Echipă',
-    queue: 'Coada',
     queueType: 'Tip coadă',
     status: 'Stare',
     utilization: 'Progres utilizare',
     callNow: 'În apel',
     direction: 'Direcție',
-    agent: 'Agent',
-    user: 'Utilizator',
-    gateway: 'Gateway',
     skill: 'Competență',
-    supervisor: 'Supervizor',
     auditor: 'Auditor',
-    region: 'Locație',
     result: 'Rezultat',
     period: {
       options: {
@@ -53,14 +45,6 @@ export default {
         m: '{m} minut | {m} minute',
       },
     },
-    rated: {
-      title: 'Evaluat',
-      options: {
-        yes: 'Da',
-        no: 'Nu',
-      },
-    },
-    ratedBy: 'Evaluat de',
   },
   pages: {
     shared: {

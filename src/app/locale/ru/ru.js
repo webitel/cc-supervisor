@@ -20,6 +20,7 @@ export default {
     missed: 'Пропущено',
     disconnect: 'Разъединено',
   },
+  // DEPRECATED: these locales should be moved to "reusable"
   defaults: {
     search: 'Поиск',
     exportCSV: 'Экспорт CSV',
@@ -28,23 +29,14 @@ export default {
     save: 'Сохранить',
   },
   filters: {
-    from: 'От',
-    to: 'До',
     time: 'Время',
-    team: 'Команда',
-    queue: 'Очередь',
     queueType: 'Тип очереди',
     status: 'Статус',
     utilization: 'Прогресс по утилизации',
     callNow: 'В разговоре',
     direction: 'Направление',
-    agent: 'Оператор',
-    user: 'Пользователь',
-    gateway: 'Шлюз',
     skill: 'Навык',
-    supervisor: 'Супервизор',
     auditor: 'Аудитор',
-    region: 'Площадка',
     result: 'Результат',
     period: {
       options: {
@@ -53,14 +45,6 @@ export default {
         m: '{m} минута | {m} минут',
       },
     },
-    rated: {
-      title: 'Оцененные',
-      options: {
-        yes: 'Да',
-        no: 'Нет',
-      },
-    },
-    ratedBy: 'Оценены кем',
   },
   pages: {
     shared: {

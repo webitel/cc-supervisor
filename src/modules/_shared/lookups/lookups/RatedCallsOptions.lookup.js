@@ -5,11 +5,11 @@
  */
 const RatedCallsOptions = Object.freeze([
      {
-       locale: 'filters.rated.options.yes',
+       locale: 'vocabulary.yes',
        value: 'true',
      },
      {
-       locale: 'filters.rated.options.no',
+       locale: 'vocabulary.no',
        value: 'false',
      },
    ]);

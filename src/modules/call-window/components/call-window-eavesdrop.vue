@@ -24,21 +24,24 @@
           {{ $t('callWindow.agent') }}: {{ agent.name }}
         </div>
         <div v-if="client">
-          <wt-tooltip>
-            <template #activator>
+          <wt-popover>
+            <template #activator="{ toggle }">
               <div
                 class="call-window-eavesdrop-title__subtitle"
                 tabindex="0"
-                @click="copyNumber"
-                @keydown.enter="copyNumber"
+                @click="(ev) => copyNumber(ev, toggle)"
+                @keydown.enter="(ev) => copyNumber(ev, toggle)"
               >
                 {{ $t('callWindow.client') }}: {{ client.name }}
               </div>
             </template>
-            <div v-if="isCopied">
-              {{ $t('callWindow.copied') }}
-            </div>
-          </wt-tooltip>
+
+            <template #default>
+              <div>
+                {{ $t('callWindow.copied') }}
+              </div>
+            </template>
+          </wt-popover>
         </div>
       </div>
     </template>
@@ -146,11 +149,13 @@ export default {
     conference() {
       this.call.changeEavesdropState(EavesdropState.Conference);
     },
-    copyNumber() {
+    copyNumber(ev, toggleCb) {
       copy(this.client.number);
       this.isCopied = true;
+      toggleCb(ev)
       setTimeout(() => {
         this.isCopied = false;
+        toggleCb(ev)
       }, 1500);
     },
   },

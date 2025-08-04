@@ -20,6 +20,7 @@ export default {
     missed: 'O‘tkazib yuborildi',
     disconnect: 'Uzildi',
   },
+  // DEPRECATED: these locales should be moved to "reusable"
   defaults: {
     search: 'Qidirish',
     exportCSV: 'CSV eksport qilish',
@@ -28,23 +29,14 @@ export default {
     save: 'Saqlash',
   },
   filters: {
-    from: 'Dan',
-    to: 'Gacha',
     time: 'Vaqt',
-    team: 'Jamoa',
-    queue: 'Navbat',
     queueType: 'Navbat turi',
     status: 'Holat',
     utilization: 'Foydalanish jarayoni',
     callNow: 'Qo‘ng‘iroqda',
     direction: 'Yo‘nalish',
-    agent: 'Operator',
-    user: 'Foydalanuvchi',
-    gateway: 'Shlyuz',
     skill: 'Ko‘nikma',
-    supervisor: 'Supervisor',
     auditor: 'Auditor',
-    region: 'Joylashuv',
     result: 'Natija',
     period: {
       options: {
@@ -53,14 +45,6 @@ export default {
         m: '{m} daqiqa | {m} daqiqalar',
       },
     },
-    rated: {
-      title: 'Baholangan',
-      options: {
-        yes: 'Ha',
-        no: 'Yo‘q',
-      },
-    },
-    ratedBy: 'Kim baholadi',
   },
   pages: {
     shared: {

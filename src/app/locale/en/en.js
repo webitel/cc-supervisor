@@ -29,23 +29,14 @@ export default {
     save: 'Save',
   },
   filters: {
-    from: 'From',
-    to: 'To',
     time: 'Time',
-    team: 'Team',
-    queue: 'Queue',
     queueType: 'Queue Type',
     status: 'Status',
     utilization: 'Utilization progress',
     callNow: 'On a call',
     direction: 'Direction',
-    agent: 'Agent',
-    user: 'User',
-    gateway: 'Gateway',
     skill: 'Skill',
-    supervisor: 'Supervisor',
     auditor: 'Auditor',
-    region: 'Location',
     result: 'Result',
     period: {
       options: {
@@ -54,14 +45,6 @@ export default {
         m: '{m} minute | {m} minutes',
       },
     },
-    rated: {
-      title: 'Rated',
-      options: {
-        yes: 'Yes',
-        no: 'No',
-      },
-    },
-    ratedBy: 'Rated by',
   },
   pages: {
     shared: {

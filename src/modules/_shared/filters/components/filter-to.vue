@@ -1,7 +1,7 @@
 <template>
   <wt-datepicker
     :value="value"
-    :label="$t('filters.to')"
+    :label="$t('reusable.to')"
     mode="datetime"
     @input="handleChange"
   ></wt-datepicker>
