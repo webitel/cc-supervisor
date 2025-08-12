@@ -12,7 +12,7 @@ export default [
     show: true,
     sort: null,
     field: 'duration_min',
-    width: 'minmax(250px, 2fr)',
+    width: '250px',
   },
   {
     value: 'limit',
