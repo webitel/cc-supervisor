@@ -1,5 +1,5 @@
 {
-  "name": "cc-supervisor",
+  "name": "@webitel/supervisor",
   "version": "25.05.0",
   "private": true,
   "scripts": {
