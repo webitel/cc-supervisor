@@ -7,14 +7,14 @@
     @close="close"
     >
     <template #title>
-      {{ $tc('pages.card.skills.skills', 1) }}
+      {{ $t('pages.card.skills.skills', 1) }}
     </template>
     <template #main>
       <form>
         <wt-select
           :value="itemInstance.skill"
           :v="v$.itemInstance.skill"
-          :label="$tc('pages.card.skills.skills', 1)"
+          :label="$t('pages.card.skills.skills', 1)"
           :search-method="loadDropdownOptionsList"
           :clearable="false"
           required
