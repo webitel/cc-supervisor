@@ -33,8 +33,8 @@
         </template>
         <template #enabled="{ item, index }">
           <wt-switcher
-            :value="item.enabled"
-            @change="patchItemProperty({ item, index, value: $event, prop: 'enabled' })"
+            :model-value="item.enabled"
+            @update:model-value="patchItemProperty({ item, index, value: $event, prop: 'enabled' })"
           ></wt-switcher>
         </template>
         <template #actions="{ item, index }">
