@@ -22,6 +22,7 @@ export default {
 
 <style lang="scss" scoped>
   .wt-chip:not(:last-child) {
+    white-space: break-spaces;
     margin-right: var(--spacing-sm);
     margin-bottom: 5px;
   }

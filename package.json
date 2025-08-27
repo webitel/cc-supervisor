@@ -1,6 +1,6 @@
 {
-  "name": "cc-supervisor",
-  "version": "25.05.0",
+  "name": "@webitel/supervisor",
+  "version": "25.08.0",
   "private": true,
   "scripts": {
     "dev": "vite",
