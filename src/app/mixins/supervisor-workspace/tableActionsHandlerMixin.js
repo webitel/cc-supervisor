@@ -26,7 +26,8 @@ export default {
       this.isFilterFieldsOpened = true;
     },
 
-    resetFilters(excludeKeys = []) {
+    resetFilters(options = {}) {
+      const { excludeKeys = [] } = options
       const queries = { ...this.$route.query };
 
       const preserved = {};

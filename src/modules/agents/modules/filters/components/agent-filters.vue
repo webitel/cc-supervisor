@@ -1,5 +1,5 @@
 <template>
-  <wt-filters-panel-wrapper @reset="resetFilters(['search'])">
+  <wt-filters-panel-wrapper @reset="resetFilters(({excludeKeys: ['search']}))">
     <component
       :is="`abstract-${filter.type}-filter`"
       v-for="(filter) of agentFilters"
