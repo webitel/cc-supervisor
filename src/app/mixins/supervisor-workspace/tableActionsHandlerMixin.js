@@ -26,9 +26,18 @@ export default {
       this.isFilterFieldsOpened = true;
     },
 
-    resetFilters() {
-      this.$router.replace({ query: null });
-      this.dispatchResetFilters();
+    resetFilters(excludeKeys = []) {
+      const queries = { ...this.$route.query };
+
+      const preserved = {};
+      for (const key of excludeKeys) {
+        if (queries[key] !== undefined) {
+          preserved[key] = queries[key];
+        }
+      }
+
+      this.$router.replace({ query: preserved });
+      this.dispatchResetFilters({ excludeKeys });
     },
   },
 };
