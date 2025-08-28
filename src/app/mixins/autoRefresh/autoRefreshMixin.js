@@ -10,7 +10,7 @@ export default {
     this.setAutoRefresh();
   },
 
-  destroyed() {
+  unmounted() {
     clearInterval(this.autoRefresh);
   },
 
