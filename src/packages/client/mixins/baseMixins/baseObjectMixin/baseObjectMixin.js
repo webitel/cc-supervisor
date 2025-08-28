@@ -12,7 +12,7 @@ import openedObjectValidationMixin from '../openedObjectValidationMixin/openedOb
  */
 export default {
   mixins: [openedObjectValidationMixin],
-  destroyed() {
+  unmounted() {
     this.resetState();
   },
 
