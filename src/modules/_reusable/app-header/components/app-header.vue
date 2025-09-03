@@ -1,27 +1,32 @@
 <template>
   <wt-app-header>
-    <wt-navigation-bar
-      :current-app="currentApp"
-      :nav="navAccess"
-      :dark-mode="darkMode"
-      :logo-route="RoutePaths.StartPage"
-    />
-    <wt-logo
-      :dark-mode="darkMode"
-      :logo-href="startPageHref"
-     />
-    <wt-dark-mode-switcher />
-    <wt-app-navigator
-      :current-app="currentApp"
-      :apps="apps"
-      :dark-mode="darkMode"
-    />
-    <wt-header-actions
-      :user="user"
-      :build-info="buildInfo"
-      @settings="settings"
-      @logout="logoutUser"
-    />
+    <template #start>
+      <wt-navigation-bar
+        :current-app="currentApp"
+        :nav="navAccess"
+        :dark-mode="darkMode"
+        :logo-route="RoutePaths.StartPage"
+      />
+      <wt-logo
+        :dark-mode="darkMode"
+        :logo-href="startPageHref"
+      />
+      <wt-dark-mode-switcher />
+    </template>
+
+    <template #end>
+      <wt-app-navigator
+        :current-app="currentApp"
+        :apps="apps"
+        :dark-mode="darkMode"
+      />
+      <wt-header-actions
+        :user="user"
+        :build-info="buildInfo"
+        @settings="settings"
+        @logout="logoutUser"
+      />
+    </template>
   </wt-app-header>
 </template>
 
