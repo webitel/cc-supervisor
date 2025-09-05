@@ -17,42 +17,6 @@
         flex: 1 0 50vh;
         max-height: 100%;
         min-height: 0;
-
-        .wt-table {
-          max-height: 100%;
-        }
-
-        .wt-table__table {
-          position: relative;
-          display: flex;
-          flex-direction: column;
-
-          .wt-table__head {
-            position: -webkit-sticky;
-            position: sticky;
-            top: 0;
-            background: var(--content-wrapper-color);
-            min-width: 100%;
-            width: fit-content;
-            z-index: 1;
-          }
-
-          .wt-table__foot {
-            position: -webkit-sticky;
-            position: sticky;
-            bottom: 0;
-            background: var(--content-wrapper-color);
-            min-width: 100%;
-            width: fit-content;
-            border-color: var(--secondary-color);
-            z-index: 1;
-          }
-
-          .wt-table__body {
-            min-width: 100%;
-            width: fit-content;
-          }
-        }
       }
     }
   }

@@ -4,7 +4,7 @@ export default [
     locale: 'pages.card.calls.columns.createdAt',
     show: true,
     sort: null,
-    width: 'minmax(200px, 1fr)',
+    width: '200px',
     field: 'created_at',
   },
   {
