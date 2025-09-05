@@ -1,6 +1,6 @@
 <template>
   <wt-pagination
-    v-model="size"
+    :size="size"
     :next="isNext"
     :prev="isPrev"
     debounce

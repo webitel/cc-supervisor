@@ -1,13 +1,13 @@
 <template>
-  <wt-filters-panel-wrapper @reset="resetFilters">
-  <component
+  <wt-filters-panel-wrapper @reset="resetFilters({excludeKeys: ['search']})">
+    <component
       :is="`abstract-${filter.type}-filter`"
       v-for="(filter) of queueFilters"
       :key="filter.filterQuery"
       :filter-query="filter.filterQuery"
       :namespace="namespace"
       :disabled="filter.disabled"
-    ></component>
+    />
   </wt-filters-panel-wrapper>
 </template>
 
