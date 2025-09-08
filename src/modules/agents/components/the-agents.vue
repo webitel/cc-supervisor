@@ -43,6 +43,7 @@
             :grid-actions="false"
             :headers="headers"
             sortable
+            :row-class="rowClass"
             @sort="sort"
           >
             <template #name="{ item }">
@@ -87,13 +88,6 @@ import TableQueues from './_internals/table-templates/table-agent-queues.vue';
 import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
 import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
 
-const collectBreakoutIndexes = (dataList) => (
-  dataList.reduce((indexes, dataRow, dataRowIndex) => {
-    if (dataRow.status === AgentStatus.BreakOut) return indexes.concat(dataRowIndex);
-    return indexes;
-  }, [])
-);
-
 export default {
   name: 'TheAgents',
   components: {
@@ -121,14 +115,6 @@ export default {
                  .map((item) => item.agentId);
     },
   },
-  watch: {
-    dataList: {
-      handler() {
-        this.highlightBreakoutAgents();
-      },
-      immediate: true,
-    },
-  },
   created() {
     this.initCSVExport(AgentsAPI.getList, { filename: 'agents' });
   },
@@ -137,27 +123,8 @@ export default {
       attachToCall: 'ATTACH_TO_CALL',
       openWindow: 'EAVESDROP_OPEN_WINDOW',
     }),
-    async highlightBreakoutAgents() {
-      const breakoutIndexes = collectBreakoutIndexes(this.dataList);
-      await this.$nextTick(); // wait for table to render
-      this.clearHighlights();
-      if (!breakoutIndexes.length) return;
-      this.highlightRows(breakoutIndexes);
-    },
-    highlightRows(breakoutIndexes) {
-      const table = this.$refs['agents-table'];
-      breakoutIndexes.forEach((index) => {
-        const className = `wt-table__tr__${index}`;
-        const row = table.$el.querySelector(`.${className}`);
-        if (row) row.classList.add('wt-table__tr--highlight-breakout');
-      });
-    },
-    clearHighlights() {
-      const table = this.$refs['agents-table'];
-      const highlightedRows = table.$el.querySelectorAll('.wt-table__tr--highlight-breakout');
-      highlightedRows.forEach((row) => {
-        row.classList.remove('wt-table__tr--highlight-breakout');
-      });
+    rowClass(row) {
+      return row.status === AgentStatus.BreakOut && 'wt-table__tr--highlight-breakout'
     },
     async attachCall(id) {
       await this.attachToCall({ id });
@@ -168,7 +135,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wt-table ::v-deep .wt-table__tr.wt-table__tr--highlight-breakout {
+.wt-table ::v-deep .wt-table__tr--highlight-breakout {
   // https://github.com/sass/node-sass/issues/2251
   background: HSLA(var(--_negative-color), 0.1);
 }
