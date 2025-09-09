@@ -4,8 +4,7 @@
     :shown="!!skillId"
     size="sm"
     overflow
-    @close="close"
-    >
+  >
     <template #title>
       {{ $t('pages.card.skills.skills', 1) }}
     </template>
