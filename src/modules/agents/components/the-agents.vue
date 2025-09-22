@@ -63,6 +63,15 @@
             <template #queues="{ item }">
               <table-queues :item="item" />
             </template>
+            <template #descTrack="{ item }">
+              <wt-icon
+                :color="deskTrackIconColor"
+                icon="desk-track"
+                size="md"
+                class="agents-table__desk-track-icon"
+
+              ></wt-icon>
+            </template>
           </wt-table>
           <filter-pagination :is-next="isNext" />
         </div>
@@ -72,6 +81,7 @@
 </template>
 
 <script>
+import { IconColor } from '@webitel/ui-sdk/enums';
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
@@ -107,6 +117,7 @@ export default {
   ],
   data: () => ({
     namespace: 'agents',
+    selectedAgentsScreenId: null,
   }),
   computed: {
     selectedIds() {
@@ -114,6 +125,9 @@ export default {
                  .filter((item) => item._isSelected)
                  .map((item) => item.agentId);
     },
+    deskTrackIconColor() {
+      return this.selectedAgentsScreenId ? IconColor.SUCCESS : IconColor.DEFAULT
+    }
   },
   created() {
     this.initCSVExport(AgentsAPI.getList, { filename: 'agents' });
@@ -138,5 +152,15 @@ export default {
 .wt-table ::v-deep .wt-table__tr--highlight-breakout {
   // https://github.com/sass/node-sass/issues/2251
   background: HSLA(var(--_negative-color), 0.1);
+}
+
+.agents-table {
+  &__desk-track-icon {
+    cursor: pointer;
+
+    &_active {
+      fill: var(--success-color);
+    }
+  }
 }
 </style>
