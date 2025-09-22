@@ -179,6 +179,14 @@ export default {
           enabled: 'Estado',
         },
       },
+      screenRecordings: {
+        title: 'Grabaciones de pantalla',
+        columns: {
+          screen_recordings: 'Grabaciones de pantalla',
+          date_time: 'Fecha y hora',
+          name: 'Nombre',
+        }
+      }
     },
     activeCall: {
       title: 'Llamadas activas',

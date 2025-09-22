@@ -179,6 +179,14 @@ export default {
           enabled: 'Holat',
         },
       },
+      screenRecordings: {
+        title: 'Ekran yozuvlari',
+        columns: {
+          screen_recordings: 'Ekran yozuvlari',
+          date_time: 'Sana va vaqt',
+          name: 'Ism',
+        }
+      }
     },
     activeCall: {
       title: 'Faol qo‘ng‘iroqlar',

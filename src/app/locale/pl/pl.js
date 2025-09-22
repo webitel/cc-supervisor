@@ -179,6 +179,14 @@ export default {
           enabled: 'Status',
         },
       },
+      screenRecordings: {
+        title: 'Nagrania ekranu',
+        columns: {
+          screen_recordings: 'Nagrania ekranu',
+          date_time: 'Data i czas',
+          name: 'Nazwa',
+        }
+      }
     },
     activeCall: {
       title: 'Aktywne rozmowy',

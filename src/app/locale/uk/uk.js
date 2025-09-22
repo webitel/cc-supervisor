@@ -179,6 +179,14 @@ export default {
           enabled: 'Стан',
         },
       },
+      screenRecordings: {
+        title: 'Записи екрану',
+        columns: {
+          screen_recordings: 'Записи екрану',
+          date_time: 'Дата і час',
+          name: 'Ім\'я',
+        }
+      }
     },
     activeCall: {
       title: 'Активні дзвінки',

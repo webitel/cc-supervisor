@@ -28,6 +28,7 @@ import AgentTabsPathName from "../../../../../app/router/_internals/AgentTabsPat
 import Calls from '../modules/agent-calls/components/agent-calls-tab.vue';
 import CallsFilters from '../modules/agent-calls/modules/filters/components/agent-calls-filters.vue';
 import General from '../modules/agent-general/components/agent-general-tab.vue';
+import ScreenRecordings from '../modules/agent-screen-recordings/components/agent-screen-recordings-tab.vue';
 import Skills from '../modules/agent-skills/components/agent-skills-tab.vue';
 import StatusHistory from '../modules/agent-status-history/components/agent-status-history-tab.vue';
 import StatusHistoryFilters from '../modules/agent-status-history/modules/filters/components/agent-status-history-filters.vue';
@@ -40,6 +41,7 @@ export default {
     General,
     Calls,
     CallsFilters,
+    ScreenRecordings,
     Skills,
     StatusHistory,
     StatusHistoryFilters,
@@ -61,8 +63,11 @@ export default {
         return getNamespacedState(state, this.namespace).agent;
       },
     }),
+    isControlAgentScreenAllow() {
+      return this.$store.getters[`userinfo/IS_CONTROL_AGENT_SCREEN_ALLOW`];
+    },
     tabs() {
-      return [
+      const tabs = [
         {
           text: this.$t('pages.card.general.title'),
           value: 'general',
@@ -77,21 +82,33 @@ export default {
           namespace: `${this.namespace}/calls`,
           pathName: AgentTabsPathName.WORK_LOG,
         },
-        {
-          text: this.$t('pages.card.statusHistory.title'),
-          value: 'status-history',
-          actionsPanel: true,
-          namespace: `${this.namespace}/statusHistory`,
-          pathName: AgentTabsPathName.STATE_HISTORY,
-        },
-        {
-          text: this.$t('pages.card.skills.title'),
-          value: 'skills',
-          actionsPanel: false,
-          namespace: `${this.namespace}/skills`,
-          pathName: AgentTabsPathName.SKILLS,
-        },
       ];
+
+      if (this.isControlAgentScreenAllow) {
+        tabs.push({
+          text: this.$t('pages.card.screenRecordings.title'),
+          value: 'screen-recordings',
+          actionsPanel: false,
+          namespace: this.namespace,
+          pathName: AgentTabsPathName.SCREEN_RECORDINGS,
+        });
+      }
+
+      tabs.push({
+        text: this.$t('pages.card.statusHistory.title'),
+        value: 'status-history',
+        actionsPanel: true,
+        namespace: `${this.namespace}/statusHistory`,
+        pathName: AgentTabsPathName.STATE_HISTORY,
+      }, {
+        text: this.$t('pages.card.skills.title'),
+        value: 'skills',
+        actionsPanel: false,
+        namespace: `${this.namespace}/skills`,
+        pathName: AgentTabsPathName.SKILLS,
+      });
+
+      return tabs;
     },
     currentTab() {
       return this.tabs.find(({pathName}) => this.$route.name === pathName) || this.tabs[0];

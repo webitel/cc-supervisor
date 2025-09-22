@@ -179,6 +179,14 @@ export default {
           enabled: 'Мәртебе',
         },
       },
+      screenRecordings: {
+        title: 'Экран жазбалары',
+        columns: {
+          screen_recordings: 'Экран жазбалары',
+          date_time: 'Күні мен уақыты',
+          name: 'Аты',
+        }
+      }
     },
     activeCall: {
       title: 'Белсенді қоңыраулар',
