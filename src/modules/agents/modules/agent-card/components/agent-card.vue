@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper class="agent-page" :actions-panel="currentTab.actionsPanel">
+  <wt-page-wrapper class="agent-page" :actions-panel="currentActionsPanel">
     <template #header>
       <agent-panel :namespace="namespace"/>
     </template>
@@ -13,7 +13,7 @@
           :tabs="tabs"
           @change="changeTab"
         ></wt-tabs>
-        <component :is="currentTab.value" :namespace="currentTab.namespace"></component>
+        <component :is="currentTab.value" :namespace="currentTab.namespace" @toggle-filter="toggleFilter"></component>
       </div>
     </template>
   </wt-page-wrapper>
@@ -51,6 +51,12 @@ export default {
   data: () => ({
     namespace: 'agents/card',
     isLoading: false,
+    actionsPanelStatus: {
+      general: false,
+      calls: false,
+      statusHistory: false,
+      skills: false,
+    }
   }),
 
   created() {
@@ -71,14 +77,14 @@ export default {
         {
           text: this.$t('pages.card.general.title'),
           value: 'general',
-          actionsPanel: false,
+          actionsPanel: this.actionsPanelStatus.general,
           namespace: this.namespace,
           pathName: AgentTabsPathName.GENERAL,
         },
         {
           text: this.$t('pages.card.calls.title'),
           value: 'calls',
-          actionsPanel: true,
+          actionsPanel: this.actionsPanelStatus.calls,
           namespace: `${this.namespace}/calls`,
           pathName: AgentTabsPathName.WORK_LOG,
         },
@@ -97,13 +103,13 @@ export default {
       tabs.push({
         text: this.$t('pages.card.statusHistory.title'),
         value: 'status-history',
-        actionsPanel: true,
+        actionsPanel: this.actionsPanelStatus.statusHistory,
         namespace: `${this.namespace}/statusHistory`,
         pathName: AgentTabsPathName.STATE_HISTORY,
       }, {
         text: this.$t('pages.card.skills.title'),
         value: 'skills',
-        actionsPanel: false,
+        actionsPanel: this.actionsPanelStatus.skills,
         namespace: `${this.namespace}/skills`,
         pathName: AgentTabsPathName.SKILLS,
       });
@@ -112,6 +118,9 @@ export default {
     },
     currentTab() {
       return this.tabs.find(({pathName}) => this.$route.name === pathName) || this.tabs[0];
+    },
+    currentActionsPanel() {
+      return this.actionsPanelStatus[this.currentTab.value] || false;
     },
   },
   unmounted() {
@@ -149,6 +158,9 @@ export default {
     },
     makeAutoRefresh() {
       return this.loadAgent();
+    },
+    toggleFilter() {
+      this.actionsPanelStatus[this.currentTab.value] = !this.actionsPanelStatus[this.currentTab.value];
     },
   },
 };
