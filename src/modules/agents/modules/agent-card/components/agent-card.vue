@@ -29,6 +29,7 @@ import Calls from '../modules/agent-calls/components/agent-calls-tab.vue';
 import CallsFilters from '../modules/agent-calls/modules/filters/components/agent-calls-filters.vue';
 import General from '../modules/agent-general/components/agent-general-tab.vue';
 import ScreenRecordings from '../modules/agent-screen-recordings/components/agent-screen-recordings-tab.vue';
+import ScreenRecordingsFilters from '../modules/agent-screen-recordings/modules/filters/components/agent-screen-recordings-filters.vue';
 import Skills from '../modules/agent-skills/components/agent-skills-tab.vue';
 import StatusHistory from '../modules/agent-status-history/components/agent-status-history-tab.vue';
 import StatusHistoryFilters from '../modules/agent-status-history/modules/filters/components/agent-status-history-filters.vue';
@@ -42,6 +43,7 @@ export default {
     Calls,
     CallsFilters,
     ScreenRecordings,
+    ScreenRecordingsFilters,
     Skills,
     StatusHistory,
     StatusHistoryFilters,
@@ -56,6 +58,7 @@ export default {
       calls: false,
       statusHistory: false,
       skills: false,
+      screenRecordings: false,
     }
   }),
 
@@ -94,8 +97,8 @@ export default {
         tabs.push({
           text: this.$t('pages.card.screenRecordings.title'),
           value: 'screen-recordings',
-          actionsPanel: false,
-          namespace: this.namespace,
+          actionsPanel: this.actionsPanelStatus.screenRecordings,
+          namespace: `${this.namespace}/screenRecordings`,
           pathName: AgentTabsPathName.SCREEN_RECORDINGS,
         });
       }

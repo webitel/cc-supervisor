@@ -7,11 +7,12 @@
         </h3>
         <wt-action-bar
           :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
+          @click.settings="emit('toggle-filter')"
           @click:refresh="loadDataList"
           @click:delete="
             askDeleteConfirmation({
               deleted: selected,
-              callback: () => deleteEls(selected),
+              callback: () => handleDelete(selected),
             })
           "
         >
@@ -24,7 +25,7 @@
         :delete-count="deleteCount"
         @close="closeDelete"
       />
-  
+
       <div class="table-section__table-wrapper">
         <wt-empty
           v-show="showEmpty"
@@ -43,19 +44,29 @@
             @sort="updateSort"
             @update:selected="updateSelected"
           >
-            <template #date_time>
-                dev
+            <template #screen_recordings="{ item }">
+              <wt-image 
+                width="48px" 
+                overlay-icon="play" 
+                :src="getScreenRecordingMediaUrl(item.id, true)" 
+                alt="" />
             </template>
+          
+            <template #uploaded_at="{item}">
+                {{new Date(+item.uploaded_at).toLocaleString()}}
+            </template>
+
             <template #actions="{ item }">
               <wt-icon-action
                 action="download"
+                @click="downloadFile(item.id)"
               />
               <wt-icon-action
                 action="delete"
                 @click="
                   askDeleteConfirmation({
                     deleted: [item],
-                    callback: () => deleteEls(item),
+                    callback: () => handleDelete([item]),
                   })
                 "
               />
@@ -84,9 +95,11 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+import { computed, defineEmits } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
+import { downloadFile, getScreenRecordingMediaUrl } from '@webitel/api-services/api'; 
+import { FileServicesAPI } from '@webitel/api-services/api';
 
 import { useScreenRecordingsDatalistStore } from '../store/screen-recordings'
 import getNamespacedState from '@webitel/ui-sdk/store/helpers/getNamespacedState.js';
@@ -99,6 +112,8 @@ const props = defineProps({
 })
 
 const store = useStore()
+
+const emit = defineEmits(['toggle-filter'])
 
 const agent = computed(() => {
   return getNamespacedState(store.state, props.namespace).agent
@@ -125,25 +140,39 @@ const {
   updatePage,
   updateSize,
   updateSort,
-  deleteEls,
+  hasFilter,
   addFilter,
-  updateFilter,
-  deleteFilter,
 } = tableStore;
 
 initialize();
 
-addFilter({
-  name: 'userId',
-  value: 11168
-});
+const initializeDefaultFilters = () => {
+  addFilter({
+    name: 'userId',
+    value: 11168
+  });
 
-addFilter({
-  name: 'channel',
-  value: SearchScreenRecordingsChannel.ScreenSharingChannel
-})
+  addFilter({
+    name: 'channel',
+    value: SearchScreenRecordingsChannel.ScreenSharingChannel
+  })
 
+  if (!hasFilter('uploadedAtFrom')) {
+    addFilter({
+      name: 'uploadedAtFrom',
+      value: new Date().setHours(0, 0, 0, 0),
+    })
+  }
 
+  if (!hasFilter('uploadedAtTo')) {
+    addFilter({
+      name: 'uploadedAtTo',
+      value: new Date().setHours(23, 59, 59, 999),
+    })
+  }  
+};
+
+initializeDefaultFilters();
 
 const {
   isVisible: isDeleteConfirmationPopup,
@@ -164,6 +193,26 @@ const {
   filters: computed(() => filtersManager.value.getAllValues()),
   isLoading,
 });
+
+const handleDelete = async (items: []) => {
+  const deleteEl = (el) => {
+    return FileServicesAPI.deleteScreenRecordings({
+      id: el.id,
+      userId: agent.value.user.id,
+    });
+  };
+
+  try {
+    await Promise.all(items.map(deleteEl));
+  } finally {
+    // If we're deleting all items from the current page, and we're not on the first page,
+    // we should go to the previous page
+    if (items.length === dataList.value.length && page.value > 1) {
+      updatePage(page.value - 1);
+    }
+    await loadDataList();
+  }
+}
 </script>
 
 <style lang="scss" scoped></style>
