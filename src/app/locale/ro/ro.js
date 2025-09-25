@@ -179,14 +179,6 @@ export default {
           enabled: 'Stare',
         },
       },
-      screenRecordings: {
-        title: 'Înregistrări ecran',
-        columns: {
-          screen_recordings: 'Înregistrări ecran',
-          date_time: 'Dată și oră',
-          name: 'Nume',
-        }
-      }
     },
     activeCall: {
       title: 'Apeluri active',

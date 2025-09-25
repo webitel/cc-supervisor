@@ -179,14 +179,6 @@ export default {
           enabled: 'Trạng thái',
         },
       },
-      screenRecordings: {
-        title: 'Ghi màn hình',
-        columns: {
-          screen_recordings: 'Ghi màn hình',
-          date_time: 'Ngày và giờ',
-          name: 'Tên',
-        }
-      }
     },
     activeCall: {
       title: 'Cuộc gọi đang hoạt động',

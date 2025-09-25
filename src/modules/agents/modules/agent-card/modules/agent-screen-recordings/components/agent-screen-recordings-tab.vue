@@ -3,11 +3,11 @@
     <section class="table-section">
       <header class="table-title">
         <h3 class="table-title__title">
-          {{ t('pages.card.screenRecordings.title') }}
+          {{ t('objects.screenRecordings', 2) }}
         </h3>
         <wt-action-bar
           :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
-          @click.settings="emit('toggle-filter')"
+          @click:filters="emit('toggle-filter')"
           @click:refresh="loadDataList"
           @click:delete="
             askDeleteConfirmation({
@@ -46,14 +46,14 @@
           >
             <template #screen_recordings="{ item }">
               <wt-image 
-                width="48px" 
+                width="48" 
                 overlay-icon="play" 
                 :src="getScreenRecordingMediaUrl(item.id, true)" 
                 alt="" />
             </template>
           
             <template #uploaded_at="{item}">
-                {{new Date(+item.uploaded_at).toLocaleString()}}
+                {{prettifyTimestamp(item)}}
             </template>
 
             <template #actions="{ item }">
@@ -100,8 +100,9 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { downloadFile, getScreenRecordingMediaUrl } from '@webitel/api-services/api'; 
 import { FileServicesAPI } from '@webitel/api-services/api';
+import { getStartOfDay, getEndOfDay } from '@webitel/ui-sdk/scripts';
 
-import { useScreenRecordingsDatalistStore } from '../store/screen-recordings'
+import { useScreenRecordingsDataListStore } from '../store/screen-recordings'
 import getNamespacedState from '@webitel/ui-sdk/store/helpers/getNamespacedState.js';
 import { SearchScreenRecordingsChannel } from '@webitel/api-services/gen/models';
 
@@ -119,7 +120,7 @@ const agent = computed(() => {
   return getNamespacedState(store.state, props.namespace).agent
 })
 
-const tableStore = useScreenRecordingsDatalistStore();
+const tableStore = useScreenRecordingsDataListStore();
 
 const {
   dataList,
@@ -160,19 +161,21 @@ const initializeDefaultFilters = () => {
   if (!hasFilter('uploadedAtFrom')) {
     addFilter({
       name: 'uploadedAtFrom',
-      value: new Date().setHours(0, 0, 0, 0),
+      value: getStartOfDay(),
     })
   }
 
   if (!hasFilter('uploadedAtTo')) {
     addFilter({
       name: 'uploadedAtTo',
-      value: new Date().setHours(23, 59, 59, 999),
+      value: getEndOfDay(),
     })
   }  
 };
 
 initializeDefaultFilters();
+
+const prettifyTimestamp = (item) => new Date(+item.uploaded_at).toLocaleString()
 
 const {
   isVisible: isDeleteConfirmationPopup,

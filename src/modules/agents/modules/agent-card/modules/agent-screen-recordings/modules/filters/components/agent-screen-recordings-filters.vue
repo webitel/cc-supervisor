@@ -18,11 +18,12 @@
 </template>
 
 <script setup>
-import { useScreenRecordingsDatalistStore } from '../../../store/screen-recordings';
+import { getStartOfDay, getEndOfDay } from '@webitel/ui-sdk/scripts';
+import { useScreenRecordingsDataListStore } from '../../../store/screen-recordings';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue'
 
-const tableStore = useScreenRecordingsDatalistStore()
+const tableStore = useScreenRecordingsDataListStore()
 const {
   hasFilter,
   addFilter,
@@ -57,12 +58,12 @@ const handleFilter = (value, field) => {
 const resetFilters = () => {
   updateFilter({
     name: 'uploadedAtFrom',
-    value: new Date().setHours(0, 0, 0, 0),
+    value: getStartOfDay(),
   })
 
   updateFilter({
     name: 'uploadedAtTo',
-    value: new Date().setHours(23, 59, 59, 999),
+    value: getEndOfDay(),
   })
 }
 </script>

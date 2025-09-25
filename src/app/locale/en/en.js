@@ -179,14 +179,6 @@ export default {
           enabled: 'State',
         },
       },
-      screenRecordings: {
-        title: 'Screen recordings',
-        columns: {
-          screen_recordings: 'Screen recordings',
-          date_time: 'Date & time',
-          name: 'Name',
-        }
-      }
     },
     activeCall: {
       title: 'Active calls',

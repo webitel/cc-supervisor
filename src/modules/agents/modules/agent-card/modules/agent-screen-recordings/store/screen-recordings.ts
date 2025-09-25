@@ -4,7 +4,7 @@ import { createTableStore } from '@webitel/ui-datalist';
 import { headers } from './_internals/headers';
 
 
-export const useScreenRecordingsDatalistStore = createTableStore/*<WebitelCasesSource>*/(
+export const useScreenRecordingsDataListStore = createTableStore/*<WebitelCasesSource>*/(
   'agents/card/screenRecordings/datalist',
   {
     apiModule: {

@@ -1,20 +1,20 @@
 export const headers = [
   {
     value: 'screen_recordings',
-    locale: 'pages.card.screenRecordings.columns.screen_recordings',
+    locale: ['objects.screenRecordings', 2],
     show: true,
     field: 'screen_recordings',
   },
   {
     value: 'name',
-    locale: 'pages.card.screenRecordings.columns.name',
+    locale: 'reusable.name',
     show: true,
     sort: null,
     field: 'name',
   },
   {
     value: 'uploaded_at',
-    locale: 'pages.card.screenRecordings.columns.date_time',
+    locale: 'reusable.dateTime',
     show: true,
     sort: null,
     field: 'uploaded_at',

@@ -53,13 +53,7 @@ export default {
   data: () => ({
     namespace: 'agents/card',
     isLoading: false,
-    actionsPanelStatus: {
-      general: false,
-      calls: false,
-      statusHistory: false,
-      skills: false,
-      screenRecordings: false,
-    }
+    actionsPanelStatus: {}
   }),
 
   created() {
@@ -76,46 +70,50 @@ export default {
       return this.$store.getters[`userinfo/IS_CONTROL_AGENT_SCREEN_ALLOW`];
     },
     tabs() {
-      const tabs = [
-        {
-          text: this.$t('pages.card.general.title'),
-          value: 'general',
-          actionsPanel: this.actionsPanelStatus.general,
-          namespace: this.namespace,
-          pathName: AgentTabsPathName.GENERAL,
-        },
-        {
-          text: this.$t('pages.card.calls.title'),
-          value: 'calls',
-          actionsPanel: this.actionsPanelStatus.calls,
-          namespace: `${this.namespace}/calls`,
-          pathName: AgentTabsPathName.WORK_LOG,
-        },
-      ];
-
-      if (this.isControlAgentScreenAllow) {
-        tabs.push({
-          text: this.$t('pages.card.screenRecordings.title'),
-          value: 'screen-recordings',
-          actionsPanel: this.actionsPanelStatus.screenRecordings,
-          namespace: `${this.namespace}/screenRecordings`,
-          pathName: AgentTabsPathName.SCREEN_RECORDINGS,
-        });
+      const tabs = []
+      
+      const generalTab = {
+        text: this.$t('pages.card.general.title'),
+        value: 'general',
+        namespace: this.namespace,
+        pathName: AgentTabsPathName.GENERAL,
       }
 
-      tabs.push({
+      const callsTab = {
+        text: this.$t('pages.card.calls.title'),
+        value: 'calls',
+        namespace: `${this.namespace}/calls`,
+        pathName: AgentTabsPathName.WORK_LOG,
+      }
+
+      const screenRecordingsTab = {
+        text: this.$t('objects.screenRecordings', 2),
+        value: 'screen-recordings',
+        namespace: `${this.namespace}/screenRecordings`,
+        pathName: AgentTabsPathName.SCREEN_RECORDINGS,
+      }
+
+      const statusHistoryTab = {
         text: this.$t('pages.card.statusHistory.title'),
         value: 'status-history',
-        actionsPanel: this.actionsPanelStatus.statusHistory,
         namespace: `${this.namespace}/statusHistory`,
         pathName: AgentTabsPathName.STATE_HISTORY,
-      }, {
+      }
+
+      const skillsTab = {
         text: this.$t('pages.card.skills.title'),
         value: 'skills',
-        actionsPanel: this.actionsPanelStatus.skills,
         namespace: `${this.namespace}/skills`,
         pathName: AgentTabsPathName.SKILLS,
-      });
+      }
+
+      tabs.push(generalTab, callsTab);
+
+      if (this.isControlAgentScreenAllow) {
+        tabs.push(screenRecordingsTab);
+      }
+
+      tabs.push(statusHistoryTab, skillsTab);
 
       return tabs;
     },
