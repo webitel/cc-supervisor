@@ -39,6 +39,7 @@
             :headers="headers"
             :data="dataList"
             sortable
+            :selectable="false"
             :grid-actions="false"
             @sort="sort"
           >
