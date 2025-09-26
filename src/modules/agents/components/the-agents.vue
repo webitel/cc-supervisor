@@ -43,6 +43,7 @@
             :grid-actions="false"
             :headers="headers"
             sortable
+            :selectable="false"
             :row-class="rowClass"
             @sort="sort"
           >
