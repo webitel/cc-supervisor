@@ -28,6 +28,8 @@ import AgentTabsPathName from "../../../../../app/router/_internals/AgentTabsPat
 import Calls from '../modules/agent-calls/components/agent-calls-tab.vue';
 import CallsFilters from '../modules/agent-calls/modules/filters/components/agent-calls-filters.vue';
 import General from '../modules/agent-general/components/agent-general-tab.vue';
+import Screenshots from '../modules/agent-screenshots/components/agent-screenshots-tab.vue';
+import ScreenshotsFilters from '../modules/agent-screenshots/modules/filters/components/agent-screenshots-filters.vue';
 import ScreenRecordings from '../modules/agent-screen-recordings/components/agent-screen-recordings-tab.vue';
 import ScreenRecordingsFilters from '../modules/agent-screen-recordings/modules/filters/components/agent-screen-recordings-filters.vue';
 import Skills from '../modules/agent-skills/components/agent-skills-tab.vue';
@@ -42,6 +44,8 @@ export default {
     General,
     Calls,
     CallsFilters,
+    Screenshots,
+    ScreenshotsFilters,
     ScreenRecordings,
     ScreenRecordingsFilters,
     Skills,
@@ -79,41 +83,49 @@ export default {
         pathName: AgentTabsPathName.GENERAL,
       }
 
-      const callsTab = {
+      const calls = {
         text: this.$t('pages.card.calls.title'),
         value: 'calls',
         namespace: `${this.namespace}/calls`,
         pathName: AgentTabsPathName.WORK_LOG,
       }
 
-      const screenRecordingsTab = {
+      const screenshots = {
+        text: this.$t('objects.screenshots', 2),
+        value: 'screenshots',
+        namespace: this.namespace,
+        pathName: AgentTabsPathName.SCREENSHOTS,
+      }
+
+      const screenRecordings = {
         text: this.$t('objects.screenRecordings', 2),
         value: 'screen-recordings',
-        namespace: `${this.namespace}/screenRecordings`,
+        namespace: this.namespace,
         pathName: AgentTabsPathName.SCREEN_RECORDINGS,
       }
 
-      const statusHistoryTab = {
+      const statusHistory = {
         text: this.$t('pages.card.statusHistory.title'),
         value: 'status-history',
         namespace: `${this.namespace}/statusHistory`,
         pathName: AgentTabsPathName.STATE_HISTORY,
       }
 
-      const skillsTab = {
+      const skills = {
         text: this.$t('pages.card.skills.title'),
         value: 'skills',
         namespace: `${this.namespace}/skills`,
         pathName: AgentTabsPathName.SKILLS,
       }
 
-      tabs.push(generalTab, callsTab);
+      tabs.push(generalTab, calls);
 
       if (this.isControlAgentScreenAllow) {
-        tabs.push(screenRecordingsTab);
+        tabs.push(screenshots);
+        tabs.push(screenRecordings);
       }
 
-      tabs.push(statusHistoryTab, skillsTab);
+      tabs.push(statusHistory, skills);
 
       return tabs;
     },

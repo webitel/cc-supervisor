@@ -59,7 +59,6 @@ const createVueInstance = () => {
   } finally {
     const app = createVueInstance();
     app.provide('$config', config);
-    app.use(pinia)
     app.mount('#app');
   }
 })();

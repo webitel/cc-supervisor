@@ -7,4 +7,5 @@ export default Object.freeze({
   STATE_HISTORY: `${SupervisorSections.AGENTS}-state-history`,
   SKILLS: `${SupervisorSections.AGENTS}-skills`,
   SCREEN_RECORDINGS: `${SupervisorSections.AGENTS}-screen-recordings`,
+  SCREENSHOTS: `${SupervisorSections.AGENTS}-screenshots`,
 });

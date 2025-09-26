@@ -3,7 +3,7 @@
     <section class="table-section">
       <header class="table-title">
         <h3 class="table-title__title">
-          {{ t('objects.screenRecordings', 2) }}
+          {{ t('objects.screenshots', 2) }}
         </h3>
         <wt-action-bar
           :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
@@ -45,12 +45,14 @@
             @sort="updateSort"
             @update:selected="updateSelected"
           >
-            <template #screen_recordings="{ item }">
+            <template #screenshots="{ item }">
               <wt-image 
                 width="48" 
-                overlay-icon="play" 
+                overlay-icon="zoom-in" 
                 :src="getScreenRecordingMediaUrl(item.id, true)" 
-                alt="" />
+                alt=""
+                @click="openScreenshot(item.id)"
+                />
             </template>
           
             <template #uploaded_at="{item}">
@@ -103,7 +105,7 @@ import { downloadFile, getScreenRecordingMediaUrl } from '@webitel/api-services/
 import { FileServicesAPI } from '@webitel/api-services/api';
 import { getStartOfDay, getEndOfDay } from '@webitel/ui-sdk/scripts';
 
-import { useScreenRecordingsDataListStore } from '../store/screen-recordings'
+import { useScreenshotsDataListStore } from '../store/screenshots'
 import getNamespacedState from '@webitel/ui-sdk/store/helpers/getNamespacedState.js';
 import { SearchScreenRecordingsChannel } from '@webitel/api-services/gen/models';
 
@@ -121,7 +123,7 @@ const agent = computed(() => {
   return getNamespacedState(store.state, props.namespace).agent
 })
 
-const tableStore = useScreenRecordingsDataListStore();
+const tableStore = useScreenshotsDataListStore();
 
 const {
   dataList,
@@ -156,7 +158,7 @@ const initializeDefaultFilters = () => {
 
   addFilter({
     name: 'channel',
-    value: SearchScreenRecordingsChannel.ScreenSharingChannel
+    value: SearchScreenRecordingsChannel.ScreenshotChannel
   })
 
   if (!hasFilter('uploadedAtFrom')) {
@@ -197,6 +199,10 @@ const {
   filters: computed(() => filtersManager.value.getAllValues()),
   isLoading,
 });
+
+const openScreenshot = (id) => {
+  window.open(getScreenRecordingMediaUrl(id), '_blank')
+}
 
 const handleDelete = async (items: []) => {
   const deleteEl = (el) => {
