@@ -1,5 +1,6 @@
 import './app/assets/icons/sprite';
 
+import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 
 import i18n from './app/locale/i18n';
@@ -32,12 +33,16 @@ const fetchConfig = async () => {
   const response = await fetch(`${import.meta.env.BASE_URL}/config.json`);
   return response.json();
 };
+
+const pinia = createPinia();
+
 const createVueInstance = () => {
   const app = createApp(App)
     .use(router)
     .use(store)
     .use(i18n)
-    .use(...WebitelUi);
+    .use(...WebitelUi)
+    .use(pinia)
   return app;
 };
 

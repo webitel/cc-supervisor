@@ -31,6 +31,8 @@ export default ({ mode }) => {
       alias: {
         // vue: '@vue/compat',
         '@': resolve(__dirname, 'src'),
+        'lodash/fp': 'lodash-es',
+        lodash: 'lodash-es',
         '@aliasedDeps/api-services/axios': resolve(__dirname, 'src/app/api/instance'),
       },
     },
