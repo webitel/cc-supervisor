@@ -6,7 +6,7 @@ import agentAttentions from '../../modules/agents/modules/agent-card/store/_unus
 import agentChats from '../../modules/agents/modules/agent-card/store/_unused/agent-chats';
 import agents from '../../modules/agents/store/agents';
 import appearance from '../../modules/appearance/store/appearance';
-import call from '../../modules/call-window/store/call';
+// import call from '../../modules/call-window/store/call';
 import queues from '../../modules/queues/store/queues';
 import userinfo from '../../modules/userinfo/store/userinfo';
 import instance from '../api/instance';
@@ -31,7 +31,7 @@ export default createStore({
     agents,
     agentChats,
     agentAttentions,
-    call,
+    // call,
     appearance,
     now: new ReactiveNowStoreModule().getModule(),
     activeCalls,

@@ -82,11 +82,12 @@
 
 <script>
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 import tablePageMixin from '../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../_shared/filters/components/filter-pagination.vue';
 import FilterFields from '../../_shared/filters/components/filter-table-fields.vue';
+import { useCallStore } from '../../call-window/store/call.js';
 import DummyAfterSearchDark from '../assets/sv-dummy-after-search-dark.svg';
 import DummyAfterSearchLight from '../assets/sv-dummy-after-search-light.svg';
 import DummyDark from '../assets/sv-dummy-dark.svg';
@@ -132,14 +133,10 @@ export default {
     },
   },
   methods: {
-    ...mapActions('call', {
-      attachToCall: 'ATTACH_TO_CALL',
-      openWindow: 'EAVESDROP_OPEN_WINDOW',
-    }),
-
     async attachCall(id) {
-      await this.attachToCall({ id });
-      this.openWindow();
+      const callStore = useCallStore()
+      await callStore.attachToCall({ id })
+      await callStore.openWindow()
     },
   },
 };

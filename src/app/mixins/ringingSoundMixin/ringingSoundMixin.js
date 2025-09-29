@@ -1,8 +1,7 @@
-import { mapState } from 'vuex';
-import { CallActions, CallDirection } from 'webitel-sdk';
-
-// import isIncomingRinging from '../store/modules/call/scripts/isIncomingRinging';
-import AUDIO_URL from './ringing.mp3';
+import { storeToRefs } from 'pinia'
+import { CallActions, CallDirection } from 'webitel-sdk'
+import { useCallStore } from '../../../modules/call-window/store/call.js';
+import AUDIO_URL from './ringing.mp3'
 
 export default {
   data: () => ({
@@ -10,30 +9,31 @@ export default {
   }),
 
   created() {
-    this.ringingAudio.loop = true;
+    this.ringingAudio.loop = true
+
+    const callStore = useCallStore()
+    const { call } = storeToRefs(callStore)
+    this.call = call
+  },
+
+  computed: {
+    isRinging() {
+      return (
+        this.call?.value &&
+        this.call.value.state === CallActions.Ringing &&
+        this.call.value.direction === CallDirection.Inbound
+      )
+    },
   },
 
   watch: {
     isRinging(value) {
       if (value) {
-        this.ringingAudio.play()
-        .catch();
+        this.ringingAudio.play().catch(() => {})
       } else {
-        this.ringingAudio.pause();
-        this.ringingAudio.currentTime = 0;
+        this.ringingAudio.pause()
+        this.ringingAudio.currentTime = 0
       }
     },
   },
-
-  computed: {
-    ...mapState('call', {
-      call: (state) => state.call,
-    }),
-
-    isRinging() {
-      return this.call
-        && this.call.state === CallActions.Ringing
-        && this.call.direction === CallDirection.Inbound;
-    },
-  },
-};
+}

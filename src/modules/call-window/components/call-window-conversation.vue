@@ -66,62 +66,79 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { storeToRefs } from 'pinia'
 
-import ringingSoundMixin from '../../../app/mixins/ringingSoundMixin/ringingSoundMixin';
-import ActiveSonar from '../assets/call-sonars/active-sonar.svg';
-import HoldSonar from '../assets/call-sonars/hold-sonar.svg';
-import timerMixin from '../mixins/timerMixin/timerMixin';
-import CallWindowWrapper from './call-window-wrapper.vue';
+import ringingSoundMixin from '../../../app/mixins/ringingSoundMixin/ringingSoundMixin'
+import ActiveSonar from '../assets/call-sonars/active-sonar.svg'
+import HoldSonar from '../assets/call-sonars/hold-sonar.svg'
+import timerMixin from '../mixins/timerMixin/timerMixin'
+import { useCallStore } from '../store/call.js';
+import CallWindowWrapper from './call-window-wrapper.vue'
 
 export default {
   name: 'CallWindowConversation',
   components: { CallWindowWrapper },
-  mixins: [
-    ringingSoundMixin,
-    timerMixin,
-  ],
-  mounted() {
-    this.subscribeCalls();
+  mixins: [ringingSoundMixin, timerMixin],
+
+  setup() {
+    const callStore = useCallStore()
+    const {
+      call,
+      agent,
+      isVisible,
+      isRinging,
+    } = storeToRefs(callStore)
+
+    const {
+      subscribeCalls,
+      openWindow,
+      closeWindow,
+      answerCall,
+      makeCall,
+      leaveCall,
+      toggleMute,
+      toggleHold,
+    } = callStore
+
+    return {
+      call,
+      agent,
+      isVisible,
+      isRinging,
+
+      subscribeCalls,
+      openWindow,
+      closeWindow,
+      answerCall,
+      makeCall,
+      leaveCall,
+      toggleMute,
+      toggleHold,
+    }
   },
+
   computed: {
-    ...mapState('call', {
-      isVisible: (state) => state.isVisible,
-      agent: (state) => state.agent,
-      call: (state) => state.call,
-    }),
     sonar() {
-      return this.isHold ? HoldSonar : ActiveSonar;
+      return this.isHold ? HoldSonar : ActiveSonar
     },
     isMuted() {
-      return this.call && this.call.muted;
+      return this.call?.muted
     },
     isHold() {
-      return this.call && this.call.isHold;
+      return this.call?.isHold
     },
     isActive() {
-      return this.call && this.call.active;
+      return this.call?.active
     },
     allowHold() {
-      return this.call && this.call.allowHold;
+      return this.call?.allowHold
     },
   },
-  methods: {
-    ...mapActions('call', {
-      subscribeCalls: 'SUBSCRIBE_CALLS',
-      openWindow: 'OPEN_WINDOW',
-      closeWindow: 'CLOSE_WINDOW',
 
-      answerCall: 'ANSWER',
-      makeCall: 'CALL',
-      leaveCall: 'LEAVE_CALL',
-
-      toggleMute: 'TOGGLE_MUTE',
-      toggleHold: 'TOGGLE_HOLD',
-
-    }),
+  mounted() {
+    this.subscribeCalls()
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

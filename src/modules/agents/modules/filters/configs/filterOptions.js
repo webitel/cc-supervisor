@@ -11,6 +11,8 @@ import AgentStatusOptions
 import UtilizationOptions
   from '../../../../_shared/lookups/lookups/UtilizationOptions.lookup.js';
 
+const LIST_SIZE = 50
+
 export const filterOptions = {
   status: {
     options: AgentStatusOptions,
@@ -18,11 +20,11 @@ export const filterOptions = {
     storedProp: 'value',
   },
   queue: {
-    search: (params) => QueueFilterAPI({ ...params, size: 50 }), // бо клієнт хоче щоб все вміщалось ))
+    search: (params) => QueueFilterAPI({ ...params, size: LIST_SIZE }), // because the client wants everything to fit ))
     locale: { label: 'webitelUI.filters.queue' },
   },
   skill: {
-    search: (params) => SkillFilterAPI({ ...params, size: 50 }), // бо клієнт хоче щоб все вміщалось ))
+    search: (params) => SkillFilterAPI({ ...params, size: LIST_SIZE }), // because the client wants everything to fit ))
     locale: { label: 'filters.skill' },
   },
   team: {

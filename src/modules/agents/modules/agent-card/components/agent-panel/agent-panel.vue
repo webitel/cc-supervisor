@@ -47,7 +47,9 @@
 <script>
 import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/components/wt-cc-agent-status-select.vue';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { storeToRefs } from 'pinia';
 import { mapActions, mapState } from 'vuex';
+import { useCallStore } from '../../../../../call-window/store/call.js';
 
 import AgentProfile from './_internals/agent-profile.vue';
 import AgentStatusTimers from './_internals/agent-status-timers.vue';
@@ -59,6 +61,22 @@ export default {
     namespace: {
       type: String,
     },
+  },
+  setup() {
+    const callStore = useCallStore()
+    const { call } = storeToRefs(callStore)
+
+    const callAgent = () => {
+      if (call.value?.agent) {
+        callStore.setCallInfo({ agent: call.value.agent })
+        callStore.call()
+      }
+    }
+
+    return {
+      call,
+      callAgent,
+    }
   },
   computed: {
     ...mapState({
@@ -85,17 +103,6 @@ export default {
         return dispatch(`${this.namespace}/LOAD_SCORE_DATA`);
       },
     }),
-    ...mapActions('call', {
-      call: 'CALL',
-      openWindow: 'OPEN_WINDOW',
-      setCallInfo: 'SET_CALL_INFO',
-    }),
-    callAgent() {
-      this.setCallInfo({
-        agent: this.agent,
-      });
-      this.call();
-    },
   },
   mounted() {
     this.loadScoreData();

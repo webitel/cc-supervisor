@@ -95,12 +95,13 @@
 </template>
 
 <script>
-import copy from 'clipboard-copy';
-import { mapActions, mapState } from 'vuex';
-import { CallDirection, EavesdropState } from 'webitel-sdk';
+import copy from 'clipboard-copy'
+import { storeToRefs } from 'pinia'
+import { CallDirection, EavesdropState } from 'webitel-sdk'
 
-import timerMixin from '../mixins/timerMixin/timerMixin';
-import CallWindowWrapper from './call-window-wrapper.vue';
+import timerMixin from '../mixins/timerMixin/timerMixin'
+import { useCallStore } from '../store/call.js';
+import CallWindowWrapper from './call-window-wrapper.vue'
 
 export default {
   name: 'CallWindowEavesdrop',
@@ -108,58 +109,74 @@ export default {
     CallWindowWrapper,
   },
   mixins: [timerMixin],
+
   data() {
     return {
       inbound: CallDirection.Inbound,
       isCopied: false,
-    };
+    }
   },
+
+  setup() {
+    const callStore = useCallStore()
+    const {
+      isEavesdropOpened,
+      agent,
+      client,
+      call,
+    } = storeToRefs(callStore)
+
+    const { closeEavesdropWindow } = callStore
+
+    return {
+      isOpened: isEavesdropOpened,
+      agent,
+      client,
+      call,
+
+      closeWindow: closeEavesdropWindow,
+    }
+  },
+
   computed: {
-    ...mapState('call', {
-      isOpened: (state) => state.isEavesdropOpened,
-      agent: (state) => state.agent,
-      client: (state) => state.client,
-      call: (state) => state.call,
-    }),
     stateIcon() {
-      if (this.isPrompt) return 'prompter';
-      if (this.isConference) return 'conference';
-      return 'sv-ear';
+      if (this.isPrompt) return 'prompter'
+      if (this.isConference) return 'conference'
+      return 'sv-ear'
     },
     isMuted() {
-      return this.call.eavesdropIsMuted;
+      return this.call?.eavesdropIsMuted
     },
     isPrompt() {
-      return this.call.eavesdropIsPrompt;
+      return this.call?.eavesdropIsPrompt
     },
     isConference() {
-      return this.call.eavesdropIsConference;
+      return this.call?.eavesdropIsConference
     },
   },
+
   methods: {
-    ...mapActions('call', {
-      closeWindow: 'EAVESDROP_CLOSE_WINDOW',
-    }),
     mute() {
-      this.call.changeEavesdropState(EavesdropState.Muted);
+      this.call?.changeEavesdropState(EavesdropState.Muted)
     },
     prompter() {
-      this.call.changeEavesdropState(EavesdropState.Prompt);
+      this.call?.changeEavesdropState(EavesdropState.Prompt)
     },
     conference() {
-      this.call.changeEavesdropState(EavesdropState.Conference);
+      this.call?.changeEavesdropState(EavesdropState.Conference)
     },
     copyNumber(ev, toggleCb) {
-      copy(this.client.number);
-      this.isCopied = true;
+      if (!this.client) return
+      copy(this.client.number)
+      this.isCopied = true
       toggleCb(ev)
       setTimeout(() => {
-        this.isCopied = false;
+        this.isCopied = false
         toggleCb(ev)
-      }, 1500);
+      }, 1500)
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

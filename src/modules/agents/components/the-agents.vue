@@ -101,8 +101,8 @@ import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/
 import {storeToRefs} from 'pinia';
 import { computed } from 'vue';
 import {useI18n} from "vue-i18n";
-import { useStore } from 'vuex';
 import {AgentStatus} from 'webitel-sdk';
+import { useCallStore } from '../../call-window/store/call.js';
 
 import AgentsAPI from '../api/agents';
 import AgentsFilters from '../modules/filters/components/agent-filters.vue';
@@ -114,7 +114,7 @@ import TableAgentCallTime from './_internals/table-templates/table-agent-sum-cal
 import TableAgent from './_internals/table-templates/table-agent.vue';
 
 const {t} = useI18n();
-const store = useStore();
+const callStore = useCallStore()
 
 const tableStore = useAgentsTableStore();
 const filtersNamespace = `${AgentsNamespace}/filters`
@@ -156,8 +156,8 @@ const rowClass = (row) => {
   return row.status === AgentStatus.BreakOut && 'wt-table__tr--highlight-breakout'
 }
 const attachCall = async (id) => {
-  await store.getters['ATTACH_TO_CALL']({id});
-  this.openWindow();
+  await callStore.attachToCall({id})
+  await callStore.openWindow()
 }
 </script>
 
