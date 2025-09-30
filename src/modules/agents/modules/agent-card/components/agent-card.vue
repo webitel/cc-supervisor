@@ -28,6 +28,8 @@ import AgentTabsPathName from "../../../../../app/router/_internals/AgentTabsPat
 import Calls from '../modules/agent-calls/components/agent-calls-tab.vue';
 import CallsFilters from '../modules/agent-calls/modules/filters/components/agent-calls-filters.vue';
 import General from '../modules/agent-general/components/agent-general-tab.vue';
+import ScreenRecordings from '../modules/agent-screen-recordings/components/agent-screen-recordings-tab.vue';
+import ScreenRecordingsFilters from '../modules/agent-screen-recordings/modules/filters/components/agent-screen-recordings-filters.vue';
 import Skills from '../modules/agent-skills/components/agent-skills-tab.vue';
 import StatusHistory from '../modules/agent-status-history/components/agent-status-history-tab.vue';
 import StatusHistoryFilters from '../modules/agent-status-history/modules/filters/components/agent-status-history-filters.vue';
@@ -40,6 +42,8 @@ export default {
     General,
     Calls,
     CallsFilters,
+    ScreenRecordings,
+    ScreenRecordingsFilters,
     Skills,
     StatusHistory,
     StatusHistoryFilters,
@@ -49,12 +53,7 @@ export default {
   data: () => ({
     namespace: 'agents/card',
     isLoading: false,
-    actionsPanelStatus: {
-      general: false,
-      calls: false,
-      statusHistory: false,
-      skills: false,
-    }
+    actionsPanelStatus: {}
   }),
 
   created() {
@@ -67,37 +66,56 @@ export default {
         return getNamespacedState(state, this.namespace).agent;
       },
     }),
+    isControlAgentScreenAllow() {
+      return this.$store.getters[`userinfo/IS_CONTROL_AGENT_SCREEN_ALLOW`];
+    },
     tabs() {
-      return [
-        {
-          text: this.$t('pages.card.general.title'),
-          value: 'general',
-          actionsPanel: this.actionsPanelStatus.general,
-          namespace: this.namespace,
-          pathName: AgentTabsPathName.GENERAL,
-        },
-        {
-          text: this.$t('pages.card.calls.title'),
-          value: 'calls',
-          actionsPanel: this.actionsPanelStatus.calls,
-          namespace: `${this.namespace}/calls`,
-          pathName: AgentTabsPathName.WORK_LOG,
-        },
-        {
-          text: this.$t('pages.card.statusHistory.title'),
-          value: 'status-history',
-          actionsPanel: this.actionsPanelStatus.statusHistory,
-          namespace: `${this.namespace}/statusHistory`,
-          pathName: AgentTabsPathName.STATE_HISTORY,
-        },
-        {
-          text: this.$t('pages.card.skills.title'),
-          value: 'skills',
-          actionsPanel: this.actionsPanelStatus.skills,
-          namespace: `${this.namespace}/skills`,
-          pathName: AgentTabsPathName.SKILLS,
-        },
-      ];
+      const tabs = []
+      
+      const generalTab = {
+        text: this.$t('pages.card.general.title'),
+        value: 'general',
+        namespace: this.namespace,
+        pathName: AgentTabsPathName.GENERAL,
+      }
+
+      const callsTab = {
+        text: this.$t('pages.card.calls.title'),
+        value: 'calls',
+        namespace: `${this.namespace}/calls`,
+        pathName: AgentTabsPathName.WORK_LOG,
+      }
+
+      const screenRecordingsTab = {
+        text: this.$t('objects.screenRecordings', 2),
+        value: 'screen-recordings',
+        namespace: `${this.namespace}/screenRecordings`,
+        pathName: AgentTabsPathName.SCREEN_RECORDINGS,
+      }
+
+      const statusHistoryTab = {
+        text: this.$t('pages.card.statusHistory.title'),
+        value: 'status-history',
+        namespace: `${this.namespace}/statusHistory`,
+        pathName: AgentTabsPathName.STATE_HISTORY,
+      }
+
+      const skillsTab = {
+        text: this.$t('pages.card.skills.title'),
+        value: 'skills',
+        namespace: `${this.namespace}/skills`,
+        pathName: AgentTabsPathName.SKILLS,
+      }
+
+      tabs.push(generalTab, callsTab);
+
+      if (this.isControlAgentScreenAllow) {
+        tabs.push(screenRecordingsTab);
+      }
+
+      tabs.push(statusHistoryTab, skillsTab);
+
+      return tabs;
     },
     currentTab() {
       return this.tabs.find(({pathName}) => this.$route.name === pathName) || this.tabs[0];
