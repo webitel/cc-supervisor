@@ -8,7 +8,7 @@ export const useScreenRecordingsDataListStore = createTableStore/*<WebitelCasesS
   'agents/card/screenRecordings/datalist',
   {
     apiModule: {
-      getList: FileServicesAPI.getScreenRecordingsList,
+      getList: FileServicesAPI.getScreenRecordingsByAgent,
     },
     headers,
   },
