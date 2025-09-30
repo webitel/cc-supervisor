@@ -109,6 +109,8 @@ import { useScreenshotsDataListStore } from '../store/screenshots'
 import getNamespacedState from '@webitel/ui-sdk/store/helpers/getNamespacedState.js';
 import { SearchScreenRecordingsChannel } from '@webitel/api-services/gen/models';
 
+import { useRoute } from 'vue-router'
+
 const { t } = useI18n();
 
 const props = defineProps({
@@ -117,11 +119,10 @@ const props = defineProps({
 
 const store = useStore()
 
-const emit = defineEmits(['toggle-filter'])
+const router = useRoute()
+const agentId = router.params.id
 
-const agent = computed(() => {
-  return getNamespacedState(store.state, props.namespace).agent
-})
+const emit = defineEmits(['toggle-filter'])
 
 const tableStore = useScreenshotsDataListStore();
 
@@ -152,8 +153,8 @@ initialize();
 
 const initializeDefaultFilters = () => {
   addFilter({
-    name: 'userId',
-    value: 11168
+    name: 'agentId',
+    value: agentId
   });
 
   addFilter({
@@ -206,9 +207,9 @@ const openScreenshot = (id) => {
 
 const handleDelete = async (items: []) => {
   const deleteEl = (el) => {
-    return FileServicesAPI.deleteScreenRecordings({
+    return FileServicesAPI.deleteScreenRecordingsByAgent({
       id: el.id,
-      userId: agent.value.user.id,
+      agentId: agentId,
     });
   };
 

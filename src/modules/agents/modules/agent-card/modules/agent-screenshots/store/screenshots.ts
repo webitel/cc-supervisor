@@ -8,7 +8,7 @@ export const useScreenshotsDataListStore = createTableStore/*<WebitelCasesSource
   'agents/card/screenshots/datalist',
   {
     apiModule: {
-      getList: FileServicesAPI.getScreenRecordingsList,
+      getList: FileServicesAPI.getScreenRecordingsByAgent,
     },
     headers,
   },
