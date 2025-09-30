@@ -156,8 +156,8 @@ const rowClass = (row) => {
   return row.status === AgentStatus.BreakOut && 'wt-table__tr--highlight-breakout'
 }
 const attachCall = async (id) => {
-  await store.getters['ATTACH_TO_CALL']({id});
-  this.openWindow();
+  await store.dispatch('ATTACH_TO_CALL', {id});
+  await store.dispatch('OPEN_WINDOW')
 }
 </script>
 
