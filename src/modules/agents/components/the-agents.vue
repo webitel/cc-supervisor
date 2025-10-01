@@ -99,10 +99,11 @@ import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import {storeToRefs} from 'pinia';
-import { computed } from 'vue';
+import { computed, onMounted, reactive, shallowReactive } from 'vue';
 import {useI18n} from "vue-i18n";
 import { useStore } from 'vuex';
-import {AgentStatus} from 'webitel-sdk';
+import { AgentStatus } from 'webitel-sdk';
+import { getCliInstance } from '../../../app/api/callWSConnection.js';
 
 import AgentsAPI from '../api/agents';
 import AgentsFilters from '../modules/filters/components/agent-filters.vue';
@@ -159,6 +160,13 @@ const attachCall = async (id) => {
   await store.dispatch('ATTACH_TO_CALL', {id});
   await store.dispatch('OPEN_WINDOW')
 }
+
+onMounted(async () => {
+  const cli = await getCliInstance()
+  await cli.spyScreen(11168, {}, (ev) => {
+    console.log(ev, ' FROM SOCKET');
+  })
+})
 </script>
 
 <style lang="scss" scoped>
