@@ -84,6 +84,14 @@ const checkAccess = computed(() => {
   };
 });
 
+/*
+* @author @Oleksandr Palonnyi
+*
+* TODO: need to refactor filters,
+* change current realisation for new filtersOptions from ui-datalist
+*
+* [WTEL-7283](https://webitel.atlassian.net/browse/WTEL-7283)
+* */
 const agentFilters = computed(() => {
   return [
     { type: 'enum', filterQuery: 'status' },

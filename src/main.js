@@ -1,12 +1,12 @@
 import './app/assets/icons/sprite';
 
-import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 
 import i18n from './app/locale/i18n';
 import WebitelUi from './app/plugins/webitel-ui';
 import router from './app/router';
 import store from './app/store';
+import { createPinia } from 'pinia';
 import App from './app/the-app.vue';
 
 // import './app/css/main.scss';
@@ -34,7 +34,7 @@ const fetchConfig = async () => {
   return response.json();
 };
 
-const pinia = createPinia();
+const pinia = createPinia()
 
 const createVueInstance = () => {
   const app = createApp(App)
@@ -45,6 +45,7 @@ const createVueInstance = () => {
     .use(pinia)
   return app;
 };
+
 
 // init IIFE
 (async () => {

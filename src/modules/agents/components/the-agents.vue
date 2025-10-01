@@ -115,6 +115,14 @@ import TableAgentCallTime from './_internals/table-templates/table-agent-sum-cal
 import TableAgent from './_internals/table-templates/table-agent.vue';
 
 const {t} = useI18n();
+
+/*
+* @author @Oleksandr Palonnyi
+*
+* TODO: need to refactor call store to remove usage of vuex store in component
+*
+* [WTEL-7283](https://webitel.atlassian.net/browse/WTEL-7283)
+* */
 const store = useStore();
 
 const tableStore = useAgentsTableStore();
