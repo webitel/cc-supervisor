@@ -34,8 +34,10 @@
         <wt-loader v-show="isLoading"></wt-loader>
 
         <button @click="conect">CONNECT</button>
+          <span>>>>>>>{{spyScreenSessions.length}}</span>
           <div v-for="(s, index) in spyScreenSessions"  :key="`screen-${index}`" class="aaaaaaaa" style="width: 500px; height: 500px; background: red;">
             <video v-if="s.stream" :key="`screen-video-${index}`" autoplay :srcObject.prop="s.stream" style="width: 500px"></video>
+            <button @click="s.close()">CLOSE</button>
           </div>
 
         <div v-show="!isLoading" class="table-wrapper">
@@ -184,8 +186,8 @@ onMounted(async () => {
 const conect = async () => {
   console.log('CONNECTING...');
 
-  await cli.value.spyScreen(11168, {
-    iceServers: [{ urls: ['stun:stun.l.google.com:19302'] }],
+  await cli.value.spyScreen(10996, {
+    iceServers: [],
   }, async (ev) => {
     console.log(ev, ' FROM SOCKET');
   })
