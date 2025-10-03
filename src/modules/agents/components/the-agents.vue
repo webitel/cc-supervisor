@@ -186,7 +186,7 @@ onMounted(async () => {
 const conect = async () => {
   console.log('CONNECTING...');
 
-  await cli.value.spyScreen(10996, {
+  await cli.value.spyScreen(11168, {
     iceServers: [],
   }, async (ev) => {
     console.log(ev, ' FROM SOCKET');
