@@ -14,6 +14,7 @@ const Skills  = import( '../../modules/agents/modules/agent-card/modules/agent-s
 const StatusHistory  = import( '../../modules/agents/modules/agent-card/modules/agent-status-history/components/agent-status-history-tab.vue');
 const Calls  = import( '../../modules/agents/modules/agent-card/modules/agent-calls/components/agent-calls-tab.vue');
 const ScreenRecordigs = import('../../modules/agents/modules/agent-card/modules/agent-screen-recordings/components/agent-screen-recordings-tab.vue')
+const Screenshots = import('../../modules/agents/modules/agent-card/modules/agent-screenshots/components/agent-screenshots-tab.vue')
 
 import Queue from '../../modules/queues/components/the-queues.vue';
 import TheStartPage
@@ -80,6 +81,11 @@ const routes = [
             name: AgentTabsPathName.SCREEN_RECORDINGS,
             component: ScreenRecordigs,
           },
+          {
+            path: 'screenshots',
+            name: AgentTabsPathName.SCREENSHOTS,
+            component: Screenshots,
+          }
         ],
       }, {
         path: 'active-calls',
