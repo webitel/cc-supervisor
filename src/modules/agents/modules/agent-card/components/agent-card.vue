@@ -121,8 +121,7 @@ export default {
       tabs.push(generalTab, calls);
 
       if (this.isControlAgentScreenAllow) {
-        tabs.push(screenshots);
-        tabs.push(screenRecordings);
+        tabs.push(screenshots, screenRecordings);
       }
 
       tabs.push(statusHistory, skills);
