@@ -40,30 +40,6 @@ export const destroyCliInstance = async () => {
 };
 
 export const getCliInstance = async () => {
-  // if (!cliInstance) cliInstance = createCliInstance();
-  console.log(cliInstance, ' cliInstance');
-  // if (!cliInstance) cliInstance = await webSocketClientController._createCliInstance();
-  if (!cliInstance) cliInstance = await webSocketClientController.getCliInstance(async () => {
-    const token = localStorage.getItem('access-token');
-    const config = {
-      endpoint: BASE_URL,
-      registerWebDevice: true,
-      token,
-      // debug: true,
-    };
-
-    // why reactive? https://github.com/vuejs/core/discussions/7811#discussioncomment-5181921
-    const cli = shallowReactive(new Client(config));
-
-    // why reactive? https://github.com/vuejs/core/discussions/7811#discussioncomment-5181921
-    // cli.conversationStore = reactive(cli.conversationStore);
-    cli.callStore = reactive(cli.callStore);
-    // cli.jobStore = reactive(cli.jobStore);
-
-    await cli.connect();
-    await cli.auth();
-    window.cli = cli;
-    return cli;
-  });
+  if (!cliInstance) cliInstance = createCliInstance();
   return cliInstance;
 };

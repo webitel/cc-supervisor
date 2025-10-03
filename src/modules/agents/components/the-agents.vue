@@ -33,6 +33,11 @@
       <section class="main-section-wrapper">
         <wt-loader v-show="isLoading"></wt-loader>
 
+        <button @click="conect">CONNECT</button>
+          <div v-for="(s, index) in spyScreenSessions"  :key="`screen-${index}`" class="aaaaaaaa" style="width: 500px; height: 500px; background: red;">
+            <video v-if="s.stream" :key="`screen-video-${index}`" autoplay :srcObject.prop="s.stream" style="width: 500px"></video>
+          </div>
+
         <div v-show="!isLoading" class="table-wrapper">
           <wt-action-bar
             :include="[
@@ -99,7 +104,7 @@ import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import {storeToRefs} from 'pinia';
-import { computed, onMounted, reactive, shallowReactive } from 'vue';
+import { computed, onMounted, ref, reactive, shallowReactive } from 'vue';
 import {useI18n} from "vue-i18n";
 import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
@@ -156,9 +161,9 @@ const {
 const {exportCSV, isCSVLoading, initCSVExport} = useCSVExport({
   selected
 })
-initCSVExport(AgentsAPI.getList, { filename: 'agents' })
-
-initialize();
+// initCSVExport(AgentsAPI.getList, { filename: 'agents' })
+//
+// initialize();
 
 const searchValue = computed(() => filtersManager.value.filters.get('search')?.value || '');
 const rowClass = (row) => {
@@ -169,11 +174,25 @@ const attachCall = async (id) => {
   await store.dispatch('OPEN_WINDOW')
 }
 
+const cli = ref(null)
 onMounted(async () => {
-  const cli = await getCliInstance()
-  await cli.spyScreen(11168, {}, (ev) => {
+  cli.value = await getCliInstance()
+  console.log('MOUNTED');
+  console.log(cli.value, ' cli');
+})
+
+const conect = async () => {
+  console.log('CONNECTING...');
+
+  await cli.value.spyScreen(11168, {
+    iceServers: [{ urls: ['stun:stun.l.google.com:19302'] }],
+  }, async (ev) => {
     console.log(ev, ' FROM SOCKET');
   })
+}
+
+const spyScreenSessions = computed(() => {
+  return cli.value ? cli.value?.spyScreenSessions : []
 })
 </script>
 
