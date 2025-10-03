@@ -3,15 +3,23 @@
     <template #header>
       <wt-headline>
         <template #title>
-          {{ $t('pages.agent.title') }}
+          {{ t('pages.agent.title') }}
         </template>
         <template #actions>
-          <filter-search :namespace="filtersNamespace" filter-query="search" />
+          <dynamic-filter-search
+            :filters-manager="filtersManager"
+            :is-filters-restoring="isFiltersRestoring"
+            :value="searchValue"
+            @filter:add="addFilter"
+            @filter:update="updateFilter"
+            @filter:delete="deleteFilter"
+            @update:search-mode="updateSearchMode"
+          />
           <wt-button
             :disabled="!dataList.length"
             :loading="isCSVLoading"
             @click="exportCSV"
-          >{{ $t('defaults.exportCSV') }}
+          >{{ t('defaults.exportCSV') }}
           </wt-button>
         </template>
       </wt-headline>
@@ -24,19 +32,24 @@
     <template #main>
       <section class="main-section-wrapper">
         <wt-loader v-show="isLoading"></wt-loader>
+
         <div v-show="!isLoading" class="table-wrapper">
-          <wt-table-actions
-            :icons="['refresh']"
+          <wt-action-bar
+            :include="[
+              IconAction.REFRESH,
+              IconAction.COLUMNS
+            ]"
             class="table-wrapper__actions-wrapper"
-            @input="tableActionsHandler"
+            @click:refresh="loadDataList"
           >
-            <filter-fields
-              :headers="headers"
-              :static-headers="['name']"
-              entity="agents"
-              @change="setHeaders"
-            ></filter-fields>
-          </wt-table-actions>
+            <template #columns>
+              <wt-table-column-select
+                :headers="headers"
+                @change="updateShownHeaders"
+              />
+            </template>
+          </wt-action-bar>
+
           <wt-table
             ref="agents-table"
             :data="dataList"
@@ -45,7 +58,7 @@
             sortable
             :selectable="false"
             :row-class="rowClass"
-            @sort="sort"
+            @sort="updateSort"
           >
             <template #name="{ item }">
               <table-agent :item="item" />
@@ -65,74 +78,95 @@
               <table-queues :item="item" />
             </template>
           </wt-table>
-          <filter-pagination :is-next="isNext" />
+
+          <wt-pagination
+            :next="next"
+            :prev="page > 1"
+            :size="size"
+            debounce
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
+          />
         </div>
       </section>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
-import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
-import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
-import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
-import { mapActions } from 'vuex';
-import { AgentStatus } from 'webitel-sdk';
+<script setup>
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
+import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
+import {storeToRefs} from 'pinia';
+import { computed } from 'vue';
+import {useI18n} from "vue-i18n";
+import { useStore } from 'vuex';
+import {AgentStatus} from 'webitel-sdk';
 
-import tablePageMixin from '../../../app/mixins/supervisor-workspace/tablePageMixin';
-import FilterPagination from '../../_shared/filters/components/filter-pagination.vue';
-import FilterFields from '../../_shared/filters/components/filter-table-fields.vue';
 import AgentsAPI from '../api/agents';
 import AgentsFilters from '../modules/filters/components/agent-filters.vue';
-import TableAgent from './_internals/table-templates/table-agent.vue';
+import {AgentsNamespace} from "../namespace";
+import {useAgentsTableStore} from '../stores/agents';
 import TableQueues from './_internals/table-templates/table-agent-queues.vue';
 import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
 import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
+import TableAgent from './_internals/table-templates/table-agent.vue';
 
-export default {
-  name: 'TheAgents',
-  components: {
-    FilterSearch,
-    FilterFields,
-    FilterPagination,
-    AgentsFilters,
-    TableAgent,
-    TableAgentStatus,
-    TableAgentCallTime,
-    TableQueues,
-  },
-  mixins: [
-    tablePageMixin,
-    sortFilterMixin,
-    exportCSVMixin,
-  ],
-  data: () => ({
-    namespace: 'agents',
-  }),
-  computed: {
-    selectedIds() {
-      return this.dataList
-                 .filter((item) => item._isSelected)
-                 .map((item) => item.agentId);
-    },
-  },
-  created() {
-    this.initCSVExport(AgentsAPI.getList, { filename: 'agents' });
-  },
-  methods: {
-    ...mapActions('call', {
-      attachToCall: 'ATTACH_TO_CALL',
-      openWindow: 'EAVESDROP_OPEN_WINDOW',
-    }),
-    rowClass(row) {
-      return row.status === AgentStatus.BreakOut && 'wt-table__tr--highlight-breakout'
-    },
-    async attachCall(id) {
-      await this.attachToCall({ id });
-      this.openWindow();
-    },
-  },
-};
+const {t} = useI18n();
+
+/*
+* @author @Oleksandr Palonnyi
+*
+* TODO: need to refactor call store to remove usage of vuex store in component
+*
+* [WTEL-7283](https://webitel.atlassian.net/browse/WTEL-7283)
+* */
+const store = useStore();
+
+const tableStore = useAgentsTableStore();
+const filtersNamespace = `${AgentsNamespace}/filters`
+
+const {
+  dataList,
+  isLoading,
+  page,
+  size,
+  next,
+  headers,
+  isFiltersRestoring,
+  filtersManager,
+  selected
+} = storeToRefs(tableStore);
+
+const {
+  initialize,
+  loadDataList,
+  updatePage,
+  updateSize,
+  updateSort,
+  updateShownHeaders,
+  addFilter,
+  updateFilter,
+  deleteFilter,
+  updateSearchMode
+} = tableStore;
+
+const {exportCSV, isCSVLoading, initCSVExport} = useCSVExport({
+  selected
+})
+initCSVExport(AgentsAPI.getList, { filename: 'agents' })
+
+initialize();
+
+const searchValue = computed(() => filtersManager.value.filters.get('search')?.value || '');
+const rowClass = (row) => {
+  return row.status === AgentStatus.BreakOut && 'wt-table__tr--highlight-breakout'
+}
+const attachCall = async (id) => {
+  await store.dispatch('ATTACH_TO_CALL', {id});
+  await store.dispatch('OPEN_WINDOW')
+}
 </script>
 
 <style lang="scss" scoped>
