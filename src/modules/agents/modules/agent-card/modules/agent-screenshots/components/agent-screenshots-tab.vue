@@ -6,8 +6,9 @@
           {{ t('objects.screenshots', 2) }}
         </h3>
         <wt-action-bar
-          :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
+          :include="[IconAction.DOWNLOAD_PDF, IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
           :disabled:delete="!selected.length"
+          @click:download-pdf="downloadPdf"
           @click:filters="emit('toggle-filter')"
           @click:refresh="loadDataList"
           @click:delete="
@@ -100,24 +101,18 @@ import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/
 import { storeToRefs } from 'pinia';
 import { computed, defineEmits } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'vuex';
 import { downloadFile, getScreenRecordingMediaUrl } from '@webitel/api-services/api'; 
 import { FileServicesAPI } from '@webitel/api-services/api';
 import { getStartOfDay, getEndOfDay } from '@webitel/ui-sdk/scripts';
+import { eventBus } from '@webitel/ui-sdk/scripts';
+import { PdfServicesAPI } from '@webitel/api-services/api'
 
 import { useScreenshotsDataListStore } from '../store/screenshots'
-import getNamespacedState from '@webitel/ui-sdk/store/helpers/getNamespacedState.js';
 import { SearchScreenRecordingsChannel } from '@webitel/api-services/gen/models';
 
 import { useRoute } from 'vue-router'
 
 const { t } = useI18n();
-
-const props = defineProps({
-  namespace: String,
-})
-
-const store = useStore()
 
 const router = useRoute()
 const agentId = router.params.id
@@ -223,6 +218,21 @@ const handleDelete = async (items: []) => {
     }
     await loadDataList();
   }
+}
+
+const downloadPdf = async () => {
+  await PdfServicesAPI.generatePdfExport({
+    agentId: agentId,
+    itemInstance: {
+      from: filtersManager.value.filters.get('uploadedAtFrom').value,
+      to: filtersManager.value.filters.get('uploadedAtTo').value,
+      fileIds: selected.value.map(({id}) => id),
+    } 
+  })
+  eventBus.$emit('notification', {
+    type: 'info',
+    text: t('webitelUI.pdfGeneration.generationStarted'),
+  });
 }
 </script>
 
