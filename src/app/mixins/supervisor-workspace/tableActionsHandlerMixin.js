@@ -12,7 +12,7 @@ export default {
           this.resetFilters();
           break;
         case 'settings':
-          this.toggleFiltersExpansion();
+          this.$emit('toggle-filter');
           break;
         default:
       }

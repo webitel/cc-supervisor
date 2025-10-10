@@ -6,4 +6,5 @@ export default Object.freeze({
   WORK_LOG: `${SupervisorSections.AGENTS}-work-log`,
   STATE_HISTORY: `${SupervisorSections.AGENTS}-state-history`,
   SKILLS: `${SupervisorSections.AGENTS}-skills`,
+  SCREEN_RECORDINGS: `${SupervisorSections.AGENTS}-screen-recordings`,
 });

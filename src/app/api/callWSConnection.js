@@ -10,11 +10,11 @@ let cliInstance = null;
 
 const createCliInstance = async () => {
   const token = localStorage.getItem('access-token');
+
   const config = {
     endpoint: BASE_URL,
     registerWebDevice: true,
     token,
-    // debug: true,
   };
 
   // why reactive? https://github.com/vuejs/core/discussions/7811#discussioncomment-5181921
@@ -38,7 +38,7 @@ export const destroyCliInstance = async () => {
   cliInstance = null;
 };
 
-export const getCliInstance = () => {
+export const getCliInstance = async () => {
   if (!cliInstance) cliInstance = createCliInstance();
   return cliInstance;
 };
