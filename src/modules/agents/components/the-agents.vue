@@ -35,9 +35,14 @@
 
         <button @click="conect">CONNECT</button>
           <span>>>>>>>{{spyScreenSessions.length}}</span>
-          <div v-for="(s, index) in spyScreenSessions"  :key="`screen-${index}`" class="aaaaaaaa" style="width: 500px; height: 500px; background: red;">
+          <div v-for="(s, index) in spyScreenSessions"  :key="`screen-${index}`" style="width: 500px; height: 500px; background: red;">
             <video v-if="s.stream" :key="`screen-video-${index}`" autoplay :srcObject.prop="s.stream" style="width: 500px"></video>
-            <button @click="s.close()">CLOSE</button>
+<!--            <button @click="s.close()">CLOSE</button>-->
+<!--            <button @click="s.screenshot()">screenshot</button>-->
+<!--            <button v-if="s.recordings" @click="s.stopRecord()">stopRecord</button>-->
+<!--            <button v-if="!s.recordings" @click="s.startRecord()">startRecord</button>-->
+
+            <screen-sharing-controls :stream="s" />
           </div>
 
         <div v-show="!isLoading" class="table-wrapper">
@@ -106,13 +111,13 @@ import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import {storeToRefs} from 'pinia';
-import { computed, onMounted, ref, reactive, shallowReactive } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import {useI18n} from "vue-i18n";
 import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
 import { getCliInstance } from '../../../app/api/callWSConnection.js';
+import ScreenSharingControls from '../_shared/screen-sharing/components/screen-sharing-controls.vue';
 
-import AgentsAPI from '../api/agents';
 import AgentsFilters from '../modules/filters/components/agent-filters.vue';
 import {AgentsNamespace} from "../namespace";
 import {useAgentsTableStore} from '../stores/agents';
@@ -163,9 +168,9 @@ const {
 const {exportCSV, isCSVLoading, initCSVExport} = useCSVExport({
   selected
 })
-// initCSVExport(AgentsAPI.getList, { filename: 'agents' })
-//
-// initialize();
+initCSVExport(AgentsAPI.getList, { filename: 'agents' })
+
+initialize();
 
 const searchValue = computed(() => filtersManager.value.filters.get('search')?.value || '');
 const rowClass = (row) => {
@@ -179,12 +184,9 @@ const attachCall = async (id) => {
 const cli = ref(null)
 onMounted(async () => {
   cli.value = await getCliInstance()
-  console.log('MOUNTED');
-  console.log(cli.value, ' cli');
 })
 
 const conect = async () => {
-  console.log('CONNECTING...');
 
   await cli.value.spyScreen(11168, {
     iceServers: [],
