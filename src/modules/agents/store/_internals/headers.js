@@ -18,6 +18,12 @@ export default [
     sort: null,
     field: 'status_duration',
   }, {
+    value: 'statusComment',
+    locale: 'pages.agent.columns.statusComment',
+    show: true,
+    sort: null,
+    field: 'status_comments',
+  }, {
     value: 'team',
     locale: 'pages.agent.columns.team',
     show: true,

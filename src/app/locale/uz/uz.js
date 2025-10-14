@@ -79,6 +79,7 @@ export default {
         name: 'Ism',
         status: 'Holat',
         statusDuration: 'Holat davomiyligi',
+        statusComment: 'Holat izohi',
         team: 'Jamoa',
         queues: 'Navbatlar',
         utilization: 'Foydalanish',

@@ -79,6 +79,7 @@ export default {
         name: 'Аты',
         status: 'Мәртебе',
         statusDuration: 'Мәртебе ұзақтығы',
+        statusComment: 'Мәртебе түсініктемесі',
         team: 'Команда',
         queues: 'Кезектер',
         utilization: 'Пайдалану',

@@ -79,6 +79,7 @@ export default {
         name: 'Имя',
         status: 'Статус',
         statusDuration: 'Длительность статуса',
+        statusComment: 'Комментарий к статусу',
         team: 'Команда',
         queues: 'Очереди',
         utilization: 'Утилизация',
