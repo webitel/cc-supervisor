@@ -79,6 +79,7 @@ export default {
         name: 'Tên',
         status: 'Trạng thái',
         statusDuration: 'Thời lượng trạng thái',
+        statusComment: 'Bình luận trạng thái',
         team: 'Nhóm',
         queues: 'Hàng đợi',
         utilization: 'Sử dụng',

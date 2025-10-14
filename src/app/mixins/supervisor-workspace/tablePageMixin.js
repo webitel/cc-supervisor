@@ -21,6 +21,7 @@ export default {
   computed: {
     ...mapState({
       dataList(state) {
+        console.log(getNamespacedState(state, this.namespace).dataList);
         return getNamespacedState(state, this.namespace).dataList;
       },
       aggs(state) {

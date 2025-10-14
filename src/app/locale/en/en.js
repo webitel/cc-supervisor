@@ -79,6 +79,7 @@ export default {
         name: 'Name',
         status: 'Status',
         statusDuration: 'Status duration',
+        statusComment: 'Status comment',
         team: 'Team',
         queues: 'Queues',
         utilization: 'Utilization',
