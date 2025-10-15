@@ -23,6 +23,7 @@ const getters = {
   ALLOW_SECTION_ACCESS: (state, getters) => ({ scopeClass, name, route }) => {
     return getters.GET_OBJECT_SCOPE_BY_CLASS(scopeClass) && getters.CHECK_OBJECT_ACCESS({ name, route });
   },
+  IS_CONTROL_AGENT_SCREEN_ALLOW: (state) => !!state.permissions.control_agent_screen,
 };
 
 const actions = {

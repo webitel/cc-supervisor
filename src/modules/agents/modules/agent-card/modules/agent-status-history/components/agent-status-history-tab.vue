@@ -2,7 +2,7 @@
   <article class="table-wrapper table-wrapper--tab-table">
     <wt-table-actions
       class="table-wrapper__actions-wrapper"
-      :icons="['refresh']"
+      :icons="['refresh', 'settings']"
       @input="tableActionsHandler"
     >
       <filter-fields
