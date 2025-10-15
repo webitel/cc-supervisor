@@ -34,9 +34,9 @@
         <wt-loader v-show="isLoading"></wt-loader>
 
         <button @click="conect">CONNECT</button>
-          <span>>>>>>>{{spyScreenSessions.length}}</span>
-          <div v-for="(s, index) in spyScreenSessions"  :key="`screen-${index}`" style="width: 500px; height: 500px;">
-            <video v-if="s.stream" :key="`screen-video-${index}`" autoplay :srcObject.prop="s.stream" style="width: 500px"></video>
+          <span>>>>>>>{{cli?.spyScreenSessions.length}}</span>
+          <div v-for="(s, index) in cli?.spyScreenSessions"  :key="`screen-${s.id}`" style="width: 500px; height: 500px;">
+            <video v-if="s.stream" :key="`screen-video-${s.stream.id}`" autoplay :srcObject.prop="s.stream" style="width: 500px"></video>
 
             <screen-sharing-controls :session="s" window-size="md" @close="closeConnection(s)" />
           </div>
@@ -178,15 +178,15 @@ const attachCall = async (id) => {
   await store.dispatch('OPEN_WINDOW')
 }
 
-const cli = ref(null)
+let cli
 onMounted(async () => {
-  cli.value = await getCliInstance()
-  console.log(cli.value, ' cli.value');
+  cli = await getCliInstance()
+  console.log(cli, ' cli.value');
 })
 
 const conect = async () => {
 
-  await cli.value.spyScreen(11168, {
+  await cli.spyScreen(11168, {
     iceServers: [],
   }, async (ev) => {
     console.log(ev, ' FROM SOCKET');
@@ -197,9 +197,10 @@ const closeConnection = (stream) => {
   stream.close()
 }
 
-const spyScreenSessions = computed(() => {
-  return cli.value ? cli.value?.spyScreenSessions : []
-})
+// const spyScreenSessions = computed(() => {
+//   console.log(cli, ' comp');
+//   return cli ? cli?.spyScreenSessions : []
+// })
 </script>
 
 <style lang="scss" scoped>
