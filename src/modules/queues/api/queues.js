@@ -88,7 +88,8 @@ const getQueuesList = async (params) => {
       joinedAtTo,
       undefined,
       fields,
-      sort,
+      //TODO: get back sort after api changes
+      '+priority',
       search,
       queue,
       team,

@@ -3,15 +3,23 @@
     <template #header>
       <wt-headline>
         <template #title>
-          {{ $t('pages.queue.title') }}
+          {{ t('pages.queue.title') }}
         </template>
         <template #actions>
-          <filter-search :namespace="filtersNamespace" filter-query="search"/>
+          <dynamic-filter-search
+            :filters-manager="piniaFiltersManager"
+            :is-filters-restoring="piniaIsFiltersRestoring"
+            :value="searchValue"
+            @filter:add="piniaAddFilter"
+            @filter:update="piniaUpdateFilter"
+            @filter:delete="piniaDeleteFilter"
+            @update:search-mode="piniaUpdateSearchMode"
+          />
           <wt-button
             :loading="isCSVLoading"
-            :disabled="!dataList.length"
+            :disabled="!piniaDataList.length"
             @click="exportCSV"
-          >{{ $t('defaults.exportCSV') }}
+          >{{ t('defaults.exportCSV') }}
           </wt-button>
         </template>
       </wt-headline>
@@ -21,33 +29,21 @@
     </template>
     <template #main>
       <section class="main-section-wrapper">
-        <wt-loader v-show="isLoading"></wt-loader>
-        <div v-show="!isLoading" class="table-wrapper">
-          <wt-table-actions
-            class="table-wrapper__actions-wrapper"
-            :icons="['refresh']"
-            @input="tableActionsHandler"
-          >
-            <filter-fields
-              :headers="headers"
-              :static-headers="['queue', 'agents', 'free']"
-              entity="queues"
-              @change="setHeaders"
-            ></filter-fields>
-          </wt-table-actions>
+        <wt-loader v-show="piniaIsLoading"></wt-loader>
+        <div v-show="!piniaIsLoading" class="table-wrapper">
           <wt-table
-            :headers="headers"
-            :data="dataList"
+            :headers="piniaHeaders"
+            :data="piniaDataList"
             sortable
             :selectable="false"
             :grid-actions="false"
-            @sort="sort"
+            @sort="piniaUpdateSort"
           >
             <template #queue="{ item }">
-              <table-queue :item="item"/>
+              <table-queue :item="item" />
             </template>
             <template #agents="{ item }">
-              <table-agents :status="item.agentStatus"/>
+              <table-agents :status="item.agentStatus" />
             </template>
             <template #free="{ item }">
               <div v-if="item.agentStatus">
@@ -55,13 +51,13 @@
               </div>
             </template>
             <template #team="{ item }">
-              <table-team :item="item"/>
+              <table-team :item="item" />
             </template>
             <template #members="{ item }">
-              <table-members :item="item"/>
+              <table-members :item="item" />
             </template>
             <template #queue-footer>
-              {{ $t('reusable.total') }}
+              {{ t('reusable.total') }}
             </template>
             <template #agents-footer>
               <table-agents :status="aggs"/>
@@ -70,7 +66,6 @@
               {{ aggs.free }}
             </template>
           </wt-table>
-          <filter-pagination :is-next="isNext"/>
         </div>
       </section>
     </template>
@@ -78,15 +73,17 @@
 </template>
 
 <script>
-import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
-import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
-import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import tablePageMixin from '../../../app/mixins/supervisor-workspace/tablePageMixin';
-import FilterPagination from '../../_shared/filters/components/filter-pagination.vue';
-import FilterFields from '../../_shared/filters/components/filter-table-fields.vue';
 import QueuesAPI from '../api/queues';
 import QueueFilters from '../modules/filters/components/queue-filters.vue';
+import { QueuesNamespace } from '../namespace';
+import { useQueuesTableStore } from '../stores/queues';
 import TableAgents from './_internals/table-templates/table-agents.vue';
 import TableMembers from './_internals/table-templates/table-members.vue';
 import TableQueue from './_internals/table-templates/table-queue.vue';
@@ -94,35 +91,90 @@ import TableTeam from './_internals/table-templates/table-team.vue';
 
 export default {
   name: 'TheQueues',
-  components: {
-    FilterSearch,
-    FilterFields,
-    FilterPagination,
-    QueueFilters,
-    TableQueue,
-    TableAgents,
-    TableTeam,
-    TableMembers,
-  },
-  mixins: [
-    tablePageMixin,
-    sortFilterMixin,
-    exportCSVMixin,
-  ],
-  data: () => ({
-    namespace: 'queues',
-  }),
+  components: { QueueFilters, TableMembers, TableTeam, TableQueue, TableAgents, DynamicFilterSearch },
+  mixins: [tablePageMixin],
+  setup() {
+    const { t } = useI18n();
 
-  computed: {
-    selectedIds() {
-      return this.dataList
-      .filter((item) => item._isSelected)
-      .map((item) => item.queue?.id);
-    },
-  },
+    const tableStore = useQueuesTableStore();
+    const filtersNamespace = `${QueuesNamespace}/filters`;
 
-  created() {
-    this.initCSVExport(QueuesAPI.getList, { filename: 'queues-stats' });
+    // Get all values from Pinia store with 'pinia' prefix to avoid conflicts with tablePageMixin
+    const {
+      dataList: piniaDataList,
+      isLoading: piniaIsLoading,
+      page: piniaPage,
+      size: piniaSize,
+      next: piniaNext,
+      headers: piniaHeaders,
+      isFiltersRestoring: piniaIsFiltersRestoring,
+      filtersManager: piniaFiltersManager,
+      selected: piniaSelected,
+    } = storeToRefs(tableStore);
+
+    // Get all methods from Pinia store with 'pinia' prefix to avoid conflicts with tablePageMixin
+    const {
+      initialize: piniaInitialize,
+      loadDataList: piniaLoadDataList,
+      updatePage: piniaUpdatePage,
+      updateSize: piniaUpdateSize,
+      updateSort: piniaUpdateSort,
+      updateShownHeaders: piniaUpdateShownHeaders,
+      addFilter: piniaAddFilter,
+      updateFilter: piniaUpdateFilter,
+      deleteFilter: piniaDeleteFilter,
+      updateSearchMode: piniaUpdateSearchMode,
+    } = tableStore;
+
+    const { exportCSV, isCSVLoading, initCSVExport } = useCSVExport({
+      selected: piniaSelected,
+    });
+    initCSVExport(QueuesAPI.getList, { filename: 'queues-stats' });
+
+    const searchValue = computed(() => piniaFiltersManager.value.filters.get('search')?.value || '');
+
+    piniaInitialize();
+
+    return {
+      t,
+
+      piniaDataList,
+      piniaIsLoading,
+      piniaPage,
+      piniaSize,
+      piniaNext,
+      piniaHeaders,
+      piniaIsFiltersRestoring,
+      piniaFiltersManager,
+      piniaSelected,
+
+      piniaInitialize,
+      piniaLoadDataList,
+      piniaUpdatePage,
+      piniaUpdateSize,
+      piniaUpdateSort,
+      piniaUpdateShownHeaders,
+      piniaAddFilter,
+      piniaUpdateFilter,
+      piniaDeleteFilter,
+      piniaUpdateSearchMode,
+
+      exportCSV,
+      isCSVLoading,
+
+      searchValue,
+
+      filtersNamespace,
+    };
+  },
+  data() {
+    return {
+      namespace: QueuesNamespace,
+      TableAgents,
+      TableMembers,
+      TableQueue,
+      TableTeam,
+    };
   },
 };
 </script>

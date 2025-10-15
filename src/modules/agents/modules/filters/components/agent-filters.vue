@@ -22,6 +22,7 @@ import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
+import { useTableFilters } from '../../../../../app/composables/useTableFilters.ts';
 import { useAgentsTableStore } from '../../../stores/agents';
 import { filterOptions } from '../configs/filterOptions';
 
@@ -40,38 +41,11 @@ const {
 const store = useStore();
 const {t} = useI18n();
 
-const filters = computed(() => filtersManager.value.getAllValues());
-
-const getValueForFilter = ({ value, storedProp = 'id' }) => {
-  if (Array.isArray(value)) {
-    if (value.length && typeof value[0] !== 'object') {
-      return value;
-    } else {
-      return value.map((item) => item[storedProp]);
-    }
-  } else if (typeof value === 'object' && value !== null) {
-    return value[storedProp];
-  } else {
-    return value;
-  }
-}
-const handleFilter = (value, field) => {
-  if(value) {
-    if (hasFilter(field)) {
-      updateFilter({
-        name: field,
-        value: getValueForFilter({ value, storedProp: filterOptions[field].storedProp }),
-      });
-    } else {
-      addFilter({
-        name: field,
-        value: getValueForFilter({ value, storedProp: filterOptions[field].storedProp }),
-      });
-    }
-  } else {
-    deleteFilter({ name: field })
-  }
-};
+const {
+  filters,
+  handleFilter,
+  resetFilters,
+} = useTableFilters(filtersManager, filterOptions, addFilter, updateFilter, deleteFilter, hasFilter);
 
 const checkAccess = computed(() => {
   return {
@@ -104,10 +78,6 @@ const agentFilters = computed(() => {
     { type: 'enum', filterQuery: 'utilization' },
   ];
 });
-
-const resetFilters = () => {
-  filtersManager.value.reset({ exclude: ['search'] });
-};
 </script>
 
 <style lang="scss" scoped>
