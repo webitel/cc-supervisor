@@ -1,87 +1,163 @@
 <template>
-  <div class="screen-sharing-controls">
-    <div class="screen-sharing-controls__actions">
-      <wt-icon-btn
-        icon="screenshot"
-        @click="props.stream.screenshot"
+  <div class="screen-sharing-controls" :class="{[`screen-sharing-controls--${props.windowSize}`]: true}">
+    <div class="screen-sharing-controls__actions" :class="{[`screen-sharing-controls--${props.windowSize}__actions`]: true}">
+      <wt-button
+        rounded
+        contains-icon
+        variant="outlined"
+        color="secondary"
+        size="sm"
+        :icon="screenShotIcon"
+        @click="makeScreenshot"
       />
 
-      <wt-icon-btn
+      <wt-button
+        rounded
+        contains-icon
+        variant="outlined"
+        color="secondary"
+        size="sm"
         :icon="recordIcon"
         @click="toggleRecordAction"
       />
 
-      <wt-icon-btn
+      <wt-button
         icon="sharing-end"
-        @click="props.stream.close"
+        class="screen-sharing-controls__sharing-end"
+        color="error"
+        variant="outlined"
+        size="sm"
+        rounded
+        contains-icon
+        @click="emit('close')"
       />
     </div>
 
-    <div class="screen-sharing-controls__indicator">
-      <wt-indicator color="danger" text="00:00:14" />
+    <div
+      v-if="isRecording" class="screen-sharing-controls__indicator"
+    >
+      <wt-indicator
+        color="error"
+        size="md"
+      />
+
+      <span class="screen-sharing-controls__time">{{ convertDuration(secondsElapsed) }}</span>
     </div>
   </div>
 
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from 'vue';
+import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
+import {computed, onUnmounted, ref, watch} from 'vue';
+
+interface Session {
+  close: () => void
+  screenshot: () => void
+  stopRecord: () => void
+  startRecord: () => void
+  recordings: boolean
+}
 
 interface Props {
-  stream: {
-    close: () => void
-    screenshot: () => void
-    stopRecord: () => void
-    startRecord: () => void
-    recordings: boolean
-  }
+  windowSize: 'sm' | 'md' | 'lg'
+  screenshotStatus: 'done' | 'false'
+  session: Session
 }
 
 const props = defineProps<Props>();
 
-const recordIcon = computed(() => (props.stream.recordings ? 'stop-record' : 'start-record'));
+interface Emits {
+  (e: 'close'): void
+}
+
+const emit = defineEmits<Emits>()
+
+const recordIcon = computed(() => (props.session.recordings ? 'record-stop' : 'record-start'));
+const getScreenshotIcon = (status?: string) => {
+  switch (status) {
+    case 'done':
+      return 'screenshot-done';
+    case 'false':
+      return 'screenshot-false';
+    default:
+      return 'screenshot';
+  }
+}
+
+const screenShotIcon = computed(() => getScreenshotIcon(props.screenshotStatus));
+const isRecording = computed(() => props.session.recordings);
+
+const secondsElapsed = ref(0);
+const timerId = ref<number | null>(null);
+
+function startTimer() {
+  secondsElapsed.value = 0;
+  stopTimer();
+  timerId.value = window.setInterval(() => {
+    secondsElapsed.value++;
+  }, 1000);
+}
+
+function stopTimer() {
+  if (timerId.value !== null) {
+    clearInterval(timerId.value);
+    timerId.value = null;
+  }
+}
 
 const toggleRecordAction = () => {
-  if (props.stream.recordings) {
-    props.stream.stopRecord();
+  console.log(props.session, ' props.session')
+  if (isRecording.value) {
+    props.session.stopRecord();
   } else {
-    props.stream.startRecord();
+    props.session.startRecord();
   }
 };
+const makeScreenshot = () => {
+  console.log(props.session, ' props.session')
+  props.session.screenshot()
+};
 
+onUnmounted(() => {
+  stopTimer();
+});
 
-const timer = ref()
+watch(isRecording, (newVal) => {
+  if (newVal) {
+    startTimer();
+  } else {
+    stopTimer();
+  }
+});
 </script>
 
 <style scoped lang="scss">
-.screen-sharing-controls {
-  height: var(--media-player-wrapper-head-height);
-  border-bottom: 1px solid var(--wt-color-border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-xs);
-  box-sizing: border-box;
-  -webkit-user-select: none;
-  user-select: none;
-  transition: background-color var(--transition) ease;
+@use '@webitel/ui-sdk/src/css/main' as *;
 
-  &:hover {
-    background: var(--p-overlay-player-wrapper-head-hover-background-color);
-    backdrop-filter: blur(10px);
+.screen-sharing-controls {
+  position: relative;
+
+  &--sm {
+    &__actions {
+      border-top-left-radius: 0 !important;
+      border-top-right-radius: 0 !important;
+    }
   }
 
-  &__title {
-    min-width: 0; // allow text to ellipsis if needed
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-xs);
+  &--md {
+    &__actions {
+      width: 184px;
+    }
   }
 
   &__actions {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: var(--spacing-2xs);
+    background: var(--p-player-control-bar-background);
+    box-shadow: var(--elevation-10);
   }
 
   &__action {
@@ -90,7 +166,6 @@ const timer = ref()
     background: transparent;
     color: var(--p-text-color);
     padding: var(--spacing-2xs);
-    line-height: 1;
     border-radius: var(--p-border-radius-sm);
     cursor: pointer;
 
@@ -99,8 +174,23 @@ const timer = ref()
     }
   }
 
-  .wt-icon-btn {
-    fill: var(--p-white);
+  &__indicator {
+    background: var(--content-wrapper-color);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--p-player-counter-gap);
+    padding: var(--p-player-counter-padding);
+    border-radius: var(--p-player-counter-border-radius);
+    box-shadow: var(--elevation-10);
+    position: absolute;
+    right: 7px;
+    bottom: calc(100% + 8px);
+    width: 100px;
+  }
+
+  &__time {
+    @extend %typo-body-1;
   }
 }
 </style>

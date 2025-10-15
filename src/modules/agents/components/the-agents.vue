@@ -35,14 +35,10 @@
 
         <button @click="conect">CONNECT</button>
           <span>>>>>>>{{spyScreenSessions.length}}</span>
-          <div v-for="(s, index) in spyScreenSessions"  :key="`screen-${index}`" style="width: 500px; height: 500px; background: red;">
+          <div v-for="(s, index) in spyScreenSessions"  :key="`screen-${index}`" style="width: 500px; height: 500px;">
             <video v-if="s.stream" :key="`screen-video-${index}`" autoplay :srcObject.prop="s.stream" style="width: 500px"></video>
-<!--            <button @click="s.close()">CLOSE</button>-->
-<!--            <button @click="s.screenshot()">screenshot</button>-->
-<!--            <button v-if="s.recordings" @click="s.stopRecord()">stopRecord</button>-->
-<!--            <button v-if="!s.recordings" @click="s.startRecord()">startRecord</button>-->
 
-            <screen-sharing-controls :stream="s" />
+            <screen-sharing-controls :session="s" window-size="md" @close="closeConnection(s)" />
           </div>
 
         <div v-show="!isLoading" class="table-wrapper">
@@ -118,6 +114,7 @@ import { AgentStatus } from 'webitel-sdk';
 import { getCliInstance } from '../../../app/api/callWSConnection.js';
 import ScreenSharingControls from '../_shared/screen-sharing/components/screen-sharing-controls.vue';
 
+import AgentsAPI from '../api/agents';
 import AgentsFilters from '../modules/filters/components/agent-filters.vue';
 import {AgentsNamespace} from "../namespace";
 import {useAgentsTableStore} from '../stores/agents';
@@ -184,6 +181,7 @@ const attachCall = async (id) => {
 const cli = ref(null)
 onMounted(async () => {
   cli.value = await getCliInstance()
+  console.log(cli.value, ' cli.value');
 })
 
 const conect = async () => {
@@ -193,6 +191,10 @@ const conect = async () => {
   }, async (ev) => {
     console.log(ev, ' FROM SOCKET');
   })
+}
+
+const closeConnection = (stream) => {
+  stream.close()
 }
 
 const spyScreenSessions = computed(() => {
