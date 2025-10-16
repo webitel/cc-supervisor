@@ -3,15 +3,23 @@
     <template #header>
       <wt-headline>
         <template #title>
-          {{ $t('pages.queue.title') }}
+          {{ t('pages.queue.title') }}
         </template>
         <template #actions>
-          <filter-search :namespace="filtersNamespace" filter-query="search"/>
+          <dynamic-filter-search
+            :filters-manager="filtersManager"
+            :is-filters-restoring="isFiltersRestoring"
+            :value="searchValue"
+            @filter:add="addFilter"
+            @filter:update="updateFilter"
+            @filter:delete="deleteFilter"
+            @update:search-mode="updateSearchMode"
+          />
           <wt-button
             :loading="isCSVLoading"
             :disabled="!dataList.length"
             @click="exportCSV"
-          >{{ $t('defaults.exportCSV') }}
+          >{{ t('defaults.exportCSV') }}
           </wt-button>
         </template>
       </wt-headline>
@@ -23,31 +31,35 @@
       <section class="main-section-wrapper">
         <wt-loader v-show="isLoading"></wt-loader>
         <div v-show="!isLoading" class="table-wrapper">
-          <wt-table-actions
+          <wt-action-bar
+            :include="[
+              IconAction.REFRESH,
+              IconAction.COLUMNS
+            ]"
             class="table-wrapper__actions-wrapper"
-            :icons="['refresh']"
-            @input="tableActionsHandler"
+            @click:refresh="loadDataList"
           >
-            <filter-fields
-              :headers="headers"
-              :static-headers="['queue', 'agents', 'free']"
-              entity="queues"
-              @change="setHeaders"
-            ></filter-fields>
-          </wt-table-actions>
+            <template #columns>
+              <wt-table-column-select
+                :headers="headers"
+                @change="updateShownHeaders"
+              />
+            </template>
+          </wt-action-bar>
+
           <wt-table
             :headers="headers"
             :data="dataList"
             sortable
             :selectable="false"
             :grid-actions="false"
-            @sort="sort"
+            @sort="updateSort"
           >
             <template #queue="{ item }">
-              <table-queue :item="item"/>
+              <table-queue :item="item" />
             </template>
             <template #agents="{ item }">
-              <table-agents :status="item.agentStatus"/>
+              <table-agents :status="item.agentStatus" />
             </template>
             <template #free="{ item }">
               <div v-if="item.agentStatus">
@@ -55,13 +67,13 @@
               </div>
             </template>
             <template #team="{ item }">
-              <table-team :item="item"/>
+              <table-team :item="item" />
             </template>
             <template #members="{ item }">
-              <table-members :item="item"/>
+              <table-members :item="item" />
             </template>
             <template #queue-footer>
-              {{ $t('reusable.total') }}
+              {{ t('reusable.total') }}
             </template>
             <template #agents-footer>
               <table-agents :status="aggs"/>
@@ -70,61 +82,79 @@
               {{ aggs.free }}
             </template>
           </wt-table>
-          <filter-pagination :is-next="isNext"/>
+
+          <wt-pagination
+            :next="next"
+            :prev="page > 1"
+            :size="size"
+            debounce
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
+          />
         </div>
       </section>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
-import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
-import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
-import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
+<script setup>
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum.js';
+import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-import tablePageMixin from '../../../app/mixins/supervisor-workspace/tablePageMixin';
-import FilterPagination from '../../_shared/filters/components/filter-pagination.vue';
-import FilterFields from '../../_shared/filters/components/filter-table-fields.vue';
 import QueuesAPI from '../api/queues';
 import QueueFilters from '../modules/filters/components/queue-filters.vue';
+import { QueuesNamespace } from '../namespace';
+import { useQueuesTableStore } from '../stores/queues';
 import TableAgents from './_internals/table-templates/table-agents.vue';
 import TableMembers from './_internals/table-templates/table-members.vue';
 import TableQueue from './_internals/table-templates/table-queue.vue';
 import TableTeam from './_internals/table-templates/table-team.vue';
 
-export default {
-  name: 'TheQueues',
-  components: {
-    FilterSearch,
-    FilterFields,
-    FilterPagination,
-    QueueFilters,
-    TableQueue,
-    TableAgents,
-    TableTeam,
-    TableMembers,
-  },
-  mixins: [
-    tablePageMixin,
-    sortFilterMixin,
-    exportCSVMixin,
-  ],
-  data: () => ({
-    namespace: 'queues',
-  }),
+const { t } = useI18n();
 
-  computed: {
-    selectedIds() {
-      return this.dataList
-      .filter((item) => item._isSelected)
-      .map((item) => item.queue?.id);
-    },
-  },
+const tableStore = useQueuesTableStore();
+const filtersNamespace = `${QueuesNamespace}/filters`;
 
-  created() {
-    this.initCSVExport(QueuesAPI.getList, { filename: 'queues-stats' });
-  },
-};
+const {
+  dataList,
+  isLoading,
+  page,
+  size,
+  next,
+  headers,
+  isFiltersRestoring,
+  filtersManager,
+  selected,
+  aggs,
+} = storeToRefs(tableStore);
+
+const {
+  initialize,
+  loadDataList,
+  updatePage,
+  updateSize,
+  updateSort,
+  updateShownHeaders,
+  addFilter,
+  updateFilter,
+  deleteFilter,
+  updateSearchMode,
+} = tableStore;
+
+const { exportCSV, isCSVLoading, initCSVExport } = useCSVExport({
+  selected,
+});
+
+initCSVExport(QueuesAPI.getList, { filename: 'queues-stats' });
+
+const searchValue = computed(() => filtersManager.value.filters.get('search')?.value || '');
+
+initialize();
 </script>
 
 <style lang="scss" scoped>
