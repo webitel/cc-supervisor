@@ -7,17 +7,17 @@
         </template>
         <template #actions>
           <dynamic-filter-search
-            :filters-manager="piniaFiltersManager"
-            :is-filters-restoring="piniaIsFiltersRestoring"
+            :filters-manager="filtersManager"
+            :is-filters-restoring="isFiltersRestoring"
             :value="searchValue"
-            @filter:add="piniaAddFilter"
-            @filter:update="piniaUpdateFilter"
-            @filter:delete="piniaDeleteFilter"
-            @update:search-mode="piniaUpdateSearchMode"
+            @filter:add="addFilter"
+            @filter:update="updateFilter"
+            @filter:delete="deleteFilter"
+            @update:search-mode="updateSearchMode"
           />
           <wt-button
             :loading="isCSVLoading"
-            :disabled="!piniaDataList.length"
+            :disabled="!dataList.length"
             @click="exportCSV"
           >{{ t('defaults.exportCSV') }}
           </wt-button>
@@ -29,15 +29,31 @@
     </template>
     <template #main>
       <section class="main-section-wrapper">
-        <wt-loader v-show="piniaIsLoading"></wt-loader>
-        <div v-show="!piniaIsLoading" class="table-wrapper">
+        <wt-loader v-show="isLoading"></wt-loader>
+        <div v-show="!isLoading" class="table-wrapper">
+          <wt-action-bar
+            :include="[
+              IconAction.REFRESH,
+              IconAction.COLUMNS
+            ]"
+            class="table-wrapper__actions-wrapper"
+            @click:refresh="loadDataList"
+          >
+            <template #columns>
+              <wt-table-column-select
+                :headers="headers"
+                @change="updateShownHeaders"
+              />
+            </template>
+          </wt-action-bar>
+
           <wt-table
-            :headers="piniaHeaders"
-            :data="piniaDataList"
+            :headers="headers"
+            :data="dataList"
             sortable
             :selectable="false"
             :grid-actions="false"
-            @sort="piniaUpdateSort"
+            @sort="updateSort"
           >
             <template #queue="{ item }">
               <table-queue :item="item" />
@@ -66,20 +82,30 @@
               {{ aggs.free }}
             </template>
           </wt-table>
+
+          <wt-pagination
+            :next="next"
+            :prev="page > 1"
+            :size="size"
+            debounce
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
+          />
         </div>
       </section>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
+<script setup>
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum.js';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import tablePageMixin from '../../../app/mixins/supervisor-workspace/tablePageMixin';
 import QueuesAPI from '../api/queues';
 import QueueFilters from '../modules/filters/components/queue-filters.vue';
 import { QueuesNamespace } from '../namespace';
@@ -89,94 +115,46 @@ import TableMembers from './_internals/table-templates/table-members.vue';
 import TableQueue from './_internals/table-templates/table-queue.vue';
 import TableTeam from './_internals/table-templates/table-team.vue';
 
-export default {
-  name: 'TheQueues',
-  components: { QueueFilters, TableMembers, TableTeam, TableQueue, TableAgents, DynamicFilterSearch },
-  mixins: [tablePageMixin],
-  setup() {
-    const { t } = useI18n();
+const { t } = useI18n();
 
-    const tableStore = useQueuesTableStore();
-    const filtersNamespace = `${QueuesNamespace}/filters`;
+const tableStore = useQueuesTableStore();
+const filtersNamespace = `${QueuesNamespace}/filters`;
 
-    // Get all values from Pinia store with 'pinia' prefix to avoid conflicts with tablePageMixin
-    const {
-      dataList: piniaDataList,
-      isLoading: piniaIsLoading,
-      page: piniaPage,
-      size: piniaSize,
-      next: piniaNext,
-      headers: piniaHeaders,
-      isFiltersRestoring: piniaIsFiltersRestoring,
-      filtersManager: piniaFiltersManager,
-      selected: piniaSelected,
-    } = storeToRefs(tableStore);
+const {
+  dataList,
+  isLoading,
+  page,
+  size,
+  next,
+  headers,
+  isFiltersRestoring,
+  filtersManager,
+  selected,
+  aggs,
+} = storeToRefs(tableStore);
 
-    // Get all methods from Pinia store with 'pinia' prefix to avoid conflicts with tablePageMixin
-    const {
-      initialize: piniaInitialize,
-      loadDataList: piniaLoadDataList,
-      updatePage: piniaUpdatePage,
-      updateSize: piniaUpdateSize,
-      updateSort: piniaUpdateSort,
-      updateShownHeaders: piniaUpdateShownHeaders,
-      addFilter: piniaAddFilter,
-      updateFilter: piniaUpdateFilter,
-      deleteFilter: piniaDeleteFilter,
-      updateSearchMode: piniaUpdateSearchMode,
-    } = tableStore;
+const {
+  initialize,
+  loadDataList,
+  updatePage,
+  updateSize,
+  updateSort,
+  updateShownHeaders,
+  addFilter,
+  updateFilter,
+  deleteFilter,
+  updateSearchMode,
+} = tableStore;
 
-    const { exportCSV, isCSVLoading, initCSVExport } = useCSVExport({
-      selected: piniaSelected,
-    });
-    initCSVExport(QueuesAPI.getList, { filename: 'queues-stats' });
+const { exportCSV, isCSVLoading, initCSVExport } = useCSVExport({
+  selected,
+});
 
-    const searchValue = computed(() => piniaFiltersManager.value.filters.get('search')?.value || '');
+initCSVExport(QueuesAPI.getList, { filename: 'queues-stats' });
 
-    piniaInitialize();
+const searchValue = computed(() => filtersManager.value.filters.get('search')?.value || '');
 
-    return {
-      t,
-
-      piniaDataList,
-      piniaIsLoading,
-      piniaPage,
-      piniaSize,
-      piniaNext,
-      piniaHeaders,
-      piniaIsFiltersRestoring,
-      piniaFiltersManager,
-      piniaSelected,
-
-      piniaInitialize,
-      piniaLoadDataList,
-      piniaUpdatePage,
-      piniaUpdateSize,
-      piniaUpdateSort,
-      piniaUpdateShownHeaders,
-      piniaAddFilter,
-      piniaUpdateFilter,
-      piniaDeleteFilter,
-      piniaUpdateSearchMode,
-
-      exportCSV,
-      isCSVLoading,
-
-      searchValue,
-
-      filtersNamespace,
-    };
-  },
-  data() {
-    return {
-      namespace: QueuesNamespace,
-      TableAgents,
-      TableMembers,
-      TableQueue,
-      TableTeam,
-    };
-  },
-};
+initialize();
 </script>
 
 <style lang="scss" scoped>
