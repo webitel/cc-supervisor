@@ -1,4 +1,11 @@
 <template>
+  <wt-galleria 
+    v-model:visible="galleriaVisible"
+    v-model:active-index="galleriaActiveIndex"
+    :value="galleriaData"
+    @download="downloadFile(dataList[galleriaActiveIndex].id)"
+    @delete="handleDeleteFromGalleria"
+  />
   <div class="table-page">
     <section class="table-section">
       <header class="table-title">
@@ -93,13 +100,13 @@
 </template>
 
 <script lang="ts" setup>
-import { WtEmpty } from '@webitel/ui-sdk/components';
+import { WtEmpty, WtGalleria } from '@webitel/ui-sdk/components';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
-import { computed, defineEmits } from 'vue';
+import { computed, defineEmits, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { downloadFile, getScreenRecordingMediaUrl } from '@webitel/api-services/api'; 
 import { FileServicesAPI } from '@webitel/api-services/api';
@@ -120,6 +127,9 @@ const agentId = router.params.id
 const emit = defineEmits(['toggle-filter'])
 
 const tableStore = useScreenshotsDataListStore();
+
+const galleriaVisible = ref(false)
+const galleriaActiveIndex = ref(0)
 
 const {
   dataList,
@@ -176,6 +186,15 @@ initializeDefaultFilters();
 
 const prettifyTimestamp = (item) => new Date(+item.uploaded_at).toLocaleString()
 
+const galleriaData = computed(() => {
+  return dataList.value.map((item) => ({
+    src: getScreenRecordingMediaUrl(item.id, false),
+    thumbnailSrc: getScreenRecordingMediaUrl(item.id, true),
+    title: item.name,
+    alt: item.name,
+  }))
+})
+
 const {
   isVisible: isDeleteConfirmationPopup,
   deleteCount,
@@ -197,7 +216,8 @@ const {
 });
 
 const openScreenshot = (id) => {
-  window.open(getScreenRecordingMediaUrl(id), '_blank')
+  galleriaActiveIndex.value = dataList.value.findIndex(item => item.id === id)
+  galleriaVisible.value = true
 }
 
 const handleDelete = async (items: []) => {
@@ -233,6 +253,11 @@ const downloadPdf = async () => {
     type: 'info',
     text: t('webitelUI.pdfGeneration.generationStarted'),
   });
+}
+
+const handleDeleteFromGalleria = () => {
+  handleDelete([dataList.value[galleriaActiveIndex.value]])
+  if (galleriaActiveIndex.value > 0) galleriaActiveIndex.value -= 1
 }
 </script>
 
