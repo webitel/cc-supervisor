@@ -1,5 +1,6 @@
 <template>
-  <wt-page-wrapper>
+  <wt-page-wrapper
+    class="agents table-page">
     <template #header>
       <wt-headline>
         <template #title>
@@ -30,21 +31,18 @@
     </template>
 
     <template #main>
-      <section class="main-section-wrapper">
-        <wt-loader v-show="isLoading"></wt-loader>
-
+      <section class="table-section">
         <button @click="conect">CONNECT</button>
         <div v-for="s in spyArray" :key="`screen-${s.id}`">
           <wt-vidstack-player v-if="s.stream" :stream="s.stream" :session="s" autoplay mode="stream" />
         </div>
 
-        <div v-show="!isLoading" class="table-wrapper">
+        <header v-show="!isLoading" class="table-title">
           <wt-action-bar
             :include="[
               IconAction.REFRESH,
               IconAction.COLUMNS
             ]"
-            class="table-wrapper__actions-wrapper"
             @click:refresh="loadDataList"
           >
             <template #columns>
@@ -54,7 +52,14 @@
               />
             </template>
           </wt-action-bar>
+        </header>
 
+        <wt-loader v-show="isLoading"></wt-loader>
+
+        <div
+          v-show="!isLoading && dataList?.length"
+          class="table-section__table-wrapper"
+        >
           <wt-table
             ref="agents-table"
             :data="dataList"
@@ -193,8 +198,18 @@ watch(() => cli.value?.spyScreenSessions, (val) => {
 </script>
 
 <style lang="scss" scoped>
+//@use '@/app/css/main.scss" as *';
+@use '@webitel/ui-sdk/src/css/main' as *;
+
 .wt-table ::v-deep .wt-table__tr--highlight-breakout {
   // https://github.com/sass/node-sass/issues/2251
   background: HSLA(var(--_negative-color), 0.1);
 }
+
+.table-page {
+  .table-title {
+    justify-content: flex-end;
+  }
+}
+
 </style>
