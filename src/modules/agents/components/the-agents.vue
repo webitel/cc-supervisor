@@ -34,12 +34,9 @@
         <wt-loader v-show="isLoading"></wt-loader>
 
         <button @click="conect">CONNECT</button>
-          <span>>>>>>>{{cli?.spyScreenSessions.length}}</span>
-          <div v-for="(s, index) in cli?.spyScreenSessions"  :key="`screen-${s.id}`" style="width: 500px; height: 500px;">
-            <video v-if="s.stream" :key="`screen-video-${s.stream.id}`" autoplay :srcObject.prop="s.stream" style="width: 500px"></video>
-
-            <screen-sharing-controls :session="s" window-size="md" @close="closeConnection(s)" />
-          </div>
+        <div v-for="s in spyArray" :key="`screen-${s.id}`">
+          <wt-vidstack-player v-if="s.stream" :stream="s.stream" :session="s" autoplay mode="stream" />
+        </div>
 
         <div v-show="!isLoading" class="table-wrapper">
           <wt-action-bar
@@ -106,24 +103,23 @@
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
-import {storeToRefs} from 'pinia';
-import { computed, onMounted, ref } from 'vue';
-import {useI18n} from "vue-i18n";
+import { storeToRefs } from 'pinia';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
-import { getCliInstance } from '../../../app/api/callWSConnection.js';
-import ScreenSharingControls from '../_shared/screen-sharing/components/screen-sharing-controls.vue';
 
+import { getCliInstance } from '../../../app/api/callWSConnection.js';
 import AgentsAPI from '../api/agents';
 import AgentsFilters from '../modules/filters/components/agent-filters.vue';
-import {AgentsNamespace} from "../namespace";
-import {useAgentsTableStore} from '../stores/agents';
+import { AgentsNamespace } from '../namespace';
+import { useAgentsTableStore } from '../stores/agents';
+import TableAgent from './_internals/table-templates/table-agent.vue';
 import TableQueues from './_internals/table-templates/table-agent-queues.vue';
 import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
 import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
-import TableAgent from './_internals/table-templates/table-agent.vue';
 
-const {t} = useI18n();
+const { t } = useI18n();
 
 /*
 * @author @Oleksandr Palonnyi
@@ -135,7 +131,7 @@ const {t} = useI18n();
 const store = useStore();
 
 const tableStore = useAgentsTableStore();
-const filtersNamespace = `${AgentsNamespace}/filters`
+const filtersNamespace = `${AgentsNamespace}/filters`;
 
 const {
   dataList,
@@ -146,7 +142,7 @@ const {
   headers,
   isFiltersRestoring,
   filtersManager,
-  selected
+  selected,
 } = storeToRefs(tableStore);
 
 const {
@@ -159,48 +155,41 @@ const {
   addFilter,
   updateFilter,
   deleteFilter,
-  updateSearchMode
+  updateSearchMode,
 } = tableStore;
 
-const {exportCSV, isCSVLoading, initCSVExport} = useCSVExport({
-  selected
-})
-initCSVExport(AgentsAPI.getList, { filename: 'agents' })
+const { exportCSV, isCSVLoading, initCSVExport } = useCSVExport({
+  selected,
+});
+initCSVExport(AgentsAPI.getList, { filename: 'agents' });
 
 initialize();
 
 const searchValue = computed(() => filtersManager.value.filters.get('search')?.value || '');
 const rowClass = (row) => {
-  return row.status === AgentStatus.BreakOut && 'wt-table__tr--highlight-breakout'
-}
+  return row.status === AgentStatus.BreakOut && 'wt-table__tr--highlight-breakout';
+};
 const attachCall = async (id) => {
-  await store.dispatch('ATTACH_TO_CALL', {id});
-  await store.dispatch('OPEN_WINDOW')
-}
+  await store.dispatch('ATTACH_TO_CALL', { id });
+  await store.dispatch('OPEN_WINDOW');
+};
 
-let cli
+const cli = ref(null);
+const spyArray = ref([]);
+
 onMounted(async () => {
-  cli = await getCliInstance()
-  console.log(cli, ' cli.value');
-})
+  cli.value = await getCliInstance();
+});
 
 const conect = async () => {
-
-  await cli.spyScreen(11168, {
+  await cli.value.spyScreen(155, {
     iceServers: [],
-  }, async (ev) => {
-    console.log(ev, ' FROM SOCKET');
-  })
-}
+  }, async (ev) => {});
+};
 
-const closeConnection = (stream) => {
-  stream.close()
-}
-
-// const spyScreenSessions = computed(() => {
-//   console.log(cli, ' comp');
-//   return cli ? cli?.spyScreenSessions : []
-// })
+watch(() => cli.value?.spyScreenSessions, (val) => {
+  spyArray.value = val.map((item) => reactive(item));
+}, { deep: true });
 </script>
 
 <style lang="scss" scoped>
