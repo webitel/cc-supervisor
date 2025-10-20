@@ -58,7 +58,9 @@
                 width="48" 
                 overlay-icon="play" 
                 :src="getScreenRecordingMediaUrl(item.id, true)" 
-                alt="" />
+                alt="" 
+                @click="openVideo(item)"
+              />
             </template>
           
             <template #uploaded_at="{item}">
