@@ -36,44 +36,43 @@
   
         <wt-loader v-show="isLoading" />
   
-        <div v-if="dataList.length && !isLoading">
-          <wt-table
-            :data="dataList"
-            :headers="shownHeaders"
-            :selected="selected"
-            sortable
-            @sort="updateSort"
-            @update:selected="updateSelected"
-          >
-            <template #screen_recordings="{ item }">
-              <wt-image 
-                width="48" 
-                overlay-icon="play" 
-                :src="getScreenRecordingMediaUrl(item.id, true)" 
-                alt="" />
-            </template>
-          
-            <template #uploaded_at="{item}">
-                {{prettifyTimestamp(item)}}
-            </template>
+        <wt-table
+          v-if="dataList.length && !isLoading"
+          :data="dataList"
+          :headers="shownHeaders"
+          :selected="selected"
+          sortable
+          @sort="updateSort"
+          @update:selected="updateSelected"
+        >
+          <template #screen_recordings="{ item }">
+            <wt-image 
+              width="48" 
+              overlay-icon="play" 
+              :src="getScreenRecordingMediaUrl(item.id, true)" 
+              alt="" />
+          </template>
+        
+          <template #uploaded_at="{item}">
+              {{prettifyTimestamp(item)}}
+          </template>
 
-            <template #actions="{ item }">
-              <wt-icon-action
-                action="download"
-                @click="downloadFile(item.id)"
-              />
-              <wt-icon-action
-                action="delete"
-                @click="
-                  askDeleteConfirmation({
-                    deleted: [item],
-                    callback: () => handleDelete([item]),
-                  })
-                "
-              />
-            </template>
-          </wt-table>
-        </div>
+          <template #actions="{ item }">
+            <wt-icon-action
+              action="download"
+              @click="downloadFile(item.id)"
+            />
+            <wt-icon-action
+              action="delete"
+              @click="
+                askDeleteConfirmation({
+                  deleted: [item],
+                  callback: () => handleDelete([item]),
+                })
+              "
+            />
+          </template>
+        </wt-table>
   
         <wt-pagination
           :next="next"
