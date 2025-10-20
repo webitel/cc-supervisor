@@ -34,6 +34,16 @@
         @changed="loadAgent"
       ></agent-status-select>
       <agent-status-timers :status="agent"></agent-status-timers>
+
+      <wt-button
+        icon="desk-track"
+        rounded
+        variant="outlined"
+        color="secondary"
+        size="md"
+        @click="trackAgent"
+      />
+
       <wt-button
         class="agent-panel__call-btn"
         color="success"
@@ -60,6 +70,9 @@ export default {
       type: String,
     },
   },
+  data: () => ({
+    cli: null
+  }),
   computed: {
     ...mapState({
       agent(state) {
@@ -96,6 +109,14 @@ export default {
       });
       this.call();
     },
+    trackAgent() {
+      console.log(this.agent, ' AGENT');
+    },
+    connect: async () => {
+      await this.cli.spyScreen(155, {
+        iceServers: [],
+      }, async (ev) => {});
+    }
   },
   mounted() {
     this.loadScoreData();
