@@ -33,7 +33,7 @@
     <template #main>
       <section class="table-section">
         <button @click="conect">CONNECT</button>
-        <div v-for="s in spyArray" :key="`screen-${s.id}`">
+        <div v-for="s in cli?.spyScreenSessions" :key="`screen-${s.id}`">
           <wt-vidstack-player v-if="s.stream" :stream="s.stream" :session="s" autoplay mode="stream" />
         </div>
 
@@ -109,7 +109,7 @@ import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { storeToRefs } from 'pinia';
-import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
@@ -179,22 +179,17 @@ const attachCall = async (id) => {
   await store.dispatch('OPEN_WINDOW');
 };
 
-const cli = ref(null);
-const spyArray = ref([]);
+let cli
 
 onMounted(async () => {
-  cli.value = await getCliInstance();
+  cli = await getCliInstance();
 });
 
 const conect = async () => {
-  await cli.value.spyScreen(155, {
+  await cli.spyScreen(155, {
     iceServers: [],
-  }, async (ev) => {});
+  }, async () => {});
 };
-
-watch(() => cli.value?.spyScreenSessions, (val) => {
-  spyArray.value = val.map((item) => reactive(item));
-}, { deep: true });
 </script>
 
 <style lang="scss" scoped>
