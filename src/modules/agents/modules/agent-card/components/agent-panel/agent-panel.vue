@@ -100,7 +100,6 @@ export default {
   },
   async mounted() {
     this.cli = await getCliInstance()
-    console.log(this.cli, ' this.cli');
     this.loadScoreData();
   },
   methods: {
@@ -124,12 +123,9 @@ export default {
       this.call();
     },
     async trackAgent() {
-      console.log(this.agent, ' AGENT');
       await this.cli.spyScreen(Number(this.agent.user.id), {
         iceServers: [],
-      }, async (ev) => {
-        console.log(ev, ' SPY SCREEN EV');
-      });
+      }, async () => {});
     },
   },
 };
