@@ -32,6 +32,7 @@
 
     <template #main>
       <section class="table-section">
+        <button @click="conect">CONNECT</button>
         <div v-for="s in cli?.spyScreenSessions" :key="`screen-${s.id}`">
           <wt-vidstack-player v-if="s.stream" :stream="s.stream" :session="s" autoplay mode="stream" />
         </div>

@@ -1,5 +1,7 @@
 <template>
-  <wt-filters-panel-wrapper @reset="resetFilters">
+  <wt-filters-panel-wrapper 
+    :table-action-icons="['filter-reset']"
+    @reset="resetFilters">
     <filter-from :namespace="filtersNamespace"/>
     <filter-to :namespace="filtersNamespace"/>
   </wt-filters-panel-wrapper>
