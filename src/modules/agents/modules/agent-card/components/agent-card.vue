@@ -163,7 +163,6 @@ export default {
         const { id } = this.$route.params;
         await this.setAgentId(id);
         await this.loadAgent();
-        console.log(this.agent, ' agent');
       } catch {
       } finally {
         this.isLoading = false;
