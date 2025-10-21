@@ -32,7 +32,6 @@
 
     <template #main>
       <section class="table-section">
-        <button @click="conect">CONNECT</button>
         <div v-for="s in cli?.spyScreenSessions" :key="`screen-${s.id}`">
           <wt-vidstack-player v-if="s.stream" :stream="s.stream" :session="s" autoplay mode="stream" />
         </div>
@@ -90,11 +89,12 @@
             </template>
             <template #descTrack="{ item }">
               <wt-icon
+                v-if="item.descTrack"
                 :color="deskTrackIconColor"
                 icon="desk-track"
                 size="md"
                 class="agents-table__desk-track-icon"
-
+                @click="connect(item)"
               ></wt-icon>
             </template>
           </wt-table>
@@ -120,7 +120,7 @@ import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { storeToRefs } from 'pinia';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
@@ -199,10 +199,12 @@ onMounted(async () => {
   cli = await getCliInstance();
 });
 
-const conect = async () => {
-  await cli.spyScreen(155, {
+const connect = async (agent) => {
+  await cli.spyScreen(Number(agent.user.id), {
     iceServers: [],
-  }, async () => {});
+  }, async () => {
+    selectedAgentsScreenId.value = agent.user.id
+  });
 };
 </script>
 
