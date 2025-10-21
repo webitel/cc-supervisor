@@ -58,7 +58,9 @@
               width="48" 
               overlay-icon="play" 
               :src="getScreenRecordingMediaUrl(item.id, true)" 
-              alt="" />
+              alt="" 
+              @click="openVideo(item)"  
+            />
           </template>
         
           <template #uploaded_at="{item}">
@@ -115,7 +117,6 @@ import getNamespacedState from '@webitel/ui-sdk/store/helpers/getNamespacedState
 import { SearchScreenRecordingsChannel } from '@webitel/api-services/gen/models';
 
 import { useRoute } from 'vue-router'
-import { get } from 'http';
 
 const { t } = useI18n();
 
@@ -134,7 +135,7 @@ const agent = computed(() => {
   return getNamespacedState(store.state, props.namespace).agent
 })
 
-const currentVideo = ref()
+const currentVideo = ref(null)
 const isVideoOpen = ref(false)
 
 const tableStore = useScreenRecordingsDataListStore();
