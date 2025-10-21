@@ -68,6 +68,7 @@
             sortable
             :selectable="false"
             :row-class="rowClass"
+            class="agents-table"
             @sort="updateSort"
           >
             <template #name="{ item }">
@@ -87,6 +88,15 @@
             <template #queues="{ item }">
               <table-queues :item="item" />
             </template>
+            <template #descTrack="{ item }">
+              <wt-icon
+                :color="deskTrackIconColor"
+                icon="desk-track"
+                size="md"
+                class="agents-table__desk-track-icon"
+
+              ></wt-icon>
+            </template>
           </wt-table>
 
           <wt-pagination
@@ -105,6 +115,7 @@
 </template>
 
 <script setup>
+import { IconColor } from '@webitel/ui-sdk/enums';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
@@ -179,6 +190,9 @@ const attachCall = async (id) => {
   await store.dispatch('OPEN_WINDOW');
 };
 
+const selectedAgentsScreenId = ref(null)
+const deskTrackIconColor = computed(() => selectedAgentsScreenId.value ? IconColor.SUCCESS : IconColor.DEFAULT)
+
 let cli
 
 onMounted(async () => {
@@ -204,6 +218,16 @@ const conect = async () => {
 .table-page {
   .table-title {
     justify-content: flex-end;
+  }
+
+  .agents-table {
+    &__desk-track-icon {
+      cursor: pointer;
+
+      &_active {
+        fill: var(--success-color);
+      }
+    }
   }
 }
 
