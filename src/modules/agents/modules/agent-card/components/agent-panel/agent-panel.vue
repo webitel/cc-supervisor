@@ -26,30 +26,38 @@
         </span>
       </div>
     </div>
-    <div class="agent-panel-wrap">
-      <agent-status-select
-        :agent-id="agent.agentId"
-        :status="agent.status"
-        :status-duration="agent.statusDuration"
-        @changed="loadAgent"
-      ></agent-status-select>
-      <agent-status-timers :status="agent"></agent-status-timers>
 
-      <wt-button
-        icon="desk-track"
-        rounded
-        variant="outlined"
-        color="secondary"
-        size="md"
-        @click="trackAgent"
-      />
+    <div>
+      <div class="agent-panel-wrap">
+        <agent-status-select
+          :agent-id="agent.agentId"
+          :status="agent.status"
+          :status-duration="agent.statusDuration"
+          @changed="loadAgent"
+        ></agent-status-select>
+        <agent-status-timers :status="agent"></agent-status-timers>
 
-      <wt-button
-        class="agent-panel__call-btn"
-        color="success"
-        @click="callAgent"
-      >{{ $t('pages.card.callAgent') }}
-      </wt-button>
+        <wt-button
+          v-if="agent.descTrack"
+          icon="desk-track"
+          rounded
+          variant="outlined"
+          color="secondary"
+          size="md"
+          @click="trackAgent"
+        />
+
+        <wt-button
+          class="agent-panel__call-btn"
+          color="success"
+          @click="callAgent"
+        >{{ $t('pages.card.callAgent') }}
+        </wt-button>
+      </div>
+
+      <div v-for="s in cli?.spyScreenSessions" :key="`screen-${s.id}`">
+        <wt-vidstack-player v-if="s.stream" :stream="s.stream" :session="s" autoplay mode="stream" />
+      </div>
     </div>
   </wt-headline>
 </template>
@@ -58,6 +66,7 @@
 import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/components/wt-cc-agent-status-select.vue';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
+import { getCliInstance } from '../../../../../../app/api/callWSConnection';
 
 import AgentProfile from './_internals/agent-profile.vue';
 import AgentStatusTimers from './_internals/agent-status-timers.vue';
@@ -89,6 +98,11 @@ export default {
       return (this.score.scoreRequiredAvg || 0).toFixed(2);
     },
   },
+  async mounted() {
+    this.cli = await getCliInstance()
+    console.log(this.cli, ' this.cli');
+    this.loadScoreData();
+  },
   methods: {
     ...mapActions({
       loadAgent(dispatch, payload) {
@@ -109,23 +123,20 @@ export default {
       });
       this.call();
     },
-    trackAgent() {
+    async trackAgent() {
       console.log(this.agent, ' AGENT');
-    },
-    connect: async () => {
-      await this.cli.spyScreen(155, {
+      await this.cli.spyScreen(Number(this.agent.user.id), {
         iceServers: [],
-      }, async (ev) => {});
-    }
-  },
-  mounted() {
-    this.loadScoreData();
+      }, async (ev) => {
+        console.log(ev, ' SPY SCREEN EV');
+      });
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@use '@webitel/ui-sdk/src/css/main';
+@use '@webitel/ui-sdk/src/css/main' as *;
 
 .wt-headline.agent-panel {
   display: flex;
@@ -153,6 +164,14 @@ export default {
 
   .agent-status-timers {
     margin-left: var(--spacing-sm);
+  }
+}
+
+.wt-vidstack-player {
+  ::v-deep {
+    .wt-button {
+      margin: 0;
+    }
   }
 }
 </style>

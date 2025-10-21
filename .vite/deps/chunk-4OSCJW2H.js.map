@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/@webitel/ui-sdk/src/api/axios/generateInstance.js", "../../node_modules/@webitel/api-services/src/api/axios/index.ts"],
+  "sourcesContent": ["import { generateInstance } from '@webitel/api-services/api/axios';\n\n// todo: replace imports of this file with source file, rm this file\nexport default generateInstance;\n", "// Export axios directory contents\nexport * from './generateInstance';\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;;;ACAA;AAAA,IAAAC,eAAA;AAAA,IAAAA,eAAA;;;ADGA,IAAO,2BAAQ;",
+  "names": ["import_dist", "import_dist"]
+}

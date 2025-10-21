@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/@webitel/ui-sdk/dist/vidstack-D_-9AA6_-CM7yLN0V.js"],
+  "sourcesContent": ["import { c as d, a as i, I as l, e as m } from \"./install-DkMhJ88S.js\";\nconst p = /* @__PURE__ */ i(\n  '<svg viewBox=\"0 0 32 32\" fill=\"none\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\"></svg>'\n);\nfunction v(a, s) {\n  const o = d(p);\n  o.innerHTML = l, a.append(o);\n  const e = document.createElement(\"span\");\n  e.classList.add(\"vds-google-cast-info\"), a.append(e);\n  const n = document.createElement(\"span\");\n  n.classList.add(\"vds-google-cast-device-name\"), m(() => {\n    const { remotePlaybackInfo: c } = s, t = c();\n    return t != null && t.deviceName && (n.textContent = t.deviceName, e.append(\"Google Cast on \", n)), () => {\n      e.textContent = \"\";\n    };\n  });\n}\nexport {\n  v as insertContent\n};\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AACA,IAAM,IAAoB;AAAA,EACxB;AACF;AACA,SAAS,EAAE,GAAG,GAAG;AACf,QAAM,IAAI,GAAE,CAAC;AACb,IAAE,YAAY,KAAG,EAAE,OAAO,CAAC;AAC3B,QAAM,IAAI,SAAS,cAAc,MAAM;AACvC,IAAE,UAAU,IAAI,sBAAsB,GAAG,EAAE,OAAO,CAAC;AACnD,QAAM,IAAI,SAAS,cAAc,MAAM;AACvC,IAAE,UAAU,IAAI,6BAA6B,GAAG,GAAE,MAAM;AACtD,UAAM,EAAE,oBAAoB,EAAE,IAAI,GAAG,IAAI,EAAE;AAC3C,WAAO,KAAK,QAAQ,EAAE,eAAe,EAAE,cAAc,EAAE,YAAY,EAAE,OAAO,mBAAmB,CAAC,IAAI,MAAM;AACxG,QAAE,cAAc;AAAA,IAClB;AAAA,EACF,CAAC;AACH;",
+  "names": ["import_dist"]
+}

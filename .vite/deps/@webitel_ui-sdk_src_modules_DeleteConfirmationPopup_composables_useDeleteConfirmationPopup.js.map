@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup.js"],
+  "sourcesContent": ["import { ref } from 'vue';\n\n// eslint-disable-next-line import/prefer-default-export\nexport const useDeleteConfirmationPopup = () => {\n  const isVisible = ref(false);\n  const deleteCount = ref(null);\n  const deleteCallback = ref(null);\n\n  function askDeleteConfirmation({ deleted, callback }) {\n    if (Array.isArray(deleted)) deleteCount.value = deleted.length;\n    else deleteCount.value = 1;\n    isVisible.value = true;\n    deleteCallback.value = callback;\n  }\n\n  function closeDelete() {\n    isVisible.value = false;\n  }\n\n  return {\n    isVisible,\n    deleteCount,\n    deleteCallback,\n\n    askDeleteConfirmation,\n    closeDelete,\n  };\n};\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAGO,IAAM,6BAA6B,MAAM;AAC9C,QAAM,YAAY,IAAI,KAAK;AAC3B,QAAM,cAAc,IAAI,IAAI;AAC5B,QAAM,iBAAiB,IAAI,IAAI;AAE/B,WAAS,sBAAsB,EAAE,SAAS,SAAS,GAAG;AACpD,QAAI,MAAM,QAAQ,OAAO,EAAG,aAAY,QAAQ,QAAQ;AAAA,QACnD,aAAY,QAAQ;AACzB,cAAU,QAAQ;AAClB,mBAAe,QAAQ;AAAA,EACzB;AAEA,WAAS,cAAc;AACrB,cAAU,QAAQ;AAAA,EACpB;AAEA,SAAO;AAAA,IACL;AAAA,IACA;AAAA,IACA;AAAA,IAEA;AAAA,IACA;AAAA,EACF;AACF;",
+  "names": ["import_dist"]
+}

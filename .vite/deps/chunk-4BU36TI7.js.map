@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/@webitel/ui-sdk/src/scripts/sortQueryAdapters.js"],
+  "sourcesContent": ["export const SortSymbols = Object.freeze({\n  ASC: 'asc',\n  DESC: 'desc',\n  NONE: null,\n});\n\nexport const sortToQueryAdapter = (order) => {\n  switch (order) {\n    case SortSymbols.ASC:\n      return '+';\n    case SortSymbols.DESC:\n      return '-';\n    default:\n      return '';\n  }\n};\n\nexport const queryToSortAdapter = (order) => {\n  switch (order) {\n    case '+':\n      return SortSymbols.ASC;\n    case '-':\n      return SortSymbols.DESC;\n    default:\n      return SortSymbols.NONE;\n  }\n};\n\nexport const getNextSortOrder = (sort) => {\n  switch (sort) {\n    case SortSymbols.ASC:\n      return SortSymbols.DESC;\n    case SortSymbols.DESC:\n      return SortSymbols.NONE;\n    default:\n      return SortSymbols.ASC;\n  }\n};\n"],
+  "mappings": ";;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAAO,IAAM,cAAc,OAAO,OAAO;AAAA,EACvC,KAAK;AAAA,EACL,MAAM;AAAA,EACN,MAAM;AACR,CAAC;AAEM,IAAM,qBAAqB,CAAC,UAAU;AAC3C,UAAQ,OAAO;AAAA,IACb,KAAK,YAAY;AACf,aAAO;AAAA,IACT,KAAK,YAAY;AACf,aAAO;AAAA,IACT;AACE,aAAO;AAAA,EACX;AACF;AAEO,IAAM,qBAAqB,CAAC,UAAU;AAC3C,UAAQ,OAAO;AAAA,IACb,KAAK;AACH,aAAO,YAAY;AAAA,IACrB,KAAK;AACH,aAAO,YAAY;AAAA,IACrB;AACE,aAAO,YAAY;AAAA,EACvB;AACF;AAEO,IAAM,mBAAmB,CAAC,SAAS;AACxC,UAAQ,MAAM;AAAA,IACZ,KAAK,YAAY;AACf,aAAO,YAAY;AAAA,IACrB,KAAK,YAAY;AACf,aAAO,YAAY;AAAA,IACrB;AACE,aAAO,YAAY;AAAA,EACvB;AACF;",
+  "names": ["import_dist"]
+}

@@ -75,7 +75,7 @@ export default {
     },
     tabs() {
       const tabs = []
-      
+
       const generalTab = {
         text: this.$t('pages.card.general.title'),
         value: 'general',
@@ -163,6 +163,7 @@ export default {
         const { id } = this.$route.params;
         await this.setAgentId(id);
         await this.loadAgent();
+        console.log(this.agent, ' agent');
       } catch {
       } finally {
         this.isLoading = false;

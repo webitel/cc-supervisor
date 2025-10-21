@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/@webitel/ui-sdk/src/scripts/preventHiddenPageCallsDecorator.js"],
+  "sourcesContent": ["const isPageHidden = () =>\n  document.hidden ||\n  document.msHidden ||\n  document.webkitHidden ||\n  document.mozHidden;\n\nconst preventHiddenPageCallsDecorator = (method) => (args) =>\n  isPageHidden() || method(args);\nexport default preventHiddenPageCallsDecorator;\n"],
+  "mappings": ";;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAAA,IAAM,eAAe,MACnB,SAAS,UACT,SAAS,YACT,SAAS,gBACT,SAAS;AAEX,IAAM,kCAAkC,CAAC,WAAW,CAAC,SACnD,aAAa,KAAK,OAAO,IAAI;AAC/B,IAAO,0CAAQ;",
+  "names": ["import_dist"]
+}

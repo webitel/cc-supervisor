@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum.js"],
+  "sourcesContent": ["import upperCase from 'lodash/upperCase';\n\nimport { SupervisorSections } from './SupervisorSections';\n\n/**\n * @deprecated\n * default export is for backward compatibility,\n * use ts enum instead (and don't forget to compile it)\n */\nexport default Object.fromEntries(\n  Object.entries(SupervisorSections).map(([key, value]) => [\n    upperCase(key).replaceAll(' ', '_'),\n    value,\n  ]),\n);\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AASA,IAAO,kCAAQ,OAAO;AAAA,EACpB,OAAO,QAAQ,kBAAkB,EAAE,IAAI,CAAC,CAAC,KAAK,KAAK,MAAM;AAAA,IACvD,kBAAU,GAAG,EAAE,WAAW,KAAK,GAAG;AAAA,IAClC;AAAA,EACF,CAAC;AACH;",
+  "names": ["import_dist"]
+}

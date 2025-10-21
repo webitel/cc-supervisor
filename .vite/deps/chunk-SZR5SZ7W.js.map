@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/@webitel/ui-sdk/src/scripts/caseConverters.js", "../../node_modules/@webitel/api-services/src/utils/index.ts", "../../node_modules/@webitel/api-services/src/utils/api/index.ts"],
+  "sourcesContent": ["export {\n  camelToKebab,\n  camelToSnake,\n  kebabToCamel,\n  kebabToSnake,\n  objCamelToKebab,\n  objCamelToSnake,\n  objSnakeToCamel,\n  snakeToCamel,\n  snakeToKebab,\n} from '@webitel/api-services/utils';\n", "export * from './api';\nexport * from './gen';\n", "export * from './caseConverters';\n"],
+  "mappings": ";;;;;;;;;;;;;;;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;;;ACAA,IAAAC,eAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;;;ACAA;AAAA,IAAAC,eAAA;AAAA,IAAAA,eAAA;",
+  "names": ["import_dist", "import_dist", "import_dist"]
+}

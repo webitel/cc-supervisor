@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/@webitel/ui-sdk/src/locale/i18n.js"],
+  "sourcesContent": ["import { createI18n } from 'vue-i18n';\n\nimport { messages } from './index';\n\nexport default createI18n({\n  // legacy: false,\n  locale: 'en',\n  allowComposition: true,\n  fallbackLocale: 'en',\n  messages,\n});\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAIA,IAAO,eAAQ,WAAW;AAAA;AAAA,EAExB,QAAQ;AAAA,EACR,kBAAkB;AAAA,EAClB,gBAAgB;AAAA,EAChB;AACF,CAAC;",
+  "names": ["import_dist"]
+}

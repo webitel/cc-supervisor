@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema.js"],
+  "sourcesContent": ["import BaseFilterSchema from './BaseFilterSchema.js';\n\nexport default class EnumFilterSchema extends BaseFilterSchema {\n  constructor(params = {}) {\n    const { value = [], defaultValue = [] } = params;\n    super({ value, defaultValue });\n    const {\n      locale = { label: 'filter' },\n      storedProp = 'value',\n      multiple = true,\n      closeOnSelect = false,\n      options = [],\n    } = params;\n    this.locale = locale;\n    this.storedProp = storedProp;\n    this.multiple = multiple;\n    this.closeOnSelect = closeOnSelect;\n    this.options = options;\n  }\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAEA,IAAqB,mBAArB,cAA8C,iBAAiB;AAAA,EAC7D,YAAY,SAAS,CAAC,GAAG;AACvB,UAAM,EAAE,QAAQ,CAAC,GAAG,eAAe,CAAC,EAAE,IAAI;AAC1C,UAAM,EAAE,OAAO,aAAa,CAAC;AAC7B,UAAM;AAAA,MACJ,SAAS,EAAE,OAAO,SAAS;AAAA,MAC3B,aAAa;AAAA,MACb,WAAW;AAAA,MACX,gBAAgB;AAAA,MAChB,UAAU,CAAC;AAAA,IACb,IAAI;AACJ,SAAK,SAAS;AACd,SAAK,aAAa;AAClB,SAAK,WAAW;AAChB,SAAK,gBAAgB;AACrB,SAAK,UAAU;AAAA,EACjB;AACF;",
+  "names": ["import_dist"]
+}

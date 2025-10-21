@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/@webitel/ui-sdk/src/scripts/convertDuration.js"],
+  "sourcesContent": ["const convertDuration = (duration) => {\n  if (!duration) return '00:00:00';\n\n  let hour = `${Math.floor(duration / 3600)}`;\n  let min = `${Math.floor((duration % 3600) / 60)}`;\n  let sec = `${Math.floor((duration % 3600) % 60)}`;\n\n  if (hour.length === 1) hour = `0${hour}`;\n  if (min.length === 1) min = `0${min}`;\n  if (sec.length === 1) sec = `0${sec}`;\n\n  return `${hour}:${min}:${sec}`;\n};\n\nexport default convertDuration;\n"],
+  "mappings": ";;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAAA,IAAM,kBAAkB,CAAC,aAAa;AACpC,MAAI,CAAC,SAAU,QAAO;AAEtB,MAAI,OAAO,GAAG,KAAK,MAAM,WAAW,IAAI,CAAC;AACzC,MAAI,MAAM,GAAG,KAAK,MAAO,WAAW,OAAQ,EAAE,CAAC;AAC/C,MAAI,MAAM,GAAG,KAAK,MAAO,WAAW,OAAQ,EAAE,CAAC;AAE/C,MAAI,KAAK,WAAW,EAAG,QAAO,IAAI,IAAI;AACtC,MAAI,IAAI,WAAW,EAAG,OAAM,IAAI,GAAG;AACnC,MAAI,IAAI,WAAW,EAAG,OAAM,IAAI,GAAG;AAEnC,SAAO,GAAG,IAAI,IAAI,GAAG,IAAI,GAAG;AAC9B;AAEA,IAAO,0BAAQ;",
+  "names": ["import_dist"]
+}
