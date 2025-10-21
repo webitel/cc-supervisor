@@ -125,7 +125,7 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
 
-import { getCliInstance } from '../../../app/api/callWSConnection.js';
+import { getCliInstance } from '../../../app/api/callWSConnection';
 import AgentsAPI from '../api/agents';
 import AgentsFilters from '../modules/filters/components/agent-filters.vue';
 import { AgentsNamespace } from '../namespace';
