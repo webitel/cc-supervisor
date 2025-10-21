@@ -68,4 +68,12 @@ export default [
     sort: null,
     field: 'occupancy',
   },
+  {
+    value: 'descTrack',
+    locale: '',
+    show: true,
+    sort: null,
+    field: 'desc_track',
+    width: '30px',
+  },
 ];

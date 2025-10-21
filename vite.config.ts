@@ -23,7 +23,6 @@ export default ({mode}) => {
       preprocessorOptions: {
         scss: {
           api: 'modern',
-          additionalData: `@use "@/app/css/main.scss" as *;`,
         },
       },
     },

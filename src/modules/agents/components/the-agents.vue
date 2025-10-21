@@ -1,5 +1,6 @@
 <template>
-  <wt-page-wrapper>
+  <wt-page-wrapper
+    class="agents table-page">
     <template #header>
       <wt-headline>
         <template #title>
@@ -30,16 +31,17 @@
     </template>
 
     <template #main>
-      <section class="main-section-wrapper">
-        <wt-loader v-show="isLoading"></wt-loader>
+      <section class="table-section">
+        <div v-for="s in cli?.spyScreenSessions" :key="`screen-${s.id}`">
+          <wt-vidstack-player v-if="s.stream" :stream="s.stream" :session="s" autoplay mode="stream" />
+        </div>
 
-        <div v-show="!isLoading" class="table-wrapper">
+        <header v-show="!isLoading" class="table-title">
           <wt-action-bar
             :include="[
               IconAction.REFRESH,
               IconAction.COLUMNS
             ]"
-            class="table-wrapper__actions-wrapper"
             @click:refresh="loadDataList"
           >
             <template #columns>
@@ -49,7 +51,14 @@
               />
             </template>
           </wt-action-bar>
+        </header>
 
+        <wt-loader v-show="isLoading"></wt-loader>
+
+        <div
+          v-show="!isLoading && dataList?.length"
+          class="table-section__table-wrapper"
+        >
           <wt-table
             ref="agents-table"
             :data="dataList"
@@ -58,6 +67,7 @@
             sortable
             :selectable="false"
             :row-class="rowClass"
+            class="agents-table"
             @sort="updateSort"
           >
             <template #name="{ item }">
@@ -77,6 +87,16 @@
             <template #queues="{ item }">
               <table-queues :item="item" />
             </template>
+            <template #descTrack="{ item }">
+              <wt-icon
+                v-if="item.descTrack"
+                :color="deskTrackIconColor"
+                icon="desk-track"
+                size="md"
+                class="agents-table__desk-track-icon"
+                @click="connect(item)"
+              ></wt-icon>
+            </template>
           </wt-table>
 
           <wt-pagination
@@ -95,25 +115,27 @@
 </template>
 
 <script setup>
+import { IconColor } from '@webitel/ui-sdk/enums';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
-import {storeToRefs} from 'pinia';
-import { computed } from 'vue';
-import {useI18n} from "vue-i18n";
+import { storeToRefs } from 'pinia';
+import { computed, onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
-import {AgentStatus} from 'webitel-sdk';
+import { AgentStatus } from 'webitel-sdk';
 
+import { getCliInstance } from '../../../app/api/callWSConnection';
 import AgentsAPI from '../api/agents';
 import AgentsFilters from '../modules/filters/components/agent-filters.vue';
-import {AgentsNamespace} from "../namespace";
-import {useAgentsTableStore} from '../stores/agents';
+import { AgentsNamespace } from '../namespace';
+import { useAgentsTableStore } from '../stores/agents';
+import TableAgent from './_internals/table-templates/table-agent.vue';
 import TableQueues from './_internals/table-templates/table-agent-queues.vue';
 import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
 import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
-import TableAgent from './_internals/table-templates/table-agent.vue';
 
-const {t} = useI18n();
+const { t } = useI18n();
 
 /*
 * @author @Oleksandr Palonnyi
@@ -125,7 +147,7 @@ const {t} = useI18n();
 const store = useStore();
 
 const tableStore = useAgentsTableStore();
-const filtersNamespace = `${AgentsNamespace}/filters`
+const filtersNamespace = `${AgentsNamespace}/filters`;
 
 const {
   dataList,
@@ -136,7 +158,7 @@ const {
   headers,
   isFiltersRestoring,
   filtersManager,
-  selected
+  selected,
 } = storeToRefs(tableStore);
 
 const {
@@ -149,29 +171,66 @@ const {
   addFilter,
   updateFilter,
   deleteFilter,
-  updateSearchMode
+  updateSearchMode,
 } = tableStore;
 
-const {exportCSV, isCSVLoading, initCSVExport} = useCSVExport({
-  selected
-})
-initCSVExport(AgentsAPI.getList, { filename: 'agents' })
+const { exportCSV, isCSVLoading, initCSVExport } = useCSVExport({
+  selected,
+});
+initCSVExport(AgentsAPI.getList, { filename: 'agents' });
 
 initialize();
 
 const searchValue = computed(() => filtersManager.value.filters.get('search')?.value || '');
 const rowClass = (row) => {
-  return row.status === AgentStatus.BreakOut && 'wt-table__tr--highlight-breakout'
-}
+  return row.status === AgentStatus.BreakOut && 'wt-table__tr--highlight-breakout';
+};
 const attachCall = async (id) => {
-  await store.dispatch('ATTACH_TO_CALL', {id});
-  await store.dispatch('OPEN_WINDOW')
-}
+  await store.dispatch('ATTACH_TO_CALL', { id });
+  await store.dispatch('OPEN_WINDOW');
+};
+
+const selectedAgentsScreenId = ref(null)
+const deskTrackIconColor = computed(() => selectedAgentsScreenId.value ? IconColor.SUCCESS : IconColor.DEFAULT)
+
+let cli
+
+onMounted(async () => {
+  cli = await getCliInstance();
+});
+
+const connect = async (agent) => {
+  await cli.spyScreen(Number(agent.user.id), {
+    iceServers: [],
+  }, async () => {
+    selectedAgentsScreenId.value = agent.user.id
+  });
+};
 </script>
 
 <style lang="scss" scoped>
+//@use '@/app/css/main.scss" as *';
+@use '@webitel/ui-sdk/src/css/main' as *;
+
 .wt-table ::v-deep .wt-table__tr--highlight-breakout {
   // https://github.com/sass/node-sass/issues/2251
   background: HSLA(var(--_negative-color), 0.1);
 }
+
+.table-page {
+  .table-title {
+    justify-content: flex-end;
+  }
+
+  .agents-table {
+    &__desk-track-icon {
+      cursor: pointer;
+
+      &_active {
+        fill: var(--success-color);
+      }
+    }
+  }
+}
+
 </style>
