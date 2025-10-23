@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../node_modules/@webitel/ui-sdk/src/scripts/isEmpty.js"],
-  "sourcesContent": ["// checks if value is Falsy,\n// including empty arrays or objects\nconst isEmpty = (value) => {\n  if (Array.isArray(value)) return !value.length;\n  if (typeof value === 'object') return !value || !Object.keys(value).length;\n  return !value;\n};\n\nexport default isEmpty;\n"],
-  "mappings": ";;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAEA,IAAM,UAAU,CAAC,UAAU;AACzB,MAAI,MAAM,QAAQ,KAAK,EAAG,QAAO,CAAC,MAAM;AACxC,MAAI,OAAO,UAAU,SAAU,QAAO,CAAC,SAAS,CAAC,OAAO,KAAK,KAAK,EAAE;AACpE,SAAO,CAAC;AACV;AAEA,IAAO,kBAAQ;",
-  "names": ["import_dist"]
-}

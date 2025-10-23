@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../node_modules/@webitel/ui-sdk/src/scripts/editProxy.js"],
-  "sourcesContent": ["const editProxy = (item) =>\n  new Proxy(item, {\n    set(obj, prop, value) {\n      obj._dirty = true;\n      obj[prop] = value;\n      return obj;\n    },\n  });\n\nexport default editProxy;\n"],
-  "mappings": ";;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAAA,IAAM,YAAY,CAAC,SACjB,IAAI,MAAM,MAAM;AAAA,EACd,IAAI,KAAK,MAAM,OAAO;AACpB,QAAI,SAAS;AACb,QAAI,IAAI,IAAI;AACZ,WAAO;AAAA,EACT;AACF,CAAC;AAEH,IAAO,oBAAQ;",
-  "names": ["import_dist"]
-}

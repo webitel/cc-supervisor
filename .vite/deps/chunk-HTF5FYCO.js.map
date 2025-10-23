@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../node_modules/@webitel/ui-sdk/src/api/interceptors/request/updateToken.interceptor.js"],
-  "sourcesContent": ["const updateTokenInterceptor = [\n  (config) => {\n    config.headers['X-Webitel-Access'] =\n      localStorage.getItem('access-token') || '';\n    return config;\n  },\n  (error) => Promise.reject(error),\n];\n\nexport default updateTokenInterceptor;\n"],
-  "mappings": ";;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAAA,IAAM,yBAAyB;AAAA,EAC7B,CAAC,WAAW;AACV,WAAO,QAAQ,kBAAkB,IAC/B,aAAa,QAAQ,cAAc,KAAK;AAC1C,WAAO;AAAA,EACT;AAAA,EACA,CAAC,UAAU,QAAQ,OAAO,KAAK;AACjC;AAEA,IAAO,kCAAQ;",
-  "names": ["import_dist"]
-}

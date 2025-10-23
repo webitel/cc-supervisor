@@ -1,6 +1,7 @@
 <template>
   <wt-page-wrapper
-    class="agents table-page">
+    class="agents table-page"
+  >
     <template #header>
       <wt-headline>
         <template #title>
@@ -32,10 +33,6 @@
 
     <template #main>
       <section class="table-section">
-        <div v-for="s in cli?.spyScreenSessions" :key="`screen-${s.id}`">
-          <wt-vidstack-player v-if="s.stream" :stream="s.stream" :session="s" autoplay mode="stream" />
-        </div>
-
         <header v-show="!isLoading" class="table-title">
           <wt-action-bar
             :include="[
@@ -110,13 +107,26 @@
           />
         </div>
       </section>
+
+      <div v-for="s in cli?.spyScreenSessions" :key="`screen-${s.id}`">
+        <wt-vidstack-player
+          v-if="mediaStream"
+          :stream="mediaStream"
+          :session="s"
+          :username="selectedAgentToSpyScreen.user.name"
+          autoplay
+          muted
+          mode="stream"
+          @close-session="closeSession"
+        />
+      </div>
     </template>
   </wt-page-wrapper>
 </template>
 
 <script setup>
-import { IconColor } from '@webitel/ui-sdk/enums';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { IconColor } from '@webitel/ui-sdk/enums';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { storeToRefs } from 'pinia';
@@ -130,10 +140,10 @@ import AgentsAPI from '../api/agents';
 import AgentsFilters from '../modules/filters/components/agent-filters.vue';
 import { AgentsNamespace } from '../namespace';
 import { useAgentsTableStore } from '../stores/agents';
-import TableAgent from './_internals/table-templates/table-agent.vue';
 import TableQueues from './_internals/table-templates/table-agent-queues.vue';
 import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
 import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
+import TableAgent from './_internals/table-templates/table-agent.vue';
 
 const { t } = useI18n();
 
@@ -190,10 +200,16 @@ const attachCall = async (id) => {
   await store.dispatch('OPEN_WINDOW');
 };
 
-const selectedAgentsScreenId = ref(null)
-const deskTrackIconColor = computed(() => selectedAgentsScreenId.value ? IconColor.SUCCESS : IconColor.DEFAULT)
+const selectedAgentToSpyScreen = ref(null);
+const mediaStream = ref(null);
+const deskTrackIconColor = computed(() => selectedAgentToSpyScreen.value ? IconColor.SUCCESS : IconColor.DEFAULT);
 
-let cli
+const closeSession = () => {
+  mediaStream.value = null
+  selectedAgentToSpyScreen.value = null
+}
+
+let cli;
 
 onMounted(async () => {
   cli = await getCliInstance();
@@ -202,8 +218,9 @@ onMounted(async () => {
 const connect = async (agent) => {
   await cli.spyScreen(Number(agent.user.id), {
     iceServers: [],
-  }, async () => {
-    selectedAgentsScreenId.value = agent.user.id
+  }, async (ev) => {
+    selectedAgentToSpyScreen.value = agent;
+    mediaStream.value = ev
   });
 };
 </script>

@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../node_modules/@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.ts"],
-  "sourcesContent": ["export const SupervisorSections = {\n  Queues: 'queues',\n  Agents: 'agents',\n  ActiveCalls: 'activeCalls',\n} as const;\n\nexport type SupervisorSections =\n  (typeof SupervisorSections)[keyof typeof SupervisorSections];\n"],
-  "mappings": ";;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAAO,IAAM,qBAAqB;AAAA,EAChC,QAAQ;AAAA,EACR,QAAQ;AAAA,EACR,aAAa;AACf;",
-  "names": ["import_dist"]
-}

@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../node_modules/@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema.js"],
-  "sourcesContent": ["import BaseFilterSchema from './BaseFilterSchema.js';\n\nexport default class ApiFilterSchema extends BaseFilterSchema {\n  constructor(params = {}) {\n    const { value = [], defaultValue = [] } = params;\n    super({ value, defaultValue });\n    const {\n      locale = { label: 'filter' },\n      storedProp = 'id',\n      multiple = true,\n      closeOnSelect = false,\n      API,\n    } = params;\n    this.locale = locale;\n    this.storedProp = storedProp;\n    this.multiple = multiple;\n    this.closeOnSelect = closeOnSelect;\n    this.API = API;\n  }\n\n  search(params) {\n    return this.API(params);\n  }\n\n  fetchSelected(idsList) {\n    const params = { size: idsList.length, id: idsList };\n    return this.API(params);\n  }\n}\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAEA,IAAqB,kBAArB,cAA6C,iBAAiB;AAAA,EAC5D,YAAY,SAAS,CAAC,GAAG;AACvB,UAAM,EAAE,QAAQ,CAAC,GAAG,eAAe,CAAC,EAAE,IAAI;AAC1C,UAAM,EAAE,OAAO,aAAa,CAAC;AAC7B,UAAM;AAAA,MACJ,SAAS,EAAE,OAAO,SAAS;AAAA,MAC3B,aAAa;AAAA,MACb,WAAW;AAAA,MACX,gBAAgB;AAAA,MAChB;AAAA,IACF,IAAI;AACJ,SAAK,SAAS;AACd,SAAK,aAAa;AAClB,SAAK,WAAW;AAChB,SAAK,gBAAgB;AACrB,SAAK,MAAM;AAAA,EACb;AAAA,EAEA,OAAO,QAAQ;AACb,WAAO,KAAK,IAAI,MAAM;AAAA,EACxB;AAAA,EAEA,cAAc,SAAS;AACrB,UAAM,SAAS,EAAE,MAAM,QAAQ,QAAQ,IAAI,QAAQ;AACnD,WAAO,KAAK,IAAI,MAAM;AAAA,EACxB;AACF;",
-  "names": ["import_dist"]
-}

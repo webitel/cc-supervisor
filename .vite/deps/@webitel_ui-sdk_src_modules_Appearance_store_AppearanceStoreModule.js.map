@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../node_modules/@webitel/ui-sdk/src/modules/Appearance/store/AppearanceStoreModule.js"],
-  "sourcesContent": ["import BaseStoreModule from '../../../store/BaseStoreModules/BaseStoreModule.js';\n\nexport default class AppearanceStoreModule extends BaseStoreModule {\n  state = {\n    theme: null,\n  };\n\n  getters = {\n    DARK_MODE: (state) => state.theme === 'dark',\n  };\n\n  actions = {\n    SET_THEME: (context, theme) => {\n      context.commit('SET_THEME', theme);\n    },\n  };\n\n  mutations = {\n    SET_THEME: (state, theme) => {\n      state.theme = theme;\n    },\n  };\n}\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAEA,IAAqB,wBAArB,cAAmD,gBAAgB;AAAA,EAAnE;AAAA;AACE,iCAAQ;AAAA,MACN,OAAO;AAAA,IACT;AAEA,mCAAU;AAAA,MACR,WAAW,CAAC,UAAU,MAAM,UAAU;AAAA,IACxC;AAEA,mCAAU;AAAA,MACR,WAAW,CAAC,SAAS,UAAU;AAC7B,gBAAQ,OAAO,aAAa,KAAK;AAAA,MACnC;AAAA,IACF;AAEA,qCAAY;AAAA,MACV,WAAW,CAAC,OAAO,UAAU;AAC3B,cAAM,QAAQ;AAAA,MAChB;AAAA,IACF;AAAA;AACF;",
-  "names": ["import_dist"]
-}

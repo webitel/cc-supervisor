@@ -56,7 +56,16 @@
       </div>
 
       <div v-for="s in cli?.spyScreenSessions" :key="`screen-${s.id}`">
-        <wt-vidstack-player v-if="s.stream" :stream="s.stream" :session="s" autoplay mode="stream" />
+        <wt-vidstack-player
+          v-if="s.stream"
+          :stream="s.stream"
+          :session="s"
+          :username="agent.user.name"
+          autoplay
+          muted
+          mode="stream"
+          @close-session="closeSession"
+        />
       </div>
     </div>
   </wt-headline>
@@ -80,7 +89,8 @@ export default {
     },
   },
   data: () => ({
-    cli: null
+    cli: null,
+    mediaStream: null,
   }),
   computed: {
     ...mapState({
@@ -99,7 +109,7 @@ export default {
     },
   },
   async mounted() {
-    this.cli = await getCliInstance()
+    this.cli = await getCliInstance();
     this.loadScoreData();
   },
   methods: {
@@ -125,8 +135,13 @@ export default {
     async trackAgent() {
       await this.cli.spyScreen(Number(this.agent.user.id), {
         iceServers: [],
-      }, async () => {});
+      }, async (ev) => {
+        this.mediaStream = ev
+      });
     },
+    closeSession() {
+      this.mediaStream = null
+    }
   },
 };
 </script>

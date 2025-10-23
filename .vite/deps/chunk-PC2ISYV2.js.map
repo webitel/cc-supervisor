@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../node_modules/@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema.js"],
-  "sourcesContent": ["export default class BaseFilterSchema {\n  constructor({ value = '', defaultValue = '' } = {}) {\n    this.value = value;\n    this.defaultValue = defaultValue;\n  }\n}\n"],
-  "mappings": ";;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAAA,IAAqB,mBAArB,MAAsC;AAAA,EACpC,YAAY,EAAE,QAAQ,IAAI,eAAe,GAAG,IAAI,CAAC,GAAG;AAClD,SAAK,QAAQ;AACb,SAAK,eAAe;AAAA,EACtB;AACF;",
-  "names": ["import_dist"]
-}

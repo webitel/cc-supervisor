@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../node_modules/@webitel/ui-sdk/src/api/interceptors/response/handleUnauthorized.interceptor.js"],
-  "sourcesContent": ["const handleUnauthorizedInterceptor = [\n  (response) => response,\n  (error) => {\n    if (error.response && error.response.status === 401) {\n      console.warn('intercepted 401');\n      localStorage.removeItem('access-token');\n    }\n    return Promise.reject(error);\n  },\n];\n\nexport default handleUnauthorizedInterceptor;\n"],
-  "mappings": ";;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAAA,IAAM,gCAAgC;AAAA,EACpC,CAAC,aAAa;AAAA,EACd,CAAC,UAAU;AACT,QAAI,MAAM,YAAY,MAAM,SAAS,WAAW,KAAK;AACnD,cAAQ,KAAK,iBAAiB;AAC9B,mBAAa,WAAW,cAAc;AAAA,IACxC;AACA,WAAO,QAAQ,OAAO,KAAK;AAAA,EAC7B;AACF;AAEA,IAAO,yCAAQ;",
-  "names": ["import_dist"]
-}

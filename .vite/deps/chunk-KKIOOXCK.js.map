@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../node_modules/@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum.js", "../../node_modules/@webitel/ui-sdk/src/enums/WebitelApplications/WtApplication.js"],
-  "sourcesContent": ["import upperCase from 'lodash/upperCase.js';\n\nimport { WtApplication } from './WtApplication';\n\n/**\n * @deprecated\n * default export is for backward compatibility,\n * use ts enum instead (and don't forget to compile it)\n */\nexport default Object.fromEntries(\n  Object.entries(WtApplication).map(([key, value]) => [\n    upperCase(key).replaceAll(' ', '_'),\n    value,\n  ]),\n);\n", "export const WtApplication = {\n  Admin: 'admin',\n  Agent: 'agent',\n  Supervisor: 'supervisor',\n  History: 'history',\n  Audit: 'audit',\n  Analytics: 'grafana',\n  Crm: 'crm',\n};\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;;;ACAA;AAAA,IAAAC,eAAA;AAAA,IAAAA,eAAA;AAAO,IAAM,gBAAgB;AAAA,EAC3B,OAAO;AAAA,EACP,OAAO;AAAA,EACP,YAAY;AAAA,EACZ,SAAS;AAAA,EACT,OAAO;AAAA,EACP,WAAW;AAAA,EACX,KAAK;AACP;;;ADCA,IAAO,mCAAQ,OAAO;AAAA,EACpB,OAAO,QAAQ,aAAa,EAAE,IAAI,CAAC,CAAC,KAAK,KAAK,MAAM;AAAA,IAClD,kBAAU,GAAG,EAAE,WAAW,KAAK,GAAG;AAAA,IAClC;AAAA,EACF,CAAC;AACH;",
-  "names": ["import_dist", "import_dist"]
-}

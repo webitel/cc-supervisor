@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../node_modules/@webitel/ui-sdk/src/store/helpers/getNamespacedState.js"],
-  "sourcesContent": ["const getNamespacedState = (state, namespace) =>\n  namespace\n    .split('/')\n    .reduce((subState, subNamespace) => subState[subNamespace], state);\n\nexport default getNamespacedState;\n"],
-  "mappings": ";;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAAA,IAAM,qBAAqB,CAAC,OAAO,cACjC,UACG,MAAM,GAAG,EACT,OAAO,CAAC,UAAU,iBAAiB,SAAS,YAAY,GAAG,KAAK;AAErE,IAAO,6BAAQ;",
-  "names": ["import_dist"]
-}

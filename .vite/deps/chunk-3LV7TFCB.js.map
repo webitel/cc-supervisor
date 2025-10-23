@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../node_modules/@webitel/ui-sdk/src/enums/IconAction/IconAction.enum.js"],
-  "sourcesContent": ["const IconAction = Object.freeze({\n  REFRESH: 'refresh',\n  ADD: 'add',\n  DELETE: 'delete',\n  FILTERS: 'filters',\n  UPLOAD: 'upload',\n  DOWNLOAD: 'download',\n  EXPORT: 'export',\n  COPY: 'copy',\n  COLUMNS: 'columns',\n  HISTORY: 'history',\n  EDIT: 'edit',\n  COLLAPSE: 'collapse',\n  EXPAND: 'expand',\n  CLOSE: 'close',\n  CANCEL: 'cancel',\n  VARIABLES: 'variables',\n  CLEAR: 'clear',\n  ADD_FILTER: 'add-filter',\n  SAVE: 'save',\n  SAVE_PRESET: 'save-preset',\n  APPLY_PRESET: 'apply-preset',\n  ADD_CONTACT: 'add-contact',\n  DOWNLOAD_PDF: 'download-pdf',\n});\n\nexport default IconAction;\n"],
-  "mappings": ";;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAAA,IAAM,aAAa,OAAO,OAAO;AAAA,EAC/B,SAAS;AAAA,EACT,KAAK;AAAA,EACL,QAAQ;AAAA,EACR,SAAS;AAAA,EACT,QAAQ;AAAA,EACR,UAAU;AAAA,EACV,QAAQ;AAAA,EACR,MAAM;AAAA,EACN,SAAS;AAAA,EACT,SAAS;AAAA,EACT,MAAM;AAAA,EACN,UAAU;AAAA,EACV,QAAQ;AAAA,EACR,OAAO;AAAA,EACP,QAAQ;AAAA,EACR,WAAW;AAAA,EACX,OAAO;AAAA,EACP,YAAY;AAAA,EACZ,MAAM;AAAA,EACN,aAAa;AAAA,EACb,cAAc;AAAA,EACd,aAAa;AAAA,EACb,cAAc;AAChB,CAAC;AAED,IAAO,0BAAQ;",
-  "names": ["import_dist"]
-}

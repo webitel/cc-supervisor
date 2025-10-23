@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../node_modules/@webitel/ui-sdk/src/scripts/updateObject.js"],
-  "sourcesContent": ["import cloneDeep from 'lodash/cloneDeep.js';\nimport set from 'lodash/set.js';\n\nconst updateObject = ({ obj, path, value }) => set(cloneDeep(obj), path, value);\n\nexport default updateObject;\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAGA,IAAM,eAAe,CAAC,EAAE,KAAK,MAAM,MAAM,MAAM,YAAI,kBAAU,GAAG,GAAG,MAAM,KAAK;AAE9E,IAAO,uBAAQ;",
-  "names": ["import_dist"]
-}

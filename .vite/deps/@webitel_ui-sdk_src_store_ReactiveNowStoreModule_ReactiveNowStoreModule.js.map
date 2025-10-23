@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../node_modules/@webitel/ui-sdk/src/store/ReactiveNowStoreModule/ReactiveNowStoreModule.js"],
-  "sourcesContent": ["import BaseStoreModule from '../BaseStoreModules/BaseStoreModule.js';\n\nlet interval = null;\n\nexport default class ReactiveNowStoreModule extends BaseStoreModule {\n  state = {\n    now: Date.now(),\n  };\n\n  actions = {\n    SET_NOW_WATCHER: (context) => {\n      interval = setInterval(() => {\n        context.commit('UPDATE_NOW');\n      }, 1000);\n    },\n\n    CLEAR_NOW_WATCHER: () => {\n      clearInterval(interval);\n    },\n  };\n\n  mutations = {\n    UPDATE_NOW: (state) => {\n      state.now = Date.now();\n    },\n  };\n}\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAEA,IAAI,WAAW;AAEf,IAAqB,yBAArB,cAAoD,gBAAgB;AAAA,EAApE;AAAA;AACE,iCAAQ;AAAA,MACN,KAAK,KAAK,IAAI;AAAA,IAChB;AAEA,mCAAU;AAAA,MACR,iBAAiB,CAAC,YAAY;AAC5B,mBAAW,YAAY,MAAM;AAC3B,kBAAQ,OAAO,YAAY;AAAA,QAC7B,GAAG,GAAI;AAAA,MACT;AAAA,MAEA,mBAAmB,MAAM;AACvB,sBAAc,QAAQ;AAAA,MACxB;AAAA,IACF;AAEA,qCAAY;AAAA,MACV,YAAY,CAAC,UAAU;AACrB,cAAM,MAAM,KAAK,IAAI;AAAA,MACvB;AAAA,IACF;AAAA;AACF;",
-  "names": ["import_dist"]
-}

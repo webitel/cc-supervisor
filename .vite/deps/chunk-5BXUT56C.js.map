@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../src/app/api/instance.js"],
-  "sourcesContent": ["import generateInstance from '@webitel/ui-sdk/src/api/axios/generateInstance';\r\nimport updateTokenInterceptor\r\n  from '@webitel/ui-sdk/src/api/interceptors/request/updateToken.interceptor';\r\nimport handleUnauthorizedInterceptor\r\n  from '@webitel/ui-sdk/src/api/interceptors/response/handleUnauthorized.interceptor';\r\n\r\nexport default generateInstance({\r\n  interceptors: {\r\n    request: [updateTokenInterceptor],\r\n    response: [handleUnauthorizedInterceptor],\r\n  },\r\n  baseURL: import.meta.env.VITE_API_URL,\r\n});\r\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA,IAAAA,eAAA;AAMA,IAAO,mBAAQ,yBAAiB;AAAA,EAC9B,cAAc;AAAA,IACZ,SAAS,CAAC,+BAAsB;AAAA,IAChC,UAAU,CAAC,sCAA6B;AAAA,EAC1C;AAAA,EACA,SAAS,YAAY,IAAI;AAC3B,CAAC;",
-  "names": ["import_dist"]
-}
