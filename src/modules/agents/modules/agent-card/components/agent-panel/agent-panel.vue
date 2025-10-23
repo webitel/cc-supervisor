@@ -131,7 +131,7 @@ const callAgent = () => {
 };
 
 const trackAgent = async () => {
-  await cli.spyScreen(Number(this.agent.user.id), {
+  await cli.spyScreen(Number(agent.value.user.id), {
     iceServers: [],
   }, async (ev) => {
     mediaStream.value = ev;
