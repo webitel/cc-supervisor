@@ -9,7 +9,7 @@ import store from './app/store';
 import { createPinia } from 'pinia';
 import App from './app/the-app.vue';
 
-// import './app/css/main.scss';
+import './app/css/main.scss';
 
 const setTokenFromUrl = () => {
   try {

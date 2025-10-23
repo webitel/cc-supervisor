@@ -12,9 +12,12 @@ import userinfo from '../../modules/userinfo/store/userinfo';
 import instance from '../api/instance';
 import OpenAPIConfig from '../api/utils/openAPIConfig';
 
+import webSocketClientController from '@webitel/ui-sdk/src/api/websocket/WebSocketClientController'
+
 export default createStore({
   state: {
     api: { instance, OpenAPIConfig },
+    client: webSocketClientController,
   },
   actions: {
     OPEN_SESSION: async (context) => Promise.all([
