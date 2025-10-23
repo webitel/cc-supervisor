@@ -108,11 +108,13 @@
         </div>
       </section>
 
-      <div v-for="s in cli?.spyScreenSessions" :key="`screen-${s.id}`">
+      <div
+        v-if="mediaStream"
+      >
         <wt-vidstack-player
-          v-if="mediaStream"
+          v-for="session in cli?.spyScreenSessions" :key="`screen-${session.id}`"
           :stream="mediaStream"
-          :session="s"
+          :session="session"
           :username="selectedAgentToSpyScreen.user.name"
           autoplay
           muted
@@ -130,7 +132,7 @@ import { IconColor } from '@webitel/ui-sdk/enums';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { storeToRefs } from 'pinia';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
@@ -205,9 +207,9 @@ const mediaStream = ref(null);
 const deskTrackIconColor = computed(() => selectedAgentToSpyScreen.value ? IconColor.SUCCESS : IconColor.DEFAULT);
 
 const closeSession = () => {
-  mediaStream.value = null
-  selectedAgentToSpyScreen.value = null
-}
+  mediaStream.value = null;
+  selectedAgentToSpyScreen.value = null;
+};
 
 let cli;
 
@@ -216,13 +218,24 @@ onMounted(async () => {
 });
 
 const connect = async (agent) => {
+  console.log('CONNECTING');
   await cli.spyScreen(Number(agent.user.id), {
     iceServers: [],
   }, async (ev) => {
     selectedAgentToSpyScreen.value = agent;
-    mediaStream.value = ev
+    mediaStream.value = ev;
+    console.log(cli, 'MEDIA SET');
   });
 };
+
+onUnmounted(() => {
+  if (!cli) return
+
+  const activeSession = cli.spyScreenSessions.find((session) => session.toUserId === Number(selectedAgentToSpyScreen.value?.user.id))
+  if (activeSession) {
+    activeSession.close()
+  }
+});
 </script>
 
 <style lang="scss" scoped>

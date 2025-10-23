@@ -55,11 +55,13 @@
         </wt-button>
       </div>
 
-      <div v-for="s in cli?.spyScreenSessions" :key="`screen-${s.id}`">
+      <div
+        v-if="mediaStream"
+      >
         <wt-vidstack-player
-          v-if="s.stream"
-          :stream="s.stream"
-          :session="s"
+          v-for="session in cli?.spyScreenSessions" :key="`screen-${session.id}`"
+          :stream="mediaStream"
+          :session="session"
           :username="agent.user.name"
           autoplay
           muted
@@ -112,6 +114,15 @@ export default {
     this.cli = await getCliInstance();
     this.loadScoreData();
   },
+  unmounted() {
+    this.mediaStream = null;
+    if (!this.cli) return;
+
+    const activeSession = this.cli.spyScreenSessions.find((session) => session.toUserId === Number(this.agent?.user.id));
+    if (activeSession) {
+      activeSession.close();
+    }
+  },
   methods: {
     ...mapActions({
       loadAgent(dispatch, payload) {
@@ -136,12 +147,12 @@ export default {
       await this.cli.spyScreen(Number(this.agent.user.id), {
         iceServers: [],
       }, async (ev) => {
-        this.mediaStream = ev
+        this.mediaStream = ev;
       });
     },
     closeSession() {
-      this.mediaStream = null
-    }
+      this.mediaStream = null;
+    },
   },
 };
 </script>
@@ -179,10 +190,8 @@ export default {
 }
 
 .wt-vidstack-player {
-  ::v-deep {
-    .wt-button {
-      margin: 0;
-    }
+  :deep(.wt-button) {
+    margin: 0;
   }
 }
 </style>
