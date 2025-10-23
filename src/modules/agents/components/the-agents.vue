@@ -218,13 +218,11 @@ onMounted(async () => {
 });
 
 const connect = async (agent) => {
-  console.log('CONNECTING');
   await cli.spyScreen(Number(agent.user.id), {
     iceServers: [],
   }, async (ev) => {
     selectedAgentToSpyScreen.value = agent;
     mediaStream.value = ev;
-    console.log(cli, 'MEDIA SET');
   });
 };
 
