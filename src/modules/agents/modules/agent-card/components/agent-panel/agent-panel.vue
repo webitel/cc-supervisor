@@ -27,6 +27,11 @@
       </div>
     </div>
     <div class="agent-panel-wrap">
+      <agent-status-comment
+        class="agent-panel__status-comment"
+        v-if="agent.statusComment && agent.status === AgentStatus.Pause"
+        :status-comment="agent.statusComment"
+      />
       <agent-status-select
         :agent-id="agent.agentId"
         :status="agent.status"
@@ -44,63 +49,56 @@
   </wt-headline>
 </template>
 
-<script>
+<script setup>
+import { computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/components/wt-cc-agent-status-select.vue';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
+
+import { AgentStatus } from 'webitel-sdk';
 
 import AgentProfile from './_internals/agent-profile.vue';
 import AgentStatusTimers from './_internals/agent-status-timers.vue';
+import AgentStatusComment from './_internals/agent-status-comment.vue';
 
-export default {
-  name: 'AgentPanel',
-  components: { AgentProfile, AgentStatusSelect, AgentStatusTimers },
-  props: {
-    namespace: {
-      type: String,
-    },
+const props = defineProps({
+  namespace: {
+    type: String,
   },
-  computed: {
-    ...mapState({
-      agent(state) {
-        return getNamespacedState(state, this.namespace).agent;
-      },
-      score(state) {
-        return getNamespacedState(state, this.namespace).score;
-      },
-    }),
-    scoreCount() {
-      return this.score.scoreCount || 0;
-    },
-    scoreRequired() {
-      return (this.score.scoreRequiredAvg || 0).toFixed(2);
-    },
-  },
-  methods: {
-    ...mapActions({
-      loadAgent(dispatch, payload) {
-        return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
-      },
-      loadScoreData(dispatch) {
-        return dispatch(`${this.namespace}/LOAD_SCORE_DATA`);
-      },
-    }),
-    ...mapActions('call', {
-      call: 'CALL',
-      openWindow: 'OPEN_WINDOW',
-      setCallInfo: 'SET_CALL_INFO',
-    }),
-    callAgent() {
-      this.setCallInfo({
-        agent: this.agent,
-      });
-      this.call();
-    },
-  },
-  mounted() {
-    this.loadScoreData();
-  },
+});
+
+const store = useStore();
+const router = useRouter();
+
+const agent = computed(() => getNamespacedState(store.state, props.namespace).agent);
+
+const score = computed(() => getNamespacedState(store.state, props.namespace).score);
+
+const scoreCount = computed(() => score.value.scoreCount || 0);
+
+const scoreRequired = computed(() => (score.value.scoreRequiredAvg || 0).toFixed(2));
+
+const loadAgent = (payload) => store.dispatch(`${props.namespace}/LOAD_AGENT`, payload);
+
+const loadScoreData = () => store.dispatch(`${props.namespace}/LOAD_SCORE_DATA`);
+
+const call = () => store.dispatch('call/CALL');
+
+const openWindow = () => store.dispatch('call/OPEN_WINDOW');
+
+const setCallInfo = (payload) => store.dispatch('call/SET_CALL_INFO', payload);
+
+const callAgent = () => {
+  setCallInfo({
+    agent: agent.value,
+  });
+  call();
 };
+
+onMounted(() => {
+  loadScoreData();
+});
 </script>
 
 <style lang="scss" scoped>
@@ -109,12 +107,21 @@ export default {
 .wt-headline.agent-panel {
   display: flex;
 
-  .agent-panel-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-wrap: wrap;
+  .agent-panel {
+
+    &-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+    }
+
+    &__status-comment {
+      margin-right: var(--spacing-sm);
+    }
+
   }
+
 
   &__call-btn {
     padding: var(--spacing-sm);

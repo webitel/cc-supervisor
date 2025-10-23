@@ -97,6 +97,14 @@
                 @click="connect(item)"
               ></wt-icon>
             </template>
+            <template #statusComment="{ item }">
+              <div>
+                <agent-status-comment
+                  v-if="item.statusComment && item.status === AgentStatus.Pause"
+                  :status-comment="item.statusComment"
+                />
+              </div>
+            </template>
           </wt-table>
 
           <wt-pagination
@@ -134,6 +142,7 @@ import TableAgent from './_internals/table-templates/table-agent.vue';
 import TableQueues from './_internals/table-templates/table-agent-queues.vue';
 import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
 import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
+import AgentStatusComment from '../modules/agent-card/components/agent-panel/_internals/agent-status-comment.vue';
 
 const { t } = useI18n();
 
