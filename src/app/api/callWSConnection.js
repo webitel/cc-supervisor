@@ -3,7 +3,7 @@ import { Client } from 'webitel-sdk';
 
 const { hostname, protocol } = window.location;
 const origin = (`${protocol}//${hostname}`).replace(/^http/, 'ws');
-const BASE_URL = import.meta.env.PROD ? `${origin}/ws` : 'wss://test.webitel.me/ws';
+const BASE_URL = import.meta.env.PROD ? `${origin}/ws` : 'wss://dev.webitel.com/ws';
 // const BASE_URL = 'ws://10.10.10.25:10025';
 
 let cliInstance = null;
