@@ -86,7 +86,7 @@
             </template>
             <template #descTrack="{ item }">
               <wt-icon
-                v-if="item.descTrack"
+                v-if="item.descTrack && isControlAgentScreenAllow"
                 :color="deskTrackIconColor"
                 icon="desk-track"
                 size="md"
@@ -214,6 +214,8 @@ const attachCall = async (id) => {
 const selectedAgentToSpyScreen = ref(null);
 const mediaStream = ref(null);
 const deskTrackIconColor = computed(() => selectedAgentToSpyScreen.value ? IconColor.SUCCESS : IconColor.DEFAULT);
+
+const isControlAgentScreenAllow = computed(() => store.getters[`userinfo/IS_CONTROL_AGENT_SCREEN_ALLOW`])
 
 const closeSession = () => {
   mediaStream.value = null;

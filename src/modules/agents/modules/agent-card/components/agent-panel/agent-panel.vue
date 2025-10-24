@@ -45,7 +45,7 @@
         <agent-status-timers :status="agent"></agent-status-timers>
 
         <wt-button
-          v-if="agent.descTrack"
+          v-if="agent.descTrack && isControlAgentScreenAllow"
           icon="desk-track"
           rounded
           variant="outlined"
@@ -122,6 +122,8 @@ const call = () => store.dispatch('call/CALL');
 const openWindow = () => store.dispatch('call/OPEN_WINDOW');
 
 const setCallInfo = (payload) => store.dispatch('call/SET_CALL_INFO', payload);
+
+const isControlAgentScreenAllow = computed(() => store.getters[`userinfo/IS_CONTROL_AGENT_SCREEN_ALLOW`])
 
 const callAgent = () => {
   setCallInfo({
