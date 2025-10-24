@@ -1,102 +1,109 @@
 <template>
-  <div class="table-page">
-    <section class="table-section">
-      <header class="table-title">
-        <h3 class="table-title__title">
-          {{ t('objects.screenRecordings', 2) }}
-        </h3>
-        <wt-action-bar
-          :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
-          :disabled:delete="!selected.length"
-          @click:filters="emit('toggle-filter')"
-          @click:refresh="loadDataList"
-          @click:delete="
-            askDeleteConfirmation({
-              deleted: selected,
-              callback: () => handleDelete(selected),
-            })
-          "
-        >
-        </wt-action-bar>
-      </header>
-  
-      <delete-confirmation-popup
-        :shown="isDeleteConfirmationPopup"
-        :callback="deleteCallback"
-        :delete-count="deleteCount"
-        @close="closeDelete"
+  <wt-vidstack-player
+    v-if="isVideoOpen"
+    closable
+    :src="getScreenRecordingMediaUrl(currentVideo.id)"
+    :title="currentVideo.view_name"
+    :mime="currentVideo.mime_type"
+    @close="closeVideo"
+  />
+  <section class="table-wrapper table-page table-wrapper--tab-table">
+    <header class="table-title">
+      <h3 class="table-title__title">
+        {{ t('objects.screenRecordings', 2) }}
+      </h3>
+      <wt-action-bar
+        :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
+        :disabled:delete="!selected.length"
+        @click:filters="emit('toggle-filter')"
+        @click:refresh="loadDataList"
+        @click:delete="
+          askDeleteConfirmation({
+            deleted: selected,
+            callback: () => handleDelete(selected),
+          })
+        "
+      >
+      </wt-action-bar>
+    </header>
+
+    <delete-confirmation-popup
+      :shown="isDeleteConfirmationPopup"
+      :callback="deleteCallback"
+      :delete-count="deleteCount"
+      @close="closeDelete"
+    />
+
+    <wt-loader v-show="isLoading" />
+
+    <div v-show="!isLoading" class="table-loading-wrapper">
+      <wt-empty
+        v-show="showEmpty"
+        :image="imageEmpty"
+        :text="textEmpty"
       />
 
-      <div class="table-section__table-wrapper">
-        <wt-empty
-          v-show="showEmpty"
-          :image="imageEmpty"
-          :text="textEmpty"
-        />
-  
-        <wt-loader v-show="isLoading" />
-  
-        <div v-if="dataList.length && !isLoading">
-          <wt-table
-            :data="dataList"
-            :headers="shownHeaders"
-            :selected="selected"
-            sortable
-            @sort="updateSort"
-            @update:selected="updateSelected"
-          >
-            <template #screen_recordings="{ item }">
-              <wt-image 
-                width="48" 
-                overlay-icon="play" 
-                :src="getScreenRecordingMediaUrl(item.id, true)" 
-                alt="" />
-            </template>
-          
-            <template #uploaded_at="{item}">
-                {{prettifyTimestamp(item)}}
-            </template>
+      <wt-table
+        v-if="dataList.length"
+        :data="dataList"
+        :headers="shownHeaders"
+        :selected="selected"
+        sortable
+        @sort="updateSort"
+        @update:selected="updateSelected"
+      >
+        <template #screen_recordings="{ item }">
+          <wt-image
+            width="48"
+            overlay-icon="play"
+            :src="getScreenRecordingMediaUrl(item.id, true)"
+            alt=""
+            @click="openVideo(item)"
+            />
+        </template>
 
-            <template #actions="{ item }">
-              <wt-icon-action
-                action="download"
-                @click="downloadFile(item.id)"
-              />
-              <wt-icon-action
-                action="delete"
-                @click="
-                  askDeleteConfirmation({
-                    deleted: [item],
-                    callback: () => handleDelete([item]),
-                  })
-                "
-              />
-            </template>
-          </wt-table>
-        </div>
-  
-        <wt-pagination
-          :next="next"
-          :prev="page > 1"
-          :size="size"
-          debounce
-          @change="updateSize"
-          @next="updatePage(page + 1)"
-          @prev="updatePage(page - 1)"
-        />
-      </div>
-    </section>
-  </div>
+        <template #uploaded_at="{item}">
+            {{prettifyTimestamp(item)}}
+        </template>
+
+        <template #actions="{ item }">
+          <wt-icon-action
+            action="download"
+            @click="downloadFile(item.id)"
+          />
+          <wt-icon-action
+            action="delete"
+            @click="
+              askDeleteConfirmation({
+                deleted: [item],
+                callback: () => handleDelete([item]),
+              })
+            "
+          />
+        </template>
+      </wt-table>
+
+      <wt-pagination
+        :next="next"
+        :prev="page > 1"
+        :size="size"
+        debounce
+        @change="updateSize"
+        @next="updatePage(page + 1)"
+        @prev="updatePage(page - 1)"
+      />
+    </div>
+  </section>
 </template>
 
 <script lang="ts" setup>
-import { WtEmpty } from '@webitel/ui-sdk/components';
+import { WtEmpty, WtVidstackPlayer } from '@webitel/ui-sdk/components';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
-import { computed, defineEmits } from 'vue';
+import { computed, defineEmits, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { downloadFile, getScreenRecordingMediaUrl } from '@webitel/api-services/api'; 
@@ -125,6 +132,9 @@ const emit = defineEmits(['toggle-filter'])
 const agent = computed(() => {
   return getNamespacedState(store.state, props.namespace).agent
 })
+
+const currentVideo = ref(null)
+const isVideoOpen = ref(false)
 
 const tableStore = useScreenRecordingsDataListStore();
 
@@ -221,6 +231,16 @@ const handleDelete = async (items: []) => {
     }
     await loadDataList();
   }
+}
+
+const openVideo = (item) => {
+  currentVideo.value = item
+  isVideoOpen.value = true
+}
+
+const closeVideo = () => {
+  currentVideo.value = null
+  isVideoOpen.value = false
 }
 </script>
 

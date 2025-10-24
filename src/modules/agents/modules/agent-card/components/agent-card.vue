@@ -75,7 +75,7 @@ export default {
     },
     tabs() {
       const tabs = []
-      
+
       const generalTab = {
         text: this.$t('pages.card.general.title'),
         value: 'general',

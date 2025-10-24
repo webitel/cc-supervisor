@@ -26,95 +26,159 @@
         </span>
       </div>
     </div>
-    <div class="agent-panel-wrap">
-      <agent-status-select
-        :agent-id="agent.agentId"
-        :status="agent.status"
-        :status-duration="agent.statusDuration"
-        @changed="loadAgent"
-      ></agent-status-select>
-      <agent-status-timers :status="agent"></agent-status-timers>
-      <wt-button
-        class="agent-panel__call-btn"
-        color="success"
-        @click="callAgent"
-      >{{ $t('pages.card.callAgent') }}
-      </wt-button>
+
+    <div>
+      <div class="agent-panel-wrap">
+        <agent-status-comment
+          class="agent-panel__status-comment"
+          v-if="agent.statusComment && agent.status === AgentStatus.Pause"
+          :status-comment="agent.statusComment"
+        />
+
+        <agent-status-select
+          :agent-id="agent.agentId"
+          :status="agent.status"
+          :status-duration="agent.statusDuration"
+          @changed="loadAgent"
+        ></agent-status-select>
+
+        <agent-status-timers :status="agent"></agent-status-timers>
+
+        <wt-button
+          v-if="agent.descTrack"
+          icon="desk-track"
+          rounded
+          variant="outlined"
+          color="secondary"
+          size="md"
+          @click="trackAgent"
+        />
+
+        <wt-button
+          class="agent-panel__call-btn"
+          color="success"
+          @click="callAgent"
+        >{{ $t('pages.card.callAgent') }}
+        </wt-button>
+      </div>
+
+      <div
+        v-if="mediaStream"
+      >
+        <wt-vidstack-player
+          v-for="session in cli?.spyScreenSessions" :key="`screen-${session.id}`"
+          :stream="mediaStream"
+          :session="session"
+          :username="agent.user.name"
+          autoplay
+          muted
+          mode="stream"
+          @close-session="closeSession"
+        />
+      </div>
     </div>
   </wt-headline>
 </template>
 
-<script>
+<script setup>
+import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/components/wt-cc-agent-status-select.vue';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
+
+import { AgentStatus } from 'webitel-sdk';
 
 import AgentProfile from './_internals/agent-profile.vue';
 import AgentStatusTimers from './_internals/agent-status-timers.vue';
+import AgentStatusComment from './_internals/agent-status-comment.vue';
+import { getCliInstance } from '../../../../../../app/api/callWSConnection';
 
-export default {
-  name: 'AgentPanel',
-  components: { AgentProfile, AgentStatusSelect, AgentStatusTimers },
-  props: {
-    namespace: {
-      type: String,
-    },
+const props = defineProps({
+  namespace: {
+    type: String,
   },
-  computed: {
-    ...mapState({
-      agent(state) {
-        return getNamespacedState(state, this.namespace).agent;
-      },
-      score(state) {
-        return getNamespacedState(state, this.namespace).score;
-      },
-    }),
-    scoreCount() {
-      return this.score.scoreCount || 0;
-    },
-    scoreRequired() {
-      return (this.score.scoreRequiredAvg || 0).toFixed(2);
-    },
-  },
-  methods: {
-    ...mapActions({
-      loadAgent(dispatch, payload) {
-        return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
-      },
-      loadScoreData(dispatch) {
-        return dispatch(`${this.namespace}/LOAD_SCORE_DATA`);
-      },
-    }),
-    ...mapActions('call', {
-      call: 'CALL',
-      openWindow: 'OPEN_WINDOW',
-      setCallInfo: 'SET_CALL_INFO',
-    }),
-    callAgent() {
-      this.setCallInfo({
-        agent: this.agent,
-      });
-      this.call();
-    },
-  },
-  mounted() {
-    this.loadScoreData();
-  },
+});
+
+const store = useStore();
+const router = useRouter();
+let cli
+const mediaStream = ref(null)
+
+const agent = computed(() => getNamespacedState(store.state, props.namespace).agent);
+
+const score = computed(() => getNamespacedState(store.state, props.namespace).score);
+
+const scoreCount = computed(() => score.value.scoreCount || 0);
+
+const scoreRequired = computed(() => (score.value.scoreRequiredAvg || 0).toFixed(2));
+
+const loadAgent = (payload) => store.dispatch(`${props.namespace}/LOAD_AGENT`, payload);
+
+const loadScoreData = () => store.dispatch(`${props.namespace}/LOAD_SCORE_DATA`);
+
+const call = () => store.dispatch('call/CALL');
+
+const openWindow = () => store.dispatch('call/OPEN_WINDOW');
+
+const setCallInfo = (payload) => store.dispatch('call/SET_CALL_INFO', payload);
+
+const callAgent = () => {
+  setCallInfo({
+    agent: agent.value,
+  });
+  call();
 };
+
+const trackAgent = async () => {
+  await cli.spyScreen(Number(agent.value.user.id), {
+    iceServers: [],
+  }, async (ev) => {
+    mediaStream.value = ev;
+  });
+}
+
+const closeSession = () => {
+  mediaStream.value = null;
+}
+
+onMounted(async () => {
+  cli = await getCliInstance();
+  await loadScoreData();
+});
+
+onUnmounted(() => {
+  mediaStream.value = null;
+  if (!cli) return;
+
+  const activeSession = cli.spyScreenSessions.find((session) => session.toUserId === Number(agent.value?.user.id));
+  if (activeSession) {
+    activeSession.close();
+  }
+})
 </script>
 
 <style lang="scss" scoped>
-@use '@webitel/ui-sdk/src/css/main';
+@use '@webitel/ui-sdk/src/css/main' as *;
 
 .wt-headline.agent-panel {
   display: flex;
 
-  .agent-panel-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-wrap: wrap;
+  .agent-panel {
+
+    &-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+    }
+
+    &__status-comment {
+      margin-right: var(--spacing-sm);
+    }
+
   }
+
 
   &__call-btn {
     padding: var(--spacing-sm);
@@ -132,6 +196,12 @@ export default {
 
   .agent-status-timers {
     margin-left: var(--spacing-sm);
+  }
+}
+
+.wt-vidstack-player {
+  :deep(.wt-button) {
+    margin: 0;
   }
 }
 </style>

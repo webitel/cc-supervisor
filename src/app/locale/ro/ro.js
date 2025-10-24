@@ -79,6 +79,7 @@ export default {
         name: 'Nume',
         status: 'Stare',
         statusDuration: 'Durata stării',
+        statusComment: 'Comentariu stare',
         team: 'Echipă',
         queues: 'Cozi',
         utilization: 'Utilizare',
