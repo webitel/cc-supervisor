@@ -6,11 +6,11 @@ export const headers = [
     field: 'screen_recordings',
   },
   {
-    value: 'name',
+    value: 'view_name',
     locale: 'reusable.name',
     show: true,
     sort: null,
-    field: 'name',
+    field: 'view_name',
   },
   {
     value: 'uploaded_at',
