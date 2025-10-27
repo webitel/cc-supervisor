@@ -1,0 +1,1 @@
+export const QueuesNamespace = 'queues';

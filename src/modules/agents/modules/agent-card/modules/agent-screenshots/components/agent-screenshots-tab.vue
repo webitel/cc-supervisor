@@ -1,104 +1,109 @@
 <template>
-  <div class="table-page">
-    <section class="table-section">
-      <header class="table-title">
-        <h3 class="table-title__title">
-          {{ t('objects.screenshots', 2) }}
-        </h3>
-        <wt-action-bar
-          :include="[IconAction.DOWNLOAD_PDF, IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
-          :disabled:delete="!selected.length"
-          @click:download-pdf="downloadPdf"
-          @click:filters="emit('toggle-filter')"
-          @click:refresh="loadDataList"
-          @click:delete="
-            askDeleteConfirmation({
-              deleted: selected,
-              callback: () => handleDelete(selected),
-            })
-          "
-        >
-        </wt-action-bar>
-      </header>
-  
-      <delete-confirmation-popup
-        :shown="isDeleteConfirmationPopup"
-        :callback="deleteCallback"
-        :delete-count="deleteCount"
-        @close="closeDelete"
+  <wt-galleria 
+    v-model:visible="galleriaVisible"
+    v-model:active-index="galleriaActiveIndex"
+    :value="galleriaData"
+    @download="downloadFile(dataList[galleriaActiveIndex].id)"
+    @delete="handleDeleteFromGalleria"
+  />
+  <section class="table-wrapper table-page table-wrapper--tab-table">
+    <header class="table-title">
+      <h3 class="table-title__title">
+        {{ t('objects.screenshots', 2) }}
+      </h3>
+      <wt-action-bar
+        :include="[IconAction.DOWNLOAD_PDF, IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
+        :disabled:delete="!selected.length"
+        @click:download-pdf="downloadPdf"
+        @click:filters="emit('toggle-filter')"
+        @click:refresh="loadDataList"
+        @click:delete="
+          askDeleteConfirmation({
+            deleted: selected,
+            callback: () => handleDelete(selected),
+          })
+        "
+      >
+      </wt-action-bar>
+    </header>
+
+    <delete-confirmation-popup
+      :shown="isDeleteConfirmationPopup"
+      :callback="deleteCallback"
+      :delete-count="deleteCount"
+      @close="closeDelete"
+    />
+
+    <wt-loader v-show="isLoading" />
+
+    <div v-show="!isLoading" class="table-loading-wrapper">
+      <wt-empty
+        v-show="showEmpty"
+        :image="imageEmpty"
+        :text="textEmpty"
       />
 
-      <div class="table-section__table-wrapper">
-        <wt-empty
-          v-show="showEmpty"
-          :image="imageEmpty"
-          :text="textEmpty"
-        />
-  
-        <wt-loader v-show="isLoading" />
-  
-        <wt-table
-          v-show="dataList.length && !isLoading"
-          :data="dataList"
-          :headers="shownHeaders"
-          :selected="selected"
-          sortable
-          @sort="updateSort"
-          @update:selected="updateSelected"
-        >
-          <template #screenshots="{ item }">
-            <wt-image 
-              width="48" 
-              overlay-icon="zoom-in" 
-              :src="getScreenRecordingMediaUrl(item.id, true)" 
-              alt=""
-              @click="openScreenshot(item.id)"
-              />
-          </template>
-        
-          <template #uploaded_at="{item}">
-              {{prettifyTimestamp(item)}}
-          </template>
+      <wt-table
+        v-if="dataList.length"
+        :data="dataList"
+        :headers="shownHeaders"
+        :selected="selected"
+        sortable
+        @sort="updateSort"
+        @update:selected="updateSelected"
+      >
+        <template #screenshots="{ item }">
+          <wt-image
+            width="48"
+            overlay-icon="zoom-in"
+            :src="getScreenRecordingMediaUrl(item.id, true)"
+            alt=""
+            @click="openScreenshot(item.id)"
+            />
+        </template>
 
-          <template #actions="{ item }">
-            <wt-icon-action
-              action="download"
-              @click="downloadFile(item.id)"
-            />
-            <wt-icon-action
-              action="delete"
-              @click="
-                askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => handleDelete([item]),
-                })
-              "
-            />
-          </template>
-        </wt-table>
-  
-        <wt-pagination
-          :next="next"
-          :prev="page > 1"
-          :size="size"
-          debounce
-          @change="updateSize"
-          @next="updatePage(page + 1)"
-          @prev="updatePage(page - 1)"
-        />
-      </div>
-    </section>
-  </div>
+        <template #uploaded_at="{item}">
+            {{prettifyTimestamp(item)}}
+        </template>
+
+        <template #actions="{ item }">
+          <wt-icon-action
+            action="download"
+            @click="downloadFile(item.id)"
+          />
+          <wt-icon-action
+            action="delete"
+            @click="
+              askDeleteConfirmation({
+                deleted: [item],
+                callback: () => handleDelete([item]),
+              })
+            "
+          />
+        </template>
+      </wt-table>
+
+      <wt-pagination
+        :next="next"
+        :prev="page > 1"
+        :size="size"
+        debounce
+        @change="updateSize"
+        @next="updatePage(page + 1)"
+        @prev="updatePage(page - 1)"
+      />
+    </div>
+  </section>
 </template>
 
 <script lang="ts" setup>
-import { WtEmpty } from '@webitel/ui-sdk/components';
+import { WtEmpty, WtGalleria } from '@webitel/ui-sdk/components';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
-import { computed, defineEmits } from 'vue';
+import { computed, defineEmits, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { downloadFile, getScreenRecordingMediaUrl } from '@webitel/api-services/api'; 
 import { FileServicesAPI } from '@webitel/api-services/api';
@@ -119,6 +124,9 @@ const agentId = router.params.id
 const emit = defineEmits(['toggle-filter'])
 
 const tableStore = useScreenshotsDataListStore();
+
+const galleriaVisible = ref(false)
+const galleriaActiveIndex = ref(0)
 
 const {
   dataList,
@@ -175,6 +183,15 @@ initializeDefaultFilters();
 
 const prettifyTimestamp = (item) => new Date(+item.uploaded_at).toLocaleString()
 
+const galleriaData = computed(() => {
+  return dataList.value.map((item) => ({
+    src: getScreenRecordingMediaUrl(item.id, false),
+    thumbnailSrc: getScreenRecordingMediaUrl(item.id, true),
+    title: item.name,
+    alt: item.name,
+  }))
+})
+
 const {
   isVisible: isDeleteConfirmationPopup,
   deleteCount,
@@ -196,7 +213,8 @@ const {
 });
 
 const openScreenshot = (id) => {
-  window.open(getScreenRecordingMediaUrl(id), '_blank')
+  galleriaActiveIndex.value = dataList.value.findIndex(item => item.id === id)
+  galleriaVisible.value = true
 }
 
 const handleDelete = async (items: []) => {
@@ -232,6 +250,11 @@ const downloadPdf = async () => {
     type: 'info',
     text: t('webitelUI.pdfGeneration.generationStarted'),
   });
+}
+
+const handleDeleteFromGalleria = () => {
+  handleDelete([dataList.value[galleriaActiveIndex.value]])
+  if (galleriaActiveIndex.value > 0) galleriaActiveIndex.value -= 1
 }
 </script>
 
