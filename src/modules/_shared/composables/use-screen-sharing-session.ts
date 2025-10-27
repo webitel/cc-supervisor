@@ -26,7 +26,7 @@ export function useScreenSharingSession() {
     screenshotStatus.value = status;
     setTimeout(() => {
       screenshotStatus.value = null;
-    }, 2000);
+    }, 300);
   }
 
   const closeSession = (session) => {
