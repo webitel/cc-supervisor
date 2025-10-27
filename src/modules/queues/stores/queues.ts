@@ -1,12 +1,10 @@
-import { createEnhancedTableStore } from '../../../app/store/EnhancedTableStore/createEnhancedTableStore';
+import { createQueueTableStoreWrapper } from './createQueueTableStoreWrapper';
 import QueuesAPI from '../api/queues';
 import { QueuesNamespace } from '../namespace';
 import headers from '../store/_internals/headers';
 
-export const useQueuesTableStore = createEnhancedTableStore(QueuesNamespace, {
+export const useQueuesTableStore = createQueueTableStoreWrapper(QueuesNamespace, {
   apiModule: QueuesAPI,
-  // Extract 'aggs' property from API response to store aggregation data
-  extractFromResponse: ['aggs'],
   headers,
   storeType: 'pinia'
 });
