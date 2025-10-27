@@ -123,11 +123,14 @@
           v-for="session in cli?.spyScreenSessions" :key="`screen-${session.id}`"
           :stream="mediaStream"
           :session="session"
+          :screenshot-status="screenshotStatus"
           :username="selectedAgentToSpyScreen.user.name"
           autoplay
           muted
           mode="stream"
-          @close-session="closeSession"
+          @close-session="closeSession(session)"
+          @make-screenshot="makeScreenshot(session)"
+          @toggle-record="toggleRecordAction(session)"
         />
       </div>
     </template>
@@ -140,12 +143,13 @@ import { IconColor } from '@webitel/ui-sdk/enums';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { storeToRefs } from 'pinia';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
 
 import { getCliInstance } from '../../../app/api/callWSConnection';
+import { useScreenSharingSession } from '../../_shared/composables/use-screen-sharing-session';
 import AgentsAPI from '../api/agents';
 import AgentsFilters from '../modules/filters/components/agent-filters.vue';
 import { AgentsNamespace } from '../namespace';
@@ -211,16 +215,18 @@ const attachCall = async (id) => {
   await store.dispatch('OPEN_WINDOW');
 };
 
-const selectedAgentToSpyScreen = ref(null);
-const mediaStream = ref(null);
 const deskTrackIconColor = computed(() => selectedAgentToSpyScreen.value ? IconColor.SUCCESS : IconColor.DEFAULT);
 
 const isControlAgentScreenAllow = computed(() => store.getters[`userinfo/IS_CONTROL_AGENT_SCREEN_ALLOW`])
 
-const closeSession = () => {
-  mediaStream.value = null;
-  selectedAgentToSpyScreen.value = null;
-};
+const {
+  selectedAgentToSpyScreen,
+  mediaStream,
+  screenshotStatus,
+  toggleRecordAction,
+  makeScreenshot,
+  closeSession,
+} = useScreenSharingSession()
 
 let cli;
 
@@ -242,7 +248,7 @@ onUnmounted(() => {
 
   const activeSession = cli.spyScreenSessions.find((session) => session.toUserId === Number(selectedAgentToSpyScreen.value?.user.id))
   if (activeSession) {
-    activeSession.close()
+    closeSession(activeSession)
   }
 });
 </script>
