@@ -69,11 +69,14 @@
           v-for="session in cli?.spyScreenSessions" :key="`screen-${session.id}`"
           :stream="mediaStream"
           :session="session"
+          :screenshot-status="screenshotStatus"
           :username="agent.user.name"
           autoplay
           muted
           mode="stream"
-          @close-session="closeSession"
+          @close-session="closeSession(session)"
+          @make-screenshot="makeScreenshot(session)"
+          @toggle-record="toggleRecordAction(session)"
         />
       </div>
     </div>
@@ -81,13 +84,14 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/components/wt-cc-agent-status-select.vue';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 
 import { AgentStatus } from 'webitel-sdk';
+import { useScreenSharingSession } from '../../../../../_shared/composables/use-screen-sharing-session';
 
 import AgentProfile from './_internals/agent-profile.vue';
 import AgentStatusTimers from './_internals/agent-status-timers.vue';
@@ -103,7 +107,14 @@ const props = defineProps({
 const store = useStore();
 const router = useRouter();
 let cli
-const mediaStream = ref(null)
+
+const {
+  mediaStream,
+  screenshotStatus,
+  toggleRecordAction,
+  makeScreenshot,
+  closeSession,
+} = useScreenSharingSession()
 
 const agent = computed(() => getNamespacedState(store.state, props.namespace).agent);
 
@@ -140,10 +151,6 @@ const trackAgent = async () => {
   });
 }
 
-const closeSession = () => {
-  mediaStream.value = null;
-}
-
 onMounted(async () => {
   cli = await getCliInstance();
   await loadScoreData();
@@ -155,7 +162,7 @@ onUnmounted(() => {
 
   const activeSession = cli.spyScreenSessions.find((session) => session.toUserId === Number(agent.value?.user.id));
   if (activeSession) {
-    activeSession.close();
+    closeSession(activeSession)
   }
 })
 </script>

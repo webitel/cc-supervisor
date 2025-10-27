@@ -124,7 +124,7 @@
           :stream="mediaStream"
           :session="session"
           :screenshot-status="screenshotStatus"
-          :username="selectedAgentToSpyScreen.user.name"
+          :username="selectedAgentToSpyScreen?.user.name"
           autoplay
           muted
           mode="stream"
