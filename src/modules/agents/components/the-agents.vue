@@ -43,7 +43,7 @@
           >
             <template #columns>
               <wt-table-column-select
-                :headers="headers"
+                :headers="filteredTableHeaders"
                 @change="updateShownHeaders"
               />
             </template>
@@ -149,6 +149,7 @@ import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
 
 import { getCliInstance } from '../../../app/api/callWSConnection';
+import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh';
 import { useScreenSharingSession } from '../../_shared/composables/use-screen-sharing-session';
 import AgentsAPI from '../api/agents';
 import AgentsFilters from '../modules/filters/components/agent-filters.vue';
@@ -199,12 +200,19 @@ const {
   updateSearchMode,
 } = tableStore;
 
+const {
+  setAutoRefresh,
+  clearAutoRefresh,
+} = useTableAutoRefresh(loadDataList)
+
 const { exportCSV, isCSVLoading, initCSVExport } = useCSVExport({
   selected,
 });
 initCSVExport(AgentsAPI.getList, { filename: 'agents' });
 
 initialize();
+
+const filteredTableHeaders = computed(() => headers.value.filter((header) => header.value !== 'descTrack'))
 
 const searchValue = computed(() => filtersManager.value.filters.get('search')?.value || '');
 const rowClass = (row) => {
@@ -231,6 +239,7 @@ const {
 let cli;
 
 onMounted(async () => {
+  setAutoRefresh()
   cli = await getCliInstance();
 });
 
@@ -244,6 +253,8 @@ const connect = async (agent) => {
 };
 
 onUnmounted(() => {
+  clearAutoRefresh()
+
   if (!cli) return
 
   const activeSession = cli.spyScreenSessions.find((session) => session.toUserId === Number(selectedAgentToSpyScreen.value?.user.id))

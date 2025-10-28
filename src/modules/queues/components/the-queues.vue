@@ -103,8 +103,9 @@ import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum.js';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+import { computed, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh';
 
 import QueuesAPI from '../api/queues';
 import QueueFilters from '../modules/filters/components/queue-filters.vue';
@@ -154,7 +155,20 @@ initCSVExport(QueuesAPI.getList, { filename: 'queues-stats' });
 
 const searchValue = computed(() => filtersManager.value.filters.get('search')?.value || '');
 
+const {
+  setAutoRefresh,
+  clearAutoRefresh,
+} = useTableAutoRefresh(loadDataList)
+
 initialize();
+
+onMounted(() => {
+  setAutoRefresh()
+})
+
+onUnmounted(() => {
+  clearAutoRefresh()
+})
 </script>
 
 <style lang="scss" scoped>
