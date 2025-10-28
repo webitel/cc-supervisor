@@ -105,7 +105,7 @@ import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh.js';
+import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh';
 
 import QueuesAPI from '../api/queues';
 import QueueFilters from '../modules/filters/components/queue-filters.vue';
