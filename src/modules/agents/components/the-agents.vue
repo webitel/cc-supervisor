@@ -200,7 +200,10 @@ const {
   updateSearchMode,
 } = tableStore;
 
-const { setAutoRefresh } = useTableAutoRefresh(loadDataList)
+const {
+  setAutoRefresh,
+  clearAutoRefresh,
+} = useTableAutoRefresh(loadDataList)
 
 const { exportCSV, isCSVLoading, initCSVExport } = useCSVExport({
   selected,
@@ -208,7 +211,6 @@ const { exportCSV, isCSVLoading, initCSVExport } = useCSVExport({
 initCSVExport(AgentsAPI.getList, { filename: 'agents' });
 
 initialize();
-setAutoRefresh()
 
 const filteredTableHeaders = computed(() => headers.value.filter((header) => header.value !== 'descTrack'))
 
@@ -237,6 +239,7 @@ const {
 let cli;
 
 onMounted(async () => {
+  setAutoRefresh()
   cli = await getCliInstance();
 });
 
@@ -250,6 +253,8 @@ const connect = async (agent) => {
 };
 
 onUnmounted(() => {
+  clearAutoRefresh()
+
   if (!cli) return
 
   const activeSession = cli.spyScreenSessions.find((session) => session.toUserId === Number(selectedAgentToSpyScreen.value?.user.id))

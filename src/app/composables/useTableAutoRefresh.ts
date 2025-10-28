@@ -1,31 +1,26 @@
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
 import preventHiddenPageCallsDecorator from '@webitel/ui-sdk/src/scripts/preventHiddenPageCallsDecorator'
 
 export function useTableAutoRefresh(loadList: () => void) {
-  const autoRefresh = ref(null)
+  const autoRefresh = ref<number | null>(null)
 
-  const makeAutoRefresh = () => {
-    loadList()
-  }
+  const makeAutoRefresh = preventHiddenPageCallsDecorator(loadList)
 
-  const setAutoRefresh = () => {
-    if (autoRefresh.value) clearInterval(autoRefresh.value)
+  function setAutoRefresh() {
+    clearAutoRefresh()
     const timer = +localStorage.getItem('auto-refresh') || 5 * 60 * 1000
-    const decoratedRefresh = preventHiddenPageCallsDecorator(makeAutoRefresh)
-    autoRefresh.value = setInterval(decoratedRefresh, timer)
+    autoRefresh.value = window.setInterval(makeAutoRefresh, timer)
   }
 
-  onMounted(() => {
-    setAutoRefresh()
-  })
-
-  onUnmounted(() => {
-    if (autoRefresh.value) clearInterval(autoRefresh.value)
-  })
+  function clearAutoRefresh() {
+    if (autoRefresh.value) {
+      clearInterval(autoRefresh.value)
+      autoRefresh.value = null
+    }
+  }
 
   return {
     setAutoRefresh,
-    makeAutoRefresh,
-    autoRefresh,
+    clearAutoRefresh,
   }
 }
