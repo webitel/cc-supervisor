@@ -15,7 +15,6 @@
       <wt-action-bar
         :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
         :disabled:delete="!selected.length"
-        @click:filters="emit('toggle-filter')"
         @click:refresh="loadDataList"
         @click:delete="
           askDeleteConfirmation({
@@ -24,6 +23,14 @@
           })
         "
       >
+        <template #filters>
+          <wt-badge>
+            <wt-icon-action
+              action="filters"
+              @click="emit('toggle-filter')"
+            />
+          </wt-badge>
+        </template>
       </wt-action-bar>
     </header>
 

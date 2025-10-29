@@ -16,7 +16,6 @@
         :disabled:delete="!selected.length"
         :disabled:download-pdf="!dataList.length"
         @click:download-pdf="downloadPdf"
-        @click:filters="emit('toggle-filter')"
         @click:refresh="loadDataList"
         @click:delete="
           askDeleteConfirmation({
@@ -25,6 +24,14 @@
           })
         "
       >
+        <template #filters>
+          <wt-badge>
+            <wt-icon-action
+              action="filters"
+              @click="emit('toggle-filter')"
+            />
+          </wt-badge>
+        </template>
       </wt-action-bar>
     </header>
 
