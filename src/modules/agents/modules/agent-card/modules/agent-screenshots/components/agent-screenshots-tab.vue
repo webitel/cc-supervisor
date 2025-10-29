@@ -16,7 +16,6 @@
         :disabled:delete="!selected.length"
         :disabled:download-pdf="!dataList.length"
         @click:download-pdf="downloadPdf"
-        @click:filters="emit('toggle-filter')"
         @click:refresh="loadDataList"
         @click:delete="
           askDeleteConfirmation({

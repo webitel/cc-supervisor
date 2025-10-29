@@ -15,7 +15,6 @@
       <wt-action-bar
         :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
         :disabled:delete="!selected.length"
-        @click:filters="emit('toggle-filter')"
         @click:refresh="loadDataList"
         @click:delete="
           askDeleteConfirmation({
