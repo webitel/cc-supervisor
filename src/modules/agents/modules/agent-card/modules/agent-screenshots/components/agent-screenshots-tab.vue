@@ -14,6 +14,7 @@
       <wt-action-bar
         :include="[IconAction.DOWNLOAD_PDF, IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
         :disabled:delete="!selected.length"
+        :disabled:download-pdf="!dataList.length"
         @click:download-pdf="downloadPdf"
         @click:filters="emit('toggle-filter')"
         @click:refresh="loadDataList"
@@ -201,8 +202,8 @@ const galleriaData = computed(() => {
   return dataList.value.map((item) => ({
     src: getScreenRecordingMediaUrl(item.id, false),
     thumbnailSrc: getScreenRecordingMediaUrl(item.id, true),
-    title: item.name,
-    alt: item.name,
+    title: item.view_name,
+    alt: item.view_name,
   }))
 })
 
@@ -252,18 +253,25 @@ const handleDelete = async (items: []) => {
 }
 
 const downloadPdf = async () => {
-  await PdfServicesAPI.generatePdfExport({
-    agentId: agentId,
-    itemInstance: {
-      from: filtersManager.value.filters.get('uploadedAtFrom').value,
-      to: filtersManager.value.filters.get('uploadedAtTo').value,
-      fileIds: selected.value.map(({id}) => id),
-    }
-  })
-  eventBus.$emit('notification', {
-    type: 'info',
-    text: t('webitelUI.pdfGeneration.generationStarted'),
-  });
+  try {
+    await PdfServicesAPI.generatePdfExport({
+      agentId: agentId,
+      itemInstance: {
+        from: filtersManager.value.filters.get('uploadedAtFrom').value,
+        to: filtersManager.value.filters.get('uploadedAtTo').value,
+        fileIds: selected.value.map(({id}) => id),
+      } 
+    })
+    eventBus.$emit('notification', {
+      type: 'info',
+      text: t('webitelUI.pdfGeneration.generationStarted'),
+    });
+  } catch (e) {
+    eventBus.$emit('notification', {
+      type: 'error',
+      text: e?.response?.data?.detail,
+    });
+  }
 }
 
 const handleDeleteFromGalleria = () => {
