@@ -25,6 +25,14 @@
           })
         "
       >
+        <template #filters>
+          <wt-badge>
+            <wt-icon-action
+              action="filters"
+              @click="emit('toggle-filter')"
+            />
+          </wt-badge>
+        </template>
       </wt-action-bar>
     </header>
 
