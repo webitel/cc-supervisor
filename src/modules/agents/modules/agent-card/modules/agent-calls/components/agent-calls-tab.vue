@@ -124,7 +124,7 @@ export default {
       const { query } = this.$route;
       return this.loadDataList({
         ...query,
-        userId: this.userId,
+        userId: [this.userId],
       });
     },
     play({ fileId, callId }) {
