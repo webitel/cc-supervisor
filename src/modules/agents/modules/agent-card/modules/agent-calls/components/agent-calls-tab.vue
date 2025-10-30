@@ -116,7 +116,7 @@ export default {
   }),
   computed: {
     ...mapState('agents/card', {
-      userId: (state) => state.agent.user.id,
+      userId: (state) => state.agent.user?.id,
     }),
   },
   methods: {
@@ -141,6 +141,16 @@ export default {
       this.playingCallId = '';
     },
   },
+  watch: {
+    userId: {
+      immediate: true,
+      async handler(newVal) {
+        if (!newVal) return;
+        await this.loadList();
+        this.$watch('userId', () => {}, { immediate: false });
+      },
+    },
+  }
 };
 </script>
 
