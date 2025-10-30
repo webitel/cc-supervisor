@@ -12,10 +12,8 @@
         {{ t('objects.screenshots', 2) }}
       </h3>
       <wt-action-bar
-        :include="[IconAction.DOWNLOAD_PDF, IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
+        :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
         :disabled:delete="!selected.length"
-        :disabled:download-pdf="!dataList.length"
-        @click:download-pdf="downloadPdf"
         @click:refresh="loadDataList"
         @click:delete="
           askDeleteConfirmation({
@@ -52,7 +50,7 @@
       />
 
       <wt-table
-        v-if="dataList.length"
+        v-if="dataList?.length"
         :data="dataList"
         :headers="shownHeaders"
         :selected="selected"
@@ -206,7 +204,7 @@ initializeDefaultFilters();
 const prettifyTimestamp = (item) => new Date(+item.uploaded_at).toLocaleString()
 
 const galleriaData = computed(() => {
-  return dataList.value.map((item) => ({
+  return dataList.value?.map((item) => ({
     src: getScreenRecordingMediaUrl(item.id, false),
     thumbnailSrc: getScreenRecordingMediaUrl(item.id, true),
     title: item.view_name,
