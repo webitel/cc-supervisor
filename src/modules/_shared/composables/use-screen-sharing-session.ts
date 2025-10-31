@@ -4,6 +4,7 @@ export function useScreenSharingSession() {
   const selectedAgentToSpyScreen = ref(null);
   const mediaStream = ref(null);
   const screenshotStatus = ref(null);
+  const screenshotIsLoading = ref(false);
 
   const toggleRecordAction = (session) => {
     if (session.recordings) {
@@ -15,10 +16,13 @@ export function useScreenSharingSession() {
 
   const makeScreenshot = async (session) => {
     try {
+      screenshotIsLoading.value = true
       await session.screenshot()
       changeScreenshotStatus('done')
     } catch {
       changeScreenshotStatus('error')
+    } finally {
+      screenshotIsLoading.value = false
     }
   };
 
@@ -26,7 +30,8 @@ export function useScreenSharingSession() {
     screenshotStatus.value = status;
     setTimeout(() => {
       screenshotStatus.value = null;
-    }, 300);
+      // because end of loading timeout is set to 1000 ms in wt-button component
+    }, 1300);
   }
 
   const closeSession = (session) => {
@@ -42,6 +47,7 @@ export function useScreenSharingSession() {
     selectedAgentToSpyScreen,
     mediaStream,
     screenshotStatus,
+    screenshotIsLoading,
     toggleRecordAction,
     makeScreenshot,
     closeSession,

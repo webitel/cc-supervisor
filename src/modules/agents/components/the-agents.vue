@@ -32,8 +32,8 @@
     </template>
 
     <template #main>
-      <section class="table-section">
-        <header v-show="!isLoading" class="table-title">
+      <section class="table-section main-section-wrapper">
+        <header v-show="dataList?.length" class="table-title">
           <wt-action-bar
             :include="[
               IconAction.REFRESH,
@@ -53,7 +53,7 @@
         <wt-loader v-show="isLoading"></wt-loader>
 
         <div
-          v-show="!isLoading && dataList?.length"
+          v-show="dataList?.length"
           class="table-section__table-wrapper"
         >
           <wt-table
@@ -87,7 +87,7 @@
             <template #descTrack="{ item }">
               <wt-icon
                 v-if="item.descTrack && isControlAgentScreenAllow"
-                :color="deskTrackIconColor"
+                :color="getDeskTrackIconColor(item.user.id)"
                 icon="desk-track"
                 size="md"
                 class="agents-table__desk-track-icon"
@@ -124,6 +124,7 @@
           :stream="mediaStream"
           :session="session"
           :screenshot-status="screenshotStatus"
+          :screenshot-is-loading="screenshotIsLoading"
           :username="selectedAgentToSpyScreen?.user.name"
           autoplay
           muted
@@ -223,7 +224,7 @@ const attachCall = async (id) => {
   await store.dispatch('OPEN_WINDOW');
 };
 
-const deskTrackIconColor = computed(() => selectedAgentToSpyScreen.value ? IconColor.SUCCESS : IconColor.DEFAULT);
+const getDeskTrackIconColor = (id) => selectedAgentToSpyScreen.value?.user.id === id ? IconColor.SUCCESS : IconColor.DEFAULT
 
 const isControlAgentScreenAllow = computed(() => store.getters[`userinfo/IS_CONTROL_AGENT_SCREEN_ALLOW`])
 
@@ -231,6 +232,7 @@ const {
   selectedAgentToSpyScreen,
   mediaStream,
   screenshotStatus,
+  screenshotIsLoading,
   toggleRecordAction,
   makeScreenshot,
   closeSession,
@@ -244,12 +246,20 @@ onMounted(async () => {
 });
 
 const connect = async (agent) => {
-  await cli.spyScreen(Number(agent.user.id), {
-    iceServers: [],
-  }, async (ev) => {
-    selectedAgentToSpyScreen.value = agent;
-    mediaStream.value = ev;
-  });
+  mediaStream.value = null
+  selectedAgentToSpyScreen.value = null
+  cli?.spyScreenSessions.forEach((session) => session.close())
+
+  try {
+    await cli.spyScreen(Number(agent.user.id), {
+      iceServers: [],
+    }, async (ev) => {
+      selectedAgentToSpyScreen.value = agent
+      mediaStream.value = ev;
+    });
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 onUnmounted(() => {

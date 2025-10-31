@@ -30,7 +30,7 @@
     <template #main>
       <section class="main-section-wrapper">
         <wt-loader v-show="isLoading"></wt-loader>
-        <div v-show="!isLoading" class="table-wrapper">
+        <div v-show="dataList?.length" class="table-wrapper">
           <wt-action-bar
             :include="[
               IconAction.REFRESH,

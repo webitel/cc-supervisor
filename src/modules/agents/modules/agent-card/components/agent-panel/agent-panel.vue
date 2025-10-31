@@ -144,11 +144,17 @@ const callAgent = () => {
 };
 
 const trackAgent = async () => {
-  await cli.spyScreen(Number(agent.value.user.id), {
-    iceServers: [],
-  }, async (ev) => {
-    mediaStream.value = ev;
-  });
+  mediaStream.value = null
+  cli?.spyScreenSessions.forEach((session) => session.close())
+  try {
+    await cli.spyScreen(Number(agent.value.user.id), {
+      iceServers: [],
+    }, async (ev) => {
+      mediaStream.value = ev;
+    });
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 onMounted(async () => {
