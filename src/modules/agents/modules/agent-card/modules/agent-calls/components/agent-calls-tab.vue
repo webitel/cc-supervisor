@@ -116,7 +116,7 @@ export default {
   }),
   computed: {
     ...mapState('agents/card', {
-      userId: (state) => state.agent.user.id,
+      userId: (state) => state.agent.user?.id,
     }),
   },
   methods: {
@@ -140,6 +140,13 @@ export default {
       this.audioURL = '';
       this.playingCallId = '';
     },
+  },
+  mounted() {
+    const unwatch = this.$watch('userId', async (newVal) => {
+      if (!newVal) return;
+      await this.loadList();
+      unwatch();
+    }, { immediate: true });
   },
 };
 </script>
