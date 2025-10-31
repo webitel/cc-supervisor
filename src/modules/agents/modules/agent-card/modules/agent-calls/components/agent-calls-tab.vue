@@ -141,16 +141,13 @@ export default {
       this.playingCallId = '';
     },
   },
-  watch: {
-    userId: {
-      immediate: true,
-      async handler(newVal) {
-        if (!newVal) return;
-        await this.loadList();
-        this.$watch('userId', () => {}, { immediate: false });
-      },
-    },
-  }
+  mounted() {
+    const unwatch = this.$watch('userId', async (newVal) => {
+      if (!newVal) return;
+      await this.loadList();
+      unwatch();
+    }, { immediate: true });
+  },
 };
 </script>
 
