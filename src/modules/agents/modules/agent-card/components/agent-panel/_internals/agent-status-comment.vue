@@ -25,7 +25,8 @@ defineProps({
 <style scoped lang="scss">
 .agent-panel__comment {
   word-break: break-word;
-  //width restriction so that it doesn't stretch across the page view
+  // TODO: Remove this once the issue in wt-tooltip is fixed (https://webitel.atlassian.net/browse/WTEL-7672)
+  // width restriction so that it doesn't stretch across the page view
   max-width: 280px;
 }
 </style>
