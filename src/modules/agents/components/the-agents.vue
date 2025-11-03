@@ -85,14 +85,16 @@
               <table-queues :item="item" />
             </template>
             <template #descTrack="{ item }">
-              <wt-icon
-                v-if="item.descTrack && isControlAgentScreenAllow"
-                :color="getDeskTrackIconColor(item.user.id)"
-                icon="desk-track"
-                size="md"
-                class="agents-table__desk-track-icon"
-                @click="connect(item)"
-              ></wt-icon>
+              <div>
+                <wt-icon
+                  v-if="item.descTrack && isControlAgentScreenAllow"
+                  :color="getDeskTrackIconColor(item.user.id)"
+                  icon="desk-track"
+                  size="md"
+                  class="agents-table__desk-track-icon"
+                  @click="connect(item)"
+                ></wt-icon>
+              </div>
             </template>
             <template #statusComment="{ item }">
               <div>
