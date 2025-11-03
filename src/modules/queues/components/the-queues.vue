@@ -26,6 +26,7 @@
     </template>
     <template #actions-panel>
       <queue-filters :namespace="filtersNamespace"/>
+      <queue-filters-panel />
     </template>
     <template #main>
       <section class="main-section-wrapper">
@@ -108,6 +109,7 @@ import { useI18n } from 'vue-i18n';
 import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh';
 
 import QueuesAPI from '../api/queues';
+import QueueFiltersPanel from '../modules/filters/components/queue-filters-panel.vue';
 import QueueFilters from '../modules/filters/components/queue-filters.vue';
 import { QueuesNamespace } from '../namespace';
 import { useQueuesTableStore } from '../stores/queues';
