@@ -91,7 +91,7 @@ import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/com
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 
 import { AgentStatus } from 'webitel-sdk';
-import { useScreenSharingSession } from '../../../../../_shared/composables/use-screen-sharing-session';
+import { useScreenSharingSession } from '../../../../../_shared/composables/useScreenSharingSession';
 
 import AgentProfile from './_internals/agent-profile.vue';
 import AgentStatusTimers from './_internals/agent-status-timers.vue';
@@ -144,10 +144,13 @@ const callAgent = () => {
 };
 
 const trackAgent = async () => {
+  mediaStream.value = null
+  cli?.spyScreenSessions.forEach((session) => session.close())
+
   await cli.spyScreen(Number(agent.value.user.id), {
     iceServers: [],
-  }, async (ev) => {
-    mediaStream.value = ev;
+  }, async (stream) => {
+    mediaStream.value = stream;
   });
 }
 

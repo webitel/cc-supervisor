@@ -168,7 +168,6 @@ initialize();
 onMounted(() => {
   setAutoRefresh()
 })
-
 onUnmounted(() => {
   clearAutoRefresh()
 })
@@ -265,7 +264,7 @@ const downloadPdf = async () => {
         from: filtersManager.value.filters.get('uploadedAtFrom').value,
         to: filtersManager.value.filters.get('uploadedAtTo').value,
         fileIds: selected.value.map(({id}) => id),
-      } 
+      }
     })
     eventBus.$emit('notification', {
       type: 'info',

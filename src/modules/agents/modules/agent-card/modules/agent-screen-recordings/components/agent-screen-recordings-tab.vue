@@ -179,7 +179,6 @@ initialize();
 onMounted(() => {
   setAutoRefresh()
 })
-
 onUnmounted(() => {
   clearAutoRefresh()
 })
