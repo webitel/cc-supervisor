@@ -42,13 +42,13 @@
 
     <wt-loader v-show="isLoading" />
 
-    <div v-show="!isLoading" class="table-loading-wrapper">
-      <wt-empty
-        v-show="showEmpty"
-        :image="imageEmpty"
-        :text="textEmpty"
-      />
+    <wt-empty
+      v-show="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
+    />
 
+    <div class="table-section__table-wrapper">
       <wt-table
         v-if="dataList?.length"
         :data="dataList"
