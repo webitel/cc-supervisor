@@ -250,16 +250,12 @@ const connect = async (agent) => {
   selectedAgentToSpyScreen.value = null
   cli?.spyScreenSessions.forEach((session) => session.close())
 
-  try {
-    await cli.spyScreen(Number(agent.user.id), {
-      iceServers: [],
-    }, async (stream) => {
-      selectedAgentToSpyScreen.value = agent
-      mediaStream.value = stream;
-    });
-  } catch (err) {
-    console.error(err);
-  }
+  await cli.spyScreen(Number(agent.user.id), {
+    iceServers: [],
+  }, async (stream) => {
+    selectedAgentToSpyScreen.value = agent
+    mediaStream.value = stream;
+  });
 };
 
 onUnmounted(() => {

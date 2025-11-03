@@ -109,13 +109,14 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
-import {computed, defineEmits, ref} from 'vue';
+import {computed, defineEmits, onMounted, onUnmounted, ref} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { downloadFile, getScreenRecordingMediaUrl } from '@webitel/api-services/api';
 import { FileServicesAPI } from '@webitel/api-services/api';
 import { getStartOfDay, getEndOfDay } from '@webitel/ui-sdk/scripts';
 import { eventBus } from '@webitel/ui-sdk/scripts';
 import { PdfServicesAPI } from '@webitel/api-services/api'
+import {useTableAutoRefresh} from "../../../../../../../app/composables/useTableAutoRefresh";
 
 import { useScreenshotsDataListStore } from '../store/screenshots'
 import { SearchScreenRecordingsChannel } from '@webitel/api-services/gen/models';
@@ -157,7 +158,19 @@ const {
   addFilter,
 } = tableStore;
 
+const {
+  setAutoRefresh,
+  clearAutoRefresh,
+} = useTableAutoRefresh(loadDataList)
+
 initialize();
+
+onMounted(() => {
+  setAutoRefresh()
+})
+onUnmounted(() => {
+  clearAutoRefresh()
+})
 
 const initializeDefaultFilters = () => {
   addFilter({
