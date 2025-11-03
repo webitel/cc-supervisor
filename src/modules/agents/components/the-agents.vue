@@ -151,7 +151,7 @@ import { AgentStatus } from 'webitel-sdk';
 
 import { getCliInstance } from '../../../app/api/callWSConnection';
 import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh';
-import { useScreenSharingSession } from '../../_shared/composables/use-screen-sharing-session';
+import { useScreenSharingSession } from '../../_shared/composables/useScreenSharingSession';
 import AgentsAPI from '../api/agents';
 import AgentsFilters from '../modules/filters/components/agent-filters.vue';
 import { AgentsNamespace } from '../namespace';
@@ -253,9 +253,9 @@ const connect = async (agent) => {
   try {
     await cli.spyScreen(Number(agent.user.id), {
       iceServers: [],
-    }, async (ev) => {
+    }, async (stream) => {
       selectedAgentToSpyScreen.value = agent
-      mediaStream.value = ev;
+      mediaStream.value = stream;
     });
   } catch (err) {
     console.error(err);
