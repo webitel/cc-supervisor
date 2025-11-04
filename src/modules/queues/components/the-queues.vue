@@ -25,7 +25,6 @@
       </wt-headline>
     </template>
     <template #actions-panel>
-      <queue-filters :namespace="filtersNamespace"/>
       <queue-filters-panel />
     </template>
     <template #main>
@@ -110,8 +109,6 @@ import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefres
 
 import QueuesAPI from '../api/queues';
 import QueueFiltersPanel from '../modules/filters/components/queue-filters-panel.vue';
-import QueueFilters from '../modules/filters/components/queue-filters.vue';
-import { QueuesNamespace } from '../namespace';
 import { useQueuesTableStore } from '../stores/queues';
 import TableAgents from './_internals/table-templates/table-agents.vue';
 import TableMembers from './_internals/table-templates/table-members.vue';
@@ -121,7 +118,6 @@ import TableTeam from './_internals/table-templates/table-team.vue';
 const { t } = useI18n();
 
 const tableStore = useQueuesTableStore();
-const filtersNamespace = `${QueuesNamespace}/filters`;
 
 const {
   dataList,
