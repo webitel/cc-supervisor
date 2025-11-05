@@ -28,7 +28,7 @@
     </template>
 
     <template #actions-panel>
-      <agents-filters :namespace="filtersNamespace" />
+      <agents-filters-panel />
     </template>
 
     <template #main>
@@ -153,8 +153,7 @@ import { getCliInstance } from '../../../app/api/callWSConnection';
 import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh';
 import { useScreenSharingSession } from '../../_shared/composables/useScreenSharingSession';
 import AgentsAPI from '../api/agents';
-import AgentsFilters from '../modules/filters/components/agent-filters.vue';
-import { AgentsNamespace } from '../namespace';
+import AgentsFiltersPanel from '../modules/filters/components/agent-filters-panel.vue';
 import { useAgentsTableStore } from '../stores/agents';
 import TableQueues from './_internals/table-templates/table-agent-queues.vue';
 import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
@@ -174,7 +173,6 @@ const { t } = useI18n();
 const store = useStore();
 
 const tableStore = useAgentsTableStore();
-const filtersNamespace = `${AgentsNamespace}/filters`;
 
 const {
   dataList,
