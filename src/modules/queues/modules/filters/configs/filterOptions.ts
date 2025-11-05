@@ -7,18 +7,18 @@ import {
 export const filtersOptions: FilterConfigDefinition[] = [
   createFilterConfig({
     name: FilterOption.QueuePeriod,
-    showNameFilter: true,
+    showFilterName: true,
   }),
   createFilterConfig({
     name: FilterOption.Team,
-    showNameFilter: true,
+    showFilterName: true,
   }),
   createFilterConfig({
     name: FilterOption.Queue,
-    showNameFilter: true,
+    showFilterName: true,
   }),
   createFilterConfig({
     name: FilterOption.QueueType,
-    showNameFilter: true,
+    showFilterName: true,
   }),
 ];
