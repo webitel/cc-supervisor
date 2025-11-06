@@ -1,6 +1,7 @@
 <template>
   <wt-page-wrapper
     class="agents table-page"
+    :actions-panel="showActionsPanel"
   >
     <template #header>
       <wt-headline>
@@ -36,10 +37,12 @@
         <header v-show="dataList?.length" class="table-title">
           <wt-action-bar
             :include="[
+              IconAction.FILTERS,
               IconAction.REFRESH,
               IconAction.COLUMNS
             ]"
             @click:refresh="loadDataList"
+            @click:filters="showActionsPanel = !showActionsPanel"
           >
             <template #columns>
               <wt-table-column-select
@@ -85,14 +88,16 @@
               <table-queues :item="item" />
             </template>
             <template #descTrack="{ item }">
-              <wt-icon
-                v-if="item.descTrack && isControlAgentScreenAllow"
-                :color="getDeskTrackIconColor(item.user.id)"
-                icon="desk-track"
-                size="md"
-                class="agents-table__desk-track-icon"
-                @click="connect(item)"
-              ></wt-icon>
+              <div>
+                <wt-icon
+                  v-if="item.descTrack && isControlAgentScreenAllow"
+                  :color="getDeskTrackIconColor(item.user.id)"
+                  icon="desk-track"
+                  size="md"
+                  class="agents-table__desk-track-icon"
+                  @click="connect(item)"
+                ></wt-icon>
+              </div>
             </template>
             <template #statusComment="{ item }">
               <div>
@@ -144,7 +149,7 @@ import { IconColor } from '@webitel/ui-sdk/enums';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { storeToRefs } from 'pinia';
-import { computed, onMounted, onUnmounted } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
@@ -173,6 +178,7 @@ const { t } = useI18n();
 const store = useStore();
 
 const tableStore = useAgentsTableStore();
+const showActionsPanel = ref(true);
 
 const {
   dataList,
