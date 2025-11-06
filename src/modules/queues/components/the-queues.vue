@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper>
+  <wt-page-wrapper :actions-panel="showActionsPanel">
     <template #header>
       <wt-headline>
         <template #title>
@@ -25,7 +25,7 @@
       </wt-headline>
     </template>
     <template #actions-panel>
-      <queue-filters :namespace="filtersNamespace"/>
+      <queue-filters-panel @hide="showActionsPanel = false"/>
     </template>
     <template #main>
       <section class="main-section-wrapper">
@@ -33,11 +33,13 @@
         <div v-show="dataList?.length" class="table-wrapper">
           <wt-action-bar
             :include="[
+              IconAction.FILTERS,
               IconAction.REFRESH,
               IconAction.COLUMNS
             ]"
             class="table-wrapper__actions-wrapper"
             @click:refresh="loadDataList"
+            @click:filters="showActionsPanel = !showActionsPanel"
           >
             <template #columns>
               <wt-table-column-select
@@ -103,13 +105,12 @@ import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum.js';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { storeToRefs } from 'pinia';
-import { computed, onMounted, onUnmounted } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh';
 
 import QueuesAPI from '../api/queues';
-import QueueFilters from '../modules/filters/components/queue-filters.vue';
-import { QueuesNamespace } from '../namespace';
+import QueueFiltersPanel from '../modules/filters/components/queue-filters-panel.vue';
 import { useQueuesTableStore } from '../stores/queues';
 import TableAgents from './_internals/table-templates/table-agents.vue';
 import TableMembers from './_internals/table-templates/table-members.vue';
@@ -119,7 +120,7 @@ import TableTeam from './_internals/table-templates/table-team.vue';
 const { t } = useI18n();
 
 const tableStore = useQueuesTableStore();
-const filtersNamespace = `${QueuesNamespace}/filters`;
+const showActionsPanel = ref(true);
 
 const {
   dataList,
