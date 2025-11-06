@@ -7,100 +7,102 @@
     :mime="currentVideo.mime_type"
     @close="closeVideo"
   />
-  <section class="table-wrapper table-page table-wrapper--tab-table">
-    <header class="table-title">
-      <h3 class="table-title__title">
-        {{ t('objects.screenRecordings', 2) }}
-      </h3>
-      <wt-action-bar
-        :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
-        :disabled:delete="!selected.length"
-        @click:refresh="loadDataList"
-        @click:delete="
+  <div class="table-page">
+    <section class="table-wrapper table-wrapper--tab-table table-section">
+      <header class="table-title">
+        <h3 class="table-title__title">
+          {{ t('objects.screenRecordings', 2) }}
+        </h3>
+        <wt-action-bar
+          :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
+          :disabled:delete="!selected.length"
+          @click:refresh="loadDataList"
+          @click:delete="
           askDeleteConfirmation({
             deleted: selected,
             callback: () => handleDelete(selected),
           })
         "
-      >
-        <template #filters>
-          <wt-badge>
-            <wt-icon-action
-              action="filters"
-              @click="emit('toggle-filter')"
+        >
+          <template #filters>
+            <wt-badge>
+              <wt-icon-action
+                action="filters"
+                @click="emit('toggle-filter')"
+              />
+            </wt-badge>
+          </template>
+        </wt-action-bar>
+      </header>
+
+      <delete-confirmation-popup
+        :shown="isDeleteConfirmationPopup"
+        :callback="deleteCallback"
+        :delete-count="deleteCount"
+        @close="closeDelete"
+      />
+
+      <wt-loader v-show="isLoading" />
+
+      <wt-empty
+        v-show="showEmpty"
+        :image="imageEmpty"
+        :text="textEmpty"
+      />
+
+      <div class="table-section__table-wrapper">
+        <wt-table
+          v-if="dataList?.length"
+          :data="dataList"
+          :headers="shownHeaders"
+          :selected="selected"
+          sortable
+          @sort="updateSort"
+          @update:selected="updateSelected"
+        >
+          <template #screen_recordings="{ item }">
+            <wt-image
+              width="48"
+              overlay-icon="play"
+              :src="getScreenRecordingMediaUrl(item.id, true)"
+              alt=""
+              @click="openVideo(item)"
             />
-          </wt-badge>
-        </template>
-      </wt-action-bar>
-    </header>
+          </template>
 
-    <delete-confirmation-popup
-      :shown="isDeleteConfirmationPopup"
-      :callback="deleteCallback"
-      :delete-count="deleteCount"
-      @close="closeDelete"
-    />
-
-    <wt-loader v-show="isLoading" />
-
-    <wt-empty
-      v-show="showEmpty"
-      :image="imageEmpty"
-      :text="textEmpty"
-    />
-
-    <div class="table-section__table-wrapper">
-      <wt-table
-        v-if="dataList?.length"
-        :data="dataList"
-        :headers="shownHeaders"
-        :selected="selected"
-        sortable
-        @sort="updateSort"
-        @update:selected="updateSelected"
-      >
-        <template #screen_recordings="{ item }">
-          <wt-image
-            width="48"
-            overlay-icon="play"
-            :src="getScreenRecordingMediaUrl(item.id, true)"
-            alt=""
-            @click="openVideo(item)"
-            />
-        </template>
-
-        <template #uploaded_at="{item}">
+          <template #uploaded_at="{item}">
             {{prettifyTimestamp(item)}}
-        </template>
+          </template>
 
-        <template #actions="{ item }">
-          <wt-icon-action
-            action="download"
-            @click="downloadFile(item.id)"
-          />
-          <wt-icon-action
-            action="delete"
-            @click="
+          <template #actions="{ item }">
+            <wt-icon-action
+              action="download"
+              @click="downloadFile(item.id)"
+            />
+            <wt-icon-action
+              action="delete"
+              @click="
               askDeleteConfirmation({
                 deleted: [item],
                 callback: () => handleDelete([item]),
               })
             "
-          />
-        </template>
-      </wt-table>
+            />
+          </template>
+        </wt-table>
 
-      <wt-pagination
-        :next="next"
-        :prev="page > 1"
-        :size="size"
-        debounce
-        @change="updateSize"
-        @next="updatePage(page + 1)"
-        @prev="updatePage(page - 1)"
-      />
-    </div>
-  </section>
+        <wt-pagination
+          :next="next"
+          :prev="page > 1"
+          :size="size"
+          debounce
+          @change="updateSize"
+          @next="updatePage(page + 1)"
+          @prev="updatePage(page - 1)"
+        />
+      </div>
+    </section>
+  </div>
 </template>
 
 <script lang="ts" setup>

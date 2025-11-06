@@ -70,6 +70,7 @@
           :stream="mediaStream"
           :session="session"
           :screenshot-status="screenshotStatus"
+          :screenshot-is-loading="screenshotIsLoading"
           :username="agent.user.name"
           autoplay
           muted
@@ -111,6 +112,7 @@ let cli
 const {
   mediaStream,
   screenshotStatus,
+  screenshotIsLoading,
   toggleRecordAction,
   makeScreenshot,
   closeSession,
