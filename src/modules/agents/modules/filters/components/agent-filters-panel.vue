@@ -15,9 +15,9 @@ import { TableFiltersPanelComponent as TableFiltersPanel } from '@webitel/ui-dat
 import { storeToRefs } from 'pinia';
 
 import { filtersOptions } from '../configs/filterOptions';
-import { useQueuesTableStore } from '../../../stores/queues';
+import { useAgentsTableStore } from '../../../stores/agents';
 
-const tableStore = useQueuesTableStore();
+const tableStore = useAgentsTableStore();
 const { filtersManager } = storeToRefs(tableStore);
 
 const {

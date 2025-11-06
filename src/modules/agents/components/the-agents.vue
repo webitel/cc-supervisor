@@ -1,6 +1,7 @@
 <template>
   <wt-page-wrapper
     class="agents table-page"
+    :actions-panel="showActionsPanel"
   >
     <template #header>
       <wt-headline>
@@ -28,7 +29,7 @@
     </template>
 
     <template #actions-panel>
-      <agents-filters :namespace="filtersNamespace" />
+      <agents-filters-panel />
     </template>
 
     <template #main>
@@ -36,10 +37,12 @@
         <header v-show="dataList?.length" class="table-title">
           <wt-action-bar
             :include="[
+              IconAction.FILTERS,
               IconAction.REFRESH,
               IconAction.COLUMNS
             ]"
             @click:refresh="loadDataList"
+            @click:filters="showActionsPanel = !showActionsPanel"
           >
             <template #columns>
               <wt-table-column-select
@@ -146,7 +149,7 @@ import { IconColor } from '@webitel/ui-sdk/enums';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { storeToRefs } from 'pinia';
-import { computed, onMounted, onUnmounted } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
@@ -155,8 +158,7 @@ import { getCliInstance } from '../../../app/api/callWSConnection';
 import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh';
 import { useScreenSharingSession } from '../../_shared/composables/useScreenSharingSession';
 import AgentsAPI from '../api/agents';
-import AgentsFilters from '../modules/filters/components/agent-filters.vue';
-import { AgentsNamespace } from '../namespace';
+import AgentsFiltersPanel from '../modules/filters/components/agent-filters-panel.vue';
 import { useAgentsTableStore } from '../stores/agents';
 import TableQueues from './_internals/table-templates/table-agent-queues.vue';
 import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
@@ -176,7 +178,7 @@ const { t } = useI18n();
 const store = useStore();
 
 const tableStore = useAgentsTableStore();
-const filtersNamespace = `${AgentsNamespace}/filters`;
+const showActionsPanel = ref(true);
 
 const {
   dataList,

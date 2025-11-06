@@ -7,7 +7,6 @@ const state = {
 };
 
 const queues = new TableStoreModule({ state })
-  .setChildModules()
   .attachAPIModule(QueuesAPI)
   .generateAPIActions()
 export default queues;
