@@ -178,7 +178,7 @@ const { t } = useI18n();
 const store = useStore();
 
 const tableStore = useAgentsTableStore();
-const showActionsPanel = ref(true);
+const showActionsPanel = ref(false);
 
 const {
   dataList,

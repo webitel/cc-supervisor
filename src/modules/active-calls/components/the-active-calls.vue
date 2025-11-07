@@ -110,7 +110,7 @@ export default {
   ],
   data: () => ({
     namespace: 'activeCalls',
-    showActionsPanel: true,
+    showActionsPanel: false,
   }),
   computed: {
     ...mapGetters('appearance', {
