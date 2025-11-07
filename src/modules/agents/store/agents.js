@@ -8,7 +8,7 @@ const state = {
 };
 
 const getters = {
-  GET_FILTERS: (state, getters, rootState, rootGetters) => rootGetters['queues/filters/GET_FILTERS'],
+  GET_FILTERS: (state, getters, rootState, rootGetters) => rootGetters['agents/filters/GET_FILTERS'],
 };
 
 const agents = new TableStoreModule({ state })
