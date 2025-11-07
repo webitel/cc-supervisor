@@ -31,7 +31,8 @@ export function useScreenSharingSession() {
     setTimeout(() => {
       screenshotStatus.value = null;
       // because end of loading timeout is set to 1000 ms in wt-button component
-    }, 1300);
+      // https://webitel.atlassian.net/browse/WTEL-7992?focusedCommentId=704810 and comment why added 1s
+    }, 2000);
   }
 
   const closeSession = (session) => {
