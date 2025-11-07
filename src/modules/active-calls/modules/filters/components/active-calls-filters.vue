@@ -1,5 +1,8 @@
 <template>
-  <wt-filters-panel-wrapper @reset="resetFilters">
+  <wt-filters-panel-wrapper
+    :table-action-icons="['filter-reset']"
+    is-opened
+    @reset="resetFilters">
   <component
     :is="`abstract-${filter.type}-filter`"
     v-for="(filter) of activeCallsFilters"
