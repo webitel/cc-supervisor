@@ -7,11 +7,15 @@ const state = {
   headers,
 };
 
+const getters = {
+  GET_FILTERS: (state, getters, rootState, rootGetters) => rootGetters['queues/filters/GET_FILTERS'],
+};
+
 const agents = new TableStoreModule({ state })
 .setChildModules({
   card,
 })
 .attachAPIModule(AgentsAPI)
 .generateAPIActions()
-
+.getModule({ getters });
 export default agents;
