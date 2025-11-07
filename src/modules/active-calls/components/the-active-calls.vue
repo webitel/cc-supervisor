@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper>
+  <wt-page-wrapper :actions-panel="showActionsPanel">
     <template #header>
       <wt-headline>
         <template #title>
@@ -24,8 +24,8 @@
         <div v-show="!isLoading && !dummyValue" class="table-wrapper">
           <wt-table-actions
             class="table-wrapper__actions-wrapper"
-            :icons="['refresh']"
-            @input="tableActionsHandler"
+            :icons="['settings', 'refresh']"
+            @input="inputTableAction"
           >
             <filter-fields
               :headers="headers"
@@ -110,6 +110,7 @@ export default {
   ],
   data: () => ({
     namespace: 'activeCalls',
+    showActionsPanel: false,
   }),
   computed: {
     ...mapGetters('appearance', {
@@ -142,6 +143,14 @@ export default {
       this.openWindow();
     },
   },
+
+  inputTableAction(event) {
+    if(event === 'settings') {
+      this.showActionsPanel = !this.showActionsPanel;
+      return;
+    }
+    this.tableActionsHandler(event)
+  }
 };
 </script>
 

@@ -120,7 +120,7 @@ import TableTeam from './_internals/table-templates/table-team.vue';
 const { t } = useI18n();
 
 const tableStore = useQueuesTableStore();
-const showActionsPanel = ref(true);
+const showActionsPanel = ref(false);
 
 const {
   dataList,

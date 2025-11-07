@@ -1,5 +1,6 @@
 <template>
   <wt-page-wrapper
+    :actions-panel="showActionsPanel"
     class="agents table-page"
   >
     <template #header>
@@ -36,10 +37,12 @@
         <header v-show="dataList?.length" class="table-title">
           <wt-action-bar
             :include="[
+              IconAction.FILTERS,
               IconAction.REFRESH,
               IconAction.COLUMNS
             ]"
             @click:refresh="loadDataList"
+            @click:filters="showActionsPanel = !showActionsPanel"
           >
             <template #columns>
               <wt-table-column-select
@@ -146,7 +149,7 @@ import { IconColor } from '@webitel/ui-sdk/enums';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { storeToRefs } from 'pinia';
-import { computed, onMounted, onUnmounted } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
@@ -175,6 +178,7 @@ const { t } = useI18n();
 const store = useStore();
 
 const tableStore = useAgentsTableStore();
+const showActionsPanel = ref(false);
 
 const {
   dataList,
