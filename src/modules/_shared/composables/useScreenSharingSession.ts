@@ -1,4 +1,5 @@
 import {ref} from "vue";
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 
 export function useScreenSharingSession() {
   const selectedAgentToSpyScreen = ref(null);
@@ -6,11 +7,18 @@ export function useScreenSharingSession() {
   const screenshotStatus = ref(null);
   const screenshotIsLoading = ref(false);
 
-  const toggleRecordAction = (session) => {
-    if (session.recordings) {
-      session.stopRecord();
-    } else {
-      session.startRecord();
+  const toggleRecordAction = async (session) => {
+    try {
+      if (session.recordings) {
+        await session.stopRecord();
+      } else {
+        await session.startRecord();
+      }
+    } catch (err) {
+      eventBus.$emit('notification', {
+        type: 'error',
+        text: err.message,
+      });
     }
   };
 
