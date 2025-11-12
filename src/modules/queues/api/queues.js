@@ -62,7 +62,7 @@ const getQueuesList = async (params) => {
   const {
     page,
     size,
-    period,
+    queuePeriod: period,
     search,
     sort,
     fields,
