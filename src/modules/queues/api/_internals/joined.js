@@ -27,7 +27,6 @@ const parseJoined = (time = 'today') => {
       start.setHours(0, 0, 0, 0);
       break;
   }
-
   return {
     joinedAtFrom: start.getTime(),
     joinedAtTo: end.getTime(),
