@@ -126,7 +126,10 @@ const scoreCount = computed(() => score.value.scoreCount || 0);
 
 const scoreRequired = computed(() => (score.value.scoreRequiredAvg || 0).toFixed(2));
 
-const loadAgent = (payload) => store.dispatch(`${props.namespace}/LOAD_AGENT`, payload);
+const loadAgent = async (payload) => {
+  await store.dispatch(`${props.namespace}/LOAD_AGENT`, payload);
+  await loadScoreData();
+};
 
 const loadScoreData = () => store.dispatch(`${props.namespace}/LOAD_SCORE_DATA`);
 
