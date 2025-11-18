@@ -18,7 +18,7 @@ export default [
     locale: 'pages.card.statusHistory.columns.to',
     show: true,
     sort: null,
-    field: 'joined_at',
+    field: 'leaved_at',
   },
   {
     value: 'duration',
