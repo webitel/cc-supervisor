@@ -241,5 +241,12 @@ export default {
         unlimited: 'Шексіз',
       },
     },
+    pauseCauses: {
+      combinationPrefix: 'Жоқ ',
+      sip: 'SIP',
+      ws: 'websocket',
+      screen_control: 'DeskTrack',
+      no_cc_license: 'лицензия',
+    },
   },
 };
