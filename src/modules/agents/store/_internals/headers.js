@@ -22,7 +22,7 @@ export default [
     locale: 'pages.agent.columns.statusComment',
     show: true,
     sort: null,
-    field: 'status_comments',
+    field: 'status_comment',
   }, {
     value: 'team',
     locale: 'pages.agent.columns.team',
