@@ -1,10 +1,15 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults/index.js';
+import {
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults/index.js';
 import applyTransform, {
-  merge, notify,
+  merge,
+  notify,
   snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
+import { formatDate } from '@webitel/ui-sdk/utils';
 import { AgentServiceApiFactory } from 'webitel-sdk';
 
 import instance from '../../../../../../../app/api/instance';
@@ -19,10 +24,13 @@ export const getAgentHistoryList = async (params) => {
     to: new Date().setHours(23, 59, 59, 999),
   };
 
-  const listHandler = (items) => items.map((item) => ({
+  const listHandler = (items) =>
+    items.map((item) => ({
       ...item,
-      from: new Date(+item.joinedAt).toLocaleString(),
-      to: item.duration ? new Date(+item.joinedAt + item.duration * 1000).toLocaleString() : null,
+      from: formatDate(+item.joinedAt, 'datetime'),
+      to: item.duration
+        ? formatDate(+item.joinedAt + item.duration * 1000, 'datetime')
+        : null,
       duration: convertDuration(item.duration),
     }));
 
