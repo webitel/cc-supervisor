@@ -241,5 +241,12 @@ export default {
         unlimited: 'Nelimitat',
       },
     },
+    pauseCauses: {
+      combinationPrefix: 'Fără ',
+      sip: 'SIP',
+      ws: 'websocket',
+      screen_control: 'DeskTrack',
+      no_cc_license: 'licență',
+    },
   },
 };
