@@ -3,10 +3,14 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults/index.js';
 import applyTransform, {
-  merge, mergeEach, notify, snakeToCamel,
+  merge,
+  mergeEach,
+  notify,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
+import { formatDate } from '@webitel/ui-sdk/utils';
 import { CallServiceApiFactory } from 'webitel-sdk';
 
 import instance from '../../../app/api/instance';
@@ -27,7 +31,7 @@ export const getActiveCallList = async (params) => {
   const listHandler = (items) => items.map((item) => ({
       ...item,
       duration: convertDuration(item.duration),
-      createdAt: new Date(+item.createdAt).toLocaleTimeString(),
+      createdAt: formatDate(+item.createdAt, 'datetime'),
     }));
 
   const {

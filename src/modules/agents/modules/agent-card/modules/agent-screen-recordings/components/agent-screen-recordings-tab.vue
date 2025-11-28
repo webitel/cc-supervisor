@@ -17,11 +17,11 @@
         :disabled:delete="!selected.length"
         @click:refresh="loadDataList"
         @click:delete="
-        askDeleteConfirmation({
-          deleted: selected,
-          callback: () => handleDelete(selected),
-        })
-      "
+          askDeleteConfirmation({
+            deleted: selected,
+            callback: () => handleDelete(selected),
+          })
+        "
       >
         <template #filters>
           <wt-badge>
@@ -69,8 +69,8 @@
           />
         </template>
 
-        <template #uploaded_at="{item}">
-          {{prettifyTimestamp(item)}}
+        <template #uploaded_at="{ item }">
+          {{ prettifyTimestamp(item) }}
         </template>
 
         <template #actions="{ item }">
@@ -81,11 +81,11 @@
           <wt-icon-action
             action="delete"
             @click="
-            askDeleteConfirmation({
-              deleted: [item],
-              callback: () => handleDelete([item]),
-            })
-          "
+              askDeleteConfirmation({
+                deleted: [item],
+                callback: () => handleDelete([item]),
+              })
+            "
           />
         </template>
       </wt-table>
@@ -104,25 +104,28 @@
 </template>
 
 <script lang="ts" setup>
+import {
+  downloadFile,
+  getScreenRecordingMediaUrl,
+} from '@webitel/api-services/api';
+import { FileServicesAPI } from '@webitel/api-services/api';
+import { SearchScreenRecordingsChannel } from '@webitel/api-services/gen/models';
 import { WtEmpty, WtVidstackPlayer } from '@webitel/ui-sdk/components';
 import { IconAction } from '@webitel/ui-sdk/enums';
+import { getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
-import { storeToRefs } from 'pinia';
-import {computed, defineEmits, onMounted, onUnmounted, ref} from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useStore } from 'vuex';
-import { downloadFile, getScreenRecordingMediaUrl } from '@webitel/api-services/api';
-import { FileServicesAPI } from '@webitel/api-services/api';
-import { getStartOfDay, getEndOfDay } from '@webitel/ui-sdk/scripts';
-import {useTableAutoRefresh} from "../../../../../../../app/composables/useTableAutoRefresh";
-
-import { useScreenRecordingsDataListStore } from '../store/screen-recordings'
 import getNamespacedState from '@webitel/ui-sdk/store/helpers/getNamespacedState.js';
-import { SearchScreenRecordingsChannel } from '@webitel/api-services/gen/models';
+import { formatDate } from '@webitel/ui-sdk/utils';
+import { storeToRefs } from 'pinia';
+import { computed, defineEmits, onMounted, onUnmounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
-import { useRoute } from 'vue-router'
+import { useTableAutoRefresh } from '../../../../../../../app/composables/useTableAutoRefresh';
+import { useScreenRecordingsDataListStore } from '../store/screen-recordings';
 
 const { t } = useI18n();
 
@@ -205,13 +208,13 @@ const initializeDefaultFilters = () => {
     addFilter({
       name: 'uploadedAtTo',
       value: getEndOfDay(),
-    })
+    });
   }
 };
 
 initializeDefaultFilters();
 
-const prettifyTimestamp = (item) => new Date(+item.uploaded_at).toLocaleString()
+const prettifyTimestamp = (item) => formatDate(+item.uploaded_at, 'datetime');
 
 const {
   isVisible: isDeleteConfirmationPopup,
@@ -251,17 +254,17 @@ const handleDelete = async (items: []) => {
     }
     await loadDataList();
   }
-}
+};
 
 const openVideo = (item) => {
-  currentVideo.value = item
-  isVideoOpen.value = true
-}
+  currentVideo.value = item;
+  isVideoOpen.value = true;
+};
 
 const closeVideo = () => {
-  currentVideo.value = null
-  isVideoOpen.value = false
-}
+  currentVideo.value = null;
+  isVideoOpen.value = false;
+};
 </script>
 
 <style lang="scss" scoped></style>

@@ -8,11 +8,11 @@ import agents from '../../modules/agents/store/agents';
 import appearance from '../../modules/appearance/store/appearance';
 import call from '../../modules/call-window/store/call';
 import queues from '../../modules/queues/store/queues';
-import userinfo from '../../modules/userinfo/store/userinfo';
+import userinfo from '../../modules/userinfo/store/deprecated/userinfo';
 import instance from '../api/instance';
 import OpenAPIConfig from '../api/utils/openAPIConfig';
 
-import webSocketClientController from '@webitel/ui-sdk/src/api/websocket/WebSocketClientController'
+import webSocketClientController from '@webitel/ui-sdk/src/api/websocket/WebSocketClientController';
 
 export default createStore({
   state: {
