@@ -111,6 +111,7 @@ import {
 import { FileServicesAPI } from '@webitel/api-services/api';
 import { SearchScreenRecordingsChannel } from '@webitel/api-services/gen/models';
 import { WtEmpty, WtVidstackPlayer } from '@webitel/ui-sdk/components';
+import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import { getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
@@ -214,7 +215,7 @@ const initializeDefaultFilters = () => {
 
 initializeDefaultFilters();
 
-const prettifyTimestamp = (item) => formatDate(+item.uploaded_at, 'datetime');
+const prettifyTimestamp = (item) => formatDate(+item.uploaded_at, FormatDateMode.DATETIME);
 
 const {
   isVisible: isDeleteConfirmationPopup,

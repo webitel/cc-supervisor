@@ -118,6 +118,7 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { formatDate } from '@webitel/ui-sdk/utils';
+import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import { storeToRefs } from 'pinia';
 import { computed, defineEmits, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -200,7 +201,7 @@ const initializeDefaultFilters = () => {
 
 initializeDefaultFilters();
 
-const prettifyTimestamp = (item) => formatDate(+item.uploaded_at, 'datetime');
+const prettifyTimestamp = (item) => formatDate(+item.uploaded_at, FormatDateMode.DATETIME);
 
 const galleriaData = computed(() => {
   return dataList.value?.map((item) => ({

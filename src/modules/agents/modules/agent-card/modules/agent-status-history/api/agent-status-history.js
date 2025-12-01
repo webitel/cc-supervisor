@@ -1,3 +1,4 @@
+import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import {
   getDefaultGetListResponse,
   getDefaultGetParams,
@@ -27,9 +28,9 @@ export const getAgentHistoryList = async (params) => {
   const listHandler = (items) =>
     items.map((item) => ({
       ...item,
-      from: formatDate(+item.joinedAt, 'datetime'),
+      from: formatDate(+item.joinedAt, FormatDateMode.DATETIME),
       to: item.duration
-        ? formatDate(+item.joinedAt + item.duration * 1000, 'datetime')
+        ? formatDate(+item.joinedAt + item.duration * 1000, FormatDateMode.DATETIME)
         : null,
       duration: convertDuration(item.duration),
     }));

@@ -1,3 +1,4 @@
+import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import {
   getDefaultGetListResponse,
   getDefaultGetParams,
@@ -31,7 +32,7 @@ export const getActiveCallList = async (params) => {
   const listHandler = (items) => items.map((item) => ({
       ...item,
       duration: convertDuration(item.duration),
-      createdAt: formatDate(+item.createdAt, 'datetime'),
+      createdAt: formatDate(+item.createdAt, FormatDateMode.DATETIME),
     }));
 
   const {
