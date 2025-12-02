@@ -65,11 +65,11 @@
             :src="getScreenRecordingMediaUrl(item.id, true)"
             alt=""
             @click="openScreenshot(item.id)"
-            />
+          />
         </template>
 
-        <template #uploaded_at="{item}">
-            {{prettifyTimestamp(item)}}
+        <template #uploaded_at="{ item }">
+          {{ prettifyTimestamp(item) }}
         </template>
 
         <template #actions="{ item }">
@@ -103,37 +103,41 @@
 </template>
 
 <script lang="ts" setup>
+import {
+  downloadFile,
+  getScreenRecordingMediaUrl,
+} from '@webitel/api-services/api';
+import { FileServicesAPI } from '@webitel/api-services/api';
+import { PdfServicesAPI } from '@webitel/api-services/api';
+import { SearchScreenRecordingsChannel } from '@webitel/api-services/gen/models';
 import { WtEmpty, WtGalleria } from '@webitel/ui-sdk/components';
 import { IconAction } from '@webitel/ui-sdk/enums';
+import { getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
+import { eventBus } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { formatDate } from '@webitel/ui-sdk/utils';
+import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import { storeToRefs } from 'pinia';
-import {computed, defineEmits, onMounted, onUnmounted, ref} from 'vue';
+import { computed, defineEmits, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { downloadFile, getScreenRecordingMediaUrl } from '@webitel/api-services/api';
-import { FileServicesAPI } from '@webitel/api-services/api';
-import { getStartOfDay, getEndOfDay } from '@webitel/ui-sdk/scripts';
-import { eventBus } from '@webitel/ui-sdk/scripts';
-import { PdfServicesAPI } from '@webitel/api-services/api'
-import {useTableAutoRefresh} from "../../../../../../../app/composables/useTableAutoRefresh";
+import { useRoute } from 'vue-router';
 
-import { useScreenshotsDataListStore } from '../store/screenshots'
-import { SearchScreenRecordingsChannel } from '@webitel/api-services/gen/models';
-
-import { useRoute } from 'vue-router'
+import { useTableAutoRefresh } from '../../../../../../../app/composables/useTableAutoRefresh';
+import { useScreenshotsDataListStore } from '../store/screenshots';
 
 const { t } = useI18n();
 
-const router = useRoute()
-const agentId = router.params.id
+const router = useRoute();
+const agentId = router.params.id;
 
-const emit = defineEmits(['toggle-filter'])
+const emit = defineEmits(['toggle-filter']);
 
 const tableStore = useScreenshotsDataListStore();
 
-const galleriaVisible = ref(false)
-const galleriaActiveIndex = ref(0)
+const galleriaVisible = ref(false);
+const galleriaActiveIndex = ref(0);
 
 const {
   dataList,
@@ -158,49 +162,46 @@ const {
   addFilter,
 } = tableStore;
 
-const {
-  setAutoRefresh,
-  clearAutoRefresh,
-} = useTableAutoRefresh(loadDataList)
+const { setAutoRefresh, clearAutoRefresh } = useTableAutoRefresh(loadDataList);
 
 initialize();
 
 onMounted(() => {
-  setAutoRefresh()
-})
+  setAutoRefresh();
+});
 onUnmounted(() => {
-  clearAutoRefresh()
-})
+  clearAutoRefresh();
+});
 
 const initializeDefaultFilters = () => {
   addFilter({
     name: 'agentId',
-    value: agentId
+    value: agentId,
   });
 
   addFilter({
     name: 'channel',
-    value: SearchScreenRecordingsChannel.ScreenshotChannel
-  })
+    value: SearchScreenRecordingsChannel.ScreenshotChannel,
+  });
 
   if (!hasFilter('uploadedAtFrom')) {
     addFilter({
       name: 'uploadedAtFrom',
       value: getStartOfDay(),
-    })
+    });
   }
 
   if (!hasFilter('uploadedAtTo')) {
     addFilter({
       name: 'uploadedAtTo',
       value: getEndOfDay(),
-    })
+    });
   }
 };
 
 initializeDefaultFilters();
 
-const prettifyTimestamp = (item) => new Date(+item.uploaded_at).toLocaleString()
+const prettifyTimestamp = (item) => formatDate(+item.uploaded_at, FormatDateMode.DATETIME);
 
 const galleriaData = computed(() => {
   return dataList.value?.map((item) => ({
@@ -208,8 +209,8 @@ const galleriaData = computed(() => {
     thumbnailSrc: getScreenRecordingMediaUrl(item.id, true),
     title: item.view_name,
     alt: item.view_name,
-  }))
-})
+  }));
+});
 
 const {
   isVisible: isDeleteConfirmationPopup,
@@ -232,9 +233,11 @@ const {
 });
 
 const openScreenshot = (id) => {
-  galleriaActiveIndex.value = dataList.value.findIndex(item => item.id === id)
-  galleriaVisible.value = true
-}
+  galleriaActiveIndex.value = dataList.value.findIndex(
+    (item) => item.id === id,
+  );
+  galleriaVisible.value = true;
+};
 
 const handleDelete = async (items: []) => {
   const deleteEl = (el) => {
@@ -254,7 +257,7 @@ const handleDelete = async (items: []) => {
     }
     await loadDataList();
   }
-}
+};
 
 const downloadPdf = async () => {
   try {
@@ -263,9 +266,9 @@ const downloadPdf = async () => {
       itemInstance: {
         from: filtersManager.value.filters.get('uploadedAtFrom').value,
         to: filtersManager.value.filters.get('uploadedAtTo').value,
-        fileIds: selected.value.map(({id}) => id),
-      }
-    })
+        fileIds: selected.value.map(({ id }) => id),
+      },
+    });
     eventBus.$emit('notification', {
       type: 'info',
       text: t('webitelUI.pdfGeneration.generationStarted'),
@@ -276,12 +279,12 @@ const downloadPdf = async () => {
       text: e?.response?.data?.detail,
     });
   }
-}
+};
 
 const handleDeleteFromGalleria = () => {
-  handleDelete([dataList.value[galleriaActiveIndex.value]])
-  if (galleriaActiveIndex.value > 0) galleriaActiveIndex.value -= 1
-}
+  handleDelete([dataList.value[galleriaActiveIndex.value]]);
+  if (galleriaActiveIndex.value > 0) galleriaActiveIndex.value -= 1;
+};
 </script>
 
 <style lang="scss" scoped></style>

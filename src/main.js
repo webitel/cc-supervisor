@@ -1,25 +1,25 @@
 import './app/assets/icons/sprite';
+import './app/css/main.scss';
 
+import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 
 import i18n from './app/locale/i18n';
 import WebitelUi from './app/plugins/webitel-ui';
 import router from './app/router';
 import store from './app/store';
-import { createPinia } from 'pinia';
 import App from './app/the-app.vue';
-
-import './app/css/main.scss';
+import { useUserinfoStore } from './modules/userinfo/store/userInfoStore';
 
 const setTokenFromUrl = () => {
   try {
     const queryMap = window.location.search.slice(1)
-    .split('&')
-    .reduce((obj, query) => {
-      const [key, value] = query.split('=');
-      obj[key] = value;
-      return obj;
-    }, {});
+      .split('&')
+      .reduce((obj, query) => {
+        const [key, value] = query.split('=');
+        obj[key] = value;
+        return obj;
+      }, {});
 
     if (queryMap.accessToken) {
       localStorage.setItem('access-token', queryMap.accessToken);
@@ -34,18 +34,27 @@ const fetchConfig = async () => {
   return response.json();
 };
 
-const pinia = createPinia()
+const pinia = createPinia();
 
-const createVueInstance = () => {
+const initApp = async () => {
   const app = createApp(App)
     .use(router)
     .use(store)
     .use(i18n)
     .use(...WebitelUi)
-    .use(pinia)
+    .use(pinia);
+
+  const { initialize } = useUserinfoStore();
+  try {
+    await initialize();
+  } catch (err) {
+    console.error('Error initializing app', err);
+  }
+
+  app.use(router);
+
   return app;
 };
-
 
 // init IIFE
 (async () => {
@@ -57,7 +66,7 @@ const createVueInstance = () => {
   } catch (err) {
     console.error('before app mount error:', err);
   } finally {
-    const app = createVueInstance();
+    const app = await initApp();
     app.provide('$config', config);
     app.mount('#app');
   }
