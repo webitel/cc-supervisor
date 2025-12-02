@@ -27,7 +27,27 @@ export default {
       }
     },
     statusText() {
-      return this.item.pauseCause || this.$t(`packages.agentStatus.${snakeToCamel(this.item.status)}`);
+      if (this.item.pauseCause) {
+        return this.translatePauseCause(this.item.pauseCause);;
+      }
+
+      return this.$t(`packages.agentStatus.${snakeToCamel(this.item.status)}`);
+    },
+  },
+  methods: {
+    translatePauseCause(statusComment) {
+      const reasonParts = statusComment.replace('system/', '').split('/');
+
+      // Translate each part
+      const translatedParts = reasonParts.map((part) => {
+        const key = `packages.pauseCauses.${part}`;
+        return this.$t(key);
+      });
+
+      // Get the prefix
+      const prefix = this.$t('packages.pauseCauses.combinationPrefix');
+
+      return prefix + translatedParts.join('/');
     },
   },
 };

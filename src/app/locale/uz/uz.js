@@ -241,5 +241,12 @@ export default {
         unlimited: 'Cheksiz',
       },
     },
+    pauseCauses: {
+      combinationPrefix: 'Yo‘q ',
+      sip: 'SIP',
+      ws: 'websocket',
+      screen_control: 'DeskTrack',
+      no_cc_license: 'litsenziya',
+    },
   },
 };
