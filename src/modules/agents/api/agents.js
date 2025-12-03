@@ -58,7 +58,7 @@ export const getAgentsList = async (params) => {
     fields,
     from,
     to,
-    status,
+    agentStatus: status,
     queue,
     team,
     skill,
