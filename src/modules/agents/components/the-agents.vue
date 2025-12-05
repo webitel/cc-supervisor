@@ -85,7 +85,7 @@
               </div>
             </template>
             <template #queues="{ item }">
-              <table-queues :item="item" />
+              <wt-display-chip-items :items="item.queues" />
             </template>
             <template #descTrack="{ item }">
               <div>
@@ -145,6 +145,7 @@
 
 <script setup>
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { WtDisplayChipItems } from '@webitel/ui-sdk/components';
 import { IconColor } from '@webitel/ui-sdk/enums';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
@@ -160,7 +161,6 @@ import { useScreenSharingSession } from '../../_shared/composables/useScreenShar
 import AgentsAPI from '../api/agents';
 import AgentsFiltersPanel from '../modules/filters/components/agent-filters-panel.vue';
 import { useAgentsTableStore } from '../stores/agents';
-import TableQueues from './_internals/table-templates/table-agent-queues.vue';
 import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
 import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
 import TableAgent from './_internals/table-templates/table-agent.vue';

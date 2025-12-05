@@ -3,7 +3,6 @@
     <call-window/>
     <call-window-eavesdrop/>
     <wt-notifications-bar/>
-    <app-header/>
     <div class="the-supervisor-workspace__content">
       <router-view/>
     </div>
@@ -15,14 +14,12 @@
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 import { mapGetters } from 'vuex';
 
-import AppHeader from '../../modules/_reusable/app-header/components/app-header.vue';
 import CallWindow from '../../modules/call-window/components/call-window-conversation.vue';
 import CallWindowEavesdrop from '../../modules/call-window/components/call-window-eavesdrop.vue';
 
 export default {
   name: 'TheSupervisorWorkspace',
   components: {
-    AppHeader,
     CallWindow,
     CallWindowEavesdrop,
   },

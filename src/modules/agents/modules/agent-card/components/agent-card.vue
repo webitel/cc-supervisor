@@ -25,6 +25,7 @@ import { mapActions, mapState } from 'vuex';
 
 import autoRefreshMixin from '../../../../../app/mixins/autoRefresh/autoRefreshMixin';
 import AgentTabsPathName from "../../../../../app/router/_internals/AgentTabsPathName.enum.js";
+import { useErrorRedirectHandler } from '../../../../../modules/error-pages/composable/useErrorRedirectHandler';
 import Calls from '../modules/agent-calls/components/agent-calls-tab.vue';
 import CallsFilters from '../modules/agent-calls/modules/filters/components/agent-calls-filters.vue';
 import General from '../modules/agent-general/components/agent-general-tab.vue';
@@ -57,6 +58,11 @@ export default {
     PdfsFilters,
   },
   mixins: [autoRefreshMixin],
+
+  setup() {
+    const { handleError } = useErrorRedirectHandler();
+    return { handleError };
+  },
 
   data: () => ({
     namespace: 'agents/card',
@@ -174,7 +180,8 @@ export default {
         const { id } = this.$route.params;
         await this.setAgentId(id);
         await this.loadAgent();
-      } catch {
+      } catch (err) {
+        this.handleError(err);
       } finally {
         this.isLoading = false;
       }

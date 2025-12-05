@@ -241,5 +241,12 @@ export default {
         unlimited: 'Không giới hạn',
       },
     },
+    pauseCauses: {
+      combinationPrefix: 'Không có ',
+      sip: 'SIP',
+      ws: 'websocket',
+      screen_control: 'DeskTrack',
+      no_cc_license: 'giấy phép',
+    },
   },
 };

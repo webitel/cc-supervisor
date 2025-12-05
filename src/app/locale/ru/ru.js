@@ -241,5 +241,12 @@ export default {
         unlimited: 'Безлимит',
       },
     },
+    pauseCauses: {
+      combinationPrefix: 'Нет ',
+      sip: 'SIP',
+      ws: 'вебсокета',
+      screen_control: 'DeskTrack',
+      no_cc_license: 'лицензии',
+    },
   },
 };

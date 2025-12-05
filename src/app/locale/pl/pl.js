@@ -241,5 +241,12 @@ export default {
         unlimited: 'Bez limitu',
       },
     },
+    pauseCauses: {
+      combinationPrefix: 'Brak ',
+      sip: 'SIP',
+      ws: 'websocket',
+      screen_control: 'DeskTrack',
+      no_cc_license: 'licencji',
+    },
   },
 };

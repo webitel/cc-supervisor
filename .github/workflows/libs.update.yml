@@ -9,6 +9,8 @@ on:
         type: choice
         options:
           - '@webitel/ui-sdk'
+          - '@webitel/api-services'
+          - '@webitel/ui-datalist'
 #      version:
 #        description: 'Target version (optional: latest or x.y.z)'
 #        required: false

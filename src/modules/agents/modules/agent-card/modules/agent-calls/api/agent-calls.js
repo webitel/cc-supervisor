@@ -1,4 +1,5 @@
 import { getCallService } from '@webitel/api-services/gen';
+import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import {
   getDefaultGetListResponse,
   getDefaultGetParams,
@@ -10,16 +11,16 @@ import applyTransform, {
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
+import { formatDate } from '@webitel/ui-sdk/utils';
 
-const calcTime = (time) => (time ? new Date(+time).toLocaleTimeString() : null);
-const calcDuration = (duration) => (duration ? convertDuration(duration) : null);
+const calcTime = (time) => (time ? formatDate(+time, FormatDateMode.TIME) : null);
+const calcDuration = (duration) =>
+  duration ? convertDuration(duration) : null;
 
 const listHandler = (items) =>
   items.map((item) => ({
     ...item,
-    createdAt: item.createdAt
-      ? new Date(+item.createdAt).toLocaleString()
-      : null,
+    createdAt: item.createdAt ? formatDate(+item.createdAt, FormatDateMode.DATETIME) : null,
     answeredAt: calcTime(item.answeredAt),
     bridgedAt: calcTime(item.bridgedAt),
     queueBridgedAt: calcTime(item.queueBridgedAt),
@@ -81,10 +82,10 @@ const getAgentCallsList = async ({ options, ...params }) => {
   } = normalized;
 
   const createdAt = from || to
-    ? {
-      from,
-      to,
-    }
+      ? {
+          from,
+          to,
+        }
     : undefined
 
   const postBody = {
