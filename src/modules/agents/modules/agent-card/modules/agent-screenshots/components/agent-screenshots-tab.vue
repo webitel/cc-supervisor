@@ -12,9 +12,10 @@
         {{ t('objects.screenshots', 2) }}
       </h3>
       <wt-action-bar
-        :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
+        :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE,  IconAction.ADD]"
         :disabled:delete="!selected.length"
         @click:refresh="loadDataList"
+        @click:add="downloadPdf"
         @click:delete="
           askDeleteConfirmation({
             deleted: selected,
@@ -119,7 +120,7 @@ import { PdfServicesAPI } from '@webitel/api-services/api'
 import {useTableAutoRefresh} from "../../../../../../../app/composables/useTableAutoRefresh";
 
 import { useScreenshotsDataListStore } from '../store/screenshots'
-import { SearchScreenRecordingsChannel } from '@webitel/api-services/gen/models';
+import { SearchScreenRecordingsChannel, WebitelMediaExporterPdfChannel } from '@webitel/api-services/gen/models';
 
 import { useRoute } from 'vue-router'
 
@@ -261,6 +262,7 @@ const downloadPdf = async () => {
     await PdfServicesAPI.generatePdfExport({
       agentId: agentId,
       itemInstance: {
+        type: WebitelMediaExporterPdfChannel.Screenrecording,
         from: filtersManager.value.filters.get('uploadedAtFrom').value,
         to: filtersManager.value.filters.get('uploadedAtTo').value,
         fileIds: selected.value.map(({id}) => id),

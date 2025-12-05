@@ -8,4 +8,5 @@ export default Object.freeze({
   SKILLS: `${SupervisorSections.AGENTS}-skills`,
   SCREEN_RECORDINGS: `${SupervisorSections.AGENTS}-screen-recordings`,
   SCREENSHOTS: `${SupervisorSections.AGENTS}-screenshots`,
+  PDFS: `${SupervisorSections.AGENTS}-pdfs`,
 });

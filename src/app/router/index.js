@@ -15,6 +15,8 @@ const StatusHistory  = import( '../../modules/agents/modules/agent-card/modules/
 const Calls  = import( '../../modules/agents/modules/agent-card/modules/agent-calls/components/agent-calls-tab.vue');
 const ScreenRecordigs = import('../../modules/agents/modules/agent-card/modules/agent-screen-recordings/components/agent-screen-recordings-tab.vue')
 const Screenshots = import('../../modules/agents/modules/agent-card/modules/agent-screenshots/components/agent-screenshots-tab.vue')
+const Pdfs = import('../../modules/agents/modules/agent-card/modules/agent-pdfs/components/agent-pdfs-tab.vue')
+
 
 import Queue from '../../modules/queues/components/the-queues.vue';
 import TheStartPage
@@ -85,6 +87,11 @@ const routes = [
             path: 'screenshots',
             name: AgentTabsPathName.SCREENSHOTS,
             component: Screenshots,
+          },
+          {
+            path: 'pdfs',
+            name: AgentTabsPathName.PDFS,
+            component: Pdfs,
           }
         ],
       }, {
