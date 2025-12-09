@@ -62,7 +62,7 @@
           <wt-image
             width="48"
             overlay-icon="zoom-in"
-            :src="getScreenRecordingMediaUrl(item.id, true)"
+            :src="getMediaUrl(item.id, true)"
             alt=""
             @click="openScreenshot(item.id)"
           />
@@ -105,11 +105,11 @@
 <script lang="ts" setup>
 import {
   downloadFile,
-  getScreenRecordingMediaUrl,
+  getMediaUrl,
 } from '@webitel/api-services/api';
 import { FileServicesAPI } from '@webitel/api-services/api';
 import { PdfServicesAPI } from '@webitel/api-services/api';
-import { SearchScreenRecordingsChannel } from '@webitel/api-services/gen/models';
+import { StorageScreenrecordingType } from '@webitel/api-services/gen/models';
 import { WtEmpty, WtGalleria } from '@webitel/ui-sdk/components';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import { getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
@@ -180,8 +180,8 @@ const initializeDefaultFilters = () => {
   });
 
   addFilter({
-    name: 'channel',
-    value: SearchScreenRecordingsChannel.ScreenshotChannel,
+    name: 'type',
+    value: StorageScreenrecordingType.Screenshot,
   });
 
   if (!hasFilter('uploadedAtFrom')) {
@@ -205,8 +205,8 @@ const prettifyTimestamp = (item) => formatDate(+item.uploaded_at, FormatDateMode
 
 const galleriaData = computed(() => {
   return dataList.value?.map((item) => ({
-    src: getScreenRecordingMediaUrl(item.id, false),
-    thumbnailSrc: getScreenRecordingMediaUrl(item.id, true),
+    src: getMediaUrl(item.id, false),
+    thumbnailSrc: getMediaUrl(item.id, true),
     title: item.view_name,
     alt: item.view_name,
   }));
