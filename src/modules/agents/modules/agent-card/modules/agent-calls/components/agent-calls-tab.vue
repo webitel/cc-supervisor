@@ -87,7 +87,7 @@ import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFil
 import { mapState } from 'vuex';
 
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
-import generateMediaURL from "../../../../../../../app/plugins/generateMediaURL";
+import { getCallMediaUrl } from '@webitel/api-services/api';
 import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
 import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields.vue';
 import TableDirection from './_internals/table-templates/table-direction.vue';
@@ -129,7 +129,7 @@ export default {
     },
     play({ fileId, callId }) {
       if (fileId) {
-        this.audioURL = generateMediaURL(fileId);
+        this.audioURL = getCallMediaUrl(fileId);
         this.playingCallId = callId;
       } else {
         this.closePlayer();

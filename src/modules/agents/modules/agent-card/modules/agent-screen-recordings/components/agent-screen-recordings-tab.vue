@@ -2,7 +2,7 @@
   <wt-vidstack-player
     v-if="isVideoOpen"
     closable
-    :src="getScreenRecordingMediaUrl(currentVideo.id)"
+    :src="getMediaUrl(currentVideo.id)"
     :title="currentVideo.view_name"
     :mime="currentVideo.mime_type"
     @close="closeVideo"
@@ -63,7 +63,7 @@
           <wt-image
             width="48"
             overlay-icon="play"
-            :src="getScreenRecordingMediaUrl(item.id, true)"
+            :src="getMediaUrl(item.id, true)"
             alt=""
             @click="openVideo(item)"
           />
@@ -106,10 +106,10 @@
 <script lang="ts" setup>
 import {
   downloadFile,
-  getScreenRecordingMediaUrl,
+  getMediaUrl,
 } from '@webitel/api-services/api';
 import { FileServicesAPI } from '@webitel/api-services/api';
-import { SearchScreenRecordingsChannel } from '@webitel/api-services/gen/models';
+import { StorageScreenrecordingType } from '@webitel/api-services/gen/models';
 import { WtEmpty, WtVidstackPlayer } from '@webitel/ui-sdk/components';
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import { IconAction } from '@webitel/ui-sdk/enums';
@@ -194,8 +194,8 @@ const initializeDefaultFilters = () => {
   });
 
   addFilter({
-    name: 'channel',
-    value: SearchScreenRecordingsChannel.ScreenSharingChannel
+    name: 'type',
+    value: StorageScreenrecordingType.Screensharing
   })
 
   if (!hasFilter('uploadedAtFrom')) {
