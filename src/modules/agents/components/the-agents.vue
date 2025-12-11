@@ -62,7 +62,6 @@
           <wt-table
             ref="agents-table"
             :data="dataList"
-            :grid-actions="false"
             :headers="headers"
             sortable
             :selectable="false"
@@ -87,18 +86,6 @@
             <template #queues="{ item }">
               <wt-display-chip-items :items="item.queues" />
             </template>
-            <template #descTrack="{ item }">
-              <div>
-                <wt-icon
-                  v-if="item.descTrack && isControlAgentScreenAllow"
-                  :color="getDeskTrackIconColor(item.user.id)"
-                  icon="desk-track"
-                  size="md"
-                  class="agents-table__desk-track-icon"
-                  @click="connect(item)"
-                ></wt-icon>
-              </div>
-            </template>
             <template #statusComment="{ item }">
               <div>
                 <agent-status-comment
@@ -106,6 +93,16 @@
                   :status-comment="item.statusComment"
                 />
               </div>
+            </template>
+            <template #actions="{ item }">
+              <wt-icon
+                v-if="item.descTrack && isControlAgentScreenAllow"
+                :color="getDeskTrackIconColor(item.user.id)"
+                icon="desk-track"
+                size="md"
+                class="agents-table__desk-track-icon"
+                @click="connect(item)"
+              ></wt-icon>
             </template>
           </wt-table>
 
@@ -124,16 +121,14 @@
       <div
         v-if="mediaStream"
       >
-        <wt-vidstack-player
+        <screen-sharing
           v-for="session in cli?.spyScreenSessions" :key="`screen-${session.id}`"
           :stream="mediaStream"
           :session="session"
           :screenshot-status="screenshotStatus"
           :screenshot-is-loading="screenshotIsLoading"
           :username="selectedAgentToSpyScreen?.user.name"
-          autoplay
-          muted
-          mode="stream"
+          :closable="false"
           @close-session="closeSession(session)"
           @make-screenshot="makeScreenshot(session)"
           @toggle-record="toggleRecordAction(session)"
@@ -145,6 +140,7 @@
 
 <script setup>
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { ScreenSharing } from '@webitel/ui-sdk/src/modules/CallSession/index';
 import { WtDisplayChipItems } from '@webitel/ui-sdk/components';
 import { IconColor } from '@webitel/ui-sdk/enums';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';

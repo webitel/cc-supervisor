@@ -77,7 +77,7 @@ export default [
   {
     value: 'descTrack',
     locale: '',
-    show: true,
+    show: false,
     sort: null,
     field: 'desc_track',
     width: '30px',
