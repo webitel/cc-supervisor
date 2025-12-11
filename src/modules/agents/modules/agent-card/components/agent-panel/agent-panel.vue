@@ -65,16 +65,14 @@
       <div
         v-if="mediaStream"
       >
-        <wt-vidstack-player
+        <screen-sharing
           v-for="session in cli?.spyScreenSessions" :key="`screen-${session.id}`"
           :stream="mediaStream"
           :session="session"
           :screenshot-status="screenshotStatus"
           :screenshot-is-loading="screenshotIsLoading"
           :username="agent.user.name"
-          autoplay
-          muted
-          mode="stream"
+          :closable="false"
           @close-session="closeSession(session)"
           @make-screenshot="makeScreenshot(session)"
           @toggle-record="toggleRecordAction(session)"
@@ -90,6 +88,7 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/components/wt-cc-agent-status-select.vue';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { ScreenSharing } from '@webitel/ui-sdk/src/modules/CallSession/index';
 
 import { AgentStatus } from 'webitel-sdk';
 import { useScreenSharingSession } from '../../../../../_shared/composables/useScreenSharingSession';
