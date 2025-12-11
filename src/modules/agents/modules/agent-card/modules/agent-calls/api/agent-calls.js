@@ -108,7 +108,7 @@ const getAgentCallsList = async ({ options, ...params }) => {
     hasTranscript,
     number,
     missed,
-    rated,
+    rated: rated === 'true' ? true : rated === 'false' ? false : rated,
     ratedBy,
     domainId,
   };
