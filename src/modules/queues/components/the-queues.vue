@@ -39,13 +39,20 @@
             ]"
             class="table-wrapper__actions-wrapper"
             @click:refresh="loadDataList"
-            @click:filters="showActionsPanel = !showActionsPanel"
           >
             <template #columns>
               <wt-table-column-select
                 :headers="headers"
                 @change="updateShownHeaders"
               />
+            </template>
+            <template #filters>
+              <wt-badge :hidden="!hasFilters">
+                <wt-icon-action
+                  action="filters"
+                  @click="showActionsPanel = !showActionsPanel"
+                />
+              </wt-badge>
             </template>
           </wt-action-bar>
 
@@ -134,6 +141,8 @@ const {
   selected,
   aggs,
 } = storeToRefs(tableStore);
+
+const hasFilters = computed(() => filtersManager.value.getFiltersList()?.length);
 
 const {
   initialize,

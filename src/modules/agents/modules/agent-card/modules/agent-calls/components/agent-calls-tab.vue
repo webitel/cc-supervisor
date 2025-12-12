@@ -3,6 +3,7 @@
     <wt-table-actions
       class="table-wrapper__actions-wrapper"
       :icons="['refresh', 'settings']"
+      is-settings-badge
       @input="tableActionsHandler"
     >
       <filter-fields
