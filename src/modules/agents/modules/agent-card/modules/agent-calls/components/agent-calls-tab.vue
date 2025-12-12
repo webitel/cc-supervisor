@@ -11,15 +11,6 @@
         entity="agentCalls"
         @change="setHeaders"
       ></filter-fields>
-
-      <template #settings>
-        <wt-badge>
-          <wt-icon-action
-            action="filters"
-            @click="emit('toggle-filter')"
-          />
-        </wt-badge>
-      </template>
     </wt-table-actions>
     <wt-loader v-show="isLoading"></wt-loader>
     <div v-show="!isLoading" class="table-loading-wrapper">
