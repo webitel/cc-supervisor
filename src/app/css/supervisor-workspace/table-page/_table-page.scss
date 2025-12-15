@@ -9,10 +9,14 @@
   width: 100%;
 
   .wt-loader {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    &.wt-brand-loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin: 0;
+      z-index: 1;
+    }
   }
 }
 
@@ -50,11 +54,14 @@
     position: relative;
 
     .wt-loader {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 1;
+      &.wt-brand-loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
+        z-index: 1;
+      }
     }
 
     .table-loading-wrapper {
