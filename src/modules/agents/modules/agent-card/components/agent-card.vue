@@ -129,7 +129,7 @@ export default {
       }
 
       const pdfs = {
-        text: this.$t('objects.pdfs', 2),
+        text: this.$t('objects.agentPdfs.pdfs', 2),
         value: 'pdfs',
         namespace: `${this.namespace}/pdfs`,
         pathName: AgentTabsPathName.PDFS,
