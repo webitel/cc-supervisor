@@ -1,7 +1,7 @@
 <template>
   <wt-context-menu
     class="table-media-action"
-    :options="call.files"
+    :options="call.files[EngineCallFileType.FileTypeAudio]"
     max-width="400px"
     @click="handleFilesSelect"
   >
@@ -22,50 +22,50 @@
   </wt-context-menu>
 </template>
 
-<script>
+<script setup lang="ts">
+import { EngineHistoryCall } from 'webitel-sdk';
+import { EngineCallFileType } from '@webitel/api-services/gen/models';
+import { computed, ref } from 'vue';
 
-export default {
-  name: 'AgentCallsMediaAction',
-  props: {
-    playingCallId: {
-      type: String,
-    },
-    // need to know, because sometimes we can have same media fails in different calls
-    call: {
-      type: Array,
-      required: true,
-    },
-  },
-  data: () => ({
-    playingFileId: '',
-  }),
-  computed: {
-    isCallsFilePlaying() {
-      return this.playingCallId === this.call.id;
-      // define the file of this call is playing,
-      // because we can have same files with same id in different calls (because of calls transfer)
-    },
-    callMediaIcon() {
-      return this.isCallsFilePlaying ? 'stop': 'play';
-    },
-  },
-  methods: {
-    handleFilesSelect({ option }) {
-      if (option.id === this.playingFileId  && this.isCallsFilePlaying) {
-        this.playingFileId = '';
-        this.$emit('stop');
-      } else {
-        this.playingFileId = option.id;
-        this.$emit('play', {
-          fileId: option.id,
-          callId: this.call.id,
-        });
-      }
-    },
-    changeFileMediaIcon(id) {
-      return id === this.playingFileId && this.isCallsFilePlaying ? 'stop' : 'play';
-    },
-  },
+interface Props {
+  playingCallId?: string;
+  // need to know, because sometimes we can have same media fails in different calls
+  call: EngineHistoryCall;
+}
+
+const props = defineProps<Props>();
+const emit = defineEmits<{
+  play: [payload: { fileId: string, callId: string }];
+  stop: [];
+}>();
+
+const playingFileId = ref('');
+
+const isCallsFilePlaying = computed(() => {
+  return props.playingCallId === props.call.id;
+  // define the file of this call is playing,
+  // because we can have same files with same id in different calls (because of calls transfer)
+});
+
+const callMediaIcon = computed(() => {
+  return isCallsFilePlaying.value ? 'stop' : 'play';
+});
+
+const handleFilesSelect = ({ option }: { option: { id: string; name: string } }) => {
+  if (option.id === playingFileId.value && isCallsFilePlaying.value) {
+    playingFileId.value = '';
+    emit('stop');
+  } else {
+    playingFileId.value = option.id;
+    emit('play', {
+      fileId: option.id,
+      callId: props.call.id,
+    });
+  }
+};
+
+const changeFileMediaIcon = (id: string) => {
+  return id === playingFileId.value && isCallsFilePlaying.value ? 'stop' : 'play';
 };
 </script>
 
