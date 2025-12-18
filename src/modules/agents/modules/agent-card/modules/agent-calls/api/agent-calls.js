@@ -38,6 +38,7 @@ const listHandler = (items) =>
     scoreRequired: item.scoreRequired
       ? (+item.scoreRequired).toFixed(2)
       : null,
+    files: groupFilesByType(item.files),
   }));
 
 const getAgentCallsList = async ({ options, ...params }) => {
@@ -108,7 +109,7 @@ const getAgentCallsList = async ({ options, ...params }) => {
     hasTranscript,
     number,
     missed,
-    rated,
+    rated: rated === 'true',
     ratedBy,
     domainId,
   };
@@ -141,6 +142,15 @@ const getAgentCallsLookup = (params) =>
       ['id', 'destination', 'state', 'created_at', 'files'],
     size: params?.size ?? 20,
   });
+
+const groupFilesByType = (files) => {
+  if (!files) return {};
+  return files.reduce((acc, file) => {
+    acc[file.type] = acc[file.type] || [];
+    acc[file.type].push(file);
+    return acc;
+  }, {});
+};
 
 export const AgentCallsAPI = {
   getList: getAgentCallsList,

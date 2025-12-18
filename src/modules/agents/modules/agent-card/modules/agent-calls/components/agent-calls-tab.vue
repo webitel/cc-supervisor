@@ -3,6 +3,7 @@
     <wt-table-actions
       class="table-wrapper__actions-wrapper"
       :icons="['refresh', 'settings']"
+      is-settings-badge
       @input="tableActionsHandler"
     >
       <filter-fields
@@ -61,7 +62,7 @@
         </template>
         <template #actions="{ item, index }">
           <agent-calls-media-action
-            v-if="item.files"
+            v-if="item.files?.[EngineCallFileType.FileTypeAudio]"
             :call="item"
             :playing-call-id="playingCallId"
             class="table-action"
@@ -85,6 +86,7 @@
 <script>
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import { mapState } from 'vuex';
+import { EngineCallFileType } from '@webitel/api-services/gen/models';
 
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
 import { getCallMediaUrl } from '@webitel/api-services/api';
@@ -113,6 +115,7 @@ export default {
   data: () => ({
     audioURL: '',
     playingCallId: '',
+    EngineCallFileType,
   }),
   computed: {
     ...mapState('agents/card', {
