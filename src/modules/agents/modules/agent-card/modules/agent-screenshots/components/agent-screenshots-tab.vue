@@ -126,7 +126,6 @@ import { useI18n } from 'vue-i18n';
 
 import { useTableAutoRefresh } from '../../../../../../../app/composables/useTableAutoRefresh';
 import { useScreenshotsDataListStore } from '../store/screenshots'
-import { WebitelMediaExporterPdfChannel } from '@webitel/api-services/gen/models';
 
 import { useRoute } from 'vue-router'
 
@@ -264,10 +263,9 @@ const handleDelete = async (items: []) => {
 
 const downloadPdf = async () => {
   try {
-    await PdfServicesAPI.generatePdfExport({
+    await PdfServicesAPI.createScreenrecordingExport({
       agentId: agentId,
       itemInstance: {
-        channel: WebitelMediaExporterPdfChannel.Screenrecording,
         from: filtersManager.value.filters.get('uploadedAtFrom').value,
         to: filtersManager.value.filters.get('uploadedAtTo').value,
         fileIds: selected.value.map(({ id }) => id),
