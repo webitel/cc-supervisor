@@ -12,10 +12,10 @@
         {{ t('objects.screenshots', 2) }}
       </h3>
       <wt-action-bar
-        :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE,  IconAction.ADD]"
+        :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE,  IconAction.DOWNLOAD_PDF]"
         :disabled:delete="!selected.length"
         @click:refresh="loadDataList"
-        @click:add="downloadPdf"
+        @click:download-pdf="downloadPdf"
         @click:delete="
           askDeleteConfirmation({
             deleted: selected,
