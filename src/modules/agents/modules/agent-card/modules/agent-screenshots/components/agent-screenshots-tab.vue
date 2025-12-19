@@ -12,9 +12,10 @@
         {{ t('objects.screenshots', 2) }}
       </h3>
       <wt-action-bar
-        :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
+        :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE,  IconAction.DOWNLOAD_PDF]"
         :disabled:delete="!selected.length"
         @click:refresh="loadDataList"
+        @click:download-pdf="downloadPdf"
         @click:delete="
           askDeleteConfirmation({
             deleted: selected,
@@ -122,10 +123,11 @@ import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import { storeToRefs } from 'pinia';
 import { computed, defineEmits, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
 
 import { useTableAutoRefresh } from '../../../../../../../app/composables/useTableAutoRefresh';
-import { useScreenshotsDataListStore } from '../store/screenshots';
+import { useScreenshotsDataListStore } from '../store/screenshots'
+
+import { useRoute } from 'vue-router'
 
 const { t } = useI18n();
 
@@ -261,7 +263,7 @@ const handleDelete = async (items: []) => {
 
 const downloadPdf = async () => {
   try {
-    await PdfServicesAPI.generatePdfExport({
+    await PdfServicesAPI.createScreenrecordingExport({
       agentId: agentId,
       itemInstance: {
         from: filtersManager.value.filters.get('uploadedAtFrom').value,

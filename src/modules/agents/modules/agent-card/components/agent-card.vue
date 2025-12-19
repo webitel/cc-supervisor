@@ -36,6 +36,8 @@ import ScreenRecordingsFilters from '../modules/agent-screen-recordings/modules/
 import Skills from '../modules/agent-skills/components/agent-skills-tab.vue';
 import StatusHistory from '../modules/agent-status-history/components/agent-status-history-tab.vue';
 import StatusHistoryFilters from '../modules/agent-status-history/modules/filters/components/agent-status-history-filters.vue';
+import Pdfs from '../modules/agent-pdfs/components/agent-pdfs-tab.vue';
+import PdfsFilters from '../modules/agent-pdfs/modules/filters/components/agent-pdfs-filters.vue';
 import AgentPanel from './agent-panel/agent-panel.vue';
 
 export default {
@@ -52,6 +54,8 @@ export default {
     Skills,
     StatusHistory,
     StatusHistoryFilters,
+    Pdfs,
+    PdfsFilters,
   },
   mixins: [autoRefreshMixin],
 
@@ -124,13 +128,20 @@ export default {
         pathName: AgentTabsPathName.SKILLS,
       }
 
+      const pdfs = {
+        text: this.$t('objects.agentPdfs.pdfs', 2),
+        value: 'pdfs',
+        namespace: `${this.namespace}/pdfs`,
+        pathName: AgentTabsPathName.PDFS,
+      }
+
       tabs.push(generalTab, calls);
 
       if (this.isControlAgentScreenAllow) {
         tabs.push(screenshots, screenRecordings);
       }
 
-      tabs.push(statusHistory, skills);
+      tabs.push(statusHistory, skills, pdfs);
 
       return tabs;
     },
