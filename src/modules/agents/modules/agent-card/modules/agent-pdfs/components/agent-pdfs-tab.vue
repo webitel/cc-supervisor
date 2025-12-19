@@ -21,7 +21,7 @@
           <wt-badge>
             <wt-icon-action
               action="filters"
-              @click="$emit('toggle-filter')"
+              @click="emit('toggle-filter')"
             />
           </wt-badge>
         </template>
@@ -38,7 +38,7 @@ import { useRoute } from 'vue-router';
 import { FileServicesAPI } from '@webitel/api-services/api';
 import { WebitelMediaExporterExportRecord } from '@webitel/api-services/gen/models';
 
-defineEmits(['toggle-filter']);
+const emit = defineEmits(['toggle-filter']);
 
 const route = useRoute();
 const agentId = route.params.id as string;
