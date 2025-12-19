@@ -45,7 +45,7 @@ const agentId = route.params.id as string;
 
 const tableStore = usePdfsDataListStore();
 
-const handleDeleteItem = async (item: WebitelMediaExporterExportRecord) => {
+const handleDeleteItem = (item: WebitelMediaExporterExportRecord) => {
   return FileServicesAPI.deleteScreenRecordingsByAgent({
     id: item.fileId,
     agentId: agentId,
