@@ -109,7 +109,7 @@ import {
   getMediaUrl,
 } from '@webitel/api-services/api';
 import { FileServicesAPI } from '@webitel/api-services/api';
-import { StorageScreenrecordingType } from '@webitel/api-services/gen/models';
+import { StorageScreenrecordingType, StorageScreenrecordingChannel } from '@webitel/api-services/gen/models';
 import { WtEmpty, WtVidstackPlayer } from '@webitel/ui-sdk/components';
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import { IconAction } from '@webitel/ui-sdk/enums';
@@ -196,6 +196,11 @@ const initializeDefaultFilters = () => {
   addFilter({
     name: 'type',
     value: StorageScreenrecordingType.Screensharing
+  })
+
+  addFilter({
+    name: 'channel',
+    value: StorageScreenrecordingChannel.Screenrecording
   })
 
   if (!hasFilter('uploadedAtFrom')) {
