@@ -110,7 +110,7 @@ import {
 } from '@webitel/api-services/api';
 import { FileServicesAPI } from '@webitel/api-services/api';
 import { PdfServicesAPI } from '@webitel/api-services/api';
-import { StorageScreenrecordingType } from '@webitel/api-services/gen/models';
+import { StorageScreenrecordingChannel, StorageScreenrecordingType } from '@webitel/api-services/gen/models';
 import { WtEmpty, WtGalleria } from '@webitel/ui-sdk/components';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import { getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
@@ -125,9 +125,9 @@ import { computed, defineEmits, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useTableAutoRefresh } from '../../../../../../../app/composables/useTableAutoRefresh';
-import { useScreenshotsDataListStore } from '../store/screenshots'
+import { useScreenshotsDataListStore } from '../store/screenshots';
 
-import { useRoute } from 'vue-router'
+import { useRoute } from 'vue-router';
 
 const { t } = useI18n();
 
@@ -185,6 +185,11 @@ const initializeDefaultFilters = () => {
     name: 'type',
     value: StorageScreenrecordingType.Screenshot,
   });
+
+  addFilter({
+    name: 'channel',
+    value: StorageScreenrecordingChannel.Screenrecording
+  })
 
   if (!hasFilter('uploadedAtFrom')) {
     addFilter({
