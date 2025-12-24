@@ -61,13 +61,18 @@
         >{{ $t('pages.card.callAgent') }}
         </wt-button>
       </div>
+      <!-- <video v-if="mediaStream" 
+      :srcObject="mediaStream"
+       width="200" height="200" 
+       autoplay playsinline muted style="border: 1px solid red;"
+       ></video> -->
 
       <div
         v-if="mediaStream"
       >
         <screen-sharing
           v-for="session in cli?.spyScreenSessions" :key="`screen-${session.id}`"
-          :stream="mediaStream"
+          :stream="session.stream"
           :session="session"
           :screenshot-status="screenshotStatus"
           :screenshot-is-loading="screenshotIsLoading"
@@ -86,6 +91,7 @@
 import { computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import {WtVidstackPlayer} from '@webitel/ui-sdk/components';
 import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/components/wt-cc-agent-status-select.vue';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { ScreenSharing } from '@webitel/ui-sdk/src/modules/CallSession/index';
