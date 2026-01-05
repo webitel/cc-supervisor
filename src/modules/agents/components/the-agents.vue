@@ -129,6 +129,7 @@
         v-if="mediaStream"
       >
         <screen-sharing
+          :class="{ 'screen-sharing--moved': isScreenSharingMoved }"
           v-for="session in cli?.spyScreenSessions" :key="`screen-${session.id}`"
           :stream="mediaStream"
           :session="session"
@@ -222,6 +223,9 @@ initCSVExport(AgentsAPI.getList, { filename: 'agents' });
 
 initialize();
 
+// if call-window popup is opened need to move screen sharing player
+const isScreenSharingMoved = computed(() => store.state.call.isEavesdropOpened || store.state.call.isVisible)
+
 const filteredTableHeaders = computed(() => headers.value.filter((header) => header.value !== 'descTrack'))
 
 const searchValue = computed(() => filtersManager.value.filters.get('search')?.value || '');
@@ -302,6 +306,11 @@ onUnmounted(() => {
       }
     }
   }
+}
+
+.screen-sharing--moved {
+  right: calc(256px + var(--spacing-sm));  // 256px is current width of call-window popup
+  bottom: var(--spacing-sm);
 }
 
 </style>
