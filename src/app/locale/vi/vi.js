@@ -111,7 +111,7 @@ export default {
         columns: {
           cause: 'Nguyên nhân kết thúc',
           direction: 'Hướng',
-          duration: 'Thời lượng',
+          duration: 'Tổng thời lượng',
           from: 'Từ',
           to: 'Đến',
           createdAt: 'Ngày & giờ',
@@ -137,7 +137,8 @@ export default {
           display: 'Hiển thị',
           holdSec: 'Giữ',
           waitSec: 'Chờ',
-          billSec: 'Thanh toán',
+          talkSec: 'Thời lượng cuộc gọi',
+          billSec: 'Tính cước',
           reportingSec: 'Báo cáo',
           queueWaitSec: 'Chờ hàng đợi',
           queueDurationSec: 'Thời lượng hàng đợi',

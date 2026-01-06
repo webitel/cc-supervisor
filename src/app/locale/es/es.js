@@ -111,7 +111,7 @@ export default {
         columns: {
           cause: 'Motivo de finalización',
           direction: 'Dirección',
-          duration: 'Duración',
+          duration: 'Duración total',
           from: 'Desde',
           to: 'Hasta',
           createdAt: 'Fecha y hora',
@@ -137,6 +137,7 @@ export default {
           display: 'Mostrar',
           holdSec: 'En espera',
           waitSec: 'Espera',
+          talkSec: 'Duración de conversación',
           billSec: 'Facturación',
           reportingSec: 'Reporte',
           queueWaitSec: 'Espera en cola',

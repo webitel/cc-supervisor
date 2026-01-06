@@ -111,7 +111,7 @@ export default {
         columns: {
           cause: 'Hangup cause',
           direction: 'Direction',
-          duration: 'Duration',
+          duration: 'Total duration',
           from: 'From',
           to: 'To',
           createdAt: 'Date & time',
@@ -137,6 +137,7 @@ export default {
           display: 'Display',
           holdSec: 'Hold',
           waitSec: 'Wait',
+          talkSec: 'Talk duration',
           billSec: 'Billing',
           reportingSec: 'Reporting',
           queueWaitSec: 'Queue wait',

@@ -32,6 +32,7 @@ const listHandler = (items) =>
     holdSec: calcDuration(item.holdSec),
     waitSec: calcDuration(item.waitSec),
     billSec: calcDuration(item.billSec),
+    talkSec: calcDuration(item.talkSec),
     reportingSec: calcDuration(item.reportingSec),
     queueWaitSec: calcDuration(item.queueWaitSec),
     queueDurationSec: calcDuration(item.queueDurationSec),
