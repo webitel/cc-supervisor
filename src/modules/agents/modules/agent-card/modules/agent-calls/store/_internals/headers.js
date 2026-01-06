@@ -162,6 +162,13 @@ export default [
     field: 'wait_sec',
   },
   {
+    value: 'talkSec',
+    locale: 'pages.card.calls.columns.talkSec',
+    show: true,
+    sort: null,
+    field: 'talk_sec',
+  },
+  {
     value: 'billSec',
     locale: 'pages.card.calls.columns.billSec',
     show: false,

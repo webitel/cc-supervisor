@@ -111,7 +111,7 @@ export default {
         columns: {
           cause: 'Powód zakończenia',
           direction: 'Kierunek',
-          duration: 'Czas trwania',
+          duration: 'Całkowity czas trwania',
           from: 'Od',
           to: 'Do',
           createdAt: 'Data i godzina',
@@ -137,7 +137,8 @@ export default {
           display: 'Wyświetl',
           holdSec: 'Zatrzymanie',
           waitSec: 'Oczekiwanie',
-          billSec: 'Rozliczenie',
+          talkSec: 'Czas rozmowy',
+          billSec: 'Taryfikacja',
           reportingSec: 'Raportowanie',
           queueWaitSec: 'Oczekiwanie w kolejce',
           queueDurationSec: 'Czas w kolejce',

@@ -111,7 +111,7 @@ export default {
         columns: {
           cause: 'Причина завершення',
           direction: 'Напрям',
-          duration: 'Тривалість',
+          duration: 'Загальна тривалість',
           from: 'Номер від',
           to: 'Номер кому',
           createdAt: 'Дата і час',
@@ -137,7 +137,8 @@ export default {
           display: 'Номер для відображення',
           holdSec: 'Час утримання',
           waitSec: 'Час очікування',
-          billSec: 'Тривалість розмови',
+          talkSec: 'Тривалість розмови',
+          billSec: 'Час тарифікації',
           reportingSec: 'Тривалість постобробки',
           queueWaitSec: 'Тривалість очікування в черзі',
           queueDurationSec: 'Тривалість в черзі',

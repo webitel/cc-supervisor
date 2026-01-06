@@ -111,7 +111,7 @@ export default {
         columns: {
           cause: 'Cauză închidere',
           direction: 'Direcție',
-          duration: 'Durată',
+          duration: 'Durată totală',
           from: 'De la',
           to: 'Până la',
           createdAt: 'Dată și oră',
@@ -137,6 +137,7 @@ export default {
           display: 'Afișare',
           holdSec: 'Ținut',
           waitSec: 'Așteptare',
+          talkSec: 'Durata conversației',
           billSec: 'Facturare',
           reportingSec: 'Raportare',
           queueWaitSec: 'Așteptare coadă',

@@ -111,7 +111,7 @@ export default {
         columns: {
           cause: 'Аяқтау себебі',
           direction: 'Бағыт',
-          duration: 'Ұзақтығы',
+          duration: 'Жалпы ұзақтығы',
           from: 'Кімнен',
           to: 'Кімге',
           createdAt: 'Күні мен уақыты',
@@ -137,6 +137,7 @@ export default {
           display: 'Көрсету',
           holdSec: 'Ұстап тұру',
           waitSec: 'Күту',
+          talkSec: 'Сөйлесу ұзақтығы',
           billSec: 'Тарификация',
           reportingSec: 'Есеп беру',
           queueWaitSec: 'Кезекте күту',

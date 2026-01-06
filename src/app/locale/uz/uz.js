@@ -111,7 +111,7 @@ export default {
         columns: {
           cause: 'Yakunlash sababi',
           direction: 'Yo‘nalish',
-          duration: 'Davomiyligi',
+          duration: 'Umumiy davomiyligi',
           from: 'Dan',
           to: 'Gacha',
           createdAt: 'Sana va vaqt',
@@ -137,7 +137,8 @@ export default {
           display: 'Ko‘rsatish',
           holdSec: 'Kutish',
           waitSec: 'Navbat kutish',
-          billSec: 'Hisoblash',
+          talkSec: 'Suhbat davomiyligi',
+          billSec: 'Tariflash',
           reportingSec: 'Hisobot',
           queueWaitSec: 'Navbat kutish',
           queueDurationSec: 'Navbat davomiyligi',
