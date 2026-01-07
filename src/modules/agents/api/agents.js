@@ -65,7 +65,7 @@ export const getAgentsList = async (params) => {
     supervisor,
     auditor,
     region,
-    utilization, // utilizationTo
+    utilizationProgress, // utilizationTo
     callNow,
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
@@ -88,7 +88,7 @@ export const getAgentsList = async (params) => {
       queue,
       team,
       utilizationFrom,
-      utilization,
+      utilizationProgress,
       callNow,
       skill,
       region,
