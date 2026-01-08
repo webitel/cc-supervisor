@@ -32,6 +32,7 @@ const callHandler = (context) => (action, call) => {
         context.commit('SET_EAVESDROP_IS_OPENED', true);
         context.commit('SET_IS_EAVESDROP', false);
         context.commit('SET_CLIENT', client);
+        context.commit('SET_AGENT', { name: call.displayName });
       } else {
         context.commit('SET_IS_OPENED', true);
       }
