@@ -32,6 +32,7 @@ const callHandler = (context) => (action, call) => {
         context.commit('SET_EAVESDROP_IS_OPENED', true);
         context.commit('SET_IS_EAVESDROP', false);
         context.commit('SET_CLIENT', client);
+        context.commit('SET_AGENT', { name: call.displayName });
       } else {
         context.commit('SET_IS_OPENED', true);
       }
@@ -84,6 +85,7 @@ const defaultState = () => ({
   isEavesdrop: false,
   isEavesdropOpened: false,
   eavesdropLastDTMF: 0,
+  audioElement: null,
 });
 
 const state = defaultState();
@@ -102,6 +104,7 @@ const actions = {
     context.commit('SET_VISIBILITY', true);
   },
   CLOSE_WINDOW: async (context) => {
+    context.commit('STOP_AUDIO_PLAYBACK');
     context.dispatch('LEAVE_CALL');
     context.commit('STOP_TIMER');
     context.commit('SET_IS_OPENED', false);
@@ -112,6 +115,7 @@ const actions = {
     context.commit('SET_EAVESDROP_IS_OPENED', true);
   },
   EAVESDROP_CLOSE_WINDOW: async (context) => {
+    context.commit('STOP_AUDIO_PLAYBACK');
     context.dispatch('LEAVE_CALL');
     context.commit('STOP_TIMER');
     context.commit('SET_EAVESDROP_IS_OPENED', false);
@@ -211,12 +215,15 @@ const actions = {
   },
 
   HANDLE_STREAM_ACTION: (context, call) => {
+    context.commit('STOP_AUDIO_PLAYBACK');
+
     const audio = new Audio();
     const stream = call.peerStreams.slice(-1)
     .pop();
     if (stream) {
       audio.srcObject = stream;
       audio.play();
+      context.commit('SET_AUDIO_ELEMENT', audio);
     }
   },
 };
@@ -260,6 +267,15 @@ const mutations = {
   },
   SET_EAVESDROP_LAST_DTMF: (state, dtmf) => {
     state.eavesdropLastDTMF = dtmf;
+  },
+  SET_AUDIO_ELEMENT: (state, audioElement) => {
+    state.audioElement = audioElement;
+  },
+  STOP_AUDIO_PLAYBACK: (state) => {
+    if (state.audioElement) {
+      state.audioElement.pause();
+      state.audioElement = null;
+    }
   },
 };
 
