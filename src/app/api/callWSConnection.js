@@ -3,8 +3,7 @@ import { Client } from 'webitel-sdk';
 
 const { hostname, protocol } = window.location;
 const origin = (`${protocol}//${hostname}`).replace(/^http/, 'ws');
-const BASE_URL = import.meta.env.PROD ? `${origin}/ws` : 'wss://dev.webitel.com/ws';
-// const BASE_URL = 'ws://10.10.10.25:10025';
+const BASE_URL = import.meta.env.PROD ? `${origin}/ws` : import.meta.env.VITE_WEB_SOCKET_URL;
 
 let cliInstance = null;
 
@@ -40,6 +39,6 @@ export const destroyCliInstance = async () => {
 };
 
 export const getCliInstance = async () => {
-  if (!cliInstance) cliInstance = createCliInstance();
+  if (!cliInstance) cliInstance = await createCliInstance();
   return cliInstance;
 };

@@ -182,8 +182,8 @@ const actions = {
   },
 
   ATTACH_TO_CALL: async (context, { id }) => {
-    const client = await getCliInstance();
     try {
+      const client = await getCliInstance();
       context.commit('SET_IS_EAVESDROP', true);
       await client.eavesdrop({
         id,
