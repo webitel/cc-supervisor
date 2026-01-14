@@ -60,6 +60,11 @@
             {{ item.ratedBy.name }}
           </div>
         </template>
+        <template #member="{ item }">
+          <div v-if="item.member">
+            {{ item.member.name }}
+          </div>
+        </template>
         <template #actions="{ item, index }">
           <agent-calls-media-action
             v-if="item.files?.[EngineCallFileType.FileTypeAudio]"
