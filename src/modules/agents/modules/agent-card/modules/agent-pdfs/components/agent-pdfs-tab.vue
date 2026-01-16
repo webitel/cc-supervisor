@@ -42,7 +42,7 @@ import { usePdfsDataListStore } from '../store/pdfs';
 import { useRoute } from 'vue-router';
 import { FileServicesAPI } from '@webitel/api-services/api';
 import { WebitelMediaExporterExportRecord } from '@webitel/api-services/gen/models';
-import { useI18n } from 'vue-i18n'; 
+import { useI18n } from 'vue-i18n';
 
 const emit = defineEmits(['toggle-filter']);
 
