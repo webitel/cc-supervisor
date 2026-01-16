@@ -27,14 +27,16 @@ export default {
       }
     },
     statusText() {
-      if (this.item.pauseCause) {
-        return this.translatePauseCause(this.item.pauseCause);;
+      // Show offline cause only for offline agents
+      if (this.item.status === AgentStatus.Offline && this.item.pauseCause) {
+        return this.translatePauseCause(this.item.pauseCause);
       }
 
       return this.$t(`packages.agentStatus.${snakeToCamel(this.item.status)}`);
     },
   },
   methods: {
+    // Translate offline pause cause
     translatePauseCause(statusComment) {
       const reasonParts = statusComment.replace('system/', '').split('/');
 
