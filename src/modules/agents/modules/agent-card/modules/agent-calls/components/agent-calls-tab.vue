@@ -148,7 +148,9 @@ export default {
       this.audioURL = '';
       this.playingCallId = '';
     },
-    // Override mixin's initializeList to prevent initial list loading before userId is ready.(https://webitel.atlassian.net/browse/WTEL-8652)
+    // @author @o.chorpita
+    // [WTEL-8652](https://webitel.atlassian.net/browse/WTEL-8652)
+    // Override mixin's initializeList to prevent initial list loading before userId is ready.
     async initializeList() {
       if (!this.userId) return;
 
