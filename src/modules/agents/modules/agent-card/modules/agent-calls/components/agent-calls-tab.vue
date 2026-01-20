@@ -148,6 +148,19 @@ export default {
       this.audioURL = '';
       this.playingCallId = '';
     },
+    // @author @o.chorpita
+    // [WTEL-8652](https://webitel.atlassian.net/browse/WTEL-8652)
+    // Override mixin's initializeList to prevent initial list loading before userId is ready.
+    async initializeList() {
+      if (!this.userId) return;
+
+      this.isLoading = true;
+      try {
+        await this.loadList();
+      } finally {
+        this.isLoading = false;
+      }
+    },
   },
   mounted() {
     const unwatch = this.$watch('userId', async (newVal) => {
