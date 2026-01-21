@@ -1,7 +1,7 @@
 <template>
-  <section class="table-wrapper table-wrapper--tab-table">
+  <section class="table-section table-section--tab-table">
     <wt-table-actions
-      class="table-wrapper__actions-wrapper"
+      class="table-section__actions-wrapper"
       :icons="['refresh', 'settings']"
       is-settings-badge
       @input="tableActionsHandler"

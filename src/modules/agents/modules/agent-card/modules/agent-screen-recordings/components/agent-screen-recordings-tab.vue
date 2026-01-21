@@ -7,7 +7,7 @@
     :mime="currentVideo.mime_type"
     @close="closeVideo"
   />
-  <section class="table-wrapper table-wrapper--tab-table table-page">
+  <section class="table-section table-section--tab-table">
     <header class="table-title">
       <h3 class="table-title__title">
         {{ t('objects.screenRecordings', 2) }}

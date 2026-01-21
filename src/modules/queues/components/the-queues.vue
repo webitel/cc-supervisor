@@ -1,5 +1,8 @@
 <template>
-  <wt-page-wrapper :actions-panel="showActionsPanel">
+  <wt-page-wrapper
+    :actions-panel="showActionsPanel"
+    class="table-page"
+  >
     <template #header>
       <wt-headline>
         <template #title>
@@ -25,19 +28,21 @@
       </wt-headline>
     </template>
     <template #actions-panel>
-      <queue-filters-panel @hide="showActionsPanel = false"/>
+      <queue-filters-panel @hide="showActionsPanel = false" />
     </template>
     <template #main>
-      <section class="main-section-wrapper">
-        <wt-loader v-show="isLoading"></wt-loader>
-        <div v-show="dataList?.length" class="table-wrapper">
-          <wt-action-bar
+      <section class="table-section">
+        <header class="table-title">
+          <div>
+            <!-- title should be here -->
+          </div>
+            <wt-action-bar
             :include="[
               IconAction.FILTERS,
               IconAction.REFRESH,
               IconAction.COLUMNS
             ]"
-            class="table-wrapper__actions-wrapper"
+            class="table-section__actions-wrapper"
             @click:refresh="loadDataList"
           >
             <template #columns>
@@ -55,6 +60,12 @@
               </wt-badge>
             </template>
           </wt-action-bar>
+        </header>
+        <wt-loader v-show="isLoading && !dataList.length" />
+        <div
+          v-show="dataList?.length"
+          class="table-section__table-wrapper"
+        >
 
           <wt-table
             :headers="headers"
@@ -85,7 +96,7 @@
               {{ t('reusable.total') }}
             </template>
             <template #agents-footer>
-              <table-agents :status="aggs"/>
+              <table-agents :status="aggs" />
             </template>
             <template #free-footer>
               {{ aggs.free }}
@@ -181,5 +192,7 @@ onUnmounted(() => {
 })
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

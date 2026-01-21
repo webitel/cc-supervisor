@@ -1,11 +1,11 @@
 <template>
-  <section class="table-wrapper table-wrapper--tab-table">
+  <section class="table-section table-section--tab-table">
     <skill-popup
       :namespace="namespace"
       @close="closePopup"
     ></skill-popup>
     <wt-table-actions
-      class="table-wrapper__actions-wrapper"
+      class="table-section__actions-wrapper"
       :icons="['refresh']"
       @input="tableActionsHandler"
     >

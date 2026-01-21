@@ -6,7 +6,7 @@
     @download="downloadFile(dataList[galleriaActiveIndex].id)"
     @delete="handleDeleteFromGalleria"
   />
-  <section class="table-wrapper table-page table-wrapper--tab-table">
+  <section class="table-section table-section--tab-table">
     <header class="table-title">
       <h3 class="table-title__title">
         {{ t('objects.screenshots', 2) }}

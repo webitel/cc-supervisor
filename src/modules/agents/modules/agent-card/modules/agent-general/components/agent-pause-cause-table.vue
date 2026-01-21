@@ -1,7 +1,7 @@
 <template>
-  <article class="table-wrapper table-wrapper--tab-table">
+  <article class="table-section table-section--tab-table">
     <wt-table-actions
-      class="table-wrapper__actions-wrapper"
+      class="table-section__actions-wrapper"
       :icons="['refresh']"
       @input="tableActionsHandler"
     ></wt-table-actions>
