@@ -1,5 +1,5 @@
 <template>
-  <form class="agent-info-form">
+  <form class="agent-info-form wt-scrollbar">
     <wt-select
       :value="agent.team"
       :label="$t('objects.team')"
@@ -105,7 +105,6 @@ export default {
 @use '@webitel/ui-sdk/src/css/main';
 
 .agent-info-form {
-  @extend %wt-scrollbar;
   padding: var(--spacing-sm);
   overflow: auto;
 

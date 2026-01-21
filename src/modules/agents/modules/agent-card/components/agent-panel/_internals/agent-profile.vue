@@ -7,7 +7,7 @@
         alt="Agent avatar"
       >
     </div>
-    <strong class="agent-profile__name">{{ name }}</strong>
+    <strong class="agent-profile__name typo-subtitle-1">{{ name }}</strong>
   </article>
 </template>
 
@@ -23,7 +23,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 @use '@webitel/ui-sdk/src/css/main';
 
 .agent-profile {
@@ -42,8 +45,5 @@ export default {
     }
   }
 
-  .agent-panel__name {
-    @extend %typo-subtitle-1;
-  }
 }
 </style>

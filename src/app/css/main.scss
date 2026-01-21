@@ -7,7 +7,6 @@
 
 //disables scrollbar on 100vh auth on small laptops
 body {
-  @extend %typo-body-1;
   display: flex;
   height: auto;
   background: var(--wt-page-wrapper-background-color);

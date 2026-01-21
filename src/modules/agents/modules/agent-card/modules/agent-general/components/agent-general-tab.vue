@@ -30,7 +30,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@use '@webitel/ui-sdk/src/css/main' as *;
+@use '@webitel/styleguide/viewport-breakpoints' as *;
 
 .agent-general-tab {
   display: grid;
