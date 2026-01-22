@@ -1,5 +1,6 @@
 <template>
-  <section class="table-section table-section--tab-table">
+  <section class="table-section">
+    <header class="table-title">
     <wt-table-actions
       class="table-section__actions-wrapper"
       :icons="['refresh', 'settings']"
@@ -12,8 +13,20 @@
         @change="setHeaders"
       ></filter-fields>
     </wt-table-actions>
-    <wt-loader v-show="isLoading"></wt-loader>
-    <div v-show="!isLoading" class="table-loading-wrapper">
+  </header>
+  
+  <wt-loader v-show="isLoading" />
+  
+  <wt-empty
+      v-if="showEmpty"
+      :image="emptyImage"
+      :headline="emptyHeadline"
+      :title="emptyTitle"
+      :text="emptyText"
+    />
+
+
+    <div v-show="!isLoading" class="table-section__table-wrapper">
       <wt-table
         ref="wt-table"
         :headers="headers"
