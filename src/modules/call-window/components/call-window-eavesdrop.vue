@@ -8,9 +8,7 @@
           color="error"
         ></wt-icon>
       </div>
-      <wt-avatar
-        size="lg"
-      ></wt-avatar>
+      <wt-avatar size="lg"></wt-avatar>
       <wt-rounded-action
         icon="close"
         color="error"
@@ -27,7 +25,7 @@
           <wt-popover>
             <template #activator="{ toggle }">
               <div
-                class="call-window-eavesdrop-title__subtitle"
+                class="call-window-eavesdrop-title__subtitle typo-body-2"
                 tabindex="0"
                 @click="(ev) => copyNumber(ev, toggle)"
                 @keydown.enter="(ev) => copyNumber(ev, toggle)"
@@ -52,7 +50,7 @@
           color="error"
           size="lg"
         ></wt-icon>
-        <p class="call-window-eavesdrop-content__duration">
+        <p class="call-window-eavesdrop-content__duration typo-body-2">
           {{ $t('callWindow.duration') }}: {{ startTime }}
         </p>
       </div>
@@ -162,7 +160,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 @use '@webitel/ui-sdk/src/css/main';
 
 .call-window-eavesdrop-state-icon {
@@ -174,7 +175,6 @@ export default {
 }
 
 .call-window-eavesdrop-title__subtitle {
-  @extend %typo-body-2;
   cursor: pointer;
 }
 
@@ -186,15 +186,10 @@ export default {
   gap: var(--spacing-sm);
 }
 
-.call-window-eavesdrop-content__duration {
-  @extend %typo-body-2;
-}
-
 .call-window-eavesdrop-footer {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--spacing-xs);
 }
-
 </style>

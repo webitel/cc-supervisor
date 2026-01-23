@@ -1,5 +1,6 @@
 <template>
   <main v-if="hasAccess" class="the-supervisor-workspace">
+    <app-header/>
     <call-window/>
     <call-window-eavesdrop/>
     <wt-notifications-bar/>
@@ -13,6 +14,7 @@
 <script>
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 import { mapGetters } from 'vuex';
+import AppHeader from '../../modules/_reusable/app-header/components/app-header.vue';
 
 import CallWindow from '../../modules/call-window/components/call-window-conversation.vue';
 import CallWindowEavesdrop from '../../modules/call-window/components/call-window-eavesdrop.vue';
@@ -20,6 +22,7 @@ import CallWindowEavesdrop from '../../modules/call-window/components/call-windo
 export default {
   name: 'TheSupervisorWorkspace',
   components: {
+    AppHeader,
     CallWindow,
     CallWindowEavesdrop,
   },
@@ -41,19 +44,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@use '../css/supervisor-workspace/the-supervisor-workspace';
 
 .the-supervisor-workspace {
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 100vh;
-  max-height: 200vh;
+  height: 100%;
 }
 
 .the-supervisor-workspace__content {
   flex-grow: 1;
-  max-height: 100%;
   min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 </style>

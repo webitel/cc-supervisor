@@ -9,9 +9,12 @@
     <div class="call-window-content-wrapper">
       <section class="call-window-visible-wrapper">
         <header class="call-window-header">
-          <slot name="header" v-bind="{ isExpanded }"></slot>
+          <slot
+            name="header"
+            v-bind="{ isExpanded }"
+          ></slot>
         </header>
-        <p class="call-window-title">
+        <p class="call-window-title typo-subtitle-2">
           <slot name="title"></slot>
         </p>
       </section>
@@ -44,7 +47,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 @use '@webitel/ui-sdk/src/css/main';
 
 $width: 232px;
@@ -75,7 +81,6 @@ $width: 232px;
   }
 
   .call-window-title {
-    @extend %typo-subtitle-2;
     text-align: center;
   }
 

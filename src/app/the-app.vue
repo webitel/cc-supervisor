@@ -1,15 +1,12 @@
 <template>
-  <app-header/>
   <router-view />
 </template>
 
 <script>
 import { mapActions } from 'vuex';
-import AppHeader from '../modules/_reusable/app-header/components/app-header.vue';
 
 export default {
   name: 'TheApp',
-  components: { AppHeader },
   created() {
     this.setAutoRefresh();
     this.setLanguage();

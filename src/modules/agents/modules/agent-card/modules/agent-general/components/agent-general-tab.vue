@@ -30,17 +30,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@use '@webitel/ui-sdk/src/css/main' as *;
+@use '@webitel/styleguide/viewport-breakpoints' as *;
 
 .agent-general-tab {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  grid-column-gap: var(--spacing-sm);
+  display: flex;
+  gap: var(--spacing-sm);
   min-height: 0;
   margin-top: var(--spacing-sm);
 
-  @media (#{$media} and #{$media-width-sm}) {
-    grid-template-columns: 1fr;
+  .agent-info-form {
+    flex: 1;
+    min-height: 0;
+  }
+  .agent-pause-cause-table {
+    flex: 2;
+    min-height: 0;
   }
 }
 </style>

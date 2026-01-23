@@ -1,19 +1,34 @@
 <template>
-  <section class="table-wrapper table-wrapper--tab-table">
-    <wt-table-actions
-      class="table-wrapper__actions-wrapper"
-      :icons="['refresh', 'settings']"
-      is-settings-badge
-      @input="tableActionsHandler"
+  <section class="table-section">
+    <header class="table-title">
+      <h3 class="table-title__title">
+      </h3>
+      <wt-table-actions
+        class="table-section__actions-wrapper"
+        :icons="['refresh', 'settings']"
+        is-settings-badge
+        @input="tableActionsHandler"
+      >
+        <filter-fields
+          :headers="headers"
+          entity="agentCalls"
+          @change="setHeaders"
+        ></filter-fields>
+      </wt-table-actions>
+    </header>
+
+    <wt-loader v-show="isLoading" />
+
+    <wt-empty
+      v-if="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
+    />
+
+    <div
+      v-if="dataList?.length"
+      class="table-section__table-wrapper"
     >
-      <filter-fields
-        :headers="headers"
-        entity="agentCalls"
-        @change="setHeaders"
-      ></filter-fields>
-    </wt-table-actions>
-    <wt-loader v-show="isLoading"></wt-loader>
-    <div v-show="!isLoading" class="table-loading-wrapper">
       <wt-table
         ref="wt-table"
         :headers="headers"
@@ -23,7 +38,7 @@
         @sort="sort"
       >
         <template #direction="{ item }">
-          <table-direction :item="item"/>
+          <table-direction :item="item" />
         </template>
         <template #user="{ item }">
           <div v-if="item.user">
@@ -77,7 +92,10 @@
         </template>
       </wt-table>
 
-      <filter-pagination :is-next="isNext" @input="closePlayer"/>
+      <filter-pagination
+        :is-next="isNext"
+        @input="closePlayer"
+      />
 
       <wt-player
         v-show="audioURL"
@@ -89,12 +107,15 @@
 </template>
 
 <script>
+import { computed } from 'vue';
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
-import { mapState } from 'vuex';
+import { mapState, useStore } from 'vuex';
 import { EngineCallFileType } from '@webitel/api-services/gen/models';
+import { WtEmpty } from '@webitel/ui-sdk/components';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { getCallMediaUrl } from '@webitel/api-services/api';
 
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
-import { getCallMediaUrl } from '@webitel/api-services/api';
 import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
 import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields.vue';
 import TableDirection from './_internals/table-templates/table-direction.vue';
@@ -107,6 +128,7 @@ export default {
     FilterFields,
     FilterPagination,
     AgentCallsMediaAction,
+    WtEmpty,
   },
   mixins: [
     tablePageMixin,
@@ -122,6 +144,29 @@ export default {
     playingCallId: '',
     EngineCallFileType,
   }),
+  setup() {
+    const store = useStore();
+    const dataList = computed(() => store.state.agents.card.calls.dataList);
+    const isLoading = computed(() => store.state.agents.card.calls.isLoading);
+    const filters = computed(() => store.getters['agents/card/calls/filters/GET_FILTERS']);
+
+    const {
+      showEmpty,
+      image: imageEmpty,
+      text: textEmpty,
+    } = useTableEmpty({
+      dataList,
+      filters,
+      isLoading,
+      error: computed(() => null),
+    });
+
+    return {
+      showEmpty,
+      imageEmpty,
+      textEmpty,
+    };
+  },
   computed: {
     ...mapState('agents/card', {
       userId: (state) => state.agent.user?.id,
@@ -172,7 +217,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 .wt-player {
   position: absolute;
   left: 0;

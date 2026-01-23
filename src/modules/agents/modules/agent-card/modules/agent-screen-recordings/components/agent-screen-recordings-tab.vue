@@ -7,7 +7,7 @@
     :mime="currentVideo.mime_type"
     @close="closeVideo"
   />
-  <section class="table-wrapper table-wrapper--tab-table table-page">
+  <section class="table-section">
     <header class="table-title">
       <h3 class="table-title__title">
         {{ t('objects.screenRecordings', 2) }}
@@ -49,9 +49,11 @@
       :text="textEmpty"
     />
 
-    <div class="table-section__table-wrapper">
+    <div 
+      v-if="dataList?.length"
+      class="table-section__table-wrapper"
+    >
       <wt-table
-        v-if="dataList?.length"
         :data="dataList"
         :headers="shownHeaders"
         :selected="selected"

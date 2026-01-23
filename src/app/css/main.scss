@@ -1,5 +1,4 @@
 @use '@webitel/ui-sdk/src/css/main' as *;
-@use 'supervisor-workspace' as *;
 
 * {
   box-sizing: border-box;
@@ -7,7 +6,6 @@
 
 //disables scrollbar on 100vh auth on small laptops
 body {
-  @extend %typo-body-1;
   display: flex;
   height: auto;
   background: var(--wt-page-wrapper-background-color);

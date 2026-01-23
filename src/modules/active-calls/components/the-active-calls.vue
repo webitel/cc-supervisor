@@ -1,5 +1,8 @@
 <template>
-  <wt-page-wrapper :actions-panel="showActionsPanel">
+  <wt-page-wrapper
+    :actions-panel="showActionsPanel"
+    class="table-page"
+  >
     <template #header>
       <wt-headline>
         <template #title>
@@ -13,17 +16,20 @@
     </template>
 
     <template #main>
-      <section class="main-section-wrapper">
+      <section class="table-section">
         <wt-loader v-show="isLoading"/>
         <wt-dummy
           v-if="dummyValue && !isLoading"
           :src="dummyValue.src"
           :text="dummyValue.text"
-          class="main-section-wrapper__dummy"
+          class="table-section__dummy"
         ></wt-dummy>
-        <div v-show="!isLoading && !dummyValue" class="table-wrapper">
+        <div
+          v-show="!isLoading && !dummyValue"
+          class="table-section__table-wrapper"
+        >
           <wt-table-actions
-            class="table-wrapper__actions-wrapper"
+            class="table-section__actions-wrapper"
             :icons="['settings', 'refresh']"
             @input="inputTableAction"
           >
@@ -155,7 +161,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main-section-wrapper__dummy {
+.table-section__dummy {
   min-height: 100%;
 }
 </style>
