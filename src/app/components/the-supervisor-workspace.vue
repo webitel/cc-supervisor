@@ -55,5 +55,8 @@ export default {
 .the-supervisor-workspace__content {
   flex-grow: 1;
   min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 </style>
