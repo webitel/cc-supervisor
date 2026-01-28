@@ -19,16 +19,13 @@
           required
           @input="setItemProp({ prop: 'skill', value: $event })"
         ></wt-select>
-        <wt-input
-          :value="itemInstance.capacity"
+        <wt-input-number
+          :model-value="itemInstance.capacity"
           :v="v$.itemInstance.capacity"
           :label="$t('pages.card.skills.capacity')"
-          :number-min="0"
-          :number-max="100"
-          type="number"
           required
-          @input="setItemProp({ prop: 'capacity', value: +$event })"
-        ></wt-input>
+          @input="setItemProp({ prop: 'capacity', value: +$event.value })"
+        />
       </form>
     </template>
     <template #actions>

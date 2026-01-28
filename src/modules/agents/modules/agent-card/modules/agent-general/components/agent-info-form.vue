@@ -29,18 +29,16 @@
       :search-method="searchRegions"
       @input="setItemProp({ prop: 'region', value: $event })"
     ></wt-select>
-    <wt-input
-      :value="agent.progressiveCount"
+    <wt-input-number
+      :model-value="agent.progressiveCount"
       :label="$t('pages.card.progressiveCount')"
-      type="number"
-      @input="setItemProp({ prop: 'progressiveCount', value: +$event })"
-    ></wt-input>
-    <wt-input
-      :value="agent.chatCount"
+      @update:model-value="setItemProp({ prop: 'progressiveCount', value: +$event })"
+    />
+    <wt-input-number
+      :model-value="agent.chatCount"
       :label="$t('pages.card.chatCount')"
-      type="number"
-      @input="setItemProp({ prop: 'chatCount', value: +$event })"
-    ></wt-input>
+      @update:model-value="setItemProp({ prop: 'chatCount', value: +$event })"
+    />
     <wt-button
       :disabled="disabledSave"
       @click="save"
@@ -108,7 +106,7 @@ export default {
   padding: var(--spacing-sm);
   overflow: auto;
 
-  .wt-select, .wt-input {
+  .wt-select, .wt-input-number {
     margin-bottom: var(--spacing-sm);
   }
 
