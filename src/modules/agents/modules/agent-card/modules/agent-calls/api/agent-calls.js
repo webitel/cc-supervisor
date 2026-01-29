@@ -110,10 +110,10 @@ const getAgentCallsList = async ({ options, ...params }) => {
     hasTranscript,
     number,
     missed,
-    rated: rated === 'true',
     ratedBy,
     domainId,
   };
+  if(rated) postBody.rated = rated === 'true';
 
   try {
     const response = await getCallService().searchHistoryCallPost(
