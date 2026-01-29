@@ -1,6 +1,6 @@
 <template>
   <div class="table-agents">
-    <span class="table-agents__total">
+    <span class="table-agents__total typo-subtitle-1">
       {{ total }}
     </span>
     <wt-indicator
@@ -52,7 +52,6 @@ export default {
   align-items: center;
 
   .table-agents__total   {
-    @extend %typo-subtitle-1;
     min-width: 30px;
   }
 

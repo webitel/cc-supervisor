@@ -6,7 +6,7 @@
     @download="downloadFile(dataList[galleriaActiveIndex].id)"
     @delete="handleDeleteFromGalleria"
   />
-  <section class="table-wrapper table-page table-wrapper--tab-table">
+  <section class="table-section">
     <header class="table-title">
       <h3 class="table-title__title">
         {{ t('objects.screenshots', 2) }}
@@ -14,6 +14,7 @@
       <wt-action-bar
         :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE,  IconAction.DOWNLOAD_PDF]"
         :disabled:delete="!selected.length"
+        :disabled:download-pdf="!dataList.length"
         @click:refresh="loadDataList"
         @click:download-pdf="downloadPdf"
         @click:delete="
@@ -49,9 +50,8 @@
       :text="textEmpty"
     />
 
-    <div class="table-section__table-wrapper">
+    <div v-if="dataList?.length" class="table-section__table-wrapper">
       <wt-table
-        v-if="dataList?.length"
         :data="dataList"
         :headers="shownHeaders"
         :selected="selected"

@@ -1,23 +1,36 @@
 <template>
-  <section class="table-wrapper table-wrapper--tab-table">
+  <section class="table-section">
     <skill-popup
       :namespace="namespace"
       @close="closePopup"
     ></skill-popup>
-    <wt-table-actions
-      class="table-wrapper__actions-wrapper"
-      :icons="['refresh']"
-      @input="tableActionsHandler"
-    >
-      <filter-fields
-        :headers="headers"
-        entity="agentSkills"
-        @change="setHeaders"
-      ></filter-fields>
-      <wt-icon-btn icon="plus" @click="setSkillId('new')"></wt-icon-btn>
-    </wt-table-actions>
+
+    <header class="table-title">
+      <h3 class="table-title__title">
+      </h3>
+      <wt-table-actions
+        class="table-section__actions-wrapper"
+        :icons="['refresh']"
+        @input="tableActionsHandler"
+      >
+        <filter-fields
+          :headers="headers"
+          entity="agentSkills"
+          @change="setHeaders"
+        ></filter-fields>
+        <wt-icon-btn
+          icon="plus"
+          @click="setSkillId('new')"
+        ></wt-icon-btn>
+      </wt-table-actions>
+    </header>
+
+
     <wt-loader v-show="isLoading"></wt-loader>
-    <div v-show="!isLoading" class="table-loading-wrapper">
+    <div
+      v-show="!isLoading"
+      class="table-section__table-wrapper"
+    >
       <wt-table
         ref="wt-table"
         :headers="headers"
@@ -50,7 +63,7 @@
           ></wt-icon-action>
         </template>
       </wt-table>
-      <filter-pagination :is-next="isNext"/>
+      <filter-pagination :is-next="isNext" />
     </div>
   </section>
 </template>
@@ -83,11 +96,11 @@ export default {
     },
   },
   computed: {
-   ...mapState({
-     parentId(state) {
-       return getNamespacedState(state, this.namespace).parentId;
-     },
-   }),
+    ...mapState({
+      parentId(state) {
+        return getNamespacedState(state, this.namespace).parentId;
+      },
+    }),
   },
   methods: {
     ...mapActions({
@@ -122,5 +135,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

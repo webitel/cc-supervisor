@@ -23,28 +23,32 @@ export default {
         case AgentStatus.Online: return 'success';
         case AgentStatus.Offline: return 'disabled';
         case AgentStatus.BreakOut: return 'secondary';
-       default: return 'primary';
+        default: return 'primary';
       }
     },
     statusText() {
-      if (this.item.pauseCause) {
-        return this.translatePauseCause(this.item.pauseCause);;
+      const { status, pauseCause } = this.item;
+
+      // Show raw pause cause for paused agents
+      if (status === AgentStatus.Pause && pauseCause) {
+        return pauseCause;
       }
 
-      return this.$t(`packages.agentStatus.${snakeToCamel(this.item.status)}`);
+      // Show translated pause cause for offline agents
+      if (status === AgentStatus.Offline && pauseCause) {
+        return this.translatePauseCause(pauseCause);
+      }
+
+      return this.$t(`packages.agentStatus.${snakeToCamel(status)}`);
     },
   },
   methods: {
+    // Translate offline pause cause
     translatePauseCause(statusComment) {
       const reasonParts = statusComment.replace('system/', '').split('/');
-
-      // Translate each part
-      const translatedParts = reasonParts.map((part) => {
-        const key = `packages.pauseCauses.${part}`;
-        return this.$t(key);
-      });
-
-      // Get the prefix
+      const translatedParts = reasonParts.map((part) =>
+        this.$t(`packages.pauseCauses.${part}`)
+      );
       const prefix = this.$t('packages.pauseCauses.combinationPrefix');
 
       return prefix + translatedParts.join('/');

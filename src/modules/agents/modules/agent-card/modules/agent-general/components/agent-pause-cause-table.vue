@@ -1,12 +1,18 @@
 <template>
-  <article class="table-wrapper table-wrapper--tab-table">
-    <wt-table-actions
-      class="table-wrapper__actions-wrapper"
-      :icons="['refresh']"
-      @input="tableActionsHandler"
-    ></wt-table-actions>
+  <article class="agent-pause-cause-table table-section">
+    <header class="table-title">
+      <h3 class="table-title__title"></h3>
+      <wt-table-actions
+        class="table-section__actions-wrapper"
+        :icons="['refresh']"
+        @input="tableActionsHandler"
+      ></wt-table-actions>
+    </header>
     <wt-loader v-show="isLoading"></wt-loader>
-    <div v-show="!isLoading" class="table-loading-wrapper">
+    <div
+      v-show="!isLoading"
+      class="table-section__table-wrapper"
+    >
       <wt-table
         :headers="headers"
         :data="representableDataList"
@@ -16,7 +22,7 @@
         <template #duration="{ item }">
           <span
             class="agent-pause-cause-timing"
-            :class="{'agent-pause-cause-timing--highlight': item.isOverflow}"
+            :class="{ 'agent-pause-cause-timing--highlight': item.isOverflow }"
           >{{ item.duration }}</span>
           <wt-progress-bar
             :max="item.limitMin"
@@ -67,16 +73,19 @@ export default {
       const { query } = this.$route;
 
       if (agentId)
-      return this.loadDataList({
-        ...query,
-        agentId,
-      });
+        return this.loadDataList({
+          ...query,
+          agentId,
+        });
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 @use '@webitel/ui-sdk/src/css/main';
 
 .wt-progress-bar {

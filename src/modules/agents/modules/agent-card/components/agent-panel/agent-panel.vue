@@ -12,7 +12,7 @@
           icon="total-score"
           size="md"
         ></wt-icon>
-        <span class="agent-panel-rating__text">
+        <span class="agent-panel-rating__text typo-body-1">
           {{ $t('pages.card.score') }}: {{ scoreRequired }}
         </span>
       </div>
@@ -21,7 +21,7 @@
           icon="rated-calls"
           size="md"
         ></wt-icon>
-        <span class="agent-panel-rating__text">
+        <span class="agent-panel-rating__text typo-body-1">
           {{ $t('pages.card.ratedCalls') }}: {{ scoreCount }}
         </span>
       </div>
@@ -62,11 +62,10 @@
         </wt-button>
       </div>
 
-      <div
-        v-if="mediaStream"
-      >
+      <div v-if="mediaStream">
         <screen-sharing
-          v-for="session in cli?.spyScreenSessions" :key="`screen-${session.id}`"
+          v-for="session in cli?.spyScreenSessions"
+          :key="`screen-${session.id}`"
           :stream="mediaStream"
           :session="session"
           :screenshot-status="screenshotStatus"
@@ -174,7 +173,10 @@ onUnmounted(() => {
 })
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 @use '@webitel/ui-sdk/src/css/main' as *;
 
 .wt-headline.agent-panel {
@@ -204,10 +206,6 @@ onUnmounted(() => {
     display: flex;
     gap: var(--spacing-xs);
     margin-right: var(--spacing-sm);
-
-    &__text {
-      @extend %typo-body-1;
-    }
   }
 
   .agent-status-timers {
