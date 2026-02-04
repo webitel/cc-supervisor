@@ -1,117 +1,134 @@
-import SupervisorSections
-  from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
-import { createRouter, createWebHistory } from 'vue-router';
+import { SupervisorSections, WtObject } from "@webitel/ui-sdk/enums";
+import { createRouter, createWebHistory } from "vue-router";
 
-import ActiveCalls
-  from '../../modules/active-calls/components/the-active-calls.vue';
-import Agents from '../../modules/agents/components/the-agents.vue';
-import AgentPage
-  from '../../modules/agents/modules/agent-card/components/agent-card.vue';
+import ActiveCalls from "../../modules/active-calls/components/the-active-calls.vue";
+import Agents from "../../modules/agents/components/the-agents.vue";
+import AgentPage from "../../modules/agents/modules/agent-card/components/agent-card.vue";
 import AgentTabsPathName from "./_internals/AgentTabsPathName.enum.js";
-import RoutePaths from './_internals/RoutePaths.enum.js';
-const General  = import( '../../modules/agents/modules/agent-card/modules/agent-general/components/agent-general-tab.vue');
-const Skills  = import( '../../modules/agents/modules/agent-card/modules/agent-skills/components/agent-skills-tab.vue');
-const StatusHistory  = import( '../../modules/agents/modules/agent-card/modules/agent-status-history/components/agent-status-history-tab.vue');
-const Calls  = import( '../../modules/agents/modules/agent-card/modules/agent-calls/components/agent-calls-tab.vue');
-const ScreenRecordigs = import('../../modules/agents/modules/agent-card/modules/agent-screen-recordings/components/agent-screen-recordings-tab.vue')
-const Screenshots = import('../../modules/agents/modules/agent-card/modules/agent-screenshots/components/agent-screenshots-tab.vue')
-const Pdfs = import('../../modules/agents/modules/agent-card/modules/agent-pdfs/components/agent-pdfs-tab.vue')
+import RoutePaths from "./_internals/RoutePaths.enum.js";
+const General = import(
+  "../../modules/agents/modules/agent-card/modules/agent-general/components/agent-general-tab.vue"
+);
+const Skills = import(
+  "../../modules/agents/modules/agent-card/modules/agent-skills/components/agent-skills-tab.vue"
+);
+const StatusHistory = import(
+  "../../modules/agents/modules/agent-card/modules/agent-status-history/components/agent-status-history-tab.vue"
+);
+const Calls = import(
+  "../../modules/agents/modules/agent-card/modules/agent-calls/components/agent-calls-tab.vue"
+);
+const ScreenRecordigs = import(
+  "../../modules/agents/modules/agent-card/modules/agent-screen-recordings/components/agent-screen-recordings-tab.vue"
+);
+const Screenshots = import(
+  "../../modules/agents/modules/agent-card/modules/agent-screenshots/components/agent-screenshots-tab.vue"
+);
+const Pdfs = import(
+  "../../modules/agents/modules/agent-card/modules/agent-pdfs/components/agent-pdfs-tab.vue"
+);
 
-
-import Queue from '../../modules/queues/components/the-queues.vue';
-import TheStartPage
-  from '../../modules/start-page/components/the-start-page.vue';
-import SupervisorWorkspace from '../components/the-supervisor-workspace.vue';
-import AccessDenied from '../components/utils/access-denied-component.vue';
-import notFound from '../components/utils/the-not-found-component.vue';
-import store from '../store';
-
-const checkRouteAccess = ((to, from, next) => {
-  const hasReadAccess = store.getters['userinfo/CHECK_OBJECT_ACCESS']({ route: to });
-  if (hasReadAccess) {
-    next();
-  } else {
-    next('/access-denied');
-  }
-});
+import Queue from "../../modules/queues/components/the-queues.vue";
+import TheStartPage from "../../modules/start-page/components/the-start-page.vue";
+import SupervisorWorkspace from "../components/the-supervisor-workspace.vue";
+import AccessDenied from "../components/utils/access-denied-component.vue";
+import notFound from "../components/utils/the-not-found-component.vue";
 
 const routes = [
   {
-    path: '/',
-    redirect: { name: 'the-start-page' },
+    path: "/",
+    redirect: { name: "the-start-page" },
     component: SupervisorWorkspace,
     children: [
       {
-        path: 'queues',
-        name: SupervisorSections.QUEUES,
+        path: "queues",
+        name: SupervisorSections.Queues,
         component: Queue,
-        beforeEnter: checkRouteAccess,
-      }, {
-        path: 'agents',
-        name: SupervisorSections.AGENTS,
+        meta: {
+          WtObject: WtObject.Queue,
+          UiSection: SupervisorSections.Queues,
+        },
+      },
+      {
+        path: "agents",
+        name: SupervisorSections.Agents,
         component: Agents,
-        beforeEnter: checkRouteAccess,
-      }, {
-        path: 'agents/:id',
-        name: `${SupervisorSections.AGENTS}-card`,
+        meta: {
+          WtObject: WtObject.Agent,
+          UiSection: SupervisorSections.Agents,
+        },
+      },
+      {
+        path: "agents/:id",
+        name: `${SupervisorSections.Agents}-card`,
         component: AgentPage,
         redirect: { name: AgentTabsPathName.GENERAL },
-        beforeEnter: checkRouteAccess,
+        meta: {
+          WtObject: WtObject.Agent,
+          UiSection: SupervisorSections.Agents,
+        },
         children: [
           {
-            path: 'general',
+            path: "general",
             name: AgentTabsPathName.GENERAL,
             component: General,
           },
           {
-            path: 'work-logs',
+            path: "work-logs",
             name: AgentTabsPathName.WORK_LOG,
             component: Calls,
           },
           {
-            path: 'state-history',
+            path: "state-history",
             name: AgentTabsPathName.STATE_HISTORY,
-            component: StatusHistory
+            component: StatusHistory,
           },
           {
-            path: 'skills/:skillId?',
+            path: "skills/:skillId?",
             name: AgentTabsPathName.SKILLS,
             component: Skills,
           },
           {
-            path: 'screen-recordings',
+            path: "screen-recordings",
             name: AgentTabsPathName.SCREEN_RECORDINGS,
             component: ScreenRecordigs,
           },
           {
-            path: 'screenshots',
+            path: "screenshots",
             name: AgentTabsPathName.SCREENSHOTS,
             component: Screenshots,
           },
           {
-            path: 'pdfs',
+            path: "pdfs",
             name: AgentTabsPathName.PDFS,
             component: Pdfs,
-          }
+          },
         ],
-      }, {
-        path: 'active-calls',
-        name: SupervisorSections.ACTIVE_CALLS,
+      },
+      {
+        path: "active-calls",
+        name: SupervisorSections.ActiveCalls,
         component: ActiveCalls,
-        beforeEnter: checkRouteAccess,
-      }, {
+        meta: {
+          WtObject: WtObject.Call,
+          UiSection: SupervisorSections.ActiveCalls,
+        },
+      },
+      {
         path: RoutePaths.StartPage,
-        name: 'the-start-page',
+        name: "the-start-page",
         component: TheStartPage,
-      }
+      },
     ],
-  }, {
-    path: '/access-denied',
-    name: 'access-denied',
+  },
+  {
+    path: "/access-denied",
+    name: "access-denied",
     component: AccessDenied,
-  }, {
-    path: '/:pathMatch(.*)*',
-    name: 'not-found',
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "not-found",
     component: notFound,
   },
 ];
@@ -129,8 +146,8 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (!localStorage.getItem('access-token') && !to.query.accessToken) {
-    const desiredUrl =  encodeURIComponent(window.location.href);
+  if (!localStorage.getItem("access-token") && !to.query.accessToken) {
+    const desiredUrl = encodeURIComponent(window.location.href);
     const authUrl = import.meta.env.VITE_AUTH_URL;
     window.location.href = `${authUrl}?redirectTo=${desiredUrl}`;
   } else if (to.query.accessToken) {

@@ -1,10 +1,16 @@
 <template>
-  <wt-page-wrapper class="agent-page" :actions-panel="currentActionsPanel">
+  <wt-page-wrapper
+    class="agent-page"
+    :actions-panel="currentActionsPanel"
+  >
     <template #header>
-      <agent-panel :namespace="namespace"/>
+      <agent-panel :namespace="namespace" />
     </template>
     <template #actions-panel>
-      <component :is="`${currentTab.value}-filters`" :namespace="currentTab.namespace"></component>
+      <component
+        :is="`${currentTab.value}-filters`"
+        :namespace="currentTab.namespace"
+      ></component>
     </template>
     <template #main>
       <div class="agent-page__content">
@@ -13,7 +19,11 @@
           :tabs="tabs"
           @change="changeTab"
         ></wt-tabs>
-        <component :is="currentTab.value" :namespace="currentTab.namespace" @toggle-filter="toggleFilter"></component>
+        <component
+          :is="currentTab.value"
+          :namespace="currentTab.namespace"
+          @toggle-filter="toggleFilter"
+        ></component>
       </div>
     </template>
   </wt-page-wrapper>
@@ -22,10 +32,12 @@
 <script>
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
+import { storeToRefs } from 'pinia';
 
 import autoRefreshMixin from '../../../../../app/mixins/autoRefresh/autoRefreshMixin';
 import AgentTabsPathName from "../../../../../app/router/_internals/AgentTabsPathName.enum.js";
 import { useErrorRedirectHandler } from '../../../../../modules/error-pages/composable/useErrorRedirectHandler';
+import { useUserinfoStore } from '../../../../../modules/userinfo/store/userInfoStore';
 import Calls from '../modules/agent-calls/components/agent-calls-tab.vue';
 import CallsFilters from '../modules/agent-calls/modules/filters/components/agent-calls-filters.vue';
 import General from '../modules/agent-general/components/agent-general-tab.vue';
@@ -39,6 +51,7 @@ import StatusHistoryFilters from '../modules/agent-status-history/modules/filter
 import Pdfs from '../modules/agent-pdfs/components/agent-pdfs-tab.vue';
 import PdfsFilters from '../modules/agent-pdfs/modules/filters/components/agent-pdfs-filters.vue';
 import AgentPanel from './agent-panel/agent-panel.vue';
+import { useControlAgentScreenAccess } from '../../../../composables/useControlAgentScreenAccess';
 
 export default {
   name: 'AgentCard',
@@ -61,7 +74,8 @@ export default {
 
   setup() {
     const { handleError } = useErrorRedirectHandler();
-    return { handleError };
+    const { isControlAgentScreenAllow } = useControlAgentScreenAccess();
+    return { handleError, userinfo, isControlAgentScreenAllow };
   },
 
   data: () => ({
@@ -80,60 +94,57 @@ export default {
         return getNamespacedState(state, this.namespace).agent;
       },
     }),
-    isControlAgentScreenAllow() {
-      return this.$store.getters[`userinfo/IS_CONTROL_AGENT_SCREEN_ALLOW`];
-    },
     tabs() {
-      const tabs = []
+      const tabs = [];
 
       const generalTab = {
         text: this.$t('pages.card.general.title'),
         value: 'general',
         namespace: this.namespace,
         pathName: AgentTabsPathName.GENERAL,
-      }
+      };
 
       const calls = {
         text: this.$t('pages.card.calls.title'),
         value: 'calls',
         namespace: `${this.namespace}/calls`,
         pathName: AgentTabsPathName.WORK_LOG,
-      }
+      };
 
       const screenshots = {
         text: this.$t('objects.screenshots', 2),
         value: 'screenshots',
         namespace: this.namespace,
         pathName: AgentTabsPathName.SCREENSHOTS,
-      }
+      };
 
       const screenRecordings = {
         text: this.$t('objects.screenRecordings', 2),
         value: 'screen-recordings',
         namespace: this.namespace,
         pathName: AgentTabsPathName.SCREEN_RECORDINGS,
-      }
+      };
 
       const statusHistory = {
         text: this.$t('pages.card.statusHistory.title'),
         value: 'status-history',
         namespace: `${this.namespace}/statusHistory`,
         pathName: AgentTabsPathName.STATE_HISTORY,
-      }
+      };
 
       const skills = {
         text: this.$t('pages.card.skills.title'),
         value: 'skills',
         namespace: `${this.namespace}/skills`,
         pathName: AgentTabsPathName.SKILLS,
-      }
+      };
 
       const pdfs = {
         text: this.$t('objects.agentPdfs.pdfs', 2),
         value: 'pdfs',
         namespace: `${this.namespace}/pdfs`,
         pathName: AgentTabsPathName.PDFS,
-      }
+      };
 
       tabs.push(generalTab, calls);
 
@@ -146,7 +157,7 @@ export default {
       return tabs;
     },
     currentTab() {
-      return this.tabs.find(({pathName}) => this.$route.name === pathName) || this.tabs[0];
+      return this.tabs.find(({ pathName }) => this.$route.name === pathName) || this.tabs[0];
     },
     currentActionsPanel() {
       return this.actionsPanelStatus[this.currentTab.value] || false;
@@ -196,7 +207,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 .agent-page__content {
   display: flex;
   flex-direction: column;

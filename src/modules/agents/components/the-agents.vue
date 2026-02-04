@@ -34,7 +34,10 @@
 
     <template #main>
       <section class="table-section">
-        <header v-show="dataList?.length" class="table-title">
+        <header
+          v-show="dataList?.length"
+          class="table-title"
+        >
           <wt-action-bar
             :include="[
               IconAction.FILTERS,
@@ -83,7 +86,10 @@
               <table-agent-status :item="item" />
             </template>
             <template #callTime="{ item }">
-              <table-agent-call-time :item="item" @attach-call="attachCall" />
+              <table-agent-call-time
+                :item="item"
+                @attach-call="attachCall"
+              />
             </template>
             <template #team="{ item }">
               <div v-if="item.team">
@@ -125,12 +131,11 @@
         </div>
       </section>
 
-      <div
-        v-if="mediaStream"
-      >
+      <div v-if="mediaStream">
         <screen-sharing
           :class="{ 'screen-sharing--moved': isScreenSharingMoved }"
-          v-for="session in cli?.spyScreenSessions" :key="`screen-${session.id}`"
+          v-for="session in cli?.spyScreenSessions"
+          :key="`screen-${session.id}`"
           :stream="mediaStream"
           :session="session"
           :screenshot-status="screenshotStatus"
@@ -169,6 +174,7 @@ import TableAgentStatus from './_internals/table-templates/table-agent-status.vu
 import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
 import TableAgent from './_internals/table-templates/table-agent.vue';
 import AgentStatusComment from '../modules/agent-card/components/agent-panel/_internals/agent-status-comment.vue';
+import { useControlAgentScreenAccess } from '../composables/useControlAgentScreenAccess';
 
 const { t } = useI18n();
 
@@ -214,7 +220,7 @@ const {
 const {
   setAutoRefresh,
   clearAutoRefresh,
-} = useTableAutoRefresh(loadDataList)
+} = useTableAutoRefresh(loadDataList);
 
 const { exportCSV, isCSVLoading, initCSVExport } = useCSVExport({
   selected,
@@ -224,9 +230,9 @@ initCSVExport(AgentsAPI.getList, { filename: 'agents' });
 initialize();
 
 // if call-window popup is opened need to move screen sharing player
-const isScreenSharingMoved = computed(() => store.state.call.isEavesdropOpened || store.state.call.isVisible)
+const isScreenSharingMoved = computed(() => store.state.call.isEavesdropOpened || store.state.call.isVisible);
 
-const filteredTableHeaders = computed(() => headers.value.filter((header) => header.value !== 'descTrack'))
+const filteredTableHeaders = computed(() => headers.value.filter((header) => header.value !== 'descTrack'));
 
 const searchValue = computed(() => filtersManager.value.filters.get('search')?.value || '');
 const rowClass = (row) => {
@@ -237,9 +243,9 @@ const attachCall = async (id) => {
   await store.dispatch('OPEN_WINDOW');
 };
 
-const getDeskTrackIconColor = (id) => selectedAgentToSpyScreen.value?.user.id === id ? IconColor.SUCCESS : IconColor.DEFAULT
+const getDeskTrackIconColor = (id) => selectedAgentToSpyScreen.value?.user.id === id ? IconColor.SUCCESS : IconColor.DEFAULT;
 
-const isControlAgentScreenAllow = computed(() => store.getters[`userinfo/IS_CONTROL_AGENT_SCREEN_ALLOW`])
+const { isControlAgentScreenAllow } = useControlAgentScreenAccess();
 
 const {
   selectedAgentToSpyScreen,
@@ -249,45 +255,46 @@ const {
   toggleRecordAction,
   makeScreenshot,
   closeSession,
-} = useScreenSharingSession()
+} = useScreenSharingSession();
 
 let cli;
 
 onMounted(async () => {
-  setAutoRefresh()
+  setAutoRefresh();
   cli = await getCliInstance();
 });
 
 const connect = async (agent) => {
-  mediaStream.value = null
-  selectedAgentToSpyScreen.value = null
-  cli?.spyScreenSessions.forEach((session) => session.close())
+  mediaStream.value = null;
+  selectedAgentToSpyScreen.value = null;
+  cli?.spyScreenSessions.forEach((session) => session.close());
 
   await cli.spyScreen(Number(agent.user.id), {
     iceServers: [],
   }, async (stream) => {
-    selectedAgentToSpyScreen.value = agent
+    selectedAgentToSpyScreen.value = agent;
     mediaStream.value = stream;
   });
 };
 
 onUnmounted(() => {
-  clearAutoRefresh()
+  clearAutoRefresh();
 
-  if (!cli) return
+  if (!cli) return;
 
-  const activeSession = cli.spyScreenSessions.find((session) => session.toUserId === Number(selectedAgentToSpyScreen.value?.user.id))
+  const activeSession = cli.spyScreenSessions.find((session) => session.toUserId === Number(selectedAgentToSpyScreen.value?.user.id));
   if (activeSession) {
-    closeSession(activeSession)
+    closeSession(activeSession);
   }
 });
 </script>
 
-<style lang="scss" scoped>
-//@use '@/app/css/main.scss" as *';
-@use '@webitel/ui-sdk/src/css/main' as *;
+<style
+  lang="scss"
+  scoped
+>
 
-.wt-table ::v-deep .wt-table__tr--highlight-breakout {
+.wt-table :deep(.wt-table__tr--highlight-breakout) {
   // https://github.com/sass/node-sass/issues/2251
   background: HSLA(var(--_negative-color), 0.1);
 }
@@ -309,8 +316,7 @@ onUnmounted(() => {
 }
 
 .screen-sharing--moved {
-  right: calc(256px + var(--spacing-sm));  // 256px is current width of call-window popup
+  right: calc(256px + var(--spacing-sm)); // 256px is current width of call-window popup
   bottom: var(--spacing-sm);
 }
-
 </style>

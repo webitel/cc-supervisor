@@ -1,4 +1,4 @@
-import SupervisorSections from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
+import { SupervisorSections } from "@webitel/ui-sdk/enums"';
 
 export default {
   auth: {
@@ -204,15 +204,15 @@ export default {
       },
     },
     startPage: {
-      [SupervisorSections.QUEUES]: {
+      [SupervisorSections.Queues]: {
         name: 'Hàng đợi',
         text: 'Tại đây bạn có thể giám sát các hàng đợi.',
       },
-      [SupervisorSections.AGENTS]: {
+      [SupervisorSections.Agents]: {
         name: 'Tác vụ',
         text: 'Tại đây bạn có thể kiểm soát công việc của tác vụ, theo dõi trạng thái và lịch sử cuộc gọi, quản lý kỹ năng.',
       },
-      [SupervisorSections.ACTIVE_CALLS]: {
+      [SupervisorSections.ActiveCalls]: {
         name: 'Cuộc gọi đang hoạt động',
         text: 'Tại đây bạn có thể giám sát các cuộc gọi đang hoạt động và kết nối vào cuộc gọi.',
       },
