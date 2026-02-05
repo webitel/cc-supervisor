@@ -62,6 +62,11 @@
           </wt-action-bar>
         </header>
         <wt-loader v-show="isLoading && !dataList.length" />
+        <wt-empty
+          v-if="showEmpty"
+          :image="imageEmpty"
+          :text="textEmpty"
+        />
         <div
           v-show="dataList?.length"
           class="table-section__table-wrapper"
@@ -121,7 +126,9 @@
 <script setup>
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum.js';
+import { WtEmpty } from '@webitel/ui-sdk/components';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -175,6 +182,17 @@ const { exportCSV, isCSVLoading, initCSVExport } = useCSVExport({
 initCSVExport(QueuesAPI.getList, { filename: 'queues-stats' });
 
 const searchValue = computed(() => filtersManager.value.filters.get('search')?.value || '');
+
+const {
+  showEmpty,
+  image: imageEmpty,
+  text: textEmpty,
+} = useTableEmpty({
+  dataList,
+  filters: computed(() => filtersManager.value.getFiltersList()),
+  isLoading,
+  error: computed(() => null),
+});
 
 const {
   setAutoRefresh,
