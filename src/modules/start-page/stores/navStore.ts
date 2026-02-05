@@ -16,6 +16,7 @@ type NavItem = {
 	value: string;
 	name: string;
 	route: string;
+	disabled?: boolean;
 };
 
 type NavCard = NavItem & {
@@ -59,13 +60,13 @@ export const useNavStore = defineStore("nav", () => {
 		};
 		const navItems = [queues, agents, activeCalls];
 
-		return navItems.filter((navItem) => {
-			try {
-				const route = router.resolve({ path: navItem.route });
-				return routeAccessGuard(route) === true;
-			} catch {
-				return false;
-			}
+		return navItems.map((navItem) => {
+			const route = router.resolve({ path: navItem.route });
+			const hasAccess = routeAccessGuard(route) === true;
+			return {
+				...navItem,
+				disabled: !hasAccess,
+			};
 		});
 	});
 
@@ -86,31 +87,15 @@ export const useNavStore = defineStore("nav", () => {
 		};
 
 		return nav.value.map((navItem) => {
-			try {
-				const route = router.resolve({ path: navItem.route });
-				const hasAccess = routeAccessGuard(route) === true;
-				return {
-					...navItem,
-					disabled: !hasAccess,
-					name: t(`pages.startPage.${navItem.value}.name`),
-					text: t(`pages.startPage.${navItem.value}.text`),
-					images: {
-						light: cardSectionPic[navItem.value].light,
-						dark: cardSectionPic[navItem.value].dark,
-					},
-				};
-			} catch {
-				return {
-					...navItem,
-					disabled: true,
-					name: t(`pages.startPage.${navItem.value}.name`),
-					text: t(`pages.startPage.${navItem.value}.text`),
-					images: {
-						light: cardSectionPic[navItem.value].light,
-						dark: cardSectionPic[navItem.value].dark,
-					},
-				};
-			}
+			return {
+				...navItem,
+				name: t(`pages.startPage.${navItem.value}.name`),
+				text: t(`pages.startPage.${navItem.value}.text`),
+				images: {
+					light: cardSectionPic[navItem.value].light,
+					dark: cardSectionPic[navItem.value].dark,
+				},
+			};
 		});
 	});
 

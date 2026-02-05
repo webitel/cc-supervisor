@@ -16,8 +16,8 @@
 import { WtApplication } from "@webitel/ui-sdk/enums";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
-import AppHeader from "../../modules/_reusable/app-header/components/app-header.vue";
 
+import AppHeader from "../../modules/_reusable/app-header/components/app-header.vue";
 import CallWindow from "../../modules/call-window/components/call-window-conversation.vue";
 import CallWindowEavesdrop from "../../modules/call-window/components/call-window-eavesdrop.vue";
 

@@ -4,6 +4,7 @@
       :value="agent.team"
       :label="$t('objects.team')"
       :search-method="searchTeams"
+      :disabled="disableUserInput || !hasTeamReadAccess"
       @input="setItemProp({ prop: 'team', value: $event })"
     ></wt-select>
     <wt-select
@@ -12,6 +13,7 @@
       :label="$t('objects.supervisor')"
       :search-method="searchSupervisors"
       :close-on-select="false"
+      :disabled="disableUserInput || !hasSupervisorReadAccess"
       multiple
       @input="setItemProp({ prop: 'supervisor', value: $event })"
     ></wt-select>
@@ -20,6 +22,7 @@
       :label="$t('objects.auditor')"
       :search-method="searchAuditors"
       :close-on-select="false"
+      :disabled="disableUserInput || !hasAuditorReadAccess"
       multiple
       @input="setItemProp({ prop: 'auditor', value: $event })"
     ></wt-select>
@@ -27,20 +30,23 @@
       :value="agent.region"
       :label="$t('objects.region')"
       :search-method="searchRegions"
+      :disabled="disableUserInput || !hasRegionReadAccess"
       @input="setItemProp({ prop: 'region', value: $event })"
     ></wt-select>
     <wt-input-number
       :model-value="agent.progressiveCount"
       :label="$t('pages.card.progressiveCount')"
+      :disabled="disableUserInput"
       @update:model-value="setItemProp({ prop: 'progressiveCount', value: +$event })"
     />
     <wt-input-number
       :model-value="agent.chatCount"
       :label="$t('pages.card.chatCount')"
+      :disabled="disableUserInput"
       @update:model-value="setItemProp({ prop: 'chatCount', value: +$event })"
     />
     <wt-button
-      :disabled="disabledSave"
+      :disabled="disabledSave || !hasSaveActionAccess"
       @click="save"
     >{{ $t('defaults.save') }}</wt-button>
   </form>
@@ -48,8 +54,10 @@
 
 <script>
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { WtObject } from '@webitel/ui-sdk/enums';
 import { mapActions,mapState } from 'vuex';
 
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import regionLookupApi from '../../../../../../_shared/lookups/api/regionLookupApi';
 import supervisorLookupApi from '../../../../../../_shared/lookups/api/supervisorLookupApi';
 import teamLookupApi from '../../../../../../_shared/lookups/api/teamLookupApi';
@@ -62,6 +70,24 @@ export default {
       type: String,
       required: true,
     },
+  },
+  setup() {
+    const { disableUserInput, hasSaveActionAccess } = useUserAccessControl();
+
+    const { hasReadAccess: hasTeamReadAccess } = useUserAccessControl(WtObject.Team);
+    const { hasReadAccess: hasAuditorReadAccess } = useUserAccessControl(WtObject.User);
+    const { hasReadAccess: hasSupervisorReadAccess } = useUserAccessControl(WtObject.Agent);
+    const { hasReadAccess: hasRegionReadAccess } = useUserAccessControl(WtObject.Region);
+
+    return {
+      disableUserInput,
+      hasSaveActionAccess,
+      
+      hasTeamReadAccess,
+      hasAuditorReadAccess,
+      hasSupervisorReadAccess,
+      hasRegionReadAccess,
+    };
   },
   created() {
     this.loadAgent();
@@ -99,9 +125,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@use '@webitel/ui-sdk/src/css/main';
-
+<style scoped>
 .agent-info-form {
   padding: var(--spacing-sm);
   overflow: auto;

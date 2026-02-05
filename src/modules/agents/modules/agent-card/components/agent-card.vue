@@ -33,7 +33,9 @@
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 import { storeToRefs } from 'pinia';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import autoRefreshMixin from '../../../../../app/mixins/autoRefresh/autoRefreshMixin';
 import AgentTabsPathName from "../../../../../app/router/_internals/AgentTabsPathName.enum.js";
 import { useErrorRedirectHandler } from '../../../../../modules/error-pages/composable/useErrorRedirectHandler';
@@ -51,7 +53,7 @@ import StatusHistoryFilters from '../modules/agent-status-history/modules/filter
 import Pdfs from '../modules/agent-pdfs/components/agent-pdfs-tab.vue';
 import PdfsFilters from '../modules/agent-pdfs/modules/filters/components/agent-pdfs-filters.vue';
 import AgentPanel from './agent-panel/agent-panel.vue';
-import { useControlAgentScreenAccess } from '../../../../composables/useControlAgentScreenAccess';
+import { useControlAgentScreenAccess } from '../../../composables/useControlAgentScreenAccess';
 
 export default {
   name: 'AgentCard',
@@ -75,7 +77,15 @@ export default {
   setup() {
     const { handleError } = useErrorRedirectHandler();
     const { isControlAgentScreenAllow } = useControlAgentScreenAccess();
-    return { handleError, userinfo, isControlAgentScreenAllow };
+
+
+    const { hasReadAccess: hasCallReadAccess } = useUserAccessControl(WtObject.Call);
+
+    return { 
+      handleError, 
+      isControlAgentScreenAllow, 
+      hasCallReadAccess,
+    };
   },
 
   data: () => ({
@@ -109,6 +119,7 @@ export default {
         value: 'calls',
         namespace: `${this.namespace}/calls`,
         pathName: AgentTabsPathName.WORK_LOG,
+        disabled: !this.hasCallReadAccess,
       };
 
       const screenshots = {
@@ -116,6 +127,7 @@ export default {
         value: 'screenshots',
         namespace: this.namespace,
         pathName: AgentTabsPathName.SCREENSHOTS,
+        disabled: !this.isControlAgentScreenAllow,
       };
 
       const screenRecordings = {
@@ -123,6 +135,7 @@ export default {
         value: 'screen-recordings',
         namespace: this.namespace,
         pathName: AgentTabsPathName.SCREEN_RECORDINGS,
+        disabled: !this.isControlAgentScreenAllow,
       };
 
       const statusHistory = {
@@ -144,17 +157,12 @@ export default {
         value: 'pdfs',
         namespace: `${this.namespace}/pdfs`,
         pathName: AgentTabsPathName.PDFS,
+        disabled: !this.isControlAgentScreenAllow,
       };
 
-      tabs.push(generalTab, calls);
+      tabs.push(generalTab, calls, screenshots, screenRecordings, statusHistory, skills, pdfs);
 
-      if (this.isControlAgentScreenAllow) {
-        tabs.push(screenshots, screenRecordings);
-      }
-
-      tabs.push(statusHistory, skills, pdfs);
-
-      return tabs;
+      return tabs.filter(({ disabled }) => !disabled);
     },
     currentTab() {
       return this.tabs.find(({ pathName }) => this.$route.name === pathName) || this.tabs[0];

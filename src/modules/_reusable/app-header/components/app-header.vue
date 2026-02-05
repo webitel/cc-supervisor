@@ -48,7 +48,9 @@ const currentApp = computed(() => WtApplication.Supervisor);
 // Initialize nav, if not initialized yet
 navStore.initializeNav();
 
-const { nav } = storeToRefs(navStore);
+const { nav: fullNav } = storeToRefs(navStore);
+
+const nav = computed(() => fullNav.value.filter(({ disabled }) => !disabled));
 
 const darkMode = computed(() => store.getters["appearance/DARK_MODE"]);
 
