@@ -63,8 +63,12 @@
           </wt-action-bar>
         </header>
 
-        <wt-loader v-show="isLoading"></wt-loader>
-
+        <wt-loader v-show="isLoading && !dataList.length"></wt-loader>
+        <wt-empty
+          v-if="showEmpty"
+          :image="imageEmpty"
+          :text="textEmpty"
+        />
         <div
           v-show="dataList?.length"
           class="table-section__table-wrapper"
@@ -154,10 +158,11 @@
 <script setup>
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { ScreenSharing } from '@webitel/ui-sdk/src/modules/CallSession/index';
-import { WtDisplayChipItems } from '@webitel/ui-sdk/components';
+import { WtDisplayChipItems, WtEmpty } from '@webitel/ui-sdk/components';
 import { IconColor } from '@webitel/ui-sdk/enums';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -235,6 +240,18 @@ const isScreenSharingMoved = computed(() => store.state.call.isEavesdropOpened |
 const filteredTableHeaders = computed(() => headers.value.filter((header) => header.value !== 'descTrack'));
 
 const searchValue = computed(() => filtersManager.value.filters.get('search')?.value || '');
+
+const {
+  showEmpty,
+  image: imageEmpty,
+  text: textEmpty,
+} = useTableEmpty({
+  dataList,
+  filters: computed(() => filtersManager.value.getFiltersList()),
+  isLoading,
+  error: computed(() => null),
+});
+
 const rowClass = (row) => {
   return row.status === AgentStatus.BreakOut && 'wt-table__tr--highlight-breakout';
 };
