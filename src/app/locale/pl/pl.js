@@ -1,4 +1,4 @@
-import SupervisorSections from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
+import { SupervisorSections } from '@webitel/ui-sdk/enums';
 
 export default {
   auth: {
@@ -204,15 +204,15 @@ export default {
       },
     },
     startPage: {
-      [SupervisorSections.QUEUES]: {
+      [SupervisorSections.Queues]: {
         name: 'Kolejki',
         text: 'W tej sekcji możesz monitorować kolejki.',
       },
-      [SupervisorSections.AGENTS]: {
+      [SupervisorSections.Agents]: {
         name: 'Agenci',
         text: 'W tej sekcji możesz kontrolować pracę agentów, śledzić ich statusy i historię połączeń oraz zarządzać ich umiejętnościami.',
       },
-      [SupervisorSections.ACTIVE_CALLS]: {
+      [SupervisorSections.ActiveCalls]: {
         name: 'Aktywne rozmowy',
         text: 'W tej sekcji możesz monitorować aktywne rozmowy i dołączać do nich.',
       },

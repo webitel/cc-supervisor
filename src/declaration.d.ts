@@ -4,6 +4,11 @@ declare module '*.svg?raw' {
   export default content;
 }
 
+declare module '*.svg' {
+  const src: string;
+  export default src;
+}
+
 declare module '*.scss' {
   const classes: Record<string, string>;
   export default classes;

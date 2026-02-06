@@ -8,7 +8,7 @@
         <template #title>
           {{ t('pages.queue.title') }}
         </template>
-        <template #actions>
+        <template #search>
           <dynamic-filter-search
             :filters-manager="filtersManager"
             :is-filters-restoring="isFiltersRestoring"
@@ -18,6 +18,8 @@
             @filter:delete="deleteFilter"
             @update:search-mode="updateSearchMode"
           />
+        </template>
+        <template #actions>
           <wt-button
             :loading="isCSVLoading"
             :disabled="!dataList.length"

@@ -20,6 +20,7 @@
         ></filter-fields>
         <wt-icon-btn
           icon="plus"
+          :disabled="disableUserInput || !hasSkillReadAccess"
           @click="setSkillId('new')"
         ></wt-icon-btn>
       </wt-table-actions>
@@ -46,19 +47,20 @@
         </template>
         <template #enabled="{ item, index }">
           <wt-switcher
+            :disabled="disableUserInput"
             :model-value="item.enabled"
             @update:model-value="patchItemProperty({ item, index, value: $event, prop: 'enabled' })"
           ></wt-switcher>
         </template>
         <template #actions="{ item, index }">
           <wt-icon-action
-            class="table-action"
             action="edit"
+            :disabled="disableUserInput || !hasSkillReadAccess"
             @click="setSkillId(item.id)"
           ></wt-icon-action>
           <wt-icon-action
-            class="table-action"
             action="delete"
+            :disabled="disableUserInput"
             @click="removeItem(index)"
           ></wt-icon-action>
         </template>
@@ -72,7 +74,9 @@
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
 import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields.vue';
@@ -94,6 +98,14 @@ export default {
       type: String,
       required: true,
     },
+  },
+  setup() {
+    const { disableUserInput } = useUserAccessControl();
+    const { hasReadAccess: hasSkillReadAccess } = useUserAccessControl(WtObject.Skill);
+    return {
+      disableUserInput,
+      hasSkillReadAccess,
+    };
   },
   computed: {
     ...mapState({

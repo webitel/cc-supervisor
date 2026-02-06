@@ -1,122 +1,112 @@
 <template>
-  <wt-app-header>
-    <wt-navigation-bar
-      :current-app="currentApp"
-      :nav="navAccess"
-      :dark-mode="darkMode"
-      :logo-route="RoutePaths.StartPage"
-    />
-    <wt-logo
-      :dark-mode="darkMode"
-      :logo-href="startPageHref"
-     />
-    <wt-dark-mode-switcher />
-    <wt-app-navigator
-      :current-app="currentApp"
-      :apps="apps"
-      :dark-mode="darkMode"
-    />
-    <wt-header-actions
-      :user="user"
-      :build-info="buildInfo"
-      @settings="settings"
-      @logout="logoutUser"
-    />
-  </wt-app-header>
+	<wt-app-header>
+		<wt-navigation-bar
+			:current-app="currentApp"
+			:nav="nav"
+			:dark-mode="darkMode"
+			:logo-route="RoutePaths.StartPage"
+		/>
+		<wt-logo
+			:dark-mode="darkMode"
+			:logo-href="startPageHref"
+		/>
+		<wt-dark-mode-switcher />
+		<wt-app-navigator
+			:current-app="currentApp"
+			:apps="apps"
+			:dark-mode="darkMode"
+		/>
+		<wt-header-actions
+			:user="userinfo"
+			:build-info="buildInfo"
+			@settings="settings"
+			@logout="logoutUser"
+		/>
+	</wt-app-header>
 </template>
 
-<script>
-import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
-import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
-import { mapActions,mapGetters, mapState } from 'vuex';
+<script setup>
+import { WtApplication } from "@webitel/ui-sdk/enums";
+import WtDarkModeSwitcher from "@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue";
+import { storeToRefs } from "pinia";
+import { computed, inject } from "vue";
+import { useStore } from "vuex";
 
-import navAccessMixin from '../../../../app/mixins/supervisor-workspace/navMixin';
-import RoutePaths from '../../../../app/router/_internals/RoutePaths.enum';
+import RoutePaths from "../../../../app/router/_internals/RoutePaths.enum";
+import { useNavStore } from "../../../start-page/stores/navStore";
+import { useUserinfoStore } from "../../../userinfo/store/userInfoStore";
 
-export default {
-  name: 'AppHeader',
-  components: {
-    WtDarkModeSwitcher,
-  },
-  mixins: [navAccessMixin],
-  inject: ['$config'],
-  data: () => ({
-    RoutePaths,
-    buildInfo: {
-      release: process.env.npm_package_version,
-      build: import.meta.env.VITE_BUILD_NUMBER,
-    },
-  }),
-  computed: {
-    ...mapState('userinfo', {
-      user: (state) => state,
-      currentApp: (state) => state.thisApp,
-    }),
-    ...mapGetters('userinfo', {
-      checkAppAccess: 'CHECK_APP_ACCESS',
-    }),
-    ...mapGetters('appearance', {
-      darkMode: 'DARK_MODE',
-    }),
-    startPageHref() {
-      return import.meta.env.VITE_START_PAGE_URL;
-    },
-    apps() {
-      const agent = {
-        name: WebitelApplications.AGENT,
-        href: import.meta.env.VITE_AGENT_URL,
-      };
-      const supervisor = {
-        name: WebitelApplications.SUPERVISOR,
-        href: import.meta.env.VITE_SUPERVISOR_URL,
-      };
-      const history = {
-        name: WebitelApplications.HISTORY,
-        href: import.meta.env.VITE_HISTORY_URL,
-      };
-      const audit = {
-        name: WebitelApplications.AUDIT,
-        href: import.meta.env.VITE_AUDIT_URL,
-      };
-      const admin = {
-        name: WebitelApplications.ADMIN,
-        href: import.meta.env.VITE_ADMIN_URL,
-      };
-      const grafana = {
-        name: WebitelApplications.ANALYTICS,
-        href: import.meta.env.VITE_GRAFANA_URL,
-      };
-      const crm = {
-        name: WebitelApplications.CRM,
-        href: import.meta.env.VITE_CRM_URL,
-      };
-      const apps = [admin, supervisor, agent, history, audit, crm];
-      if (this.$config?.ON_SITE) apps.push(grafana);
-      return apps.filter(({ name }) => this.checkAppAccess(name));
-    },
-    navAccess() {
-      return this.nav.filter((nav) => this.checkNavAccess({ name: nav.value, scopeClass: nav.class }));
-    },
-  },
+const store = useStore();
+const config = inject("$config");
 
-  methods: {
-    ...mapActions('userinfo', {
-      logout: 'LOGOUT',
-    }),
-    settings() {
-      const settingsUrl = import.meta.env.VITE_SETTINGS_URL;
-      window.open(settingsUrl);
-    },
+const navStore = useNavStore();
+const userinfoStore = useUserinfoStore();
+const { hasApplicationVisibility, logoutUser } = userinfoStore;
+const { userinfo } = storeToRefs(userinfoStore);
+const currentApp = computed(() => WtApplication.Supervisor);
 
-    async logoutUser() {
-     return this.logout();
-    },
-  },
+// Initialize nav, if not initialized yet
+navStore.initializeNav();
+
+const { nav: fullNav } = storeToRefs(navStore);
+
+const nav = computed(() => fullNav.value.filter(({ disabled }) => !disabled));
+
+const darkMode = computed(() => store.getters["appearance/DARK_MODE"]);
+
+const startPageHref = computed(() => import.meta.env.VITE_APPLICATION_HUB_URL);
+
+const buildInfo = {
+	release: process.env.npm_package_version,
+	build: import.meta.env.VITE_BUILD_NUMBER,
 };
+
+const apps = computed(() => {
+	const agent = {
+		name: WtApplication.Agent,
+		href: import.meta.env.VITE_AGENT_URL,
+	};
+	const supervisor = {
+		name: WtApplication.Supervisor,
+		href: import.meta.env.VITE_SUPERVISOR_URL,
+	};
+	const history = {
+		name: WtApplication.History,
+		href: import.meta.env.VITE_HISTORY_URL,
+	};
+	const audit = {
+		name: WtApplication.Audit,
+		href: import.meta.env.VITE_AUDIT_URL,
+	};
+	const admin = {
+		name: WtApplication.Admin,
+		href: import.meta.env.VITE_ADMIN_URL,
+	};
+	const grafana = {
+		name: WtApplication.Analytics,
+		href: import.meta.env.VITE_GRAFANA_URL,
+	};
+	const crm = {
+		name: WtApplication.Crm,
+		href: import.meta.env.VITE_CRM_URL,
+	};
+
+	const allApps = [admin, supervisor, agent, history, audit, crm];
+	if (config?.ON_SITE) allApps.push(grafana);
+	return allApps.filter(({ name }) => hasApplicationVisibility(name));
+});
+
+function settings() {
+	const settingsUrl = import.meta.env.VITE_SETTINGS_URL;
+	window.open(settingsUrl);
+}
 </script>
 
-<style lang="scss" scoped>
+<style
+	lang="scss"
+	scoped
+>
 .wt-dark-mode-switcher {
-  margin-right: auto;
+	margin-right: auto;
 }
 </style>

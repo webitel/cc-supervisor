@@ -1,4 +1,4 @@
-import SupervisorSections from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
+import { SupervisorSections } from '@webitel/ui-sdk/enums';
 
 export default {
   auth: {
@@ -204,15 +204,15 @@ export default {
       },
     },
     startPage: {
-      [SupervisorSections.QUEUES]: {
+      [SupervisorSections.Queues]: {
         name: 'Cozi',
         text: 'În această secțiune puteți monitoriza cozile.',
       },
-      [SupervisorSections.AGENTS]: {
+      [SupervisorSections.Agents]: {
         name: 'Agenți',
         text: 'În această secțiune puteți controla activitatea agenților, urmări stările și istoricul apelurilor și gestiona competențele acestora.',
       },
-      [SupervisorSections.ACTIVE_CALLS]: {
+      [SupervisorSections.ActiveCalls]: {
         name: 'Apeluri active',
         text: 'În această secțiune puteți monitoriza apelurile active și vă puteți conecta la apel.',
       },
