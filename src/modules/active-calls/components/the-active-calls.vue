@@ -164,4 +164,8 @@ export default {
 .table-section__dummy {
   min-height: 100%;
 }
+
+.table-section__actions-wrapper {
+  justify-content: flex-end;
+}
 </style>
