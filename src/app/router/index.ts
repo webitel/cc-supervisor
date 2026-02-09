@@ -41,7 +41,7 @@ const routes = [
     component: SupervisorWorkspace,
     children: [
       {
-        path: "queues",
+        path: "/queues",
         name: SupervisorSections.Queues,
         component: Queue,
         meta: {
@@ -133,31 +133,41 @@ const routes = [
   },
 ];
 
-const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+export let router = null;
 
-  scrollBehavior(to, from, savedPosition) {
-    return {
-      left: 0,
-      top: 0,
-    };
-  },
-  routes,
-});
+export const initRouter = async ({
+  beforeEach = [],
+} = {}) => {
+  router = createRouter({
+    history: createWebHistory(import.meta.env.BASE_URL),
 
-router.beforeEach((to, from, next) => {
-  if (!localStorage.getItem("access-token") && !to.query.accessToken) {
-    const desiredUrl = encodeURIComponent(window.location.href);
-    const authUrl = import.meta.env.VITE_AUTH_URL;
-    window.location.href = `${authUrl}?redirectTo=${desiredUrl}`;
-  } else if (to.query.accessToken) {
-    // assume that access token was set from query before app initialization in main.js
-    const newQuery = { ...to.query };
-    delete newQuery.accessToken;
-    next({ ...to, query: newQuery });
-  } else {
-    next();
-  }
-});
+    scrollBehavior(to, from, savedPosition) {
+      return {
+        left: 0,
+        top: 0,
+      };
+    },
+    routes,
+  });
 
-export default router;
+  router.beforeEach((to, from, next) => {
+    if (!localStorage.getItem("access-token") && !to.query.accessToken) {
+      const desiredUrl = encodeURIComponent(window.location.href);
+      const authUrl = import.meta.env.VITE_AUTH_URL;
+      window.location.href = `${authUrl}?redirectTo=${desiredUrl}`;
+    } else if (to.query.accessToken) {
+      // assume that access token was set from query before app initialization in main.js
+      const newQuery = { ...to.query };
+      delete newQuery.accessToken;
+      next({ ...to, query: newQuery });
+    } else {
+      next();
+    }
+  });
+
+  beforeEach.forEach((guard) => {
+    router.beforeEach(guard);
+  });
+
+  return router;
+};
