@@ -1,4 +1,4 @@
-import { SupervisorSections, WtObject } from "@webitel/ui-sdk/enums";
+import { SupervisorSections, WtApplication, WtObject } from "@webitel/ui-sdk/enums";
 import { createRouter, createWebHistory } from "vue-router";
 
 import ActiveCalls from "../../modules/active-calls/components/the-active-calls.vue";
@@ -39,6 +39,7 @@ const routes = [
     path: "/",
     redirect: { name: "the-start-page" },
     component: SupervisorWorkspace,
+    meta: { WtApplication: WtApplication.Supervisor },
     children: [
       {
         path: "/queues",
