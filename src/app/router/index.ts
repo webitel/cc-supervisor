@@ -39,7 +39,7 @@ const routes = [
     path: "/",
     redirect: { name: "the-start-page" },
     component: SupervisorWorkspace,
-    meta: { app: WtApplication.Supervisor },
+    meta: { WtApplication: WtApplication.Supervisor },
     children: [
       {
         path: "/queues",
