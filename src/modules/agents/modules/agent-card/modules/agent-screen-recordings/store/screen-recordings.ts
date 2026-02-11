@@ -3,13 +3,12 @@ import { createTableStore } from '@webitel/ui-datalist';
 
 import { headers } from './_internals/headers';
 
-
-export const useScreenRecordingsDataListStore = createTableStore/*<WebitelCasesSource>*/(
-  'agents/card/screenRecordings/datalist',
-  {
-    apiModule: {
-      getList: FileServicesAPI.getScreenRecordingsByAgent,
-    },
-    headers,
-  },
+export const useScreenRecordingsDataListStore = createTableStore(
+	/*<WebitelCasesSource>*/ 'agents/card/screenRecordings/datalist',
+	{
+		apiModule: {
+			getList: FileServicesAPI.getScreenRecordingsByAgent,
+		},
+		headers,
+	},
 );

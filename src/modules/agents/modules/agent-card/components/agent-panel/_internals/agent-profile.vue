@@ -13,13 +13,13 @@
 
 <script>
 export default {
-  name: 'AgentProfile',
-  props: {
-    name: {
-      type: String,
-      default: '',
-    },
-  },
+	name: 'AgentProfile',
+	props: {
+		name: {
+			type: String,
+			default: '',
+		},
+	},
 };
 </script>
 

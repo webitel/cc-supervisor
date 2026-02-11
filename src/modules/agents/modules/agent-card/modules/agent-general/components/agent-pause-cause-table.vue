@@ -41,44 +41,44 @@
 </template>
 
 <script>
-import {
-  useRepresentableAgentPauseCause,
-} from '@webitel/ui-sdk/src/composables/useRepresentableAgentPauseCause/useRepresentableAgentPauseCause';
+import { useRepresentableAgentPauseCause } from '@webitel/ui-sdk/src/composables/useRepresentableAgentPauseCause/useRepresentableAgentPauseCause';
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
 
 export default {
-  name: 'AgentPauseCauseTable',
-  mixins: [
-    tablePageMixin,
-    sortFilterMixin,
-  ],
-  props: {
-    namespace: {
-      type: String,
-      required: true,
-    },
-  },
-  computed: {
-    representableDataList() {
-      if (!this.dataList) return [];
-      const { representablePauseCause } = useRepresentableAgentPauseCause(this.dataList);
-      return representablePauseCause.value;
-    },
-  },
-  methods: {
-    loadList() {
-      const agentId = this.$route.params.id;
-      const { query } = this.$route;
+	name: 'AgentPauseCauseTable',
+	mixins: [
+		tablePageMixin,
+		sortFilterMixin,
+	],
+	props: {
+		namespace: {
+			type: String,
+			required: true,
+		},
+	},
+	computed: {
+		representableDataList() {
+			if (!this.dataList) return [];
+			const { representablePauseCause } = useRepresentableAgentPauseCause(
+				this.dataList,
+			);
+			return representablePauseCause.value;
+		},
+	},
+	methods: {
+		loadList() {
+			const agentId = this.$route.params.id;
+			const { query } = this.$route;
 
-      if (agentId)
-        return this.loadDataList({
-          ...query,
-          agentId,
-        });
-    },
-  },
+			if (agentId)
+				return this.loadDataList({
+					...query,
+					agentId,
+				});
+		},
+	},
 };
 </script>
 

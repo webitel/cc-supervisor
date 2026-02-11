@@ -17,13 +17,13 @@
 
 <script>
 export default {
-  name: 'AgentStatusTimers',
-  props: {
-    status: {
-      type: Object,
-      required: true,
-    },
-  },
+	name: 'AgentStatusTimers',
+	props: {
+		status: {
+			type: Object,
+			required: true,
+		},
+	},
 };
 </script>
 

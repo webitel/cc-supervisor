@@ -12,30 +12,43 @@ const namespace = 'statusHistory';
 vi.mock('../../api/agent-status-history');
 
 describe('Agent Status History tab', () => {
-  let store;
-  let mountOptions = {};
+	let store;
+	let mountOptions = {};
 
-  beforeEach(() => {
-    store = createStore({
-      modules: {
-        statusHistory: agentsStatusHistoryStore,
-      },
-    });
+	beforeEach(() => {
+		store = createStore({
+			modules: {
+				statusHistory: agentsStatusHistoryStore,
+			},
+		});
 
-    AgentStatusHistoryAPI.getList.mockImplementation(() => Promise.resolve({ items }));
-    mountOptions = {
-      props: { namespace },
-      global: {
-        plugins: [store],
-        mocks: {
-          $route: { params: { id: 1 }, query: {} },
-        },
-      },
-    };
-  });
+		AgentStatusHistoryAPI.getList.mockImplementation(() =>
+			Promise.resolve({
+				items,
+			}),
+		);
+		mountOptions = {
+			props: {
+				namespace,
+			},
+			global: {
+				plugins: [
+					store,
+				],
+				mocks: {
+					$route: {
+						params: {
+							id: 1,
+						},
+						query: {},
+					},
+				},
+			},
+		};
+	});
 
-  it('renders a component', () => {
-    const wrapper = shallowMount(AgentStatusHistory, mountOptions);
-    expect(wrapper.exists()).toBe(true);
-  });
+	it('renders a component', () => {
+		const wrapper = shallowMount(AgentStatusHistory, mountOptions);
+		expect(wrapper.exists()).toBe(true);
+	});
 });

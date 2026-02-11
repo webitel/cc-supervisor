@@ -53,9 +53,9 @@
 </template>
 
 <script>
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { WtObject } from '@webitel/ui-sdk/enums';
-import { mapActions,mapState } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import regionLookupApi from '../../../../../../_shared/lookups/api/regionLookupApi';
@@ -64,64 +64,72 @@ import teamLookupApi from '../../../../../../_shared/lookups/api/teamLookupApi';
 import userLookupApi from '../../../../../../_shared/lookups/api/userLookupApi';
 
 export default {
-  name: 'AgentInfoForm',
-  props: {
-    namespace: {
-      type: String,
-      required: true,
-    },
-  },
-  setup() {
-    const { disableUserInput, hasSaveActionAccess } = useUserAccessControl();
+	name: 'AgentInfoForm',
+	props: {
+		namespace: {
+			type: String,
+			required: true,
+		},
+	},
+	setup() {
+		const { disableUserInput, hasSaveActionAccess } = useUserAccessControl();
 
-    const { hasReadAccess: hasTeamReadAccess } = useUserAccessControl(WtObject.Team);
-    const { hasReadAccess: hasAuditorReadAccess } = useUserAccessControl(WtObject.User);
-    const { hasReadAccess: hasSupervisorReadAccess } = useUserAccessControl(WtObject.Agent);
-    const { hasReadAccess: hasRegionReadAccess } = useUserAccessControl(WtObject.Region);
+		const { hasReadAccess: hasTeamReadAccess } = useUserAccessControl(
+			WtObject.Team,
+		);
+		const { hasReadAccess: hasAuditorReadAccess } = useUserAccessControl(
+			WtObject.User,
+		);
+		const { hasReadAccess: hasSupervisorReadAccess } = useUserAccessControl(
+			WtObject.Agent,
+		);
+		const { hasReadAccess: hasRegionReadAccess } = useUserAccessControl(
+			WtObject.Region,
+		);
 
-    return {
-      disableUserInput,
-      hasSaveActionAccess,
-      
-      hasTeamReadAccess,
-      hasAuditorReadAccess,
-      hasSupervisorReadAccess,
-      hasRegionReadAccess,
-    };
-  },
-  created() {
-    this.loadAgent();
-  },
-  computed: {
-    ...mapState({
-      agent(state) {
-        return getNamespacedState(state, this.namespace).agent;
-      },
-    }),
-    isSupervisor() {
-      return this.agent?.isSupervisor;
-    },
-    disabledSave() {
-      return !this.agent._dirty;
-    },
-  },
-  methods: {
-    ...mapActions({
-      loadAgent(dispatch, payload) {
-        return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
-      },
-      setItemProp(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_AGENT_PROPERTY`, payload);
-      },
-      save(dispatch, payload) {
-        return dispatch(`${this.namespace}/UPDATE_AGENT`, payload);
-      },
-    }),
-    searchTeams: teamLookupApi,
-    searchSupervisors: supervisorLookupApi,
-    searchAuditors: userLookupApi,
-    searchRegions: regionLookupApi,
-  },
+		return {
+			disableUserInput,
+			hasSaveActionAccess,
+
+			hasTeamReadAccess,
+			hasAuditorReadAccess,
+			hasSupervisorReadAccess,
+			hasRegionReadAccess,
+		};
+	},
+	created() {
+		this.loadAgent();
+	},
+	computed: {
+		...mapState({
+			agent(state) {
+				return getNamespacedState(state, this.namespace).agent;
+			},
+		}),
+		isSupervisor() {
+			return this.agent?.isSupervisor;
+		},
+		disabledSave() {
+			return !this.agent._dirty;
+		},
+	},
+	methods: {
+		...mapActions({
+			loadAgent(dispatch, payload) {
+				return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
+			},
+			setItemProp(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_AGENT_PROPERTY`, payload);
+			},
+			save(dispatch, payload) {
+				return dispatch(`${this.namespace}/UPDATE_AGENT`, payload);
+			},
+		}),
+		searchTeams: teamLookupApi,
+		searchSupervisors: supervisorLookupApi,
+		searchAuditors: userLookupApi,
+		searchRegions: regionLookupApi,
+	},
 };
 </script>
 

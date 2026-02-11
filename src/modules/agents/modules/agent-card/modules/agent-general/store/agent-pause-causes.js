@@ -3,11 +3,13 @@ import AgentPauseCauseAPI from '../api/agent-pause-causes';
 import headers from './_internals/headers';
 
 const state = {
-  headers,
+	headers,
 };
 
-const agentPauseCause = new TableStoreModule({ state })
-  .attachAPIModule(AgentPauseCauseAPI)
-  .generateAPIActions()
-  .getModule();
+const agentPauseCause = new TableStoreModule({
+	state,
+})
+	.attachAPIModule(AgentPauseCauseAPI)
+	.generateAPIActions()
+	.getModule();
 export default agentPauseCause;

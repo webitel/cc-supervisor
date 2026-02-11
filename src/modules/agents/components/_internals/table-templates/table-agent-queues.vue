@@ -10,13 +10,13 @@
 
 <script>
 export default {
-  name: 'TableAgentQueues',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
+	name: 'TableAgentQueues',
+	props: {
+		item: {
+			type: Object,
+			required: true,
+		},
+	},
 };
 </script>
 

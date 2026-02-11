@@ -82,26 +82,24 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, computed } from 'vue';
-import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
 import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/components/wt-cc-agent-status-select.vue';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { ScreenSharing } from '@webitel/ui-sdk/src/modules/CallSession/index';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { computed, onMounted, onUnmounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
-
-import { useScreenSharingSession } from '../../../../../_shared/composables/useScreenSharingSession';
-
-import AgentProfile from './_internals/agent-profile.vue';
-import AgentStatusTimers from './_internals/agent-status-timers.vue';
-import AgentStatusComment from './_internals/agent-status-comment.vue';
 import { getCliInstance } from '../../../../../../app/api/callWSConnection';
+import { useScreenSharingSession } from '../../../../../_shared/composables/useScreenSharingSession';
 import { useControlAgentScreenAccess } from '../../../../composables/useControlAgentScreenAccess';
+import AgentProfile from './_internals/agent-profile.vue';
+import AgentStatusComment from './_internals/agent-status-comment.vue';
+import AgentStatusTimers from './_internals/agent-status-timers.vue';
 
 const props = defineProps({
-  namespace: {
-    type: String,
-  },
+	namespace: {
+		type: String,
+	},
 });
 
 const store = useStore();
@@ -109,28 +107,35 @@ const router = useRouter();
 let cli;
 
 const {
-  mediaStream,
-  screenshotStatus,
-  screenshotIsLoading,
-  toggleRecordAction,
-  makeScreenshot,
-  closeSession,
+	mediaStream,
+	screenshotStatus,
+	screenshotIsLoading,
+	toggleRecordAction,
+	makeScreenshot,
+	closeSession,
 } = useScreenSharingSession();
 
-const agent = computed(() => getNamespacedState(store.state, props.namespace).agent);
+const agent = computed(
+	() => getNamespacedState(store.state, props.namespace).agent,
+);
 
-const score = computed(() => getNamespacedState(store.state, props.namespace).score);
+const score = computed(
+	() => getNamespacedState(store.state, props.namespace).score,
+);
 
 const scoreCount = computed(() => score.value.scoreCount || 0);
 
-const scoreRequired = computed(() => (score.value.scoreRequiredAvg || 0).toFixed(2));
+const scoreRequired = computed(() =>
+	(score.value.scoreRequiredAvg || 0).toFixed(2),
+);
 
 const loadAgent = async (payload) => {
-  await store.dispatch(`${props.namespace}/LOAD_AGENT`, payload);
-  await loadScoreData();
+	await store.dispatch(`${props.namespace}/LOAD_AGENT`, payload);
+	await loadScoreData();
 };
 
-const loadScoreData = () => store.dispatch(`${props.namespace}/LOAD_SCORE_DATA`);
+const loadScoreData = () =>
+	store.dispatch(`${props.namespace}/LOAD_SCORE_DATA`);
 
 const call = () => store.dispatch('call/CALL');
 
@@ -141,36 +146,42 @@ const setCallInfo = (payload) => store.dispatch('call/SET_CALL_INFO', payload);
 const { isControlAgentScreenAllow } = useControlAgentScreenAccess();
 
 const callAgent = () => {
-  setCallInfo({
-    agent: agent.value,
-  });
-  call();
+	setCallInfo({
+		agent: agent.value,
+	});
+	call();
 };
 
 const trackAgent = async () => {
-  mediaStream.value = null;
-  cli?.spyScreenSessions.forEach((session) => session.close());
+	mediaStream.value = null;
+	cli?.spyScreenSessions.forEach((session) => session.close());
 
-  await cli.spyScreen(Number(agent.value.user.id), {
-    iceServers: [],
-  }, async (stream) => {
-    mediaStream.value = stream;
-  });
+	await cli.spyScreen(
+		Number(agent.value.user.id),
+		{
+			iceServers: [],
+		},
+		async (stream) => {
+			mediaStream.value = stream;
+		},
+	);
 };
 
 onMounted(async () => {
-  cli = await getCliInstance();
-  await loadScoreData();
+	cli = await getCliInstance();
+	await loadScoreData();
 });
 
 onUnmounted(() => {
-  mediaStream.value = null;
-  if (!cli) return;
+	mediaStream.value = null;
+	if (!cli) return;
 
-  const activeSession = cli.spyScreenSessions.find((session) => session.toUserId === Number(agent.value?.user.id));
-  if (activeSession) {
-    closeSession(activeSession);
-  }
+	const activeSession = cli.spyScreenSessions.find(
+		(session) => session.toUserId === Number(agent.value?.user.id),
+	);
+	if (activeSession) {
+		closeSession(activeSession);
+	}
 });
 </script>
 

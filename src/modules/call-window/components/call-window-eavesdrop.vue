@@ -101,62 +101,64 @@ import timerMixin from '../mixins/timerMixin/timerMixin';
 import CallWindowWrapper from './call-window-wrapper.vue';
 
 export default {
-  name: 'CallWindowEavesdrop',
-  components: {
-    CallWindowWrapper,
-  },
-  mixins: [timerMixin],
-  data() {
-    return {
-      inbound: CallDirection.Inbound,
-      isCopied: false,
-    };
-  },
-  computed: {
-    ...mapState('call', {
-      isOpened: (state) => state.isEavesdropOpened,
-      agent: (state) => state.agent,
-      client: (state) => state.client,
-      call: (state) => state.call,
-    }),
-    stateIcon() {
-      if (this.isPrompt) return 'prompter';
-      if (this.isConference) return 'conference';
-      return 'sv-ear';
-    },
-    isMuted() {
-      return this.call.eavesdropIsMuted;
-    },
-    isPrompt() {
-      return this.call.eavesdropIsPrompt;
-    },
-    isConference() {
-      return this.call.eavesdropIsConference;
-    },
-  },
-  methods: {
-    ...mapActions('call', {
-      closeWindow: 'EAVESDROP_CLOSE_WINDOW',
-    }),
-    mute() {
-      this.call.changeEavesdropState(EavesdropState.Muted);
-    },
-    prompter() {
-      this.call.changeEavesdropState(EavesdropState.Prompt);
-    },
-    conference() {
-      this.call.changeEavesdropState(EavesdropState.Conference);
-    },
-    copyNumber(ev, toggleCb) {
-      copy(this.client.number);
-      this.isCopied = true;
-      toggleCb(ev)
-      setTimeout(() => {
-        this.isCopied = false;
-        toggleCb(ev)
-      }, 1500);
-    },
-  },
+	name: 'CallWindowEavesdrop',
+	components: {
+		CallWindowWrapper,
+	},
+	mixins: [
+		timerMixin,
+	],
+	data() {
+		return {
+			inbound: CallDirection.Inbound,
+			isCopied: false,
+		};
+	},
+	computed: {
+		...mapState('call', {
+			isOpened: (state) => state.isEavesdropOpened,
+			agent: (state) => state.agent,
+			client: (state) => state.client,
+			call: (state) => state.call,
+		}),
+		stateIcon() {
+			if (this.isPrompt) return 'prompter';
+			if (this.isConference) return 'conference';
+			return 'sv-ear';
+		},
+		isMuted() {
+			return this.call.eavesdropIsMuted;
+		},
+		isPrompt() {
+			return this.call.eavesdropIsPrompt;
+		},
+		isConference() {
+			return this.call.eavesdropIsConference;
+		},
+	},
+	methods: {
+		...mapActions('call', {
+			closeWindow: 'EAVESDROP_CLOSE_WINDOW',
+		}),
+		mute() {
+			this.call.changeEavesdropState(EavesdropState.Muted);
+		},
+		prompter() {
+			this.call.changeEavesdropState(EavesdropState.Prompt);
+		},
+		conference() {
+			this.call.changeEavesdropState(EavesdropState.Conference);
+		},
+		copyNumber(ev, toggleCb) {
+			copy(this.client.number);
+			this.isCopied = true;
+			toggleCb(ev);
+			setTimeout(() => {
+				this.isCopied = false;
+				toggleCb(ev);
+			}, 1500);
+		},
+	},
 };
 </script>
 

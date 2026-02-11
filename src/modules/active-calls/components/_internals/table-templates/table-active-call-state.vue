@@ -13,19 +13,21 @@
 import { CallActions } from 'webitel-sdk';
 
 export default {
-  name: 'TableActiveCallState',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    isActive() {
-      return this.item.state !== CallActions.Hangup
-        && this.item.state !== CallActions.Ringing;
-    },
-  },
+	name: 'TableActiveCallState',
+	props: {
+		item: {
+			type: Object,
+			required: true,
+		},
+	},
+	computed: {
+		isActive() {
+			return (
+				this.item.state !== CallActions.Hangup &&
+				this.item.state !== CallActions.Ringing
+			);
+		},
+	},
 };
 </script>
 

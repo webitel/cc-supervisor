@@ -1,10 +1,10 @@
 import applyTransform, {
-  camelToSnake,
-  log,
-  merge,
-  notify,
-  sanitize,
-  snakeToCamel,
+	camelToSnake,
+	log,
+	merge,
+	notify,
+	sanitize,
+	snakeToCamel,
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
 import { AgentServiceApiFactory } from 'webitel-sdk';
 
@@ -13,46 +13,53 @@ import configuration from '../../../../../../../app/api/utils/openAPIConfig';
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['team', 'supervisor', 'auditor', 'region', 'progressiveCount', 'chatCount'];
+const fieldsToSend = [
+	'team',
+	'supervisor',
+	'auditor',
+	'region',
+	'progressiveCount',
+	'chatCount',
+];
 
 const getAgent = async ({ itemId: id }) => {
-  const defaultObject = {
-    _dirty: false,
-    progressiveCount: 0,
-    chatCount: 0,
-  };
+	const defaultObject = {
+		_dirty: false,
+		progressiveCount: 0,
+		chatCount: 0,
+	};
 
-  try {
-    const response = await agentService.readAgent(id);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-      merge(defaultObject),
-    ]);
-  } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
-  }
+	try {
+		const response = await agentService.readAgent(id);
+		return applyTransform(response.data, [
+			snakeToCamel(),
+			merge(defaultObject),
+		]);
+	} catch (err) {
+		throw applyTransform(err, [
+			notify,
+		]);
+	}
 };
 
 const patchAgent = async ({ changes, id }) => {
-  const body = applyTransform(changes, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
-  try {
-    const response = await agentService.patchAgent(id, body);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
-  } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
-  }
+	const body = applyTransform(changes, [
+		sanitize(fieldsToSend),
+		camelToSnake(),
+	]);
+	try {
+		const response = await agentService.patchAgent(id, body);
+		return applyTransform(response.data, [
+			snakeToCamel(),
+		]);
+	} catch (err) {
+		throw applyTransform(err, [
+			notify,
+		]);
+	}
 };
 
 export default {
-  get: getAgent,
-  patch: patchAgent,
+	get: getAgent,
+	patch: patchAgent,
 };

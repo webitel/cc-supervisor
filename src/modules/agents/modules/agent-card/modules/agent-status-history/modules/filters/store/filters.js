@@ -2,14 +2,16 @@ import BaseFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/B
 import QueryFiltersStoreModule from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
 
 const state = {
-  from: new BaseFilterSchema({
-    value: new Date().setHours(0, 0, 0, 0),
-    defaultValue: new Date().setHours(0, 0, 0, 0),
-  }),
-  to: new BaseFilterSchema({
-    value: new Date().setHours(23, 59, 59, 999),
-    defaultValue: new Date().setHours(23, 59, 59, 999),
-  }),
+	from: new BaseFilterSchema({
+		value: new Date().setHours(0, 0, 0, 0),
+		defaultValue: new Date().setHours(0, 0, 0, 0),
+	}),
+	to: new BaseFilterSchema({
+		value: new Date().setHours(23, 59, 59, 999),
+		defaultValue: new Date().setHours(23, 59, 59, 999),
+	}),
 };
 
-export default new QueryFiltersStoreModule({ state }).getModule();
+export default new QueryFiltersStoreModule({
+	state,
+}).getModule();

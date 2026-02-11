@@ -9,76 +9,95 @@ import Agents from '../the-agents.vue';
 
 const items = [];
 
-vi.spyOn(API, 'getList')
-  .mockImplementation(() => ({ items }));
+vi.spyOn(API, 'getList').mockImplementation(() => ({
+	items,
+}));
 
 describe('Agents page', () => {
-  let state;
-  let store;
-  let mountOptions;
+	let state;
+	let store;
+	let mountOptions;
 
-  beforeEach(() => {
-    state = {};
-    store = createStore({
-      modules: {
-        agents: agentsStore,
-      },
-    });
+	beforeEach(() => {
+		state = {};
+		store = createStore({
+			modules: {
+				agents: agentsStore,
+			},
+		});
 
-    mountOptions = {
-      shallow: true,
-      global: {
-        stubs: {
-          WtPageWrapper: false,
-          WtTable: false,
-        },
-        plugins: [store, router],
-      },
-    };
-  });
+		mountOptions = {
+			shallow: true,
+			global: {
+				stubs: {
+					WtPageWrapper: false,
+					WtTable: false,
+				},
+				plugins: [
+					store,
+					router,
+				],
+			},
+		};
+	});
 
-  it('renders a component', () => {
-    const wrapper = mount(Agents, mountOptions);
-    expect(wrapper.exists())
-    .toBe(true);
-  });
+	it('renders a component', () => {
+		const wrapper = mount(Agents, mountOptions);
+		expect(wrapper.exists()).toBe(true);
+	});
 
-  it('Correctly computes selectedIds', () => {
-    const dataList = [{
-      _isSelected: true,
-      agentId: '124',
-    }, {
-      _isSelected: false,
-      agentId: '1224',
-    }];
-    const wrapper = mount(Agents, {
-      ...mountOptions,
-      computed: {
-        ...Agents.computed,
-        dataList() { return dataList; },
-      },
-    });
-    expect(wrapper.vm.selectedIds)
-    .toEqual(['124']);
-  });
+	it('Correctly computes selectedIds', () => {
+		const dataList = [
+			{
+				_isSelected: true,
+				agentId: '124',
+			},
+			{
+				_isSelected: false,
+				agentId: '1224',
+			},
+		];
+		const wrapper = mount(Agents, {
+			...mountOptions,
+			computed: {
+				...Agents.computed,
+				dataList() {
+					return dataList;
+				},
+			},
+		});
+		expect(wrapper.vm.selectedIds).toEqual([
+			'124',
+		]);
+	});
 
-  it('Correctly computes rows to highlight initially', async () => {
-    const dataList = [
-      { status: AgentStatus.BreakOut },
-      { status: AgentStatus.Pause },
-      { status: AgentStatus.BreakOut },
-    ];
-    vi.spyOn(Agents.methods, 'highlightRows');
+	it('Correctly computes rows to highlight initially', async () => {
+		const dataList = [
+			{
+				status: AgentStatus.BreakOut,
+			},
+			{
+				status: AgentStatus.Pause,
+			},
+			{
+				status: AgentStatus.BreakOut,
+			},
+		];
+		vi.spyOn(Agents.methods, 'highlightRows');
 
-    const wrapper = mount(Agents, {
-      ...mountOptions,
-      computed: {
-        ...Agents.computed,
-        dataList() { return dataList; },
-      },
-    });
-    await wrapper.vm.$nextTick(); // wait for table to render
-    expect(Agents.methods.highlightRows)
-    .toHaveBeenCalledWith([0, 2]);
-  });
+		const wrapper = mount(Agents, {
+			...mountOptions,
+			computed: {
+				...Agents.computed,
+				dataList() {
+					return dataList;
+				},
+			},
+		});
+		await wrapper.vm.$nextTick(); // wait for table to render
+		expect(Agents.methods.highlightRows).toHaveBeenCalledWith([
+			0,
+			2,
+		]);
+	});
 });

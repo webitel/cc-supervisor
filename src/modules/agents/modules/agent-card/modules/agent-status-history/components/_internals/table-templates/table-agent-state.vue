@@ -8,18 +8,24 @@
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 
 export default {
-  name: 'TableAgentState',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    statusText() {
-      return this.item.payload || this.item.pauseCause || this.$t(`pages.card.statusHistory.states.${snakeToCamel(this.item.state)}`);
-    },
-  },
+	name: 'TableAgentState',
+	props: {
+		item: {
+			type: Object,
+			required: true,
+		},
+	},
+	computed: {
+		statusText() {
+			return (
+				this.item.payload ||
+				this.item.pauseCause ||
+				this.$t(
+					`pages.card.statusHistory.states.${snakeToCamel(this.item.state)}`,
+				)
+			);
+		},
+	},
 };
 </script>
 

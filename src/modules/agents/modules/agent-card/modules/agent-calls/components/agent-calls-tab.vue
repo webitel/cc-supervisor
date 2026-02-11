@@ -107,13 +107,13 @@
 </template>
 
 <script>
-import { computed } from 'vue';
-import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
-import { mapState, useStore } from 'vuex';
+import { getCallMediaUrl } from '@webitel/api-services/api';
 import { EngineCallFileType } from '@webitel/api-services/gen/models';
 import { WtEmpty } from '@webitel/ui-sdk/components';
+import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
-import { getCallMediaUrl } from '@webitel/api-services/api';
+import { computed } from 'vue';
+import { mapState, useStore } from 'vuex';
 
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
@@ -122,98 +122,108 @@ import TableDirection from './_internals/table-templates/table-direction.vue';
 import AgentCallsMediaAction from './agent-calls-media-action.vue';
 
 export default {
-  name: 'AgentCallsTab',
-  components: {
-    TableDirection,
-    FilterFields,
-    FilterPagination,
-    AgentCallsMediaAction,
-    WtEmpty,
-  },
-  mixins: [
-    tablePageMixin,
-    sortFilterMixin,
-  ],
-  props: {
-    namespace: {
-      type: String,
-    },
-  },
-  data: () => ({
-    audioURL: '',
-    playingCallId: '',
-    EngineCallFileType,
-  }),
-  setup() {
-    const store = useStore();
-    const dataList = computed(() => store.state.agents.card.calls.dataList);
-    const isLoading = computed(() => store.state.agents.card.calls.isLoading);
-    const filters = computed(() => store.getters['agents/card/calls/filters/GET_FILTERS']);
+	name: 'AgentCallsTab',
+	components: {
+		TableDirection,
+		FilterFields,
+		FilterPagination,
+		AgentCallsMediaAction,
+		WtEmpty,
+	},
+	mixins: [
+		tablePageMixin,
+		sortFilterMixin,
+	],
+	props: {
+		namespace: {
+			type: String,
+		},
+	},
+	data: () => ({
+		audioURL: '',
+		playingCallId: '',
+		EngineCallFileType,
+	}),
+	setup() {
+		const store = useStore();
+		const dataList = computed(() => store.state.agents.card.calls.dataList);
+		const isLoading = computed(() => store.state.agents.card.calls.isLoading);
+		const filters = computed(
+			() => store.getters['agents/card/calls/filters/GET_FILTERS'],
+		);
 
-    const {
-      showEmpty,
-      image: imageEmpty,
-      text: textEmpty,
-    } = useTableEmpty({
-      dataList,
-      filters,
-      isLoading,
-      error: computed(() => null),
-    });
+		const {
+			showEmpty,
+			image: imageEmpty,
+			text: textEmpty,
+		} = useTableEmpty({
+			dataList,
+			filters,
+			isLoading,
+			error: computed(() => null),
+		});
 
-    return {
-      showEmpty,
-      imageEmpty,
-      textEmpty,
-    };
-  },
-  computed: {
-    ...mapState('agents/card', {
-      userId: (state) => state.agent.user?.id,
-    }),
-  },
-  methods: {
-    loadList() {
-      const { query } = this.$route;
-      return this.loadDataList({
-        ...query,
-        userId: [this.userId],
-      });
-    },
-    play({ fileId, callId }) {
-      if (fileId) {
-        this.audioURL = getCallMediaUrl(fileId);
-        this.playingCallId = callId;
-      } else {
-        this.closePlayer();
-      }
-    },
+		return {
+			showEmpty,
+			imageEmpty,
+			textEmpty,
+		};
+	},
+	computed: {
+		...mapState('agents/card', {
+			userId: (state) => state.agent.user?.id,
+		}),
+	},
+	methods: {
+		loadList() {
+			const { query } = this.$route;
+			return this.loadDataList({
+				...query,
+				userId: [
+					this.userId,
+				],
+			});
+		},
+		play({ fileId, callId }) {
+			if (fileId) {
+				this.audioURL = getCallMediaUrl(fileId);
+				this.playingCallId = callId;
+			} else {
+				this.closePlayer();
+			}
+		},
 
-    closePlayer() {
-      this.audioURL = '';
-      this.playingCallId = '';
-    },
-    // @author @o.chorpita
-    // [WTEL-8652](https://webitel.atlassian.net/browse/WTEL-8652)
-    // Override mixin's initializeList to prevent initial list loading before userId is ready.
-    async initializeList() {
-      if (!this.userId) return;
+		closePlayer() {
+			this.audioURL = '';
+			this.playingCallId = '';
+		},
+		// @author @o.chorpita
+		// [WTEL-8652](https://webitel.atlassian.net/browse/WTEL-8652)
+		// Override mixin's initializeList to prevent initial list loading before userId is ready.
+		async initializeList() {
+			if (!this.userId) return;
 
-      this.isLoading = true;
-      try {
-        await this.loadList();
-      } finally {
-        this.isLoading = false;
-      }
-    },
-  },
-  mounted() {
-    const unwatch = this.$watch('userId', async (newVal) => {
-      if (!newVal) return;
-      await this.loadList();
-      unwatch();
-    }, { immediate: true });
-  },
+			this.isLoading = true;
+			try {
+				await this.loadList();
+			} finally {
+				this.isLoading = false;
+			}
+		},
+	},
+	mounted() {
+		const unwatch = this.$watch(
+			'userId',
+			async (newVal) => {
+				if (!newVal) return;
+				await this.loadList();
+				unwatch();
+			},
+			{
+				immediate: true,
+			},
+		);
+	},
 };
 </script>
 

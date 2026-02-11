@@ -20,27 +20,27 @@
 
 <script>
 export default {
-  name: 'TableAgents',
-  props: {
-    status: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    total() {
-      return this.status.total || 0;
-    },
-    online() {
-      return this.status.online || 0;
-    },
-    pause() {
-      return this.status.pause || 0;
-    },
-    offline() {
-      return this.status.offline || 0;
-    },
-  },
+	name: 'TableAgents',
+	props: {
+		status: {
+			type: Object,
+			required: true,
+		},
+	},
+	computed: {
+		total() {
+			return this.status.total || 0;
+		},
+		online() {
+			return this.status.online || 0;
+		},
+		pause() {
+			return this.status.pause || 0;
+		},
+		offline() {
+			return this.status.offline || 0;
+		},
+	},
 };
 </script>
 

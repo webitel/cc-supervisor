@@ -36,15 +36,17 @@
 </template>
 
 <script lang="ts" setup>
-import { IconAction } from '@webitel/ui-sdk/enums';
-import AgentPdfsTabSdk from '@webitel/ui-sdk/src/modules/AgentPdfs/components/agent-pdfs-tab.vue';
-import { usePdfsDataListStore } from '../store/pdfs';
-import { useRoute } from 'vue-router';
 import { FileServicesAPI } from '@webitel/api-services/api';
 import { WebitelMediaExporterExportRecord } from '@webitel/api-services/gen/models';
+import { IconAction } from '@webitel/ui-sdk/enums';
+import AgentPdfsTabSdk from '@webitel/ui-sdk/src/modules/AgentPdfs/components/agent-pdfs-tab.vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+import { usePdfsDataListStore } from '../store/pdfs';
 
-const emit = defineEmits(['toggle-filter']);
+const emit = defineEmits([
+	'toggle-filter',
+]);
 
 const { t } = useI18n();
 
@@ -54,9 +56,9 @@ const agentId = route.params.id as string;
 const tableStore = usePdfsDataListStore();
 
 const handleDeleteItem = (item: WebitelMediaExporterExportRecord) => {
-  return FileServicesAPI.deleteScreenRecordingsByAgent({
-    id: item.fileId,
-    agentId: agentId,
-  });
+	return FileServicesAPI.deleteScreenRecordingsByAgent({
+		id: item.fileId,
+		agentId: agentId,
+	});
 };
 </script>

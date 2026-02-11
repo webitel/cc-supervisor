@@ -47,11 +47,11 @@
 </template>
 
 <script>
+import { WtEmpty } from '@webitel/ui-sdk/components';
+import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
-import { WtEmpty } from '@webitel/ui-sdk/components';
-import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
@@ -59,57 +59,63 @@ import FilterFields from '../../../../../../_shared/filters/components/filter-ta
 import TableAgentState from './_internals/table-templates/table-agent-state.vue';
 
 export default {
-  name: 'AgentStatusHistoryTab',
-  components: {
-    TableAgentState,
-    FilterFields,
-    FilterPagination,
-    WtEmpty,
-  },
-  mixins: [
-    tablePageMixin,
-    sortFilterMixin,
-  ],
-  props: {
-    namespace: {
-      type: String,
-    },
-  },
-  setup() {
-    const store = useStore();
-    const dataList = computed(() => store.state.agents.card.statusHistory.dataList);
-    const isLoading = computed(() => store.state.agents.card.statusHistory.isLoading);
-    const filters = computed(() => store.getters['agents/card/statusHistory/filters/GET_FILTERS']);
+	name: 'AgentStatusHistoryTab',
+	components: {
+		TableAgentState,
+		FilterFields,
+		FilterPagination,
+		WtEmpty,
+	},
+	mixins: [
+		tablePageMixin,
+		sortFilterMixin,
+	],
+	props: {
+		namespace: {
+			type: String,
+		},
+	},
+	setup() {
+		const store = useStore();
+		const dataList = computed(
+			() => store.state.agents.card.statusHistory.dataList,
+		);
+		const isLoading = computed(
+			() => store.state.agents.card.statusHistory.isLoading,
+		);
+		const filters = computed(
+			() => store.getters['agents/card/statusHistory/filters/GET_FILTERS'],
+		);
 
-    const {
-      showEmpty,
-      image: imageEmpty,
-      text: textEmpty,
-    } = useTableEmpty({
-      dataList,
-      filters,
-      isLoading,
-      error: computed(() => null),
-    });
+		const {
+			showEmpty,
+			image: imageEmpty,
+			text: textEmpty,
+		} = useTableEmpty({
+			dataList,
+			filters,
+			isLoading,
+			error: computed(() => null),
+		});
 
-    return {
-      showEmpty,
-      imageEmpty,
-      textEmpty,
-    };
-  },
-  methods: {
-    loadList() {
-      const agentId = this.$route.params.id;
-      const { query } = this.$route;
+		return {
+			showEmpty,
+			imageEmpty,
+			textEmpty,
+		};
+	},
+	methods: {
+		loadList() {
+			const agentId = this.$route.params.id;
+			const { query } = this.$route;
 
-      if (agentId)
-        return this.loadDataList({
-          ...query,
-          agentId,
-        });
-    },
-  },
+			if (agentId)
+				return this.loadDataList({
+					...query,
+					agentId,
+				});
+		},
+	},
 };
 </script>
 

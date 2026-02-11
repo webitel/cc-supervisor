@@ -8,53 +8,57 @@ import skills from '../modules/agent-skills/store/agent-skills';
 import statusHistory from '../modules/agent-status-history/store/agent-status-history';
 
 const state = {
-  agentId: null,
-  agent: {},
-  score: {
-    scoreCount: 0,
-    scoreRequiredAvg: 0,
-  },
+	agentId: null,
+	agent: {},
+	score: {
+		scoreCount: 0,
+		scoreRequiredAvg: 0,
+	},
 };
 
 const getters = {};
 
 const actions = {
-  SET_AGENT_ID: (context, id) => {
-    context.commit('SET_AGENT_ID', id);
-  },
-  LOAD_AGENT: async (context) => {
-    const agent = await AgentAPI.get({ itemId: context.state.agentId });
-    context.commit('SET_AGENT', editProxy(agent));
-  },
-  LOAD_SCORE_DATA: async (context) => {
-    const score = await AgentAPI.getScore({ agentId: context.state.agentId });
-    context.commit('SET_SCORE', score);
-  },
+	SET_AGENT_ID: (context, id) => {
+		context.commit('SET_AGENT_ID', id);
+	},
+	LOAD_AGENT: async (context) => {
+		const agent = await AgentAPI.get({
+			itemId: context.state.agentId,
+		});
+		context.commit('SET_AGENT', editProxy(agent));
+	},
+	LOAD_SCORE_DATA: async (context) => {
+		const score = await AgentAPI.getScore({
+			agentId: context.state.agentId,
+		});
+		context.commit('SET_SCORE', score);
+	},
 };
 
 const mutations = {
-  SET_AGENT_ID: (state, id) => {
-    state.agentId = id;
-  },
-  SET_AGENT: (state, agent) => {
-    state.agent = agent;
-  },
-  SET_SCORE: (state, score) => {
-    state.score = score;
-  },
+	SET_AGENT_ID: (state, id) => {
+		state.agentId = id;
+	},
+	SET_AGENT: (state, agent) => {
+		state.agent = agent;
+	},
+	SET_SCORE: (state, score) => {
+		state.score = score;
+	},
 };
 
 export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations,
-  modules: {
-    agentEdit,
-    pauseCause,
-    calls,
-    statusHistory,
-    skills,
-  },
+	namespaced: true,
+	state,
+	getters,
+	actions,
+	mutations,
+	modules: {
+		agentEdit,
+		pauseCause,
+		calls,
+		statusHistory,
+		skills,
+	},
 };
