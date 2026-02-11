@@ -15,8 +15,7 @@ export default ({mode}) => {
         .replaceAll('VITE_', 'VUE_APP_')),
     },
     server: {
-      host: true,
-      port: 8080,
+			// host: true,  // uncomment me to enable localhost access by IP (including from other devices in the network)
     },
     css: {
       preprocessorOptions: {
