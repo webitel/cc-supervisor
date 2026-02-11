@@ -9,26 +9,28 @@
 import { CallDirection } from 'webitel-sdk';
 
 export default {
-  name: 'TableDirection',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    CallDirection,
-  }),
-  computed: {
-    directionIcon() {
-      return this.item.direction === CallDirection.Outbound
-        ? 'call-outbound' : 'call-inbound';
-    },
-    directionIconColor() {
-      return this.item.direction === CallDirection.Outbound
-        ? 'success' : 'primary';
-    },
-  },
+	name: 'TableDirection',
+	props: {
+		item: {
+			type: Object,
+			required: true,
+		},
+	},
+	data: () => ({
+		CallDirection,
+	}),
+	computed: {
+		directionIcon() {
+			return this.item.direction === CallDirection.Outbound
+				? 'call-outbound'
+				: 'call-inbound';
+		},
+		directionIconColor() {
+			return this.item.direction === CallDirection.Outbound
+				? 'success'
+				: 'primary';
+		},
+	},
 };
 </script>
 

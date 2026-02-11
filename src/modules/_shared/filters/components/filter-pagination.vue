@@ -14,8 +14,10 @@
 import paginationFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/paginationFilterMixin';
 
 export default {
-  name: 'FilterPagination',
-  mixins: [paginationFilterMixin],
+	name: 'FilterPagination',
+	mixins: [
+		paginationFilterMixin,
+	],
 };
 </script>
 

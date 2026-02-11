@@ -13,41 +13,59 @@ import DirectionOptions from '../../../../_shared/lookups/lookups/DirectionOptio
 import ResultFilterOptions from '../resultFilter/ResultFilter.lookup';
 
 const state = {
-  direction: new EnumFilterSchema({
-    options: DirectionOptions,
-    locale: { label: 'filters.direction' },
-  }),
-  result: new EnumFilterSchema({
-    options: ResultFilterOptions,
-    locale: { label: 'filters.result' },
-  }),
-  user: new ApiFilterSchema({
-    API: UserFilterAPI,
-    locale: { label: 'objects.user' },
-  }),
-  gateway: new ApiFilterSchema({
-    API: GatewayFilterAPI,
-    locale: { label: 'objects.gateway' },
-  }),
-  queue: new ApiFilterSchema({
-    API: QueueFilterAPI,
-    locale: { label: 'objects.queue.queue' },
-  }),
-  agent: new ApiFilterSchema({
-    API: AgentFilterAPI,
-    locale: { label: 'objects.agent.agent' },
-  }),
-  team: new ApiFilterSchema({
-    API: TeamFilterAPI,
-    locale: { label: 'objects.team' },
-  }),
-  supervisor: new ApiFilterSchema({
-    API: SupervisorFilterAPI,
-    locale: { label: 'objects.supervisor' },
-  }),
-  skipParent: new BaseFilterSchema({
-    defaultValue: true,
-  }),
+	direction: new EnumFilterSchema({
+		options: DirectionOptions,
+		locale: {
+			label: 'filters.direction',
+		},
+	}),
+	result: new EnumFilterSchema({
+		options: ResultFilterOptions,
+		locale: {
+			label: 'filters.result',
+		},
+	}),
+	user: new ApiFilterSchema({
+		API: UserFilterAPI,
+		locale: {
+			label: 'objects.user',
+		},
+	}),
+	gateway: new ApiFilterSchema({
+		API: GatewayFilterAPI,
+		locale: {
+			label: 'objects.gateway',
+		},
+	}),
+	queue: new ApiFilterSchema({
+		API: QueueFilterAPI,
+		locale: {
+			label: 'objects.queue.queue',
+		},
+	}),
+	agent: new ApiFilterSchema({
+		API: AgentFilterAPI,
+		locale: {
+			label: 'objects.agent.agent',
+		},
+	}),
+	team: new ApiFilterSchema({
+		API: TeamFilterAPI,
+		locale: {
+			label: 'objects.team',
+		},
+	}),
+	supervisor: new ApiFilterSchema({
+		API: SupervisorFilterAPI,
+		locale: {
+			label: 'objects.supervisor',
+		},
+	}),
+	skipParent: new BaseFilterSchema({
+		defaultValue: true,
+	}),
 };
 
-export default new QueryFiltersStoreModule({ state }).getModule();
+export default new QueryFiltersStoreModule({
+	state,
+}).getModule();

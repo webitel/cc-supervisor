@@ -8,22 +8,28 @@ import AgentAPI from '../agent-card';
 
 vi.spyOn(instance, 'request');
 
-const item = { name: 'vi' };
+const item = {
+	name: 'vi',
+};
 const expectedResponse = {
-  name: 'vi',
-  offline: '00:00:00',
-  online: '00:00:00',
-  pause: '00:00:00',
-  statusDuration: '00:00:00',
+	name: 'vi',
+	offline: '00:00:00',
+	online: '00:00:00',
+	pause: '00:00:00',
+	statusDuration: '00:00:00',
 };
 
 describe('Agent Page API', () => {
-  it('get: correctly processes response', async () => {
-    const getMock = instance.request.mockImplementationOnce((() => Promise.resolve({
-      data: item,
-    })));
-    const response = await AgentAPI.get({ itemId: 1 });
-    expect(getMock).toHaveBeenCalled();
-    expect(response).toEqual(expectedResponse);
-  });
+	it('get: correctly processes response', async () => {
+		const getMock = instance.request.mockImplementationOnce(() =>
+			Promise.resolve({
+				data: item,
+			}),
+		);
+		const response = await AgentAPI.get({
+			itemId: 1,
+		});
+		expect(getMock).toHaveBeenCalled();
+		expect(response).toEqual(expectedResponse);
+	});
 });

@@ -30,188 +30,207 @@
 </template>
 
 <script>
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
-import { storeToRefs } from 'pinia';
 import { WtObject } from '@webitel/ui-sdk/enums';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { storeToRefs } from 'pinia';
+import { mapActions, mapState } from 'vuex';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import autoRefreshMixin from '../../../../../app/mixins/autoRefresh/autoRefreshMixin';
-import AgentTabsPathName from "../../../../../app/router/_internals/AgentTabsPathName.enum.js";
+import AgentTabsPathName from '../../../../../app/router/_internals/AgentTabsPathName.enum.js';
 import { useErrorRedirectHandler } from '../../../../../modules/error-pages/composable/useErrorRedirectHandler';
 import { useUserinfoStore } from '../../../../../modules/userinfo/store/userInfoStore';
+import { useControlAgentScreenAccess } from '../../../composables/useControlAgentScreenAccess';
 import Calls from '../modules/agent-calls/components/agent-calls-tab.vue';
 import CallsFilters from '../modules/agent-calls/modules/filters/components/agent-calls-filters.vue';
 import General from '../modules/agent-general/components/agent-general-tab.vue';
-import Screenshots from '../modules/agent-screenshots/components/agent-screenshots-tab.vue';
-import ScreenshotsFilters from '../modules/agent-screenshots/modules/filters/components/agent-screenshots-filters.vue';
+import Pdfs from '../modules/agent-pdfs/components/agent-pdfs-tab.vue';
+import PdfsFilters from '../modules/agent-pdfs/modules/filters/components/agent-pdfs-filters.vue';
 import ScreenRecordings from '../modules/agent-screen-recordings/components/agent-screen-recordings-tab.vue';
 import ScreenRecordingsFilters from '../modules/agent-screen-recordings/modules/filters/components/agent-screen-recordings-filters.vue';
+import Screenshots from '../modules/agent-screenshots/components/agent-screenshots-tab.vue';
+import ScreenshotsFilters from '../modules/agent-screenshots/modules/filters/components/agent-screenshots-filters.vue';
 import Skills from '../modules/agent-skills/components/agent-skills-tab.vue';
 import StatusHistory from '../modules/agent-status-history/components/agent-status-history-tab.vue';
 import StatusHistoryFilters from '../modules/agent-status-history/modules/filters/components/agent-status-history-filters.vue';
-import Pdfs from '../modules/agent-pdfs/components/agent-pdfs-tab.vue';
-import PdfsFilters from '../modules/agent-pdfs/modules/filters/components/agent-pdfs-filters.vue';
 import AgentPanel from './agent-panel/agent-panel.vue';
-import { useControlAgentScreenAccess } from '../../../composables/useControlAgentScreenAccess';
 
 export default {
-  name: 'AgentCard',
-  components: {
-    AgentPanel,
-    General,
-    Calls,
-    CallsFilters,
-    Screenshots,
-    ScreenshotsFilters,
-    ScreenRecordings,
-    ScreenRecordingsFilters,
-    Skills,
-    StatusHistory,
-    StatusHistoryFilters,
-    Pdfs,
-    PdfsFilters,
-  },
-  mixins: [autoRefreshMixin],
+	name: 'AgentCard',
+	components: {
+		AgentPanel,
+		General,
+		Calls,
+		CallsFilters,
+		Screenshots,
+		ScreenshotsFilters,
+		ScreenRecordings,
+		ScreenRecordingsFilters,
+		Skills,
+		StatusHistory,
+		StatusHistoryFilters,
+		Pdfs,
+		PdfsFilters,
+	},
+	mixins: [
+		autoRefreshMixin,
+	],
 
-  setup() {
-    const { handleError } = useErrorRedirectHandler();
-    const { isControlAgentScreenAllow } = useControlAgentScreenAccess();
+	setup() {
+		const { handleError } = useErrorRedirectHandler();
+		const { isControlAgentScreenAllow } = useControlAgentScreenAccess();
 
+		const { hasReadAccess: hasCallReadAccess } = useUserAccessControl(
+			WtObject.Call,
+		);
 
-    const { hasReadAccess: hasCallReadAccess } = useUserAccessControl(WtObject.Call);
+		return {
+			handleError,
+			isControlAgentScreenAllow,
+			hasCallReadAccess,
+		};
+	},
 
-    return { 
-      handleError, 
-      isControlAgentScreenAllow, 
-      hasCallReadAccess,
-    };
-  },
+	data: () => ({
+		namespace: 'agents/card',
+		isLoading: false,
+		actionsPanelStatus: {},
+	}),
 
-  data: () => ({
-    namespace: 'agents/card',
-    isLoading: false,
-    actionsPanelStatus: {}
-  }),
+	created() {
+		this.loadPage();
+	},
 
-  created() {
-    this.loadPage();
-  },
+	computed: {
+		...mapState({
+			agent(state) {
+				return getNamespacedState(state, this.namespace).agent;
+			},
+		}),
+		tabs() {
+			const tabs = [];
 
-  computed: {
-    ...mapState({
-      agent(state) {
-        return getNamespacedState(state, this.namespace).agent;
-      },
-    }),
-    tabs() {
-      const tabs = [];
+			const generalTab = {
+				text: this.$t('pages.card.general.title'),
+				value: 'general',
+				namespace: this.namespace,
+				pathName: AgentTabsPathName.GENERAL,
+			};
 
-      const generalTab = {
-        text: this.$t('pages.card.general.title'),
-        value: 'general',
-        namespace: this.namespace,
-        pathName: AgentTabsPathName.GENERAL,
-      };
+			const calls = {
+				text: this.$t('pages.card.calls.title'),
+				value: 'calls',
+				namespace: `${this.namespace}/calls`,
+				pathName: AgentTabsPathName.WORK_LOG,
+				disabled: !this.hasCallReadAccess,
+			};
 
-      const calls = {
-        text: this.$t('pages.card.calls.title'),
-        value: 'calls',
-        namespace: `${this.namespace}/calls`,
-        pathName: AgentTabsPathName.WORK_LOG,
-        disabled: !this.hasCallReadAccess,
-      };
+			const screenshots = {
+				text: this.$t('objects.screenshots', 2),
+				value: 'screenshots',
+				namespace: this.namespace,
+				pathName: AgentTabsPathName.SCREENSHOTS,
+				disabled: !this.isControlAgentScreenAllow,
+			};
 
-      const screenshots = {
-        text: this.$t('objects.screenshots', 2),
-        value: 'screenshots',
-        namespace: this.namespace,
-        pathName: AgentTabsPathName.SCREENSHOTS,
-        disabled: !this.isControlAgentScreenAllow,
-      };
+			const screenRecordings = {
+				text: this.$t('objects.screenRecordings', 2),
+				value: 'screen-recordings',
+				namespace: this.namespace,
+				pathName: AgentTabsPathName.SCREEN_RECORDINGS,
+				disabled: !this.isControlAgentScreenAllow,
+			};
 
-      const screenRecordings = {
-        text: this.$t('objects.screenRecordings', 2),
-        value: 'screen-recordings',
-        namespace: this.namespace,
-        pathName: AgentTabsPathName.SCREEN_RECORDINGS,
-        disabled: !this.isControlAgentScreenAllow,
-      };
+			const statusHistory = {
+				text: this.$t('pages.card.statusHistory.title'),
+				value: 'status-history',
+				namespace: `${this.namespace}/statusHistory`,
+				pathName: AgentTabsPathName.STATE_HISTORY,
+			};
 
-      const statusHistory = {
-        text: this.$t('pages.card.statusHistory.title'),
-        value: 'status-history',
-        namespace: `${this.namespace}/statusHistory`,
-        pathName: AgentTabsPathName.STATE_HISTORY,
-      };
+			const skills = {
+				text: this.$t('pages.card.skills.title'),
+				value: 'skills',
+				namespace: `${this.namespace}/skills`,
+				pathName: AgentTabsPathName.SKILLS,
+			};
 
-      const skills = {
-        text: this.$t('pages.card.skills.title'),
-        value: 'skills',
-        namespace: `${this.namespace}/skills`,
-        pathName: AgentTabsPathName.SKILLS,
-      };
+			const pdfs = {
+				text: this.$t('objects.agentPdfs.pdfs', 2),
+				value: 'pdfs',
+				namespace: `${this.namespace}/pdfs`,
+				pathName: AgentTabsPathName.PDFS,
+				disabled: !this.isControlAgentScreenAllow,
+			};
 
-      const pdfs = {
-        text: this.$t('objects.agentPdfs.pdfs', 2),
-        value: 'pdfs',
-        namespace: `${this.namespace}/pdfs`,
-        pathName: AgentTabsPathName.PDFS,
-        disabled: !this.isControlAgentScreenAllow,
-      };
+			tabs.push(
+				generalTab,
+				calls,
+				screenshots,
+				screenRecordings,
+				statusHistory,
+				skills,
+				pdfs,
+			);
 
-      tabs.push(generalTab, calls, screenshots, screenRecordings, statusHistory, skills, pdfs);
-
-      return tabs.filter(({ disabled }) => !disabled);
-    },
-    currentTab() {
-      return this.tabs.find(({ pathName }) => this.$route.name === pathName) || this.tabs[0];
-    },
-    currentActionsPanel() {
-      return this.actionsPanelStatus[this.currentTab.value] || false;
-    },
-  },
-  unmounted() {
-    this.resetCallsFilters();
-    this.resetStatusHistoryFilters();
-  },
-  methods: {
-    ...mapActions({
-      setAgentId(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_AGENT_ID`, payload);
-      },
-      loadAgent(dispatch, payload) {
-        return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
-      },
-      resetCallsFilters(dispatch) {
-        return dispatch(`${this.namespace}/calls/filters/RESET_FILTERS`);
-      },
-      resetStatusHistoryFilters(dispatch) {
-        return dispatch(`${this.namespace}/statusHistory/filters/RESET_FILTERS`);
-      },
-    }),
-    async changeTab(tab) {
-      this.$router.push({ name: tab.pathName });
-    },
-    async loadPage() {
-      this.isLoading = true;
-      try {
-        const { id } = this.$route.params;
-        await this.setAgentId(id);
-        await this.loadAgent();
-      } catch (err) {
-        this.handleError(err);
-      } finally {
-        this.isLoading = false;
-      }
-    },
-    makeAutoRefresh() {
-      return this.loadAgent();
-    },
-    toggleFilter() {
-      this.actionsPanelStatus[this.currentTab.value] = !this.actionsPanelStatus[this.currentTab.value];
-    },
-  },
+			return tabs.filter(({ disabled }) => !disabled);
+		},
+		currentTab() {
+			return (
+				this.tabs.find(({ pathName }) => this.$route.name === pathName) ||
+				this.tabs[0]
+			);
+		},
+		currentActionsPanel() {
+			return this.actionsPanelStatus[this.currentTab.value] || false;
+		},
+	},
+	unmounted() {
+		this.resetCallsFilters();
+		this.resetStatusHistoryFilters();
+	},
+	methods: {
+		...mapActions({
+			setAgentId(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_AGENT_ID`, payload);
+			},
+			loadAgent(dispatch, payload) {
+				return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
+			},
+			resetCallsFilters(dispatch) {
+				return dispatch(`${this.namespace}/calls/filters/RESET_FILTERS`);
+			},
+			resetStatusHistoryFilters(dispatch) {
+				return dispatch(
+					`${this.namespace}/statusHistory/filters/RESET_FILTERS`,
+				);
+			},
+		}),
+		async changeTab(tab) {
+			this.$router.push({
+				name: tab.pathName,
+			});
+		},
+		async loadPage() {
+			this.isLoading = true;
+			try {
+				const { id } = this.$route.params;
+				await this.setAgentId(id);
+				await this.loadAgent();
+			} catch (err) {
+				this.handleError(err);
+			} finally {
+				this.isLoading = false;
+			}
+		},
+		makeAutoRefresh() {
+			return this.loadAgent();
+		},
+		toggleFilter() {
+			this.actionsPanelStatus[this.currentTab.value] =
+				!this.actionsPanelStatus[this.currentTab.value];
+		},
+	},
 };
 </script>
 

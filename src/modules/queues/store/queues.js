@@ -3,15 +3,20 @@ import QueuesAPI from '../api/queues';
 import headers from './_internals/headers';
 
 const state = {
-  headers,
+	headers,
 };
 
 const getters = {
-  GET_FILTERS: (state, getters, rootState, rootGetters) => rootGetters['queues/filters/GET_FILTERS'],
+	GET_FILTERS: (state, getters, rootState, rootGetters) =>
+		rootGetters['queues/filters/GET_FILTERS'],
 };
 
-const queues = new TableStoreModule({ state })
-  .attachAPIModule(QueuesAPI)
-  .generateAPIActions()
-  .getModule({ getters });
+const queues = new TableStoreModule({
+	state,
+})
+	.attachAPIModule(QueuesAPI)
+	.generateAPIActions()
+	.getModule({
+		getters,
+	});
 export default queues;

@@ -8,30 +8,33 @@ import ActiveCalls from '../the-active-calls.vue';
 
 const items = [];
 
-vi.spyOn(API, 'getList')
-.mockImplementation(() => ({ items }));
+vi.spyOn(API, 'getList').mockImplementation(() => ({
+	items,
+}));
 
 describe('Active Calls page', () => {
-  let store;
-  let mountOptions;
+	let store;
+	let mountOptions;
 
-  beforeEach(() => {
-    store = createStore({
-      modules: {
-        activeCalls: activeCallsStore,
-      },
-    });
+	beforeEach(() => {
+		store = createStore({
+			modules: {
+				activeCalls: activeCallsStore,
+			},
+		});
 
-    mountOptions = {
-      global: {
-        plugins: [router, store],
-      },
-    };
-  });
+		mountOptions = {
+			global: {
+				plugins: [
+					router,
+					store,
+				],
+			},
+		};
+	});
 
-  it('renders a component', () => {
-    const wrapper = shallowMount(ActiveCalls, mountOptions);
-    expect(wrapper.exists())
-    .toBe(true);
-  });
+	it('renders a component', () => {
+		const wrapper = shallowMount(ActiveCalls, mountOptions);
+		expect(wrapper.exists()).toBe(true);
+	});
 });

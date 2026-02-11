@@ -4,16 +4,23 @@ import filters from '../modules/filters/store/filters';
 import headers from './_internals/headers';
 
 const state = {
-  headers,
+	headers,
 };
 
 const getters = {
-  GET_FILTERS: (state, getters, rootState, rootGetters) => rootGetters['agents/card/statusHistory/filters/GET_FILTERS'],
+	GET_FILTERS: (state, getters, rootState, rootGetters) =>
+		rootGetters['agents/card/statusHistory/filters/GET_FILTERS'],
 };
 
-const statusHistory = new TableStoreModule({ state })
-  .setChildModules({ filters })
-  .attachAPIModule(AgentStatusHistoryAPI)
-  .generateAPIActions()
-  .getModule({ getters });
+const statusHistory = new TableStoreModule({
+	state,
+})
+	.setChildModules({
+		filters,
+	})
+	.attachAPIModule(AgentStatusHistoryAPI)
+	.generateAPIActions()
+	.getModule({
+		getters,
+	});
 export default statusHistory;

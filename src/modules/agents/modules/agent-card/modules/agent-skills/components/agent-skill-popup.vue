@@ -45,61 +45,66 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import {
- maxValue, minValue, numeric, required,
-} from '@vuelidate/validators';
-import { mapActions } from "vuex";
+import { maxValue, minValue, numeric, required } from '@vuelidate/validators';
+import { mapActions } from 'vuex';
 
-import nestedObjectMixin
-  from '../../../../../../../packages/client/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import nestedObjectMixin from '../../../../../../../packages/client/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import SkillsAPI from '../api/skills';
 
 export default {
-  name: 'AgentSkillPopup',
-  mixins: [nestedObjectMixin],
-  props: {
-    namespace: {
-      type: String,
-      required: true,
-    },
-  },
-  setup: () => ({
-    v$: useVuelidate({$stopPropagation: true, $autoDirty: true }),
-  }),
-  computed: {
-    skillId() {
-      return this.$route.params.skillId;
-    },
-  },
-  validations: {
-    itemInstance: {
-      skill: { required },
-      capacity: {
-        numeric,
-        minValue: minValue(0),
-        maxValue: maxValue(100),
-        required,
-      },
-    },
-  },
+	name: 'AgentSkillPopup',
+	mixins: [
+		nestedObjectMixin,
+	],
+	props: {
+		namespace: {
+			type: String,
+			required: true,
+		},
+	},
+	setup: () => ({
+		v$: useVuelidate({
+			$stopPropagation: true,
+			$autoDirty: true,
+		}),
+	}),
+	computed: {
+		skillId() {
+			return this.$route.params.skillId;
+		},
+	},
+	validations: {
+		itemInstance: {
+			skill: {
+				required,
+			},
+			capacity: {
+				numeric,
+				minValue: minValue(0),
+				maxValue: maxValue(100),
+				required,
+			},
+		},
+	},
 
-  methods: {
-    ...mapActions({
-      setId(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
-      },
-    }),
-    loadDropdownOptionsList: SkillsAPI.getLookup,
-  },
+	methods: {
+		...mapActions({
+			setId(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
+			},
+		}),
+		loadDropdownOptionsList: SkillsAPI.getLookup,
+	},
 
-  watch: {
-    skillId: {
-       handler(id) {
-        this.setId(id);
-        this.loadItem();
-      }, immediate: true,
-    },
-  },
+	watch: {
+		skillId: {
+			handler(id) {
+				this.setId(id);
+				this.loadItem();
+			},
+			immediate: true,
+		},
+	},
 };
 </script>
 

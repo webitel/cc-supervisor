@@ -1,16 +1,16 @@
-import { SupervisorSections, WtApplication } from "@webitel/ui-sdk/enums";
-import { defineStore } from "pinia";
-import { computed, ref } from "vue";
-import { useI18n } from "vue-i18n";
-import { useRouter } from "vue-router";
+import { SupervisorSections, WtApplication } from '@webitel/ui-sdk/enums';
+import { defineStore } from 'pinia';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
-import { useUserinfoStore } from "../../userinfo/store/userInfoStore";
-import ActiveCallsSecDark from "../assets/active-calls-section-dark.svg";
-import ActiveCallsSecLight from "../assets/active-calls-section-light.svg";
-import AgentsSecDark from "../assets/agents-section-dark.svg";
-import AgentsSecLight from "../assets/agents-section-light.svg";
-import QueuesSecDark from "../assets/queues-section-dark.svg";
-import QueuesSecLight from "../assets/queues-section-light.svg";
+import { useUserinfoStore } from '../../userinfo/store/userInfoStore';
+import ActiveCallsSecDark from '../assets/active-calls-section-dark.svg';
+import ActiveCallsSecLight from '../assets/active-calls-section-light.svg';
+import AgentsSecDark from '../assets/agents-section-dark.svg';
+import AgentsSecLight from '../assets/agents-section-light.svg';
+import QueuesSecDark from '../assets/queues-section-dark.svg';
+import QueuesSecLight from '../assets/queues-section-light.svg';
 
 type NavItem = {
 	value: string;
@@ -28,7 +28,7 @@ type NavCard = NavItem & {
 	};
 };
 
-export const useNavStore = defineStore("nav", () => {
+export const useNavStore = defineStore('nav', () => {
 	const { t } = useI18n();
 	const router = useRouter();
 
@@ -42,26 +42,32 @@ export const useNavStore = defineStore("nav", () => {
 			name: t(
 				`WtApplication.${WtApplication.Supervisor}.sections.${SupervisorSections.Queues}`,
 			),
-			route: "/queues",
+			route: '/queues',
 		};
 		const agents = {
 			value: SupervisorSections.Agents,
 			name: t(
 				`WtApplication.${WtApplication.Supervisor}.sections.${SupervisorSections.Agents}`,
 			),
-			route: "/agents",
+			route: '/agents',
 		};
 		const activeCalls = {
 			value: SupervisorSections.ActiveCalls,
 			name: t(
 				`WtApplication.${WtApplication.Supervisor}.sections.${SupervisorSections.ActiveCalls}`,
 			),
-			route: "/active-calls",
+			route: '/active-calls',
 		};
-		const navItems = [queues, agents, activeCalls];
+		const navItems = [
+			queues,
+			agents,
+			activeCalls,
+		];
 
 		return navItems.map((navItem) => {
-			const route = router.resolve({ path: navItem.route });
+			const route = router.resolve({
+				path: navItem.route,
+			});
 			const hasAccess = routeAccessGuard(route) === true;
 			return {
 				...navItem,
@@ -106,5 +112,9 @@ export const useNavStore = defineStore("nav", () => {
 		isInitialized.value = true;
 	};
 
-	return { nav, navCards, initializeNav };
+	return {
+		nav,
+		navCards,
+		initializeNav,
+	};
 });

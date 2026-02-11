@@ -102,61 +102,63 @@ import TableActiveCallState from './_internals/table-templates/table-active-call
 import TableDirection from './_internals/table-templates/table-direction.vue';
 
 export default {
-  name: 'TheActiveCalls',
-  components: {
-    FilterFields,
-    FilterPagination,
-    TableDirection,
-    TableActiveCallState,
-    ActiveCallsFilters,
-  },
-  mixins: [
-    tablePageMixin,
-    sortFilterMixin,
-  ],
-  data: () => ({
-    namespace: 'activeCalls',
-    showActionsPanel: false,
-  }),
-  computed: {
-    ...mapGetters('appearance', {
-      darkMode: 'DARK_MODE',
-    }),
-    dummyValue() {
-      if (!this.dataList.length) {
-        if (Object.values(this.$route.query).some((query) => query.length)) {
-          return {
-            src: this.darkMode ? DummyAfterSearchDark : DummyAfterSearchLight,
-            text: this.$t('pages.activeCall.empty.resultSearch'),
-          };
-        }
-        return {
-          src: this.darkMode ? DummyDark : DummyLight,
-          text: this.$t('pages.activeCall.empty.workspace'),
-        };
-      }
-      return '';
-    },
-  },
-  methods: {
-    ...mapActions('call', {
-      attachToCall: 'ATTACH_TO_CALL',
-      openWindow: 'EAVESDROP_OPEN_WINDOW',
-    }),
+	name: 'TheActiveCalls',
+	components: {
+		FilterFields,
+		FilterPagination,
+		TableDirection,
+		TableActiveCallState,
+		ActiveCallsFilters,
+	},
+	mixins: [
+		tablePageMixin,
+		sortFilterMixin,
+	],
+	data: () => ({
+		namespace: 'activeCalls',
+		showActionsPanel: false,
+	}),
+	computed: {
+		...mapGetters('appearance', {
+			darkMode: 'DARK_MODE',
+		}),
+		dummyValue() {
+			if (!this.dataList.length) {
+				if (Object.values(this.$route.query).some((query) => query.length)) {
+					return {
+						src: this.darkMode ? DummyAfterSearchDark : DummyAfterSearchLight,
+						text: this.$t('pages.activeCall.empty.resultSearch'),
+					};
+				}
+				return {
+					src: this.darkMode ? DummyDark : DummyLight,
+					text: this.$t('pages.activeCall.empty.workspace'),
+				};
+			}
+			return '';
+		},
+	},
+	methods: {
+		...mapActions('call', {
+			attachToCall: 'ATTACH_TO_CALL',
+			openWindow: 'EAVESDROP_OPEN_WINDOW',
+		}),
 
-    async attachCall(id) {
-      await this.attachToCall({ id });
-      this.openWindow();
-    },
+		async attachCall(id) {
+			await this.attachToCall({
+				id,
+			});
+			this.openWindow();
+		},
 
-    inputTableAction(event) {
-      if(event === 'settings') {
-        this.showActionsPanel = !this.showActionsPanel;
-        return;
-      }
-      this.tableActionsHandler(event)
-    }
-  },
+		inputTableAction(event) {
+			if (event === 'settings') {
+				this.showActionsPanel = !this.showActionsPanel;
+				return;
+			}
+			this.tableActionsHandler(event);
+		},
+	},
 };
 </script>
 

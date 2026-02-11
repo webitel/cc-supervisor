@@ -127,8 +127,8 @@
 
 <script setup>
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
-import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum.js';
 import { WtEmpty } from '@webitel/ui-sdk/components';
+import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum.js';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
@@ -150,66 +150,69 @@ const tableStore = useQueuesTableStore();
 const showActionsPanel = ref(false);
 
 const {
-  dataList,
-  isLoading,
-  page,
-  size,
-  next,
-  headers,
-  isFiltersRestoring,
-  filtersManager,
-  selected,
-  aggs,
+	dataList,
+	isLoading,
+	page,
+	size,
+	next,
+	headers,
+	isFiltersRestoring,
+	filtersManager,
+	selected,
+	aggs,
 } = storeToRefs(tableStore);
 
-const hasFilters = computed(() => filtersManager.value.getFiltersList()?.length);
+const hasFilters = computed(
+	() => filtersManager.value.getFiltersList()?.length,
+);
 
 const {
-  initialize,
-  loadDataList,
-  updatePage,
-  updateSize,
-  updateSort,
-  updateShownHeaders,
-  addFilter,
-  updateFilter,
-  deleteFilter,
-  updateSearchMode,
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	updateShownHeaders,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+	updateSearchMode,
 } = tableStore;
 
 const { exportCSV, isCSVLoading, initCSVExport } = useCSVExport({
-  selected,
+	selected,
 });
 
-initCSVExport(QueuesAPI.getList, { filename: 'queues-stats' });
+initCSVExport(QueuesAPI.getList, {
+	filename: 'queues-stats',
+});
 
-const searchValue = computed(() => filtersManager.value.filters.get('search')?.value || '');
+const searchValue = computed(
+	() => filtersManager.value.filters.get('search')?.value || '',
+);
 
 const {
-  showEmpty,
-  image: imageEmpty,
-  text: textEmpty,
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
 } = useTableEmpty({
-  dataList,
-  filters: computed(() => filtersManager.value.getFiltersList()),
-  isLoading,
-  error: computed(() => null),
+	dataList,
+	filters: computed(() => filtersManager.value.getFiltersList()),
+	isLoading,
+	error: computed(() => null),
 });
 
-const {
-  setAutoRefresh,
-  clearAutoRefresh,
-} = useTableAutoRefresh(loadDataList)
+const { setAutoRefresh, clearAutoRefresh } = useTableAutoRefresh(loadDataList);
 
 initialize();
 
 onMounted(() => {
-  setAutoRefresh()
-})
+	setAutoRefresh();
+});
 
 onUnmounted(() => {
-  clearAutoRefresh()
-})
+	clearAutoRefresh();
+});
 </script>
 
 <style

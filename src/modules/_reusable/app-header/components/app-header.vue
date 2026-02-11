@@ -26,18 +26,18 @@
 </template>
 
 <script setup>
-import { WtApplication } from "@webitel/ui-sdk/enums";
-import WtDarkModeSwitcher from "@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue";
-import { storeToRefs } from "pinia";
-import { computed, inject } from "vue";
-import { useStore } from "vuex";
+import { WtApplication } from '@webitel/ui-sdk/enums';
+import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
+import { storeToRefs } from 'pinia';
+import { computed, inject } from 'vue';
+import { useStore } from 'vuex';
 
-import RoutePaths from "../../../../app/router/_internals/RoutePaths.enum";
-import { useNavStore } from "../../../start-page/stores/navStore";
-import { useUserinfoStore } from "../../../userinfo/store/userInfoStore";
+import RoutePaths from '../../../../app/router/_internals/RoutePaths.enum';
+import { useNavStore } from '../../../start-page/stores/navStore';
+import { useUserinfoStore } from '../../../userinfo/store/userInfoStore';
 
 const store = useStore();
-const config = inject("$config");
+const config = inject('$config');
 
 const navStore = useNavStore();
 const userinfoStore = useUserinfoStore();
@@ -52,7 +52,7 @@ const { nav: fullNav } = storeToRefs(navStore);
 
 const nav = computed(() => fullNav.value.filter(({ disabled }) => !disabled));
 
-const darkMode = computed(() => store.getters["appearance/DARK_MODE"]);
+const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
 
 const startPageHref = computed(() => import.meta.env.VITE_APPLICATION_HUB_URL);
 
@@ -91,7 +91,14 @@ const apps = computed(() => {
 		href: import.meta.env.VITE_CRM_URL,
 	};
 
-	const allApps = [admin, supervisor, agent, history, audit, crm];
+	const allApps = [
+		admin,
+		supervisor,
+		agent,
+		history,
+		audit,
+		crm,
+	];
 	if (config?.ON_SITE) allApps.push(grafana);
 	return allApps.filter(({ name }) => hasApplicationVisibility(name));
 });

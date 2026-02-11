@@ -15,29 +15,31 @@ import FilterFrom from '../../../../../../../../_shared/filters/components/filte
 import FilterTo from '../../../../../../../../_shared/filters/components/filter-to.vue';
 
 export default {
-  name: 'AgentStatusHistoryFilters',
-  components: {
-    FilterFrom,
-    FilterTo,
-  },
-  mixins: [tableActionsHandlerMixin],
-  props: {
-    namespace: {
-      type: String,
-    },
-  },
-  computed: {
-    filtersNamespace() {
-      return `${this.namespace}/filters`;
-    },
-  },
-  methods: {
-    ...mapActions({
-      dispatchResetFilters(dispatch, payload) {
-        return dispatch(`${this.filtersNamespace}/RESET_FILTERS`, payload);
-      },
-    }),
-  },
+	name: 'AgentStatusHistoryFilters',
+	components: {
+		FilterFrom,
+		FilterTo,
+	},
+	mixins: [
+		tableActionsHandlerMixin,
+	],
+	props: {
+		namespace: {
+			type: String,
+		},
+	},
+	computed: {
+		filtersNamespace() {
+			return `${this.namespace}/filters`;
+		},
+	},
+	methods: {
+		...mapActions({
+			dispatchResetFilters(dispatch, payload) {
+				return dispatch(`${this.filtersNamespace}/RESET_FILTERS`, payload);
+			},
+		}),
+	},
 };
 </script>
 

@@ -5,15 +5,15 @@
 </template>
 
 <script>
-  export default {
-    name: 'TableQueue',
-    props: {
-      item: {
-        type: Object,
-        required: true,
-      },
-    },
-  };
+export default {
+	name: 'TableQueue',
+	props: {
+		item: {
+			type: Object,
+			required: true,
+		},
+	},
+};
 </script>
 
 <style scoped>

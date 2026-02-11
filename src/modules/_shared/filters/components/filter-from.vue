@@ -11,21 +11,32 @@
 import baseFilterMixin from '@webitel/ui-sdk/src/modules/QueryFilters/mixins/baseFilterMixin/baseFilterMixin';
 
 export default {
-  name: 'FilterFrom',
-  mixins: [baseFilterMixin],
-  data: () => ({
-    filterQuery: 'from',
-  }),
+	name: 'FilterFrom',
+	mixins: [
+		baseFilterMixin,
+	],
+	data: () => ({
+		filterQuery: 'from',
+	}),
 
-  methods: {
-    handleChange(value) {
-      this.setValue({ filter: this.filterQuery, value });
-      this.setValueToQuery({ filterQuery: this.filterQuery, value });
-    },
-    restoreValue(value) {
-      this.setValue({ filter: this.filterQuery, value: +value });
-    },
-  },
+	methods: {
+		handleChange(value) {
+			this.setValue({
+				filter: this.filterQuery,
+				value,
+			});
+			this.setValueToQuery({
+				filterQuery: this.filterQuery,
+				value,
+			});
+		},
+		restoreValue(value) {
+			this.setValue({
+				filter: this.filterQuery,
+				value: +value,
+			});
+		},
+	},
 };
 </script>
 

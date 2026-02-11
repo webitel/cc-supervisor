@@ -75,52 +75,53 @@ import timerMixin from '../mixins/timerMixin/timerMixin';
 import CallWindowWrapper from './call-window-wrapper.vue';
 
 export default {
-  name: 'CallWindowConversation',
-  components: { CallWindowWrapper },
-  mixins: [
-    ringingSoundMixin,
-    timerMixin,
-  ],
-  mounted() {
-    this.subscribeCalls();
-  },
-  computed: {
-    ...mapState('call', {
-      isVisible: (state) => state.isVisible,
-      agent: (state) => state.agent,
-      call: (state) => state.call,
-    }),
-    sonar() {
-      return this.isHold ? HoldSonar : ActiveSonar;
-    },
-    isMuted() {
-      return this.call && this.call.muted;
-    },
-    isHold() {
-      return this.call && this.call.isHold;
-    },
-    isActive() {
-      return this.call && this.call.active;
-    },
-    allowHold() {
-      return this.call && this.call.allowHold;
-    },
-  },
-  methods: {
-    ...mapActions('call', {
-      subscribeCalls: 'SUBSCRIBE_CALLS',
-      openWindow: 'OPEN_WINDOW',
-      closeWindow: 'CLOSE_WINDOW',
+	name: 'CallWindowConversation',
+	components: {
+		CallWindowWrapper,
+	},
+	mixins: [
+		ringingSoundMixin,
+		timerMixin,
+	],
+	mounted() {
+		this.subscribeCalls();
+	},
+	computed: {
+		...mapState('call', {
+			isVisible: (state) => state.isVisible,
+			agent: (state) => state.agent,
+			call: (state) => state.call,
+		}),
+		sonar() {
+			return this.isHold ? HoldSonar : ActiveSonar;
+		},
+		isMuted() {
+			return this.call && this.call.muted;
+		},
+		isHold() {
+			return this.call && this.call.isHold;
+		},
+		isActive() {
+			return this.call && this.call.active;
+		},
+		allowHold() {
+			return this.call && this.call.allowHold;
+		},
+	},
+	methods: {
+		...mapActions('call', {
+			subscribeCalls: 'SUBSCRIBE_CALLS',
+			openWindow: 'OPEN_WINDOW',
+			closeWindow: 'CLOSE_WINDOW',
 
-      answerCall: 'ANSWER',
-      makeCall: 'CALL',
-      leaveCall: 'LEAVE_CALL',
+			answerCall: 'ANSWER',
+			makeCall: 'CALL',
+			leaveCall: 'LEAVE_CALL',
 
-      toggleMute: 'TOGGLE_MUTE',
-      toggleHold: 'TOGGLE_HOLD',
-
-    }),
-  },
+			toggleMute: 'TOGGLE_MUTE',
+			toggleHold: 'TOGGLE_HOLD',
+		}),
+	},
 };
 </script>
 

@@ -11,13 +11,13 @@
 
 <script>
 export default {
-  name: 'TableAgentStatus',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
+	name: 'TableAgentStatus',
+	props: {
+		item: {
+			type: Object,
+			required: true,
+		},
+	},
 };
 </script>
 

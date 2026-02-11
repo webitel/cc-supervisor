@@ -8,21 +8,23 @@
 
 <script>
 export default {
-  name: 'TableAgentStatus',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
-  methods: {
-    openAgentView(agentId) {
-      this.$router.push({
-        name: 'agents-card',
-        params: { id: agentId },
-      });
-    },
-  },
+	name: 'TableAgentStatus',
+	props: {
+		item: {
+			type: Object,
+			required: true,
+		},
+	},
+	methods: {
+		openAgentView(agentId) {
+			this.$router.push({
+				name: 'agents-card',
+				params: {
+					id: agentId,
+				},
+			});
+		},
+	},
 };
 </script>
 

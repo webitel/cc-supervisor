@@ -157,10 +157,10 @@
 
 <script setup>
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
-import { ScreenSharing } from '@webitel/ui-sdk/src/modules/CallSession/index';
 import { WtDisplayChipItems, WtEmpty } from '@webitel/ui-sdk/components';
 import { IconColor } from '@webitel/ui-sdk/enums';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
+import { ScreenSharing } from '@webitel/ui-sdk/src/modules/CallSession/index';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
@@ -173,136 +173,157 @@ import { getCliInstance } from '../../../app/api/callWSConnection';
 import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh';
 import { useScreenSharingSession } from '../../_shared/composables/useScreenSharingSession';
 import AgentsAPI from '../api/agents';
+import { useControlAgentScreenAccess } from '../composables/useControlAgentScreenAccess';
+import AgentStatusComment from '../modules/agent-card/components/agent-panel/_internals/agent-status-comment.vue';
 import AgentsFiltersPanel from '../modules/filters/components/agent-filters-panel.vue';
 import { useAgentsTableStore } from '../stores/agents';
+import TableAgent from './_internals/table-templates/table-agent.vue';
 import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
 import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
-import TableAgent from './_internals/table-templates/table-agent.vue';
-import AgentStatusComment from '../modules/agent-card/components/agent-panel/_internals/agent-status-comment.vue';
-import { useControlAgentScreenAccess } from '../composables/useControlAgentScreenAccess';
 
 const { t } = useI18n();
 
 /*
-* @author @Oleksandr Palonnyi
-*
-* TODO: need to refactor call store to remove usage of vuex store in component
-*
-* [WTEL-7283](https://webitel.atlassian.net/browse/WTEL-7283)
-* */
+ * @author @Oleksandr Palonnyi
+ *
+ * TODO: need to refactor call store to remove usage of vuex store in component
+ *
+ * [WTEL-7283](https://webitel.atlassian.net/browse/WTEL-7283)
+ * */
 const store = useStore();
 
 const tableStore = useAgentsTableStore();
 const showActionsPanel = ref(false);
 
 const {
-  dataList,
-  isLoading,
-  page,
-  size,
-  next,
-  headers,
-  isFiltersRestoring,
-  filtersManager,
-  selected,
+	dataList,
+	isLoading,
+	page,
+	size,
+	next,
+	headers,
+	isFiltersRestoring,
+	filtersManager,
+	selected,
 } = storeToRefs(tableStore);
 
-const hasFilters = computed(() => filtersManager.value.getFiltersList()?.length);
+const hasFilters = computed(
+	() => filtersManager.value.getFiltersList()?.length,
+);
 
 const {
-  initialize,
-  loadDataList,
-  updatePage,
-  updateSize,
-  updateSort,
-  updateShownHeaders,
-  addFilter,
-  updateFilter,
-  deleteFilter,
-  updateSearchMode,
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	updateShownHeaders,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+	updateSearchMode,
 } = tableStore;
 
-const {
-  setAutoRefresh,
-  clearAutoRefresh,
-} = useTableAutoRefresh(loadDataList);
+const { setAutoRefresh, clearAutoRefresh } = useTableAutoRefresh(loadDataList);
 
 const { exportCSV, isCSVLoading, initCSVExport } = useCSVExport({
-  selected,
+	selected,
 });
-initCSVExport(AgentsAPI.getList, { filename: 'agents' });
+initCSVExport(AgentsAPI.getList, {
+	filename: 'agents',
+});
 
 initialize();
 
 // if call-window popup is opened need to move screen sharing player
-const isScreenSharingMoved = computed(() => store.state.call.isEavesdropOpened || store.state.call.isVisible);
+const isScreenSharingMoved = computed(
+	() => store.state.call.isEavesdropOpened || store.state.call.isVisible,
+);
 
-const filteredTableHeaders = computed(() => headers.value.filter((header) => header.value !== 'descTrack'));
+const filteredTableHeaders = computed(() =>
+	headers.value.filter((header) => header.value !== 'descTrack'),
+);
 
-const searchValue = computed(() => filtersManager.value.filters.get('search')?.value || '');
+const searchValue = computed(
+	() => filtersManager.value.filters.get('search')?.value || '',
+);
 
 const {
-  showEmpty,
-  image: imageEmpty,
-  text: textEmpty,
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
 } = useTableEmpty({
-  dataList,
-  filters: computed(() => filtersManager.value.getFiltersList()),
-  isLoading,
-  error: computed(() => null),
+	dataList,
+	filters: computed(() => filtersManager.value.getFiltersList()),
+	isLoading,
+	error: computed(() => null),
 });
 
 const rowClass = (row) => {
-  return row.status === AgentStatus.BreakOut && 'wt-table__tr--highlight-breakout';
+	return (
+		row.status === AgentStatus.BreakOut && 'wt-table__tr--highlight-breakout'
+	);
 };
 const attachCall = async (id) => {
-  await store.dispatch('ATTACH_TO_CALL', { id });
-  await store.dispatch('OPEN_WINDOW');
+	await store.dispatch('ATTACH_TO_CALL', {
+		id,
+	});
+	await store.dispatch('OPEN_WINDOW');
 };
 
-const getDeskTrackIconColor = (id) => selectedAgentToSpyScreen.value?.user.id === id ? IconColor.SUCCESS : IconColor.DEFAULT;
+const getDeskTrackIconColor = (id) =>
+	selectedAgentToSpyScreen.value?.user.id === id
+		? IconColor.SUCCESS
+		: IconColor.DEFAULT;
 
 const { isControlAgentScreenAllow } = useControlAgentScreenAccess();
 
 const {
-  selectedAgentToSpyScreen,
-  mediaStream,
-  screenshotStatus,
-  screenshotIsLoading,
-  toggleRecordAction,
-  makeScreenshot,
-  closeSession,
+	selectedAgentToSpyScreen,
+	mediaStream,
+	screenshotStatus,
+	screenshotIsLoading,
+	toggleRecordAction,
+	makeScreenshot,
+	closeSession,
 } = useScreenSharingSession();
 
 let cli;
 
 onMounted(async () => {
-  setAutoRefresh();
-  cli = await getCliInstance();
+	setAutoRefresh();
+	cli = await getCliInstance();
 });
 
 const connect = async (agent) => {
-  mediaStream.value = null;
-  selectedAgentToSpyScreen.value = null;
-  cli?.spyScreenSessions.forEach((session) => session.close());
+	mediaStream.value = null;
+	selectedAgentToSpyScreen.value = null;
+	cli?.spyScreenSessions.forEach((session) => session.close());
 
-  await cli.spyScreen(Number(agent.user.id), {
-    iceServers: [],
-  }, async (stream) => {
-    selectedAgentToSpyScreen.value = agent;
-    mediaStream.value = stream;
-  });
+	await cli.spyScreen(
+		Number(agent.user.id),
+		{
+			iceServers: [],
+		},
+		async (stream) => {
+			selectedAgentToSpyScreen.value = agent;
+			mediaStream.value = stream;
+		},
+	);
 };
 
 onUnmounted(() => {
-  clearAutoRefresh();
+	clearAutoRefresh();
 
-  if (!cli) return;
+	if (!cli) return;
 
-  const activeSession = cli.spyScreenSessions.find((session) => session.toUserId === Number(selectedAgentToSpyScreen.value?.user.id));
-  if (activeSession) {
-    closeSession(activeSession);
-  }
+	const activeSession = cli.spyScreenSessions.find(
+		(session) =>
+			session.toUserId === Number(selectedAgentToSpyScreen.value?.user.id),
+	);
+	if (activeSession) {
+		closeSession(activeSession);
+	}
 });
 </script>
 

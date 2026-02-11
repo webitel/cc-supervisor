@@ -13,20 +13,15 @@
 <script lang="ts" setup>
 import { TableFiltersPanelComponent as TableFiltersPanel } from '@webitel/ui-datalist/filters';
 import { storeToRefs } from 'pinia';
-
-import { filtersOptions } from '../configs/filterOptions';
 import { useAgentsTableStore } from '../../../stores/agents';
+import { filtersOptions } from '../configs/filterOptions';
 
 const tableStore = useAgentsTableStore();
 const { filtersManager } = storeToRefs(tableStore);
 
-const {
-  addFilter,
-  updateFilter,
-  deleteFilter,
-} = tableStore;
+const { addFilter, updateFilter, deleteFilter } = tableStore;
 
 const resetFilters = () => {
-  filtersManager.value.reset();
+	filtersManager.value.reset();
 };
 </script>

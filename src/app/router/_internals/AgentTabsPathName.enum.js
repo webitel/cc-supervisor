@@ -1,4 +1,4 @@
-import { SupervisorSections } from "@webitel/ui-sdk/enums";
+import { SupervisorSections } from '@webitel/ui-sdk/enums';
 
 export default Object.freeze({
 	GENERAL: `${SupervisorSections.Agents}-general`,
