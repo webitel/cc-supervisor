@@ -17,7 +17,7 @@
 			:dark-mode="darkMode"
 		/>
 		<wt-header-actions
-			:user="userinfo"
+			:user="userInfo"
 			:build-info="buildInfo"
 			@settings="settings"
 			@logout="logoutUser"
@@ -42,7 +42,7 @@ const config = inject("$config");
 const navStore = useNavStore();
 const userinfoStore = useUserinfoStore();
 const { hasApplicationVisibility, logoutUser } = userinfoStore;
-const { userinfo } = storeToRefs(userinfoStore);
+const { userInfo } = storeToRefs(userinfoStore);
 const currentApp = computed(() => WtApplication.Supervisor);
 
 // Initialize nav, if not initialized yet
