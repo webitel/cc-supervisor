@@ -3,6 +3,7 @@
     :store="tableStore"
     entity-id-key="agentId"
     :entity-id-value="agentId"
+    is-created-at-filter
     :on-delete-item="handleDeleteItem"
   >
     <template #header="{ selected, loadDataList, askDeleteConfirmation, handleDelete }">
