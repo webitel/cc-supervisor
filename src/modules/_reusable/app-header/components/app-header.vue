@@ -54,7 +54,7 @@ const nav = computed(() => fullNav.value.filter(({ disabled }) => !disabled));
 
 const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
 
-const startPageHref = computed(() => import.meta.env.VITE_APPLICATION_HUB_URL);
+const startPageHref = computed(() => import.meta.env.VITE_START_PAGE_URL);
 
 const buildInfo = {
 	release: process.env.npm_package_version,
