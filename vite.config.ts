@@ -21,7 +21,6 @@ export default ({mode}) => {
     },
     optimizeDeps: {
       include: ['clipboard-copy', 'deep-equal', 'deepmerge'],
-      exclude: ['@webitel/styleguide'],
     },
     resolve: {
       alias: {
