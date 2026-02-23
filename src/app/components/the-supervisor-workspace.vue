@@ -33,10 +33,7 @@ import CallWindowEavesdrop from '../../modules/call-window/components/call-windo
 }
 
 .the-supervisor-workspace__content {
-	flex-grow: 1;
+	flex: 1;
 	min-height: 0;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
 }
 </style>
