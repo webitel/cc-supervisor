@@ -24,9 +24,6 @@ export default () => {
 				'deep-equal',
 				'deepmerge',
 			],
-			exclude: [
-				'@webitel/styleguide',
-			],
 		},
 		resolve: {
 			alias: {
