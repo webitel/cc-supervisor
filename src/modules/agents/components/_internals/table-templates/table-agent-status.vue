@@ -25,7 +25,7 @@ export default {
 				case AgentStatus.Offline:
 					return 'disabled';
 				case AgentStatus.BreakOut:
-					return 'secondary';
+					return 'break-out';
 				default:
 					return 'primary';
 			}
