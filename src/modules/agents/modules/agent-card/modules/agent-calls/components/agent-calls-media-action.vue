@@ -1,28 +1,29 @@
 <template>
-  <wt-context-menu
-    class="table-media-action"
-    :options="call.files[EngineCallFileType.FileTypeAudio]"
-    max-width="400px"
-    @click="handleFilesSelect"
-  >
-    <template #activator="{ toggle }">
-      <wt-icon-btn
-        :icon="callMediaIcon"
-        @click="toggle"
-      />
-    </template>
-    <template #option="{ name, id }">
-      <div class="table-media-action__option">
-        <wt-icon
-          :icon="changeFileMediaIcon(id)"
-        />
-        {{ name }}
-      </div>
-    </template>
-  </wt-context-menu>
+	<wt-context-menu
+		class="table-media-action"
+		:options="call.files[EngineCallFileType.FileTypeAudio]"
+		max-width="400px"
+		@click="handleFilesSelect"
+	>
+		<template #activator="{ toggle }">
+			<wt-icon-btn
+				:icon="callMediaIcon"
+				@click="toggle"
+			/>
+		</template>
+		<template #option="{ name, id }">
+			<div class="table-media-action__option">
+				<wt-icon :icon="changeFileMediaIcon(id)" />
+				{{ name }}
+			</div>
+		</template>
+	</wt-context-menu>
 </template>
 
-<script setup lang="ts">
+<script
+	setup
+	lang="ts"
+>
 import { EngineCallFileType } from '@webitel/api-services/gen/models';
 import { computed, ref } from 'vue';
 import { EngineHistoryCall } from 'webitel-sdk';
@@ -36,8 +37,8 @@ interface Props {
 const props = defineProps<Props>();
 const emit = defineEmits<{
 	play: [
-		payload: {
-			fileId: string;
+		{
+			file: EngineCallFile;
 			callId: string;
 		},
 	];
@@ -56,21 +57,14 @@ const callMediaIcon = computed(() => {
 	return isCallsFilePlaying.value ? 'stop' : 'play';
 });
 
-const handleFilesSelect = ({
-	option,
-}: {
-	option: {
-		id: string;
-		name: string;
-	};
-}) => {
-	if (option.id === playingFileId.value && isCallsFilePlaying.value) {
+const handleFilesSelect = ({ option: file }: { option: EngineCallFile }) => {
+	if (file.id === playingFileId.value && isCallsFilePlaying.value) {
 		playingFileId.value = '';
 		emit('stop');
 	} else {
-		playingFileId.value = option.id;
+		playingFileId.value = file.id;
 		emit('play', {
-			fileId: option.id,
+			file,
 			callId: props.call.id,
 		});
 	}
@@ -83,10 +77,13 @@ const changeFileMediaIcon = (id: string) => {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+	lang="scss"
+	scoped
+>
 .table-media-action__option {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-xs);
 }
 </style>

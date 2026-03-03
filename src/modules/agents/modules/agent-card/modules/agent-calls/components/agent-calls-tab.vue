@@ -98,8 +98,8 @@
       />
 
       <wt-player
-        v-show="audioURL"
-        :src="audioURL"
+        v-if="audioSrc"
+        :src="audioSrc"
         @close="closePlayer"
       />
     </div>
@@ -114,6 +114,7 @@ import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFil
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { computed } from 'vue';
 import { mapState, useStore } from 'vuex';
+import { WtPlayer } from '@webitel/ui-sdk/components';
 
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
@@ -129,6 +130,7 @@ export default {
 		FilterPagination,
 		AgentCallsMediaAction,
 		WtEmpty,
+		WtPlayer,
 	},
 	mixins: [
 		tablePageMixin,
@@ -140,7 +142,7 @@ export default {
 		},
 	},
 	data: () => ({
-		audioURL: '',
+		audioSrc: null,
 		playingCallId: '',
 		EngineCallFileType,
 	}),
@@ -184,9 +186,12 @@ export default {
 				],
 			});
 		},
-		play({ fileId, callId }) {
-			if (fileId) {
-				this.audioURL = getCallMediaUrl(fileId);
+		play({ file, callId }) {
+			if (file.id) {
+				this.audioSrc = {
+					src: getCallMediaUrl(file.id),
+					type: file.mimeType,
+				};
 				this.playingCallId = callId;
 			} else {
 				this.closePlayer();
@@ -194,7 +199,7 @@ export default {
 		},
 
 		closePlayer() {
-			this.audioURL = '';
+			this.audioSrc = null;
 			this.playingCallId = '';
 		},
 		// @author @o.chorpita
