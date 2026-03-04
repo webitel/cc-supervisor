@@ -19,9 +19,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { computed } from 'vue';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
 import filtersPanelMixin from '../../../../../app/mixins/supervisor-workspace/filtersPanelMixin';
 import SkipParentFilter from './skip-parent-filter.vue';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 
 export default {
 	name: 'ActiveCallsFilters',
@@ -31,14 +34,31 @@ export default {
 	mixins: [
 		filtersPanelMixin,
 	],
+	setup: () => {
+		const { hasReadAccess: hasUsersReadAccess } = useUserAccessControl(
+			WtObject.User,
+		);
+		const { hasReadAccess: hasQueuesReadAccess } = useUserAccessControl(
+			WtObject.Queue,
+		);
+		const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(
+			WtObject.Agent,
+		);
+		const { hasReadAccess: hasGatewaysReadAccess } = useUserAccessControl(
+			WtObject.Gateway,
+		);
+		const { hasReadAccess: hasTeamsReadAccess } = useUserAccessControl(
+			WtObject.Team,
+		);
+		return {
+			hasUsersReadAccess,
+			hasQueuesReadAccess,
+			hasAgentsReadAccess,
+			hasGatewaysReadAccess,
+			hasTeamsReadAccess,
+		};
+	},
 	computed: {
-		...mapGetters('userinfo', {
-			allowUsers: 'ALLOW_USERS_ACCESS',
-			allowQueues: 'ALLOW_QUEUES_ACCESS',
-			allowAgents: 'ALLOW_AGENTS_ACCESS',
-			allowGateways: 'ALLOW_GATEWAYS_ACCESS',
-			allowTeams: 'ALLOW_TEAMS_ACCESS',
-		}),
 		// not just "filters" because mixin data.filters overlaps computed.filters
 		activeCallsFilters() {
 			return [
@@ -53,32 +73,32 @@ export default {
 				{
 					type: 'api',
 					filterQuery: 'gateway',
-					disabled: !this.allowGateways,
+					disabled: !this.hasGatewaysReadAccess,
 				},
 				{
 					type: 'api',
 					filterQuery: 'queue',
-					disabled: !this.allowQueues,
+					disabled: !this.hasQueuesReadAccess,
 				},
 				{
 					type: 'api',
 					filterQuery: 'user',
-					disabled: !this.allowUsers,
+					disabled: !this.hasUsersReadAccess,
 				},
 				{
 					type: 'api',
 					filterQuery: 'agent',
-					disabled: !this.allowAgents,
+					disabled: !this.hasAgentsReadAccess,
 				},
 				{
 					type: 'api',
 					filterQuery: 'supervisor',
-					disabled: !this.allowAgents,
+					disabled: !this.hasAgentsReadAccess,
 				}, // !this.allowAgents because we use agents api for this filter
 				{
 					type: 'api',
 					filterQuery: 'team',
-					disabled: !this.allowTeams,
+					disabled: !this.hasTeamsReadAccess,
 				},
 			];
 		},
