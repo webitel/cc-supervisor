@@ -50,6 +50,7 @@ const getAgentCallsList = async ({ options, ...params }) => {
 		fields: [],
 		from: new Date().setHours(0, 0, 0, 0),
 		to: new Date().setHours(23, 59, 59, 999),
+		skipParent: true,
 	};
 
 	const normalized = applyTransform(params, [
@@ -82,6 +83,7 @@ const getAgentCallsList = async ({ options, ...params }) => {
 		gatewayId,
 		number,
 		missed,
+		skipParent,
 	} = normalized;
 
 	const createdAt =
@@ -117,6 +119,7 @@ const getAgentCallsList = async ({ options, ...params }) => {
 		missed,
 		ratedBy,
 		domainId,
+		skipParent,
 	};
 	if (rated) postBody.rated = rated === 'true';
 
