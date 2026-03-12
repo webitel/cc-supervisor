@@ -81,14 +81,14 @@ export default [
 		value: 'from',
 		locale: 'pages.card.calls.columns.from',
 		show: true,
-		sort: null,
+		sort: undefined,
 		field: 'from',
 	},
 	{
 		value: 'to',
 		locale: 'pages.card.calls.columns.to',
 		show: true,
-		sort: null,
+		sort: undefined,
 		field: 'to',
 	},
 	{
