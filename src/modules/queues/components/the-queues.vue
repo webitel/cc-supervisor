@@ -22,7 +22,7 @@
         <template #actions>
           <wt-button
             :loading="isCSVLoading"
-            :disabled="!dataList.length"
+            :disabled="!dataList.length || !hasExportDataGridAccess"
             @click="exportCSV"
           >{{ t('defaults.exportCSV') }}
           </wt-button>
@@ -128,6 +128,7 @@
 <script setup>
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { WtEmpty } from '@webitel/ui-sdk/components';
+import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum.js';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
@@ -135,6 +136,7 @@ import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh';
+import { useUserinfoStore } from '../../userinfo/store/userInfoStore';
 
 import QueuesAPI from '../api/queues';
 import QueueFiltersPanel from '../modules/filters/components/queue-filters-panel.vue';
@@ -161,6 +163,14 @@ const {
 	selected,
 	aggs,
 } = storeToRefs(tableStore);
+
+const userinfoStore = useUserinfoStore();
+
+const hasExportDataGridAccess = computed(() => {
+	return userinfoStore.hasSpecialGlobalActionAccess(
+		SpecialGlobalAction.ExportDataGrid,
+	);
+});
 
 const hasFilters = computed(
 	() => filtersManager.value.getFiltersList()?.length,

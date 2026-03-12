@@ -19,7 +19,7 @@
             @update:search-mode="updateSearchMode"
           />
           <wt-button
-            :disabled="!dataList.length"
+            :disabled="!dataList.length || !hasExportDataGridAccess"
             :loading="isCSVLoading"
             @click="exportCSV"
           >{{ t('defaults.exportCSV') }}
@@ -168,6 +168,7 @@ import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
+import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo';
 
 import { getCliInstance } from '../../../app/api/callWSConnection';
 import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh';
@@ -180,6 +181,7 @@ import { useAgentsTableStore } from '../stores/agents';
 import TableAgent from './_internals/table-templates/table-agent.vue';
 import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
 import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
+import { useUserinfoStore } from '../../userinfo/store/userInfoStore';
 
 const { t } = useI18n();
 
@@ -225,6 +227,14 @@ const {
 } = tableStore;
 
 const { setAutoRefresh, clearAutoRefresh } = useTableAutoRefresh(loadDataList);
+
+const userinfoStore = useUserinfoStore();
+
+const hasExportDataGridAccess = computed(() => {
+	return userinfoStore.hasSpecialGlobalActionAccess(
+		SpecialGlobalAction.ExportDataGrid,
+	);
+});
 
 const { exportCSV, isCSVLoading, initCSVExport } = useCSVExport({
 	selected,
