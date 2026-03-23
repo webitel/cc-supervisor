@@ -10,13 +10,15 @@ export default {
 	created() {
 		this.setAutoRefresh();
 		this.setLanguage();
+    this.openSession();
 	},
-	unmounted() {
+  unmounted() {
 		this.closeSession();
 	},
 	methods: {
 		...mapActions({
 			closeSession: 'CLOSE_SESSION',
+      openSession: 'OPEN_SESSION',
 		}),
 
 		setLanguage() {
