@@ -70,7 +70,7 @@
           :text="textEmpty"
         />
         <div
-          v-show="dataList?.length"
+          v-show="dataList?.length && !isLoading"
           class="table-section__table-wrapper"
         >
           <wt-table
