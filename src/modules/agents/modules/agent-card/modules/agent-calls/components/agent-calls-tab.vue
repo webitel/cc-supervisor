@@ -20,7 +20,7 @@
     <wt-loader v-show="isLoading" />
 
     <wt-empty
-      v-if="showEmpty"
+      v-if="showEmpty && !isLoading"
       :image="imageEmpty"
       :text="textEmpty"
     />
