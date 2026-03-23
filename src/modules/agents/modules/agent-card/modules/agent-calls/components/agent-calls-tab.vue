@@ -26,7 +26,7 @@
     />
 
     <div
-      v-if="dataList?.length"
+      v-if="dataList?.length && !isLoading"
       class="table-section__table-wrapper"
     >
       <wt-table
