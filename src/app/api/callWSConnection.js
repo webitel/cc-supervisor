@@ -41,6 +41,11 @@ export const destroyCliInstance = async () => {
 };
 
 export const getCliInstance = async () => {
-	if (!cliInstance) cliInstance = await createCliInstance();
+	if (!cliInstance) {
+		cliInstance = createCliInstance().catch((err) => {
+			cliInstance = null;
+			throw err;
+		});
+	}
 	return cliInstance;
 };
