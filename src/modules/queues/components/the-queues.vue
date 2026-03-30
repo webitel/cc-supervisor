@@ -63,7 +63,7 @@
             </template>
           </wt-action-bar>
         </header>
-        <wt-loader v-show="isLoading && !dataList.length" />
+        <wt-loader v-show="isLoading" />
         <wt-empty
           v-if="showEmpty"
           :image="imageEmpty"
@@ -75,6 +75,7 @@
         >
 
           <wt-table
+            v-show="!isLoading"
             :headers="headers"
             :data="dataList"
             sortable

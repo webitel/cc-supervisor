@@ -63,7 +63,7 @@
           </wt-action-bar>
         </header>
 
-        <wt-loader v-show="isLoading && !dataList.length"></wt-loader>
+        <wt-loader v-show="isLoading" />
         <wt-empty
           v-if="showEmpty"
           :image="imageEmpty"
@@ -74,6 +74,7 @@
           class="table-section__table-wrapper"
         >
           <wt-table
+            v-show="!isLoading"
             ref="agents-table"
             :data="dataList"
             :headers="headers"
