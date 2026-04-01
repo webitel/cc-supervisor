@@ -125,22 +125,6 @@ export default {
 				disabled: !this.hasCallReadAccess,
 			};
 
-			const screenshots = {
-				text: this.$t('objects.screenshots', 2),
-				value: 'screenshots',
-				namespace: this.namespace,
-				pathName: AgentTabsPathName.SCREENSHOTS,
-				disabled: !this.isControlAgentScreenAllow,
-			};
-
-			const screenRecordings = {
-				text: this.$t('objects.screenRecordings', 2),
-				value: 'screen-recordings',
-				namespace: this.namespace,
-				pathName: AgentTabsPathName.SCREEN_RECORDINGS,
-				disabled: !this.isControlAgentScreenAllow,
-			};
-
 			const statusHistory = {
 				text: this.$t('pages.card.statusHistory.title'),
 				value: 'status-history',
@@ -155,6 +139,22 @@ export default {
 				pathName: AgentTabsPathName.SKILLS,
 			};
 
+			const screenRecordings = {
+				text: this.$t('objects.screenRecordings', 2),
+				value: 'screen-recordings',
+				namespace: this.namespace,
+				pathName: AgentTabsPathName.SCREEN_RECORDINGS,
+				disabled: !this.isControlAgentScreenAllow,
+			};
+
+			const screenshots = {
+				text: this.$t('objects.screenshots', 2),
+				value: 'screenshots',
+				namespace: this.namespace,
+				pathName: AgentTabsPathName.SCREENSHOTS,
+				disabled: !this.isControlAgentScreenAllow,
+			};
+
 			const pdfs = {
 				text: this.$t('objects.agentPdfs.pdfs', 2),
 				value: 'pdfs',
@@ -166,10 +166,10 @@ export default {
 			tabs.push(
 				generalTab,
 				calls,
-				screenshots,
-				screenRecordings,
 				statusHistory,
 				skills,
+				screenRecordings,
+				screenshots,
 				pdfs,
 			);
 
