@@ -1,6 +1,10 @@
 import { reactive, shallowReactive } from 'vue';
 import { Client } from 'webitel-sdk';
 
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
+
+import i18n from '../locale/i18n';
+
 const { hostname, protocol } = window.location;
 const origin = `${protocol}//${hostname}`.replace(/^http/, 'ws');
 const BASE_URL = import.meta.env.PROD
@@ -8,9 +12,23 @@ const BASE_URL = import.meta.env.PROD
 	: import.meta.env.VITE_WEB_SOCKET_URL;
 
 let cliInstance = null;
+// Prevents duplicate toasts when SDK emits disconnect more than once
+// during reconnect/teardown cycles.
+let isDisconnectNotificationShown = false;
+
+const notifyDisconnected = () => {
+	if (isDisconnectNotificationShown) return;
+	isDisconnectNotificationShown = true;
+	eventBus.$emit('notification', {
+		type: 'error',
+		text: i18n.global.t('errorNotifications.websocketDisconnect'),
+	});
+};
 
 const createCliInstance = async () => {
 	const token = localStorage.getItem('access-token');
+	// Reset guard for each new client lifecycle.
+	isDisconnectNotificationShown = false;
 
 	const config = {
 		endpoint: BASE_URL,
@@ -26,6 +44,8 @@ const createCliInstance = async () => {
 	cli.callStore = reactive(cli.callStore);
 	cli.spyScreenSessions = reactive(cli.spyScreenSessions);
 	// cli.jobStore = reactive(cli.jobStore);
+
+	cli.on('disconnected', notifyDisconnected);
 
 	await cli.connect();
 	await cli.auth();
