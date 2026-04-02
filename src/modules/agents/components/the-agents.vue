@@ -373,7 +373,12 @@ onUnmounted(() => {
   }
 }
 
-.screen-sharing--moved {
+/**
+  @author @HlukhovYe
+  doubling class for specifity because wt-vidstack-player's styles has higher specifity
+  https://webitel.atlassian.net/browse/WTEL-9311
+*/
+.screen-sharing--moved.screen-sharing--moved {
   right: calc(256px + var(--spacing-sm)); // 256px is current width of call-window popup
   bottom: var(--spacing-sm);
 }
