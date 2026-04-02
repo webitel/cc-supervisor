@@ -138,7 +138,7 @@
 
       <div v-if="mediaStream">
         <screen-sharing
-          :class="{ 'screen-sharing--moved': true }"
+          :class="{ 'screen-sharing--moved': isScreenSharingMoved }"
           v-for="session in cli?.spyScreenSessions"
           :key="`screen-${session.id}`"
           :stream="mediaStream"
