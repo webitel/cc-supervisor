@@ -1,5 +1,5 @@
 <template>
-  <call-window-wrapper v-show="true">
+  <call-window-wrapper v-show="isVisible">
     <template #header="{ isExpanded }">
       <div class="call-window-conversation-header-before">
         <wt-rounded-action

@@ -17,13 +17,15 @@
       multiple
       @input="setItemProp({ prop: 'supervisor', value: $event })"
     ></wt-select>
-    <wt-multi-select
-      :model-value="agent.auditor"
+    <wt-select
+      :value="agent.auditor"
       :label="$t('objects.auditor')"
       :search-method="searchAuditors"
+      :close-on-select="false"
       :disabled="disableUserInput || !hasAuditorReadAccess"
+      multiple
       @input="setItemProp({ prop: 'auditor', value: $event })"
-    />
+    ></wt-select>
     <wt-select
       :value="agent.region"
       :label="$t('objects.region')"
