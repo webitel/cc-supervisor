@@ -171,6 +171,8 @@ import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
 import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo';
 
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
+
 import { getCliInstance } from '../../../app/api/callWSConnection';
 import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh';
 import { useScreenSharingSession } from '../../_shared/composables/useScreenSharingSession';
@@ -311,16 +313,23 @@ const connect = async (agent) => {
 	selectedAgentToSpyScreen.value = null;
 	cli?.spyScreenSessions.forEach((session) => session.close());
 
-	await cli.spyScreen(
-		Number(agent.user.id),
-		{
-			iceServers: [],
-		},
-		async (stream) => {
-			selectedAgentToSpyScreen.value = agent;
-			mediaStream.value = stream;
-		},
-	);
+	try {
+		await cli.spyScreen(
+			Number(agent.user.id),
+			{
+				iceServers: [],
+			},
+			async (stream) => {
+				selectedAgentToSpyScreen.value = agent;
+				mediaStream.value = stream;
+			},
+		);
+	} catch {
+		eventBus.$emit('notification', {
+			type: 'error',
+			text: t('errorNotifications.websocketDisconnect'),
+		});
+	}
 };
 
 onUnmounted(() => {
