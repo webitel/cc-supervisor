@@ -138,7 +138,7 @@
 
       <div v-if="mediaStream">
         <screen-sharing
-          :class="{ 'screen-sharing--moved': isScreenSharingMoved }"
+          :class="{ 'screen-sharing--moved': true }"
           v-for="session in cli?.spyScreenSessions"
           :key="`screen-${session.id}`"
           :stream="mediaStream"
@@ -364,7 +364,12 @@ onUnmounted(() => {
   }
 }
 
-.screen-sharing--moved {
+/**
+  @author @HlukhovYe
+  doubling class for specifity because wt-vidstack-player's styles has higher specifity
+  https://webitel.atlassian.net/browse/WTEL-9311
+*/
+.screen-sharing--moved.screen-sharing--moved {
   right: calc(256px + var(--spacing-sm)); // 256px is current width of call-window popup
   bottom: var(--spacing-sm);
 }
