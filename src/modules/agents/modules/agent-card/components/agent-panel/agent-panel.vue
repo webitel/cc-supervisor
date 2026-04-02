@@ -86,9 +86,11 @@ import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/com
 import { ScreenSharing } from '@webitel/ui-sdk/src/modules/CallSession/index';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { computed, onMounted, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import { getCliInstance } from '../../../../../../app/api/callWSConnection';
 import { useScreenSharingSession } from '../../../../../_shared/composables/useScreenSharingSession';
 import { useControlAgentScreenAccess } from '../../../../composables/useControlAgentScreenAccess';
@@ -104,6 +106,7 @@ const props = defineProps({
 
 const store = useStore();
 const router = useRouter();
+const { t } = useI18n();
 let cli;
 
 const {
@@ -156,15 +159,22 @@ const trackAgent = async () => {
 	mediaStream.value = null;
 	cli?.spyScreenSessions.forEach((session) => session.close());
 
-	await cli.spyScreen(
-		Number(agent.value.user.id),
-		{
-			iceServers: [],
-		},
-		async (stream) => {
-			mediaStream.value = stream;
-		},
-	);
+	try {
+		await cli.spyScreen(
+			Number(agent.value.user.id),
+			{
+				iceServers: [],
+			},
+			async (stream) => {
+				mediaStream.value = stream;
+			},
+		);
+	} catch {
+		eventBus.$emit('notification', {
+			type: 'error',
+			text: t('errorNotifications.websocketDisconnect'),
+		});
+	}
 };
 
 onMounted(async () => {
