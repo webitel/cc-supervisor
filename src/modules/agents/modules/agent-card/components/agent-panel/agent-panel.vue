@@ -65,6 +65,7 @@
       <div v-if="mediaStream">
         <screen-sharing
           v-for="session in cli?.spyScreenSessions"
+          :class="{ 'screen-sharing--moved': isScreenSharingMoved }"
           :key="`screen-${session.id}`"
           :stream="mediaStream"
           :session="session"
@@ -121,6 +122,11 @@ const agent = computed(
 
 const score = computed(
 	() => getNamespacedState(store.state, props.namespace).score,
+);
+
+// if call-window popup is opened need to move screen sharing player
+const isScreenSharingMoved = computed(
+	() => store.state.call.isEavesdropOpened || store.state.call.isVisible,
 );
 
 const scoreCount = computed(() => score.value.scoreCount || 0);
@@ -229,5 +235,15 @@ onUnmounted(() => {
   :deep(.wt-button) {
     margin: 0;
   }
+}
+
+/**
+  @author @HlukhovYe
+  doubling class for specifity because wt-vidstack-player's styles has higher specifity
+  https://webitel.atlassian.net/browse/WTEL-9311
+*/
+.screen-sharing--moved.screen-sharing--moved {
+  right: calc(256px + var(--spacing-sm)); // 256px is current width of call-window popup
+  bottom: var(--spacing-sm);
 }
 </style>
