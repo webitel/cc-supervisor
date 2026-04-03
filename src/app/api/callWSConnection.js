@@ -15,8 +15,10 @@ let cliInstance = null;
 // Prevents duplicate toasts when SDK emits disconnect more than once
 // during reconnect/teardown cycles.
 let isDisconnectNotificationShown = false;
+let isSocketConnected = false;
 
 const notifyDisconnected = () => {
+	isSocketConnected = false;
 	if (isDisconnectNotificationShown) return;
 	isDisconnectNotificationShown = true;
 	eventBus.$emit('notification', {
@@ -46,12 +48,18 @@ const createCliInstance = async () => {
 	// cli.jobStore = reactive(cli.jobStore);
 
 	cli.on('disconnected', notifyDisconnected);
+	cli.on('connected', () => {
+		isSocketConnected = true;
+	});
 
 	await cli.connect();
 	await cli.auth();
+	isSocketConnected = true;
 	window.cli = cli;
 	return cli;
 };
+
+export const getIsSocketConnected = () => isSocketConnected;
 
 export const destroyCliInstance = async () => {
 	if (cliInstance) {
