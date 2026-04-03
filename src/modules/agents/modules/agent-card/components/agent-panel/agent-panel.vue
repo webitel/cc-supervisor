@@ -91,7 +91,10 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
-import { getCliInstance } from '../../../../../../app/api/callWSConnection';
+import {
+	getCliInstance,
+	getIsSocketConnected,
+} from '../../../../../../app/api/callWSConnection';
 import { useScreenSharingSession } from '../../../../../_shared/composables/useScreenSharingSession';
 import { useControlAgentScreenAccess } from '../../../../composables/useControlAgentScreenAccess';
 import AgentProfile from './_internals/agent-profile.vue';
@@ -156,6 +159,14 @@ const callAgent = () => {
 };
 
 const trackAgent = async () => {
+	if (!getIsSocketConnected()) {
+		eventBus.$emit('notification', {
+			type: 'error',
+			text: t('errorNotifications.websocketDisconnect'),
+		});
+		return;
+	}
+
 	mediaStream.value = null;
 	cli?.spyScreenSessions.forEach((session) => session.close());
 

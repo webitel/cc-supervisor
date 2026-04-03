@@ -173,7 +173,10 @@ import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo';
 
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 
-import { getCliInstance } from '../../../app/api/callWSConnection';
+import {
+	getCliInstance,
+	getIsSocketConnected,
+} from '../../../app/api/callWSConnection';
 import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh';
 import { useScreenSharingSession } from '../../_shared/composables/useScreenSharingSession';
 import AgentsAPI from '../api/agents';
@@ -309,6 +312,14 @@ onMounted(async () => {
 });
 
 const connect = async (agent) => {
+	if (!getIsSocketConnected()) {
+		eventBus.$emit('notification', {
+			type: 'error',
+			text: t('errorNotifications.websocketDisconnect'),
+		});
+		return;
+	}
+
 	mediaStream.value = null;
 	selectedAgentToSpyScreen.value = null;
 	cli?.spyScreenSessions.forEach((session) => session.close());
