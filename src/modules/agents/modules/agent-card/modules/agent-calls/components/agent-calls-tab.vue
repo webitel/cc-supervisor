@@ -80,6 +80,12 @@
             {{ item.member.name }}
           </div>
         </template>
+        <template #screencast="{ item }">
+          <wt-table-screencast-action
+            :files="item.files"
+            @set-video="setScreenRecording"
+          />
+        </template>
         <template #actions="{ item, index }">
           <agent-calls-media-action
             v-if="item.files?.[EngineCallFileType.FileTypeAudio]"
@@ -103,18 +109,32 @@
         @close="closePlayer"
       />
     </div>
+
+    <wt-vidstack-player
+      v-if="currentScreenRecording"
+      closable
+      :size="ComponentSize.MD"
+      :src="currentScreenRecording.video"
+      :title="currentScreenRecording.text"
+      @close="closeScreenRecording"
+    />
   </section>
 </template>
 
 <script>
-import { getCallMediaUrl } from '@webitel/api-services/api';
+import { getCallMediaUrl, getMediaUrl } from '@webitel/api-services/api';
 import { EngineCallFileType } from '@webitel/api-services/gen/models';
-import { WtEmpty } from '@webitel/ui-sdk/components';
+import {
+	WtEmpty,
+	WtPlayer,
+	WtTableScreencastAction,
+	WtVidstackPlayer,
+} from '@webitel/ui-sdk/components';
+import { ComponentSize } from '@webitel/ui-sdk/enums';
 import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { computed } from 'vue';
 import { mapState, useStore } from 'vuex';
-import { WtPlayer } from '@webitel/ui-sdk/components';
 
 import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
 import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
@@ -131,6 +151,8 @@ export default {
 		AgentCallsMediaAction,
 		WtEmpty,
 		WtPlayer,
+		WtTableScreencastAction,
+		WtVidstackPlayer,
 	},
 	mixins: [
 		tablePageMixin,
@@ -144,7 +166,9 @@ export default {
 	data: () => ({
 		audioSrc: null,
 		playingCallId: '',
+		currentScreenRecording: null,
 		EngineCallFileType,
+		ComponentSize,
 	}),
 	setup() {
 		const store = useStore();
@@ -201,6 +225,16 @@ export default {
 		closePlayer() {
 			this.audioSrc = null;
 			this.playingCallId = '';
+		},
+		setScreenRecording(data) {
+			this.currentScreenRecording = {
+				...data,
+				video: getMediaUrl(data.id),
+			};
+			this.closePlayer();
+		},
+		closeScreenRecording() {
+			this.currentScreenRecording = null;
 		},
 		// @author @o.chorpita
 		// [WTEL-8652](https://webitel.atlassian.net/browse/WTEL-8652)
