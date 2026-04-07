@@ -1,83 +1,88 @@
 <template>
   <wt-headline class="agent-panel">
-    <div class="agent-panel-wrap">
+    <div class="agent-panel__left">
       <wt-icon-btn
         icon="back"
         color="active"
         @click="$router.push('/agents')"
       ></wt-icon-btn>
-      <agent-profile :name="agent.name"></agent-profile>
-      <div class="agent-panel-rating">
-        <wt-icon
-          icon="total-score"
-          size="md"
-        ></wt-icon>
-        <span class="agent-panel-rating__text typo-body-1">
-          {{ $t('pages.card.score') }}: {{ scoreRequired }}
-        </span>
-      </div>
-      <div class="agent-panel-rating">
-        <wt-icon
-          icon="rated-calls"
-          size="md"
-        ></wt-icon>
-        <span class="agent-panel-rating__text typo-body-1">
-          {{ $t('pages.card.ratedCalls') }}: {{ scoreCount }}
-        </span>
+      <div class="agent-panel__left-identity">
+        <agent-profile :name="agent.name"></agent-profile>
+        <div class="agent-panel__ratings">
+          <div class="agent-panel__ratings-item">
+            <wt-icon
+              icon="total-score"
+              size="md"
+            ></wt-icon>
+            <span class="agent-panel__ratings-text typo-body-1">
+              {{ $t('pages.card.score') }}: {{ scoreRequired }}
+            </span>
+          </div>
+          <div class="agent-panel__ratings-item">
+            <wt-icon
+              icon="rated-calls"
+              size="md"
+            ></wt-icon>
+            <span class="agent-panel__ratings-text typo-body-1">
+              {{ $t('pages.card.ratedCalls') }}: {{ scoreCount }}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div>
-      <div class="agent-panel-wrap">
-        <agent-status-comment
-          class="agent-panel__status-comment"
-          v-if="agent.statusComment && agent.status === AgentStatus.Pause"
-          :status-comment="agent.statusComment"
-        />
-
-        <agent-status-select
-          :agent-id="agent.agentId"
-          :status="agent.status"
-          :status-duration="agent.statusDuration"
-          @changed="loadAgent"
-        ></agent-status-select>
+    <div class="agent-panel__right">
+      <div class="agent-panel__status">
+        <div class="agent-panel__status-main">
+          <agent-status-comment
+            v-if="agent.statusComment && agent.status === AgentStatus.Pause"
+            :status-comment="agent.statusComment"
+          />
+    
+          <agent-status-select
+            :agent-id="agent.agentId"
+            :status="agent.status"
+            :status-duration="agent.statusDuration"
+            @changed="loadAgent"
+          ></agent-status-select>
+        </div>
 
         <agent-status-timers :status="agent"></agent-status-timers>
-
-        <wt-button
-          v-if="agent.descTrack && isControlAgentScreenAllow"
-          icon="desk-track"
-          rounded
-          variant="outlined"
-          color="secondary"
-          size="md"
-          @click="trackAgent"
-        />
-
-        <wt-button
-          class="agent-panel__call-btn"
-          color="success"
-          @click="callAgent"
-        >{{ $t('pages.card.callAgent') }}
-        </wt-button>
       </div>
 
-      <div v-if="mediaStream">
-        <screen-sharing
-          v-for="session in cli?.spyScreenSessions"
-          :class="{ 'screen-sharing--moved': isScreenSharingMoved }"
-          :key="`screen-${session.id}`"
-          :stream="mediaStream"
-          :session="session"
-          :screenshot-status="screenshotStatus"
-          :screenshot-is-loading="screenshotIsLoading"
-          :username="agent.user.name"
-          :closable="false"
-          @close-session="closeSession(session)"
-          @make-screenshot="makeScreenshot(session)"
-          @toggle-record="toggleRecordAction(session)"
-        />
-      </div>
+      <wt-button
+        v-if="agent.descTrack && isControlAgentScreenAllow"
+        icon="desk-track"
+        rounded
+        variant="outlined"
+        color="secondary"
+        size="md"
+        @click="trackAgent"
+      />
+
+      <wt-button
+        class="agent-panel__call-btn"
+        color="success"
+        @click="callAgent"
+      >{{ $t('pages.card.callAgent') }}
+      </wt-button>
+    </div>
+
+    <div v-if="mediaStream">
+      <screen-sharing
+        v-for="session in cli?.spyScreenSessions"
+        :class="{ 'screen-sharing--moved': isScreenSharingMoved }"
+        :key="`screen-${session.id}`"
+        :stream="mediaStream"
+        :session="session"
+        :screenshot-status="screenshotStatus"
+        :screenshot-is-loading="screenshotIsLoading"
+        :username="agent.user.name"
+        :closable="false"
+        @close-session="closeSession(session)"
+        @make-screenshot="makeScreenshot(session)"
+        @toggle-record="toggleRecordAction(session)"
+      />
     </div>
   </wt-headline>
 </template>
@@ -220,35 +225,89 @@ onUnmounted(() => {
 
 .wt-headline.agent-panel {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-  .agent-panel {
-
-    &-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      flex-wrap: wrap;
-    }
-
-    &__status-comment {
-      margin-right: var(--spacing-sm);
-    }
-
+  // LEFT SIDE
+  .agent-panel__left {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    flex-wrap: wrap;
   }
 
+  .agent-panel__left-identity {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+
+  .agent-panel__ratings {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+
+  .agent-panel__ratings-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+
+  // RIGHT SIDE
+  .agent-panel__right {
+    display: flex;
+    align-items: center;
+  }
+
+  .agent-panel__status {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    flex-wrap: wrap;
+  }
+
+  .agent-panel__status-main {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
 
   &__call-btn {
     padding: var(--spacing-sm);
   }
 
-  .agent-panel-rating {
-    display: flex;
-    gap: var(--spacing-xs);
-    margin-right: var(--spacing-sm);
+  @media (max-width: 1200px) {
+    align-items: flex-start;
+
+    .agent-panel__left {
+      align-items: flex-start;
+    }
+
+    .agent-panel__left-identity {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .agent-panel__right {
+      align-items: flex-start;
+    }
+
+    .agent-panel__status {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 
-  .agent-status-timers {
-    margin-left: var(--spacing-sm);
+  @media (max-width: 850px) {
+    .agent-panel__ratings {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .agent-panel__status {
+      flex-direction: row;
+    }
   }
 }
 

@@ -31,9 +31,11 @@ export default {
 .agent-status-timers {
   display: flex;
   align-items: center;
+  gap: var(--spacing-xs);
 
-  .wt-indicator:not(:last-child) {
-    margin-right: var(--spacing-sm);
+  @media (max-width: 850px) {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 </style>
