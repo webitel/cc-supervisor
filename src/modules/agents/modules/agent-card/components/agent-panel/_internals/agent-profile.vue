@@ -7,7 +7,7 @@
         alt="Agent avatar"
       >
     </div>
-    <strong class="agent-profile__name typo-subtitle-1">{{ name }}</strong>
+    <span class="agent-profile__name typo-body-1">{{ name }}</span>
   </article>
 </template>
 
@@ -32,12 +32,11 @@ export default {
 .agent-profile {
   display: flex;
   align-items: center;
-  padding: 5px 10px;
+  gap: var(--spacing-xs);
 
   .agent-profile__pic {
-    width: 40px;
-    height: 40px;
-    margin-right: var(--spacing-sm);
+    width: 24px;
+    height: 24px;
 
     &__img {
       width: 100%;
