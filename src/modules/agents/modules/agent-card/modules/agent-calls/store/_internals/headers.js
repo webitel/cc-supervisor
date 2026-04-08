@@ -218,6 +218,12 @@ export default [
 		field: 'cause',
 	},
 	{
+		value: 'screencast',
+		locale: 'vocabulary.screencast',
+		show: false,
+		field: 'screencast',
+	},
+	{
 		value: 'blindTransfer',
 		locale: 'pages.shared.columns.blindTransfer',
 		show: false,
