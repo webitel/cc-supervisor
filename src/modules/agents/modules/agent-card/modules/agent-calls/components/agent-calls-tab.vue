@@ -81,7 +81,7 @@
           </div>
         </template>
         <template #screencast="{ item }">
-          <wt-table-screencast-action
+          <wt-screen-recordings-action
             :files="item.files"
             @set-video="setScreenRecording"
           />
@@ -127,7 +127,7 @@ import { EngineCallFileType } from '@webitel/api-services/gen/models';
 import {
 	WtEmpty,
 	WtPlayer,
-	WtTableScreencastAction,
+	WtScreenRecordingsAction,
 	WtVidstackPlayer,
 } from '@webitel/ui-sdk/components';
 import { ComponentSize } from '@webitel/ui-sdk/enums';
@@ -151,7 +151,7 @@ export default {
 		AgentCallsMediaAction,
 		WtEmpty,
 		WtPlayer,
-		WtTableScreencastAction,
+		WtScreenRecordingsAction,
 		WtVidstackPlayer,
 	},
 	mixins: [
