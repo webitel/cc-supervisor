@@ -24,7 +24,7 @@
           :v="v$.itemInstance.capacity"
           :label="$t('pages.card.skills.capacity')"
           required
-          @input="setItemProp({ prop: 'capacity', value: +$event.value })"
+          @input="setItemProp({ prop: 'capacity', value: $event.value })"
         />
       </form>
     </template>
