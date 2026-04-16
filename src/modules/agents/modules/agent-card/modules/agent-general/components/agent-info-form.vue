@@ -37,13 +37,13 @@
       :model-value="agent.progressiveCount"
       :label="$t('pages.card.progressiveCount')"
       :disabled="disableUserInput"
-      @update:model-value="setItemProp({ prop: 'progressiveCount', value: +$event })"
+      @update:model-value="setItemProp({ prop: 'progressiveCount', value: $event })"
     />
     <wt-input-number
       :model-value="agent.chatCount"
       :label="$t('pages.card.chatCount')"
       :disabled="disableUserInput"
-      @update:model-value="setItemProp({ prop: 'chatCount', value: +$event })"
+      @update:model-value="setItemProp({ prop: 'chatCount', value: $event })"
     />
     <wt-button
       :disabled="disabledSave || !hasSaveActionAccess"
