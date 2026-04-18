@@ -5,9 +5,10 @@ import {
 } from '@webitel/ui-sdk/enums';
 import { createRouter, createWebHistory } from 'vue-router';
 
-import ActiveCalls from '../../modules/active-calls/components/the-active-calls.vue';
-import Agents from '../../modules/agents/components/the-agents.vue';
-import AgentPage from '../../modules/agents/modules/agent-card/components/agent-card.vue';
+const ActiveCalls = import('../../modules/active-calls/components/the-active-calls.vue');
+const Agents = import('../../modules/agents/components/the-agents.vue');
+const AgentPage = import('../../modules/agents/modules/agent-card/components/agent-card.vue');
+
 import AgentTabsPathName from './_internals/AgentTabsPathName.enum.js';
 import RoutePaths from './_internals/RoutePaths.enum.js';
 
@@ -33,11 +34,11 @@ const Pdfs = import(
 	'../../modules/agents/modules/agent-card/modules/agent-pdfs/components/agent-pdfs-tab.vue'
 );
 
-import Queue from '../../modules/queues/components/the-queues.vue';
-import TheStartPage from '../../modules/start-page/components/the-start-page.vue';
-import SupervisorWorkspace from '../components/the-supervisor-workspace.vue';
-import AccessDenied from '../components/utils/access-denied-component.vue';
-import notFound from '../components/utils/the-not-found-component.vue';
+const Queue = import('../../modules/queues/components/the-queues.vue');
+const TheStartPage = import('../../modules/start-page/components/the-start-page.vue');
+const SupervisorWorkspace = import('../components/the-supervisor-workspace.vue');
+const AccessDenied = import('../components/utils/access-denied-component.vue');
+const notFound = import('../components/utils/the-not-found-component.vue');
 
 const routes = [
 	{
@@ -147,7 +148,7 @@ const routes = [
 
 export let router = null;
 
-export const initRouter = async ({ beforeEach = [] } = {}) => {
+export const initRouter = async ({ beforeEach = [], afterEach = [] } = {}) => {
 	router = createRouter({
 		history: createWebHistory(import.meta.env.BASE_URL),
 
@@ -183,6 +184,10 @@ export const initRouter = async ({ beforeEach = [] } = {}) => {
 	beforeEach.forEach((guard) => {
 		router.beforeEach(guard);
 	});
+
+	afterEach.forEach((guard) => {
+		router.afterEach(guard);
+	})
 
 	return router;
 };
