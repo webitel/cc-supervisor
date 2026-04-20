@@ -53,6 +53,7 @@
       <wt-button
         v-if="agent.descTrack && isControlAgentScreenAllow"
         icon="desk-track"
+        :loading="isScreenSharingLoading"
         rounded
         variant="outlined"
         color="secondary"
@@ -68,30 +69,30 @@
       </wt-button>
     </div>
 
-    <div v-if="mediaStream">
-      <screen-sharing
-        v-for="session in cli?.spyScreenSessions"
-        :class="{ 'screen-sharing--moved': isScreenSharingMoved }"
-        :key="`screen-${session.id}`"
-        :stream="mediaStream"
-        :session="session"
-        :screenshot-status="screenshotStatus"
-        :screenshot-is-loading="screenshotIsLoading"
-        :username="agent.user.name"
-        :closable="false"
-        @close-session="closeSession(session)"
-        @make-screenshot="makeScreenshot(session)"
-        @toggle-record="toggleRecordAction(session)"
-      />
-    </div>
   </wt-headline>
+  <div v-if="mediaStream">
+    <screen-sharing
+      v-for="session in cli?.spyScreenSessions"
+      :class="{ 'screen-sharing--moved': isScreenSharingMoved }"
+      :key="`screen-${session.id}`"
+      :stream="mediaStream"
+      :session="session"
+      :screenshot-status="screenshotStatus"
+      :screenshot-is-loading="screenshotIsLoading"
+      :username="agent.user.name"
+      :closable="false"
+      @close-session="closeSession(session)"
+      @make-screenshot="makeScreenshot(session)"
+      @toggle-record="toggleRecordAction(session)"
+    />
+  </div>
 </template>
 
 <script setup>
 import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/components/wt-cc-agent-status-select.vue';
 import { ScreenSharing } from '@webitel/ui-sdk/src/modules/CallSession/index';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { computed, onMounted, onUnmounted } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -140,6 +141,8 @@ const isScreenSharingMoved = computed(
 	() => store.state.call.isEavesdropOpened || store.state.call.isVisible,
 );
 
+const isScreenSharingLoading = ref(false);
+
 const scoreCount = computed(() => score.value.scoreCount || 0);
 
 const scoreRequired = computed(() =>
@@ -178,6 +181,7 @@ const trackAgent = async () => {
 		return;
 	}
 
+	isScreenSharingLoading.value = true;
 	mediaStream.value = null;
 	cli?.spyScreenSessions.forEach((session) => session.close());
 
@@ -196,6 +200,8 @@ const trackAgent = async () => {
 			type: 'error',
 			text: t('errorNotifications.websocketDisconnect'),
 		});
+	} finally {
+		isScreenSharingLoading.value = false;
 	}
 };
 
