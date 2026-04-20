@@ -33,10 +33,10 @@ const Screenshots = import(
 const Pdfs = import(
 	'../../modules/agents/modules/agent-card/modules/agent-pdfs/components/agent-pdfs-tab.vue'
 );
+import SupervisorWorkspace from '../components/the-supervisor-workspace.vue';
 
 const Queue = import('../../modules/queues/components/the-queues.vue');
 const TheStartPage = import('../../modules/start-page/components/the-start-page.vue');
-const SupervisorWorkspace = import('../components/the-supervisor-workspace.vue');
 const AccessDenied = import('../components/utils/access-denied-component.vue');
 const notFound = import('../components/utils/the-not-found-component.vue');
 
