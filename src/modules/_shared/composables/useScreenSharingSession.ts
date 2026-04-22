@@ -6,8 +6,10 @@ export function useScreenSharingSession() {
 	const mediaStream = ref(null);
 	const screenshotStatus = ref(null);
 	const screenshotIsLoading = ref(false);
+	const recordIsLoading = ref(false);
 
 	const toggleRecordAction = async (session) => {
+		recordIsLoading.value = true;
 		try {
 			if (session.recordings) {
 				await session.stopRecord();
@@ -19,6 +21,8 @@ export function useScreenSharingSession() {
 				type: 'error',
 				text: err.message,
 			});
+		} finally {
+			recordIsLoading.value = false;
 		}
 	};
 
@@ -57,6 +61,7 @@ export function useScreenSharingSession() {
 		mediaStream,
 		screenshotStatus,
 		screenshotIsLoading,
+		recordIsLoading,
 		toggleRecordAction,
 		makeScreenshot,
 		closeSession,
