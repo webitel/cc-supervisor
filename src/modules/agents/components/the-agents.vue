@@ -114,13 +114,17 @@
             </template>
             <template #actions="{ item }">
               <wt-icon
-                v-if="item.descTrack && isControlAgentScreenAllow"
+                v-if="item.descTrack && isControlAgentScreenAllow && item.agentId !== screenSharingLoadingAgentId"
                 :color="getDeskTrackIconColor(item.user.id)"
                 icon="desk-track"
                 size="md"
                 class="agents-table__desk-track-icon"
                 @click="connect(item)"
               ></wt-icon>
+              <wt-loader 
+                v-else-if="screenSharingLoadingAgentId === item.agentId" 
+                :size="ComponentSize.SM"
+              />
             </template>
           </wt-table>
 
@@ -170,6 +174,7 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
 import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo';
+import { ComponentSize } from '@webitel/ui-sdk/src/enums';
 
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 
@@ -264,6 +269,8 @@ const searchValue = computed(
 	() => filtersManager.value.filters.get('search')?.value || '',
 );
 
+const screenSharingLoadingAgentId = ref(null);
+
 const {
 	showEmpty,
 	image: imageEmpty,
@@ -320,6 +327,7 @@ const connect = async (agent) => {
 		return;
 	}
 
+	screenSharingLoadingAgentId.value = agent.agentId;
 	mediaStream.value = null;
 	selectedAgentToSpyScreen.value = null;
 	cli?.spyScreenSessions.forEach((session) => session.close());
@@ -340,6 +348,8 @@ const connect = async (agent) => {
 			type: 'error',
 			text: t('errorNotifications.websocketDisconnect'),
 		});
+	} finally {
+		screenSharingLoadingAgentId.value = null;
 	}
 };
 
