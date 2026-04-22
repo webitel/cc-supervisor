@@ -79,6 +79,7 @@
       :session="session"
       :screenshot-status="screenshotStatus"
       :screenshot-is-loading="screenshotIsLoading"
+      :record-is-loading="recordIsLoading"
       :username="agent.user.name"
       :closable="false"
       @close-session="closeSession(session)"
@@ -123,6 +124,7 @@ const {
 	mediaStream,
 	screenshotStatus,
 	screenshotIsLoading,
+	recordIsLoading,
 	toggleRecordAction,
 	makeScreenshot,
 	closeSession,
