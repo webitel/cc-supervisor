@@ -86,14 +86,17 @@
             @set-video="setScreenRecording"
           />
         </template>
-        <template #actions="{ item, index }">
-          <agent-calls-media-action
-            v-if="item.files?.[EngineCallFileType.FileTypeAudio]"
-            :call="item"
-            :playing-call-id="playingCallId"
-            class="table-action"
+        <template #actions="{ item }">
+          <wt-call-media-action
+            :files="item.files"
+            :currently-playing="playingFileId"
             @play="play"
             @stop="closePlayer"
+          />
+          <wt-icon-btn
+            v-tooltip="$t('reusable.openInHistory')"
+            icon="link"
+            @click="openInHistory(item)"
           />
         </template>
       </wt-table>
@@ -111,6 +114,14 @@
     </div>
 
     <wt-vidstack-player
+      v-if="videoSrc"
+      closable
+      :size="ComponentSize.MD"
+      :src="videoSrc"
+      @close="closePlayer"
+    />
+
+    <wt-vidstack-player
       v-if="currentScreenRecording"
       closable
       :size="ComponentSize.MD"
@@ -125,6 +136,7 @@
 import { getCallMediaUrl, getMediaUrl } from '@webitel/api-services/api';
 import { EngineCallFileType } from '@webitel/api-services/gen/models';
 import {
+	WtCallMediaAction,
 	WtEmpty,
 	WtPlayer,
 	WtScreenRecordingsAction,
@@ -140,7 +152,6 @@ import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace
 import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
 import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields.vue';
 import TableDirection from './_internals/table-templates/table-direction.vue';
-import AgentCallsMediaAction from './agent-calls-media-action.vue';
 
 export default {
 	name: 'AgentCallsTab',
@@ -148,7 +159,7 @@ export default {
 		TableDirection,
 		FilterFields,
 		FilterPagination,
-		AgentCallsMediaAction,
+		WtCallMediaAction,
 		WtEmpty,
 		WtPlayer,
 		WtScreenRecordingsAction,
@@ -165,7 +176,8 @@ export default {
 	},
 	data: () => ({
 		audioSrc: null,
-		playingCallId: '',
+		videoSrc: null,
+		playingFileId: '',
 		currentScreenRecording: null,
 		EngineCallFileType,
 		ComponentSize,
@@ -210,21 +222,32 @@ export default {
 				],
 			});
 		},
-		play({ file, callId }) {
-			if (file.id) {
+		openInHistory(item) {
+			const historyIdLink = `${import.meta.env.VITE_HISTORY_URL}/view/call_view/${item.id}`;
+			window.open(historyIdLink, '_blank');
+		},
+		play(file) {
+			if (!file.id) return this.closePlayer();
+			this.playingFileId = file.id;
+			if (file.type === EngineCallFileType.FileTypeAudio) {
+				this.videoSrc = null;
 				this.audioSrc = {
 					src: getCallMediaUrl(file.id),
 					type: file.mimeType,
 				};
-				this.playingCallId = callId;
 			} else {
-				this.closePlayer();
+				this.audioSrc = null;
+				this.videoSrc = {
+					src: getCallMediaUrl(file.id),
+					type: file.mimeType,
+				};
 			}
 		},
 
 		closePlayer() {
 			this.audioSrc = null;
-			this.playingCallId = '';
+			this.videoSrc = null;
+			this.playingFileId = '';
 		},
 		setScreenRecording(data) {
 			this.currentScreenRecording = {
