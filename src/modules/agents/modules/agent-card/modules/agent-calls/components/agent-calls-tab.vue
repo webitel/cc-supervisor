@@ -89,7 +89,7 @@
         <template #actions="{ item }">
           <wt-call-media-action
             :files="item.files"
-            :currently-playing="playingFileId"
+            :playing-file-id="playingFileId"
             @play="play"
             @stop="closePlayer"
           />
