@@ -1,6 +1,7 @@
 <template>
   <wt-table-column-select
     :headers="headers"
+		enable-search
     :static-headers="staticHeaders"
     @change="change"
   ></wt-table-column-select>
