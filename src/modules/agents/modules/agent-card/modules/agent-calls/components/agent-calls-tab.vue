@@ -241,7 +241,7 @@ export default {
 				this.audioSrc = null;
 				this.videoSrc = {
 					src: getCallMediaUrl(file.id),
-					name: file.name,
+					name: file.text,
 					type: file.mimeType,
 				};
 			}
