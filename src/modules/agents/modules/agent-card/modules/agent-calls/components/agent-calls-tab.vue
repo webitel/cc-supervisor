@@ -119,6 +119,7 @@
       closable
       :size="ComponentSize.MD"
       :src="videoSrc"
+			:title="videoSrc.name"
       @close="closePlayer"
     />
 
@@ -240,6 +241,7 @@ export default {
 				this.audioSrc = null;
 				this.videoSrc = {
 					src: getCallMediaUrl(file.id),
+					name: file.name,
 					type: file.mimeType,
 				};
 			}
