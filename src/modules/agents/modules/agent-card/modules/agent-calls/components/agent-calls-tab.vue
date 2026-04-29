@@ -11,6 +11,7 @@
       >
         <filter-fields
           :headers="headers"
+					enable-search
           entity="agentCalls"
           @change="setHeaders"
         ></filter-fields>

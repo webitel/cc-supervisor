@@ -1,7 +1,7 @@
 <template>
   <wt-table-column-select
     :headers="headers"
-		enable-search
+		:enable-search="enableSearch"
     :static-headers="staticHeaders"
     @change="change"
   ></wt-table-column-select>
@@ -26,6 +26,10 @@ export default {
 		},
 		staticHeaders: {
 			type: Array,
+		},
+		enableSearch: {
+			type: Boolean,
+			default: false,
 		},
 	},
 
