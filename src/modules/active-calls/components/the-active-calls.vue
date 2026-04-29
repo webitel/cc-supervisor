@@ -17,18 +17,18 @@
 
     <template #main>
       <section class="table-section">
-        <wt-loader v-show="isLoading"/>
-        <wt-dummy
-          v-if="dummyValue && !isLoading"
-          :src="dummyValue.src"
-          :text="dummyValue.text"
-          class="table-section__dummy"
-        ></wt-dummy>
         <div
-          v-show="!isLoading && !dummyValue"
           class="table-section__table-wrapper"
         >
+          <wt-loader v-show="isLoading"/>
+          <wt-dummy
+            v-if="dummyValue && !isLoading"
+            :src="dummyValue.src"
+            :text="dummyValue.text"
+            class="table-section__dummy"
+          ></wt-dummy>
           <wt-table-actions
+            v-show="!isLoading && !dummyValue"
             class="table-section__actions-wrapper"
             :icons="['settings', 'refresh']"
             @input="inputTableAction"
@@ -40,6 +40,7 @@
             ></filter-fields>
           </wt-table-actions>
           <wt-table
+            v-show="!isLoading && !dummyValue"
             :headers="headers"
             :data="dataList"
             :grid-actions="false"
@@ -79,7 +80,10 @@
               <table-active-call-state :item="item" @attach-call="attachCall"/>
             </template>
           </wt-table>
-          <filter-pagination :is-next="isNext"/>
+          <filter-pagination
+            v-show="!isLoading && !dummyValue"
+            :is-next="isNext"
+          />
         </div>
       </section>
     </template>
