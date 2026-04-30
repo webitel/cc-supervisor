@@ -120,8 +120,8 @@
                 class="agents-table__desk-track-icon"
                 @click="connect(item)"
               ></wt-icon>
-              <wt-loader 
-                v-else-if="screenSharingLoadingAgentId === item.agentId" 
+              <wt-loader
+                v-else-if="screenSharingLoadingAgentId === item.agentId"
                 :size="ComponentSize.SM"
               />
             </template>
@@ -288,10 +288,10 @@ const rowClass = (row) => {
 	);
 };
 const attachCall = async (id) => {
-	await store.dispatch('ATTACH_TO_CALL', {
+	await store.dispatch('call/ATTACH_TO_CALL', {
 		id,
 	});
-	await store.dispatch('OPEN_WINDOW');
+	await store.dispatch('call/EAVESDROP_OPEN_WINDOW');
 };
 
 const getDeskTrackIconColor = (id) =>
