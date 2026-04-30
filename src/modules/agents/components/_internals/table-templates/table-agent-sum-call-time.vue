@@ -1,5 +1,5 @@
 <template>
-  <div v-if="item.callTime" class="table-agent-sum-call-time">
+  <div v-if="item.callTime || item.activeCallId" class="table-agent-sum-call-time">
     {{ item.callTime }}
     <wt-icon-btn
       v-if="item.activeCallId"
