@@ -18,6 +18,7 @@
       </div>
       <wt-avatar
         size="lg"
+        :username="agent.name || call?.from?.name"
       ></wt-avatar>
       <div>
         <wt-rounded-action
