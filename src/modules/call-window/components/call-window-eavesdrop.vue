@@ -8,7 +8,7 @@
           color="error"
         ></wt-icon>
       </div>
-      <wt-avatar size="lg"></wt-avatar>
+      <wt-avatar size="lg" :username="agent.name"></wt-avatar>
       <wt-rounded-action
         icon="close"
         color="error"
