@@ -5,40 +5,25 @@ import {
 } from '@webitel/ui-sdk/enums';
 import { createRouter, createWebHistory } from 'vue-router';
 
-import ActiveCalls from '../../modules/active-calls/components/the-active-calls.vue';
-import Agents from '../../modules/agents/components/the-agents.vue';
-import AgentPage from '../../modules/agents/modules/agent-card/components/agent-card.vue';
-
 import AgentTabsPathName from './_internals/AgentTabsPathName.enum.js';
 import RoutePaths from './_internals/RoutePaths.enum.js';
 
-const General = import(
-	'../../modules/agents/modules/agent-card/modules/agent-general/components/agent-general-tab.vue'
-);
-const Skills = import(
-	'../../modules/agents/modules/agent-card/modules/agent-skills/components/agent-skills-tab.vue'
-);
-const StatusHistory = import(
-	'../../modules/agents/modules/agent-card/modules/agent-status-history/components/agent-status-history-tab.vue'
-);
-const Calls = import(
-	'../../modules/agents/modules/agent-card/modules/agent-calls/components/agent-calls-tab.vue'
-);
-const ScreenRecordigs = import(
-	'../../modules/agents/modules/agent-card/modules/agent-screen-recordings/components/agent-screen-recordings-tab.vue'
-);
-const Screenshots = import(
-	'../../modules/agents/modules/agent-card/modules/agent-screenshots/components/agent-screenshots-tab.vue'
-);
-const Pdfs = import(
-	'../../modules/agents/modules/agent-card/modules/agent-pdfs/components/agent-pdfs-tab.vue'
-);
+import General from '../../modules/agents/modules/agent-card/modules/agent-general/components/agent-general-tab.vue';
+import Skills from '../../modules/agents/modules/agent-card/modules/agent-skills/components/agent-skills-tab.vue';
+import StatusHistory from '../../modules/agents/modules/agent-card/modules/agent-status-history/components/agent-status-history-tab.vue';
+import Calls from '../../modules/agents/modules/agent-card/modules/agent-calls/components/agent-calls-tab.vue';
+import ScreenRecordings from '../../modules/agents/modules/agent-card/modules/agent-screen-recordings/components/agent-screen-recordings-tab.vue';
+import Screenshots from '../../modules/agents/modules/agent-card/modules/agent-screenshots/components/agent-screenshots-tab.vue';
+import Pdfs from '../../modules/agents/modules/agent-card/modules/agent-pdfs/components/agent-pdfs-tab.vue';
 
-import Queue from '../../modules/queues/components/the-queues.vue';
-import TheStartPage from '../../modules/start-page/components/the-start-page.vue';
-import SupervisorWorkspace from '../components/the-supervisor-workspace.vue';
-import AccessDenied from '../components/utils/access-denied-component.vue';
-import notFound from '../components/utils/the-not-found-component.vue';
+const TheStartPage = () =>  import('../../modules/start-page/components/the-start-page.vue');
+const SupervisorWorkspace = () =>  import('../components/the-supervisor-workspace.vue');
+const Queue = () =>  import('../../modules/queues/components/the-queues.vue');
+const ActiveCalls = () =>  import('../../modules/active-calls/components/the-active-calls.vue');
+const Agents = () =>  import('../../modules/agents/components/the-agents.vue');
+const AgentPage = () =>  import('../../modules/agents/modules/agent-card/components/agent-card.vue');
+const AccessDenied = () =>  import('../components/utils/access-denied-component.vue');
+const notFound = () =>  import('../components/utils/the-not-found-component.vue');
 
 const routes = [
 	{
@@ -104,7 +89,7 @@ const routes = [
 					{
 						path: 'screen-recordings',
 						name: AgentTabsPathName.SCREEN_RECORDINGS,
-						component: ScreenRecordigs,
+						component: ScreenRecordings,
 					},
 					{
 						path: 'screenshots',
