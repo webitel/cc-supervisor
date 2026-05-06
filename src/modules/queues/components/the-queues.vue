@@ -74,7 +74,7 @@
           <wt-loader v-show="isLoading" />
 
           <wt-table
-            v-show="!isLoading"
+            v-show="!isLoading && dataList?.length"
             :headers="headers"
             :data="dataList"
             sortable
@@ -111,6 +111,7 @@
           </wt-table>
 
           <wt-pagination
+            v-show="dataList?.length"
             :next="next"
             :prev="page > 1"
             :size="size"

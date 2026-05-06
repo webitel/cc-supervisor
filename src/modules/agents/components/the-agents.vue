@@ -73,7 +73,7 @@
           />
           <wt-loader v-show="isLoading" />
           <wt-table
-            v-show="!isLoading"
+            v-show="!isLoading && dataList?.length"
             ref="agents-table"
             :data="dataList"
             :headers="headers"
@@ -128,6 +128,7 @@
           </wt-table>
 
           <wt-pagination
+            v-show="dataList?.length"
             :next="next"
             :prev="page > 1"
             :size="size"
