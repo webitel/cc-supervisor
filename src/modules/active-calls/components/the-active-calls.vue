@@ -131,7 +131,7 @@ export default {
 				if (Object.values(this.$route.query).some((query) => query.length)) {
 					return {
 						src: this.darkMode ? DummyAfterSearchDark : DummyAfterSearchLight,
-						text: this.$t('pages.activeCall.empty.resultSearch'),
+						text: this.$t('webitelUI.empty.text.filters'),
 					};
 				}
 				return {
