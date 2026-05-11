@@ -21,14 +21,8 @@
           class="table-section__table-wrapper"
         >
           <wt-loader v-show="isLoading"/>
-          <wt-dummy
-            v-if="dummyValue && !isLoading"
-            :src="dummyValue.src"
-            :text="dummyValue.text"
-            class="table-section__dummy"
-          ></wt-dummy>
           <wt-table-actions
-            v-show="!isLoading && !dummyValue"
+            v-show="!isLoading"
             class="table-section__actions-wrapper"
             :icons="['settings', 'refresh']"
             @input="inputTableAction"
@@ -39,6 +33,14 @@
               @change="setHeaders"
             ></filter-fields>
           </wt-table-actions>
+
+          <wt-dummy
+            v-if="dummyValue && !isLoading"
+            :src="dummyValue.src"
+            :text="dummyValue.text"
+            class="table-section__dummy"
+          ></wt-dummy>
+
           <wt-table
             v-show="!isLoading && !dummyValue"
             :headers="headers"
@@ -128,7 +130,11 @@ export default {
 		}),
 		dummyValue() {
 			if (!this.dataList.length) {
-				if (Object.values(this.$route.query).some((query) => query.length)) {
+				if (
+					Object.entries(this.$route.query).some(
+						([key, query]) => key !== 'fields' && query.length,
+					)
+				) {
 					return {
 						src: this.darkMode ? DummyAfterSearchDark : DummyAfterSearchLight,
 						text: this.$t('webitelUI.empty.text.filters'),
@@ -168,7 +174,7 @@ export default {
 
 <style lang="scss" scoped>
 .table-section__dummy {
-  min-height: 100%;
+  height: 100%;
 }
 
 .table-section__actions-wrapper {
