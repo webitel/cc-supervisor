@@ -35,7 +35,6 @@
     <template #main>
       <section class="table-section">
         <header
-          v-show="dataList?.length"
           class="table-title"
         >
           <wt-action-bar
