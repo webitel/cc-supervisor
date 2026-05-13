@@ -72,54 +72,56 @@
             :text="textEmpty"
           />
           <wt-loader v-show="isLoading" />
-
-          <wt-table
-            v-show="!isLoading && dataList?.length"
-            :headers="headers"
-            :data="dataList"
-            sortable
-            :selectable="false"
-            :grid-actions="false"
-            @sort="updateSort"
+          <div
+            v-if="!isLoading && dataList?.length"
+            class="table-section__table-wrapper"
           >
-            <template #queue="{ item }">
-              <table-queue :item="item" />
-            </template>
-            <template #agents="{ item }">
-              <table-agents :status="item.agentStatus" />
-            </template>
-            <template #free="{ item }">
-              <div v-if="item.agentStatus">
-                {{ item.agentStatus.free }}
-              </div>
-            </template>
-            <template #team="{ item }">
-              <table-team :item="item" />
-            </template>
-            <template #members="{ item }">
-              <table-members :item="item" />
-            </template>
-            <template #queue-footer>
-              {{ t('reusable.total') }}
-            </template>
-            <template #agents-footer>
-              <table-agents :status="aggs" />
-            </template>
-            <template #free-footer>
-              {{ aggs.free }}
-            </template>
-          </wt-table>
+            <wt-table
+              :headers="headers"
+              :data="dataList"
+              sortable
+              :selectable="false"
+              :grid-actions="false"
+              @sort="updateSort"
+            >
+              <template #queue="{ item }">
+                <table-queue :item="item" />
+              </template>
+              <template #agents="{ item }">
+                <table-agents :status="item.agentStatus" />
+              </template>
+              <template #free="{ item }">
+                <div v-if="item.agentStatus">
+                  {{ item.agentStatus.free }}
+                </div>
+              </template>
+              <template #team="{ item }">
+                <table-team :item="item" />
+              </template>
+              <template #members="{ item }">
+                <table-members :item="item" />
+              </template>
+              <template #queue-footer>
+                {{ t('reusable.total') }}
+              </template>
+              <template #agents-footer>
+                <table-agents :status="aggs" />
+              </template>
+              <template #free-footer>
+                {{ aggs.free }}
+              </template>
+            </wt-table>
 
-          <wt-pagination
-            v-show="dataList?.length"
-            :next="next"
-            :prev="page > 1"
-            :size="size"
-            debounce
-            @change="updateSize"
-            @next="updatePage(page + 1)"
-            @prev="updatePage(page - 1)"
-          />
+            <wt-pagination
+              :next="next"
+              :prev="page > 1"
+              :size="size"
+              debounce
+              @change="updateSize"
+              @next="updatePage(page + 1)"
+              @prev="updatePage(page - 1)"
+            />
+          </div>
         </div>
       </section>
     </template>
