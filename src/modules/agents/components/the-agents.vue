@@ -71,71 +71,74 @@
             :text="textEmpty"
           />
           <wt-loader v-show="isLoading" />
-          <wt-table
-            v-show="!isLoading && dataList?.length"
-            ref="agents-table"
-            :data="dataList"
-            :headers="headers"
-            sortable
-            :selectable="false"
-            :row-class="rowClass"
-            class="agents-table"
-            @sort="updateSort"
+          <div
+            v-if="!isLoading && dataList?.length"
+            class="table-section__table-wrapper"
           >
-            <template #name="{ item }">
-              <table-agent :item="item" />
-            </template>
-            <template #status="{ item }">
-              <table-agent-status :item="item" />
-            </template>
-            <template #callTime="{ item }">
-              <table-agent-call-time
-                :item="item"
-                @attach-call="attachCall"
-              />
-            </template>
-            <template #team="{ item }">
-              <div v-if="item.team">
-                {{ item.team.name }}
-              </div>
-            </template>
-            <template #queues="{ item }">
-              <wt-display-chip-items :items="item.queues" />
-            </template>
-            <template #statusComment="{ item }">
-              <div>
-                <agent-status-comment
-                  v-if="item.statusComment && item.status === AgentStatus.Pause"
-                  :status-comment="item.statusComment"
+            <wt-table
+              ref="agents-table"
+              :data="dataList"
+              :headers="headers"
+              sortable
+              :selectable="false"
+              :row-class="rowClass"
+              class="agents-table"
+              @sort="updateSort"
+            >
+              <template #name="{ item }">
+                <table-agent :item="item" />
+              </template>
+              <template #status="{ item }">
+                <table-agent-status :item="item" />
+              </template>
+              <template #callTime="{ item }">
+                <table-agent-call-time
+                  :item="item"
+                  @attach-call="attachCall"
                 />
-              </div>
-            </template>
-            <template #actions="{ item }">
-              <wt-icon
-                v-if="item.descTrack && isControlAgentScreenAllow && item.agentId !== screenSharingLoadingAgentId"
-                :color="getDeskTrackIconColor(item.user.id)"
-                icon="desk-track"
-                size="md"
-                class="agents-table__desk-track-icon"
-                @click="connect(item)"
-              ></wt-icon>
-              <wt-loader
-                v-else-if="screenSharingLoadingAgentId === item.agentId"
-                :size="ComponentSize.SM"
-              />
-            </template>
-          </wt-table>
+              </template>
+              <template #team="{ item }">
+                <div v-if="item.team">
+                  {{ item.team.name }}
+                </div>
+              </template>
+              <template #queues="{ item }">
+                <wt-display-chip-items :items="item.queues" />
+              </template>
+              <template #statusComment="{ item }">
+                <div>
+                  <agent-status-comment
+                    v-if="item.statusComment && item.status === AgentStatus.Pause"
+                    :status-comment="item.statusComment"
+                  />
+                </div>
+              </template>
+              <template #actions="{ item }">
+                <wt-icon
+                  v-if="item.descTrack && isControlAgentScreenAllow && item.agentId !== screenSharingLoadingAgentId"
+                  :color="getDeskTrackIconColor(item.user.id)"
+                  icon="desk-track"
+                  size="md"
+                  class="agents-table__desk-track-icon"
+                  @click="connect(item)"
+                ></wt-icon>
+                <wt-loader
+                  v-else-if="screenSharingLoadingAgentId === item.agentId"
+                  :size="ComponentSize.SM"
+                />
+              </template>
+            </wt-table>
 
-          <wt-pagination
-            v-show="dataList?.length"
-            :next="next"
-            :prev="page > 1"
-            :size="size"
-            debounce
-            @change="updateSize"
-            @next="updatePage(page + 1)"
-            @prev="updatePage(page - 1)"
-          />
+            <wt-pagination
+              :next="next"
+              :prev="page > 1"
+              :size="size"
+              debounce
+              @change="updateSize"
+              @next="updatePage(page + 1)"
+              @prev="updatePage(page - 1)"
+            />
+          </div>
         </div>
       </section>
 

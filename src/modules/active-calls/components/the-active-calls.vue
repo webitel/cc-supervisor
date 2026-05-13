@@ -41,51 +41,54 @@
             class="table-section__dummy"
           ></wt-dummy>
 
-          <wt-table
-            v-show="!isLoading && !dummyValue"
-            :headers="headers"
-            :data="dataList"
-            :grid-actions="false"
-            :selectable="false"
-            sortable
-            @sort="sort"
+          <div
+            v-if="!isLoading && !dummyValue && dataList?.length"
+            class="table-section__table-wrapper"
           >
-            <template #direction="{ item }">
-              <table-direction :item="item"/>
-            </template>
-            <template #from="{ item }">
-              <div v-if="item.from">
-                {{ item.from.number }}
-              </div>
-            </template>
-            <template #to="{ item }">
-              <div v-if="item.to">
-                {{ item.to.number }}
-              </div>
-            </template>
-            <template #agent="{ item }">
-              <div v-if="item.agent">
-                {{ item.agent.name }}
-              </div>
-            </template>
-            <template #queue="{ item }">
-              <div v-if="item.queue">
-                {{ item.queue.name }}
-              </div>
-            </template>
-            <template #user="{ item }">
-              <div v-if="item.user">
-                {{ item.user.name }}
-              </div>
-            </template>
-            <template #state="{ item }">
-              <table-active-call-state :item="item" @attach-call="attachCall"/>
-            </template>
-          </wt-table>
-          <filter-pagination
-            v-show="!isLoading && !dummyValue"
-            :is-next="isNext"
-          />
+            <wt-table
+              :headers="headers"
+              :data="dataList"
+              :grid-actions="false"
+              :selectable="false"
+              sortable
+              @sort="sort"
+            >
+              <template #direction="{ item }">
+                <table-direction :item="item"/>
+              </template>
+              <template #from="{ item }">
+                <div v-if="item.from">
+                  {{ item.from.number }}
+                </div>
+              </template>
+              <template #to="{ item }">
+                <div v-if="item.to">
+                  {{ item.to.number }}
+                </div>
+              </template>
+              <template #agent="{ item }">
+                <div v-if="item.agent">
+                  {{ item.agent.name }}
+                </div>
+              </template>
+              <template #queue="{ item }">
+                <div v-if="item.queue">
+                  {{ item.queue.name }}
+                </div>
+              </template>
+              <template #user="{ item }">
+                <div v-if="item.user">
+                  {{ item.user.name }}
+                </div>
+              </template>
+              <template #state="{ item }">
+                <table-active-call-state :item="item" @attach-call="attachCall"/>
+              </template>
+            </wt-table>
+            <filter-pagination
+              :is-next="isNext"
+            />
+          </div>
         </div>
       </section>
     </template>
