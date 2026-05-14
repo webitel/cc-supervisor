@@ -45,7 +45,7 @@ const pinia = createPinia();
 const initApp = async () => {
 	const app = createApp(App).use(store).use(pinia).use(i18n);
 
-	const { initialize, routeAccessGuard, showUserNotifications } = useUserinfoStore();
+	const { initialize, routeAccessGuard, clearStorageNotifications } = useUserinfoStore();
 	try {
 		await initialize();
 		createUserAccessControl(useUserinfoStore);
@@ -53,9 +53,7 @@ const initApp = async () => {
 			beforeEach: [
 				routeAccessGuard,
 			],
-			afterEach: [
-				showUserNotifications,
-			],
+			onUnauthorized: clearStorageNotifications,
 		});
 	} catch (err) {
 		console.error('Error initializing app', err);
