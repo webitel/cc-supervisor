@@ -42,7 +42,8 @@
           ></wt-dummy>
 
           <div
-            v-if="!isLoading && !dummyValue && dataList?.length"
+            v-if="!dummyValue && dataList?.length"
+            v-show="!isLoading"
             class="table-section__table-wrapper"
           >
             <wt-table
