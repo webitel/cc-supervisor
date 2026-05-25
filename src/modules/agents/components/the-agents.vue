@@ -72,7 +72,8 @@
           />
           <wt-loader v-show="isLoading" />
           <div
-            v-if="!isLoading && dataList?.length"
+            v-if="dataList?.length"
+            v-show="!isLoading"
             class="table-section__table-wrapper"
           >
             <wt-table
