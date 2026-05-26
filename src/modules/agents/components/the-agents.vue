@@ -21,7 +21,7 @@
           <wt-button
             :disabled="!dataList.length || !hasExportDataGridAccess"
             :loading="isCSVLoading"
-            @click="exportCSV"
+            @click="exportCSVWithVisibleColumns"
           >{{ t('defaults.exportCSV') }}
           </wt-button>
         </template>
@@ -257,6 +257,15 @@ const { exportCSV, isCSVLoading, initCSVExport } = useCSVExport({
 initCSVExport(AgentsAPI.getList, {
 	filename: 'agents',
 });
+
+const exportCSVWithVisibleColumns = () => {
+	const visibleColumns = headers.value
+		.filter((h) => h.show && h.value !== 'descTrack')
+		.map((h) => h.value);
+	return exportCSV({
+		_columns: visibleColumns,
+	});
+};
 
 initialize();
 
