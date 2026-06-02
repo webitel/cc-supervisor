@@ -1,10 +1,16 @@
 import preventHiddenPageCallsDecorator from '@webitel/ui-sdk/src/scripts/preventHiddenPageCallsDecorator';
 import { ref } from 'vue';
 
-export function useTableAutoRefresh(loadList: () => void) {
+type LoadListFn = (options?: { withLoading?: boolean }) => void | Promise<void>;
+
+export function useTableAutoRefresh(loadList: LoadListFn) {
 	const autoRefresh = ref<number | null>(null);
 
-	const makeAutoRefresh = preventHiddenPageCallsDecorator(loadList);
+	const makeAutoRefresh = preventHiddenPageCallsDecorator(() =>
+		loadList({
+			withLoading: false,
+		}),
+	);
 
 	function setAutoRefresh() {
 		clearAutoRefresh();
