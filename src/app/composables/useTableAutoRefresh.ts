@@ -1,7 +1,8 @@
+import type { LoadDataListOptions } from '@webitel/ui-datalist/src/modules/types/tableStore.types';
 import preventHiddenPageCallsDecorator from '@webitel/ui-sdk/src/scripts/preventHiddenPageCallsDecorator';
 import { ref } from 'vue';
 
-type LoadListFn = (options?: { withLoading?: boolean }) => void | Promise<void>;
+type LoadListFn = (options?: LoadDataListOptions) => void | Promise<void>;
 
 export function useTableAutoRefresh(loadList: LoadListFn) {
 	const autoRefresh = ref<number | null>(null);
