@@ -18,13 +18,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { computed } from 'vue';
 import { WtObject } from '@webitel/ui-sdk/enums';
-
+import { computed } from 'vue';
+import { mapGetters } from 'vuex';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import filtersPanelMixin from '../../../../../app/mixins/supervisor-workspace/filtersPanelMixin';
 import SkipParentFilter from './skip-parent-filter.vue';
-import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 
 export default {
 	name: 'ActiveCallsFilters',

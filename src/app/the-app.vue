@@ -35,7 +35,7 @@ setAutoRefresh();
 setLanguage();
 openSession();
 
-onMounted(() => showUserNotifications())
+onMounted(() => showUserNotifications());
 onUnmounted(() => closeSession());
 </script>
 

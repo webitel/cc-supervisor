@@ -4,26 +4,30 @@ import {
 	WtObject,
 } from '@webitel/ui-sdk/enums';
 import { createRouter, createWebHistory } from 'vue-router';
-
+import Calls from '../../modules/agents/modules/agent-card/modules/agent-calls/components/agent-calls-tab.vue';
+import General from '../../modules/agents/modules/agent-card/modules/agent-general/components/agent-general-tab.vue';
+import Pdfs from '../../modules/agents/modules/agent-card/modules/agent-pdfs/components/agent-pdfs-tab.vue';
+import ScreenRecordings from '../../modules/agents/modules/agent-card/modules/agent-screen-recordings/components/agent-screen-recordings-tab.vue';
+import Screenshots from '../../modules/agents/modules/agent-card/modules/agent-screenshots/components/agent-screenshots-tab.vue';
+import Skills from '../../modules/agents/modules/agent-card/modules/agent-skills/components/agent-skills-tab.vue';
+import StatusHistory from '../../modules/agents/modules/agent-card/modules/agent-status-history/components/agent-status-history-tab.vue';
 import AgentTabsPathName from './_internals/AgentTabsPathName.enum.js';
 import RoutePaths from './_internals/RoutePaths.enum.js';
 
-import General from '../../modules/agents/modules/agent-card/modules/agent-general/components/agent-general-tab.vue';
-import Skills from '../../modules/agents/modules/agent-card/modules/agent-skills/components/agent-skills-tab.vue';
-import StatusHistory from '../../modules/agents/modules/agent-card/modules/agent-status-history/components/agent-status-history-tab.vue';
-import Calls from '../../modules/agents/modules/agent-card/modules/agent-calls/components/agent-calls-tab.vue';
-import ScreenRecordings from '../../modules/agents/modules/agent-card/modules/agent-screen-recordings/components/agent-screen-recordings-tab.vue';
-import Screenshots from '../../modules/agents/modules/agent-card/modules/agent-screenshots/components/agent-screenshots-tab.vue';
-import Pdfs from '../../modules/agents/modules/agent-card/modules/agent-pdfs/components/agent-pdfs-tab.vue';
-
-const TheStartPage = () =>  import('../../modules/start-page/components/the-start-page.vue');
-const SupervisorWorkspace = () =>  import('../components/the-supervisor-workspace.vue');
-const Queue = () =>  import('../../modules/queues/components/the-queues.vue');
-const ActiveCalls = () =>  import('../../modules/active-calls/components/the-active-calls.vue');
-const Agents = () =>  import('../../modules/agents/components/the-agents.vue');
-const AgentPage = () =>  import('../../modules/agents/modules/agent-card/components/agent-card.vue');
-const AccessDenied = () =>  import('../components/utils/access-denied-component.vue');
-const notFound = () =>  import('../components/utils/the-not-found-component.vue');
+const TheStartPage = () =>
+	import('../../modules/start-page/components/the-start-page.vue');
+const SupervisorWorkspace = () =>
+	import('../components/the-supervisor-workspace.vue');
+const Queue = () => import('../../modules/queues/components/the-queues.vue');
+const ActiveCalls = () =>
+	import('../../modules/active-calls/components/the-active-calls.vue');
+const Agents = () => import('../../modules/agents/components/the-agents.vue');
+const AgentPage = () =>
+	import('../../modules/agents/modules/agent-card/components/agent-card.vue');
+const AccessDenied = () =>
+	import('../components/utils/access-denied-component.vue');
+const notFound = () =>
+	import('../components/utils/the-not-found-component.vue');
 
 const routes = [
 	{
@@ -133,7 +137,10 @@ const routes = [
 
 export let router = null;
 
-export const initRouter = async ({ beforeEach = [], onUnauthorized = () => {}, } = {}) => {
+export const initRouter = async ({
+	beforeEach = [],
+	onUnauthorized = () => {},
+} = {}) => {
 	router = createRouter({
 		history: createWebHistory(import.meta.env.BASE_URL),
 

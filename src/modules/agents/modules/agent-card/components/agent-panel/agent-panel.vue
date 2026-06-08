@@ -92,13 +92,13 @@
 <script setup>
 import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/components/wt-cc-agent-status-select.vue';
 import { ScreenSharing } from '@webitel/ui-sdk/src/modules/CallSession/index';
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import {
 	getCliInstance,
 	getIsSocketConnected,
