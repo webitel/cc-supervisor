@@ -40,6 +40,11 @@ describe('table Page Mixin', () => {
 			plugins: [
 				store,
 			],
+			mocks: {
+				$route: {
+					query: {},
+				},
+			},
 		},
 		data: () => ({
 			namespace,

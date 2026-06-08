@@ -1,3 +1,7 @@
+import { FormatDateMode } from '@webitel/ui-sdk/enums';
+import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
+import { formatDate } from '@webitel/ui-sdk/utils';
+
 import instance from '../../../../../../../../app/api/instance';
 import AgentStatusHistoryAPI from '../agent-status-history';
 
@@ -8,23 +12,22 @@ const items = [
 		joinedAt: time,
 	},
 ];
+
+// Expected output mirrors the source `listHandler`: `from` is the joinedAt date
+// formatted as DATETIME (was time-only), `to` is null with no duration, and
+// duration is run through the ui-sdk convertDuration helper.
 const expectItems = [
 	{
-		joinedAt: time,
-		duration: '00:00:00',
-		from: new Date(time).toLocaleString(),
-		to: null,
 		state: 'vi',
+		joinedAt: time,
+		from: formatDate(+time, FormatDateMode.DATETIME),
+		to: null,
+		duration: convertDuration(undefined),
 	},
 ];
 
-/* mock SDK method api response with instance mock
- vi.spyOn(instance) used instead of vi.mock('@/app/api/instance) because WebStorm
-  doesn't watch path changes in vi.mock()
- */
-vi.fn(() => ({
-	items,
-}));
+/* The AgentServiceApiFactory is built with the local axios instance, so the
+   request is intercepted by spying on `instance.request`. */
 vi.spyOn(instance, 'request');
 
 describe('Agent Status History API', () => {

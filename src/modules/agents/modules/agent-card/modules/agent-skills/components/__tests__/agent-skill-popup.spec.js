@@ -27,6 +27,10 @@ describe('Agent Skill Popup', () => {
 			],
 			mocks: {
 				v$,
+				$route: {
+					params: {},
+					query: {},
+				},
 			},
 		},
 	};
