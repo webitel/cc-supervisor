@@ -21,7 +21,6 @@ const parseJoined = (time = 'today') => {
 		case '15min':
 			start = new Date(end.getTime() - 15 * min);
 			break;
-		case 'today':
 		default:
 			start = new Date(end);
 			start.setHours(0, 0, 0, 0);

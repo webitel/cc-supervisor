@@ -334,7 +334,9 @@ const connect = async (agent) => {
 	screenSharingLoadingAgentId.value = agent.agentId;
 	mediaStream.value = null;
 	selectedAgentToSpyScreen.value = null;
-	cli?.spyScreenSessions.forEach((session) => session.close());
+	cli?.spyScreenSessions.forEach((session) => {
+		session.close();
+	});
 
 	try {
 		await cli.spyScreen(

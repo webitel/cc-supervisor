@@ -39,16 +39,12 @@ export default {
 		async save() {
 			const invalid = this.checkValidations();
 			if (!invalid) {
-				try {
-					if (this.id) {
-						await this.updateItem();
-					} else {
-						await this.addItem();
-					}
-					this.close();
-				} catch (err) {
-					throw err;
+				if (this.id) {
+					await this.updateItem();
+				} else {
+					await this.addItem();
 				}
+				this.close();
 			}
 		},
 

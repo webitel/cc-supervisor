@@ -185,7 +185,9 @@ const trackAgent = async () => {
 
 	isScreenSharingLoading.value = true;
 	mediaStream.value = null;
-	cli?.spyScreenSessions.forEach((session) => session.close());
+	cli?.spyScreenSessions.forEach((session) => {
+		session.close();
+	});
 
 	try {
 		await cli.spyScreen(

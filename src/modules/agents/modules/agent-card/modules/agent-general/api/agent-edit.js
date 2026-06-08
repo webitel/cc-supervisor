@@ -1,6 +1,5 @@
 import applyTransform, {
 	camelToSnake,
-	log,
 	merge,
 	notify,
 	sanitize,
