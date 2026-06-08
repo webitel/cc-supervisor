@@ -10,15 +10,15 @@
     </template>
     <template #main>
       <form>
-        <wt-select
-          :value="itemInstance.skill"
+        <wt-single-select
+          :model-value="itemInstance.skill"
           :v="v$.itemInstance.skill"
           :label="$t('pages.card.skills.skills', 1)"
           :search-method="loadDropdownOptionsList"
-          :clearable="false"
+          :show-clear="false"
           required
-          @input="setItemProp({ prop: 'skill', value: $event })"
-        ></wt-select>
+          @update:model-value="setItemProp({ prop: 'skill', value: $event })"
+        />
         <wt-input-number
           :model-value="itemInstance.capacity"
           :v="v$.itemInstance.capacity"

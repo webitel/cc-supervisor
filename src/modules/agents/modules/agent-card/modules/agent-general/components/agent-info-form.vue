@@ -1,38 +1,34 @@
 <template>
   <form class="agent-info-form wt-scrollbar">
-    <wt-select
-      :value="agent.team"
+    <wt-single-select
+      :model-value="agent.team"
       :label="$t('objects.team')"
       :search-method="searchTeams"
       :disabled="disableUserInput || !hasTeamReadAccess"
-      @input="setItemProp({ prop: 'team', value: $event })"
-    ></wt-select>
-    <wt-select
+      @update:model-value="setItemProp({ prop: 'team', value: $event })"
+    />
+    <wt-multi-select
       v-if="!isSupervisor"
-      :value="agent.supervisor"
+      :model-value="agent.supervisor"
       :label="$t('objects.supervisor')"
       :search-method="searchSupervisors"
-      :close-on-select="false"
       :disabled="disableUserInput || !hasSupervisorReadAccess"
-      multiple
-      @input="setItemProp({ prop: 'supervisor', value: $event })"
-    ></wt-select>
-    <wt-select
-      :value="agent.auditor"
+      @update:model-value="setItemProp({ prop: 'supervisor', value: $event })"
+    />
+    <wt-multi-select
+      :model-value="agent.auditor"
       :label="$t('objects.auditor')"
       :search-method="searchAuditors"
-      :close-on-select="false"
       :disabled="disableUserInput || !hasAuditorReadAccess"
-      multiple
-      @input="setItemProp({ prop: 'auditor', value: $event })"
-    ></wt-select>
-    <wt-select
-      :value="agent.region"
+      @update:model-value="setItemProp({ prop: 'auditor', value: $event })"
+    />
+    <wt-single-select
+      :model-value="agent.region"
       :label="$t('objects.region')"
       :search-method="searchRegions"
       :disabled="disableUserInput || !hasRegionReadAccess"
-      @input="setItemProp({ prop: 'region', value: $event })"
-    ></wt-select>
+      @update:model-value="setItemProp({ prop: 'region', value: $event })"
+    />
     <wt-input-number
       :model-value="agent.progressiveCount"
       :label="$t('pages.card.progressiveCount')"
