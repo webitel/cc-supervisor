@@ -17,6 +17,17 @@ vi.mock('@/app/composables/useUserAccessControl', () => ({
 	}),
 }));
 
+// onMounted opens a real webitel-sdk WS Client, which crashes on the undefined
+// base URI in the test env. Stub the connection module with an inert client.
+vi.mock('@/app/api/callWSConnection', () => ({
+	getCliInstance: vi.fn(() =>
+		Promise.resolve({
+			spyScreenSessions: [],
+		}),
+	),
+	getIsSocketConnected: vi.fn(() => false),
+}));
+
 const agent = {
 	name: 'vi',
 };
