@@ -64,19 +64,15 @@ export default {
 				if (this.id) {
 					await this.updateItem();
 				} else {
-					try {
-						await this.addItem();
-						if (this.id) {
-							const routeName = this.$route.name.replace('-new', '-edit');
-							await this.$router.replace({
-								name: routeName,
-								params: {
-									id: this.id,
-								},
-							});
-						}
-					} catch (err) {
-						throw err;
+					await this.addItem();
+					if (this.id) {
+						const routeName = this.$route.name.replace('-new', '-edit');
+						await this.$router.replace({
+							name: routeName,
+							params: {
+								id: this.id,
+							},
+						});
 					}
 				}
 			}

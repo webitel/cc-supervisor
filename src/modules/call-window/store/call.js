@@ -162,7 +162,7 @@ const actions = {
 	},
 	LEAVE_CALL: async (context) => {
 		const { call } = context.state;
-		if (call && call.allowHangup) {
+		if (call?.allowHangup) {
 			try {
 				await call.hangup();
 				// context.commit('SET_IS_ATTACHED', false);

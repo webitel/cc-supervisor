@@ -75,6 +75,10 @@ export default () => {
 				deps: {
 					inline: [
 						'@webitel/ui-sdk',
+						// Inlined so its extensionless `@webitel/ui-sdk/api/*` imports go
+						// through vite's resolver (extension-completing to `.js`) instead
+						// of native node package-exports resolution, which fails on them.
+						'@webitel/ui-datalist',
 					],
 				},
 			},

@@ -7,7 +7,7 @@ import AgentStatusHistory from '../agent-status-history-tab.vue';
 
 const items = [];
 
-const namespace = 'statusHistory';
+const namespace = 'agents/card/statusHistory';
 
 vi.mock('../../api/agent-status-history');
 
@@ -16,9 +16,21 @@ describe('Agent Status History tab', () => {
 	let mountOptions = {};
 
 	beforeEach(() => {
+		// The component reads absolute store paths (`agents/card/statusHistory/...`),
+		// so the module must be registered at that nested location.
 		store = createStore({
 			modules: {
-				statusHistory: agentsStatusHistoryStore,
+				agents: {
+					namespaced: true,
+					modules: {
+						card: {
+							namespaced: true,
+							modules: {
+								statusHistory: agentsStatusHistoryStore,
+							},
+						},
+					},
+				},
 			},
 		});
 

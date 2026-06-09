@@ -79,12 +79,8 @@ export const getAgentChatsList = async ({
 	search = '',
 	sort = '+name',
 }) => {
-	try {
-		return {
-			items: getChatList(),
-			next: false,
-		};
-	} catch (err) {
-		throw err;
-	}
+	return {
+		items: getChatList(),
+		next: false,
+	};
 };

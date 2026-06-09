@@ -118,9 +118,9 @@ import {
 } from '@webitel/api-services/gen/models';
 import { WtEmpty, WtVidstackPlayer } from '@webitel/ui-sdk/components';
 import {
+	ComponentSize,
 	FormatDateMode,
 	IconAction,
-	ComponentSize,
 } from '@webitel/ui-sdk/enums';
 import { getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';

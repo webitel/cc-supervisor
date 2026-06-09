@@ -18,12 +18,13 @@ describe('Queues table AgentStatus', () => {
 		expect(wrapper.exists()).toBe(true);
 	});
 
-	it('if pause cause is passed, renders it', () => {
+	it('if pause cause is passed for a paused agent, renders the raw cause', () => {
 		const pauseCause = 'vi';
 		const wrapper = shallowMount(TableAgentStatus, {
 			props: {
 				item: {
 					...item,
+					status: AgentStatus.Pause,
 					pauseCause,
 				},
 			},

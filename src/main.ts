@@ -45,7 +45,8 @@ const pinia = createPinia();
 const initApp = async () => {
 	const app = createApp(App).use(store).use(pinia).use(i18n);
 
-	const { initialize, routeAccessGuard, clearStorageNotifications } = useUserinfoStore();
+	const { initialize, routeAccessGuard, clearStorageNotifications } =
+		useUserinfoStore();
 	try {
 		await initialize();
 		createUserAccessControl(useUserinfoStore);
@@ -69,7 +70,7 @@ const initApp = async () => {
 };
 
 (async () => {
-	let config;
+	let config: unknown;
 	try {
 		setTokenFromUrl();
 		config = await fetchConfig();

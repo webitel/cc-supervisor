@@ -97,16 +97,16 @@ export default {
 			return this.isHold ? HoldSonar : ActiveSonar;
 		},
 		isMuted() {
-			return this.call && this.call.muted;
+			return this.call?.muted;
 		},
 		isHold() {
-			return this.call && this.call.isHold;
+			return this.call?.isHold;
 		},
 		isActive() {
-			return this.call && this.call.active;
+			return this.call?.active;
 		},
 		allowHold() {
-			return this.call && this.call.allowHold;
+			return this.call?.allowHold;
 		},
 	},
 	methods: {

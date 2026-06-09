@@ -1,9 +1,22 @@
+import { createTestingPinia } from '@pinia/testing';
 import { shallowMount } from '@vue/test-utils';
+import { ref } from 'vue';
 import { createStore } from 'vuex';
 
 import AgentPage from '../agent-card.vue';
 
 vi.mock('../../../../api/agents');
+
+vi.mock('@/app/composables/useUserAccessControl', () => ({
+	useUserAccessControl: () => ({
+		hasReadAccess: ref(true),
+		hasCreateAccess: ref(true),
+		hasUpdateAccess: ref(true),
+		hasDeleteAccess: ref(true),
+		hasSaveActionAccess: ref(true),
+		disableUserInput: ref(false),
+	}),
+}));
 
 const agentId = 1;
 const $router = {
@@ -54,6 +67,9 @@ describe('Agent page', () => {
 				},
 				plugins: [
 					store,
+					createTestingPinia({
+						createSpy: vi.fn,
+					}),
 				],
 			},
 		};

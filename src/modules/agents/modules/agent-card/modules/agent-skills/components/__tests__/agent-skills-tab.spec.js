@@ -1,8 +1,20 @@
 import { shallowMount } from '@vue/test-utils';
+import { ref } from 'vue';
 import { createStore } from 'vuex';
 
 import skills from '../../store/agent-skills';
 import AgentSkillsTab from '../agent-skills-tab.vue';
+
+vi.mock('@/app/composables/useUserAccessControl', () => ({
+	useUserAccessControl: () => ({
+		hasReadAccess: ref(true),
+		hasCreateAccess: ref(true),
+		hasUpdateAccess: ref(true),
+		hasDeleteAccess: ref(true),
+		hasSaveActionAccess: ref(true),
+		disableUserInput: ref(false),
+	}),
+}));
 
 const id = 1;
 const $route = {
@@ -10,6 +22,10 @@ const $route = {
 		id,
 	},
 	query: {},
+};
+const $router = {
+	push: vi.fn(),
+	go: vi.fn(),
 };
 
 const namespace = 'skills';
@@ -39,6 +55,7 @@ describe('Agent Skills Tab', () => {
 			],
 			mocks: {
 				$route,
+				$router,
 			},
 		},
 	};

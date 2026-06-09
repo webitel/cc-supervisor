@@ -31,11 +31,10 @@ import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/component
 import { storeToRefs } from 'pinia';
 import { computed, inject } from 'vue';
 import { useStore } from 'vuex';
-
+import packageJson from '../../../../../package.json' with { type: 'json' };
 import RoutePaths from '../../../../app/router/_internals/RoutePaths.enum';
 import { useNavStore } from '../../../start-page/stores/navStore';
 import { useUserinfoStore } from '../../../userinfo/store/userInfoStore';
-import packageJson from '../../../../../package.json' with { type: 'json' };
 
 const store = useStore();
 const config = inject('$config');

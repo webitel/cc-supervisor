@@ -1,8 +1,20 @@
 import { shallowMount } from '@vue/test-utils';
+import { ref } from 'vue';
 import { createStore } from 'vuex';
 
 import filters from '../../store/filters';
 import ActiveCallsFilters from '../active-calls-filters.vue';
+
+vi.mock('@/app/composables/useUserAccessControl', () => ({
+	useUserAccessControl: () => ({
+		hasReadAccess: ref(true),
+		hasCreateAccess: ref(true),
+		hasUpdateAccess: ref(true),
+		hasDeleteAccess: ref(true),
+		hasSaveActionAccess: ref(true),
+		disableUserInput: ref(false),
+	}),
+}));
 
 const namespace = 'activeCalls';
 const agent = {

@@ -168,19 +168,18 @@
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { WtDisplayChipItems, WtEmpty } from '@webitel/ui-sdk/components';
 import { IconColor } from '@webitel/ui-sdk/enums';
+import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo';
+import { ComponentSize } from '@webitel/ui-sdk/src/enums';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import { ScreenSharing } from '@webitel/ui-sdk/src/modules/CallSession/index';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
-import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo';
-import { ComponentSize } from '@webitel/ui-sdk/src/enums';
-
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 
 import {
 	getCliInstance,
@@ -188,6 +187,7 @@ import {
 } from '../../../app/api/callWSConnection';
 import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh';
 import { useScreenSharingSession } from '../../_shared/composables/useScreenSharingSession';
+import { useUserinfoStore } from '../../userinfo/store/userInfoStore';
 import AgentsAPI from '../api/agents';
 import { useControlAgentScreenAccess } from '../composables/useControlAgentScreenAccess';
 import AgentStatusComment from '../modules/agent-card/components/agent-panel/_internals/agent-status-comment.vue';
@@ -196,7 +196,6 @@ import { useAgentsTableStore } from '../stores/agents';
 import TableAgent from './_internals/table-templates/table-agent.vue';
 import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
 import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
-import { useUserinfoStore } from '../../userinfo/store/userInfoStore';
 
 const { t } = useI18n();
 
@@ -335,7 +334,9 @@ const connect = async (agent) => {
 	screenSharingLoadingAgentId.value = agent.agentId;
 	mediaStream.value = null;
 	selectedAgentToSpyScreen.value = null;
-	cli?.spyScreenSessions.forEach((session) => session.close());
+	cli?.spyScreenSessions.forEach((session) => {
+		session.close();
+	});
 
 	try {
 		await cli.spyScreen(

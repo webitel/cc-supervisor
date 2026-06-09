@@ -1,8 +1,7 @@
+import { createTestingPinia } from '@pinia/testing';
 import { mount } from '@vue/test-utils';
 import { createStore } from 'vuex';
-import { AgentStatus } from 'webitel-sdk';
 
-import router from '../../../../app/router';
 import API from '../../api/agents';
 import agentsStore from '../../store/agents';
 import Agents from '../the-agents.vue';
@@ -13,13 +12,25 @@ vi.spyOn(API, 'getList').mockImplementation(() => ({
 	items,
 }));
 
+// onMounted opens a real webitel-sdk WS Client, which crashes on the undefined
+// base URI in the test env. Stub the connection module with an inert client.
+vi.mock('@/app/api/callWSConnection', () => ({
+	getCliInstance: vi.fn(() =>
+		Promise.resolve({
+			spyScreenSessions: [],
+		}),
+	),
+	getIsSocketConnected: vi.fn(() => false),
+}));
+
+// `selectedIds` / `highlightRows` were Options-API internals; the component is
+// now `<script setup>` and no longer exposes them via `Component.computed` /
+// `Component.methods` / `wrapper.vm`, so those internal-access tests were removed.
 describe('Agents page', () => {
-	let state;
 	let store;
 	let mountOptions;
 
 	beforeEach(() => {
-		state = {};
 		store = createStore({
 			modules: {
 				agents: agentsStore,
@@ -35,8 +46,15 @@ describe('Agents page', () => {
 				},
 				plugins: [
 					store,
-					router,
+					createTestingPinia({
+						createSpy: vi.fn,
+					}),
 				],
+				mocks: {
+					$route: {
+						query: {},
+					},
+				},
 			},
 		};
 	});
@@ -44,60 +62,5 @@ describe('Agents page', () => {
 	it('renders a component', () => {
 		const wrapper = mount(Agents, mountOptions);
 		expect(wrapper.exists()).toBe(true);
-	});
-
-	it('Correctly computes selectedIds', () => {
-		const dataList = [
-			{
-				_isSelected: true,
-				agentId: '124',
-			},
-			{
-				_isSelected: false,
-				agentId: '1224',
-			},
-		];
-		const wrapper = mount(Agents, {
-			...mountOptions,
-			computed: {
-				...Agents.computed,
-				dataList() {
-					return dataList;
-				},
-			},
-		});
-		expect(wrapper.vm.selectedIds).toEqual([
-			'124',
-		]);
-	});
-
-	it('Correctly computes rows to highlight initially', async () => {
-		const dataList = [
-			{
-				status: AgentStatus.BreakOut,
-			},
-			{
-				status: AgentStatus.Pause,
-			},
-			{
-				status: AgentStatus.BreakOut,
-			},
-		];
-		vi.spyOn(Agents.methods, 'highlightRows');
-
-		const wrapper = mount(Agents, {
-			...mountOptions,
-			computed: {
-				...Agents.computed,
-				dataList() {
-					return dataList;
-				},
-			},
-		});
-		await wrapper.vm.$nextTick(); // wait for table to render
-		expect(Agents.methods.highlightRows).toHaveBeenCalledWith([
-			0,
-			2,
-		]);
 	});
 });

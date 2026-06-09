@@ -1,7 +1,6 @@
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import { reactive, shallowReactive } from 'vue';
 import { Client } from 'webitel-sdk';
-
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 
 import i18n from '../locale/i18n';
 

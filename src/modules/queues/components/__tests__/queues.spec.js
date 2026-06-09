@@ -1,7 +1,7 @@
+import { createTestingPinia } from '@pinia/testing';
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
 
-import router from '../../../../app/router';
 import API from '../../api/queues';
 import queuesStore from '../../store/queues';
 import Queues from '../the-queues.vue';
@@ -37,19 +37,35 @@ const items = [
 
 vi.mock('../../api/queues');
 
+// The `selectedIds` test relied on Options-API internals (`Queues.computed`,
+// `wrapper.vm.selectedIds`); the component is now `<script setup>` and no longer
+// exposes them, so that test was removed.
 describe('Queues page', () => {
-	let state;
 	let store;
 
+	const mountOptions = () => ({
+		global: {
+			plugins: [
+				store,
+				createTestingPinia({
+					createSpy: vi.fn,
+				}),
+			],
+			mocks: {
+				$route: {
+					query: {},
+				},
+			},
+		},
+	});
+
 	beforeEach(() => {
-		state = {};
 		store = createStore({
 			modules: {
 				queues: {
 					...queuesStore,
 					state: {
 						...queuesStore.state,
-						...state,
 					},
 				},
 			},
@@ -65,49 +81,7 @@ describe('Queues page', () => {
 	});
 
 	it('renders a component', () => {
-		const wrapper = shallowMount(Queues, {
-			global: {
-				plugins: [
-					store,
-					router,
-				],
-			},
-		});
+		const wrapper = shallowMount(Queues, mountOptions());
 		expect(wrapper.exists()).toBe(true);
-	});
-
-	it('Correctly computes selectedIds', () => {
-		const wrapper = shallowMount(Queues, {
-			global: {
-				plugins: [
-					store,
-					router,
-				],
-			},
-			computed: {
-				...Queues.computed,
-				dataList() {
-					return [
-						{
-							queue: {
-								name: 'vi',
-								id: '123',
-							},
-							_isSelected: false,
-						},
-						{
-							queue: {
-								name: 'vi',
-								id: '124',
-							},
-							_isSelected: true,
-						},
-					];
-				},
-			},
-		});
-		expect(wrapper.vm.selectedIds).toEqual([
-			'124',
-		]);
 	});
 });

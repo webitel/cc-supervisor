@@ -39,14 +39,10 @@ export const getAgentAttentionsList = async ({
 	search = '',
 	sort = '+name',
 }) => {
-	try {
-		return {
-			items: getAttentionList(),
-			next: false,
-		};
-	} catch (err) {
-		throw err;
-	}
+	return {
+		items: getAttentionList(),
+		next: false,
+	};
 };
 
 export const deleteAgentAttention = async ({ agentId, attentionId }) => {

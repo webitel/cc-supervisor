@@ -7,7 +7,7 @@ import AgentCalls from '../agent-calls-tab.vue';
 
 const items = [];
 
-const namespace = 'calls';
+const namespace = 'agents/card/calls';
 
 vi.mock('../../api/agent-calls');
 
@@ -16,9 +16,26 @@ describe('Agent calls tab', () => {
 	let mountOptions = {};
 
 	beforeEach(() => {
+		// The component reads absolute store paths (`agents/card/calls/...`),
+		// so the module must be registered at that nested location.
 		store = createStore({
 			modules: {
-				calls: agentsCallsStore,
+				agents: {
+					namespaced: true,
+					modules: {
+						card: {
+							namespaced: true,
+							state: () => ({
+								agent: {
+									user: {},
+								},
+							}),
+							modules: {
+								calls: agentsCallsStore,
+							},
+						},
+					},
+				},
 			},
 		});
 
