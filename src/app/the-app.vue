@@ -5,7 +5,7 @@
 
 <script setup>
 import { WtNotificationsBar } from '@webitel/ui-sdk/components';
-import { onMounted, onUnmounted } from 'vue';
+import { computed, onMounted, onUnmounted, provide } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { useUserinfoStore } from '../modules/userinfo/store/userInfoStore';
@@ -17,6 +17,9 @@ const { showUserNotifications } = useUserinfoStore();
 
 const closeSession = () => store.dispatch('CLOSE_SESSION');
 const openSession = () => store.dispatch('OPEN_SESSION');
+
+const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
+provide('darkMode', darkMode);
 
 const setLanguage = () => {
 	const lang = localStorage.getItem('lang');
