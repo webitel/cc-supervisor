@@ -58,11 +58,47 @@ export default {
 			required: true,
 		},
 	},
+	data() {
+		return {
+			stableDataList: [],
+		};
+	},
+	watch: {
+		dataList: {
+			immediate: true,
+			handler(updatedDataList) {
+				if (!updatedDataList?.length) return;
+				// https://webitel.atlassian.net/browse/WTEL-8100
+				// After an agent switches away from Pause, the backend may
+				// return durationMin: 0 before the final value is saved.
+				// To avoid a "0 minutes" flash, we keep the last known non-zero
+				// duration for each cause until the API confirms a real value.
+				this.stableDataList = updatedDataList.map((updatedItem) => {
+					const durationIsSettled = updatedItem.durationMin !== 0;
+					if (durationIsSettled) return updatedItem;
+
+					const previousItem = this.stableDataList.find(
+						(stableItem) =>
+							stableItem.name === updatedItem.name ||
+							stableItem.id === updatedItem.id,
+					);
+					const hasPreviousNonZeroDuration =
+						previousItem && previousItem.durationMin > 0;
+
+					return hasPreviousNonZeroDuration
+						? {
+								...updatedItem,
+								durationMin: previousItem.durationMin,
+							}
+						: updatedItem;
+				});
+			},
+		},
+	},
 	computed: {
 		representableDataList() {
-			if (!this.dataList) return [];
 			const { representablePauseCause } = useRepresentableAgentPauseCause(
-				this.dataList,
+				this.stableDataList,
 			);
 			return representablePauseCause.value;
 		},
