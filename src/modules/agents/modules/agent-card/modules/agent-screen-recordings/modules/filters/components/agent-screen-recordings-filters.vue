@@ -3,16 +3,16 @@
     :table-action-icons="['filter-reset']"
     @reset="resetFilters">
     <wt-datepicker 
-      mode="datetime"
+      show-time
       :label="$t('reusable.from')"
-      :value="filters['uploadedAtFrom']"
-      @input="handleFilter($event, 'uploadedAtFrom')"
+      :model-value="filters['uploadedAtFrom']"
+      @update:model-value="handleFilter($event, 'uploadedAtFrom')"
     />
     <wt-datepicker 
-      mode="datetime"
+      show-time
       :label="$t('reusable.to')"
-      :value="filters['uploadedAtTo']"
-      @input="handleFilter($event, 'uploadedAtTo')"
+      :model-value="filters['uploadedAtTo']"
+      @update:model-value="handleFilter($event, 'uploadedAtTo')"
     />
   </wt-filters-panel-wrapper>
 </template>

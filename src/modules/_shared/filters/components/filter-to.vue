@@ -1,9 +1,9 @@
 <template>
   <wt-datepicker
-    :value="value"
+    :model-value="value"
     :label="$t('reusable.to')"
-    mode="datetime"
-    @input="handleChange"
+    show-time
+    @update:model-value="handleChange"
   ></wt-datepicker>
 </template>
 
