@@ -2,9 +2,11 @@
   <form class="agent-info-form wt-scrollbar">
     <wt-single-select
       :model-value="agent.team"
+      :v="v$.agent.team"
       :label="$t('objects.team')"
       :search-method="searchTeams"
       :disabled="disableUserInput || !hasTeamReadAccess"
+      required
       @update:model-value="setItemProp({ prop: 'team', value: $event })"
     />
     <wt-multi-select
@@ -49,6 +51,8 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
@@ -68,6 +72,11 @@ export default {
 		},
 	},
 	setup() {
+		const v$ = useVuelidate({
+			$stopPropagation: true,
+			$autoDirty: true,
+		});
+
 		const { disableUserInput, hasSaveActionAccess } = useUserAccessControl();
 
 		const { hasReadAccess: hasTeamReadAccess } = useUserAccessControl(
@@ -84,6 +93,7 @@ export default {
 		);
 
 		return {
+			v$,
 			disableUserInput,
 			hasSaveActionAccess,
 
@@ -106,7 +116,14 @@ export default {
 			return this.agent?.isSupervisor;
 		},
 		disabledSave() {
-			return !this.agent._dirty;
+			return !this.agent._dirty || this.v$.$invalid;
+		},
+	},
+	validations: {
+		agent: {
+			team: {
+				required,
+			},
 		},
 	},
 	methods: {
