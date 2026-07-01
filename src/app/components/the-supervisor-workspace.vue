@@ -5,7 +5,6 @@
 		<app-header />
 		<call-window />
 		<call-window-eavesdrop />
-		<wt-notifications-bar />
 		<div class="the-supervisor-workspace__content">
 			<router-view />
 		</div>
