@@ -33,6 +33,7 @@
     />
     <wt-input-number
       :model-value="agent.progressiveCount"
+      :v="v$.agent.progressiveCount"
       :label="$t('pages.card.progressiveCount')"
       :disabled="disableUserInput"
       @update:model-value="setItemProp({ prop: 'progressiveCount', value: $event })"
@@ -52,7 +53,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+import { minValue, required } from '@vuelidate/validators';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
@@ -123,6 +124,9 @@ export default {
 		agent: {
 			team: {
 				required,
+			},
+			progressiveCount: {
+				minValue: minValue(1),
 			},
 		},
 	},
