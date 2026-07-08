@@ -92,7 +92,6 @@ export default {
 		},
 		card: {
 			callAgent: 'Qo‘ng‘iroq qilish',
-			progressiveCount: 'Progressiv qo‘ng‘iroqlar soni',
 			chatCount: 'Progressiv chatlar soni',
 			ratedCalls: 'Baholangan qo‘ng‘iroqlar',
 			score: 'Ball',

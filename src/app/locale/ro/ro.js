@@ -92,7 +92,6 @@ export default {
 		},
 		card: {
 			callAgent: 'Apel',
-			progressiveCount: 'Număr apeluri progresive',
 			chatCount: 'Număr chat-uri progresive',
 			ratedCalls: 'Apeluri evaluate',
 			score: 'Scor',

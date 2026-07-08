@@ -92,7 +92,6 @@ export default {
 		},
 		card: {
 			callAgent: 'Call',
-			progressiveCount: 'Progressive call count',
 			chatCount: 'Progressive chat count',
 			ratedCalls: 'Rated calls',
 			score: 'Score',

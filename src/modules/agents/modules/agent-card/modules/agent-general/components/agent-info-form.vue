@@ -34,7 +34,7 @@
     <wt-input-number
       :model-value="agent.progressiveCount"
       :v="v$.agent.progressiveCount"
-      :label="$t('pages.card.progressiveCount')"
+      :label="$t('reusable.progressiveCount')"
       :disabled="disableUserInput"
       @update:model-value="setItemProp({ prop: 'progressiveCount', value: $event })"
     />

@@ -92,7 +92,6 @@ export default {
 		},
 		card: {
 			callAgent: 'Llamar',
-			progressiveCount: 'Conteo progresivo de llamadas',
 			chatCount: 'Conteo progresivo de chats',
 			ratedCalls: 'Llamadas calificadas',
 			score: 'Puntuación',

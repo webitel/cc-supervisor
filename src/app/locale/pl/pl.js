@@ -92,7 +92,6 @@ export default {
 		},
 		card: {
 			callAgent: 'Zadzwoń',
-			progressiveCount: 'Liczba rozmów progresywnych',
 			chatCount: 'Liczba czatów progresywnych',
 			ratedCalls: 'Ocenione rozmowy',
 			score: 'Wynik',
