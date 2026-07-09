@@ -16,7 +16,19 @@ export default {
 	}),
 	watch: {
 		'$route.query': {
-			async handler() {
+			async handler(newQuery, oldQuery) {
+				// @author @HlukhovYe
+				// https://webitel.atlassian.net/browse/WTEL-9729
+				// Skip reload when only "fields" changed — it controls visible table columns only
+				// and is not sent to the API, so reloading would cause unnecessary flicker (isLoading flash).
+				if (oldQuery) {
+					const changed = Object.keys({
+						...newQuery,
+						...oldQuery,
+					}).filter((key) => newQuery[key] !== oldQuery[key]);
+					if (changed.length && changed.every((key) => key === 'fields'))
+						return;
+				}
 				await this.initializeList();
 			},
 			immediate: true,
