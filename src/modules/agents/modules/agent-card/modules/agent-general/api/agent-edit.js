@@ -24,7 +24,7 @@ const fieldsToSend = [
 const getAgent = async ({ itemId: id }) => {
 	const defaultObject = {
 		_dirty: false,
-		progressiveCount: 0,
+		progressiveCount: null,
 		chatCount: 0,
 	};
 

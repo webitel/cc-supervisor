@@ -92,7 +92,6 @@ export default {
 		},
 		card: {
 			callAgent: 'Gọi',
-			progressiveCount: 'Số cuộc gọi tiến trình',
 			chatCount: 'Số cuộc chat tiến trình',
 			ratedCalls: 'Cuộc gọi đã đánh giá',
 			score: 'Điểm',

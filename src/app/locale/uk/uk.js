@@ -92,7 +92,6 @@ export default {
 		},
 		card: {
 			callAgent: 'Подзвонити',
-			progressiveCount: 'Кількість одночасних дзвінків',
 			chatCount: 'Кількість одночасних чатів',
 			ratedCalls: 'Оцінені дзвінки',
 			score: 'Рейтинг',

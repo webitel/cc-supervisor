@@ -92,7 +92,6 @@ export default {
 		},
 		card: {
 			callAgent: 'Қоңырау шалу',
-			progressiveCount: 'Прогрессивті қоңырау саны',
 			chatCount: 'Прогрессивті чат саны',
 			ratedCalls: 'Бағаланған қоңыраулар',
 			score: 'Баға',

@@ -15,7 +15,7 @@ describe('Agent Edit API', () => {
 			_dirty: false,
 			chatCount: 0,
 			name: 'vi',
-			progressiveCount: 0,
+			progressiveCount: null,
 		};
 		const getMock = instance.request.mockImplementationOnce(() =>
 			Promise.resolve({
