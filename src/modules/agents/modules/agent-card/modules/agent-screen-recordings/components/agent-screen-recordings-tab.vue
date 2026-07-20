@@ -126,24 +126,20 @@ import { getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
-import getNamespacedState from '@webitel/ui-sdk/store/helpers/getNamespacedState.js';
 import { formatDate } from '@webitel/ui-sdk/utils';
 import { storeToRefs } from 'pinia';
 import { computed, defineEmits, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
 
 import { useTableAutoRefresh } from '../../../../../../../app/composables/useTableAutoRefresh';
 import { useScreenRecordingsDataListStore } from '../store/screen-recordings';
 
 const { t } = useI18n();
 
-const props = defineProps({
+defineProps({
 	namespace: String,
 });
-
-const store = useStore();
 
 const route = useRoute();
 const agentId = route.params.id;
@@ -151,10 +147,6 @@ const agentId = route.params.id;
 const emit = defineEmits([
 	'toggle-filter',
 ]);
-
-const agent = computed(() => {
-	return getNamespacedState(store.state, props.namespace).agent;
-});
 
 const currentVideo = ref(null);
 const isVideoOpen = ref(false);
@@ -251,7 +243,11 @@ const {
 	isLoading,
 });
 
-const handleDelete = async (items: []) => {
+const handleDelete = async (
+	items: {
+		id: string;
+	}[],
+) => {
 	const deleteEl = (el) => {
 		return FileServicesAPI.deleteScreenRecordingsByAgent({
 			id: el.id,

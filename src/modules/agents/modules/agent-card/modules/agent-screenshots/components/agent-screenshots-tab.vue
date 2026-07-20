@@ -248,7 +248,11 @@ const openScreenshot = (id) => {
 	galleriaVisible.value = true;
 };
 
-const handleDelete = async (items: []) => {
+const handleDelete = async (
+	items: {
+		id: string;
+	}[],
+) => {
 	const deleteEl = (el) => {
 		return FileServicesAPI.deleteScreenRecordingsByAgent({
 			id: el.id,

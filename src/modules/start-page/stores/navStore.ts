@@ -68,7 +68,11 @@ export const useNavStore = defineStore('nav', () => {
 			const route = router.resolve({
 				path: navItem.route,
 			});
-			const hasAccess = routeAccessGuard(route) === true;
+			// TODO(types): SDK routeAccessGuard is typed as a 3-arg NavigationGuard but only reads `to` and returns a boolean.
+			const hasAccess =
+				(
+					routeAccessGuard as (to: ReturnType<typeof router.resolve>) => boolean
+				)(route) === true;
 			return {
 				...navItem,
 				disabled: !hasAccess,
