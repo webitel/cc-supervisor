@@ -48,7 +48,7 @@
 		"webitel-sdk": "^26.4.8"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.4.16",
+		"@biomejs/biome": "^2.5.5",
 		"@pinia/testing": "^1.0.3",
 		"@vitejs/plugin-vue": "^6.x",
 		"@vitest/coverage-v8": "^4.x",
