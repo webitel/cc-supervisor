@@ -1,28 +1,25 @@
 <template>
-	<wt-app-header>
-		<wt-navigation-bar
-			:current-app="currentApp"
-			:nav="nav"
-			:dark-mode="darkMode"
-			:logo-route="RoutePaths.StartPage"
-		/>
-		<wt-logo
-			:dark-mode="darkMode"
-			:logo-href="startPageHref"
-		/>
-		<wt-dark-mode-switcher />
-		<wt-app-navigator
-			:current-app="currentApp"
-			:apps="apps"
-			:dark-mode="darkMode"
-		/>
-		<wt-header-actions
-			:user="userInfo"
-			:build-info="buildInfo"
-			@settings="settings"
-			@logout="logoutUser"
-		/>
-	</wt-app-header>
+  <wt-app-header>
+    <wt-navigation-bar
+      :current-app="currentApp"
+      :nav="nav"
+      :dark-mode="darkMode"
+      :logo-route="RoutePaths.StartPage"
+    />
+    <wt-logo :dark-mode="darkMode" :logo-href="startPageHref" />
+    <wt-dark-mode-switcher />
+    <wt-app-navigator
+      :current-app="currentApp"
+      :apps="apps"
+      :dark-mode="darkMode"
+    />
+    <wt-header-actions
+      :user="userInfo"
+      :build-info="buildInfo"
+      @settings="settings"
+      @logout="logoutUser"
+    />
+  </wt-app-header>
 </template>
 
 <script setup>
@@ -60,6 +57,8 @@ const buildInfo = {
 	release: packageJson.version,
 	build: import.meta.env.VITE_BUILD_NUMBER,
 };
+
+// test
 
 const apps = computed(() => {
 	const agent = {
@@ -109,11 +108,8 @@ function settings() {
 }
 </script>
 
-<style
-	lang="scss"
-	scoped
->
+<style lang="scss" scoped>
 .wt-dark-mode-switcher {
-	margin-right: auto;
+  margin-right: auto;
 }
 </style>
