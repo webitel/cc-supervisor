@@ -56,7 +56,7 @@
 		"globals": "^17.x",
 		"happy-dom": "^20.11.1",
 		"husky": "^9.1.7",
-		"lint-staged": "^16.x",
+		"lint-staged": "^17.x",
 		"prismjs": "^1.29.0",
 		"sass": "^1.102.0",
 		"tslib": "^2.7.0",
