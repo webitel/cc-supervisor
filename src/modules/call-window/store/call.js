@@ -133,8 +133,7 @@ const actions = {
 		const { agent } = context.state;
 		if (!agent) return;
 		const destination = agent.extension;
-		// eslint-disable-next-line no-useless-escape
-		destination.replace(/[^0-9a-zA-z+*#]/g, '');
+		destination.replace(/[^0-9a-zA-Z+*#]/g, '');
 		const client = await getCliInstance();
 		try {
 			await client.call({
