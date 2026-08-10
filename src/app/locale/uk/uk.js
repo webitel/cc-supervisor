@@ -175,6 +175,8 @@ export default {
 			skills: {
 				title: 'Навички',
 				skills: 'Навичка | Навички',
+				addSkill: 'Додати навичку',
+				editSkill: 'Редагувати навичку',
 				capacity: 'Потенціал',
 				columns: {
 					enabled: 'Стан',

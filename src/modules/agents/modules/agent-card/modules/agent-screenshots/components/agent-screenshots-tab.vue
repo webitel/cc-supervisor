@@ -131,7 +131,7 @@ import { useScreenshotsDataListStore } from '../store/screenshots';
 const { t } = useI18n();
 
 const router = useRoute();
-const agentId = router.params.id;
+const agentId = router.params.id as string;
 
 const emit = defineEmits([
 	'toggle-filter',

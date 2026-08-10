@@ -175,6 +175,8 @@ export default {
 			skills: {
 				title: 'Ko‘nikmalar',
 				skills: 'Ko‘nikma | Ko‘nikmalar',
+				addSkill: "Ko'nikma qo'shish",
+				editSkill: "Ko'nikmani tahrirlash",
 				capacity: 'Sig‘im',
 				columns: {
 					enabled: 'Holat',

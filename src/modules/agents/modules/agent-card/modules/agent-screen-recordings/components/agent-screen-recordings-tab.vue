@@ -142,7 +142,7 @@ defineProps({
 });
 
 const route = useRoute();
-const agentId = route.params.id;
+const agentId = route.params.id as string;
 
 const emit = defineEmits([
 	'toggle-filter',

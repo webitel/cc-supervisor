@@ -175,6 +175,8 @@ export default {
 			skills: {
 				title: 'Skills',
 				skills: 'Skill | Skills',
+				addSkill: 'Add skill',
+				editSkill: 'Edit skill',
 				capacity: 'Capacity',
 				columns: {
 					enabled: 'State',

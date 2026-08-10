@@ -175,6 +175,8 @@ export default {
 			skills: {
 				title: 'Habilidades',
 				skills: 'Habilidad | Habilidades',
+				addSkill: 'Añadir habilidad',
+				editSkill: 'Editar habilidad',
 				capacity: 'Capacidad',
 				columns: {
 					enabled: 'Estado',

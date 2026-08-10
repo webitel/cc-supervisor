@@ -175,6 +175,8 @@ export default {
 			skills: {
 				title: 'Дағдылар',
 				skills: 'Дағды | Дағдылар',
+				addSkill: 'Қабілет қосу',
+				editSkill: 'Қабілетті өзгерту',
 				capacity: 'Сыйымдылық',
 				columns: {
 					enabled: 'Мәртебе',
