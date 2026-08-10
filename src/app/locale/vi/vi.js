@@ -175,6 +175,8 @@ export default {
 			skills: {
 				title: 'Kỹ năng',
 				skills: 'Kỹ năng',
+				addSkill: 'Thêm kỹ năng',
+				editSkill: 'Sửa kỹ năng',
 				capacity: 'Năng lực',
 				columns: {
 					enabled: 'Trạng thái',

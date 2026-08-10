@@ -175,6 +175,8 @@ export default {
 			skills: {
 				title: 'Competențe',
 				skills: 'Competență | Competențe',
+				addSkill: 'Adaugă competență',
+				editSkill: 'Editează competență',
 				capacity: 'Capacitate',
 				columns: {
 					enabled: 'Stare',

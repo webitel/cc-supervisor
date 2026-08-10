@@ -6,7 +6,7 @@
     overflow
   >
     <template #title>
-      {{ $t('pages.card.skills.skills', 1) }}
+      {{ popupTitle }}
     </template>
     <template #main>
       <form>
@@ -32,7 +32,7 @@
       <wt-button
         :disabled="v$.$error || v$.$invalid"
         @click="save"
-      >{{ $t('reusable.add') }}
+      >{{ saveActionText }}
       </wt-button>
       <wt-button
         color="secondary"
@@ -71,6 +71,16 @@ export default {
 	computed: {
 		skillId() {
 			return this.$route.params.skillId;
+		},
+		popupTitle() {
+			return this.skillId === 'new'
+				? this.$t('pages.card.skills.addSkill')
+				: this.$t('pages.card.skills.editSkill');
+		},
+		saveActionText() {
+			return this.skillId === 'new'
+				? this.$t('reusable.add')
+				: this.$t('reusable.save');
 		},
 	},
 	validations: {
