@@ -9,7 +9,7 @@
       {{ popupTitle }}
     </template>
     <template #main>
-      <form>
+      <form class="agent-skill-popup__form">
         <wt-single-select
           :model-value="itemInstance.skill"
           :v="v$.itemInstance.skill"
@@ -119,5 +119,9 @@ export default {
 </script>
 
 <style scoped>
-
+.agent-skill-popup__form {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xs);
+}
 </style>
