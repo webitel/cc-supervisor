@@ -1,4 +1,4 @@
-import { getCallService } from '@webitel/api-services/gen';
+import { getCallService } from '@webitel/api-services/gen-wire';
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import {
 	getDefaultGetListResponse,
