@@ -2,13 +2,13 @@
   <call-window-wrapper v-show="isVisible">
     <template #header="{ isExpanded }">
       <div class="call-window-conversation-header-before">
-        <wt-rounded-action
+        <wt-button
           v-if="isRinging"
-          icon="call-ringing"
+          icon="call--filled"
           color="success"
           rounded
           @click="answerCall"
-        ></wt-rounded-action>
+        />
         <img
           v-else-if="!isExpanded"
           class="call-window-conversation-header__sonar"
@@ -21,13 +21,13 @@
         :username="agent.name || call?.from?.name"
       ></wt-avatar>
       <div>
-        <wt-rounded-action
+        <wt-button
           v-if="isActive"
-          icon="call-end"
-          color="danger"
+          icon="call-end--filled"
+          color="error"
           rounded
           @click="leaveCall"
-        ></wt-rounded-action>
+        />
       </div>
     </template>
     <template #title>
@@ -49,18 +49,21 @@
       #footer
     >
       <div class="call-window-conversation-footer">
-        <wt-rounded-action
-          :icon="isMuted ? 'mic-muted' : 'mic'"
-          rounded
-          @click="toggleMute"
-        ></wt-rounded-action>
-        <wt-rounded-action
+        <wt-button
           v-if="allowHold || isHold"
           icon="hold"
-          :color="isHold ? 'hold' : 'secondary'"
+          :color="ButtonColor.SECONDARY"
+          :variant="isHold ? ButtonVariant.ACTIVE : ButtonVariant.OUTLINED"
           rounded
           @click="toggleHold"
-        ></wt-rounded-action>
+        />
+        <wt-button
+          :icon="isMuted ? 'mic-muted' : 'mic'"
+          :color="ButtonColor.SECONDARY"
+          :variant="isMuted ? ButtonVariant.ACTIVE : ButtonVariant.OUTLINED"
+          rounded
+          @click="toggleMute"
+        />
       </div>
     </template>
   </call-window-wrapper>
@@ -68,10 +71,12 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import { ButtonColor, ButtonVariant } from '@webitel/ui-sdk/enums';
 
 import ringingSoundMixin from '../../../app/mixins/ringingSoundMixin/ringingSoundMixin';
 import ActiveSonar from '../assets/call-sonars/active-sonar.svg';
 import HoldSonar from '../assets/call-sonars/hold-sonar.svg';
+import RingingSonar from '../assets/call-sonars/ringing-sonar.svg';
 import timerMixin from '../mixins/timerMixin/timerMixin';
 import CallWindowWrapper from './call-window-wrapper.vue';
 
@@ -84,6 +89,12 @@ export default {
 		ringingSoundMixin,
 		timerMixin,
 	],
+	data() {
+		return {
+			ButtonColor,
+			ButtonVariant,
+		};
+	},
 	mounted() {
 		this.subscribeCalls();
 	},
@@ -94,7 +105,11 @@ export default {
 			call: (state) => state.call,
 		}),
 		sonar() {
-			return this.isHold ? HoldSonar : ActiveSonar;
+			return this.isRinging
+				? RingingSonar
+				: this.isHold
+					? HoldSonar
+					: ActiveSonar;
 		},
 		isMuted() {
 			return this.call?.muted;
@@ -128,12 +143,14 @@ export default {
 
 <style lang="scss" scoped>
 .call-window-conversation-header-before {
+  min-width: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .call-window-conversation-header__sonar {
-  width: 24px;
+  width: 32px;
+  margin: var(--spacing-2xs);
 }
 
 .call-window-conversation-content {

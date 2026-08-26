@@ -75,8 +75,7 @@ $width: 232px;
   }
 
   .call-window-header {
-    display: grid;
-    grid-template-columns: 40px 72px 40px;
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--spacing-sm);
