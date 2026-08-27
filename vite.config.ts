@@ -57,10 +57,6 @@ export default ({ mode }) => {
 				'@': resolve(__dirname, 'src'),
 				'lodash/fp': 'lodash-es',
 				lodash: 'lodash-es',
-				'@aliasedDeps/api-services/axios': resolve(
-					__dirname,
-					'src/app/api/instance',
-				),
 				vue: resolve(__dirname, 'node_modules/vue'),
 				'@vue/runtime-core': resolve(
 					__dirname,
