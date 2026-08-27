@@ -57,19 +57,6 @@ export default ({ mode }) => {
 				'@': resolve(__dirname, 'src'),
 				'lodash/fp': 'lodash-es',
 				lodash: 'lodash-es',
-				vue: resolve(__dirname, 'node_modules/vue'),
-				'@vue/runtime-core': resolve(
-					__dirname,
-					'node_modules/@vue/runtime-core',
-				),
-				'@vue/runtime-dom': resolve(__dirname, 'node_modules/@vue/runtime-dom'),
-				'@vue/reactivity': resolve(__dirname, 'node_modules/@vue/reactivity'),
-				'@vue/shared': resolve(__dirname, 'node_modules/@vue/shared'),
-				// Same dual-instance problem as Vue above: @webitel/ui-sdk's stores
-				// (e.g. useUserinfoStore) call pinia's getActivePinia() against their
-				// own linked copy of pinia, which never sees the testing Pinia installed
-				// via cc-supervisor's copy — hence "no active Pinia" in tests.
-				pinia: resolve(__dirname, 'node_modules/pinia'),
 			},
 		},
 		plugins: [
