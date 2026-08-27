@@ -29,7 +29,7 @@ const { searchMock, items } = vi.hoisted(() => {
 	};
 });
 
-vi.mock('@webitel/api-services/gen', () => ({
+vi.mock('@webitel/api-services/gen-wire', () => ({
 	getCallService: () => ({
 		searchHistoryCallPost: searchMock,
 	}),

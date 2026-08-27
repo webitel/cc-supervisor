@@ -1,8 +1,10 @@
 import './app/assets/icons/sprite';
 import './app/css/main.scss';
 
+import { setDefaultAxiosInstance } from '@webitel/api-services/api/axios';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
+import instance from './app/api/instance';
 import { createUserAccessControl } from './app/composables/useUserAccessControl';
 import i18n from './app/locale/i18n';
 import {
@@ -39,6 +41,9 @@ const fetchConfig = async () => {
 	const response = await fetch(`${import.meta.env.BASE_URL}/config.json`);
 	return response.json();
 };
+
+// generated api-services clients call through this app's instance
+setDefaultAxiosInstance(instance);
 
 const pinia = createPinia();
 
