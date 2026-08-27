@@ -55,9 +55,9 @@ describe('CallWindowConversation', () => {
 		});
 		const answerBtn = wrapper
 			.findAllComponents({
-				name: 'wt-rounded-action',
+				name: 'wt-button',
 			})
-			.find((btn) => btn.props().icon === 'call-ringing');
+			.find((btn) => btn.props().icon === 'call--filled');
 
 		expect(answerBtn.isVisible()).toBe(true);
 		answerBtn.vm.$emit('click');
@@ -86,9 +86,9 @@ describe('CallWindowConversation', () => {
 		});
 		const answerBtn = wrapper
 			.findAllComponents({
-				name: 'wt-rounded-action',
+				name: 'wt-button',
 			})
-			.find((btn) => btn.props().icon === 'call-end');
+			.find((btn) => btn.props().icon === 'call-end--filled');
 
 		expect(answerBtn.isVisible()).toBe(true);
 		answerBtn.vm.$emit('click');
@@ -133,7 +133,7 @@ describe('CallWindowConversation', () => {
 			});
 		const answerBtn = wrapper
 			.findAllComponents({
-				name: 'wt-rounded-action',
+				name: 'wt-button',
 			})
 			.find((btn) => btn.props().icon === 'mic');
 
@@ -162,7 +162,7 @@ describe('CallWindowConversation', () => {
 			});
 		const answerBtn = wrapper
 			.findAllComponents({
-				name: 'wt-rounded-action',
+				name: 'wt-button',
 			})
 			.find((btn) => btn.props().icon === 'hold');
 

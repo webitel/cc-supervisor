@@ -70,8 +70,8 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import { ButtonColor, ButtonVariant } from '@webitel/ui-sdk/enums';
+import { mapActions, mapState } from 'vuex';
 
 import ringingSoundMixin from '../../../app/mixins/ringingSoundMixin/ringingSoundMixin';
 import ActiveSonar from '../assets/call-sonars/active-sonar.svg';

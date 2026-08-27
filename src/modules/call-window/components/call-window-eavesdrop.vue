@@ -75,10 +75,10 @@
 </template>
 
 <script>
+import { ButtonColor, ButtonVariant } from '@webitel/ui-sdk/enums';
 import copy from 'clipboard-copy';
 import { mapActions, mapState } from 'vuex';
 import { CallDirection, EavesdropState } from 'webitel-sdk';
-import { ButtonColor, ButtonVariant } from '@webitel/ui-sdk/enums';
 
 import timerMixin from '../mixins/timerMixin/timerMixin';
 import CallWindowWrapper from './call-window-wrapper.vue';
