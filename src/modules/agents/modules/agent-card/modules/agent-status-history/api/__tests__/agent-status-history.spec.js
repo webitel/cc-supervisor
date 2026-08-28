@@ -1,9 +1,11 @@
+import { AgentsAPI } from '@webitel/api-services/api';
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { formatDate } from '@webitel/ui-sdk/utils';
 
-import instance from '../../../../../../../../app/api/instance';
 import AgentStatusHistoryAPI from '../agent-status-history';
+
+vi.mock('@webitel/api-services/api');
 
 const time = 123;
 const items = [
@@ -13,9 +15,8 @@ const items = [
 	},
 ];
 
-// Expected output mirrors the source `listHandler`: `from` is the joinedAt date
-// formatted as DATETIME (was time-only), `to` is null with no duration, and
-// duration is run through the ui-sdk convertDuration helper.
+// This module owns the display formatting: `from` is joinedAt as DATETIME,
+// `to` is null with no duration, and duration goes through convertDuration.
 const expectItems = [
 	{
 		state: 'vi',
@@ -26,21 +27,16 @@ const expectItems = [
 	},
 ];
 
-/* The AgentServiceApiFactory is built with the local axios instance, so the
-   request is intercepted by spying on `instance.request`. */
-vi.spyOn(instance, 'request');
-
 describe('Agent Status History API', () => {
 	it('getList: correctly processes response', async () => {
-		const getMock = instance.request.mockImplementationOnce(() =>
+		AgentsAPI.getAgentHistory = vi.fn(() =>
 			Promise.resolve({
-				data: {
-					items,
-				},
+				items,
+				next: false,
 			}),
 		);
 		const response = await AgentStatusHistoryAPI.getList({});
-		expect(getMock).toHaveBeenCalled();
+		expect(AgentsAPI.getAgentHistory).toHaveBeenCalled();
 		expect(response).toEqual({
 			next: false,
 			items: expectItems,

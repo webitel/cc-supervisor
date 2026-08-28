@@ -1,64 +1,23 @@
-import applyTransform, {
-	camelToSnake,
-	merge,
-	notify,
-	sanitize,
-	snakeToCamel,
-} from '@webitel/ui-sdk/src/api/transformers/index.js';
-import { AgentServiceApiFactory } from 'webitel-sdk';
+import { AgentsAPI } from '@webitel/api-services/api';
 
-import instance from '../../../../../../../app/api/instance';
-import configuration from '../../../../../../../app/api/utils/openAPIConfig';
-
-const agentService = new AgentServiceApiFactory(configuration, '', instance);
-
-const fieldsToSend = [
-	'team',
-	'supervisor',
-	'auditor',
-	'region',
-	'progressiveCount',
-	'chatCount',
-];
-
-const getAgent = async ({ itemId: id }) => {
-	const defaultObject = {
-		_dirty: false,
-		progressiveCount: null,
-		chatCount: 0,
-	};
-
-	try {
-		const response = await agentService.readAgent(id);
-		return applyTransform(response.data, [
-			snakeToCamel(),
-			merge(defaultObject),
-		]);
-	} catch (err) {
-		throw applyTransform(err, [
-			notify,
-		]);
-	}
+/**
+ * `progressiveCount` is validated with `minValue(1)`, so an unset value has to
+ * stay `null` — the shared client's default of `0` would fail validation on
+ * load.
+ */
+const defaultObject = {
+	_dirty: false,
+	progressiveCount: null,
+	chatCount: 0,
 };
 
-const patchAgent = async ({ changes, id }) => {
-	const body = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
-	try {
-		const response = await agentService.patchAgent(id, body);
-		return applyTransform(response.data, [
-			snakeToCamel(),
-		]);
-	} catch (err) {
-		throw applyTransform(err, [
-			notify,
-		]);
-	}
-};
+const getAgent = ({ itemId }) =>
+	AgentsAPI.get({
+		itemId,
+		defaultObject,
+	});
 
 export default {
 	get: getAgent,
-	patch: patchAgent,
+	patch: (payload) => AgentsAPI.patch(payload),
 };

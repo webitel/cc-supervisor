@@ -1,34 +1,31 @@
-import instance from '../../../../../../../../app/api/instance';
+import { AgentsAPI } from '@webitel/api-services/api';
+
 import AgentAPI from '../agent-edit';
 
-/* mock SDK method api response with instance mock
- vi.spyOn(instance) used instead of vi.mock('@/app/api/instance) because WebStorm
-  doesn't watch path changes in vi.mock()
- */
-vi.spyOn(instance, 'request');
+vi.mock('@webitel/api-services/api');
+
 describe('Agent Edit API', () => {
-	it('get: correctly processes response', async () => {
-		const item = {
-			name: 'vi',
-		};
-		const expectedResponse = {
-			_dirty: false,
-			chatCount: 0,
-			name: 'vi',
-			progressiveCount: null,
-		};
-		const getMock = instance.request.mockImplementationOnce(() =>
+	it('get: asks for the card-specific defaults', async () => {
+		AgentsAPI.get = vi.fn(() =>
 			Promise.resolve({
-				data: item,
+				name: 'vi',
 			}),
 		);
-		const response = await AgentAPI.get({
+		await AgentAPI.get({
 			itemId: 1,
 		});
-		expect(getMock).toHaveBeenCalled();
-		expect(response).toEqual(expectedResponse);
+		expect(AgentsAPI.get).toHaveBeenCalledWith({
+			itemId: 1,
+			// `progressiveCount` must stay null: it is validated with minValue(1)
+			defaultObject: {
+				_dirty: false,
+				progressiveCount: null,
+				chatCount: 0,
+			},
+		});
 	});
-	it('patch: correctly sends changes', async () => {
+
+	it('patch: delegates to the shared client', async () => {
 		const payload = {
 			id: 1,
 			changes: {
@@ -38,22 +35,9 @@ describe('Agent Edit API', () => {
 				},
 			},
 		};
-		const expectedData = {
-			changes: {
-				_dirty: true,
-				team: {
-					name: 'vi',
-				},
-			},
-			id: 1,
-		};
-		const patchMock = instance.request.mockImplementationOnce(() =>
-			Promise.resolve({
-				data: payload,
-			}),
-		);
+		AgentsAPI.patch = vi.fn(() => Promise.resolve(payload));
 		const response = await AgentAPI.patch(payload);
-		expect(patchMock).toHaveBeenCalled();
-		expect(response).toEqual(expectedData);
+		expect(AgentsAPI.patch).toHaveBeenCalledWith(payload);
+		expect(response).toEqual(payload);
 	});
 });

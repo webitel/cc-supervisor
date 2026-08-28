@@ -1,9 +1,9 @@
-import instance from '../../../../app/api/instance';
+import { AgentsAPI as SharedAgentsAPI } from '@webitel/api-services/api';
+
 import AgentsAPI from '../agents';
 
-const items = [
-	{},
-];
+vi.mock('@webitel/api-services/api');
+
 const expectResponse = {
 	items: [
 		{
@@ -23,26 +23,18 @@ const expectResponse = {
 	next: false,
 };
 
-/* mock SDK method api response with instance mock
-vi.spyOn(instance) used instead of vi.mock('@/app/api/instance) because WebStorm
-doesn't watch path changes in vi.mock()
-*/
-const getMock = vi.fn(() => ({
-	items,
-}));
-vi.spyOn(instance, 'request').mockImplementation(getMock);
-
 describe('Agents API', () => {
-	it('getList: correctly processes response', async () => {
-		const listMock = instance.request.mockImplementationOnce(() =>
+	it('getList: formats the shared client response', async () => {
+		SharedAgentsAPI.getStatusStatistics = vi.fn(() =>
 			Promise.resolve({
-				data: {
-					items,
-				},
+				items: [
+					{},
+				],
+				next: false,
 			}),
 		);
 		const response = await AgentsAPI.getList({});
-		expect(listMock).toHaveBeenCalled();
+		expect(SharedAgentsAPI.getStatusStatistics).toHaveBeenCalled();
 		expect(response).toEqual(expectResponse);
 	});
 });

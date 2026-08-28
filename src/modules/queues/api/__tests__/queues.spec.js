@@ -1,5 +1,8 @@
-import instance from '../../../../app/api/instance';
+import { QueuesAPI as SharedQueuesAPI } from '@webitel/api-services/api';
+
 import QueuesAPI from '../queues';
+
+vi.mock('@webitel/api-services/api');
 
 const items = [
 	{
@@ -11,6 +14,7 @@ const items = [
 		avgAwtSec: 60,
 	},
 ];
+
 const expectResponse = {
 	aggs: {
 		online: 0,
@@ -50,26 +54,16 @@ const expectResponse = {
 	next: false,
 };
 
-/* mock SDK method api response with instance mock
-vi.spyOn(instance) used instead of vi.mock('@/app/api/instance) because WebStorm
-doesn't watch path changes in vi.mock()
-*/
-const getMock = vi.fn(() => ({
-	items,
-}));
-vi.spyOn(instance, 'request').mockImplementation(getMock);
-
 describe('Queues API', () => {
-	it('getList: correctly processes response', async () => {
-		const listMock = instance.request.mockImplementationOnce(() =>
+	it('getList: formats the shared client response', async () => {
+		SharedQueuesAPI.getReportGeneral = vi.fn(() =>
 			Promise.resolve({
-				data: {
-					items,
-				},
+				items,
+				next: false,
 			}),
 		);
 		const response = await QueuesAPI.getList({});
-		expect(listMock).toHaveBeenCalled();
+		expect(SharedQueuesAPI.getReportGeneral).toHaveBeenCalled();
 		expect(response).toEqual(expectResponse);
 	});
 });
