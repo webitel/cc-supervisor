@@ -32,22 +32,23 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@use '@webitel/styleguide/viewport-breakpoints' as *;
+<style scoped>
 
 .agent-general-tab {
   display: flex;
   gap: var(--spacing-sm);
   min-height: 0;
-  margin-top: var(--spacing-sm);
+}
 
-  .agent-info-form {
-    flex: 1;
-    min-height: 0;
-  }
-  .agent-pause-cause-table {
-    flex: 2;
-    min-height: 0;
-  }
+.agent-info-form-wrapper {
+	flex: 1;
+	min-height: 0;
+	min-width: 0;
+}
+
+.agent-pause-cause-table {
+	flex: 2;
+	min-height: 0;
+	min-width: 0;
 }
 </style>

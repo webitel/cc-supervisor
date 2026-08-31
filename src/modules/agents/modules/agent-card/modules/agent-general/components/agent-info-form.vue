@@ -1,54 +1,61 @@
 <template>
-  <form class="agent-info-form wt-scrollbar">
-    <wt-single-select
-      :model-value="agent.team"
-      :v="v$.agent.team"
-      :label="$t('objects.team')"
-      :search-method="searchTeams"
-      :disabled="disableUserInput || !hasTeamReadAccess"
-      required
-      @update:model-value="setItemProp({ prop: 'team', value: $event })"
-    />
-    <wt-multi-select
-      v-if="!isSupervisor"
-      :model-value="agent.supervisor"
-      :label="$t('objects.supervisor')"
-      :search-method="searchSupervisors"
-      :disabled="disableUserInput || !hasSupervisorReadAccess"
-      @update:model-value="setItemProp({ prop: 'supervisor', value: $event })"
-    />
-    <wt-multi-select
-      :model-value="agent.auditor"
-      :label="$t('objects.auditor')"
-      :search-method="searchAuditors"
-      :disabled="disableUserInput || !hasAuditorReadAccess"
-      @update:model-value="setItemProp({ prop: 'auditor', value: $event })"
-    />
-    <wt-single-select
-      :model-value="agent.region"
-      :label="$t('objects.region')"
-      :search-method="searchRegions"
-      :disabled="disableUserInput || !hasRegionReadAccess"
-      @update:model-value="setItemProp({ prop: 'region', value: $event })"
-    />
-    <wt-input-number
-      :model-value="agent.progressiveCount"
-      :v="v$.agent.progressiveCount"
-      :label="$t('objects.queue.progressiveCount')"
-      :disabled="disableUserInput"
-      @update:model-value="setItemProp({ prop: 'progressiveCount', value: $event })"
-    />
-    <wt-input-number
-      :model-value="agent.chatCount"
-      :label="$t('pages.card.chatCount')"
-      :disabled="disableUserInput"
-      @update:model-value="setItemProp({ prop: 'chatCount', value: $event })"
-    />
-    <wt-button
-      :disabled="disabledSave || !hasSaveActionAccess"
-      @click="save"
-    >{{ $t('defaults.save') }}</wt-button>
-  </form>
+	<div class="agent-info-form-wrapper">
+		<div class="agent-info-form-header">
+			<div class="agent-info-form-header-title table-title__title">
+				{{ $t('reusable.generalInfo') }}
+			</div>
+		</div>
+		<form class="agent-info-form wt-scrollbar">
+			<wt-single-select
+				:model-value="agent.team"
+				:v="v$.agent.team"
+				:label="$t('objects.team')"
+				:search-method="searchTeams"
+				:disabled="disableUserInput || !hasTeamReadAccess"
+				required
+				@update:model-value="setItemProp({ prop: 'team', value: $event })"
+			/>
+			<wt-multi-select
+				v-if="!isSupervisor"
+				:model-value="agent.supervisor"
+				:label="$t('objects.supervisor')"
+				:search-method="searchSupervisors"
+				:disabled="disableUserInput || !hasSupervisorReadAccess"
+				@update:model-value="setItemProp({ prop: 'supervisor', value: $event })"
+			/>
+			<wt-multi-select
+				:model-value="agent.auditor"
+				:label="$t('objects.auditor')"
+				:search-method="searchAuditors"
+				:disabled="disableUserInput || !hasAuditorReadAccess"
+				@update:model-value="setItemProp({ prop: 'auditor', value: $event })"
+			/>
+			<wt-single-select
+				:model-value="agent.region"
+				:label="$t('objects.region')"
+				:search-method="searchRegions"
+				:disabled="disableUserInput || !hasRegionReadAccess"
+				@update:model-value="setItemProp({ prop: 'region', value: $event })"
+			/>
+			<wt-input-number
+				:model-value="agent.progressiveCount"
+				:v="v$.agent.progressiveCount"
+				:label="$t('objects.queue.progressiveCount')"
+				:disabled="disableUserInput"
+				@update:model-value="setItemProp({ prop: 'progressiveCount', value: $event })"
+			/>
+			<wt-input-number
+				:model-value="agent.chatCount"
+				:label="$t('pages.card.chatCount')"
+				:disabled="disableUserInput"
+				@update:model-value="setItemProp({ prop: 'chatCount', value: $event })"
+			/>
+			<wt-button
+				:disabled="disabledSave || !hasSaveActionAccess"
+				@click="save"
+			>{{ $t('defaults.save') }}</wt-button>
+		</form>
+	</div>
 </template>
 
 <script>
@@ -151,8 +158,18 @@ export default {
 </script>
 
 <style scoped>
+.agent-info-form-wrapper {
+	display: flex;
+	flex-direction: column;
+}
+
+.agent-info-form-header {
+	margin-top: var(--spacing-xs);
+	padding-inline: var(--spacing-xs);
+}
+
 .agent-info-form {
-  padding: var(--spacing-sm);
+  padding: var(--spacing-xs);
   overflow: auto;
 
   .wt-select, .wt-input-number {

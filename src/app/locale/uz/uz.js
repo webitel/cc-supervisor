@@ -107,6 +107,7 @@ export default {
 			},
 			calls: {
 				title: 'Ish jurnali',
+				logs: 'Log | Loglar',
 				columns: {
 					cause: 'Yakunlash sababi',
 					direction: 'Yo‘nalish',

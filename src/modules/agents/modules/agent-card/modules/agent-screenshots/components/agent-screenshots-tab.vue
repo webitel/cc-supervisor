@@ -6,8 +6,8 @@
     @download="downloadFile(dataList[galleriaActiveIndex].id)"
     @delete="handleDeleteFromGalleria"
   />
-  <section class="table-section__table-wrapper table-wrapper--tab-table table-page">
-    <header class="table-title">
+  <section class="agent-screenshots-tab table-section__table-wrapper table-wrapper--tab-table table-page">
+    <header class="agent-screenshots-tab__title table-title">
       <h3 class="table-title__title">
         {{ t('objects.screenshots', 2) }}
       </h3>
@@ -302,4 +302,13 @@ const handleDeleteFromGalleria = () => {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.agent-screenshots-tab {
+	gap: 0;
+}
+
+.agent-screenshots-tab__title {
+	padding: var(--spacing-xs);
+	margin: 0;
+}
+</style>

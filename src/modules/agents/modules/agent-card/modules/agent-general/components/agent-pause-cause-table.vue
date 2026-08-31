@@ -1,9 +1,8 @@
 <template>
   <article class="agent-pause-cause-table table-section">
-    <header class="table-title">
-      <h3 class="table-title__title"></h3>
+    <header class="agent-pause-cause-table__header">
       <wt-table-actions
-        class="table-section__actions-wrapper"
+        class="agent-pause-cause-table__header-actions"
         :icons="['refresh']"
         @input="tableActionsHandler"
       ></wt-table-actions>
@@ -83,10 +82,19 @@ export default {
 </script>
 
 <style
-  lang="scss"
   scoped
 >
-@use '@webitel/ui-sdk/src/css/main';
+
+.agent-pause-cause-table__header {
+  display: flex;
+  justify-content: flex-end;
+  margin-block: var(--spacing-xs);
+}
+
+.agent-pause-cause-table__header-actions {
+  gap: 0;
+  padding-block: 0;
+}
 
 .wt-progress-bar {
   margin-left: var(--spacing-sm);
@@ -96,9 +104,9 @@ export default {
   width: 60px;
   display: inline-block;
   word-break: keep-all;
+}
 
-  &--highlight {
-    color: var(--error-color);
-  }
+.agent-pause-cause-timing--highlight {
+  color: var(--error-color);
 }
 </style>

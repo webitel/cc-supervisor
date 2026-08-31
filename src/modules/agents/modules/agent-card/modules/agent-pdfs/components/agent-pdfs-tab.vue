@@ -7,7 +7,7 @@
     :on-delete-item="handleDeleteItem"
   >
     <template #header="{ selected, loadDataList, askDeleteConfirmation, handleDelete }">
-      <header class="table-title">
+      <header class="agent-pdfs-tab__title table-title">
         <h3 class="table-title__title">
           {{ t('objects.agentPdfs.pdfs', 2) }}
         </h3>
@@ -63,3 +63,10 @@ const handleDeleteItem = (item: WebitelMediaExporterExportRecord) => {
 	});
 };
 </script>
+
+<style scoped>
+.agent-pdfs-tab__title {
+  padding: var(--spacing-xs);
+  margin: 0;
+}
+</style>
