@@ -62,7 +62,7 @@ describe('CallWindowEavesdrop', () => {
 		});
 		const btn = wrapper
 			.findAllComponents({
-				name: 'wt-rounded-action',
+				name: 'wt-button',
 			})
 			.find((btn) => btn.props().icon === 'close');
 
@@ -111,7 +111,7 @@ describe('CallWindowEavesdrop', () => {
 			});
 		const btn = wrapper
 			.findAllComponents({
-				name: 'wt-rounded-action',
+				name: 'wt-button',
 			})
 			.find((btn) => btn.props().icon === 'mic');
 
@@ -143,7 +143,7 @@ describe('CallWindowEavesdrop', () => {
 
 		const btn = wrapper
 			.findAllComponents({
-				name: 'wt-rounded-action',
+				name: 'wt-button',
 			})
 			.find((btn) => btn.props().icon === 'prompter');
 
@@ -175,7 +175,7 @@ describe('CallWindowEavesdrop', () => {
 
 		const btn = wrapper
 			.findAllComponents({
-				name: 'wt-rounded-action',
+				name: 'wt-button',
 			})
 			.find((btn) => btn.props().icon === 'conference');
 
