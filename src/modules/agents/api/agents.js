@@ -1,20 +1,5 @@
-import {
-	getDefaultGetListResponse,
-	getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults/index.js';
-import applyTransform, {
-	merge,
-	mergeEach,
-	notify,
-	snakeToCamel,
-} from '@webitel/ui-sdk/src/api/transformers/index.js';
+import { AgentsAPI } from '@webitel/api-services/api';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
-import { AgentServiceApiFactory } from 'webitel-sdk';
-
-import instance from '../../../app/api/instance';
-import configuration from '../../../app/api/utils/openAPIConfig';
-
-const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
 const convertStatusDuration = (value) => {
 	if (value > 60 * 60 * 24) return '>24:00:00';
@@ -28,6 +13,7 @@ export const getAgentsList = async (params) => {
 		fields: [],
 		from: new Date().setHours(0, 0, 0, 0),
 		to: new Date().setHours(23, 59, 59, 999),
+		utilizationFrom: '0',
 	};
 	const defaultObject = {
 		offline: 0,
@@ -40,82 +26,34 @@ export const getAgentsList = async (params) => {
 		occupancy: 0,
 	};
 
-	const itemsHandler = (items) =>
-		items.map((item) => ({
-			...item,
-			_isSelected: false,
-			statusDuration: convertStatusDuration(item.statusDuration),
-			utilization: `${item.utilization.toFixed(2)}%`,
-			occupancy: `${item.occupancy.toFixed(2)}%`,
-			online: convertDuration(item.online),
-			offline: convertDuration(item.offline),
-			pause: convertDuration(item.pause),
-			callTime: convertDuration(item.callTime),
-			chatTime: convertDuration(item.chatTime),
-		}));
+	const { items, next } = await AgentsAPI.getStatusStatistics({
+		...defaultParams,
+		...params,
+		// the filter is named after the progress bar it drives
+		utilizationTo: params.utilizationProgress,
+	});
 
-	const {
-		page,
-		size,
-		search,
-		sort,
-		ids,
-		fields,
-		from,
-		to,
-		agentStatus: status,
-		queue,
-		team,
-		skill,
-		supervisor,
-		auditor,
-		region,
-		utilizationProgress, // utilizationTo
-		callNow,
-	} = applyTransform(params, [
-		merge(getDefaultGetParams()),
-		merge(defaultParams),
-	]);
-
-	const utilizationFrom = '0';
-
-	try {
-		const response = await agentService.searchAgentStatusStatistic(
-			page,
-			size,
-			search,
-			sort,
-			fields,
-			ids,
-			from,
-			to,
-			status,
-			queue,
-			team,
-			utilizationFrom,
-			utilizationProgress,
-			callNow,
-			skill,
-			region,
-			supervisor,
-			auditor,
-		);
-		const { items, next } = applyTransform(response.data, [
-			snakeToCamel(),
-			merge(getDefaultGetListResponse()),
-		]);
-		return {
-			items: applyTransform(items, [
-				mergeEach(defaultObject),
-				itemsHandler,
-			]),
-			next,
-		};
-	} catch (err) {
-		throw applyTransform(err, [
-			notify,
-		]);
-	}
+	return {
+		items: items.map((item) => {
+			const merged = {
+				...defaultObject,
+				...item,
+			};
+			return {
+				...merged,
+				_isSelected: false,
+				statusDuration: convertStatusDuration(merged.statusDuration),
+				utilization: `${merged.utilization.toFixed(2)}%`,
+				occupancy: `${merged.occupancy.toFixed(2)}%`,
+				online: convertDuration(merged.online),
+				offline: convertDuration(merged.offline),
+				pause: convertDuration(merged.pause),
+				callTime: convertDuration(merged.callTime),
+				chatTime: convertDuration(merged.chatTime),
+			};
+		}),
+		next,
+	};
 };
 
 export default {

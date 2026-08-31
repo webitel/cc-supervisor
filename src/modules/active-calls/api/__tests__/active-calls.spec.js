@@ -1,18 +1,16 @@
+import { ActiveCallsAPI as SharedActiveCallsAPI } from '@webitel/api-services/api';
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { formatDate } from '@webitel/ui-sdk/utils';
 
-import instance from '../../../../app/api/instance';
 import ActiveCallsAPI from '../active-calls';
 
+vi.mock('@webitel/api-services/api');
+
 const time = 123;
-const items = [
-	{
-		createdAt: time,
-	},
-];
-// Expected output mirrors the source transform: createdAt is now formatted as a
-// full DATETIME (was time-only), duration via the ui-sdk convertDuration helper.
+
+// This module owns the display formatting: createdAt as a full DATETIME and
+// duration through the ui-sdk convertDuration helper.
 const expectResponse = {
 	items: [
 		{
@@ -23,26 +21,20 @@ const expectResponse = {
 	next: false,
 };
 
-/* mock SDK method api response with instance mock
-vi.spyOn(instance) used instead of vi.mock('@/app/api/instance) because WebStorm
-doesn't watch path changes in vi.mock()
-*/
-const getMock = vi.fn(() => ({
-	items,
-}));
-vi.spyOn(instance, 'request').mockImplementation(getMock);
-
 describe('Active Calls API', () => {
-	it('getList: correctly processes response', async () => {
-		const listMock = instance.request.mockImplementationOnce(() =>
+	it('getList: formats the shared client response', async () => {
+		SharedActiveCallsAPI.getList = vi.fn(() =>
 			Promise.resolve({
-				data: {
-					items,
-				},
+				items: [
+					{
+						createdAt: time,
+					},
+				],
+				next: false,
 			}),
 		);
 		const response = await ActiveCallsAPI.getList({});
-		expect(listMock).toHaveBeenCalled();
+		expect(SharedActiveCallsAPI.getList).toHaveBeenCalled();
 		expect(response).toEqual(expectResponse);
 	});
 });

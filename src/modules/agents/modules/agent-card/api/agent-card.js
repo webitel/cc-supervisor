@@ -1,24 +1,7 @@
-import { getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults/index.js';
-import applyTransform, {
-	merge,
-	notify,
-	snakeToCamel,
-	starToSearch,
-} from '@webitel/ui-sdk/src/api/transformers/index.js';
+import { AgentsAPI } from '@webitel/api-services/api';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
-import { AgentServiceApiFactory } from 'webitel-sdk';
 
-import instance from '../../../../../app/api/instance';
-import configuration from '../../../../../app/api/utils/openAPIConfig';
-
-const agentService = new AgentServiceApiFactory(configuration, '', instance);
-
-const getAgent = async (params) => {
-	const defaultParams = {
-		from: new Date().setHours(0, 0, 0, 0),
-		to: new Date().setHours(23, 59, 59, 999),
-	};
-
+const getAgent = async ({ itemId, from, to }) => {
 	const defaultObject = {
 		statusDuration: 0,
 		online: 0,
@@ -26,57 +9,38 @@ const getAgent = async (params) => {
 		pause: 0,
 	};
 
-	const itemHandler = (item) => ({
-		...item,
-		statusDuration: convertDuration(item.statusDuration),
-		online: convertDuration(item.online),
-		offline: convertDuration(item.offline),
-		pause: convertDuration(item.pause),
+	const item = await AgentsAPI.getStatusStatisticsItem({
+		agentId: itemId,
+		from: from ?? new Date().setHours(0, 0, 0, 0),
+		to: to ?? new Date().setHours(23, 59, 59, 999),
 	});
 
-	const { itemId, from, to } = applyTransform(params, [
-		merge(getDefaultGetParams()),
-		merge(defaultParams),
-		starToSearch('search'),
-	]);
+	const merged = {
+		...defaultObject,
+		...item,
+	};
 
-	try {
-		const response = await agentService.searchAgentStatusStatisticItem(
-			itemId,
-			from,
-			to,
-		);
-		return applyTransform(response.data, [
-			snakeToCamel(),
-			merge(defaultObject),
-			itemHandler,
-		]);
-	} catch (err) {
-		throw applyTransform(err, [
-			notify,
-		]);
-	}
+	return {
+		...merged,
+		statusDuration: convertDuration(merged.statusDuration),
+		online: convertDuration(merged.online),
+		offline: convertDuration(merged.offline),
+		pause: convertDuration(merged.pause),
+	};
 };
 
 const getScore = async ({ agentId }) => {
-	try {
-		const response = await agentService.searchAgentStatusStatisticItem(
+	const { scoreCount = 0, scoreRequiredAvg = 0 } =
+		await AgentsAPI.getStatusStatisticsItem({
 			agentId,
-			'0', // why 0? https://webitel.atlassian.net/browse/WTEL-5439?focusedCommentId=641601
-			'0',
-		);
-		return applyTransform(response.data, [
-			snakeToCamel(),
-			({ scoreCount = 0, scoreRequiredAvg = 0 }) => ({
-				scoreCount,
-				scoreRequiredAvg,
-			}),
-		]);
-	} catch (err) {
-		throw applyTransform(err, [
-			notify,
-		]);
-	}
+			// why 0? https://webitel.atlassian.net/browse/WTEL-5439?focusedCommentId=641601
+			from: '0',
+			to: '0',
+		});
+	return {
+		scoreCount,
+		scoreRequiredAvg,
+	};
 };
 
 export default {

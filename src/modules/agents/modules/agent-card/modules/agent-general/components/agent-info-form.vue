@@ -61,14 +61,13 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, required } from '@vuelidate/validators';
+import { RegionsAPI, TeamsAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import regionLookupApi from '../../../../../../_shared/lookups/api/regionLookupApi';
 import supervisorLookupApi from '../../../../../../_shared/lookups/api/supervisorLookupApi';
-import teamLookupApi from '../../../../../../_shared/lookups/api/teamLookupApi';
 import userLookupApi from '../../../../../../_shared/lookups/api/userLookupApi';
 
 export default {
@@ -149,10 +148,10 @@ export default {
 				return dispatch(`${this.namespace}/UPDATE_AGENT`, payload);
 			},
 		}),
-		searchTeams: teamLookupApi,
+		searchTeams: TeamsAPI.getList,
 		searchSupervisors: supervisorLookupApi,
 		searchAuditors: userLookupApi,
-		searchRegions: regionLookupApi,
+		searchRegions: RegionsAPI.getList,
 	},
 };
 </script>
