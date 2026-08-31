@@ -107,6 +107,7 @@ export default {
 			},
 			calls: {
 				title: 'Nhật ký công việc',
+				logs: 'Nhật ký',
 				columns: {
 					cause: 'Nguyên nhân kết thúc',
 					direction: 'Hướng',

@@ -1,7 +1,8 @@
 <template>
   <article class="table-section">
-    <header class="table-title">
-      <h3 class="table-title__title">
+    <header class="agent-status-history-tab__title table-title">
+      <h3 class="agent-status-history-tab__title-title table-title__title">
+				{{ $t('pages.card.statusHistory.title') }}
       </h3>
       <wt-table-actions
         class="table-section__actions-wrapper"
@@ -120,6 +121,13 @@ export default {
 </script>
 
 <style
-  lang="scss"
   scoped
-></style>
+>
+.agent-status-history-tab__title {
+	margin: 0;
+}
+
+.agent-status-history-tab__title-title {
+	padding-inline: var(--spacing-xs);
+}
+</style>

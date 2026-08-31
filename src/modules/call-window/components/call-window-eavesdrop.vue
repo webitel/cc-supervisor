@@ -6,40 +6,21 @@
           v-show="!isExpanded"
           :icon="stateIcon"
           color="error"
+          size="lg"
         ></wt-icon>
       </div>
       <wt-avatar size="lg" :username="agent.name"></wt-avatar>
-      <wt-rounded-action
+      <wt-button
         icon="close"
         color="error"
         rounded
         @click="closeWindow"
-      ></wt-rounded-action>
+      />
     </template>
     <template #title>
       <div>
         <div v-if="agent">
           {{ $t('callWindow.agent') }}: {{ agent.name }}
-        </div>
-        <div v-if="client">
-          <wt-popover>
-            <template #activator="{ toggle }">
-              <div
-                class="call-window-eavesdrop-title__subtitle typo-body-2"
-                tabindex="0"
-                @click="(ev) => copyNumber(ev, toggle)"
-                @keydown.enter="(ev) => copyNumber(ev, toggle)"
-              >
-                {{ $t('callWindow.client') }}: {{ client.name }}
-              </div>
-            </template>
-
-            <template #default>
-              <div>
-                {{ $t('callWindow.copied') }}
-              </div>
-            </template>
-          </wt-popover>
         </div>
       </div>
     </template>
@@ -57,33 +38,34 @@
     </template>
     <template #footer>
       <div class="call-window-eavesdrop-footer">
-        <wt-rounded-action
+        <wt-button
           :icon="isMuted ? 'mic-muted' : 'mic'"
-          :active="isMuted"
+          :color="ButtonColor.SECONDARY"
+          :variant="isMuted ? ButtonVariant.ACTIVE : ButtonVariant.OUTLINED"
           rounded
           @click="mute"
-        ></wt-rounded-action>
+        />
         <wt-tooltip>
           <template #activator>
-            <wt-rounded-action
-              :active="isPrompt"
+            <wt-button
               icon="prompter"
-              :color="isPrompt ? 'danger' : 'default'"
+              :color="ButtonColor.SECONDARY"
+              :variant="isPrompt ? ButtonVariant.ACTIVE : ButtonVariant.OUTLINED"
               rounded
               @click="prompter"
-            ></wt-rounded-action>
+            />
           </template>
           {{ $t('callWindow.prompter') }}
         </wt-tooltip>
         <wt-tooltip>
           <template #activator>
-            <wt-rounded-action
-              :active="isConference"
-              :color="isConference ? 'danger' : 'default'"
+            <wt-button
               icon="conference"
+              :color="ButtonColor.SECONDARY"
+              :variant="isConference ? ButtonVariant.ACTIVE : ButtonVariant.OUTLINED"
               rounded
               @click="conference"
-            ></wt-rounded-action>
+            />
           </template>
           {{ $t('callWindow.conference') }}
         </wt-tooltip>
@@ -93,6 +75,7 @@
 </template>
 
 <script>
+import { ButtonColor, ButtonVariant } from '@webitel/ui-sdk/enums';
 import copy from 'clipboard-copy';
 import { mapActions, mapState } from 'vuex';
 import { CallDirection, EavesdropState } from 'webitel-sdk';
@@ -112,6 +95,8 @@ export default {
 		return {
 			inbound: CallDirection.Inbound,
 			isCopied: false,
+			ButtonColor,
+			ButtonVariant,
 		};
 	},
 	computed: {

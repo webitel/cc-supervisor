@@ -1,7 +1,8 @@
 <template>
   <section class="table-section">
-    <header class="table-title">
-      <h3 class="table-title__title">
+    <header class="agent-calls-tab__title table-title">
+      <h3 class="agent-calls-tab__title-title table-title__title">
+				{{ $t('pages.card.calls.logs') }}
       </h3>
       <wt-table-actions
         class="table-section__actions-wrapper"
@@ -294,13 +295,20 @@ export default {
 </script>
 
 <style
-  lang="scss"
   scoped
 >
 .wt-player {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 45px; // above pagination, na oko
+  bottom: 45px; /* above pagination, na oko */
+}
+
+.agent-calls-tab__title {
+	margin: 0;
+}
+
+.agent-calls-tab__title-title {
+	padding-inline: var(--spacing-xs);
 }
 </style>

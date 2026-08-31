@@ -12,5 +12,8 @@ config.global.plugins = [
 	WebitelUi,
 	i18n,
 ];
+config.global.provide = {
+	darkMode: false,
+};
 
 vi.doMock('axios', axiosMock());

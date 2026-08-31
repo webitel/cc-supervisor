@@ -107,6 +107,7 @@ export default {
 			},
 			calls: {
 				title: 'Work log',
+				logs: 'Logs',
 				columns: {
 					cause: 'Hangup cause',
 					direction: 'Direction',

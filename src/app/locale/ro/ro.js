@@ -107,6 +107,7 @@ export default {
 			},
 			calls: {
 				title: 'Jurnal de lucru',
+				logs: 'Log | Logs',
 				columns: {
 					cause: 'Cauză închidere',
 					direction: 'Direcție',

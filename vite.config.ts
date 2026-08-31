@@ -1,10 +1,9 @@
 import vue from '@vitejs/plugin-vue';
 import { resolve } from 'path';
+import { vite as vidstack } from 'vidstack/plugins';
 import { defineConfig, loadEnv } from 'vite';
-
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import vueDevTools from 'vite-plugin-vue-devtools';
-import { vite as vidstack } from 'vidstack/plugins';
 
 export default ({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '');
@@ -34,6 +33,25 @@ export default ({ mode }) => {
 			],
 		},
 		resolve: {
+			// Force a single Vue instance: @webitel/ui-sdk is npm-linked to a sibling
+			// repo with its own node_modules/@vue/*, and resolve.dedupe alone doesn't
+			// collapse them across the symlink (Vite matches dedupe by realpath, which
+			// differs for the linked package). Hard-alias each Vue subpackage to
+			// cc-supervisor's own copy so ui-sdk's components render against the same
+			// runtime — otherwise PrimeVue internals relying on module-scoped state
+			// (e.g. slots) break with "Cannot read properties of null (reading 'ce')".
+			dedupe: [
+				'vue',
+				'@vue/runtime-core',
+				'@vue/runtime-dom',
+				'@vue/reactivity',
+				'@vue/shared',
+				'@vue/compiler-core',
+				'@vue/compiler-dom',
+				'@vue/compiler-sfc',
+				'@vue/server-renderer',
+				'pinia',
+			],
 			alias: {
 				// vue: '@vue/compat',
 				'@': resolve(__dirname, 'src'),
@@ -82,6 +100,17 @@ export default ({ mode }) => {
 						// through vite's resolver (extension-completing to `.js`) instead
 						// of native node package-exports resolution, which fails on them.
 						'@webitel/ui-datalist',
+						// Inlined so primevue's `import ... from 'vue'` goes through vite's
+						// resolver (and our resolve.alias) instead of being externalized to
+						// a native Node require, which resolves `vue` relative to ui-sdk's
+						// own node_modules and produces a second, incompatible Vue instance.
+						'primevue',
+						// Same reasoning for pinia: externalized native requires bypass our
+						// pinia resolve.alias, so @webitel/ui-sdk's stores and the test's
+						// createTestingPinia() end up on two different Pinia registries,
+						// producing "no active Pinia" even though a testing Pinia is installed.
+						'pinia',
+						'@pinia/testing',
 					],
 				},
 			},
