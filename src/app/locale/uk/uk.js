@@ -107,6 +107,7 @@ export default {
 			},
 			calls: {
 				title: 'Журнал',
+				logs: 'Лог | Логи',
 				columns: {
 					cause: 'Причина завершення',
 					direction: 'Напрям',

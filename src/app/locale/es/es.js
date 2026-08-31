@@ -107,6 +107,7 @@ export default {
 			},
 			calls: {
 				title: 'Registro de trabajo',
+				logs: 'Registro | Registros',
 				columns: {
 					cause: 'Motivo de finalización',
 					direction: 'Dirección',

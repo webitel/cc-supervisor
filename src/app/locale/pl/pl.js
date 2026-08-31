@@ -107,6 +107,7 @@ export default {
 			},
 			calls: {
 				title: 'Dziennik pracy',
+				logs: 'Log | Logi',
 				columns: {
 					cause: 'Powód zakończenia',
 					direction: 'Kierunek',

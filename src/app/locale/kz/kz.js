@@ -107,6 +107,7 @@ export default {
 			},
 			calls: {
 				title: 'Жұмыс журналы',
+				logs: 'Лог | Логтар',
 				columns: {
 					cause: 'Аяқтау себебі',
 					direction: 'Бағыт',

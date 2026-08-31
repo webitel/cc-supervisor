@@ -8,8 +8,8 @@
     :mime="currentVideo.mime_type"
     @close="closeVideo"
   />
-  <section class="table-section__table-wrapper table-wrapper--tab-table table-page">
-    <header class="table-title">
+  <section class="agent-screen-recordings-tab table-section__table-wrapper table-wrapper--tab-table table-page">
+    <header class="agent-screen-recordings-tab__title table-title">
       <h3 class="table-title__title">
         {{ t('objects.screenRecordings', 2) }}
       </h3>
@@ -278,4 +278,13 @@ const closeVideo = () => {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.agent-screen-recordings-tab {
+  gap: 0;
+}
+
+.agent-screen-recordings-tab__title {
+  padding: var(--spacing-xs);
+  margin: 0;
+}
+</style>
