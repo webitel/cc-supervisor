@@ -37,8 +37,6 @@
 		"deep-copy": "^1.x",
 		"deep-equal": "^2.x",
 		"deepmerge": "^4.x",
-		"jszip": "^3.10.1",
-		"jszip-utils": "^0.1.0",
 		"lodash-es": "^4.x",
 		"pinia": "^3.x",
 		"vidstack": "^1.15.6",
