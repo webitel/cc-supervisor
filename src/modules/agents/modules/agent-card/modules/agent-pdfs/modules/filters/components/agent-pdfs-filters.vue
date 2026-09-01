@@ -5,14 +5,14 @@
     <wt-datepicker
       show-time
       :label="$t('reusable.from')"
-      :model-value="filters['createdAtFrom']"
-      @update:model-value="handleFilter($event, 'createdAtFrom')"
+      :model-value="filters['uploadedAtFrom']"
+      @update:model-value="handleFilter($event, 'uploadedAtFrom')"
     />
     <wt-datepicker
       show-time
       :label="$t('reusable.to')"
-      :model-value="filters['createdAtTo']"
-      @update:model-value="handleFilter($event, 'createdAtTo')"
+      :model-value="filters['uploadedAtTo']"
+      @update:model-value="handleFilter($event, 'uploadedAtTo')"
     />
   </wt-filters-panel-wrapper>
 </template>
@@ -50,12 +50,12 @@ const handleFilter = (value, field) => {
 
 const resetFilters = () => {
 	updateFilter({
-		name: 'createdAtFrom',
+		name: 'uploadedAtFrom',
 		value: getStartOfDay(),
 	});
 
 	updateFilter({
-		name: 'createdAtTo',
+		name: 'uploadedAtTo',
 		value: getEndOfDay(),
 	});
 };
