@@ -28,7 +28,7 @@ import CallWindowEavesdrop from '../../modules/call-window/components/call-windo
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	height: 100%;
+	height: 100vh;
 }
 
 .the-supervisor-workspace__content {
