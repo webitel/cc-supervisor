@@ -40,6 +40,7 @@
 import { FileServicesAPI } from '@webitel/api-services/api';
 import { WebitelMediaExporterExportRecord } from '@webitel/api-services/gen/models';
 import { IconAction } from '@webitel/ui-sdk/enums';
+import { getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
 import AgentPdfsTabSdk from '@webitel/ui-sdk/src/modules/AgentPdfs/components/agent-pdfs-tab.vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
@@ -55,6 +56,25 @@ const route = useRoute();
 const agentId = route.params.id as string;
 
 const tableStore = usePdfsDataListStore();
+const { hasFilter, addFilter } = tableStore;
+
+const initializeDefaultFilters = () => {
+	if (!hasFilter('uploadedAtFrom')) {
+		addFilter({
+			name: 'uploadedAtFrom',
+			value: getStartOfDay(),
+		});
+	}
+
+	if (!hasFilter('uploadedAtTo')) {
+		addFilter({
+			name: 'uploadedAtTo',
+			value: getEndOfDay(),
+		});
+	}
+};
+
+initializeDefaultFilters();
 
 const handleDeleteItem = (item: WebitelMediaExporterExportRecord) => {
 	return FileServicesAPI.deleteScreenRecordingsByAgent({
