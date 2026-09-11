@@ -2,7 +2,7 @@ import {
 	downloadFile as downloadArchiveFile,
 	FileFormat,
 } from '@webitel/api-services/scripts';
-import type { IFiltersManager } from '@webitel/ui-datalist/src/modules/filters/classes/FiltersManager';
+import type { IFiltersManager } from '@webitel/ui-datalist/filters';
 import { eventBus } from '@webitel/ui-sdk/scripts';
 import { ref } from 'vue';
 
@@ -44,10 +44,16 @@ export function useDownloadArchive({
 				fileIds,
 				from: fileIds
 					? undefined
-					: filtersManager.filters.get('uploadedAtFrom')?.value,
+					: (filtersManager.filters.get('uploadedAtFrom')?.value as
+							| string
+							| number
+							| undefined),
 				to: fileIds
 					? undefined
-					: filtersManager.filters.get('uploadedAtTo')?.value,
+					: (filtersManager.filters.get('uploadedAtTo')?.value as
+							| string
+							| number
+							| undefined),
 			});
 
 			downloadArchiveFile({
