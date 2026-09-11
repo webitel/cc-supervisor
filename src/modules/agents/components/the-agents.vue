@@ -167,10 +167,9 @@
 <script setup>
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { WtDisplayChipItems, WtEmpty } from '@webitel/ui-sdk/components';
-import { IconColor } from '@webitel/ui-sdk/enums';
+import { IconAction, IconColor } from '@webitel/ui-sdk/enums';
 import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo';
 import { ComponentSize } from '@webitel/ui-sdk/src/enums';
-import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import { ScreenSharing } from '@webitel/ui-sdk/src/modules/CallSession/index';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
