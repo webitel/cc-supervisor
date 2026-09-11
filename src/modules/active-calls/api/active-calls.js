@@ -16,7 +16,6 @@ export const getActiveCallList = async (params) => {
 
 	return {
 		items: items.map((item) => ({
-			duration: 0,
 			...item,
 			duration: convertDuration(item.duration ?? 0),
 			createdAt: formatDate(+item.createdAt, FormatDateMode.DATETIME),
