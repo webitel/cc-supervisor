@@ -14,9 +14,11 @@
         {{ t('objects.screenRecordings', 2) }}
       </h3>
       <wt-action-bar
-        :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
+        :include="[IconAction.DOWNLOAD, IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
         :disabled:delete="!selected.length"
+        :disabled:download="!dataList.length || isDownloadingArchive"
         @click:refresh="loadDataList"
+        @click:download="downloadArchive"
         @click:delete="
           askDeleteConfirmation({
             deleted: selected,
@@ -111,18 +113,23 @@ import {
 	downloadFile,
 	FileServicesAPI,
 	getMediaUrl,
+	PdfServicesAPI,
 } from '@webitel/api-services/api';
 import {
 	StorageScreenrecordingChannel,
 	StorageScreenrecordingType,
 } from '@webitel/api-services/gen/models';
+import {
+	downloadFile as downloadArchiveFile,
+	FileFormat,
+} from '@webitel/api-services/scripts';
 import { WtEmpty, WtVidstackPlayer } from '@webitel/ui-sdk/components';
 import {
 	ComponentSize,
 	FormatDateMode,
 	IconAction,
 } from '@webitel/ui-sdk/enums';
-import { getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
+import { eventBus, getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
@@ -264,6 +271,41 @@ const handleDelete = async (
 			updatePage(page.value - 1);
 		}
 		await loadDataList();
+	}
+};
+
+const isDownloadingArchive = ref(false);
+
+const downloadArchive = async () => {
+	isDownloadingArchive.value = true;
+	try {
+		const fileIds = selected.value.length
+			? selected.value.map(({ id }) => id)
+			: undefined;
+
+		const response = await PdfServicesAPI.downloadScreenrecordingArchive({
+			agentId,
+			fileIds,
+			from: fileIds
+				? undefined
+				: filtersManager.value.filters.get('uploadedAtFrom')?.value,
+			to: fileIds
+				? undefined
+				: filtersManager.value.filters.get('uploadedAtTo')?.value,
+		});
+
+		downloadArchiveFile({
+			response,
+			fileFormat: FileFormat.ZIP,
+			filename: `screen-recordings-${agentId}`,
+		});
+	} catch (e) {
+		eventBus.$emit('notification', {
+			type: 'error',
+			text: e?.response?.data?.detail,
+		});
+	} finally {
+		isDownloadingArchive.value = false;
 	}
 };
 

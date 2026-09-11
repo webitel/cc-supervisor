@@ -12,11 +12,13 @@
         {{ t('objects.screenshots', 2) }}
       </h3>
       <wt-action-bar
-        :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE,  IconAction.DOWNLOAD_PDF]"
+        :include="[IconAction.DOWNLOAD, IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE,  IconAction.DOWNLOAD_PDF]"
         :disabled:delete="!selected.length"
         :disabled:download-pdf="!dataList.length"
+        :disabled:download="!dataList.length || isDownloadingArchive"
         @click:refresh="loadDataList"
         @click:download-pdf="downloadPdf"
+        @click:download="downloadArchive"
         @click:delete="
           askDeleteConfirmation({
             deleted: selected,
@@ -114,6 +116,10 @@ import {
 	StorageScreenrecordingChannel,
 	StorageScreenrecordingType,
 } from '@webitel/api-services/gen/models';
+import {
+	downloadFile as downloadArchiveFile,
+	FileFormat,
+} from '@webitel/api-services/scripts';
 import { WtEmpty, WtGalleria } from '@webitel/ui-sdk/components';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import { eventBus, getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
@@ -269,6 +275,41 @@ const handleDelete = async (
 			updatePage(page.value - 1);
 		}
 		await loadDataList();
+	}
+};
+
+const isDownloadingArchive = ref(false);
+
+const downloadArchive = async () => {
+	isDownloadingArchive.value = true;
+	try {
+		const fileIds = selected.value.length
+			? selected.value.map(({ id }) => id)
+			: undefined;
+
+		const response = await PdfServicesAPI.downloadScreenshotArchive({
+			agentId,
+			fileIds,
+			from: fileIds
+				? undefined
+				: filtersManager.value.filters.get('uploadedAtFrom')?.value,
+			to: fileIds
+				? undefined
+				: filtersManager.value.filters.get('uploadedAtTo')?.value,
+		});
+
+		downloadArchiveFile({
+			response,
+			fileFormat: FileFormat.ZIP,
+			filename: `screenshots-${agentId}`,
+		});
+	} catch (e) {
+		eventBus.$emit('notification', {
+			type: 'error',
+			text: e?.response?.data?.detail,
+		});
+	} finally {
+		isDownloadingArchive.value = false;
 	}
 };
 
