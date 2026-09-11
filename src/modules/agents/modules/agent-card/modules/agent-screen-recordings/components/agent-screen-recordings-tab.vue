@@ -18,7 +18,7 @@
         :disabled:delete="!selected.length"
         :disabled:download="!dataList.length || isDownloadingArchive"
         @click:refresh="loadDataList"
-        @click:download="downloadArchive"
+        @click:download="downloadArchive({ selected, filtersManager })"
         @click:delete="
           askDeleteConfirmation({
             deleted: selected,
@@ -119,17 +119,13 @@ import {
 	StorageScreenrecordingChannel,
 	StorageScreenrecordingType,
 } from '@webitel/api-services/gen/models';
-import {
-	downloadFile as downloadArchiveFile,
-	FileFormat,
-} from '@webitel/api-services/scripts';
 import { WtEmpty, WtVidstackPlayer } from '@webitel/ui-sdk/components';
 import {
 	ComponentSize,
 	FormatDateMode,
 	IconAction,
 } from '@webitel/ui-sdk/enums';
-import { eventBus, getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
+import { getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
@@ -140,6 +136,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useTableAutoRefresh } from '../../../../../../../app/composables/useTableAutoRefresh';
+import { useDownloadArchive } from '../../../../../composables/useDownloadArchive';
 import { useScreenRecordingsDataListStore } from '../store/screen-recordings';
 
 const { t } = useI18n();
@@ -274,40 +271,11 @@ const handleDelete = async (
 	}
 };
 
-const isDownloadingArchive = ref(false);
-
-const downloadArchive = async () => {
-	isDownloadingArchive.value = true;
-	try {
-		const fileIds = selected.value.length
-			? selected.value.map(({ id }) => id)
-			: undefined;
-
-		const response = await PdfServicesAPI.downloadScreenrecordingArchive({
-			agentId,
-			fileIds,
-			from: fileIds
-				? undefined
-				: filtersManager.value.filters.get('uploadedAtFrom')?.value,
-			to: fileIds
-				? undefined
-				: filtersManager.value.filters.get('uploadedAtTo')?.value,
-		});
-
-		downloadArchiveFile({
-			response,
-			fileFormat: FileFormat.ZIP,
-			filename: `screen-recordings-${agentId}`,
-		});
-	} catch (e) {
-		eventBus.$emit('notification', {
-			type: 'error',
-			text: e?.response?.data?.detail,
-		});
-	} finally {
-		isDownloadingArchive.value = false;
-	}
-};
+const { isDownloadingArchive, downloadArchive } = useDownloadArchive({
+	apiMethod: PdfServicesAPI.downloadScreenrecordingArchive,
+	agentId,
+	filenamePrefix: 'screen-recordings',
+});
 
 const openVideo = (item) => {
 	currentVideo.value = item;

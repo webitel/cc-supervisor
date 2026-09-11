@@ -18,7 +18,7 @@
         :disabled:download="!dataList.length || isDownloadingArchive"
         @click:refresh="loadDataList"
         @click:download-pdf="downloadPdf"
-        @click:download="downloadArchive"
+        @click:download="downloadArchive({ selected, filtersManager })"
         @click:delete="
           askDeleteConfirmation({
             deleted: selected,
@@ -116,10 +116,6 @@ import {
 	StorageScreenrecordingChannel,
 	StorageScreenrecordingType,
 } from '@webitel/api-services/gen/models';
-import {
-	downloadFile as downloadArchiveFile,
-	FileFormat,
-} from '@webitel/api-services/scripts';
 import { WtEmpty, WtGalleria } from '@webitel/ui-sdk/components';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import { eventBus, getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
@@ -132,6 +128,7 @@ import { computed, defineEmits, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useTableAutoRefresh } from '../../../../../../../app/composables/useTableAutoRefresh';
+import { useDownloadArchive } from '../../../../../composables/useDownloadArchive';
 import { useScreenshotsDataListStore } from '../store/screenshots';
 
 const { t } = useI18n();
@@ -278,40 +275,11 @@ const handleDelete = async (
 	}
 };
 
-const isDownloadingArchive = ref(false);
-
-const downloadArchive = async () => {
-	isDownloadingArchive.value = true;
-	try {
-		const fileIds = selected.value.length
-			? selected.value.map(({ id }) => id)
-			: undefined;
-
-		const response = await PdfServicesAPI.downloadScreenshotArchive({
-			agentId,
-			fileIds,
-			from: fileIds
-				? undefined
-				: filtersManager.value.filters.get('uploadedAtFrom')?.value,
-			to: fileIds
-				? undefined
-				: filtersManager.value.filters.get('uploadedAtTo')?.value,
-		});
-
-		downloadArchiveFile({
-			response,
-			fileFormat: FileFormat.ZIP,
-			filename: `screenshots-${agentId}`,
-		});
-	} catch (e) {
-		eventBus.$emit('notification', {
-			type: 'error',
-			text: e?.response?.data?.detail,
-		});
-	} finally {
-		isDownloadingArchive.value = false;
-	}
-};
+const { isDownloadingArchive, downloadArchive } = useDownloadArchive({
+	apiMethod: PdfServicesAPI.downloadScreenshotArchive,
+	agentId,
+	filenamePrefix: 'screenshots',
+});
 
 const downloadPdf = async () => {
 	try {
