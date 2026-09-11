@@ -14,9 +14,11 @@
         {{ t('objects.screenRecordings', 2) }}
       </h3>
       <wt-action-bar
-        :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
+        :include="[IconAction.DOWNLOAD, IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
         :disabled:delete="!selected.length"
+        :disabled:download="!dataList.length || isDownloadingArchive"
         @click:refresh="loadDataList"
+        @click:download="downloadArchive({ selected, filtersManager })"
         @click:delete="
           askDeleteConfirmation({
             deleted: selected,
@@ -111,6 +113,7 @@ import {
 	downloadFile,
 	FileServicesAPI,
 	getMediaUrl,
+	PdfServicesAPI,
 } from '@webitel/api-services/api';
 import {
 	StorageScreenrecordingChannel,
@@ -133,6 +136,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useTableAutoRefresh } from '../../../../../../../app/composables/useTableAutoRefresh';
+import { useDownloadArchive } from '../../../../../composables/useDownloadArchive';
 import { useScreenRecordingsDataListStore } from '../store/screen-recordings';
 
 const { t } = useI18n();
@@ -266,6 +270,12 @@ const handleDelete = async (
 		await loadDataList();
 	}
 };
+
+const { isDownloadingArchive, downloadArchive } = useDownloadArchive({
+	apiMethod: PdfServicesAPI.downloadScreenrecordingArchive,
+	agentId,
+	filenamePrefix: 'screen-recordings',
+});
 
 const openVideo = (item) => {
 	currentVideo.value = item;

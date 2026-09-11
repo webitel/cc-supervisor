@@ -12,11 +12,13 @@
         {{ t('objects.screenshots', 2) }}
       </h3>
       <wt-action-bar
-        :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE,  IconAction.DOWNLOAD_PDF]"
+        :include="[IconAction.DOWNLOAD, IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE,  IconAction.DOWNLOAD_PDF]"
         :disabled:delete="!selected.length"
         :disabled:download-pdf="!dataList.length"
+        :disabled:download="!dataList.length || isDownloadingArchive"
         @click:refresh="loadDataList"
         @click:download-pdf="downloadPdf"
+        @click:download="downloadArchive({ selected, filtersManager })"
         @click:delete="
           askDeleteConfirmation({
             deleted: selected,
@@ -126,6 +128,7 @@ import { computed, defineEmits, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useTableAutoRefresh } from '../../../../../../../app/composables/useTableAutoRefresh';
+import { useDownloadArchive } from '../../../../../composables/useDownloadArchive';
 import { useScreenshotsDataListStore } from '../store/screenshots';
 
 const { t } = useI18n();
@@ -271,6 +274,12 @@ const handleDelete = async (
 		await loadDataList();
 	}
 };
+
+const { isDownloadingArchive, downloadArchive } = useDownloadArchive({
+	apiMethod: PdfServicesAPI.downloadScreenshotArchive,
+	agentId,
+	filenamePrefix: 'screenshots',
+});
 
 const downloadPdf = async () => {
 	try {
