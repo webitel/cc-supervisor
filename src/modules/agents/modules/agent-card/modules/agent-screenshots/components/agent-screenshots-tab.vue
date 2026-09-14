@@ -3,7 +3,7 @@
     v-model:visible="galleriaVisible"
     v-model:active-index="galleriaActiveIndex"
     :value="galleriaData"
-    @download="downloadFile(dataList[galleriaActiveIndex].id)"
+    @download="downloadFile(dataList[galleriaActiveIndex].id, dataList[galleriaActiveIndex].view_name)"
     @delete="handleDeleteFromGalleria"
   />
   <section class="agent-screenshots-tab table-section__table-wrapper table-wrapper--tab-table table-page">
@@ -78,7 +78,7 @@
         <template #actions="{ item }">
           <wt-icon-action
             action="download"
-            @click="downloadFile(item.id)"
+            @click="downloadFile(item.id, item.view_name)"
           />
           <wt-icon-action
             action="delete"
