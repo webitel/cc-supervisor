@@ -168,12 +168,11 @@ export default {
 }
 
 .agent-info-form {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xs);
   padding: var(--spacing-xs);
   overflow: auto;
-
-  .wt-select, .wt-input-number {
-    margin-bottom: var(--spacing-sm);
-  }
 
   .wt-button {
     display: block;
