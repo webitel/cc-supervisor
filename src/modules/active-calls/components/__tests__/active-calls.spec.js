@@ -1,8 +1,8 @@
+import { createTestingPinia } from '@pinia/testing';
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
 
 import API from '../../api/active-calls';
-import activeCallsStore from '../../store/active-calls';
 import ActiveCalls from '../the-active-calls.vue';
 
 const items = [];
@@ -16,16 +16,15 @@ describe('Active Calls page', () => {
 	let mountOptions;
 
 	beforeEach(() => {
-		store = createStore({
-			modules: {
-				activeCalls: activeCallsStore,
-			},
-		});
+		store = createStore({});
 
 		mountOptions = {
 			global: {
 				plugins: [
 					store,
+					createTestingPinia({
+						createSpy: vi.fn,
+					}),
 				],
 				mocks: {
 					$route: {
