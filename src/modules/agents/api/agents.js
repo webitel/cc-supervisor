@@ -31,6 +31,8 @@ export const getAgentsList = async (params) => {
 		...params,
 		// the filter is named after the progress bar it drives
 		utilizationTo: params.utilizationProgress,
+		// the generated param is `status`; `agentStatus` is what the datalist store sends
+		status: params.agentStatus,
 	});
 
 	return {
