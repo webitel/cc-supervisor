@@ -1,13 +1,13 @@
 import { createTestingPinia } from '@pinia/testing';
 import { shallowMount } from '@vue/test-utils';
+import { ActiveCallsAPI } from '@webitel/api-services/api';
 import { createStore } from 'vuex';
 
-import API from '../../api/active-calls';
 import ActiveCalls from '../the-active-calls.vue';
 
 const items = [];
 
-vi.spyOn(API, 'getList').mockImplementation(() => ({
+vi.spyOn(ActiveCallsAPI, 'getList').mockImplementation(() => ({
 	items,
 }));
 
