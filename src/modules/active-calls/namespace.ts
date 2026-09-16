@@ -1,1 +1,1 @@
-export const ActiveCallsNamespace = 'activeCalls';
+export const ActiveCallsNamespace = 'active-calls';

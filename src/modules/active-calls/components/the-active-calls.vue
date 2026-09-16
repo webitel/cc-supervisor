@@ -18,9 +18,6 @@
     <template #main>
       <section class="table-section">
         <header class="table-title">
-          <div>
-            <!-- title should be here -->
-          </div>
           <wt-action-bar
             :include="[
               IconAction.FILTERS,
@@ -48,15 +45,14 @@
         </header>
 
         <div class="table-section__table-wrapper">
-          <wt-dummy
-            v-if="dummyValue && !isLoading"
-            :src="dummyValue.src"
-            :text="dummyValue.text"
-            class="table-section__dummy"
+          <wt-empty
+            v-if="showEmpty"
+            :image="emptyStateImage"
+            :text="emptyStateText"
           />
           <wt-loader v-show="isLoading" />
           <div
-            v-if="!dummyValue && dataList?.length"
+            v-if="!showEmpty && dataList?.length"
             v-show="!isLoading"
             class="table-section__table-wrapper"
           >
@@ -125,6 +121,7 @@
 </template>
 
 <script setup>
+import { WtEmpty } from '@webitel/ui-sdk/components';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import { storeToRefs } from 'pinia';
 import { computed, inject, onMounted, onUnmounted, ref } from 'vue';
@@ -137,12 +134,17 @@ import DummyAfterSearchLight from '../assets/sv-dummy-after-search-light.svg';
 import DummyDark from '../assets/sv-dummy-dark.svg';
 import DummyLight from '../assets/sv-dummy-light.svg';
 import ActiveCallsFiltersPanel from '../modules/filters/components/active-calls-filters-panel.vue';
-import { useActiveCallsTableStore } from '../stores/active-calls';
+import { useActiveCallsTableStore } from '../stores/datalist/active-calls';
 import TableActiveCallState from './_internals/table-templates/table-active-call-state.vue';
 import TableDirection from './_internals/table-templates/table-direction.vue';
 
 const { t } = useI18n();
 
+/*
+ * TODO: need to refactor call store to remove usage of vuex store in component
+ *
+ * [WTEL-7283](https://webitel.atlassian.net/browse/WTEL-7283)
+ * */
 const store = useStore();
 const darkMode = inject('darkMode');
 
@@ -167,21 +169,23 @@ const {
 	columnReorder,
 } = tableStore;
 
-const dummyValue = computed(() => {
-	if (!dataList.value.length) {
-		if (filtersManager.value.getFiltersList()?.length) {
-			return {
-				src: darkMode.value ? DummyAfterSearchDark : DummyAfterSearchLight,
-				text: t('webitelUI.empty.text.filters'),
-			};
-		}
-		return {
-			src: darkMode.value ? DummyDark : DummyLight,
-			text: t('pages.activeCall.empty.workspace'),
-		};
-	}
-	return '';
-});
+const showEmpty = computed(() => !dataList.value.length && !isLoading.value);
+
+const emptyStateImage = computed(() =>
+	hasFilters.value
+		? darkMode.value
+			? DummyAfterSearchDark
+			: DummyAfterSearchLight
+		: darkMode.value
+			? DummyDark
+			: DummyLight,
+);
+
+const emptyStateText = computed(() =>
+	hasFilters.value
+		? t('webitelUI.empty.text.filters')
+		: t('pages.activeCall.empty.workspace'),
+);
 
 const { setAutoRefresh, clearAutoRefresh } = useTableAutoRefresh(loadDataList);
 
@@ -207,8 +211,8 @@ onUnmounted(() => {
   lang="scss"
   scoped
 >
-.table-section__dummy {
-  height: 100%;
+.wt-action-bar {
+  margin-left: auto;
 }
 
 .table-section__actions-wrapper {

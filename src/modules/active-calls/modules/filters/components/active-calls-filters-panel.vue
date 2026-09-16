@@ -17,7 +17,7 @@ import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import { useActiveCallsTableStore } from '../../../stores/active-calls';
+import { useActiveCallsTableStore } from '../../../stores/datalist/active-calls';
 import { buildFiltersOptions } from '../configs/filterOptions';
 
 const { hasReadAccess: hasUsersReadAccess } = useUserAccessControl(
