@@ -47,8 +47,9 @@
         <div class="table-section__table-wrapper">
           <wt-empty
             v-if="showEmpty"
-            :image="emptyStateImage"
-            :text="emptyStateText"
+            :image="imageEmpty"
+            :text="textEmpty"
+            :size="ComponentSize.LG"
           />
           <wt-loader v-show="isLoading" />
           <div
@@ -122,9 +123,10 @@
 
 <script setup>
 import { WtEmpty } from '@webitel/ui-sdk/components';
-import { IconAction } from '@webitel/ui-sdk/enums';
+import { ComponentSize, IconAction } from '@webitel/ui-sdk/enums';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
-import { computed, inject, onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 
@@ -146,13 +148,20 @@ const { t } = useI18n();
  * [WTEL-7283](https://webitel.atlassian.net/browse/WTEL-7283)
  * */
 const store = useStore();
-const darkMode = inject('darkMode');
 
 const tableStore = useActiveCallsTableStore();
 const showActionsPanel = ref(false);
 
-const { dataList, isLoading, page, size, next, headers, filtersManager } =
-	storeToRefs(tableStore);
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	headers,
+	filtersManager,
+} = storeToRefs(tableStore);
 
 const hasFilters = computed(
 	() => filtersManager.value.getFiltersList()?.length,
@@ -169,22 +178,32 @@ const {
 	columnReorder,
 } = tableStore;
 
-const showEmpty = computed(() => !dataList.value.length && !isLoading.value);
-
-const emptyStateImage = computed(() =>
-	hasFilters.value
-		? darkMode.value
-			? DummyAfterSearchDark
-			: DummyAfterSearchLight
-		: darkMode.value
-			? DummyDark
-			: DummyLight,
-);
-
-const emptyStateText = computed(() =>
-	hasFilters.value
-		? t('webitelUI.empty.text.filters')
-		: t('pages.activeCall.empty.workspace'),
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty(
+	{
+		dataList,
+		error,
+		filters: computed(() => filtersManager.value.getAllValues()),
+		isLoading,
+	},
+	computed(() => ({
+		image: {
+			empty: {
+				dark: DummyDark,
+				light: DummyLight,
+			},
+			filters: {
+				dark: DummyAfterSearchDark,
+				light: DummyAfterSearchLight,
+			},
+		},
+		text: {
+			empty: t('pages.activeCall.empty.workspace'),
+		},
+	})),
 );
 
 const { setAutoRefresh, clearAutoRefresh } = useTableAutoRefresh(loadDataList);
