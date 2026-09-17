@@ -6,56 +6,71 @@
     <template #header>
       <wt-headline>
         <template #title>
-          {{ $t('pages.activeCall.title') }}
+          {{ t('pages.activeCall.title') }}
         </template>
       </wt-headline>
     </template>
 
     <template #actions-panel>
-      <active-calls-filters :namespace="filtersNamespace"/>
+      <active-calls-filters-panel @hide="showActionsPanel = false" />
     </template>
 
     <template #main>
       <section class="table-section">
-        <div
-          class="table-section__table-wrapper"
-        >
-          <wt-loader v-show="isLoading"/>
-          <wt-table-actions
-            v-show="!isLoading"
+        <header class="table-title">
+          <wt-action-bar
+            :include="[
+              IconAction.FILTERS,
+              IconAction.REFRESH,
+              IconAction.COLUMNS
+            ]"
             class="table-section__actions-wrapper"
-            :icons="['settings', 'refresh']"
-            @input="inputTableAction"
+            @click:refresh="loadDataList"
           >
-            <filter-fields
-              :headers="headers"
-              entity="active-calls"
-              @change="setHeaders"
-            ></filter-fields>
-          </wt-table-actions>
+            <template #columns>
+              <wt-table-column-select
+                :headers="headers"
+                @change="updateShownHeaders"
+              />
+            </template>
+            <template #filters>
+              <wt-badge :hidden="!hasFilters">
+                <wt-icon-action
+                  action="filters"
+                  @click="showActionsPanel = !showActionsPanel"
+                />
+              </wt-badge>
+            </template>
+          </wt-action-bar>
+        </header>
 
-          <wt-dummy
-            v-if="dummyValue && !isLoading"
-            :src="dummyValue.src"
-            :text="dummyValue.text"
-            class="table-section__dummy"
-          ></wt-dummy>
-
+        <div class="table-section__table-wrapper">
+          <wt-empty
+            v-if="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+            :size="ComponentSize.LG"
+          />
+          <wt-loader v-show="isLoading" />
           <div
-            v-if="!dummyValue && dataList?.length"
+            v-if="!showEmpty && dataList?.length"
             v-show="!isLoading"
             class="table-section__table-wrapper"
           >
             <wt-table
               :headers="headers"
               :data="dataList"
-              :grid-actions="false"
-              :selectable="false"
               sortable
-              @sort="sort"
+              :selectable="false"
+              :grid-actions="false"
+              resizable-columns
+              reorderable-columns
+              @sort="updateSort"
+              @column-resize="columnResize"
+              @column-reorder="columnReorder"
             >
               <template #direction="{ item }">
-                <table-direction :item="item"/>
+                <table-direction :item="item" />
               </template>
               <template #from="{ item }">
                 <div v-if="item.from">
@@ -83,11 +98,21 @@
                 </div>
               </template>
               <template #state="{ item }">
-                <table-active-call-state :item="item" @attach-call="attachCall"/>
+                <table-active-call-state
+                  :item="item"
+                  @attach-call="attachCall"
+                />
               </template>
             </wt-table>
-            <filter-pagination
-              :is-next="isNext"
+
+            <wt-pagination
+              :next="next"
+              :prev="page > 1"
+              :size="size"
+              debounce
+              @change="updateSize"
+              @next="updatePage(page + 1)"
+              @prev="updatePage(page - 1)"
             />
           </div>
         </div>
@@ -96,89 +121,117 @@
   </wt-page-wrapper>
 </template>
 
-<script>
-import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
-import { mapActions, mapGetters } from 'vuex';
+<script setup>
+import { WtEmpty } from '@webitel/ui-sdk/components';
+import { ComponentSize, IconAction } from '@webitel/ui-sdk/enums';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
 
-import tablePageMixin from '../../../app/mixins/supervisor-workspace/tablePageMixin';
-import FilterPagination from '../../_shared/filters/components/filter-pagination.vue';
-import FilterFields from '../../_shared/filters/components/filter-table-fields.vue';
+import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh';
 import DummyAfterSearchDark from '../assets/sv-dummy-after-search-dark.svg';
 import DummyAfterSearchLight from '../assets/sv-dummy-after-search-light.svg';
 import DummyDark from '../assets/sv-dummy-dark.svg';
 import DummyLight from '../assets/sv-dummy-light.svg';
-import ActiveCallsFilters from '../modules/filters/components/active-calls-filters.vue';
+import ActiveCallsFiltersPanel from '../modules/filters/components/active-calls-filters-panel.vue';
+import { useActiveCallsTableStore } from '../stores/datalist/active-calls';
 import TableActiveCallState from './_internals/table-templates/table-active-call-state.vue';
 import TableDirection from './_internals/table-templates/table-direction.vue';
 
-export default {
-	name: 'TheActiveCalls',
-	components: {
-		FilterFields,
-		FilterPagination,
-		TableDirection,
-		TableActiveCallState,
-		ActiveCallsFilters,
-	},
-	mixins: [
-		tablePageMixin,
-		sortFilterMixin,
-	],
-	data: () => ({
-		namespace: 'activeCalls',
-		showActionsPanel: false,
-	}),
-	computed: {
-		...mapGetters('appearance', {
-			darkMode: 'DARK_MODE',
-		}),
-		dummyValue() {
-			if (!this.dataList.length) {
-				if (
-					Object.entries(this.$route.query).some(
-						([key, query]) => key !== 'fields' && query.length,
-					)
-				) {
-					return {
-						src: this.darkMode ? DummyAfterSearchDark : DummyAfterSearchLight,
-						text: this.$t('webitelUI.empty.text.filters'),
-					};
-				}
-				return {
-					src: this.darkMode ? DummyDark : DummyLight,
-					text: this.$t('pages.activeCall.empty.workspace'),
-				};
-			}
-			return '';
-		},
-	},
-	methods: {
-		...mapActions('call', {
-			attachToCall: 'ATTACH_TO_CALL',
-			openWindow: 'EAVESDROP_OPEN_WINDOW',
-		}),
+const { t } = useI18n();
 
-		async attachCall(id) {
-			await this.attachToCall({
-				id,
-			});
-			this.openWindow();
-		},
+/*
+ * TODO: need to refactor call store to remove usage of vuex store in component
+ *
+ * [WTEL-7283](https://webitel.atlassian.net/browse/WTEL-7283)
+ * */
+const store = useStore();
 
-		inputTableAction(event) {
-			if (event === 'settings') {
-				this.showActionsPanel = !this.showActionsPanel;
-				return;
-			}
-			this.tableActionsHandler(event);
-		},
+const tableStore = useActiveCallsTableStore();
+const showActionsPanel = ref(false);
+
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	headers,
+	filtersManager,
+} = storeToRefs(tableStore);
+
+const hasFilters = computed(
+	() => filtersManager.value.getFiltersList()?.length,
+);
+
+const {
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	updateShownHeaders,
+	columnResize,
+	columnReorder,
+} = tableStore;
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty(
+	{
+		dataList,
+		error,
+		filters: computed(() => filtersManager.value.getAllValues()),
+		isLoading,
 	},
+	computed(() => ({
+		image: {
+			empty: {
+				dark: DummyDark,
+				light: DummyLight,
+			},
+			filters: {
+				dark: DummyAfterSearchDark,
+				light: DummyAfterSearchLight,
+			},
+		},
+		text: {
+			empty: t('pages.activeCall.empty.workspace'),
+		},
+	})),
+);
+
+const { setAutoRefresh, clearAutoRefresh } = useTableAutoRefresh(loadDataList);
+
+const attachCall = async (id) => {
+	await store.dispatch('call/ATTACH_TO_CALL', {
+		id,
+	});
+	await store.dispatch('call/EAVESDROP_OPEN_WINDOW');
 };
+
+initialize();
+
+onMounted(() => {
+	setAutoRefresh();
+});
+
+onUnmounted(() => {
+	clearAutoRefresh();
+});
 </script>
 
-<style lang="scss" scoped>
-.table-section__dummy {
-  height: 100%;
+<style
+  lang="scss"
+  scoped
+>
+.wt-action-bar {
+  margin-left: auto;
 }
 
 .table-section__actions-wrapper {

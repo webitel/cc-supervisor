@@ -1,3 +1,7 @@
+import { FilterOption } from '@webitel/ui-datalist/filters';
+
+import { filterConfigs } from '../../../modules/filters/configs/filterOptions';
+
 export default [
 	{
 		value: 'createdAt',
@@ -12,6 +16,7 @@ export default [
 		show: true,
 		sort: null,
 		field: 'direction',
+		filter: filterConfigs[FilterOption.CallDirection],
 	},
 	{
 		value: 'duration',
@@ -33,6 +38,7 @@ export default [
 		show: true,
 		sort: null,
 		field: 'agent',
+		filter: filterConfigs[FilterOption.Agent],
 	},
 	{
 		value: 'to',
@@ -61,6 +67,7 @@ export default [
 		show: true,
 		sort: null,
 		field: 'queue',
+		filter: filterConfigs[FilterOption.Queue],
 	},
 	{
 		value: 'state',
@@ -68,6 +75,7 @@ export default [
 		show: true,
 		sort: null,
 		field: 'state',
+		filter: filterConfigs[FilterOption.CallReportingResult],
 	},
 	{
 		value: 'user',
@@ -75,6 +83,7 @@ export default [
 		show: true,
 		sort: null,
 		field: 'user',
+		filter: filterConfigs[FilterOption.User],
 	},
 	{
 		value: 'blindTransfer',
