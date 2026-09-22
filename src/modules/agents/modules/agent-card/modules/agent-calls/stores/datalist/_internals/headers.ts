@@ -1,3 +1,7 @@
+import { FilterOption } from '@webitel/ui-datalist/filters';
+
+import { filterConfigs } from '../../../modules/filters/configs/filterOptions';
+
 export default [
 	{
 		value: 'createdAt',
@@ -6,6 +10,7 @@ export default [
 		sort: null,
 		width: '200px',
 		field: 'created_at',
+		filter: filterConfigs[FilterOption.CreatedAtFrom],
 	},
 	{
 		value: 'direction',
@@ -236,6 +241,7 @@ export default [
 		show: false,
 		sort: null,
 		field: 'score_required',
+		filter: filterConfigs[FilterOption.Rated],
 	},
 	{
 		value: 'ratedBy',
@@ -243,5 +249,6 @@ export default [
 		show: false,
 		sort: null,
 		field: 'rated_by',
+		filter: filterConfigs[FilterOption.RatedBy],
 	},
 ];
