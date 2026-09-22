@@ -1,4 +1,5 @@
 import {
+	createDateRangeFilterConfig,
 	createFilterConfig,
 	type FilterConfigDefinition,
 	FilterOption,
@@ -11,12 +12,8 @@ import {
  * shows them in.
  */
 export const filterConfigs = {
-	[FilterOption.CreatedAtFrom]: createFilterConfig({
-		name: FilterOption.CreatedAtFrom,
-		showFilterName: true,
-	}),
-	[FilterOption.CreatedAtTo]: createFilterConfig({
-		name: FilterOption.CreatedAtTo,
+	[FilterOption.CreatedAt]: createDateRangeFilterConfig({
+		name: FilterOption.CreatedAt,
 		showFilterName: true,
 	}),
 	[FilterOption.Rated]: createFilterConfig({
@@ -29,9 +26,5 @@ export const filterConfigs = {
 	}),
 } satisfies Record<string, FilterConfigDefinition>;
 
-export const buildFiltersOptions = (): FilterConfigDefinition[] => [
-	filterConfigs[FilterOption.CreatedAtFrom],
-	filterConfigs[FilterOption.CreatedAtTo],
-	filterConfigs[FilterOption.Rated],
-	filterConfigs[FilterOption.RatedBy],
-];
+export const filtersOptions: FilterConfigDefinition[] =
+	Object.values(filterConfigs);

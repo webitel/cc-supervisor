@@ -1,8 +1,9 @@
+import type { DatalistTableHeader } from '@webitel/ui-datalist';
 import { FilterOption } from '@webitel/ui-datalist/filters';
 
 import { filterConfigs } from '../../../modules/filters/configs/filterOptions';
 
-export default [
+export const headers: DatalistTableHeader[] = [
 	{
 		value: 'createdAt',
 		locale: 'pages.card.calls.columns.createdAt',
@@ -10,7 +11,7 @@ export default [
 		sort: null,
 		width: '200px',
 		field: 'created_at',
-		filter: filterConfigs[FilterOption.CreatedAtFrom],
+		filter: filterConfigs[FilterOption.CreatedAt],
 	},
 	{
 		value: 'direction',

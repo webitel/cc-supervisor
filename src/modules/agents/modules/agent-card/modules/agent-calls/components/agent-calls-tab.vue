@@ -221,20 +221,18 @@ const {
 	addFilter,
 } = tableStore;
 
-// The list endpoint 400s unless created_at (or q) is present, so from/to need
-// a default the first time the table loads — same as the legacy from/to
-// filters, which always defaulted to today.
+// The list endpoint 400s unless created_at (or q) is present, so createdAt
+// needs a default the first time the table loads — same as the legacy
+// from/to filters, which always defaulted to today. static-filter-field.vue
+// always passes disable-default-value, so the field never self-seeds.
 const initializeDefaultFilters = () => {
-	if (!hasFilter(FilterOption.CreatedAtFrom)) {
+	if (!hasFilter(FilterOption.CreatedAt)) {
 		addFilter({
-			name: FilterOption.CreatedAtFrom,
-			value: getStartOfDay(),
-		});
-	}
-	if (!hasFilter(FilterOption.CreatedAtTo)) {
-		addFilter({
-			name: FilterOption.CreatedAtTo,
-			value: getEndOfDay(),
+			name: FilterOption.CreatedAt,
+			value: {
+				from: getStartOfDay(),
+				to: getEndOfDay(),
+			},
 		});
 	}
 };

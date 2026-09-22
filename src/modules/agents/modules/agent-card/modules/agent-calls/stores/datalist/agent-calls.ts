@@ -3,7 +3,7 @@ import { createTableStore } from '@webitel/ui-datalist';
 import { ref } from 'vue';
 
 import { AgentCallsNamespace } from '../../namespace';
-import headers from './_internals/headers';
+import { headers } from './_internals/headers';
 
 // AgentCallsAPI.getList needs the agent's `userId`, resolved asynchronously
 // from the parent agent-card store — it isn't a user-editable filter, so it's
