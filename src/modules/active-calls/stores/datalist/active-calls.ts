@@ -2,7 +2,7 @@ import { ActiveCallsAPI } from '@webitel/api-services/api';
 import { createTableStore } from '@webitel/ui-datalist';
 
 import { ActiveCallsNamespace } from '../../namespace';
-import headers from './_internals/headers';
+import { headers } from './_internals/headers';
 
 // Active calls are always scoped to this domain's own calls, never children's —
 // skipParent defaults to true here so every caller gets it without repeating it.

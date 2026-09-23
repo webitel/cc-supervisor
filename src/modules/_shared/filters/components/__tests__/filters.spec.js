@@ -32,12 +32,15 @@ const mountFilter = (component, namespace) =>
 // (single, root) control without throwing from the base filter mixin / store.
 describe('Filter components', () => {
 	it('renders from filter component', () => {
-		const wrapper = mountFilter(FilterFrom, 'agents/card/calls/filters');
+		const wrapper = mountFilter(
+			FilterFrom,
+			'agents/card/statusHistory/filters',
+		);
 		expect(wrapper.isVisible()).toBe(true);
 		expect(wrapper.html()).not.toBe('');
 	});
 	it('renders To filter component', () => {
-		const wrapper = mountFilter(FilterTo, 'agents/card/calls/filters');
+		const wrapper = mountFilter(FilterTo, 'agents/card/statusHistory/filters');
 		expect(wrapper.isVisible()).toBe(true);
 		expect(wrapper.html()).not.toBe('');
 	});

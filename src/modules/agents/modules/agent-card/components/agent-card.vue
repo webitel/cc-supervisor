@@ -42,7 +42,7 @@ import { useErrorRedirectHandler } from '../../../../../modules/error-pages/comp
 import { useUserinfoStore } from '../../../../../modules/userinfo/store/userInfoStore';
 import { useControlAgentScreenAccess } from '../../../composables/useControlAgentScreenAccess';
 import Calls from '../modules/agent-calls/components/agent-calls-tab.vue';
-import CallsFilters from '../modules/agent-calls/modules/filters/components/agent-calls-filters.vue';
+import CallsFilters from '../modules/agent-calls/modules/filters/components/agent-calls-filters-panel.vue';
 import General from '../modules/agent-general/components/agent-general-tab.vue';
 import Pdfs from '../modules/agent-pdfs/components/agent-pdfs-tab.vue';
 import PdfsFilters from '../modules/agent-pdfs/modules/filters/components/agent-pdfs-filters.vue';
@@ -186,7 +186,6 @@ export default {
 		},
 	},
 	unmounted() {
-		this.resetCallsFilters();
 		this.resetStatusHistoryFilters();
 	},
 	methods: {
@@ -196,9 +195,6 @@ export default {
 			},
 			loadAgent(dispatch, payload) {
 				return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
-			},
-			resetCallsFilters(dispatch) {
-				return dispatch(`${this.namespace}/calls/filters/RESET_FILTERS`);
 			},
 			resetStatusHistoryFilters(dispatch) {
 				return dispatch(

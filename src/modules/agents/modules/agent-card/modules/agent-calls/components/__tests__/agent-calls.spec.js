@@ -1,23 +1,23 @@
+import { createTestingPinia } from '@pinia/testing';
 import { shallowMount } from '@vue/test-utils';
+import { AgentCallsAPI } from '@webitel/api-services/api';
 import { createStore } from 'vuex';
 
-import AgentCallsAPI from '../../api/agent-calls';
-import agentsCallsStore from '../../store/agent-calls';
 import AgentCalls from '../agent-calls-tab.vue';
 
 const items = [];
 
-const namespace = 'agents/card/calls';
-
-vi.mock('../../api/agent-calls');
+vi.spyOn(AgentCallsAPI, 'getList').mockImplementation(() =>
+	Promise.resolve({
+		items,
+	}),
+);
 
 describe('Agent calls tab', () => {
 	let store;
 	let mountOptions = {};
 
 	beforeEach(() => {
-		// The component reads absolute store paths (`agents/card/calls/...`),
-		// so the module must be registered at that nested location.
 		store = createStore({
 			modules: {
 				agents: {
@@ -27,30 +27,24 @@ describe('Agent calls tab', () => {
 							namespaced: true,
 							state: () => ({
 								agent: {
-									user: {},
+									user: {
+										id: 1,
+									},
 								},
 							}),
-							modules: {
-								calls: agentsCallsStore,
-							},
 						},
 					},
 				},
 			},
 		});
 
-		AgentCallsAPI.getList.mockImplementation(() =>
-			Promise.resolve({
-				items,
-			}),
-		);
 		mountOptions = {
-			props: {
-				namespace,
-			},
 			global: {
 				plugins: [
 					store,
+					createTestingPinia({
+						createSpy: vi.fn,
+					}),
 				],
 				mocks: {
 					$route: {

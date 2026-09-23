@@ -1,44 +1,57 @@
 <template>
   <section class="table-section">
-    <header class="agent-calls-tab__title table-title">
-      <h3 class="agent-calls-tab__title-title table-title__title">
-				{{ $t('pages.card.calls.logs') }}
+    <header class="table-title">
+      <h3 class="table-title__title">
+        {{ t('pages.card.calls.logs') }}
       </h3>
-      <wt-table-actions
-        class="table-section__actions-wrapper"
-        :icons="['refresh', 'settings']"
-        is-settings-badge
-        @input="tableActionsHandler"
+      <wt-action-bar
+        :include="[
+          IconAction.FILTERS,
+          IconAction.REFRESH,
+          IconAction.COLUMNS
+        ]"
+        @click:refresh="loadDataList"
       >
-        <filter-fields
-          :headers="headers"
-					enable-search
-          entity="agentCalls"
-          @change="setHeaders"
-        ></filter-fields>
-      </wt-table-actions>
+        <template #columns>
+          <wt-table-column-select
+            :headers="headers"
+            @change="updateShownHeaders"
+          />
+        </template>
+        <template #filters>
+          <wt-badge :hidden="!hasFilters">
+            <wt-icon-action
+              action="filters"
+              @click="emit('toggle-filter')"
+            />
+          </wt-badge>
+        </template>
+      </wt-action-bar>
     </header>
 
-    <wt-loader v-show="isLoading" />
-
     <wt-empty
-      v-if="showEmpty && !isLoading"
+      v-if="showEmpty"
       :image="imageEmpty"
       :text="textEmpty"
     />
+    <wt-loader v-show="isLoading" />
 
     <div
-      v-if="dataList?.length"
-			v-show="!isLoading"
+      v-if="!showEmpty && dataList?.length"
+      v-show="!isLoading"
       class="table-section__table-wrapper"
     >
       <wt-table
-        ref="wt-table"
         :headers="headers"
         :data="dataList"
         :selectable="false"
+        :grid-actions="false"
         sortable
-        @sort="sort"
+        resizable-columns
+        reorderable-columns
+        @sort="updateSort"
+        @column-resize="columnResize"
+        @column-reorder="columnReorder"
       >
         <template #direction="{ item }">
           <table-direction :item="item" />
@@ -97,16 +110,21 @@
             @stop="closePlayer"
           />
           <wt-icon-btn
-            v-tooltip="$t('reusable.openInHistory')"
+            v-tooltip="t('reusable.openInHistory')"
             icon="link"
             @click="openInHistory(item)"
           />
         </template>
       </wt-table>
 
-      <filter-pagination
-        :is-next="isNext"
-        @input="closePlayer"
+      <wt-pagination
+        :next="next"
+        :prev="page > 1"
+        :size="size"
+        debounce
+        @change="updateSize"
+        @next="updatePage(page + 1)"
+        @prev="updatePage(page - 1)"
       />
 
       <wt-player
@@ -121,7 +139,7 @@
       closable
       :size="ComponentSize.MD"
       :src="videoSrc"
-			:title="videoSrc.name"
+      :title="videoSrc.name"
       @close="closePlayer"
     />
 
@@ -136,9 +154,10 @@
   </section>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { getCallMediaUrl, getMediaUrl } from '@webitel/api-services/api';
 import { EngineCallFileType } from '@webitel/api-services/gen/models';
+import { FilterOption } from '@webitel/ui-datalist/filters';
 import {
 	WtCallMediaAction,
 	WtEmpty,
@@ -146,169 +165,165 @@ import {
 	WtScreenRecordingsAction,
 	WtVidstackPlayer,
 } from '@webitel/ui-sdk/components';
-import { ComponentSize } from '@webitel/ui-sdk/enums';
-import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
+import { ComponentSize, IconAction } from '@webitel/ui-sdk/enums';
+import { getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
-import { computed } from 'vue';
-import { mapState, useStore } from 'vuex';
+import { storeToRefs } from 'pinia';
+import { computed, onUnmounted, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
 
-import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
-import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
-import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields.vue';
+import {
+	agentCallsUserId,
+	useAgentCallsTableStore,
+} from '../stores/datalist/agent-calls';
 import TableDirection from './_internals/table-templates/table-direction.vue';
 
-export default {
-	name: 'AgentCallsTab',
-	components: {
-		TableDirection,
-		FilterFields,
-		FilterPagination,
-		WtCallMediaAction,
-		WtEmpty,
-		WtPlayer,
-		WtScreenRecordingsAction,
-		WtVidstackPlayer,
-	},
-	mixins: [
-		tablePageMixin,
-		sortFilterMixin,
-	],
-	props: {
-		namespace: {
-			type: String,
-		},
-	},
-	data: () => ({
-		audioSrc: null,
-		videoSrc: null,
-		playingFileId: '',
-		currentScreenRecording: null,
-		EngineCallFileType,
-		ComponentSize,
-	}),
-	setup() {
-		const store = useStore();
-		const dataList = computed(() => store.state.agents.card.calls.dataList);
-		const isLoading = computed(() => store.state.agents.card.calls.isLoading);
-		const filters = computed(
-			() => store.getters['agents/card/calls/filters/GET_FILTERS'],
-		);
+const emit = defineEmits<{
+	'toggle-filter': [];
+}>();
 
-		const {
-			showEmpty,
-			image: imageEmpty,
-			text: textEmpty,
-		} = useTableEmpty({
-			dataList,
-			filters,
-			isLoading,
-			error: computed(() => null),
+const { t } = useI18n();
+const store = useStore();
+
+const audioSrc = ref(null);
+const videoSrc = ref(null);
+const playingFileId = ref('');
+const currentScreenRecording = ref(null);
+
+const tableStore = useAgentCallsTableStore();
+
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	headers,
+	filtersManager,
+} = storeToRefs(tableStore);
+
+const hasFilters = computed(
+	() => filtersManager.value.getFiltersList()?.length,
+);
+
+const {
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	updateShownHeaders,
+	columnResize,
+	columnReorder,
+	hasFilter,
+	addFilter,
+} = tableStore;
+
+// The list endpoint 400s unless created_at (or q) is present, so createdAt
+// needs a default the first time the table loads — same as the legacy
+// from/to filters, which always defaulted to today. static-filter-field.vue
+// always passes disable-default-value, so the field never self-seeds.
+const initializeDefaultFilters = () => {
+	if (!hasFilter(FilterOption.CreatedAt)) {
+		addFilter({
+			name: FilterOption.CreatedAt,
+			value: {
+				from: getStartOfDay(),
+				to: getEndOfDay(),
+			},
 		});
-
-		return {
-			showEmpty,
-			imageEmpty,
-			textEmpty,
-		};
-	},
-	computed: {
-		...mapState('agents/card', {
-			userId: (state) => state.agent.user?.id,
-		}),
-	},
-	methods: {
-		loadList() {
-			const { query } = this.$route;
-			return this.loadDataList({
-				...query,
-				userId: [
-					this.userId,
-				],
-			});
-		},
-		openInHistory(item) {
-			const historyIdLink = `${import.meta.env.VITE_HISTORY_URL}/view/call_view/${item.id}`;
-			window.open(historyIdLink, '_blank');
-		},
-		play(file) {
-			if (!file.id) return this.closePlayer();
-			this.playingFileId = file.id;
-			if (file.type === EngineCallFileType.FileTypeAudio) {
-				this.videoSrc = null;
-				this.audioSrc = {
-					src: getCallMediaUrl(file.id),
-					type: file.mimeType,
-				};
-			} else {
-				this.audioSrc = null;
-				this.videoSrc = {
-					src: getCallMediaUrl(file.id),
-					name: file.text,
-					type: file.mimeType,
-				};
-			}
-		},
-
-		closePlayer() {
-			this.audioSrc = null;
-			this.videoSrc = null;
-			this.playingFileId = '';
-		},
-		setScreenRecording(data) {
-			this.currentScreenRecording = {
-				...data,
-				video: getMediaUrl(data.id),
-			};
-			this.closePlayer();
-		},
-		closeScreenRecording() {
-			this.currentScreenRecording = null;
-		},
-		// @author @o.chorpita
-		// [WTEL-8652](https://webitel.atlassian.net/browse/WTEL-8652)
-		// Override mixin's initializeList to prevent initial list loading before userId is ready.
-		async initializeList() {
-			if (!this.userId) return;
-
-			this.isLoading = true;
-			try {
-				await this.loadList();
-			} finally {
-				this.isLoading = false;
-			}
-		},
-	},
-	mounted() {
-		const unwatch = this.$watch(
-			'userId',
-			async (newVal) => {
-				if (!newVal) return;
-				await this.loadList();
-				unwatch();
-			},
-			{
-				immediate: true,
-			},
-		);
-	},
+	}
 };
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
+
+const userId = computed(() => store.state.agents.card.agent.user?.id);
+
+let unwatchUserId: (() => void) | undefined;
+unwatchUserId = watch(
+	userId,
+	(newUserId) => {
+		if (!newUserId) return;
+		agentCallsUserId.value = newUserId;
+		initializeDefaultFilters();
+		initialize();
+		unwatchUserId?.();
+	},
+	{
+		immediate: true,
+	},
+);
+
+const openInHistory = (item) => {
+	const historyIdLink = `${import.meta.env.VITE_HISTORY_URL}/view/call_view/${item.id}`;
+	window.open(historyIdLink, '_blank');
+};
+
+const play = (file) => {
+	if (!file.id) return closePlayer();
+	playingFileId.value = file.id;
+	if (file.type === EngineCallFileType.FileTypeAudio) {
+		videoSrc.value = null;
+		audioSrc.value = {
+			src: getCallMediaUrl(file.id),
+			type: file.mimeType,
+		};
+	} else {
+		audioSrc.value = null;
+		videoSrc.value = {
+			src: getCallMediaUrl(file.id),
+			name: file.text,
+			type: file.mimeType,
+		};
+	}
+};
+
+const closePlayer = () => {
+	audioSrc.value = null;
+	videoSrc.value = null;
+	playingFileId.value = '';
+};
+
+const setScreenRecording = (data) => {
+	currentScreenRecording.value = {
+		...data,
+		video: getMediaUrl(data.id),
+	};
+	closePlayer();
+};
+
+const closeScreenRecording = () => {
+	currentScreenRecording.value = null;
+};
+
+onUnmounted(() => {
+	agentCallsUserId.value = null;
+});
 </script>
 
 <style
+  lang="scss"
   scoped
 >
+.wt-action-bar {
+  margin-left: auto;
+}
+
 .wt-player {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 45px; /* above pagination, na oko */
-}
-
-.agent-calls-tab__title {
-	margin: 0;
-}
-
-.agent-calls-tab__title-title {
-	padding-inline: var(--spacing-xs);
 }
 </style>

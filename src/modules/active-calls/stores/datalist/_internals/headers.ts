@@ -1,8 +1,9 @@
+import type { DatalistTableHeader } from '@webitel/ui-datalist';
 import { FilterOption } from '@webitel/ui-datalist/filters';
 
 import { filterConfigs } from '../../../modules/filters/configs/filterOptions';
 
-export default [
+export const headers: DatalistTableHeader[] = [
 	{
 		value: 'createdAt',
 		locale: 'pages.activeCall.columns.createdAt',
