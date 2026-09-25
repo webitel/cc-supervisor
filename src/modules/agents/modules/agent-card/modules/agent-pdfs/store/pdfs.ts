@@ -6,7 +6,10 @@ import { headers } from './_internals/headers';
 export const usePdfsDataListStore = createTableStore(
 	'agents/card/pdfs/datalist',
 	{
-		apiModule: PdfServicesAPI,
+		apiModule: {
+			...PdfServicesAPI,
+			delete: (params) => PdfServicesAPI.delete(params.id!),
+		},
 		headers,
 	},
 );
