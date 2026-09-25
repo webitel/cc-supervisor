@@ -14,14 +14,14 @@
 import { TableFiltersPanelComponent as TableFiltersPanel } from '@webitel/ui-datalist/filters';
 import { storeToRefs } from 'pinia';
 
-import { useAgentCallsTableStore } from '../../../stores/datalist/agent-calls';
+import { useAgentStatusHistoryTableStore } from '../../../stores/datalist/agent-status-history';
 import { filtersOptions } from '../configs/filterOptions';
 import { initializeDefaultFilters } from '../configs/initializeDefaultFilters';
 
-const agentCallsTableStore = useAgentCallsTableStore();
-const { filtersManager } = storeToRefs(agentCallsTableStore);
+const agentStatusHistoryTableStore = useAgentStatusHistoryTableStore();
+const { filtersManager } = storeToRefs(agentStatusHistoryTableStore);
 
-const { addFilter, updateFilter, deleteFilter } = agentCallsTableStore;
+const { addFilter, updateFilter, deleteFilter } = agentStatusHistoryTableStore;
 
 const resetFilters = () => {
 	filtersManager.value.reset();
