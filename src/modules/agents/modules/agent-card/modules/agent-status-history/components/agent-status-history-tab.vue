@@ -72,6 +72,7 @@
 </template>
 
 <script lang="ts" setup>
+import { FilterOption } from '@webitel/ui-datalist/filters';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
@@ -79,7 +80,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
-import { initializeDefaultFilters } from '../modules/filters/configs/initializeDefaultFilters';
+import { defaultJoinedAtFilter } from '../modules/filters/configs/filterOptions';
 import {
 	agentStatusHistoryAgentId,
 	useAgentStatusHistoryTableStore,
@@ -119,6 +120,8 @@ const {
 	updateShownHeaders,
 	columnResize,
 	columnReorder,
+	hasFilter,
+	addFilter,
 } = tableStore;
 
 const {
@@ -133,7 +136,9 @@ const {
 });
 
 agentStatusHistoryAgentId.value = route.params.id as string;
-initializeDefaultFilters();
+if (!hasFilter(FilterOption.JoinedAt)) {
+	addFilter(defaultJoinedAtFilter());
+}
 initialize();
 </script>
 

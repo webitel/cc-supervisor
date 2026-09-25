@@ -157,6 +157,7 @@
 <script lang="ts" setup>
 import { getCallMediaUrl, getMediaUrl } from '@webitel/api-services/api';
 import { EngineCallFileType } from '@webitel/api-services/gen/models';
+import { FilterOption } from '@webitel/ui-datalist/filters';
 import {
 	WtCallMediaAction,
 	WtEmpty,
@@ -171,7 +172,7 @@ import { computed, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 
-import { initializeDefaultFilters } from '../modules/filters/configs/initializeDefaultFilters';
+import { defaultCreatedAtFilter } from '../modules/filters/configs/filterOptions';
 import {
 	agentCallsUserId,
 	useAgentCallsTableStore,
@@ -216,6 +217,8 @@ const {
 	updateShownHeaders,
 	columnResize,
 	columnReorder,
+	hasFilter,
+	addFilter,
 } = tableStore;
 
 const {
@@ -237,7 +240,9 @@ unwatchUserId = watch(
 	(newUserId) => {
 		if (!newUserId) return;
 		agentCallsUserId.value = newUserId;
-		initializeDefaultFilters();
+		if (!hasFilter(FilterOption.CreatedAt)) {
+			addFilter(defaultCreatedAtFilter());
+		}
 		initialize();
 		unwatchUserId?.();
 	},

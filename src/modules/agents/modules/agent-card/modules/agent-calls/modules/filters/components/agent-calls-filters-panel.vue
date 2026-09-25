@@ -15,8 +15,10 @@ import { TableFiltersPanelComponent as TableFiltersPanel } from '@webitel/ui-dat
 import { storeToRefs } from 'pinia';
 
 import { useAgentCallsTableStore } from '../../../stores/datalist/agent-calls';
-import { filtersOptions } from '../configs/filterOptions';
-import { initializeDefaultFilters } from '../configs/initializeDefaultFilters';
+import {
+	defaultCreatedAtFilter,
+	filtersOptions,
+} from '../configs/filterOptions';
 
 const agentCallsTableStore = useAgentCallsTableStore();
 const { filtersManager } = storeToRefs(agentCallsTableStore);
@@ -25,6 +27,6 @@ const { addFilter, updateFilter, deleteFilter } = agentCallsTableStore;
 
 const resetFilters = () => {
 	filtersManager.value.reset();
-	initializeDefaultFilters();
+	addFilter(defaultCreatedAtFilter());
 };
 </script>

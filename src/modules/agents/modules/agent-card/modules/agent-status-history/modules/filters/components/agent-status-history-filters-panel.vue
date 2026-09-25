@@ -15,8 +15,10 @@ import { TableFiltersPanelComponent as TableFiltersPanel } from '@webitel/ui-dat
 import { storeToRefs } from 'pinia';
 
 import { useAgentStatusHistoryTableStore } from '../../../stores/datalist/agent-status-history';
-import { filtersOptions } from '../configs/filterOptions';
-import { initializeDefaultFilters } from '../configs/initializeDefaultFilters';
+import {
+	defaultJoinedAtFilter,
+	filtersOptions,
+} from '../configs/filterOptions';
 
 const agentStatusHistoryTableStore = useAgentStatusHistoryTableStore();
 const { filtersManager } = storeToRefs(agentStatusHistoryTableStore);
@@ -25,6 +27,6 @@ const { addFilter, updateFilter, deleteFilter } = agentStatusHistoryTableStore;
 
 const resetFilters = () => {
 	filtersManager.value.reset();
-	initializeDefaultFilters();
+	addFilter(defaultJoinedAtFilter());
 };
 </script>

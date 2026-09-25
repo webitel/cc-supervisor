@@ -3,6 +3,7 @@ import {
 	type FilterConfigDefinition,
 	FilterOption,
 } from '@webitel/ui-datalist/filters';
+import { RelativeDatetimeValue } from '@webitel/ui-sdk/enums';
 
 /**
  * Every agent-status-history filter, keyed by its name, so `headers.ts` can
@@ -23,3 +24,10 @@ export const filterConfigs = {
 
 export const filtersOptions: FilterConfigDefinition[] =
 	Object.values(filterConfigs);
+
+// getAgentHistory has no server-side default for joinedAt, so this is seeded
+// client-side — same convention as queues/modules/logs' defaultJoinedAtFilter.
+export const defaultJoinedAtFilter = () => ({
+	name: FilterOption.JoinedAt,
+	value: RelativeDatetimeValue.Today,
+});
