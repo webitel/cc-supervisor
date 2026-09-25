@@ -52,7 +52,7 @@ import Screenshots from '../modules/agent-screenshots/components/agent-screensho
 import ScreenshotsFilters from '../modules/agent-screenshots/modules/filters/components/agent-screenshots-filters.vue';
 import Skills from '../modules/agent-skills/components/agent-skills-tab.vue';
 import StatusHistory from '../modules/agent-status-history/components/agent-status-history-tab.vue';
-import StatusHistoryFilters from '../modules/agent-status-history/modules/filters/components/agent-status-history-filters.vue';
+import StatusHistoryFilters from '../modules/agent-status-history/modules/filters/components/agent-status-history-filters-panel.vue';
 import AgentPanel from './agent-panel/agent-panel.vue';
 
 export default {
@@ -185,9 +185,6 @@ export default {
 			return this.actionsPanelStatus[this.currentTab.value] || false;
 		},
 	},
-	unmounted() {
-		this.resetStatusHistoryFilters();
-	},
 	methods: {
 		...mapActions({
 			setAgentId(dispatch, payload) {
@@ -195,11 +192,6 @@ export default {
 			},
 			loadAgent(dispatch, payload) {
 				return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
-			},
-			resetStatusHistoryFilters(dispatch) {
-				return dispatch(
-					`${this.namespace}/statusHistory/filters/RESET_FILTERS`,
-				);
 			},
 		}),
 		async changeTab(tab) {

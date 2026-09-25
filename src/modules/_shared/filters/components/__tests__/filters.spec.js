@@ -1,9 +1,7 @@
 import { mount } from '@vue/test-utils';
 
 import store from '../../../../../app/store/index';
-import FilterFrom from '../filter-from.vue';
 import FilterPagination from '../filter-pagination.vue';
-import FilterTo from '../filter-to.vue';
 
 const $route = {
 	query: {},
@@ -31,20 +29,6 @@ const mountFilter = (component, namespace) =>
 // smoke tests therefore assert that the filter component mounts and renders its
 // (single, root) control without throwing from the base filter mixin / store.
 describe('Filter components', () => {
-	it('renders from filter component', () => {
-		const wrapper = mountFilter(
-			FilterFrom,
-			'agents/card/statusHistory/filters',
-		);
-		expect(wrapper.isVisible()).toBe(true);
-		expect(wrapper.html()).not.toBe('');
-	});
-	it('renders To filter component', () => {
-		const wrapper = mountFilter(FilterTo, 'agents/card/statusHistory/filters');
-		expect(wrapper.isVisible()).toBe(true);
-		expect(wrapper.html()).not.toBe('');
-	});
-
 	it('renders pagination filter component', () => {
 		const wrapper = mountFilter(FilterPagination, 'queues/filters');
 		expect(wrapper.isVisible()).toBe(true);

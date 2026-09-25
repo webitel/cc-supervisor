@@ -1,4 +1,9 @@
-export default [
+import type { DatalistTableHeader } from '@webitel/ui-datalist';
+import { FilterOption } from '@webitel/ui-datalist/filters';
+
+import { filterConfigs } from '../../../modules/filters/configs/filterOptions';
+
+export const headers: DatalistTableHeader[] = [
 	{
 		value: 'state',
 		locale: 'pages.card.statusHistory.columns.state',
@@ -12,6 +17,7 @@ export default [
 		show: true,
 		sort: null,
 		field: 'joined_at',
+		filter: filterConfigs[FilterOption.JoinedAt],
 	},
 	{
 		value: 'to',

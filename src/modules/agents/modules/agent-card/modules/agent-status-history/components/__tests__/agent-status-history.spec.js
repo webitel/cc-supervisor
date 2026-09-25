@@ -1,60 +1,35 @@
+import { createTestingPinia } from '@pinia/testing';
 import { shallowMount } from '@vue/test-utils';
-import { createStore } from 'vuex';
-
-import AgentStatusHistoryAPI from '../../api/agent-status-history';
-import agentsStatusHistoryStore from '../../store/agent-status-history';
+import { AgentsAPI } from '@webitel/api-services/api';
 import AgentStatusHistory from '../agent-status-history-tab.vue';
 
 const items = [];
 
-const namespace = 'agents/card/statusHistory';
+vi.mock('vue-router', () => ({
+	useRoute: () => ({
+		params: {
+			id: 1,
+		},
+	}),
+}));
 
-vi.mock('../../api/agent-status-history');
+vi.spyOn(AgentsAPI, 'getAgentHistory').mockImplementation(() =>
+	Promise.resolve({
+		items,
+	}),
+);
 
-describe('Agent Status History tab', () => {
-	let store;
+describe('Agent status history tab', () => {
 	let mountOptions = {};
 
 	beforeEach(() => {
-		// The component reads absolute store paths (`agents/card/statusHistory/...`),
-		// so the module must be registered at that nested location.
-		store = createStore({
-			modules: {
-				agents: {
-					namespaced: true,
-					modules: {
-						card: {
-							namespaced: true,
-							modules: {
-								statusHistory: agentsStatusHistoryStore,
-							},
-						},
-					},
-				},
-			},
-		});
-
-		AgentStatusHistoryAPI.getList.mockImplementation(() =>
-			Promise.resolve({
-				items,
-			}),
-		);
 		mountOptions = {
-			props: {
-				namespace,
-			},
 			global: {
 				plugins: [
-					store,
+					createTestingPinia({
+						createSpy: vi.fn,
+					}),
 				],
-				mocks: {
-					$route: {
-						params: {
-							id: 1,
-						},
-						query: {},
-					},
-				},
 			},
 		};
 	});

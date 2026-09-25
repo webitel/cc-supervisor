@@ -4,7 +4,6 @@ import AgentAPI from '../api/agent-card';
 import agentEdit from '../modules/agent-general/store/agent-edit';
 import pauseCause from '../modules/agent-general/store/agent-pause-causes';
 import skills from '../modules/agent-skills/store/agent-skills';
-import statusHistory from '../modules/agent-status-history/store/agent-status-history';
 
 const state = {
 	agentId: null,
@@ -56,7 +55,6 @@ export default {
 	modules: {
 		agentEdit,
 		pauseCause,
-		statusHistory,
 		skills,
 	},
 };
