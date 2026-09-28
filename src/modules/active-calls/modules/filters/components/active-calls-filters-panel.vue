@@ -2,6 +2,7 @@
   <table-filters-panel
     :filters-manager="filtersManager"
     :filter-options="filtersOptions"
+    :has-read-access="userinfoStore.hasReadAccess"
     static-mode
     @filter:add="addFilter"
     @filter:update="updateFilter"
@@ -17,8 +18,11 @@ import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
+import { useUserinfoStore } from '../../../../userinfo/store/userInfoStore';
 import { useActiveCallsTableStore } from '../../../stores/datalist/active-calls';
 import { buildFiltersOptions } from '../configs/filterOptions';
+
+const userinfoStore = useUserinfoStore();
 
 const { hasReadAccess: hasUsersReadAccess } = useUserAccessControl(
 	WtObject.User,
