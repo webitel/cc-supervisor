@@ -3,7 +3,6 @@ import editProxy from '@webitel/ui-sdk/src/scripts/editProxy';
 import AgentAPI from '../api/agent-card';
 import agentEdit from '../modules/agent-general/store/agent-edit';
 import pauseCause from '../modules/agent-general/store/agent-pause-causes';
-import skills from '../modules/agent-skills/store/agent-skills';
 
 const state = {
 	agentId: null,
@@ -55,6 +54,5 @@ export default {
 	modules: {
 		agentEdit,
 		pauseCause,
-		skills,
 	},
 };
