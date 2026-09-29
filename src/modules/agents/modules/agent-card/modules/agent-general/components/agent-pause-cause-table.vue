@@ -1,13 +1,12 @@
 <template>
   <article class="agent-pause-cause-table table-section">
     <header class="agent-pause-cause-table__header">
-      <wt-table-actions
-        class="agent-pause-cause-table__header-actions"
-        :icons="['refresh']"
-        @input="tableActionsHandler"
-      ></wt-table-actions>
+      <wt-action-bar
+        :include="[IconAction.REFRESH]"
+        @click:refresh="loadDataList"
+      />
     </header>
-    <wt-loader v-show="isLoading"></wt-loader>
+    <wt-loader v-show="isLoading" />
     <div
       v-show="!isLoading"
       class="table-section__table-wrapper"
@@ -27,7 +26,7 @@
             :max="item.limitMin"
             :value="item.durationMin"
             :color="item.progressColor"
-          ></wt-progress-bar>
+          />
         </template>
         <template #limit="{ item }">
           <span class="agent-pause-cause-timing">
@@ -39,61 +38,38 @@
   </article>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { IconAction } from '@webitel/ui-sdk/enums';
 import { useRepresentableAgentPauseCause } from '@webitel/ui-sdk/src/composables/useRepresentableAgentPauseCause/useRepresentableAgentPauseCause';
-import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
-import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
+import { useAgentPauseCauseTableStore } from '../stores/datalist/agent-pause-causes';
 
-export default {
-	name: 'AgentPauseCauseTable',
-	mixins: [
-		tablePageMixin,
-		sortFilterMixin,
-	],
-	props: {
-		namespace: {
-			type: String,
-			required: true,
-		},
-	},
-	computed: {
-		representableDataList() {
-			if (!this.dataList) return [];
-			const { representablePauseCause } = useRepresentableAgentPauseCause(
-				this.dataList,
-			);
-			return representablePauseCause.value;
-		},
-	},
-	methods: {
-		loadList() {
-			const agentId = this.$route.params.id;
-			const { query } = this.$route;
+const route = useRoute();
 
-			if (agentId)
-				return this.loadDataList({
-					...query,
-					agentId,
-				});
-		},
-	},
-};
+const tableStore = useAgentPauseCauseTableStore();
+
+const { dataList, isLoading, headers } = storeToRefs(tableStore);
+
+const { initialize, loadDataList } = tableStore;
+
+const { representablePauseCause } = useRepresentableAgentPauseCause(dataList);
+
+const representableDataList = computed(() => representablePauseCause.value);
+
+initialize({
+	parentId: route.params.id as string,
+});
 </script>
 
-<style
-  scoped
->
+<style scoped>
 
 .agent-pause-cause-table__header {
   display: flex;
   justify-content: flex-end;
-  margin-block: var(--spacing-xs);
-}
-
-.agent-pause-cause-table__header-actions {
-  gap: 0;
-  padding-block: 0;
+  margin: var(--spacing-xs);
 }
 
 .wt-progress-bar {

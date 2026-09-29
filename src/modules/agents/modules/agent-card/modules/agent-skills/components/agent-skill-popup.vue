@@ -4,118 +4,99 @@
     :shown="!!skillId"
     size="sm"
     overflow
+    @close="close"
   >
     <template #title>
       {{ popupTitle }}
     </template>
     <template #main>
-      <form class="agent-skill-popup__form">
+      <form
+        class="agent-skill-popup__form"
+        @submit.prevent="save"
+      >
         <wt-single-select
-          :model-value="itemInstance.skill"
-          :v="v$.itemInstance.skill"
-          :label="$t('pages.card.skills.skills', 1)"
-          :search-method="loadDropdownOptionsList"
+          v-model:model-value="modelValue.skill"
+          :label="t('pages.card.skills.skills', 1)"
+          :regle-validation="validationFields?.skill"
+          :search-method="loadSkillsOptions"
           :show-clear="false"
           required
-          @update:model-value="setItemProp({ prop: 'skill', value: $event })"
         />
         <wt-input-number
-          :model-value="itemInstance.capacity"
-          :v="v$.itemInstance.capacity"
-          :label="$t('pages.card.skills.capacity')"
+          v-model:model-value="modelValue.capacity"
+          :label="t('pages.card.skills.capacity')"
+          :regle-validation="validationFields?.capacity"
           required
-          @input="setItemProp({ prop: 'capacity', value: $event.value })"
         />
       </form>
     </template>
     <template #actions>
       <wt-button
-        :disabled="v$.$error || v$.$invalid"
+        :disabled="hasValidationErrors"
         @click="save"
       >{{ saveActionText }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
-      >{{ $t('reusable.close') }}
+      >{{ t('reusable.close') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { maxValue, minValue, numeric, required } from '@vuelidate/validators';
+<script lang="ts" setup>
 import { SkillsAPI } from '@webitel/api-services/api';
-import { mapActions } from 'vuex';
+import type { EngineAgentSkill } from '@webitel/api-services/gen/models';
+import { useNestedCardComponent } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
-import nestedObjectMixin from '../../../../../../../packages/client/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import AgentTabsPathName from '../../../../../../../app/router/_internals/AgentTabsPathName.enum';
+import { useAgentSkillCardStore } from '../stores/card/agentSkillCardStore';
 
-export default {
-	name: 'AgentSkillPopup',
-	mixins: [
-		nestedObjectMixin,
-	],
-	props: {
-		namespace: {
-			type: String,
-			required: true,
-		},
-	},
-	setup: () => ({
-		v$: useVuelidate({
-			$stopPropagation: true,
-			$autoDirty: true,
-		}),
-	}),
-	computed: {
-		skillId() {
-			return this.$route.params.skillId;
-		},
-		popupTitle() {
-			return this.skillId === 'new'
-				? this.$t('pages.card.skills.addSkill')
-				: this.$t('pages.card.skills.editSkill');
-		},
-		saveActionText() {
-			return this.skillId === 'new'
-				? this.$t('reusable.add')
-				: this.$t('reusable.save');
-		},
-	},
-	validations: {
-		itemInstance: {
-			skill: {
-				required,
-			},
-			capacity: {
-				numeric,
-				minValue: minValue(0),
-				maxValue: maxValue(100),
-				required,
-			},
-		},
-	},
+const emit = defineEmits<{
+	saved: [];
+}>();
 
-	methods: {
-		...mapActions({
-			setId(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
-			},
-		}),
-		loadDropdownOptionsList: SkillsAPI.getLookup,
-	},
+const { t } = useI18n();
+const route = useRoute();
 
-	watch: {
-		skillId: {
-			handler(id) {
-				this.setId(id);
-				this.loadItem();
-			},
-			immediate: true,
-		},
-	},
+const {
+	modelValue,
+	validationFields,
+	isNew,
+	hasValidationErrors,
+	save: saveItem,
+} = useNestedCardComponent<EngineAgentSkill>({
+	useCardStore: useAgentSkillCardStore,
+	routeParamName: 'skillId',
+	parentId: route.params.id as string,
+});
+
+const skillId = computed(() => route.params.skillId);
+
+const popupTitle = computed(() =>
+	isNew.value
+		? t('pages.card.skills.addSkill')
+		: t('pages.card.skills.editSkill'),
+);
+
+const saveActionText = computed(() =>
+	isNew.value ? t('reusable.add') : t('reusable.save'),
+);
+
+const { close } = useClose(AgentTabsPathName.SKILLS);
+
+const save = async () => {
+	await saveItem();
+	close();
+	emit('saved');
 };
+
+const loadSkillsOptions = (params: unknown) => SkillsAPI.getLookup(params);
 </script>
 
 <style scoped>

@@ -1,33 +1,44 @@
 <template>
-  <article class="table-section">
+  <section class="table-section">
     <header class="agent-status-history-tab__title table-title">
-      <h3 class="agent-status-history-tab__title-title table-title__title">
-				{{ $t('pages.card.statusHistory.title') }}
+      <h3 class="table-title__title">
+        {{ t('pages.card.statusHistory.title') }}
       </h3>
-      <wt-table-actions
-        class="table-section__actions-wrapper"
-        :icons="['refresh', 'settings']"
-        is-settings-badge
-        @input="tableActionsHandler"
+      <wt-action-bar
+        :include="[
+          IconAction.FILTERS,
+          IconAction.REFRESH,
+          IconAction.COLUMNS
+        ]"
+        @click:refresh="loadDataList"
       >
-        <filter-fields
-          :headers="headers"
-          entity="agentStatusHistory"
-          @change="setHeaders"
-        ></filter-fields>
-      </wt-table-actions>
+        <template #columns>
+          <wt-table-column-select
+            :headers="headers"
+            @change="updateShownHeaders"
+          />
+        </template>
+        <template #filters>
+          <wt-badge :hidden="!hasFilters">
+            <wt-icon-action
+              action="filters"
+              @click="emit('toggle-filter')"
+            />
+          </wt-badge>
+        </template>
+      </wt-action-bar>
     </header>
 
-    <wt-loader v-show="isLoading" />
-    
     <wt-empty
-      v-show="showEmpty"
+      v-if="showEmpty"
       :image="imageEmpty"
       :text="textEmpty"
     />
-    
+    <wt-loader v-show="isLoading" />
+
     <div
-      v-if="dataList?.length"
+      v-if="!showEmpty && dataList?.length"
+      v-show="!isLoading"
       class="table-section__table-wrapper"
     >
       <wt-table
@@ -36,98 +47,111 @@
         :selectable="false"
         :grid-actions="false"
         sortable
-        @sort="sort"
+        resizable-columns
+        reorderable-columns
+        @sort="updateSort"
+        @column-resize="columnResize"
+        @column-reorder="columnReorder"
       >
         <template #state="{ item }">
           <table-agent-state :item="item" />
         </template>
       </wt-table>
-      <filter-pagination :is-next="isNext" />
+
+      <wt-pagination
+        :next="next"
+        :prev="page > 1"
+        :size="size"
+        debounce
+        @change="updateSize"
+        @next="updatePage(page + 1)"
+        @prev="updatePage(page - 1)"
+      />
     </div>
-  </article>
+  </section>
 </template>
 
-<script>
-import { WtEmpty } from '@webitel/ui-sdk/components';
-import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
+<script lang="ts" setup>
+import { FilterOption } from '@webitel/ui-datalist/filters';
+import { IconAction } from '@webitel/ui-sdk/enums';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
-import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
-import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
-import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
-import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields.vue';
+import { defaultJoinedAtFilter } from '../modules/filters/configs/filterOptions';
+import {
+	agentStatusHistoryAgentId,
+	useAgentStatusHistoryTableStore,
+} from '../stores/datalist/agent-status-history';
 import TableAgentState from './_internals/table-templates/table-agent-state.vue';
 
-export default {
-	name: 'AgentStatusHistoryTab',
-	components: {
-		TableAgentState,
-		FilterFields,
-		FilterPagination,
-		WtEmpty,
-	},
-	mixins: [
-		tablePageMixin,
-		sortFilterMixin,
-	],
-	props: {
-		namespace: {
-			type: String,
-		},
-	},
-	setup() {
-		const store = useStore();
-		const dataList = computed(
-			() => store.state.agents.card.statusHistory.dataList,
-		);
-		const isLoading = computed(
-			() => store.state.agents.card.statusHistory.isLoading,
-		);
-		const filters = computed(
-			() => store.getters['agents/card/statusHistory/filters/GET_FILTERS'],
-		);
+const emit = defineEmits<{
+	'toggle-filter': [];
+}>();
 
-		const {
-			showEmpty,
-			image: imageEmpty,
-			text: textEmpty,
-		} = useTableEmpty({
-			dataList,
-			filters,
-			isLoading,
-			error: computed(() => null),
-		});
+const { t } = useI18n();
+const route = useRoute();
 
-		return {
-			showEmpty,
-			imageEmpty,
-			textEmpty,
-		};
-	},
-	methods: {
-		loadList() {
-			const agentId = this.$route.params.id;
-			const { query } = this.$route;
+const tableStore = useAgentStatusHistoryTableStore();
 
-			if (agentId)
-				return this.loadDataList({
-					...query,
-					agentId,
-				});
-		},
-	},
-};
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	headers,
+	filtersManager,
+} = storeToRefs(tableStore);
+
+const hasFilters = computed(
+	() => filtersManager.value.getFiltersList()?.length,
+);
+
+const {
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	updateShownHeaders,
+	columnResize,
+	columnReorder,
+	hasFilter,
+	addFilter,
+} = tableStore;
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
+
+agentStatusHistoryAgentId.value = route.params.id as string;
+if (!hasFilter(FilterOption.JoinedAt)) {
+	addFilter(defaultJoinedAtFilter());
+}
+initialize();
 </script>
 
 <style
+  lang="scss"
   scoped
 >
 .agent-status-history-tab__title {
-	margin: 0;
+  padding: var(--spacing-xs);
+  margin: 0;
 }
 
-.agent-status-history-tab__title-title {
-	padding-inline: var(--spacing-xs);
+.wt-action-bar {
+  margin-left: auto;
 }
 </style>

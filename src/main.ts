@@ -2,6 +2,7 @@ import './app/assets/icons/sprite';
 import './app/css/main.scss';
 
 import { setDefaultAxiosInstance } from '@webitel/api-services/api/axios';
+import { configureZod } from '@webitel/ui-sdk/validations';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 import instance from './app/api/instance';
@@ -44,6 +45,10 @@ const fetchConfig = async () => {
 
 // generated api-services clients call through this app's instance
 setDefaultAxiosInstance(instance);
+
+configureZod({
+	t: i18n.global.t,
+});
 
 const pinia = createPinia();
 

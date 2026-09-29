@@ -81,9 +81,13 @@
               :headers="headers"
               :data="dataList"
               sortable
+              resizable-columns
+              reorderable-columns
               :selectable="false"
               :grid-actions="false"
               @sort="updateSort"
+              @column-resize="columnResize"
+              @column-reorder="columnReorder"
             >
               <template #queue="{ item }">
                 <table-queue :item="item" />
@@ -191,6 +195,8 @@ const {
 	updateFilter,
 	deleteFilter,
 	updateSearchMode,
+	columnResize,
+	columnReorder,
 } = tableStore;
 
 const { exportCSV, isCSVLoading, initCSVExport } = useCSVExport({

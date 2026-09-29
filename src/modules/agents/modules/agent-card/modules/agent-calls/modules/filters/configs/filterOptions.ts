@@ -4,6 +4,7 @@ import {
 	type FilterConfigDefinition,
 	FilterOption,
 } from '@webitel/ui-datalist/filters';
+import { RelativeDatetimeValue } from '@webitel/ui-sdk/enums';
 
 /**
  * Every agent-calls filter, keyed by its name, so `headers.ts` can point a
@@ -28,3 +29,11 @@ export const filterConfigs = {
 
 export const filtersOptions: FilterConfigDefinition[] =
 	Object.values(filterConfigs);
+
+// The list endpoint 400s unless created_at (or q) is present, so this is
+// seeded client-side — same convention as queues/modules/logs'
+// defaultJoinedAtFilter.
+export const defaultCreatedAtFilter = () => ({
+	name: FilterOption.CreatedAt,
+	value: RelativeDatetimeValue.Today,
+});

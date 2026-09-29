@@ -59,8 +59,12 @@
         :headers="shownHeaders"
         :selected="selected"
         sortable
+        resizable-columns
+        reorderable-columns
         @sort="updateSort"
         @update:selected="updateSelected"
+        @column-resize="columnResize"
+        @column-reorder="columnReorder"
       >
         <template #screenshots="{ item }">
           <wt-image
@@ -171,6 +175,8 @@ const {
 	updateSort,
 	hasFilter,
 	addFilter,
+	columnResize,
+	columnReorder,
 } = tableStore;
 
 const { setAutoRefresh, clearAutoRefresh } = useTableAutoRefresh(loadDataList);

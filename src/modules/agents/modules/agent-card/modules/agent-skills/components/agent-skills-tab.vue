@@ -1,45 +1,52 @@
 <template>
   <section class="table-section">
-    <skill-popup
-      :namespace="namespace"
-      @close="closePopup"
-    ></skill-popup>
+    <skill-popup @saved="loadDataList" />
 
     <header class="agent-skills-tab__title table-title">
-      <h3 class="agent-skills-tab__title-title table-title__title">
-        {{ $t('pages.card.skills.title') }}
+      <h3 class="table-title__title">
+        {{ t('pages.card.skills.title') }}
       </h3>
-      <wt-table-actions
-        class="table-section__actions-wrapper"
-        :icons="['refresh']"
-        @input="tableActionsHandler"
+      <wt-action-bar
+        :include="[
+          IconAction.ADD,
+          IconAction.REFRESH,
+          IconAction.COLUMNS
+        ]"
+        :disabled:add="disableUserInput || !hasSkillReadAccess"
+        @click:add="setSkillId('new')"
+        @click:refresh="loadDataList"
       >
-        <filter-fields
-          :headers="headers"
-          entity="agentSkills"
-          @change="setHeaders"
-        ></filter-fields>
-        <wt-icon-btn
-          icon="plus"
-          :disabled="disableUserInput || !hasSkillReadAccess"
-          @click="setSkillId('new')"
-        ></wt-icon-btn>
-      </wt-table-actions>
+        <template #columns>
+          <wt-table-column-select
+            :headers="headers"
+            @change="updateShownHeaders"
+          />
+        </template>
+      </wt-action-bar>
     </header>
 
+    <wt-empty
+      v-if="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
+    />
+    <wt-loader v-show="isLoading" />
 
-    <wt-loader v-show="isLoading"></wt-loader>
     <div
+      v-if="!showEmpty && dataList?.length"
       v-show="!isLoading"
       class="table-section__table-wrapper"
     >
       <wt-table
-        ref="wt-table"
         :headers="headers"
         :data="dataList"
         :selectable="false"
         sortable
-        @sort="sort"
+        resizable-columns
+        reorderable-columns
+        @sort="updateSort"
+        @column-resize="columnResize"
+        @column-reorder="columnReorder"
       >
         <template #skill="{ item }">
           <div v-if="item.skill">
@@ -50,116 +57,107 @@
           <wt-switcher
             :disabled="disableUserInput"
             :model-value="item.enabled"
-            @update:model-value="patchItemProperty({ item, index, value: $event, prop: 'enabled' })"
-          ></wt-switcher>
+            @update:model-value="patchItemProperty({ index, path: 'enabled', value: $event })"
+          />
         </template>
         <template #actions="{ item, index }">
           <wt-icon-action
             action="edit"
             :disabled="disableUserInput || !hasSkillReadAccess"
             @click="setSkillId(item.id)"
-          ></wt-icon-action>
+          />
           <wt-icon-action
             action="delete"
             :disabled="disableUserInput"
-            @click="removeItem(index)"
-          ></wt-icon-action>
+            @click="deleteEls([dataList[index]])"
+          />
         </template>
       </wt-table>
-      <filter-pagination :is-next="isNext" />
+
+      <wt-pagination
+        :next="next"
+        :prev="page > 1"
+        :size="size"
+        debounce
+        @change="updateSize"
+        @next="updatePage(page + 1)"
+        @prev="updatePage(page - 1)"
+      />
     </div>
   </section>
 </template>
 
-<script>
-import { WtObject } from '@webitel/ui-sdk/enums';
-import sortFilterMixin from '@webitel/ui-sdk/src/mixins/dataFilterMixins/sortFilterMixin';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
+<script lang="ts" setup>
+import { IconAction, WtObject } from '@webitel/ui-sdk/enums';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import tablePageMixin from '../../../../../../../app/mixins/supervisor-workspace/tablePageMixin';
-import FilterPagination from '../../../../../../_shared/filters/components/filter-pagination.vue';
-import FilterFields from '../../../../../../_shared/filters/components/filter-table-fields.vue';
+import { useAgentSkillsTableStore } from '../stores/datalist/agent-skills';
 import SkillPopup from './agent-skill-popup.vue';
 
-export default {
-	name: 'AgentSkillsTab',
-	components: {
-		FilterFields,
-		FilterPagination,
-		SkillPopup,
-	},
-	mixins: [
-		tablePageMixin,
-		sortFilterMixin,
-	],
-	props: {
-		namespace: {
-			type: String,
-			required: true,
+const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
+
+const { disableUserInput } = useUserAccessControl();
+const { hasReadAccess: hasSkillReadAccess } = useUserAccessControl(
+	WtObject.Skill,
+);
+
+const tableStore = useAgentSkillsTableStore();
+
+const { dataList, error, isLoading, page, size, next, headers } =
+	storeToRefs(tableStore);
+
+const {
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	updateShownHeaders,
+	columnResize,
+	columnReorder,
+	patchItemProperty,
+	deleteEls,
+} = tableStore;
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	isLoading,
+});
+
+const setSkillId = (id: string) => {
+	router.push({
+		params: {
+			skillId: id,
 		},
-	},
-	setup() {
-		const { disableUserInput } = useUserAccessControl();
-		const { hasReadAccess: hasSkillReadAccess } = useUserAccessControl(
-			WtObject.Skill,
-		);
-		return {
-			disableUserInput,
-			hasSkillReadAccess,
-		};
-	},
-	computed: {
-		...mapState({
-			parentId(state) {
-				return getNamespacedState(state, this.namespace).parentId;
-			},
-		}),
-	},
-	methods: {
-		...mapActions({
-			setParentId(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_PARENT_ITEM_ID`, payload);
-			},
-			setId(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
-			},
-			patchItemProperty(dispatch, payload) {
-				return dispatch(`${this.namespace}/PATCH_ITEM_PROPERTY`, payload);
-			},
-			removeItem(dispatch, payload) {
-				return dispatch(`${this.namespace}/REMOVE_ITEM`, payload);
-			},
-		}),
-		loadList() {
-			if (!this.$route.params.id) return;
-			this.setParentId(this.$route.params.id);
-			return tablePageMixin.methods.loadList.call(this);
-		},
-		setSkillId(id) {
-			this.setId(id);
-			return this.$router.push({
-				params: {
-					skillId: id,
-				},
-			});
-		},
-		closePopup() {
-			return this.$router.go(-1);
-		},
-	},
+	});
 };
+
+initialize({
+	parentId: route.params.id as string,
+});
 </script>
 
 <style
+  lang="scss"
   scoped
 >
 .agent-skills-tab__title {
+  padding: var(--spacing-xs);
   margin: 0;
 }
 
-.agent-skills-tab__title-title {
-  padding-inline: var(--spacing-xs);
+.wt-action-bar {
+  margin-left: auto;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <section class="table-section">
-    <header class="table-title">
+    <header class="agent-calls-tab__title table-title">
       <h3 class="table-title__title">
         {{ t('pages.card.calls.logs') }}
       </h3>
@@ -166,13 +166,13 @@ import {
 	WtVidstackPlayer,
 } from '@webitel/ui-sdk/components';
 import { ComponentSize, IconAction } from '@webitel/ui-sdk/enums';
-import { getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
 import { computed, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 
+import { defaultCreatedAtFilter } from '../modules/filters/configs/filterOptions';
 import {
 	agentCallsUserId,
 	useAgentCallsTableStore,
@@ -221,22 +221,6 @@ const {
 	addFilter,
 } = tableStore;
 
-// The list endpoint 400s unless created_at (or q) is present, so createdAt
-// needs a default the first time the table loads — same as the legacy
-// from/to filters, which always defaulted to today. static-filter-field.vue
-// always passes disable-default-value, so the field never self-seeds.
-const initializeDefaultFilters = () => {
-	if (!hasFilter(FilterOption.CreatedAt)) {
-		addFilter({
-			name: FilterOption.CreatedAt,
-			value: {
-				from: getStartOfDay(),
-				to: getEndOfDay(),
-			},
-		});
-	}
-};
-
 const {
 	showEmpty,
 	image: imageEmpty,
@@ -256,7 +240,9 @@ unwatchUserId = watch(
 	(newUserId) => {
 		if (!newUserId) return;
 		agentCallsUserId.value = newUserId;
-		initializeDefaultFilters();
+		if (!hasFilter(FilterOption.CreatedAt)) {
+			addFilter(defaultCreatedAtFilter());
+		}
 		initialize();
 		unwatchUserId?.();
 	},
@@ -316,6 +302,11 @@ onUnmounted(() => {
   lang="scss"
   scoped
 >
+.agent-calls-tab__title {
+  padding: var(--spacing-xs);
+  margin: 0;
+}
+
 .wt-action-bar {
   margin-left: auto;
 }
