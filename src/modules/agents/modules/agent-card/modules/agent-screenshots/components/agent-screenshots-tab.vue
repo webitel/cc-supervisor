@@ -129,8 +129,8 @@ import { storeToRefs } from 'pinia';
 import { computed, defineEmits, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import { useTableAutoRefresh } from '../../../../../../../app/composables/useTableAutoRefresh';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import { useDownloadArchive } from '../../../../../composables/useDownloadArchive';
 import { useScreenshotsDataListStore } from '../store/screenshots';
 
