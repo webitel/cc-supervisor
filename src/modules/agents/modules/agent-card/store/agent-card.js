@@ -2,7 +2,6 @@ import editProxy from '@webitel/ui-sdk/src/scripts/editProxy';
 
 import AgentAPI from '../api/agent-card';
 import agentEdit from '../modules/agent-general/store/agent-edit';
-import pauseCause from '../modules/agent-general/store/agent-pause-causes';
 
 const state = {
 	agentId: null,
@@ -53,6 +52,5 @@ export default {
 	mutations,
 	modules: {
 		agentEdit,
-		pauseCause,
 	},
 };

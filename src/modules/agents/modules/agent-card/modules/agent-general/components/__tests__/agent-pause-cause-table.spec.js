@@ -1,42 +1,39 @@
+import { createTestingPinia } from '@pinia/testing';
 import { shallowMount } from '@vue/test-utils';
-import { createStore } from 'vuex';
-
-import AgentStatusAPI from '../../api/agent-pause-causes';
-import agentStatusStore from '../../store/agent-pause-causes';
+import { AgentsAPI } from '@webitel/api-services/api';
 import AgentPauseCauseTable from '../agent-pause-cause-table.vue';
 
-vi.mock('../../api/agent-pause-causes');
-
-const namespace = 'agentPauseCause';
-const store = createStore({
-	modules: {
-		[namespace]: agentStatusStore,
-	},
-});
-
 const items = [];
-AgentStatusAPI.getList.mockImplementation(() =>
+
+vi.mock('vue-router', () => ({
+	useRoute: () => ({
+		params: {
+			id: 1,
+		},
+	}),
+}));
+
+vi.spyOn(AgentsAPI, 'getPauseCausesForAgent').mockImplementation(() =>
 	Promise.resolve({
 		items,
 	}),
 );
 
 describe('Agent Pause Cause Table', () => {
-	const mountOptions = {
-		global: {
-			plugins: [
-				store,
-			],
-			mocks: {
-				$route: {
-					query: '',
-				},
+	let mountOptions = {};
+
+	beforeEach(() => {
+		mountOptions = {
+			global: {
+				plugins: [
+					createTestingPinia({
+						createSpy: vi.fn,
+					}),
+				],
 			},
-		},
-		props: {
-			namespace,
-		},
-	};
+		};
+	});
+
 	it('renders a component', () => {
 		const wrapper = shallowMount(AgentPauseCauseTable, mountOptions);
 		expect(wrapper.exists()).toBe(true);
