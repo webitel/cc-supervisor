@@ -40,7 +40,6 @@ import autoRefreshMixin from '../../../../../app/mixins/autoRefresh/autoRefreshM
 import AgentTabsPathName from '../../../../../app/router/_internals/AgentTabsPathName.enum.js';
 import { useErrorRedirectHandler } from '../../../../../modules/error-pages/composable/useErrorRedirectHandler';
 import { useUserinfoStore } from '../../../../../modules/userinfo/store/userInfoStore';
-import { useControlAgentScreenAccess } from '../../../composables/useControlAgentScreenAccess';
 import Calls from '../modules/agent-calls/components/agent-calls-tab.vue';
 import CallsFilters from '../modules/agent-calls/modules/filters/components/agent-calls-filters-panel.vue';
 import General from '../modules/agent-general/components/agent-general-tab.vue';
@@ -78,16 +77,17 @@ export default {
 
 	setup() {
 		const { handleError } = useErrorRedirectHandler();
-		const { isControlAgentScreenAllow } = useControlAgentScreenAccess();
 
 		const { hasReadAccess: hasCallReadAccess } = useUserAccessControl(
 			WtObject.Call,
 		);
+		const { hasReadAccess: hasScreenRecordingsReadAccess } =
+			useUserAccessControl(WtObject.ScreenRecordings);
 
 		return {
 			handleError,
-			isControlAgentScreenAllow,
 			hasCallReadAccess,
+			hasScreenRecordingsReadAccess,
 		};
 	},
 
@@ -144,7 +144,7 @@ export default {
 				value: 'screen-recordings',
 				namespace: this.namespace,
 				pathName: AgentTabsPathName.SCREEN_RECORDINGS,
-				disabled: !this.isControlAgentScreenAllow,
+				disabled: !this.hasScreenRecordingsReadAccess,
 			};
 
 			const screenshots = {
@@ -152,7 +152,7 @@ export default {
 				value: 'screenshots',
 				namespace: this.namespace,
 				pathName: AgentTabsPathName.SCREENSHOTS,
-				disabled: !this.isControlAgentScreenAllow,
+				disabled: !this.hasScreenRecordingsReadAccess,
 			};
 
 			const pdfs = {
@@ -160,7 +160,7 @@ export default {
 				value: 'pdfs',
 				namespace: `${this.namespace}/pdfs`,
 				pathName: AgentTabsPathName.PDFS,
-				disabled: !this.isControlAgentScreenAllow,
+				disabled: !this.hasScreenRecordingsReadAccess,
 			};
 
 			tabs.push(

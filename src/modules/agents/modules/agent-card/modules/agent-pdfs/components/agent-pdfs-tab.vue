@@ -4,6 +4,9 @@
     entity-id-key="agentId"
     :entity-id-value="agentId"
     is-created-at-filter
+    :access="{
+      delete: hasDeleteAccess,
+    }"
     :on-delete-item="handleDeleteItem"
   >
     <template #header="{ selected, loadDataList, askDeleteConfirmation, handleDelete }">
@@ -13,7 +16,7 @@
         </h3>
         <wt-action-bar
           :include="[IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
-          :disabled:delete="!selected.length"
+          :disabled:delete="!selected.length || !hasDeleteAccess"
           @click:refresh="loadDataList"
           @click:delete="
             askDeleteConfirmation({
@@ -39,11 +42,12 @@
 <script lang="ts" setup>
 import { FileServicesAPI } from '@webitel/api-services/api';
 import { WebitelMediaExporterExportRecord } from '@webitel/api-services/gen/models';
-import { IconAction } from '@webitel/ui-sdk/enums';
+import { IconAction, WtObject } from '@webitel/ui-sdk/enums';
 import { getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
 import AgentPdfsTabSdk from '@webitel/ui-sdk/src/modules/AgentPdfs/components/agent-pdfs-tab.vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import { usePdfsDataListStore } from '../store/pdfs';
 
 const emit = defineEmits([
@@ -51,6 +55,8 @@ const emit = defineEmits([
 ]);
 
 const { t } = useI18n();
+
+const { hasDeleteAccess } = useUserAccessControl(WtObject.ScreenRecordings);
 
 const route = useRoute();
 const agentId = route.params.id as string;
