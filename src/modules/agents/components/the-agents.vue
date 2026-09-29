@@ -81,10 +81,14 @@
               :data="dataList"
               :headers="headers"
               sortable
+              resizable-columns
+              reorderable-columns
               :selectable="false"
               :row-class="rowClass"
               class="agents-table"
               @sort="updateSort"
+              @column-resize="columnResize"
+              @column-reorder="columnReorder"
             >
               <template #name="{ item }">
                 <table-agent :item="item" />
@@ -237,6 +241,8 @@ const {
 	updateFilter,
 	deleteFilter,
 	updateSearchMode,
+	columnResize,
+	columnReorder,
 } = tableStore;
 
 const { setAutoRefresh, clearAutoRefresh } = useTableAutoRefresh(loadDataList);
