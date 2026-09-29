@@ -34,8 +34,9 @@ describe('Agent Pause Cause Table', () => {
 		};
 	});
 
-	it('renders a component', () => {
+	it('renders a component', async () => {
 		const wrapper = shallowMount(AgentPauseCauseTable, mountOptions);
+		await vi.dynamicImportSettled();
 		expect(wrapper.exists()).toBe(true);
 	});
 	// Duration/progress-color logic moved to the ui-sdk composable
