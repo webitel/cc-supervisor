@@ -15,7 +15,7 @@
       </h3>
       <wt-action-bar
         :include="[IconAction.DOWNLOAD, IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
-        :disabled:delete="!selected.length"
+        :disabled:delete="!selected.length || !hasDeleteAccess"
         :disabled:download="!dataList.length || isDownloadingArchive"
         @click:refresh="loadDataList"
         @click:download="downloadArchive({ selected, filtersManager })"
@@ -89,6 +89,7 @@
           />
           <wt-icon-action
             action="delete"
+            :disabled="!hasDeleteAccess"
             @click="
               askDeleteConfirmation({
                 deleted: [item],
@@ -128,6 +129,7 @@ import {
 	ComponentSize,
 	FormatDateMode,
 	IconAction,
+	WtObject,
 } from '@webitel/ui-sdk/enums';
 import { getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
@@ -138,12 +140,14 @@ import { storeToRefs } from 'pinia';
 import { computed, defineEmits, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-
 import { useTableAutoRefresh } from '../../../../../../../app/composables/useTableAutoRefresh';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import { useDownloadArchive } from '../../../../../composables/useDownloadArchive';
 import { useScreenRecordingsDataListStore } from '../store/screen-recordings';
 
 const { t } = useI18n();
+
+const { hasDeleteAccess } = useUserAccessControl(WtObject.ScreenRecordings);
 
 defineProps({
 	namespace: String,

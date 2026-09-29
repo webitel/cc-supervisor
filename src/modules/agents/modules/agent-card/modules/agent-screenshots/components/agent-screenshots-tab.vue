@@ -4,6 +4,7 @@
     v-model:active-index="galleriaActiveIndex"
     :value="galleriaData"
     @download="downloadFile(dataList[galleriaActiveIndex].id, dataList[galleriaActiveIndex].view_name)"
+    :delete-disabled="!hasDeleteAccess"
     @delete="handleDeleteFromGalleria"
   />
   <section class="agent-screenshots-tab table-section__table-wrapper table-wrapper--tab-table table-page">
@@ -13,7 +14,7 @@
       </h3>
       <wt-action-bar
         :include="[IconAction.DOWNLOAD, IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE,  IconAction.DOWNLOAD_PDF]"
-        :disabled:delete="!selected.length"
+        :disabled:delete="!selected.length || !hasDeleteAccess"
         :disabled:download-pdf="!dataList.length"
         :disabled:download="!dataList.length || isDownloadingArchive"
         @click:refresh="loadDataList"
@@ -86,6 +87,7 @@
           />
           <wt-icon-action
             action="delete"
+            :disabled="!hasDeleteAccess"
             @click="
               askDeleteConfirmation({
                 deleted: [item],
@@ -121,7 +123,7 @@ import {
 	StorageScreenrecordingType,
 } from '@webitel/api-services/gen/models';
 import { WtEmpty, WtGalleria } from '@webitel/ui-sdk/components';
-import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
+import { FormatDateMode, IconAction, WtObject } from '@webitel/ui-sdk/enums';
 import { eventBus, getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
@@ -132,10 +134,13 @@ import { computed, defineEmits, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useTableAutoRefresh } from '../../../../../../../app/composables/useTableAutoRefresh';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import { useDownloadArchive } from '../../../../../composables/useDownloadArchive';
 import { useScreenshotsDataListStore } from '../store/screenshots';
 
 const { t } = useI18n();
+
+const { hasDeleteAccess } = useUserAccessControl(WtObject.ScreenRecordings);
 
 const router = useRoute();
 const agentId = router.params.id as string;
