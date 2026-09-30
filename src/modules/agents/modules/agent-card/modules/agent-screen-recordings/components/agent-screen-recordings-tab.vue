@@ -124,6 +124,7 @@ import {
 	StorageScreenrecordingChannel,
 	StorageScreenrecordingType,
 } from '@webitel/api-services/gen/models';
+import { FilterOption } from '@webitel/ui-datalist/filters';
 import { WtEmpty, WtVidstackPlayer } from '@webitel/ui-sdk/components';
 import {
 	ComponentSize,
@@ -217,7 +218,7 @@ const initializeDefaultFilters = () => {
 		value: StorageScreenrecordingChannel.Screenrecording,
 	});
 
-	if (!hasFilter('uploadedAt')) {
+	if (!hasFilter(FilterOption.UploadedAt)) {
 		addFilter(defaultUploadedAtFilter());
 	}
 };

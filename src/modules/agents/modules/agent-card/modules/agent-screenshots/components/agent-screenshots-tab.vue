@@ -123,6 +123,7 @@ import {
 	StorageScreenrecordingType,
 } from '@webitel/api-services/gen/models';
 import { normalizeDatetimeRange } from '@webitel/api-services/scripts';
+import { FilterOption } from '@webitel/ui-datalist/filters';
 import { WtEmpty, WtGalleria } from '@webitel/ui-sdk/components';
 import { FormatDateMode, IconAction, WtObject } from '@webitel/ui-sdk/enums';
 import { eventBus } from '@webitel/ui-sdk/scripts';
@@ -208,7 +209,7 @@ const initializeDefaultFilters = () => {
 		value: StorageScreenrecordingChannel.Screenrecording,
 	});
 
-	if (!hasFilter('uploadedAt')) {
+	if (!hasFilter(FilterOption.UploadedAt)) {
 		addFilter(defaultUploadedAtFilter());
 	}
 };
@@ -287,7 +288,7 @@ const { isDownloadingArchive, downloadArchive } = useDownloadArchive({
 const downloadPdf = async () => {
 	try {
 		const uploadedAt = normalizeDatetimeRange(
-			filtersManager.value.filters.get('uploadedAt')?.value,
+			filtersManager.value.filters.get(FilterOption.UploadedAt)?.value,
 		);
 
 		await PdfServicesAPI.createScreenrecordingExport({

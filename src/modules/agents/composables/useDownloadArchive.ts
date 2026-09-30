@@ -3,7 +3,10 @@ import {
 	FileFormat,
 	normalizeDatetimeRange,
 } from '@webitel/api-services/scripts';
-import type { IFiltersManager } from '@webitel/ui-datalist/filters';
+import {
+	FilterOption,
+	type IFiltersManager,
+} from '@webitel/ui-datalist/filters';
 import { eventBus } from '@webitel/ui-sdk/scripts';
 import { ref } from 'vue';
 
@@ -43,9 +46,8 @@ export function useDownloadArchive({
 			const uploadedAt = fileIds
 				? undefined
 				: normalizeDatetimeRange(
-						filtersManager.filters.get('uploadedAt')?.value as Parameters<
-							typeof normalizeDatetimeRange
-						>[0],
+						filtersManager.filters.get(FilterOption.UploadedAt)
+							?.value as Parameters<typeof normalizeDatetimeRange>[0],
 					);
 
 			const response = await apiMethod({
