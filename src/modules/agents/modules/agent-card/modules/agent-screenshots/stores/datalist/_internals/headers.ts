@@ -1,4 +1,6 @@
-export const headers = [
+import type { DatalistTableHeader } from '@webitel/ui-datalist';
+
+export const headers: DatalistTableHeader[] = [
 	{
 		value: 'screenshots',
 		locale: [

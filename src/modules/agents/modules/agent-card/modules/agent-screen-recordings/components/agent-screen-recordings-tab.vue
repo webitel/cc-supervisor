@@ -124,6 +124,7 @@ import {
 	StorageScreenrecordingChannel,
 	StorageScreenrecordingType,
 } from '@webitel/api-services/gen/models';
+import { FilterOption } from '@webitel/ui-datalist/filters';
 import { WtEmpty, WtVidstackPlayer } from '@webitel/ui-sdk/components';
 import {
 	ComponentSize,
@@ -131,7 +132,6 @@ import {
 	IconAction,
 	WtObject,
 } from '@webitel/ui-sdk/enums';
-import { getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
@@ -143,7 +143,8 @@ import { useRoute } from 'vue-router';
 import { useTableAutoRefresh } from '../../../../../../../app/composables/useTableAutoRefresh';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import { useDownloadArchive } from '../../../../../composables/useDownloadArchive';
-import { useScreenRecordingsDataListStore } from '../store/screen-recordings';
+import { defaultUploadedAtFilter } from '../modules/filters/configs/filterOptions';
+import { useAgentScreenRecordingsTableStore } from '../stores/datalist/screen-recordings';
 
 const { t } = useI18n();
 
@@ -163,7 +164,7 @@ const emit = defineEmits([
 const currentVideo = ref(null);
 const isVideoOpen = ref(false);
 
-const tableStore = useScreenRecordingsDataListStore();
+const agentScreenRecordingsTableStore = useAgentScreenRecordingsTableStore();
 
 const {
 	dataList,
@@ -175,7 +176,7 @@ const {
 	next,
 	shownHeaders,
 	filtersManager,
-} = storeToRefs(tableStore);
+} = storeToRefs(agentScreenRecordingsTableStore);
 
 const {
 	initialize,
@@ -188,7 +189,7 @@ const {
 	addFilter,
 	columnResize,
 	columnReorder,
-} = tableStore;
+} = agentScreenRecordingsTableStore;
 
 const { setAutoRefresh, clearAutoRefresh } = useTableAutoRefresh(loadDataList);
 
@@ -217,18 +218,8 @@ const initializeDefaultFilters = () => {
 		value: StorageScreenrecordingChannel.Screenrecording,
 	});
 
-	if (!hasFilter('uploadedAtFrom')) {
-		addFilter({
-			name: 'uploadedAtFrom',
-			value: getStartOfDay(),
-		});
-	}
-
-	if (!hasFilter('uploadedAtTo')) {
-		addFilter({
-			name: 'uploadedAtTo',
-			value: getEndOfDay(),
-		});
+	if (!hasFilter(FilterOption.UploadedAt)) {
+		addFilter(defaultUploadedAtFilter());
 	}
 };
 

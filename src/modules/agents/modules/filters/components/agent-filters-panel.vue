@@ -16,7 +16,7 @@ import { TableFiltersPanelComponent as TableFiltersPanel } from '@webitel/ui-dat
 import { storeToRefs } from 'pinia';
 
 import { useUserinfoStore } from '../../../../userinfo/store/userInfoStore';
-import { useAgentsTableStore } from '../../../stores/agents';
+import { useAgentsTableStore } from '../../../stores/datalist/agents';
 import { filtersOptions } from '../configs/filterOptions';
 
 const userinfoStore = useUserinfoStore();

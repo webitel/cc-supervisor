@@ -84,7 +84,7 @@
               resizable-columns
               reorderable-columns
               :selectable="false"
-              :row-class="rowClass"
+              :row-style="rowStyle"
               class="agents-table"
               @sort="updateSort"
               @column-resize="columnResize"
@@ -168,7 +168,8 @@
   </wt-page-wrapper>
 </template>
 
-<script setup>
+<script lang="ts" setup>
+import { AgentsAPI } from '@webitel/api-services/api';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { WtDisplayChipItems, WtEmpty } from '@webitel/ui-sdk/components';
 import { IconAction, IconColor } from '@webitel/ui-sdk/enums';
@@ -191,11 +192,10 @@ import {
 import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh';
 import { useScreenSharingSession } from '../../_shared/composables/useScreenSharingSession';
 import { useUserinfoStore } from '../../userinfo/store/userInfoStore';
-import AgentsAPI from '../api/agents';
 import { useControlAgentScreenAccess } from '../composables/useControlAgentScreenAccess';
 import AgentStatusComment from '../modules/agent-card/components/agent-panel/_internals/agent-status-comment.vue';
 import AgentsFiltersPanel from '../modules/filters/components/agent-filters-panel.vue';
-import { useAgentsTableStore } from '../stores/agents';
+import { useAgentsTableStore } from '../stores/datalist/agents';
 import TableAgent from './_internals/table-templates/table-agent.vue';
 import TableAgentStatus from './_internals/table-templates/table-agent-status.vue';
 import TableAgentCallTime from './_internals/table-templates/table-agent-sum-call-time.vue';
@@ -258,7 +258,7 @@ const hasExportDataGridAccess = computed(() => {
 const { exportCSV, isCSVLoading, initCSVExport } = useCSVExport({
 	selected,
 });
-initCSVExport(AgentsAPI.getList, {
+initCSVExport(AgentsAPI.getStatusStatistics, {
 	filename: 'agents',
 });
 
@@ -290,10 +290,12 @@ const {
 	error: computed(() => null),
 });
 
-const rowClass = (row) => {
-	return (
-		row.status === AgentStatus.BreakOut && 'wt-table__tr--highlight-breakout'
-	);
+const rowStyle = (row: { status: AgentStatus }) => {
+	if (row.status !== AgentStatus.BreakOut) return {};
+
+	return {
+		background: 'hsla(var(--_negative-color), 0.1)',
+	};
 };
 const attachCall = async (id) => {
 	await store.dispatch('call/ATTACH_TO_CALL', {
@@ -320,7 +322,7 @@ const {
 	closeSession,
 } = useScreenSharingSession();
 
-let cli;
+let cli: Awaited<ReturnType<typeof getCliInstance>>;
 
 onMounted(async () => {
 	setAutoRefresh();
@@ -379,30 +381,18 @@ onUnmounted(() => {
 });
 </script>
 
-<style
-  lang="scss"
-  scoped
->
+<style scoped>
 
-.wt-table :deep(.wt-table__tr--highlight-breakout) {
-  // https://github.com/sass/node-sass/issues/2251
-  background: HSLA(var(--_negative-color), 0.1);
+.table-page .table-title {
+  justify-content: flex-end;
 }
 
-.table-page {
-  .table-title {
-    justify-content: flex-end;
-  }
+.table-page .agents-table__desk-track-icon {
+  cursor: pointer;
+}
 
-  .agents-table {
-    &__desk-track-icon {
-      cursor: pointer;
-
-      &_active {
-        fill: var(--success-color);
-      }
-    }
-  }
+.table-page .agents-table__desk-track-icon_active {
+  fill: var(--success-color);
 }
 
 /**
@@ -411,7 +401,8 @@ onUnmounted(() => {
   https://webitel.atlassian.net/browse/WTEL-9311
 */
 .screen-sharing--moved.screen-sharing--moved {
-  right: calc(256px + var(--spacing-sm)); // 256px is current width of call-window popup
+  /* 256px is current width of call-window popup */
+  right: calc(256px + var(--spacing-sm));
   bottom: var(--spacing-sm);
 }
 </style>

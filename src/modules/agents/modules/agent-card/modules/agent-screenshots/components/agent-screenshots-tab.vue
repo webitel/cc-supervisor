@@ -122,9 +122,11 @@ import {
 	StorageScreenrecordingChannel,
 	StorageScreenrecordingType,
 } from '@webitel/api-services/gen/models';
+import { normalizeDatetimeRange } from '@webitel/api-services/scripts';
+import { FilterOption } from '@webitel/ui-datalist/filters';
 import { WtEmpty, WtGalleria } from '@webitel/ui-sdk/components';
 import { FormatDateMode, IconAction, WtObject } from '@webitel/ui-sdk/enums';
-import { eventBus, getEndOfDay, getStartOfDay } from '@webitel/ui-sdk/scripts';
+import { eventBus } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
@@ -136,7 +138,8 @@ import { useRoute } from 'vue-router';
 import { useTableAutoRefresh } from '../../../../../../../app/composables/useTableAutoRefresh';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import { useDownloadArchive } from '../../../../../composables/useDownloadArchive';
-import { useScreenshotsDataListStore } from '../store/screenshots';
+import { defaultUploadedAtFilter } from '../modules/filters/configs/filterOptions';
+import { useAgentScreenshotsTableStore } from '../stores/datalist/screenshots';
 
 const { t } = useI18n();
 
@@ -149,7 +152,7 @@ const emit = defineEmits([
 	'toggle-filter',
 ]);
 
-const tableStore = useScreenshotsDataListStore();
+const agentScreenshotsTableStore = useAgentScreenshotsTableStore();
 
 const galleriaVisible = ref(false);
 const galleriaActiveIndex = ref(0);
@@ -164,7 +167,7 @@ const {
 	next,
 	shownHeaders,
 	filtersManager,
-} = storeToRefs(tableStore);
+} = storeToRefs(agentScreenshotsTableStore);
 
 const {
 	initialize,
@@ -177,7 +180,7 @@ const {
 	addFilter,
 	columnResize,
 	columnReorder,
-} = tableStore;
+} = agentScreenshotsTableStore;
 
 const { setAutoRefresh, clearAutoRefresh } = useTableAutoRefresh(loadDataList);
 
@@ -206,18 +209,8 @@ const initializeDefaultFilters = () => {
 		value: StorageScreenrecordingChannel.Screenrecording,
 	});
 
-	if (!hasFilter('uploadedAtFrom')) {
-		addFilter({
-			name: 'uploadedAtFrom',
-			value: getStartOfDay(),
-		});
-	}
-
-	if (!hasFilter('uploadedAtTo')) {
-		addFilter({
-			name: 'uploadedAtTo',
-			value: getEndOfDay(),
-		});
+	if (!hasFilter(FilterOption.UploadedAt)) {
+		addFilter(defaultUploadedAtFilter());
 	}
 };
 
@@ -294,11 +287,15 @@ const { isDownloadingArchive, downloadArchive } = useDownloadArchive({
 
 const downloadPdf = async () => {
 	try {
+		const uploadedAt = normalizeDatetimeRange(
+			filtersManager.value.filters.get(FilterOption.UploadedAt)?.value,
+		);
+
 		await PdfServicesAPI.createScreenrecordingExport({
 			agentId: agentId,
 			itemInstance: {
-				from: filtersManager.value.filters.get('uploadedAtFrom').value,
-				to: filtersManager.value.filters.get('uploadedAtTo').value,
+				from: uploadedAt?.from,
+				to: uploadedAt?.to,
 				fileIds: selected.value.map(({ id }) => id),
 			},
 		});
