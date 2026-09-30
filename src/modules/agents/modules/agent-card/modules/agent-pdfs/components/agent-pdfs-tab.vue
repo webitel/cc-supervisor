@@ -1,6 +1,6 @@
 <template>
   <agent-pdfs-tab-sdk
-    :store="tableStore"
+    :store="agentPdfsTableStore"
     entity-id-key="agentId"
     :entity-id-value="agentId"
     is-created-at-filter
@@ -60,7 +60,7 @@ const { hasDeleteAccess } = useUserAccessControl(WtObject.ScreenRecordings);
 const route = useRoute();
 const agentId = route.params.id as string;
 
-const tableStore = useAgentPdfsTableStore();
+const agentPdfsTableStore = useAgentPdfsTableStore();
 
 const handleDeleteItem = (item: WebitelMediaExporterExportRecord) => {
 	return FileServicesAPI.deleteScreenRecordingsByAgent({

@@ -20,10 +20,10 @@ import {
 	filtersOptions,
 } from '../configs/filterOptions';
 
-const tableStore = useAgentScreenshotsTableStore();
-const { filtersManager } = storeToRefs(tableStore);
+const agentScreenshotsTableStore = useAgentScreenshotsTableStore();
+const { filtersManager } = storeToRefs(agentScreenshotsTableStore);
 
-const { addFilter, updateFilter, deleteFilter } = tableStore;
+const { addFilter, updateFilter, deleteFilter } = agentScreenshotsTableStore;
 
 const resetFilters = () => {
 	filtersManager.value.reset({

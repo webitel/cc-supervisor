@@ -20,10 +20,10 @@ import {
 	filtersOptions,
 } from '../configs/filterOptions';
 
-const tableStore = useAgentPdfsTableStore();
-const { filtersManager } = storeToRefs(tableStore);
+const agentPdfsTableStore = useAgentPdfsTableStore();
+const { filtersManager } = storeToRefs(agentPdfsTableStore);
 
-const { addFilter, updateFilter, deleteFilter } = tableStore;
+const { addFilter, updateFilter, deleteFilter } = agentPdfsTableStore;
 
 const resetFilters = () => {
 	filtersManager.value.reset({

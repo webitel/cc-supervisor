@@ -20,10 +20,11 @@ import {
 	filtersOptions,
 } from '../configs/filterOptions';
 
-const tableStore = useAgentScreenRecordingsTableStore();
-const { filtersManager } = storeToRefs(tableStore);
+const agentScreenRecordingsTableStore = useAgentScreenRecordingsTableStore();
+const { filtersManager } = storeToRefs(agentScreenRecordingsTableStore);
 
-const { addFilter, updateFilter, deleteFilter } = tableStore;
+const { addFilter, updateFilter, deleteFilter } =
+	agentScreenRecordingsTableStore;
 
 const resetFilters = () => {
 	filtersManager.value.reset({

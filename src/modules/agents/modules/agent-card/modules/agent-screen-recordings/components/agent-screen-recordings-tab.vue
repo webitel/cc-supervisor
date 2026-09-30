@@ -163,7 +163,7 @@ const emit = defineEmits([
 const currentVideo = ref(null);
 const isVideoOpen = ref(false);
 
-const tableStore = useAgentScreenRecordingsTableStore();
+const agentScreenRecordingsTableStore = useAgentScreenRecordingsTableStore();
 
 const {
 	dataList,
@@ -175,7 +175,7 @@ const {
 	next,
 	shownHeaders,
 	filtersManager,
-} = storeToRefs(tableStore);
+} = storeToRefs(agentScreenRecordingsTableStore);
 
 const {
 	initialize,
@@ -188,7 +188,7 @@ const {
 	addFilter,
 	columnResize,
 	columnReorder,
-} = tableStore;
+} = agentScreenRecordingsTableStore;
 
 const { setAutoRefresh, clearAutoRefresh } = useTableAutoRefresh(loadDataList);
 

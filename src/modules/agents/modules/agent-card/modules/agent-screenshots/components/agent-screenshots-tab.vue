@@ -151,7 +151,7 @@ const emit = defineEmits([
 	'toggle-filter',
 ]);
 
-const tableStore = useAgentScreenshotsTableStore();
+const agentScreenshotsTableStore = useAgentScreenshotsTableStore();
 
 const galleriaVisible = ref(false);
 const galleriaActiveIndex = ref(0);
@@ -166,7 +166,7 @@ const {
 	next,
 	shownHeaders,
 	filtersManager,
-} = storeToRefs(tableStore);
+} = storeToRefs(agentScreenshotsTableStore);
 
 const {
 	initialize,
@@ -179,7 +179,7 @@ const {
 	addFilter,
 	columnResize,
 	columnReorder,
-} = tableStore;
+} = agentScreenshotsTableStore;
 
 const { setAutoRefresh, clearAutoRefresh } = useTableAutoRefresh(loadDataList);
 
