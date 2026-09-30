@@ -1,16 +1,18 @@
 import { createTestingPinia } from '@pinia/testing';
 import { mount } from '@vue/test-utils';
+import { AgentsAPI } from '@webitel/api-services/api';
 import { createStore } from 'vuex';
 
-import API from '../../api/agents';
 import agentsStore from '../../store/agents';
 import Agents from '../the-agents.vue';
 
 const items = [];
 
-vi.spyOn(API, 'getList').mockImplementation(() => ({
-	items,
-}));
+vi.spyOn(AgentsAPI, 'getStatusStatistics').mockImplementation(() =>
+	Promise.resolve({
+		items,
+	}),
+);
 
 // onMounted opens a real webitel-sdk WS Client, which crashes on the undefined
 // base URI in the test env. Stub the connection module with an inert client.

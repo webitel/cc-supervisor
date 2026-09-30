@@ -1,6 +1,7 @@
 import {
 	downloadFile as downloadArchiveFile,
 	FileFormat,
+	normalizeDatetimeRange,
 } from '@webitel/api-services/scripts';
 import type { IFiltersManager } from '@webitel/ui-datalist/filters';
 import { eventBus } from '@webitel/ui-sdk/scripts';
@@ -39,21 +40,19 @@ export function useDownloadArchive({
 				? selected.map(({ id }) => id)
 				: undefined;
 
+			const uploadedAt = fileIds
+				? undefined
+				: normalizeDatetimeRange(
+						filtersManager.filters.get('uploadedAt')?.value as Parameters<
+							typeof normalizeDatetimeRange
+						>[0],
+					);
+
 			const response = await apiMethod({
 				agentId,
 				fileIds,
-				from: fileIds
-					? undefined
-					: (filtersManager.filters.get('uploadedAtFrom')?.value as
-							| string
-							| number
-							| undefined),
-				to: fileIds
-					? undefined
-					: (filtersManager.filters.get('uploadedAtTo')?.value as
-							| string
-							| number
-							| undefined),
+				from: uploadedAt?.from,
+				to: uploadedAt?.to,
 			});
 
 			downloadArchiveFile({
