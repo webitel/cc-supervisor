@@ -30,14 +30,14 @@ import { WtApplication } from '@webitel/ui-sdk/enums';
 import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
 import { storeToRefs } from 'pinia';
 import { computed, inject } from 'vue';
-import { useStore } from 'vuex';
 import packageJson from '../../../../../package.json' with { type: 'json' };
 import RoutePaths from '../../../../app/router/_internals/RoutePaths.enum';
+import { useAppearanceStore } from '../../../appearance/store/appearanceStore';
 import { useNavStore } from '../../../start-page/stores/navStore';
 import { useUserinfoStore } from '../../../userinfo/store/userInfoStore';
 
-const store = useStore();
 const config = inject('$config');
+const appearanceStore = useAppearanceStore();
 
 const navStore = useNavStore();
 const userinfoStore = useUserinfoStore();
@@ -52,7 +52,7 @@ const { nav: fullNav } = storeToRefs(navStore);
 
 const nav = computed(() => fullNav.value.filter(({ disabled }) => !disabled));
 
-const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
+const darkMode = computed(() => appearanceStore.darkMode);
 
 const startPageHref = computed(() => import.meta.env.VITE_START_PAGE_URL);
 
