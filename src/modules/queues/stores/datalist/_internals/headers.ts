@@ -1,4 +1,6 @@
-export default [
+import type { DatalistTableHeader } from '@webitel/ui-datalist';
+
+export const headers: DatalistTableHeader[] = [
 	{
 		value: 'queue',
 		locale: 'pages.queue.columns.queue',

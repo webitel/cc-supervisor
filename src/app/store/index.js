@@ -6,7 +6,6 @@ import agentChats from '../../modules/agents/modules/agent-card/store/_unused/ag
 import agents from '../../modules/agents/store/agents';
 import appearance from '../../modules/appearance/store/appearance';
 import call from '../../modules/call-window/store/call';
-import queues from '../../modules/queues/store/queues';
 import instance from '../api/instance';
 import OpenAPIConfig from '../api/utils/openAPIConfig';
 
@@ -33,7 +32,6 @@ export default createStore({
 			]),
 	},
 	modules: {
-		queues,
 		agents,
 		agentChats,
 		agentAttentions,

@@ -28,6 +28,7 @@ export default ({ mode }) => {
 		optimizeDeps: {
 			include: [
 				'clipboard-copy',
+				'deep-copy',
 				'deep-equal',
 				'deepmerge',
 			],
