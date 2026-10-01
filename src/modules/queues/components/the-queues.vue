@@ -113,7 +113,7 @@
                 <table-agents :status="aggs" />
               </template>
               <template #free-footer>
-                {{ aggs.free }}
+                {{ aggs?.free }}
               </template>
             </wt-table>
 
@@ -134,6 +134,7 @@
 </template>
 
 <script setup>
+import { QueuesAPI } from '@webitel/api-services/api';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { WtEmpty } from '@webitel/ui-sdk/components';
 import { IconAction } from '@webitel/ui-sdk/enums';
@@ -146,9 +147,8 @@ import { useI18n } from 'vue-i18n';
 import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh';
 import { useUserinfoStore } from '../../userinfo/store/userInfoStore';
 
-import QueuesAPI from '../api/queues';
 import QueueFiltersPanel from '../modules/filters/components/queue-filters-panel.vue';
-import { useQueuesTableStore } from '../stores/queues';
+import { useQueuesTableStore } from '../stores/datalist/queues';
 import TableAgents from './_internals/table-templates/table-agents.vue';
 import TableMembers from './_internals/table-templates/table-members.vue';
 import TableQueue from './_internals/table-templates/table-queue.vue';
@@ -156,7 +156,7 @@ import TableTeam from './_internals/table-templates/table-team.vue';
 
 const { t } = useI18n();
 
-const tableStore = useQueuesTableStore();
+const queuesTableStore = useQueuesTableStore();
 const showActionsPanel = ref(false);
 
 const {
@@ -170,7 +170,7 @@ const {
 	filtersManager,
 	selected,
 	aggs,
-} = storeToRefs(tableStore);
+} = storeToRefs(queuesTableStore);
 
 const userinfoStore = useUserinfoStore();
 
@@ -197,13 +197,13 @@ const {
 	updateSearchMode,
 	columnResize,
 	columnReorder,
-} = tableStore;
+} = queuesTableStore;
 
 const { exportCSV, isCSVLoading, initCSVExport } = useCSVExport({
 	selected,
 });
 
-initCSVExport(QueuesAPI.getList, {
+initCSVExport(QueuesAPI.getReportGeneral, {
 	filename: 'queues-stats',
 });
 

@@ -16,14 +16,14 @@ import { TableFiltersPanelComponent as TableFiltersPanel } from '@webitel/ui-dat
 import { storeToRefs } from 'pinia';
 
 import { useUserinfoStore } from '../../../../userinfo/store/userInfoStore';
-import { useQueuesTableStore } from '../../../stores/queues';
+import { useQueuesTableStore } from '../../../stores/datalist/queues';
 import { filtersOptions } from '../configs/filterOptions';
 
 const userinfoStore = useUserinfoStore();
-const tableStore = useQueuesTableStore();
-const { filtersManager } = storeToRefs(tableStore);
+const queuesTableStore = useQueuesTableStore();
+const { filtersManager } = storeToRefs(queuesTableStore);
 
-const { addFilter, updateFilter, deleteFilter } = tableStore;
+const { addFilter, updateFilter, deleteFilter } = queuesTableStore;
 
 const resetFilters = () => {
 	filtersManager.value.reset();

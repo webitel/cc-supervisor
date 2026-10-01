@@ -1,9 +1,7 @@
 import { createTestingPinia } from '@pinia/testing';
 import { shallowMount } from '@vue/test-utils';
-import { createStore } from 'vuex';
+import { QueuesAPI } from '@webitel/api-services/api';
 
-import API from '../../api/queues';
-import queuesStore from '../../store/queues';
 import Queues from '../the-queues.vue';
 
 const items = [
@@ -35,18 +33,15 @@ const items = [
 	},
 ];
 
-vi.mock('../../api/queues');
+vi.mock('@webitel/api-services/api');
 
 // The `selectedIds` test relied on Options-API internals (`Queues.computed`,
 // `wrapper.vm.selectedIds`); the component is now `<script setup>` and no longer
 // exposes them, so that test was removed.
 describe('Queues page', () => {
-	let store;
-
 	const mountOptions = () => ({
 		global: {
 			plugins: [
-				store,
 				createTestingPinia({
 					createSpy: vi.fn,
 				}),
@@ -60,24 +55,11 @@ describe('Queues page', () => {
 	});
 
 	beforeEach(() => {
-		store = createStore({
-			modules: {
-				queues: {
-					...queuesStore,
-					state: {
-						...queuesStore.state,
-					},
-				},
-			},
-		});
-
-		API.getList
-			.mockImplementation(() =>
-				Promise.resolve({
-					items,
-				}),
-			)
-			.mockClear();
+		QueuesAPI.getReportGeneral = vi.fn().mockImplementation(() =>
+			Promise.resolve({
+				items,
+			}),
+		);
 	});
 
 	it('renders a component', () => {
