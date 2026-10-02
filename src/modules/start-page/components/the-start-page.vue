@@ -1,7 +1,7 @@
 <template>
 	<wt-start-page
 		:nav="navCards"
-		:dark-mode="theme === 'dark'"
+		:dark-mode="darkMode"
 		:app-logo="logo"
 	/>
 </template>
@@ -24,7 +24,7 @@ const navStore = useNavStore();
 const { navCards } = storeToRefs(navStore);
 
 const appearanceStore = useAppearanceStore();
-const theme = computed(() => appearanceStore.theme || 'light');
+const { darkMode } = storeToRefs(appearanceStore);
 
 onMounted(() => {
 	navStore.initializeNav();

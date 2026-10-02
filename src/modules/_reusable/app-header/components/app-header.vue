@@ -52,7 +52,7 @@ const { nav: fullNav } = storeToRefs(navStore);
 
 const nav = computed(() => fullNav.value.filter(({ disabled }) => !disabled));
 
-const darkMode = computed(() => appearanceStore.darkMode);
+const { darkMode } = storeToRefs(appearanceStore);
 
 const startPageHref = computed(() => import.meta.env.VITE_START_PAGE_URL);
 

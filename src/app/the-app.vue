@@ -5,6 +5,7 @@
 
 <script setup>
 import { WtNotificationsBar } from '@webitel/ui-sdk/components';
+import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, provide } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
@@ -20,7 +21,7 @@ const appearanceStore = useAppearanceStore();
 const closeSession = () => store.dispatch('CLOSE_SESSION');
 const openSession = () => store.dispatch('OPEN_SESSION');
 
-const darkMode = computed(() => appearanceStore.darkMode);
+const { darkMode } = storeToRefs(appearanceStore);
 provide('darkMode', darkMode);
 
 const setLanguage = () => {
