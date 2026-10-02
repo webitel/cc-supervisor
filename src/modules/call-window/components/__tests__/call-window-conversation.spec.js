@@ -1,42 +1,43 @@
+import { createTestingPinia } from '@pinia/testing';
 import { mount, shallowMount } from '@vue/test-utils';
 import { CallActions, CallDirection } from 'webitel-sdk';
 
+import { useCallStore } from '../../store/callStore';
 import CallWindowConversation from '../call-window-conversation.vue';
 
 describe('CallWindowConversation', () => {
 	let call;
-	let agent;
-	let computed;
+	let mountOptions;
 
 	beforeEach(() => {
-		call = {};
-		agent = {};
-		computed = {
-			...CallWindowConversation.computed,
-			now() {
-				return Date.now();
-			},
-			isVisible() {
-				return true;
-			},
-			call() {
-				return call;
-			},
-			agent() {
-				return agent;
-			},
+		call = {
+			mute: vi.fn(),
+			toggleHold: vi.fn(),
 		};
 
-		vi.spyOn(
-			CallWindowConversation.methods,
-			'subscribeCalls',
-		).mockImplementationOnce(vi.fn());
+		const pinia = createTestingPinia({
+			createSpy: vi.fn,
+			initialState: {
+				call: {
+					isVisible: true,
+					agent: {},
+					call,
+				},
+			},
+			stubActions: false,
+		});
+
+		mountOptions = {
+			global: {
+				plugins: [
+					pinia,
+				],
+			},
+		};
 	});
 
 	it('renders a component', () => {
-		const wrapper = shallowMount(CallWindowConversation, {
-			computed,
-		});
+		const wrapper = shallowMount(CallWindowConversation, mountOptions);
 		expect(wrapper.isVisible()).toBe(true);
 	});
 
@@ -45,14 +46,8 @@ describe('CallWindowConversation', () => {
 		call.state = CallActions.Ringing;
 		call.direction = CallDirection.Inbound;
 
-		const mock = vi.fn();
-		vi.spyOn(
-			CallWindowConversation.methods,
-			'answerCall',
-		).mockImplementationOnce(mock);
-		const wrapper = mount(CallWindowConversation, {
-			computed,
-		});
+		const wrapper = mount(CallWindowConversation, mountOptions);
+		const callStore = useCallStore();
 		const answerBtn = wrapper
 			.findAllComponents({
 				name: 'wt-button',
@@ -61,13 +56,11 @@ describe('CallWindowConversation', () => {
 
 		expect(answerBtn.isVisible()).toBe(true);
 		answerBtn.vm.$emit('click');
-		expect(mock).toHaveBeenCalled();
+		expect(callStore.answerCall).toHaveBeenCalled();
 	});
 
 	it('shows sonar in header if not ringing and isnt expanded (by default)', () => {
-		const wrapper = mount(CallWindowConversation, {
-			computed,
-		});
+		const wrapper = mount(CallWindowConversation, mountOptions);
 		const answerBtn = wrapper.find('.call-window-conversation-header__sonar');
 		expect(answerBtn.isVisible()).toBe(true);
 	});
@@ -76,14 +69,8 @@ describe('CallWindowConversation', () => {
 		// active
 		call.active = true;
 
-		const mock = vi.fn();
-		vi.spyOn(
-			CallWindowConversation.methods,
-			'leaveCall',
-		).mockImplementationOnce(mock);
-		const wrapper = mount(CallWindowConversation, {
-			computed,
-		});
+		const wrapper = mount(CallWindowConversation, mountOptions);
+		const callStore = useCallStore();
 		const answerBtn = wrapper
 			.findAllComponents({
 				name: 'wt-button',
@@ -92,16 +79,11 @@ describe('CallWindowConversation', () => {
 
 		expect(answerBtn.isVisible()).toBe(true);
 		answerBtn.vm.$emit('click');
-		expect(mock).toHaveBeenCalled();
+		expect(callStore.leaveCall).toHaveBeenCalled();
 	});
 
 	it('shows main sonar if not ringing and is expanded', async () => {
-		const wrapper = mount(CallWindowConversation, {
-			computed,
-			data: () => ({
-				isExpanded: true,
-			}),
-		});
+		const wrapper = mount(CallWindowConversation, mountOptions);
 		await wrapper
 			.findComponent({
 				name: 'call-window-wrapper',
@@ -116,14 +98,8 @@ describe('CallWindowConversation', () => {
 	});
 
 	it('mutes call', async () => {
-		const mock = vi.fn();
-		vi.spyOn(
-			CallWindowConversation.methods,
-			'toggleMute',
-		).mockImplementationOnce(mock);
-		const wrapper = mount(CallWindowConversation, {
-			computed,
-		});
+		const wrapper = mount(CallWindowConversation, mountOptions);
+		const callStore = useCallStore();
 		await wrapper
 			.findComponent({
 				name: 'call-window-wrapper',
@@ -139,20 +115,14 @@ describe('CallWindowConversation', () => {
 
 		expect(answerBtn.isVisible()).toBe(true);
 		answerBtn.vm.$emit('click');
-		expect(mock).toHaveBeenCalled();
+		expect(callStore.toggleMute).toHaveBeenCalled();
 	});
 
 	it('holds call', async () => {
 		call.allowHold = true;
 
-		const mock = vi.fn();
-		vi.spyOn(
-			CallWindowConversation.methods,
-			'toggleHold',
-		).mockImplementationOnce(mock);
-		const wrapper = mount(CallWindowConversation, {
-			computed,
-		});
+		const wrapper = mount(CallWindowConversation, mountOptions);
+		const callStore = useCallStore();
 		await wrapper
 			.findComponent({
 				name: 'call-window-wrapper',
@@ -168,6 +138,6 @@ describe('CallWindowConversation', () => {
 
 		expect(answerBtn.isVisible()).toBe(true);
 		answerBtn.vm.$emit('click');
-		expect(mock).toHaveBeenCalled();
+		expect(callStore.toggleHold).toHaveBeenCalled();
 	});
 });

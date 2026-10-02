@@ -104,6 +104,7 @@ import {
 	getIsSocketConnected,
 } from '../../../../../../app/api/callWSConnection';
 import { useScreenSharingSession } from '../../../../../_shared/composables/useScreenSharingSession';
+import { useCallStore } from '../../../../../call-window/store/callStore';
 import { useControlAgentScreenAccess } from '../../../../composables/useControlAgentScreenAccess';
 import AgentProfile from './_internals/agent-profile.vue';
 import AgentStatusComment from './_internals/agent-status-comment.vue';
@@ -116,6 +117,7 @@ const props = defineProps({
 });
 
 const store = useStore();
+const callStore = useCallStore();
 const router = useRouter();
 const { t } = useI18n();
 let cli;
@@ -140,7 +142,7 @@ const score = computed(
 
 // if call-window popup is opened need to move screen sharing player
 const isScreenSharingMoved = computed(
-	() => store.state.call.isEavesdropOpened || store.state.call.isVisible,
+	() => callStore.isEavesdropOpened || callStore.isVisible,
 );
 
 const isScreenSharingLoading = ref(false);
@@ -159,11 +161,11 @@ const loadAgent = async (payload) => {
 const loadScoreData = () =>
 	store.dispatch(`${props.namespace}/LOAD_SCORE_DATA`);
 
-const call = () => store.dispatch('call/CALL');
+const call = () => callStore.makeCall();
 
-const openWindow = () => store.dispatch('call/OPEN_WINDOW');
+const openWindow = () => callStore.openWindow();
 
-const setCallInfo = (payload) => store.dispatch('call/SET_CALL_INFO', payload);
+const setCallInfo = (payload) => callStore.setCallInfo(payload);
 
 const { isControlAgentScreenAllow } = useControlAgentScreenAccess();
 

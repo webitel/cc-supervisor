@@ -69,76 +69,40 @@
   </call-window-wrapper>
 </template>
 
-<script>
+<script setup lang="ts">
 import { ButtonColor, ButtonVariant } from '@webitel/ui-sdk/enums';
-import { mapActions, mapState } from 'vuex';
+import { storeToRefs } from 'pinia';
+import { computed, onMounted } from 'vue';
 
-import ringingSoundMixin from '../../../app/mixins/ringingSoundMixin/ringingSoundMixin';
+import { useRingingSound } from '../../../app/composables/useRingingSound';
 import ActiveSonar from '../assets/call-sonars/active-sonar.svg';
 import HoldSonar from '../assets/call-sonars/hold-sonar.svg';
 import RingingSonar from '../assets/call-sonars/ringing-sonar.svg';
-import timerMixin from '../mixins/timerMixin/timerMixin';
+import { useCallTimer } from '../composables/useCallTimer';
+import { useCallStore } from '../store/callStore';
 import CallWindowWrapper from './call-window-wrapper.vue';
 
-export default {
-	name: 'CallWindowConversation',
-	components: {
-		CallWindowWrapper,
-	},
-	mixins: [
-		ringingSoundMixin,
-		timerMixin,
-	],
-	data() {
-		return {
-			ButtonColor,
-			ButtonVariant,
-		};
-	},
-	mounted() {
-		this.subscribeCalls();
-	},
-	computed: {
-		...mapState('call', {
-			isVisible: (state) => state.isVisible,
-			agent: (state) => state.agent,
-			call: (state) => state.call,
-		}),
-		sonar() {
-			return this.isRinging
-				? RingingSonar
-				: this.isHold
-					? HoldSonar
-					: ActiveSonar;
-		},
-		isMuted() {
-			return this.call?.muted;
-		},
-		isHold() {
-			return this.call?.isHold;
-		},
-		isActive() {
-			return this.call?.active;
-		},
-		allowHold() {
-			return this.call?.allowHold;
-		},
-	},
-	methods: {
-		...mapActions('call', {
-			subscribeCalls: 'SUBSCRIBE_CALLS',
-			openWindow: 'OPEN_WINDOW',
-			closeWindow: 'CLOSE_WINDOW',
+const callStore = useCallStore();
+const { isVisible, agent, call } = storeToRefs(callStore);
+const { subscribeCalls, answerCall, leaveCall, toggleMute, toggleHold } =
+	callStore;
 
-			answerCall: 'ANSWER',
-			makeCall: 'CALL',
-			leaveCall: 'LEAVE_CALL',
+const { isRinging } = useRingingSound(call);
+const { startTime } = useCallTimer(call);
 
-			toggleMute: 'TOGGLE_MUTE',
-			toggleHold: 'TOGGLE_HOLD',
-		}),
-	},
-};
+const isMuted = computed(() => call.value?.muted);
+const isHold = computed(() => call.value?.isHold);
+const isActive = computed(() => call.value?.active);
+const allowHold = computed(() => call.value?.allowHold);
+
+const sonar = computed(() => {
+	if (isRinging.value) return RingingSonar;
+	return isHold.value ? HoldSonar : ActiveSonar;
+});
+
+onMounted(() => {
+	subscribeCalls();
+});
 </script>
 
 <style lang="scss" scoped>
