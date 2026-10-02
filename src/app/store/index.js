@@ -1,10 +1,7 @@
 import webSocketClientController from '@webitel/ui-sdk/src/api/websocket/WebSocketClientController';
 import ReactiveNowStoreModule from '@webitel/ui-sdk/src/store/ReactiveNowStoreModule/ReactiveNowStoreModule';
 import { createStore } from 'vuex';
-import agentAttentions from '../../modules/agents/modules/agent-card/store/_unused/agent-attentions';
-import agentChats from '../../modules/agents/modules/agent-card/store/_unused/agent-chats';
 import agents from '../../modules/agents/store/agents';
-import appearance from '../../modules/appearance/store/appearance';
 import call from '../../modules/call-window/store/call';
 import instance from '../api/instance';
 import OpenAPIConfig from '../api/utils/openAPIConfig';
@@ -33,10 +30,7 @@ export default createStore({
 	},
 	modules: {
 		agents,
-		agentChats,
-		agentAttentions,
 		call,
-		appearance,
 		now: new ReactiveNowStoreModule().getModule(),
 	},
 });
