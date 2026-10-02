@@ -128,9 +128,9 @@ import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'vuex';
 
 import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh';
+import { useCallStore } from '../../call-window/store/callStore';
 import DummyAfterSearchDark from '../assets/sv-dummy-after-search-dark.svg';
 import DummyAfterSearchLight from '../assets/sv-dummy-after-search-light.svg';
 import DummyDark from '../assets/sv-dummy-dark.svg';
@@ -142,12 +142,7 @@ import TableDirection from './_internals/table-templates/table-direction.vue';
 
 const { t } = useI18n();
 
-/*
- * TODO: need to refactor call store to remove usage of vuex store in component
- *
- * [WTEL-7283](https://webitel.atlassian.net/browse/WTEL-7283)
- * */
-const store = useStore();
+const callStore = useCallStore();
 
 const tableStore = useActiveCallsTableStore();
 const showActionsPanel = ref(false);
@@ -209,10 +204,10 @@ const {
 const { setAutoRefresh, clearAutoRefresh } = useTableAutoRefresh(loadDataList);
 
 const attachCall = async (id) => {
-	await store.dispatch('call/ATTACH_TO_CALL', {
+	await callStore.attachToCall({
 		id,
 	});
-	await store.dispatch('call/EAVESDROP_OPEN_WINDOW');
+	await callStore.eavesdropOpenWindow();
 };
 
 initialize();

@@ -8,18 +8,15 @@ import { WtNotificationsBar } from '@webitel/ui-sdk/components';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, provide } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'vuex';
 import { useAppearanceStore } from '../modules/appearance/store/appearanceStore';
 import { useUserinfoStore } from '../modules/userinfo/store/userInfoStore';
+import { useNowStore } from './store/nowStore';
 
-const store = useStore();
 const { locale, fallbackLocale } = useI18n();
 
 const { showUserNotifications } = useUserinfoStore();
 const appearanceStore = useAppearanceStore();
-
-const closeSession = () => store.dispatch('CLOSE_SESSION');
-const openSession = () => store.dispatch('OPEN_SESSION');
+const nowStore = useNowStore();
 
 const { darkMode } = storeToRefs(appearanceStore);
 provide('darkMode', darkMode);
@@ -39,10 +36,10 @@ const setAutoRefresh = () => {
 
 setAutoRefresh();
 setLanguage();
-openSession();
+nowStore.startWatcher();
 
 onMounted(() => showUserNotifications());
-onUnmounted(() => closeSession());
+onUnmounted(() => nowStore.stopWatcher());
 </script>
 
 <style lang="scss"></style>

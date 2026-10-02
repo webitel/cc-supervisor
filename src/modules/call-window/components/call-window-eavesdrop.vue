@@ -74,77 +74,35 @@
   </call-window-wrapper>
 </template>
 
-<script>
+<script setup lang="ts">
 import { ButtonColor, ButtonVariant } from '@webitel/ui-sdk/enums';
-import copy from 'clipboard-copy';
-import { mapActions, mapState } from 'vuex';
-import { CallDirection, EavesdropState } from 'webitel-sdk';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
 
-import timerMixin from '../mixins/timerMixin/timerMixin';
+import { useCallTimer } from '../composables/useCallTimer';
+import { useCallStore } from '../store/callStore';
 import CallWindowWrapper from './call-window-wrapper.vue';
 
-export default {
-	name: 'CallWindowEavesdrop',
-	components: {
-		CallWindowWrapper,
-	},
-	mixins: [
-		timerMixin,
-	],
-	data() {
-		return {
-			inbound: CallDirection.Inbound,
-			isCopied: false,
-			ButtonColor,
-			ButtonVariant,
-		};
-	},
-	computed: {
-		...mapState('call', {
-			isOpened: (state) => state.isEavesdropOpened,
-			agent: (state) => state.agent,
-			client: (state) => state.client,
-			call: (state) => state.call,
-		}),
-		stateIcon() {
-			if (this.isPrompt) return 'prompter';
-			if (this.isConference) return 'conference';
-			return 'sv-ear';
-		},
-		isMuted() {
-			return this.call.eavesdropIsMuted;
-		},
-		isPrompt() {
-			return this.call.eavesdropIsPrompt;
-		},
-		isConference() {
-			return this.call.eavesdropIsConference;
-		},
-	},
-	methods: {
-		...mapActions('call', {
-			closeWindow: 'EAVESDROP_CLOSE_WINDOW',
-		}),
-		mute() {
-			this.call.changeEavesdropState(EavesdropState.Muted);
-		},
-		prompter() {
-			this.call.changeEavesdropState(EavesdropState.Prompt);
-		},
-		conference() {
-			this.call.changeEavesdropState(EavesdropState.Conference);
-		},
-		copyNumber(ev, toggleCb) {
-			copy(this.client.number);
-			this.isCopied = true;
-			toggleCb(ev);
-			setTimeout(() => {
-				this.isCopied = false;
-				toggleCb(ev);
-			}, 1500);
-		},
-	},
-};
+const callStore = useCallStore();
+const { isEavesdropOpened: isOpened, agent, call } = storeToRefs(callStore);
+const {
+	eavesdropCloseWindow: closeWindow,
+	eavesdropMute: mute,
+	eavesdropPrompt: prompter,
+	eavesdropConference: conference,
+} = callStore;
+
+const { startTime } = useCallTimer(call);
+
+const isPrompt = computed(() => call.value?.eavesdropIsPrompt);
+const isConference = computed(() => call.value?.eavesdropIsConference);
+const isMuted = computed(() => call.value?.eavesdropIsMuted);
+
+const stateIcon = computed(() => {
+	if (isPrompt.value) return 'prompter';
+	if (isConference.value) return 'conference';
+	return 'sv-ear';
+});
 </script>
 
 <style
