@@ -94,6 +94,7 @@ import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/com
 import { ScreenSharing } from '@webitel/ui-sdk/src/modules/CallSession/index';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
@@ -118,6 +119,12 @@ const props = defineProps({
 
 const store = useStore();
 const callStore = useCallStore();
+const { callState, eavesdrop } = storeToRefs(callStore);
+const {
+	makeCall,
+	openWindow: openCallWindow,
+	setCallInfo: setCallInfoAction,
+} = callStore;
 const router = useRouter();
 const { t } = useI18n();
 let cli;
@@ -142,7 +149,7 @@ const score = computed(
 
 // if call-window popup is opened need to move screen sharing player
 const isScreenSharingMoved = computed(
-	() => callStore.isEavesdropOpened || callStore.isVisible,
+	() => eavesdrop.value.isOpened || callState.value.isVisible,
 );
 
 const isScreenSharingLoading = ref(false);
@@ -161,11 +168,11 @@ const loadAgent = async (payload) => {
 const loadScoreData = () =>
 	store.dispatch(`${props.namespace}/LOAD_SCORE_DATA`);
 
-const call = () => callStore.makeCall();
+const call = () => makeCall();
 
-const openWindow = () => callStore.openWindow();
+const openWindow = () => openCallWindow();
 
-const setCallInfo = (payload) => callStore.setCallInfo(payload);
+const setCallInfo = (payload) => setCallInfoAction(payload);
 
 const { isControlAgentScreenAllow } = useControlAgentScreenAccess();
 

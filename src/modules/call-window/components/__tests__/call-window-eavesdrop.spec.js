@@ -17,7 +17,9 @@ describe('CallWindowEavesdrop', () => {
 			createSpy: vi.fn,
 			initialState: {
 				call: {
-					isEavesdropOpened: true,
+					eavesdrop: {
+						isOpened: true,
+					},
 					agent: {},
 					call,
 				},

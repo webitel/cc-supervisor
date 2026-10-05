@@ -19,7 +19,9 @@ describe('CallWindowConversation', () => {
 			createSpy: vi.fn,
 			initialState: {
 				call: {
-					isVisible: true,
+					callState: {
+						isVisible: true,
+					},
 					agent: {},
 					call,
 				},

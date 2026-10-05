@@ -1,5 +1,5 @@
 <template>
-  <call-window-wrapper v-if="isOpened">
+  <call-window-wrapper v-if="eavesdrop.isOpened">
     <template #header="{ isExpanded }">
       <div class="call-window-eavesdrop-state-icon">
         <wt-icon
@@ -84,7 +84,8 @@ import { useCallStore } from '../store/callStore';
 import CallWindowWrapper from './call-window-wrapper.vue';
 
 const callStore = useCallStore();
-const { isEavesdropOpened: isOpened, agent, call } = storeToRefs(callStore);
+const { agent, call } = storeToRefs(callStore);
+const { eavesdrop } = callStore;
 const {
 	eavesdropCloseWindow: closeWindow,
 	eavesdropMute: mute,

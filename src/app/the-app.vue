@@ -17,6 +17,7 @@ const { locale, fallbackLocale } = useI18n();
 const { showUserNotifications } = useUserinfoStore();
 const appearanceStore = useAppearanceStore();
 const nowStore = useNowStore();
+const { startWatcher, stopWatcher } = nowStore;
 
 const { darkMode } = storeToRefs(appearanceStore);
 provide('darkMode', darkMode);
@@ -36,10 +37,10 @@ const setAutoRefresh = () => {
 
 setAutoRefresh();
 setLanguage();
-nowStore.startWatcher();
+startWatcher();
 
 onMounted(() => showUserNotifications());
-onUnmounted(() => nowStore.stopWatcher());
+onUnmounted(() => stopWatcher());
 </script>
 
 <style lang="scss"></style>

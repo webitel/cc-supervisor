@@ -1,5 +1,5 @@
 <template>
-  <call-window-wrapper v-show="isVisible">
+  <call-window-wrapper v-show="callState.isVisible">
     <template #header="{ isExpanded }">
       <div class="call-window-conversation-header-before">
         <wt-button
@@ -83,7 +83,8 @@ import { useCallStore } from '../store/callStore';
 import CallWindowWrapper from './call-window-wrapper.vue';
 
 const callStore = useCallStore();
-const { isVisible, agent, call } = storeToRefs(callStore);
+const { agent, call } = storeToRefs(callStore);
+const { callState } = callStore;
 const { subscribeCalls, answerCall, leaveCall, toggleMute, toggleHold } =
 	callStore;
 

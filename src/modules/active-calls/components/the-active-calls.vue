@@ -143,6 +143,7 @@ import TableDirection from './_internals/table-templates/table-direction.vue';
 const { t } = useI18n();
 
 const callStore = useCallStore();
+const { attachToCall, eavesdropOpenWindow } = callStore;
 
 const tableStore = useActiveCallsTableStore();
 const showActionsPanel = ref(false);
@@ -204,10 +205,10 @@ const {
 const { setAutoRefresh, clearAutoRefresh } = useTableAutoRefresh(loadDataList);
 
 const attachCall = async (id) => {
-	await callStore.attachToCall({
+	await attachToCall({
 		id,
 	});
-	await callStore.eavesdropOpenWindow();
+	await eavesdropOpenWindow();
 };
 
 initialize();

@@ -203,6 +203,8 @@ import TableAgentCallTime from './_internals/table-templates/table-agent-sum-cal
 const { t } = useI18n();
 
 const callStore = useCallStore();
+const { callState, eavesdrop } = storeToRefs(callStore);
+const { attachToCall, eavesdropOpenWindow } = callStore;
 
 const tableStore = useAgentsTableStore();
 const showActionsPanel = ref(false);
@@ -259,7 +261,7 @@ initialize();
 
 // if call-window popup is opened need to move screen sharing player
 const isScreenSharingMoved = computed(
-	() => callStore.isEavesdropOpened || callStore.isVisible,
+	() => eavesdrop.value.isOpened || callState.value.isVisible,
 );
 
 const filteredTableHeaders = computed(() =>
@@ -291,10 +293,10 @@ const rowStyle = (row: { status: AgentStatus }) => {
 	};
 };
 const attachCall = async (id) => {
-	await callStore.attachToCall({
+	await attachToCall({
 		id,
 	});
-	await callStore.eavesdropOpenWindow();
+	await eavesdropOpenWindow();
 };
 
 const getDeskTrackIconColor = (id) =>
