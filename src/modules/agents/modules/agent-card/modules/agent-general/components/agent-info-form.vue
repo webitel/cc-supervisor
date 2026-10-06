@@ -10,7 +10,7 @@
 				:model-value="agent.team"
 				:v="agentValidation.team"
 				:label="$t('objects.team')"
-				:search-method="searchTeams"
+				:search-method="TeamsAPI.getList"
 				:disabled="disableUserInput || !hasTeamReadAccess"
 				required
 				@update:model-value="setItemProp({ prop: 'team', value: $event })"
@@ -19,21 +19,21 @@
 				v-if="!isSupervisor"
 				:model-value="agent.supervisor"
 				:label="$t('objects.supervisor')"
-				:search-method="searchSupervisors"
+				:search-method="supervisorLookupApi"
 				:disabled="disableUserInput || !hasSupervisorReadAccess"
 				@update:model-value="setItemProp({ prop: 'supervisor', value: $event })"
 			/>
 			<wt-multi-select
 				:model-value="agent.auditor"
 				:label="$t('objects.auditor')"
-				:search-method="searchAuditors"
+				:search-method="userLookupApi"
 				:disabled="disableUserInput || !hasAuditorReadAccess"
 				@update:model-value="setItemProp({ prop: 'auditor', value: $event })"
 			/>
 			<wt-single-select
 				:model-value="agent.region"
 				:label="$t('objects.region')"
-				:search-method="searchRegions"
+				:search-method="RegionsAPI.getList"
 				:disabled="disableUserInput || !hasRegionReadAccess"
 				@update:model-value="setItemProp({ prop: 'region', value: $event })"
 			/>
@@ -122,11 +122,6 @@ const { hasReadAccess: hasRegionReadAccess } = useUserAccessControl(
 const isSupervisor = computed(() => agent.value?.isSupervisor);
 
 const disabledSave = computed(() => !agent.value._dirty || v$.value.$invalid);
-
-const searchTeams = TeamsAPI.getList;
-const searchSupervisors = supervisorLookupApi;
-const searchAuditors = userLookupApi;
-const searchRegions = RegionsAPI.getList;
 
 loadAgent();
 </script>
