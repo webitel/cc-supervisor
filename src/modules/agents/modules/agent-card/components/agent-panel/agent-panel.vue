@@ -120,7 +120,7 @@ const props = defineProps({
 const store = useStore();
 const callStore = useCallStore();
 const { callState, eavesdrop } = storeToRefs(callStore);
-const { makeCall, setCallInfo: setCallInfoAction } = callStore;
+const { makeCall, setCallInfo } = callStore;
 const router = useRouter();
 const { t } = useI18n();
 let cli;
@@ -164,17 +164,13 @@ const loadAgent = async (payload) => {
 const loadScoreData = () =>
 	store.dispatch(`${props.namespace}/LOAD_SCORE_DATA`);
 
-const call = () => makeCall();
-
-const setCallInfo = (payload) => setCallInfoAction(payload);
-
 const { isControlAgentScreenAllow } = useControlAgentScreenAccess();
 
 const callAgent = () => {
 	setCallInfo({
 		agent: agent.value,
 	});
-	call();
+	makeCall();
 };
 
 const trackAgent = async () => {
