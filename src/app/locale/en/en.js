@@ -1,4 +1,5 @@
 import { SupervisorSections } from '@webitel/ui-sdk/enums';
+import { RolePermissionError } from 'webitel-sdk';
 
 export default {
 	auth: {
@@ -218,6 +219,12 @@ export default {
 				name: 'Active calls',
 				text: 'In this section, you can monitor active calls and connect to the call.',
 			},
+		},
+	},
+	error: {
+		websocket: {
+			[RolePermissionError.id.replaceAll('.', '_')]:
+				"You don't have permission to take screenshots or record the screen",
 		},
 	},
 	callWindow: {
