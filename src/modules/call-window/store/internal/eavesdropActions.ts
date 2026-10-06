@@ -7,9 +7,7 @@ type EavesdropCall = {
 	eavesdropIsMuted?: boolean;
 	eavesdropIsPrompt?: boolean;
 	eavesdropIsConference?: boolean;
-	allowDtmf?: boolean;
 	changeEavesdropState: (state: EavesdropState) => Promise<unknown>;
-	sendDTMF: (dtmf: string) => Promise<unknown>;
 } | null;
 
 interface Eavesdrop {
@@ -22,7 +20,6 @@ interface EavesdropActionsDeps {
 	call: ShallowRef<EavesdropCall>;
 	eavesdrop: Eavesdrop;
 	leaveCall: () => Promise<void>;
-	stopTimer: () => void;
 	stopAudioPlayback: () => void;
 	clearState: () => void;
 }
@@ -31,7 +28,6 @@ export function createEavesdropActions({
 	call,
 	eavesdrop,
 	leaveCall,
-	stopTimer,
 	stopAudioPlayback,
 	clearState,
 }: EavesdropActionsDeps) {
@@ -42,7 +38,6 @@ export function createEavesdropActions({
 	const eavesdropCloseWindow = async () => {
 		stopAudioPlayback();
 		await leaveCall();
-		stopTimer();
 		eavesdrop.isOpened = false;
 		eavesdrop.lastDTMF = '0';
 		clearState();
@@ -87,17 +82,6 @@ export function createEavesdropActions({
 		}
 	};
 
-	const sendDtmf = async ({ dtmf }) => {
-		if (!call.value || eavesdrop.lastDTMF === dtmf) return;
-		try {
-			if (!call.value.allowDtmf) return;
-			await call.value.sendDTMF(dtmf);
-			eavesdrop.lastDTMF = dtmf;
-		} catch (err) {
-			console.error(err);
-		}
-	};
-
 	return {
 		eavesdropOpenWindow,
 		eavesdropCloseWindow,
@@ -105,6 +89,5 @@ export function createEavesdropActions({
 		eavesdropPrompt,
 		eavesdropConference,
 		attachToCall,
-		sendDtmf,
 	};
 }

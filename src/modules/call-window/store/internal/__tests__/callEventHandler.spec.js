@@ -12,7 +12,6 @@ describe('createCallEventHandler', () => {
 			call: shallowRef(null),
 			agent: ref({}),
 			client: ref({}),
-			time: ref(0),
 			callState: reactive({
 				isOpened: false,
 				isVisible: false,
@@ -27,8 +26,6 @@ describe('createCallEventHandler', () => {
 				lastDTMF: 0,
 			}),
 			audioElement: shallowRef(null),
-			startTimer: vi.fn(),
-			stopTimer: vi.fn(),
 			stopAudioPlayback: vi.fn(),
 		};
 		handler = createCallEventHandler(deps);
@@ -75,19 +72,12 @@ describe('createCallEventHandler', () => {
 		});
 	});
 
-	it('starts the timer and opens the call on active', () => {
+	it('opens the call on active', () => {
 		handler(CallActions.Active, {
 			displayName: 'Vi',
 		});
 
 		expect(deps.callState.isOpened).toBe(true);
-		expect(deps.startTimer).toHaveBeenCalled();
-	});
-
-	it('stops the timer on hold', () => {
-		handler(CallActions.Hold, {});
-
-		expect(deps.stopTimer).toHaveBeenCalled();
 	});
 
 	it('clears call state on hangup', () => {
@@ -100,7 +90,6 @@ describe('createCallEventHandler', () => {
 		expect(deps.call.value).toBeNull();
 		expect(deps.callState.isVisible).toBe(false);
 		expect(deps.callState.isOpened).toBe(false);
-		expect(deps.stopTimer).toHaveBeenCalled();
 	});
 
 	it('does nothing for an unknown action', () => {

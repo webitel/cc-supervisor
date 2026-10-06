@@ -24,7 +24,6 @@ describe('createEavesdropActions', () => {
 				lastDTMF: 0,
 			}),
 			leaveCall: vi.fn().mockResolvedValue(undefined),
-			stopTimer: vi.fn(),
 			stopAudioPlayback: vi.fn(),
 			clearState: vi.fn(),
 		};
@@ -44,7 +43,6 @@ describe('createEavesdropActions', () => {
 
 		expect(deps.stopAudioPlayback).toHaveBeenCalled();
 		expect(deps.leaveCall).toHaveBeenCalled();
-		expect(deps.stopTimer).toHaveBeenCalled();
 		expect(deps.eavesdrop.isOpened).toBe(false);
 		expect(deps.clearState).toHaveBeenCalled();
 	});
@@ -79,35 +77,5 @@ describe('createEavesdropActions', () => {
 		});
 
 		expect(deps.eavesdrop.isEavesdrop).toBe(true);
-	});
-
-	it('sends dtmf once and remembers the last digit', async () => {
-		const sendDTMF = vi.fn().mockResolvedValue(undefined);
-		deps.call.value = {
-			allowDtmf: true,
-			sendDTMF,
-		};
-
-		await actions.sendDtmf({
-			dtmf: '5',
-		});
-
-		expect(sendDTMF).toHaveBeenCalledWith('5');
-		expect(deps.eavesdrop.lastDTMF).toBe('5');
-	});
-
-	it('ignores a repeated dtmf digit', async () => {
-		const sendDTMF = vi.fn().mockResolvedValue(undefined);
-		deps.eavesdrop.lastDTMF = '5';
-		deps.call.value = {
-			allowDtmf: true,
-			sendDTMF,
-		};
-
-		await actions.sendDtmf({
-			dtmf: '5',
-		});
-
-		expect(sendDTMF).not.toHaveBeenCalled();
 	});
 });

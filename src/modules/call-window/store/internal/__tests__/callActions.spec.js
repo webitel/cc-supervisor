@@ -1,4 +1,4 @@
-import { reactive, ref, shallowRef } from 'vue';
+import { ref, shallowRef } from 'vue';
 
 import { createCallActions } from '../callActions';
 
@@ -26,25 +26,8 @@ describe('createCallActions', () => {
 			call: shallowRef(null),
 			agent: ref({}),
 			client: ref({}),
-			callState: reactive({
-				isOpened: false,
-				isVisible: false,
-				isRecording: false,
-				isHold: false,
-				isMuted: false,
-				isAttachedToCall: false,
-			}),
-			stopTimer: vi.fn(),
-			stopAudioPlayback: vi.fn(),
-			clearState: vi.fn(),
 		};
 		actions = createCallActions(deps);
-	});
-
-	it('opens the call window', async () => {
-		await actions.openWindow();
-
-		expect(deps.callState.isVisible).toBe(true);
 	});
 
 	it('subscribes to call events with the given handler', async () => {
@@ -77,16 +60,6 @@ describe('createCallActions', () => {
 		await actions.leaveCall();
 
 		expect(hangup).toHaveBeenCalled();
-	});
-
-	it('tears down call state on close', async () => {
-		await actions.closeWindow();
-
-		expect(deps.stopAudioPlayback).toHaveBeenCalled();
-		expect(deps.stopTimer).toHaveBeenCalled();
-		expect(deps.callState.isOpened).toBe(false);
-		expect(deps.callState.isVisible).toBe(false);
-		expect(deps.clearState).toHaveBeenCalled();
 	});
 
 	it('places a call to the current agent extension', async () => {

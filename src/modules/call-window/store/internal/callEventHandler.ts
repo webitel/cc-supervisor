@@ -21,12 +21,9 @@ interface CallEventHandlerDeps {
 	call: ShallowRef<unknown>;
 	agent: Ref<Partial<EngineAgent>>;
 	client: Ref<unknown>;
-	time: Ref<number>;
 	callState: CallState;
 	eavesdrop: Eavesdrop;
 	audioElement: ShallowRef<HTMLAudioElement | null>;
-	startTimer: () => void;
-	stopTimer: () => void;
 	stopAudioPlayback: () => void;
 }
 
@@ -34,12 +31,9 @@ export function createCallEventHandler({
 	call,
 	agent,
 	client,
-	time,
 	callState,
 	eavesdrop,
 	audioElement,
-	startTimer,
-	stopTimer,
 	stopAudioPlayback,
 }: CallEventHandlerDeps) {
 	const handleStreamAction = (streamCall) => {
@@ -63,7 +57,6 @@ export function createCallEventHandler({
 			case CallActions.Ringing:
 				if (call.value) return;
 				call.value = incomingCall;
-				time.value = 0;
 				agent.value = {
 					name: incomingCall.displayName,
 				};
@@ -92,25 +85,18 @@ export function createCallEventHandler({
 				}
 
 				triggerRef(call);
-				startTimer();
 				break;
 			case CallActions.Bridge:
-				stopTimer();
 				call.value = incomingCall;
-				time.value = 0;
 				agent.value = {
 					name: incomingCall.displayName,
 				};
-				startTimer();
 				break;
 			case CallActions.Hold:
-				stopTimer();
 				triggerRef(call);
 				break;
 			case CallActions.Hangup:
-				stopTimer();
 				call.value = null;
-				time.value = 0;
 				callState.isVisible = false;
 				callState.isOpened = false;
 				eavesdrop.isOpened = false;

@@ -20,41 +20,16 @@ type Call = {
 	toggleHold: () => Promise<unknown>;
 } | null;
 
-interface CallState {
-	isOpened: boolean;
-	isVisible: boolean;
-	isRecording: boolean;
-	isHold: boolean;
-	isMuted: boolean;
-	isAttachedToCall: boolean;
-}
-
 interface CallActionsDeps {
 	call: ShallowRef<Call>;
 	agent: Ref<Partial<EngineAgent>>;
 	client: Ref<unknown>;
-	callState: CallState;
-	stopTimer: () => void;
-	stopAudioPlayback: () => void;
-	clearState: () => void;
 }
 
-export function createCallActions({
-	call,
-	agent,
-	client,
-	callState,
-	stopTimer,
-	stopAudioPlayback,
-	clearState,
-}: CallActionsDeps) {
+export function createCallActions({ call, agent, client }: CallActionsDeps) {
 	const subscribeCalls = async (callHandler) => {
 		const cli = await getCliInstance();
 		await cli.subscribeCall(callHandler, null);
-	};
-
-	const openWindow = async () => {
-		callState.isVisible = true;
 	};
 
 	const leaveCall = async () => {
@@ -65,15 +40,6 @@ export function createCallActions({
 				console.error(err);
 			}
 		}
-	};
-
-	const closeWindow = async () => {
-		stopAudioPlayback();
-		await leaveCall();
-		stopTimer();
-		callState.isOpened = false;
-		callState.isVisible = false;
-		clearState();
 	};
 
 	const makeCall = async () => {
@@ -134,9 +100,7 @@ export function createCallActions({
 
 	return {
 		subscribeCalls,
-		openWindow,
 		leaveCall,
-		closeWindow,
 		makeCall,
 		answerCall,
 		toggleMute,

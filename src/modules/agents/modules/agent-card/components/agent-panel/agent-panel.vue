@@ -120,11 +120,7 @@ const props = defineProps({
 const store = useStore();
 const callStore = useCallStore();
 const { callState, eavesdrop } = storeToRefs(callStore);
-const {
-	makeCall,
-	openWindow: openCallWindow,
-	setCallInfo: setCallInfoAction,
-} = callStore;
+const { makeCall, setCallInfo: setCallInfoAction } = callStore;
 const router = useRouter();
 const { t } = useI18n();
 let cli;
@@ -169,8 +165,6 @@ const loadScoreData = () =>
 	store.dispatch(`${props.namespace}/LOAD_SCORE_DATA`);
 
 const call = () => makeCall();
-
-const openWindow = () => openCallWindow();
 
 const setCallInfo = (payload) => setCallInfoAction(payload);
 

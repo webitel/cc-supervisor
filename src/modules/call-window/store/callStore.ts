@@ -7,12 +7,9 @@ import { createCallEventHandler } from './internal/callEventHandler';
 import { createEavesdropActions } from './internal/eavesdropActions';
 
 export const useCallStore = defineStore('call', () => {
-	const timer = ref(null);
-
 	const call = shallowRef(null);
 	const agent = ref<Partial<EngineAgent>>({});
 	const client = ref({});
-	const time = ref(0);
 
 	const callState = reactive({
 		isOpened: false,
@@ -31,17 +28,6 @@ export const useCallStore = defineStore('call', () => {
 
 	const audioElement = shallowRef(null);
 
-	const startTimer = () => {
-		timer.value = setInterval(() => {
-			time.value += 1;
-		}, 1000);
-	};
-
-	const stopTimer = () => {
-		clearInterval(timer.value);
-		timer.value = null;
-	};
-
 	const stopAudioPlayback = () => {
 		if (audioElement.value) {
 			audioElement.value.pause();
@@ -50,11 +36,9 @@ export const useCallStore = defineStore('call', () => {
 	};
 
 	const clearState = () => {
-		timer.value = null;
 		call.value = null;
 		agent.value = {};
 		client.value = {};
-		time.value = 0;
 		callState.isOpened = false;
 		callState.isVisible = false;
 		callState.isRecording = false;
@@ -72,20 +56,15 @@ export const useCallStore = defineStore('call', () => {
 		call,
 		agent,
 		client,
-		time,
 		callState,
 		eavesdrop,
 		audioElement,
-		startTimer,
-		stopTimer,
 		stopAudioPlayback,
 	});
 
 	const {
 		subscribeCalls: subscribeCallsWithHandler,
-		openWindow,
 		leaveCall,
-		closeWindow,
 		makeCall,
 		answerCall,
 		toggleMute,
@@ -95,10 +74,6 @@ export const useCallStore = defineStore('call', () => {
 		call,
 		agent,
 		client,
-		callState,
-		stopTimer,
-		stopAudioPlayback,
-		clearState,
 	});
 
 	const subscribeCalls = () => subscribeCallsWithHandler(callHandler);
@@ -110,29 +85,21 @@ export const useCallStore = defineStore('call', () => {
 		eavesdropPrompt,
 		eavesdropConference,
 		attachToCall,
-		sendDtmf,
 	} = createEavesdropActions({
 		call,
 		eavesdrop,
 		leaveCall,
-		stopTimer,
 		stopAudioPlayback,
 		clearState,
 	});
 
 	return {
-		timer,
 		call,
 		agent,
-		client,
-		time,
 		callState,
 		eavesdrop,
-		audioElement,
 
 		subscribeCalls,
-		openWindow,
-		closeWindow,
 		eavesdropOpenWindow,
 		eavesdropCloseWindow,
 		makeCall,
@@ -145,6 +112,5 @@ export const useCallStore = defineStore('call', () => {
 		eavesdropConference,
 		setCallInfo,
 		attachToCall,
-		sendDtmf,
 	};
 });
