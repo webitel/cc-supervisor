@@ -182,7 +182,6 @@ import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
 
 import {
@@ -191,6 +190,7 @@ import {
 } from '../../../app/api/callWSConnection';
 import { useTableAutoRefresh } from '../../../app/composables/useTableAutoRefresh';
 import { useScreenSharingSession } from '../../_shared/composables/useScreenSharingSession';
+import { useCallStore } from '../../call-window/store/callStore';
 import { useUserinfoStore } from '../../userinfo/store/userInfoStore';
 import { useControlAgentScreenAccess } from '../composables/useControlAgentScreenAccess';
 import AgentStatusComment from '../modules/agent-card/components/agent-panel/_internals/agent-status-comment.vue';
@@ -202,14 +202,9 @@ import TableAgentCallTime from './_internals/table-templates/table-agent-sum-cal
 
 const { t } = useI18n();
 
-/*
- * @author @Oleksandr Palonnyi
- *
- * TODO: need to refactor call store to remove usage of vuex store in component
- *
- * [WTEL-7283](https://webitel.atlassian.net/browse/WTEL-7283)
- * */
-const store = useStore();
+const callStore = useCallStore();
+const { callState, eavesdrop } = storeToRefs(callStore);
+const { attachToCall, eavesdropOpenWindow } = callStore;
 
 const tableStore = useAgentsTableStore();
 const showActionsPanel = ref(false);
@@ -266,7 +261,7 @@ initialize();
 
 // if call-window popup is opened need to move screen sharing player
 const isScreenSharingMoved = computed(
-	() => store.state.call.isEavesdropOpened || store.state.call.isVisible,
+	() => eavesdrop.value.isOpened || callState.value.isVisible,
 );
 
 const filteredTableHeaders = computed(() =>
@@ -298,10 +293,10 @@ const rowStyle = (row: { status: AgentStatus }) => {
 	};
 };
 const attachCall = async (id) => {
-	await store.dispatch('call/ATTACH_TO_CALL', {
+	await attachToCall({
 		id,
 	});
-	await store.dispatch('call/EAVESDROP_OPEN_WINDOW');
+	await eavesdropOpenWindow();
 };
 
 const getDeskTrackIconColor = (id) =>

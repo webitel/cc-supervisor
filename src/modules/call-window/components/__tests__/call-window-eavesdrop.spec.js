@@ -1,48 +1,48 @@
+import { createTestingPinia } from '@pinia/testing';
 import { mount, shallowMount } from '@vue/test-utils';
 
+import { useCallStore } from '../../store/callStore';
 import CallWindowEavesdrop from '../call-window-eavesdrop.vue';
 
 describe('CallWindowEavesdrop', () => {
 	let call;
-	let agent;
-	let client;
-	let computed;
+	let mountOptions;
 
 	beforeEach(() => {
-		call = {};
-		agent = {};
-		client = {};
-		computed = {
-			...CallWindowEavesdrop.computed,
-			now() {
-				return Date.now();
+		call = {
+			changeEavesdropState: vi.fn(),
+		};
+
+		const pinia = createTestingPinia({
+			createSpy: vi.fn,
+			initialState: {
+				call: {
+					eavesdrop: {
+						isOpened: true,
+					},
+					agent: {},
+					call,
+				},
 			},
-			isOpened() {
-				return true;
-			},
-			call() {
-				return call;
-			},
-			agent() {
-				return agent;
-			},
-			client() {
-				return client;
+			stubActions: false,
+		});
+
+		mountOptions = {
+			global: {
+				plugins: [
+					pinia,
+				],
 			},
 		};
 	});
 
 	it('renders a component', () => {
-		const wrapper = shallowMount(CallWindowEavesdrop, {
-			computed,
-		});
+		const wrapper = shallowMount(CallWindowEavesdrop, mountOptions);
 		expect(wrapper.isVisible()).toBe(true);
 	});
 
 	it('by default shows ear icon at header', () => {
-		const wrapper = mount(CallWindowEavesdrop, {
-			computed,
-		});
+		const wrapper = mount(CallWindowEavesdrop, mountOptions);
 		const btn = wrapper
 			.findAllComponents({
 				name: 'wt-icon',
@@ -53,13 +53,8 @@ describe('CallWindowEavesdrop', () => {
 	});
 
 	it('closes window at "close" click', () => {
-		const mock = vi.fn();
-		vi.spyOn(CallWindowEavesdrop.methods, 'closeWindow').mockImplementationOnce(
-			mock,
-		);
-		const wrapper = mount(CallWindowEavesdrop, {
-			computed,
-		});
+		const wrapper = mount(CallWindowEavesdrop, mountOptions);
+		const callStore = useCallStore();
 		const btn = wrapper
 			.findAllComponents({
 				name: 'wt-button',
@@ -68,16 +63,11 @@ describe('CallWindowEavesdrop', () => {
 
 		expect(btn.isVisible()).toBe(true);
 		btn.vm.$emit('click');
-		expect(mock).toHaveBeenCalled();
+		expect(callStore.eavesdropCloseWindow).toHaveBeenCalled();
 	});
 
 	it('at isExpanded=true shows main ear icon', async () => {
-		const wrapper = mount(CallWindowEavesdrop, {
-			computed,
-			data: () => ({
-				isExpanded: true,
-			}),
-		});
+		const wrapper = mount(CallWindowEavesdrop, mountOptions);
 		await wrapper
 			.findComponent({
 				name: 'call-window-wrapper',
@@ -85,7 +75,6 @@ describe('CallWindowEavesdrop', () => {
 			.setData({
 				isExpanded: true,
 			});
-		console.info(wrapper.html());
 		const btn = wrapper
 			.find('.call-window-eavesdrop-content')
 			.findAllComponents({
@@ -97,11 +86,7 @@ describe('CallWindowEavesdrop', () => {
 	});
 
 	it('mutes call', async () => {
-		const mock = vi.fn();
-		vi.spyOn(CallWindowEavesdrop.methods, 'mute').mockImplementationOnce(mock);
-		const wrapper = mount(CallWindowEavesdrop, {
-			computed,
-		});
+		const wrapper = mount(CallWindowEavesdrop, mountOptions);
 		await wrapper
 			.findComponent({
 				name: 'call-window-wrapper',
@@ -117,19 +102,12 @@ describe('CallWindowEavesdrop', () => {
 
 		expect(btn.isVisible()).toBe(true);
 		btn.vm.$emit('click');
-		expect(mock).toHaveBeenCalled();
+		expect(call.changeEavesdropState).toHaveBeenCalled();
 	});
 
 	it('prompts call', async () => {
-		const mock = vi.fn();
-		vi.spyOn(CallWindowEavesdrop.methods, 'prompter').mockImplementationOnce(
-			mock,
-		);
-
 		// mount all components to get conference button from wt-tooltip slot
-		const wrapper = mount(CallWindowEavesdrop, {
-			computed,
-		});
+		const wrapper = mount(CallWindowEavesdrop, mountOptions);
 
 		// open expansion
 		wrapper
@@ -149,19 +127,12 @@ describe('CallWindowEavesdrop', () => {
 
 		expect(btn.isVisible()).toBe(true);
 		btn.vm.$emit('click');
-		expect(mock).toHaveBeenCalled();
+		expect(call.changeEavesdropState).toHaveBeenCalled();
 	});
 
 	it('conferences call', async () => {
-		const mock = vi.fn();
-		vi.spyOn(CallWindowEavesdrop.methods, 'conference').mockImplementationOnce(
-			mock,
-		);
-
 		// mount all components to get conference button from wt-tooltip slot
-		const wrapper = mount(CallWindowEavesdrop, {
-			computed,
-		});
+		const wrapper = mount(CallWindowEavesdrop, mountOptions);
 
 		// open expansion
 		wrapper
@@ -181,6 +152,6 @@ describe('CallWindowEavesdrop', () => {
 
 		expect(btn.isVisible()).toBe(true);
 		btn.vm.$emit('click');
-		expect(mock).toHaveBeenCalled();
+		expect(call.changeEavesdropState).toHaveBeenCalled();
 	});
 });

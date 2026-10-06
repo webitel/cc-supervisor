@@ -1,8 +1,6 @@
 import webSocketClientController from '@webitel/ui-sdk/src/api/websocket/WebSocketClientController';
-import ReactiveNowStoreModule from '@webitel/ui-sdk/src/store/ReactiveNowStoreModule/ReactiveNowStoreModule';
 import { createStore } from 'vuex';
 import agents from '../../modules/agents/store/agents';
-import call from '../../modules/call-window/store/call';
 import instance from '../api/instance';
 import OpenAPIConfig from '../api/utils/openAPIConfig';
 
@@ -14,23 +12,7 @@ export default createStore({
 		},
 		client: webSocketClientController,
 	},
-	actions: {
-		OPEN_SESSION: async (context) =>
-			Promise.all([
-				context.dispatch('now/SET_NOW_WATCHER', null, {
-					root: true,
-				}),
-			]),
-		CLOSE_SESSION: (context) =>
-			Promise.all([
-				context.dispatch('ui/now/CLEAR_NOW_WATCHER', null, {
-					root: true,
-				}),
-			]),
-	},
 	modules: {
 		agents,
-		call,
-		now: new ReactiveNowStoreModule().getModule(),
 	},
 });

@@ -94,6 +94,7 @@ import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/com
 import { ScreenSharing } from '@webitel/ui-sdk/src/modules/CallSession/index';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
@@ -104,6 +105,7 @@ import {
 	getIsSocketConnected,
 } from '../../../../../../app/api/callWSConnection';
 import { useScreenSharingSession } from '../../../../../_shared/composables/useScreenSharingSession';
+import { useCallStore } from '../../../../../call-window/store/callStore';
 import { useControlAgentScreenAccess } from '../../../../composables/useControlAgentScreenAccess';
 import AgentProfile from './_internals/agent-profile.vue';
 import AgentStatusComment from './_internals/agent-status-comment.vue';
@@ -116,6 +118,9 @@ const props = defineProps({
 });
 
 const store = useStore();
+const callStore = useCallStore();
+const { callState, eavesdrop } = storeToRefs(callStore);
+const { makeCall, setCallInfo } = callStore;
 const router = useRouter();
 const { t } = useI18n();
 let cli;
@@ -140,7 +145,7 @@ const score = computed(
 
 // if call-window popup is opened need to move screen sharing player
 const isScreenSharingMoved = computed(
-	() => store.state.call.isEavesdropOpened || store.state.call.isVisible,
+	() => eavesdrop.value.isOpened || callState.value.isVisible,
 );
 
 const isScreenSharingLoading = ref(false);
@@ -159,19 +164,13 @@ const loadAgent = async (payload) => {
 const loadScoreData = () =>
 	store.dispatch(`${props.namespace}/LOAD_SCORE_DATA`);
 
-const call = () => store.dispatch('call/CALL');
-
-const openWindow = () => store.dispatch('call/OPEN_WINDOW');
-
-const setCallInfo = (payload) => store.dispatch('call/SET_CALL_INFO', payload);
-
 const { isControlAgentScreenAllow } = useControlAgentScreenAccess();
 
 const callAgent = () => {
 	setCallInfo({
 		agent: agent.value,
 	});
-	call();
+	makeCall();
 };
 
 const trackAgent = async () => {
