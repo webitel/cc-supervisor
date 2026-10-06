@@ -1,7 +1,6 @@
 import { createTestingPinia } from '@pinia/testing';
 import { shallowMount } from '@vue/test-utils';
 import { AgentCallsAPI } from '@webitel/api-services/api';
-import { createStore } from 'vuex';
 
 import AgentCalls from '../agent-calls-tab.vue';
 
@@ -14,36 +13,23 @@ vi.spyOn(AgentCallsAPI, 'getList').mockImplementation(() =>
 );
 
 describe('Agent calls tab', () => {
-	let store;
 	let mountOptions = {};
 
 	beforeEach(() => {
-		store = createStore({
-			modules: {
-				agents: {
-					namespaced: true,
-					modules: {
-						card: {
-							namespaced: true,
-							state: () => ({
+		mountOptions = {
+			global: {
+				plugins: [
+					createTestingPinia({
+						createSpy: vi.fn,
+						initialState: {
+							'agents/card': {
 								agent: {
 									user: {
 										id: 1,
 									},
 								},
-							}),
+							},
 						},
-					},
-				},
-			},
-		});
-
-		mountOptions = {
-			global: {
-				plugins: [
-					store,
-					createTestingPinia({
-						createSpy: vi.fn,
 					}),
 				],
 				mocks: {

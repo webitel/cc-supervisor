@@ -4,7 +4,7 @@
       <wt-icon-btn
         icon="back"
         color="active"
-        @click="$router.push('/agents')"
+        @click="router.push('/agents')"
       ></wt-icon-btn>
       <div class="agent-panel__left-identity">
         <agent-profile :name="agent.name"></agent-profile>
@@ -89,16 +89,14 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/components/wt-cc-agent-status-select.vue';
 import { ScreenSharing } from '@webitel/ui-sdk/src/modules/CallSession/index';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
 import {
 	getCliInstance,
@@ -107,23 +105,20 @@ import {
 import { useScreenSharingSession } from '../../../../../_shared/composables/useScreenSharingSession';
 import { useCallStore } from '../../../../../call-window/store/callStore';
 import { useControlAgentScreenAccess } from '../../../../composables/useControlAgentScreenAccess';
+import { useAgentCardStore } from '../../stores/agentCardStore';
 import AgentProfile from './_internals/agent-profile.vue';
 import AgentStatusComment from './_internals/agent-status-comment.vue';
 import AgentStatusTimers from './_internals/agent-status-timers.vue';
 
-const props = defineProps({
-	namespace: {
-		type: String,
-	},
-});
-
-const store = useStore();
+const agentCardStore = useAgentCardStore();
+const { agent, score } = storeToRefs(agentCardStore);
+const { loadAgent: loadAgentAction, loadScoreData } = agentCardStore;
 const callStore = useCallStore();
 const { callState, eavesdrop } = storeToRefs(callStore);
 const { makeCall, setCallInfo } = callStore;
 const router = useRouter();
 const { t } = useI18n();
-let cli;
+let cli: Awaited<ReturnType<typeof getCliInstance>> | undefined;
 
 const {
 	mediaStream,
@@ -134,14 +129,6 @@ const {
 	makeScreenshot,
 	closeSession,
 } = useScreenSharingSession();
-
-const agent = computed(
-	() => getNamespacedState(store.state, props.namespace).agent,
-);
-
-const score = computed(
-	() => getNamespacedState(store.state, props.namespace).score,
-);
 
 // if call-window popup is opened need to move screen sharing player
 const isScreenSharingMoved = computed(
@@ -156,13 +143,10 @@ const scoreRequired = computed(() =>
 	(score.value.scoreRequiredAvg || 0).toFixed(2),
 );
 
-const loadAgent = async (payload) => {
-	await store.dispatch(`${props.namespace}/LOAD_AGENT`, payload);
+const loadAgent = async () => {
+	await loadAgentAction();
 	await loadScoreData();
 };
-
-const loadScoreData = () =>
-	store.dispatch(`${props.namespace}/LOAD_SCORE_DATA`);
 
 const { isControlAgentScreenAllow } = useControlAgentScreenAccess();
 

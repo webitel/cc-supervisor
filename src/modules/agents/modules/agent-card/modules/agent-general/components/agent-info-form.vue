@@ -8,7 +8,7 @@
 		<form class="agent-info-form wt-scrollbar">
 			<wt-single-select
 				:model-value="agent.team"
-				:v="v$.agent.team"
+				:v="agentValidation.team"
 				:label="$t('objects.team')"
 				:search-method="searchTeams"
 				:disabled="disableUserInput || !hasTeamReadAccess"
@@ -39,7 +39,7 @@
 			/>
 			<wt-input-number
 				:model-value="agent.progressiveCount"
-				:v="v$.agent.progressiveCount"
+				:v="agentValidation.progressiveCount"
 				:label="$t('objects.queue.progressiveCount')"
 				:disabled="disableUserInput"
 				@update:model-value="setItemProp({ prop: 'progressiveCount', value: $event })"
@@ -58,75 +58,29 @@
 	</div>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
+<script lang="ts" setup>
+import { type BaseValidation, useVuelidate } from '@vuelidate/core';
 import { minValue, required } from '@vuelidate/validators';
 import { RegionsAPI, TeamsAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import supervisorLookupApi from '../../../../../../_shared/lookups/api/supervisorLookupApi';
 import userLookupApi from '../../../../../../_shared/lookups/api/userLookupApi';
+import { useAgentEditStore } from '../stores/agentEditStore';
 
-export default {
-	name: 'AgentInfoForm',
-	props: {
-		namespace: {
-			type: String,
-			required: true,
-		},
-	},
-	setup() {
-		const v$ = useVuelidate({
-			$stopPropagation: true,
-			$autoDirty: true,
-		});
+const agentEditStore = useAgentEditStore();
+const { agent } = storeToRefs(agentEditStore);
+const {
+	loadAgent,
+	setAgentProperty: setItemProp,
+	updateAgent: save,
+} = agentEditStore;
 
-		const { disableUserInput, hasSaveActionAccess } = useUserAccessControl();
-
-		const { hasReadAccess: hasTeamReadAccess } = useUserAccessControl(
-			WtObject.Team,
-		);
-		const { hasReadAccess: hasAuditorReadAccess } = useUserAccessControl(
-			WtObject.User,
-		);
-		const { hasReadAccess: hasSupervisorReadAccess } = useUserAccessControl(
-			WtObject.Agent,
-		);
-		const { hasReadAccess: hasRegionReadAccess } = useUserAccessControl(
-			WtObject.Region,
-		);
-
-		return {
-			v$,
-			disableUserInput,
-			hasSaveActionAccess,
-
-			hasTeamReadAccess,
-			hasAuditorReadAccess,
-			hasSupervisorReadAccess,
-			hasRegionReadAccess,
-		};
-	},
-	created() {
-		this.loadAgent();
-	},
-	computed: {
-		...mapState({
-			agent(state) {
-				return getNamespacedState(state, this.namespace).agent;
-			},
-		}),
-		isSupervisor() {
-			return this.agent?.isSupervisor;
-		},
-		disabledSave() {
-			return !this.agent._dirty || this.v$.$invalid;
-		},
-	},
-	validations: {
+const v$ = useVuelidate(
+	{
 		agent: {
 			team: {
 				required,
@@ -136,24 +90,45 @@ export default {
 			},
 		},
 	},
-	methods: {
-		...mapActions({
-			loadAgent(dispatch, payload) {
-				return dispatch(`${this.namespace}/LOAD_AGENT`, payload);
-			},
-			setItemProp(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_AGENT_PROPERTY`, payload);
-			},
-			save(dispatch, payload) {
-				return dispatch(`${this.namespace}/UPDATE_AGENT`, payload);
-			},
-		}),
-		searchTeams: TeamsAPI.getList,
-		searchSupervisors: supervisorLookupApi,
-		searchAuditors: userLookupApi,
-		searchRegions: RegionsAPI.getList,
+	{
+		agent,
 	},
-};
+	{
+		$stopPropagation: true,
+		$autoDirty: true,
+	},
+);
+
+// vuelidate infers nested results as `undefined` when rules are passed explicitly
+const agentValidation = computed(
+	() => v$.value.agent as Record<'team' | 'progressiveCount', BaseValidation>,
+);
+
+const { disableUserInput, hasSaveActionAccess } = useUserAccessControl();
+
+const { hasReadAccess: hasTeamReadAccess } = useUserAccessControl(
+	WtObject.Team,
+);
+const { hasReadAccess: hasAuditorReadAccess } = useUserAccessControl(
+	WtObject.User,
+);
+const { hasReadAccess: hasSupervisorReadAccess } = useUserAccessControl(
+	WtObject.Agent,
+);
+const { hasReadAccess: hasRegionReadAccess } = useUserAccessControl(
+	WtObject.Region,
+);
+
+const isSupervisor = computed(() => agent.value?.isSupervisor);
+
+const disabledSave = computed(() => !agent.value._dirty || v$.value.$invalid);
+
+const searchTeams = TeamsAPI.getList;
+const searchSupervisors = supervisorLookupApi;
+const searchAuditors = userLookupApi;
+const searchRegions = RegionsAPI.getList;
+
+loadAgent();
 </script>
 
 <style scoped>

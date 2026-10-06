@@ -15,7 +15,7 @@
         @submit.prevent="save"
       >
         <wt-single-select
-          v-model:model-value="modelValue.skill"
+          v-model="modelValue.skill"
           :label="t('pages.card.skills.skills', 1)"
           :regle-validation="validationFields?.skill"
           :search-method="loadSkillsOptions"
@@ -23,7 +23,7 @@
           required
         />
         <wt-input-number
-          v-model:model-value="modelValue.capacity"
+          v-model="modelValue.capacity"
           :label="t('pages.card.skills.capacity')"
           :regle-validation="validationFields?.capacity"
           required

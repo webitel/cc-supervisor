@@ -93,7 +93,13 @@ export function createCallActions({ call, agent, client }: CallActionsDeps) {
 		}
 	};
 
-	const setCallInfo = async ({ agent: newAgent, client: newClient }) => {
+	const setCallInfo = async ({
+		agent: newAgent,
+		client: newClient,
+	}: {
+		agent: Partial<EngineAgent>;
+		client?: unknown;
+	}) => {
 		agent.value = newAgent;
 		client.value = newClient;
 	};

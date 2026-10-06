@@ -1,6 +1,6 @@
+import { createTestingPinia } from '@pinia/testing';
 import { shallowMount } from '@vue/test-utils';
 import { ref } from 'vue';
-import { createStore } from 'vuex';
 
 import AgentInfoForm from '../agent-info-form.vue';
 
@@ -15,28 +15,14 @@ vi.mock('@/app/composables/useUserAccessControl', () => ({
 	}),
 }));
 
-const namespace = 'card';
-const agent = {};
-const store = createStore({
-	modules: {
-		[namespace]: {
-			namespaced: true,
-			state: {
-				agent,
-			},
-		},
-	},
-});
-
 describe('Agent Info Form', () => {
 	const mountOptions = {
 		global: {
 			plugins: [
-				store,
+				createTestingPinia({
+					createSpy: vi.fn,
+				}),
 			],
-		},
-		props: {
-			namespace,
 		},
 	};
 	it('renders a component', () => {

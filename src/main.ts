@@ -13,7 +13,6 @@ import {
 	options as WebitelUiOptions,
 } from './app/plugins/webitel/ui-sdk';
 import { initRouter, router } from './app/router';
-import store from './app/store';
 import App from './app/the-app.vue';
 import { useUserinfoStore } from './modules/userinfo/store/userInfoStore';
 
@@ -53,7 +52,7 @@ configureZod({
 const pinia = createPinia();
 
 const initApp = async () => {
-	const app = createApp(App).use(store).use(pinia).use(i18n);
+	const app = createApp(App).use(pinia).use(i18n);
 
 	const { initialize, routeAccessGuard, clearStorageNotifications } =
 		useUserinfoStore();

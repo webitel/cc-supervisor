@@ -1,9 +1,8 @@
 import { createTestingPinia } from '@pinia/testing';
 import { mount, shallowMount } from '@vue/test-utils';
 import { ref } from 'vue';
-import { createStore } from 'vuex';
 
-import agents from '../../../../store/agents';
+import { useAgentCardStore } from '../../stores/agentCardStore';
 import AgentPanel from '../agent-panel/agent-panel.vue';
 
 vi.mock('@/app/composables/useUserAccessControl', () => ({
@@ -30,6 +29,7 @@ vi.mock('@/app/api/callWSConnection', () => ({
 
 const agent = {
 	name: 'vi',
+	user: {},
 };
 
 const score = {
@@ -37,46 +37,20 @@ const score = {
 	scoreRequiredAvg: 0,
 };
 
-const LOAD_AGENT_MOCK = vi.fn();
-const LOAD_SCORE_DATA_MOCK = vi.fn();
-
-vi.spyOn(agents.modules.card.actions, 'LOAD_AGENT').mockImplementationOnce(
-	LOAD_AGENT_MOCK,
-);
-
-vi.spyOn(agents.modules.card.actions, 'LOAD_SCORE_DATA').mockImplementation(
-	LOAD_SCORE_DATA_MOCK,
-);
-
-const store = createStore({
-	modules: {
-		agents,
-	},
-	state: {
-		api: {},
-	},
-});
-
 describe('Agent panel', () => {
 	const mountOptions = {
 		global: {
 			plugins: [
-				store,
 				createTestingPinia({
 					createSpy: vi.fn,
+					initialState: {
+						'agents/card': {
+							agent,
+							score,
+						},
+					},
 				}),
 			],
-		},
-		props: {
-			namespace: 'agents/card',
-		},
-		computed: {
-			agent() {
-				return agent;
-			},
-			score() {
-				return score;
-			},
 		},
 	};
 
@@ -85,21 +59,21 @@ describe('Agent panel', () => {
 		expect(wrapper.exists()).toBe(true);
 	});
 
-	it('calls "LOAD_AGENT" at @changed wt-cc-agent-status-select event', () => {
+	it('reloads agent at @changed wt-cc-agent-status-select event', () => {
 		const wrapper = mount(AgentPanel, mountOptions);
-		const newStatus = {
-			status: 'vi',
-		};
+		const store = useAgentCardStore();
 		wrapper
 			.findComponent({
 				name: 'wt-cc-agent-status-select',
 			})
-			.vm.$emit('changed', newStatus);
-		expect(LOAD_AGENT_MOCK.mock.calls[0][1]).toEqual(newStatus);
+			.vm.$emit('changed', {
+				status: 'vi',
+			});
+		expect(store.loadAgent).toHaveBeenCalled();
 	});
 
 	// `callAgent`/`setCallInfo`/`call` were local methods on the old Options-API
 	// component. agent-panel.vue is now `<script setup>`, so these internals are
 	// no longer reachable via `AgentPanel.methods`. The spy-on-internal tests
-	// were removed; click behaviour is covered by the dispatched store actions.
+	// were removed; click behaviour is covered by the called store actions.
 });
