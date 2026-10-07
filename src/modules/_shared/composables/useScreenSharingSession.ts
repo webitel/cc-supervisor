@@ -1,5 +1,6 @@
-import { eventBus } from '@webitel/ui-sdk/scripts';
 import { ref } from 'vue';
+
+import websocketErrorEventHandler from '../websocket/websocketErrorEventHandler';
 
 export function useScreenSharingSession() {
 	const selectedAgentToSpyScreen = ref(null);
@@ -17,10 +18,7 @@ export function useScreenSharingSession() {
 				await session.startRecord();
 			}
 		} catch (err) {
-			eventBus.$emit('notification', {
-				type: 'error',
-				text: err.message,
-			});
+			websocketErrorEventHandler(err);
 		} finally {
 			recordIsLoading.value = false;
 		}
@@ -31,8 +29,9 @@ export function useScreenSharingSession() {
 			screenshotIsLoading.value = true;
 			await session.screenshot();
 			changeScreenshotStatus('done');
-		} catch {
+		} catch (err) {
 			changeScreenshotStatus('error');
+			websocketErrorEventHandler(err);
 		} finally {
 			screenshotIsLoading.value = false;
 		}

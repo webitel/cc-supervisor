@@ -1,4 +1,5 @@
 import { SupervisorSections } from '@webitel/ui-sdk/enums';
+import { RolePermissionError } from 'webitel-sdk';
 
 export default {
 	auth: {
@@ -218,6 +219,12 @@ export default {
 				name: 'Активні дзвінки',
 				text: "У цьому розділі можна стежити за активними дзвінками і мати можливість під'єднатися до них.",
 			},
+		},
+	},
+	error: {
+		websocket: {
+			[RolePermissionError.id.replaceAll('.', '_')]:
+				'Немає дозволу на створення скриншотів або запис екрана',
 		},
 	},
 	callWindow: {
