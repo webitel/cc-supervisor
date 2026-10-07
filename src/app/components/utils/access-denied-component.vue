@@ -1,13 +1,9 @@
 <template>
-  <wt-error-page type="403" @back="$router.push('/')"></wt-error-page>
+  <wt-error-page type="403" @back="router.push('/')"></wt-error-page>
 </template>
 
-<script>
-export default {
-	name: 'AccessDeniedComponent',
-};
+<script lang="ts" setup>
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 </script>
-
-<style lang="scss" scoped>
-
-</style>

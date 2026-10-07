@@ -1,4 +1,4 @@
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
+import { eventBus } from '@webitel/ui-sdk/scripts';
 import { reactive, shallowReactive } from 'vue';
 import { Client } from 'webitel-sdk';
 
@@ -10,7 +10,30 @@ const BASE_URL = import.meta.env.PROD
 	? `${origin}/ws`
 	: import.meta.env.VITE_WEB_SOCKET_URL;
 
-let cliInstance = null;
+// [Claude] the members of the SDK's `SpyScreen` the app uses; the class isn't exported from `webitel-sdk`
+export interface SpyScreenSession {
+	id: string;
+	toUserId: number;
+	recordings: boolean;
+	close: () => void;
+	screenshot: () => Promise<object>;
+	startRecord: () => Promise<object>;
+	stopRecord: () => Promise<object>;
+}
+
+// [Claude] the SDK declares `spyScreenSessions` private, but screen sharing reads it directly
+export type SupervisorClient = Omit<Client, 'spyScreenSessions'> & {
+	spyScreenSessions: SpyScreenSession[];
+};
+
+declare global {
+	interface Window {
+		// [Claude] exposed for debugging from the browser console
+		cli?: SupervisorClient;
+	}
+}
+
+let cliInstance: Promise<SupervisorClient> | null = null;
 // Prevents duplicate toasts when SDK emits disconnect more than once
 // during reconnect/teardown cycles.
 let isDisconnectNotificationShown = false;
@@ -42,8 +65,9 @@ const createCliInstance = async () => {
 
 	// why reactive? https://github.com/vuejs/core/discussions/7811#discussioncomment-5181921
 	// cli.conversationStore = reactive(cli.conversationStore);
-	cli.callStore = reactive(cli.callStore);
-	cli.spyScreenSessions = reactive(cli.spyScreenSessions);
+	// [Claude] the SDK declares these stores private, bracket access reaches them without a cast
+	cli['callStore'] = reactive(cli['callStore']);
+	cli['spyScreenSessions'] = reactive(cli['spyScreenSessions']);
 	// cli.jobStore = reactive(cli.jobStore);
 
 	cli.on('disconnected', notifyDisconnected);
@@ -54,18 +78,12 @@ const createCliInstance = async () => {
 	await cli.connect();
 	await cli.auth();
 	isSocketConnected = true;
-	window.cli = cli;
-	return cli;
+	const supervisorCli = cli as unknown as SupervisorClient;
+	window.cli = supervisorCli;
+	return supervisorCli;
 };
 
 export const getIsSocketConnected = () => isSocketConnected;
-
-export const destroyCliInstance = async () => {
-	if (cliInstance) {
-		cliInstance.then((cli) => cli.destroy());
-	}
-	cliInstance = null;
-};
 
 export const getCliInstance = async () => {
 	if (!cliInstance) {

@@ -1,7 +1,6 @@
 import { createTestingPinia } from '@pinia/testing';
 import { shallowMount } from '@vue/test-utils';
 import { ActiveCallsAPI } from '@webitel/api-services/api';
-import { createStore } from 'vuex';
 
 import ActiveCalls from '../the-active-calls.vue';
 
@@ -12,16 +11,12 @@ vi.spyOn(ActiveCallsAPI, 'getList').mockImplementation(() => ({
 }));
 
 describe('Active Calls page', () => {
-	let store;
 	let mountOptions;
 
 	beforeEach(() => {
-		store = createStore({});
-
 		mountOptions = {
 			global: {
 				plugins: [
-					store,
 					createTestingPinia({
 						createSpy: vi.fn,
 					}),

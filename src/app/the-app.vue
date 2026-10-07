@@ -3,10 +3,10 @@
   <router-view />
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { WtNotificationsBar } from '@webitel/ui-sdk/components';
 import { storeToRefs } from 'pinia';
-import { computed, onMounted, onUnmounted, provide } from 'vue';
+import { onMounted, onUnmounted, provide } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAppearanceStore } from '../modules/appearance/store/appearanceStore';
 import { useUserinfoStore } from '../modules/userinfo/store/userInfoStore';
@@ -42,5 +42,3 @@ startWatcher();
 onMounted(() => showUserNotifications());
 onUnmounted(() => stopWatcher());
 </script>
-
-<style lang="scss"></style>

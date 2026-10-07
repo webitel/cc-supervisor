@@ -6,29 +6,28 @@
   </div>
 </template>
 
-<script>
-export default {
-	name: 'TableAgentStatus',
-	props: {
-		item: {
-			type: Object,
-			required: true,
+<script lang="ts" setup>
+import { useRouter } from 'vue-router';
+
+defineProps<{
+	item: {
+		agentId?: string | number;
+		name?: string;
+	};
+}>();
+
+const router = useRouter();
+
+const openAgentView = (agentId: string | number) =>
+	router.push({
+		name: 'agents-card',
+		params: {
+			id: agentId,
 		},
-	},
-	methods: {
-		openAgentView(agentId) {
-			this.$router.push({
-				name: 'agents-card',
-				params: {
-					id: agentId,
-				},
-			});
-		},
-	},
-};
+	});
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .name-link {
   cursor: pointer;
 

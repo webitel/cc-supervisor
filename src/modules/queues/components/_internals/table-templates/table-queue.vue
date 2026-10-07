@@ -4,18 +4,12 @@
   </div>
 </template>
 
-<script>
-export default {
-	name: 'TableQueue',
-	props: {
-		item: {
-			type: Object,
-			required: true,
-		},
-	},
-};
+<script lang="ts" setup>
+defineProps<{
+	item: {
+		queue?: {
+			name?: string;
+		};
+	};
+}>();
 </script>
-
-<style scoped>
-
-</style>

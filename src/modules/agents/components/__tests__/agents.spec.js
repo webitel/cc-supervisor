@@ -1,9 +1,7 @@
 import { createTestingPinia } from '@pinia/testing';
 import { mount } from '@vue/test-utils';
 import { AgentsAPI } from '@webitel/api-services/api';
-import { createStore } from 'vuex';
 
-import agentsStore from '../../store/agents';
 import Agents from '../the-agents.vue';
 
 const items = [];
@@ -29,16 +27,9 @@ vi.mock('@/app/api/callWSConnection', () => ({
 // now `<script setup>` and no longer exposes them via `Component.computed` /
 // `Component.methods` / `wrapper.vm`, so those internal-access tests were removed.
 describe('Agents page', () => {
-	let store;
 	let mountOptions;
 
 	beforeEach(() => {
-		store = createStore({
-			modules: {
-				agents: agentsStore,
-			},
-		});
-
 		mountOptions = {
 			shallow: true,
 			global: {
@@ -47,7 +38,6 @@ describe('Agents page', () => {
 					WtTable: false,
 				},
 				plugins: [
-					store,
 					createTestingPinia({
 						createSpy: vi.fn,
 					}),

@@ -23,8 +23,10 @@ describe('Agent calls direction cell', () => {
 				item,
 			},
 		});
-		expect(wrapper.vm.directionIcon).toBe('call-outbound');
-		expect(wrapper.vm.directionIconColor).toBe('success');
+		expect(wrapper.vm.direction).toEqual({
+			icon: 'call-outbound',
+			color: 'success',
+		});
 	});
 	it('correctly computes inbound direction icon and color', () => {
 		item.direction = CallDirection.Inbound;
@@ -33,7 +35,9 @@ describe('Agent calls direction cell', () => {
 				item,
 			},
 		});
-		expect(wrapper.vm.directionIcon).toBe('call-inbound');
-		expect(wrapper.vm.directionIconColor).toBe('primary');
+		expect(wrapper.vm.direction).toEqual({
+			icon: 'call-inbound',
+			color: 'primary',
+		});
 	});
 });

@@ -11,24 +11,18 @@
   </article>
 </template>
 
-<script>
-export default {
-	name: 'AgentProfile',
-	props: {
-		name: {
-			type: String,
-			default: '',
-		},
+<script lang="ts" setup>
+withDefaults(
+	defineProps<{
+		name?: string;
+	}>(),
+	{
+		name: '',
 	},
-};
+);
 </script>
 
-<style
-  lang="scss"
-  scoped
->
-@use '@webitel/ui-sdk/src/css/main';
-
+<style scoped>
 .agent-profile {
   display: flex;
   align-items: center;
@@ -37,11 +31,11 @@ export default {
   .agent-profile__pic {
     width: 24px;
     height: 24px;
+  }
 
-    &__img {
-      width: 100%;
-      height: 100%;
-    }
+  .agent-profile__pic__img {
+    width: 100%;
+    height: 100%;
   }
 
 }

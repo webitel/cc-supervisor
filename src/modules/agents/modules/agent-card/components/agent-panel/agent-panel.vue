@@ -4,7 +4,7 @@
       <wt-icon-btn
         icon="back"
         color="active"
-        @click="$router.push('/agents')"
+        @click="router.push('/agents')"
       ></wt-icon-btn>
       <div class="agent-panel__left-identity">
         <agent-profile :name="agent.name"></agent-profile>
@@ -24,7 +24,7 @@
               size="md"
             ></wt-icon>
             <span class="agent-panel__ratings-text typo-body-1">
-              {{ $t('pages.card.ratedCalls') }}: {{ scoreCount }}
+              {{ $t('pages.card.ratedCalls') }}: {{ score.scoreCount }}
             </span>
           </div>
         </div>
@@ -89,16 +89,14 @@
   </div>
 </template>
 
-<script setup>
-import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/components/wt-cc-agent-status-select.vue';
-import { ScreenSharing } from '@webitel/ui-sdk/src/modules/CallSession/index';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+<script lang="ts" setup>
+import { WtCcAgentStatusSelect as AgentStatusSelect } from '@webitel/ui-sdk/modules/AgentStatusSelect';
+import { ScreenSharing } from '@webitel/ui-sdk/modules/CallSession';
+import { eventBus } from '@webitel/ui-sdk/scripts';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 import { AgentStatus } from 'webitel-sdk';
 import {
 	getCliInstance,
@@ -107,23 +105,20 @@ import {
 import { useScreenSharingSession } from '../../../../../_shared/composables/useScreenSharingSession';
 import { useCallStore } from '../../../../../call-window/store/callStore';
 import { useControlAgentScreenAccess } from '../../../../composables/useControlAgentScreenAccess';
+import { useAgentCardStore } from '../../stores/agentCardStore';
 import AgentProfile from './_internals/agent-profile.vue';
 import AgentStatusComment from './_internals/agent-status-comment.vue';
 import AgentStatusTimers from './_internals/agent-status-timers.vue';
 
-const props = defineProps({
-	namespace: {
-		type: String,
-	},
-});
-
-const store = useStore();
+const agentCardStore = useAgentCardStore();
+const { agent, score } = storeToRefs(agentCardStore);
+const { loadAgent: loadAgentAction, loadScoreData } = agentCardStore;
 const callStore = useCallStore();
 const { callState, eavesdrop } = storeToRefs(callStore);
 const { makeCall, setCallInfo } = callStore;
 const router = useRouter();
 const { t } = useI18n();
-let cli;
+let cli: Awaited<ReturnType<typeof getCliInstance>> | undefined;
 
 const {
 	mediaStream,
@@ -135,14 +130,6 @@ const {
 	closeSession,
 } = useScreenSharingSession();
 
-const agent = computed(
-	() => getNamespacedState(store.state, props.namespace).agent,
-);
-
-const score = computed(
-	() => getNamespacedState(store.state, props.namespace).score,
-);
-
 // if call-window popup is opened need to move screen sharing player
 const isScreenSharingMoved = computed(
 	() => eavesdrop.value.isOpened || callState.value.isVisible,
@@ -150,19 +137,12 @@ const isScreenSharingMoved = computed(
 
 const isScreenSharingLoading = ref(false);
 
-const scoreCount = computed(() => score.value.scoreCount || 0);
+const scoreRequired = computed(() => score.value.scoreRequiredAvg.toFixed(2));
 
-const scoreRequired = computed(() =>
-	(score.value.scoreRequiredAvg || 0).toFixed(2),
-);
-
-const loadAgent = async (payload) => {
-	await store.dispatch(`${props.namespace}/LOAD_AGENT`, payload);
+const loadAgent = async () => {
+	await loadAgentAction();
 	await loadScoreData();
 };
-
-const loadScoreData = () =>
-	store.dispatch(`${props.namespace}/LOAD_SCORE_DATA`);
 
 const { isControlAgentScreenAllow } = useControlAgentScreenAccess();
 
@@ -226,18 +206,13 @@ onUnmounted(() => {
 });
 </script>
 
-<style
-  lang="scss"
-  scoped
->
-@use '@webitel/ui-sdk/src/css/main' as *;
-
+<style scoped>
 .wt-headline.agent-panel {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  // LEFT SIDE
+  /* LEFT SIDE */
   .agent-panel__left {
     display: flex;
     align-items: center;
@@ -263,7 +238,7 @@ onUnmounted(() => {
     gap: var(--spacing-xs);
   }
 
-  // RIGHT SIDE
+  /* RIGHT SIDE */
   .agent-panel__right {
     display: flex;
     align-items: center;
@@ -280,10 +255,6 @@ onUnmounted(() => {
     display: flex;
     align-items: center;
     gap: var(--spacing-xs);
-  }
-
-  &__call-btn {
-    padding: var(--spacing-sm);
   }
 
   @media (max-width: 1200px) {
@@ -320,10 +291,8 @@ onUnmounted(() => {
   }
 }
 
-.wt-vidstack-player {
-  :deep(.wt-button) {
-    margin: 0;
-  }
+.wt-vidstack-player :deep(.wt-button) {
+  margin: 0;
 }
 
 /**
@@ -332,7 +301,7 @@ onUnmounted(() => {
   https://webitel.atlassian.net/browse/WTEL-9311
 */
 .screen-sharing--moved.screen-sharing--moved {
-  right: calc(256px + var(--spacing-sm)); // 256px is current width of call-window popup
+  right: calc(256px + var(--spacing-sm)); /* 256px is current width of call-window popup */
   bottom: var(--spacing-sm);
 }
 </style>

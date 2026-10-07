@@ -18,35 +18,25 @@
   </div>
 </template>
 
-<script>
-export default {
-	name: 'TableAgents',
-	props: {
-		status: {
-			type: Object,
-			required: true,
-		},
-	},
-	computed: {
-		total() {
-			return this.status.total || 0;
-		},
-		online() {
-			return this.status.online || 0;
-		},
-		pause() {
-			return this.status.pause || 0;
-		},
-		offline() {
-			return this.status.offline || 0;
-		},
-	},
-};
+<script lang="ts" setup>
+import { computed } from 'vue';
+
+const props = defineProps<{
+	status: {
+		total?: number;
+		online?: number;
+		pause?: number;
+		offline?: number;
+	};
+}>();
+
+const total = computed(() => props.status.total || 0);
+const online = computed(() => props.status.online || 0);
+const pause = computed(() => props.status.pause || 0);
+const offline = computed(() => props.status.offline || 0);
 </script>
 
-<style lang="scss" scoped>
-@use '@webitel/ui-sdk/src/css/main';
-
+<style scoped>
 .table-agents {
   display: flex;
   align-items: center;
