@@ -175,10 +175,7 @@ onUnmounted(() => {
 });
 </script>
 
-<style
-  lang="scss"
-  scoped
->
+<style scoped>
 .agent-page__content {
   display: flex;
   flex-direction: column;

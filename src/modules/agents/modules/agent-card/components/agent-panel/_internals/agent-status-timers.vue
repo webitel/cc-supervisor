@@ -25,7 +25,7 @@ defineProps<{
 }>();
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .agent-status-timers {
   display: flex;
   align-items: center;

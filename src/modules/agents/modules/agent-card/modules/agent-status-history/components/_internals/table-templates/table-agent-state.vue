@@ -26,6 +26,3 @@ const statusText = computed(
 		t(`pages.card.statusHistory.states.${snakeToCamel(props.item.state)}`),
 );
 </script>
-
-<style lang="scss" scoped>
-</style>

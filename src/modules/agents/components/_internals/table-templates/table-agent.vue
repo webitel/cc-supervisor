@@ -27,7 +27,7 @@ const openAgentView = (agentId: string | number) =>
 	});
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .name-link {
   cursor: pointer;
 

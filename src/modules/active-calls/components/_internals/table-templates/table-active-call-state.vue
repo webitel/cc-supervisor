@@ -33,7 +33,7 @@ const isActive = computed(
 );
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .table-active-call-state {
   display: flex;
   align-items: center;
