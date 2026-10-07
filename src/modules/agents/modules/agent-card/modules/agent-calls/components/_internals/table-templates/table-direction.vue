@@ -5,12 +5,13 @@
 </template>
 
 <script lang="ts" setup>
+import { IconColor } from '@webitel/ui-sdk/enums';
 import { computed } from 'vue';
 import { CallDirection } from 'webitel-sdk';
 
 interface DirectionView {
 	icon: string;
-	color: string;
+	color: IconColor;
 }
 
 const props = defineProps<{
@@ -22,11 +23,11 @@ const props = defineProps<{
 const directionViews: Partial<Record<CallDirection, DirectionView>> = {
 	[CallDirection.Inbound]: {
 		icon: 'call-inbound',
-		color: 'primary',
+		color: IconColor.PRIMARY,
 	},
 	[CallDirection.Outbound]: {
 		icon: 'call-outbound',
-		color: 'success',
+		color: IconColor.SUCCESS,
 	},
 };
 
@@ -34,7 +35,7 @@ const direction = computed<DirectionView>(
 	() =>
 		directionViews[props.item.direction as CallDirection] ?? {
 			icon: '',
-			color: '',
+			color: IconColor.DEFAULT,
 		},
 );
 </script>

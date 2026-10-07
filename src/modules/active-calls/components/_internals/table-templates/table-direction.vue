@@ -1,13 +1,19 @@
 <template>
   <wt-icon
-    :icon="directionIcon"
-    :color="directionIconColor"
+    :icon="direction.icon"
+    :color="direction.color"
   ></wt-icon>
 </template>
 
 <script lang="ts" setup>
+import { IconColor } from '@webitel/ui-sdk/enums';
 import { computed } from 'vue';
 import { CallDirection } from 'webitel-sdk';
+
+interface DirectionView {
+	icon: string;
+	color: IconColor;
+}
 
 const props = defineProps<{
 	item: {
@@ -15,16 +21,21 @@ const props = defineProps<{
 	};
 }>();
 
-const isOutbound = computed(
-	() => props.item.direction === CallDirection.Outbound,
-);
+const directionViews: Partial<Record<CallDirection, DirectionView>> = {
+	[CallDirection.Inbound]: {
+		icon: 'call-inbound',
+		color: IconColor.PRIMARY,
+	},
+	[CallDirection.Outbound]: {
+		icon: 'call-outbound',
+		color: IconColor.SUCCESS,
+	},
+};
 
-const directionIcon = computed(() =>
-	isOutbound.value ? 'call-outbound' : 'call-inbound',
-);
-
-const directionIconColor = computed(() =>
-	isOutbound.value ? 'success' : 'primary',
+const direction = computed<DirectionView>(
+	() =>
+		directionViews[props.item.direction as CallDirection] ??
+		directionViews[CallDirection.Inbound],
 );
 </script>
 

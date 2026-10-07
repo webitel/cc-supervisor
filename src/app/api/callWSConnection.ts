@@ -65,13 +65,9 @@ const createCliInstance = async () => {
 
 	// why reactive? https://github.com/vuejs/core/discussions/7811#discussioncomment-5181921
 	// cli.conversationStore = reactive(cli.conversationStore);
-	// [Claude] the SDK declares these stores private, but the UI reads them directly
-	const cliStores = cli as unknown as {
-		callStore: object;
-		spyScreenSessions: object[];
-	};
-	cliStores.callStore = reactive(cliStores.callStore);
-	cliStores.spyScreenSessions = reactive(cliStores.spyScreenSessions);
+	// [Claude] the SDK declares these stores private, bracket access reaches them without a cast
+	cli['callStore'] = reactive(cli['callStore']);
+	cli['spyScreenSessions'] = reactive(cli['spyScreenSessions']);
 	// cli.jobStore = reactive(cli.jobStore);
 
 	cli.on('disconnected', notifyDisconnected);
