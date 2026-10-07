@@ -234,8 +234,3 @@ onUnmounted(() => {
 	clearAutoRefresh();
 });
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>

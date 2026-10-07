@@ -22,12 +22,7 @@ withDefaults(
 );
 </script>
 
-<style
-  lang="scss"
-  scoped
->
-@use '@webitel/ui-sdk/src/css/main';
-
+<style scoped>
 .agent-profile {
   display: flex;
   align-items: center;
@@ -36,11 +31,11 @@ withDefaults(
   .agent-profile__pic {
     width: 24px;
     height: 24px;
+  }
 
-    &__img {
-      width: 100%;
-      height: 100%;
-    }
+  .agent-profile__pic__img {
+    width: 100%;
+    height: 100%;
   }
 
 }

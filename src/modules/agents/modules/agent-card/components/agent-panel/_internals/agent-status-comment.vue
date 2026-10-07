@@ -22,12 +22,14 @@ withDefaults(
 );
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .agent-panel__comment {
   word-break: break-word;
-  //@author Oles Chorpita
-  // TODO: Remove max-width when wt-tooltip content will have max-width or add tooltip variable (https://webitel.atlassian.net/browse/WTEL-7672)
-  // width restriction so that it doesn't stretch across the page view
+  /*
+    @author Oles Chorpita
+    TODO: Remove max-width when wt-tooltip content will have max-width or add tooltip variable (https://webitel.atlassian.net/browse/WTEL-7672)
+    width restriction so that it doesn't stretch across the page view
+  */
   max-width: 280px;
 }
 </style>

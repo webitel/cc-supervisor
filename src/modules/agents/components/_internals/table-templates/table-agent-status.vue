@@ -60,6 +60,3 @@ const statusText = computed(() => {
 	return t(`packages.agentStatus.${snakeToCamel(status)}`);
 });
 </script>
-
-<style lang="scss" scoped>
-</style>

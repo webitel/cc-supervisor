@@ -222,10 +222,7 @@ onUnmounted(() => {
 });
 </script>
 
-<style
-  lang="scss"
-  scoped
->
+<style scoped>
 .wt-action-bar {
   margin-left: auto;
 }

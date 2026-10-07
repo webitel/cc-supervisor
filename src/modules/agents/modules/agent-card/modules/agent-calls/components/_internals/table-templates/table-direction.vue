@@ -39,6 +39,3 @@ const direction = computed<DirectionView>(
 		},
 );
 </script>
-
-<style lang="scss" scoped>
-</style>

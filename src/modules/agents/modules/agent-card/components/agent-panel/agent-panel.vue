@@ -206,18 +206,13 @@ onUnmounted(() => {
 });
 </script>
 
-<style
-  lang="scss"
-  scoped
->
-@use '@webitel/ui-sdk/src/css/main' as *;
-
+<style scoped>
 .wt-headline.agent-panel {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  // LEFT SIDE
+  /* LEFT SIDE */
   .agent-panel__left {
     display: flex;
     align-items: center;
@@ -243,7 +238,7 @@ onUnmounted(() => {
     gap: var(--spacing-xs);
   }
 
-  // RIGHT SIDE
+  /* RIGHT SIDE */
   .agent-panel__right {
     display: flex;
     align-items: center;
@@ -260,10 +255,6 @@ onUnmounted(() => {
     display: flex;
     align-items: center;
     gap: var(--spacing-xs);
-  }
-
-  &__call-btn {
-    padding: var(--spacing-sm);
   }
 
   @media (max-width: 1200px) {
@@ -300,10 +291,8 @@ onUnmounted(() => {
   }
 }
 
-.wt-vidstack-player {
-  :deep(.wt-button) {
-    margin: 0;
-  }
+.wt-vidstack-player :deep(.wt-button) {
+  margin: 0;
 }
 
 /**
@@ -312,7 +301,7 @@ onUnmounted(() => {
   https://webitel.atlassian.net/browse/WTEL-9311
 */
 .screen-sharing--moved.screen-sharing--moved {
-  right: calc(256px + var(--spacing-sm)); // 256px is current width of call-window popup
+  right: calc(256px + var(--spacing-sm)); /* 256px is current width of call-window popup */
   bottom: var(--spacing-sm);
 }
 </style>

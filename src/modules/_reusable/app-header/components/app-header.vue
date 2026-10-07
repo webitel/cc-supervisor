@@ -119,10 +119,7 @@ function settings() {
 }
 </script>
 
-<style
-	lang="scss"
-	scoped
->
+<style scoped>
 .wt-dark-mode-switcher {
 	margin-right: auto;
 }

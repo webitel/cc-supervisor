@@ -28,7 +28,7 @@ const membersLoadRatioClass = computed(() => {
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .table-members__waiting-count {
   font-weight: normal;
 

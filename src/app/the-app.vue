@@ -42,5 +42,3 @@ startWatcher();
 onMounted(() => showUserNotifications());
 onUnmounted(() => stopWatcher());
 </script>
-
-<style lang="scss"></style>

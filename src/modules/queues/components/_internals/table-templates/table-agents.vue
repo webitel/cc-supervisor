@@ -36,9 +36,7 @@ const pause = computed(() => props.status.pause || 0);
 const offline = computed(() => props.status.offline || 0);
 </script>
 
-<style lang="scss" scoped>
-@use '@webitel/ui-sdk/src/css/main';
-
+<style scoped>
 .table-agents {
   display: flex;
   align-items: center;

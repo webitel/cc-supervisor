@@ -142,10 +142,7 @@ if (!hasFilter(FilterOption.JoinedAt)) {
 initialize();
 </script>
 
-<style
-  lang="scss"
-  scoped
->
+<style scoped>
 .agent-status-history-tab__title {
   padding: var(--spacing-xs);
   margin: 0;

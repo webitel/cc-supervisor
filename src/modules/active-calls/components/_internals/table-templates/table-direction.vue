@@ -38,6 +38,3 @@ const direction = computed<DirectionView>(
 		directionViews[CallDirection.Inbound],
 );
 </script>
-
-<style lang="scss" scoped>
-</style>

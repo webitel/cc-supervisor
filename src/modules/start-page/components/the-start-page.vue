@@ -30,5 +30,3 @@ onMounted(() => {
 	navStore.initializeNav();
 });
 </script>
-
-<style scoped></style>

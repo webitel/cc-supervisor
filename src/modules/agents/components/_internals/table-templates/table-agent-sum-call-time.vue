@@ -24,7 +24,7 @@ const emit = defineEmits<{
 }>();
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .table-agent-sum-call-time {
   display: flex;
   align-items: center;

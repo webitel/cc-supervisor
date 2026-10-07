@@ -298,10 +298,7 @@ onUnmounted(() => {
 });
 </script>
 
-<style
-  lang="scss"
-  scoped
->
+<style scoped>
 .agent-calls-tab__title {
   padding: var(--spacing-xs);
   margin: 0;

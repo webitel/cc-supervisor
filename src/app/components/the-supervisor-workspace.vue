@@ -17,9 +17,7 @@ import CallWindow from '../../modules/call-window/components/call-window-convers
 import CallWindowEavesdrop from '../../modules/call-window/components/call-window-eavesdrop.vue';
 </script>
 
-<style
-	scoped
->
+<style scoped>
 .the-supervisor-workspace {
 	display: flex;
 	flex-direction: column;
