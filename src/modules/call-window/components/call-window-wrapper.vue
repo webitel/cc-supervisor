@@ -35,18 +35,11 @@
   </aside>
 </template>
 
-<script>
+<script lang="ts" setup>
 import WtExpandTransition from '@webitel/ui-sdk/src/components/transitions/wt-expand-transition.vue';
+import { ref } from 'vue';
 
-export default {
-	name: 'CallWindowWrapper',
-	components: {
-		WtExpandTransition,
-	},
-	data: () => ({
-		isExpanded: false,
-	}),
-};
+const isExpanded = ref(false);
 </script>
 
 <style

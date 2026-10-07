@@ -1,6 +1,6 @@
 import { AgentsAPI } from '@webitel/api-services/api';
 import type { EngineAgent } from '@webitel/api-services/gen/models';
-import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
+import { isEmpty } from '@webitel/ui-sdk/scripts';
 import { defineStore, storeToRefs } from 'pinia';
 import { ref } from 'vue';
 
@@ -89,7 +89,7 @@ export const useAgentEditStore = defineStore(AgentEditNamespace, () => {
 				changes,
 			});
 		} catch {
-			// the client has already notified about the error
+			// [Claude] the client has already notified about the error
 		} finally {
 			await loadAgent();
 		}

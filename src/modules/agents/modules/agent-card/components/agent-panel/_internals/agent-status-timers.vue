@@ -15,16 +15,14 @@
   </article>
 </template>
 
-<script>
-export default {
-	name: 'AgentStatusTimers',
-	props: {
-		status: {
-			type: Object,
-			required: true,
-		},
-	},
-};
+<script lang="ts" setup>
+defineProps<{
+	status: {
+		offline?: string;
+		pause?: string;
+		online?: string;
+	};
+}>();
 </script>
 
 <style lang="scss" scoped>

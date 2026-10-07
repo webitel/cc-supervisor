@@ -133,7 +133,7 @@
   </wt-page-wrapper>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { QueuesAPI } from '@webitel/api-services/api';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { WtEmpty } from '@webitel/ui-sdk/components';

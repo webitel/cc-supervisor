@@ -49,9 +49,9 @@ import { useRoute } from 'vue-router';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import { useAgentPdfsTableStore } from '../stores/datalist/pdfs';
 
-const emit = defineEmits([
-	'toggle-filter',
-]);
+const emit = defineEmits<{
+	'toggle-filter': [];
+}>();
 
 const { t } = useI18n();
 

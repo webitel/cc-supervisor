@@ -37,7 +37,7 @@ import { useRoute, useRouter } from 'vue-router';
 
 import { useTableAutoRefresh } from '../../../../../app/composables/useTableAutoRefresh';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import AgentTabsPathName from '../../../../../app/router/_internals/AgentTabsPathName.enum.js';
+import AgentTabsPathName from '../../../../../app/router/_internals/AgentTabsPathName.enum';
 import { useErrorRedirectHandler } from '../../../../../modules/error-pages/composable/useErrorRedirectHandler';
 import Calls from '../modules/agent-calls/components/agent-calls-tab.vue';
 import CallsFilters from '../modules/agent-calls/modules/filters/components/agent-calls-filters-panel.vue';

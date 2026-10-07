@@ -121,7 +121,7 @@
   </wt-page-wrapper>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { WtEmpty } from '@webitel/ui-sdk/components';
 import { ComponentSize, IconAction } from '@webitel/ui-sdk/enums';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';

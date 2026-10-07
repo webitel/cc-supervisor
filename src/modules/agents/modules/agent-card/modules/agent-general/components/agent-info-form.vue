@@ -19,14 +19,14 @@
 				v-if="!isSupervisor"
 				:model-value="agent.supervisor"
 				:label="$t('objects.supervisor')"
-				:search-method="supervisorLookupApi"
+				:search-method="AgentsAPI.getSupervisorOptions"
 				:disabled="disableUserInput || !hasSupervisorReadAccess"
 				@update:model-value="setItemProp({ prop: 'supervisor', value: $event })"
 			/>
 			<wt-multi-select
 				:model-value="agent.auditor"
 				:label="$t('objects.auditor')"
-				:search-method="userLookupApi"
+				:search-method="UsersAPI.getLookup"
 				:disabled="disableUserInput || !hasAuditorReadAccess"
 				@update:model-value="setItemProp({ prop: 'auditor', value: $event })"
 			/>
@@ -61,14 +61,17 @@
 <script lang="ts" setup>
 import { type BaseValidation, useVuelidate } from '@vuelidate/core';
 import { minValue, required } from '@vuelidate/validators';
-import { RegionsAPI, TeamsAPI } from '@webitel/api-services/api';
+import {
+	AgentsAPI,
+	RegionsAPI,
+	TeamsAPI,
+	UsersAPI,
+} from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import supervisorLookupApi from '../../../../../../_shared/lookups/api/supervisorLookupApi';
-import userLookupApi from '../../../../../../_shared/lookups/api/userLookupApi';
 import { useAgentEditStore } from '../stores/agentEditStore';
 
 const agentEditStore = useAgentEditStore();
@@ -99,7 +102,7 @@ const v$ = useVuelidate(
 	},
 );
 
-// vuelidate infers nested results as `undefined` when rules are passed explicitly
+// [Claude] vuelidate infers nested results as `undefined` when rules are passed explicitly
 const agentValidation = computed(
 	() => v$.value.agent as Record<'team' | 'progressiveCount', BaseValidation>,
 );

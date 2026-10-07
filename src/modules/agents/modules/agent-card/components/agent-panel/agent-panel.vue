@@ -24,7 +24,7 @@
               size="md"
             ></wt-icon>
             <span class="agent-panel__ratings-text typo-body-1">
-              {{ $t('pages.card.ratedCalls') }}: {{ scoreCount }}
+              {{ $t('pages.card.ratedCalls') }}: {{ score.scoreCount }}
             </span>
           </div>
         </div>
@@ -90,9 +90,9 @@
 </template>
 
 <script lang="ts" setup>
-import AgentStatusSelect from '@webitel/ui-sdk/src/modules/AgentStatusSelect/components/wt-cc-agent-status-select.vue';
-import { ScreenSharing } from '@webitel/ui-sdk/src/modules/CallSession/index';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
+import { WtCcAgentStatusSelect as AgentStatusSelect } from '@webitel/ui-sdk/modules/AgentStatusSelect';
+import { ScreenSharing } from '@webitel/ui-sdk/modules/CallSession';
+import { eventBus } from '@webitel/ui-sdk/scripts';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -137,11 +137,7 @@ const isScreenSharingMoved = computed(
 
 const isScreenSharingLoading = ref(false);
 
-const scoreCount = computed(() => score.value.scoreCount || 0);
-
-const scoreRequired = computed(() =>
-	(score.value.scoreRequiredAvg || 0).toFixed(2),
-);
+const scoreRequired = computed(() => score.value.scoreRequiredAvg.toFixed(2));
 
 const loadAgent = async () => {
 	await loadAgentAction();

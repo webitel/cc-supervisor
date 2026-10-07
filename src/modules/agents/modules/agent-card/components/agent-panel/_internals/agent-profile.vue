@@ -11,16 +11,15 @@
   </article>
 </template>
 
-<script>
-export default {
-	name: 'AgentProfile',
-	props: {
-		name: {
-			type: String,
-			default: '',
-		},
+<script lang="ts" setup>
+withDefaults(
+	defineProps<{
+		name?: string;
+	}>(),
+	{
+		name: '',
 	},
-};
+);
 </script>
 
 <style

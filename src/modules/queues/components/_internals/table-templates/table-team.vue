@@ -4,16 +4,14 @@
   </div>
 </template>
 
-<script>
-export default {
-	name: 'TableTeam',
-	props: {
-		item: {
-			type: Object,
-			required: true,
-		},
-	},
-};
+<script lang="ts" setup>
+defineProps<{
+	item: {
+		team?: {
+			name?: string;
+		};
+	};
+}>();
 </script>
 
 <style scoped>

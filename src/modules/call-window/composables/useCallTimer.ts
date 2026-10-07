@@ -1,4 +1,4 @@
-import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
+import { convertDuration } from '@webitel/ui-sdk/scripts';
 import { computed, type Ref } from 'vue';
 
 import { useNowStore } from '../../../app/store/nowStore';

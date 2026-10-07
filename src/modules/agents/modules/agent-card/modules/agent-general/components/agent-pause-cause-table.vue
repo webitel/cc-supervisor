@@ -39,8 +39,8 @@
 </template>
 
 <script lang="ts" setup>
+import { useRepresentableAgentPauseCause } from '@webitel/ui-sdk/composables';
 import { IconAction } from '@webitel/ui-sdk/enums';
-import { useRepresentableAgentPauseCause } from '@webitel/ui-sdk/src/composables/useRepresentableAgentPauseCause/useRepresentableAgentPauseCause';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
