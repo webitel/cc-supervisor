@@ -12,12 +12,14 @@
   </wt-tooltip>
 </template>
 <script setup lang="ts">
-defineProps({
-	statusComment: {
-		type: String,
-		default: '',
+withDefaults(
+	defineProps<{
+		statusComment?: string;
+	}>(),
+	{
+		statusComment: '',
 	},
-});
+);
 </script>
 
 <style scoped lang="scss">

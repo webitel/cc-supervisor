@@ -25,9 +25,9 @@
 	</wt-app-header>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { WtApplication } from '@webitel/ui-sdk/enums';
-import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
+import { WtDarkModeSwitcher } from '@webitel/ui-sdk/modules/Appearance';
 import { storeToRefs } from 'pinia';
 import { computed, inject } from 'vue';
 import packageJson from '../../../../../package.json' with { type: 'json' };
@@ -36,7 +36,9 @@ import { useAppearanceStore } from '../../../appearance/store/appearanceStore';
 import { useNavStore } from '../../../start-page/stores/navStore';
 import { useUserinfoStore } from '../../../userinfo/store/userInfoStore';
 
-const config = inject('$config');
+const config = inject<{
+	ON_SITE?: boolean;
+}>('$config');
 const appearanceStore = useAppearanceStore();
 
 const navStore = useNavStore();
@@ -91,7 +93,10 @@ const apps = computed(() => {
 		href: import.meta.env.VITE_CRM_URL,
 	};
 
-	const allApps = [
+	const allApps: {
+		name: WtApplication;
+		href: string;
+	}[] = [
 		admin,
 		supervisor,
 		agent,

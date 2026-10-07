@@ -1,4 +1,4 @@
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
+import { eventBus } from '@webitel/ui-sdk/scripts';
 import { ref } from 'vue';
 
 export function useScreenSharingSession() {

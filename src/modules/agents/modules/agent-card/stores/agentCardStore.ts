@@ -1,6 +1,6 @@
 import { AgentsAPI } from '@webitel/api-services/api';
 import type { EngineAgentStatusStatisticItem } from '@webitel/api-services/gen/models';
-import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
+import { convertDuration } from '@webitel/ui-sdk/scripts';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
@@ -22,7 +22,7 @@ export const useAgentCardStore = defineStore(AgentCardNamespace, () => {
 		agentId.value = id;
 	};
 
-	// today's statistics, the panel shows its timers
+	// [Claude] today's statistics, the panel shows its timers
 	const loadAgent = async () => {
 		const item = await AgentsAPI.getStatusStatisticsItem({
 			agentId: agentId.value,
@@ -40,7 +40,7 @@ export const useAgentCardStore = defineStore(AgentCardNamespace, () => {
 	};
 
 	const loadScoreData = async () => {
-		const { scoreCount = 0, scoreRequiredAvg = 0 } =
+		const { scoreCount, scoreRequiredAvg } =
 			await AgentsAPI.getStatusStatisticsItem({
 				agentId: agentId.value,
 				// why 0? https://webitel.atlassian.net/browse/WTEL-5439?focusedCommentId=641601
@@ -49,8 +49,8 @@ export const useAgentCardStore = defineStore(AgentCardNamespace, () => {
 			});
 
 		score.value = {
-			scoreCount,
-			scoreRequiredAvg,
+			scoreCount: scoreCount ?? 0,
+			scoreRequiredAvg: scoreRequiredAvg ?? 0,
 		};
 	};
 

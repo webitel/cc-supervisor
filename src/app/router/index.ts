@@ -15,8 +15,8 @@ import ScreenRecordings from '../../modules/agents/modules/agent-card/modules/ag
 import Screenshots from '../../modules/agents/modules/agent-card/modules/agent-screenshots/components/agent-screenshots-tab.vue';
 import Skills from '../../modules/agents/modules/agent-card/modules/agent-skills/components/agent-skills-tab.vue';
 import StatusHistory from '../../modules/agents/modules/agent-card/modules/agent-status-history/components/agent-status-history-tab.vue';
-import AgentTabsPathName from './_internals/AgentTabsPathName.enum.js';
-import RoutePaths from './_internals/RoutePaths.enum.js';
+import AgentTabsPathName from './_internals/AgentTabsPathName.enum';
+import RoutePaths from './_internals/RoutePaths.enum';
 
 const TheStartPage = () =>
 	import('../../modules/start-page/components/the-start-page.vue');

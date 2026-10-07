@@ -5,33 +5,27 @@
   ></wt-icon>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { computed } from 'vue';
 import { CallDirection } from 'webitel-sdk';
 
-export default {
-	name: 'TableDirection',
-	props: {
-		item: {
-			type: Object,
-			required: true,
-		},
-	},
-	data: () => ({
-		CallDirection,
-	}),
-	computed: {
-		directionIcon() {
-			return this.item.direction === CallDirection.Outbound
-				? 'call-outbound'
-				: 'call-inbound';
-		},
-		directionIconColor() {
-			return this.item.direction === CallDirection.Outbound
-				? 'success'
-				: 'primary';
-		},
-	},
-};
+const props = defineProps<{
+	item: {
+		direction?: string;
+	};
+}>();
+
+const isOutbound = computed(
+	() => props.item.direction === CallDirection.Outbound,
+);
+
+const directionIcon = computed(() =>
+	isOutbound.value ? 'call-outbound' : 'call-inbound',
+);
+
+const directionIconColor = computed(() =>
+	isOutbound.value ? 'success' : 'primary',
+);
 </script>
 
 <style lang="scss" scoped>
