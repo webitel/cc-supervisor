@@ -166,12 +166,12 @@ import {
 	WtVidstackPlayer,
 } from '@webitel/ui-sdk/components';
 import { ComponentSize, IconAction } from '@webitel/ui-sdk/enums';
-import { getMediaUrlAuth } from '@webitel/ui-sdk/scripts';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
 import { computed, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
+import { getMediaUrlAuth } from '../../../../../../../app/api/getMediaUrlAuth';
 import { defaultCreatedAtFilter } from '../modules/filters/configs/filterOptions';
 import {
 	agentCallsUserId,
@@ -262,13 +262,17 @@ const play = (file) => {
 	if (file.type === EngineCallFileType.FileTypeAudio) {
 		videoSrc.value = null;
 		audioSrc.value = {
-			src: getCallMediaUrl(file.id, getMediaUrlAuth()),
+			src: getCallMediaUrl(file.id, {
+				auth: getMediaUrlAuth(),
+			}),
 			type: file.mimeType,
 		};
 	} else {
 		audioSrc.value = null;
 		videoSrc.value = {
-			src: getCallMediaUrl(file.id, getMediaUrlAuth()),
+			src: getCallMediaUrl(file.id, {
+				auth: getMediaUrlAuth(),
+			}),
 			name: file.text,
 			type: file.mimeType,
 		};
@@ -284,7 +288,9 @@ const closePlayer = () => {
 const setScreenRecording = (data) => {
 	currentScreenRecording.value = {
 		...data,
-		video: getMediaUrl(data.id, getMediaUrlAuth()),
+		video: getMediaUrl(data.id, {
+			auth: getMediaUrlAuth(),
+		}),
 	};
 	closePlayer();
 };

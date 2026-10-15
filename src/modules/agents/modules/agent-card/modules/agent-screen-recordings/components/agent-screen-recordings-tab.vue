@@ -3,7 +3,7 @@
     v-if="isVideoOpen"
     closable
     :size="ComponentSize.MD"
-    :src="getMediaUrl(currentVideo.id, getMediaUrlAuth())"
+    :src="getMediaUrl(currentVideo.id, { auth: getMediaUrlAuth() })"
     :title="currentVideo.view_name"
     :mime="currentVideo.mime_type"
     @close="closeVideo"
@@ -72,7 +72,7 @@
           <wt-image
             width="48"
             overlay-icon="play"
-            :src="getMediaUrl(item.id, { ...getMediaUrlAuth(), isThumb: true })"
+            :src="getMediaUrl(item.id, { auth: getMediaUrlAuth(), isThumb: true })"
             alt=""
             @click="openVideo(item)"
           />
@@ -132,7 +132,6 @@ import {
 	IconAction,
 	WtObject,
 } from '@webitel/ui-sdk/enums';
-import { getMediaUrlAuth } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
@@ -141,6 +140,7 @@ import { storeToRefs } from 'pinia';
 import { computed, defineEmits, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
+import { getMediaUrlAuth } from '../../../../../../../app/api/getMediaUrlAuth';
 import { useTableAutoRefresh } from '../../../../../../../app/composables/useTableAutoRefresh';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import { useDownloadArchive } from '../../../../../composables/useDownloadArchive';
