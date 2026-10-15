@@ -3,7 +3,7 @@
     v-if="isVideoOpen"
     closable
     :size="ComponentSize.MD"
-    :src="getMediaUrl(currentVideo.id)"
+    :src="getMediaUrl(currentVideo.id, getMediaUrlAuth())"
     :title="currentVideo.view_name"
     :mime="currentVideo.mime_type"
     @close="closeVideo"
@@ -72,7 +72,7 @@
           <wt-image
             width="48"
             overlay-icon="play"
-            :src="getMediaUrl(item.id, true)"
+            :src="getMediaUrl(item.id, { ...getMediaUrlAuth(), isThumb: true })"
             alt=""
             @click="openVideo(item)"
           />
@@ -132,6 +132,7 @@ import {
 	IconAction,
 	WtObject,
 } from '@webitel/ui-sdk/enums';
+import { getMediaUrlAuth } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';

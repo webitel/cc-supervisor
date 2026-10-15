@@ -70,7 +70,7 @@
           <wt-image
             width="48"
             overlay-icon="zoom-in"
-            :src="getMediaUrl(item.id, true)"
+            :src="getMediaUrl(item.id, { ...getMediaUrlAuth(), isThumb: true })"
             alt=""
             @click="openScreenshot(item.id)"
           />
@@ -126,7 +126,7 @@ import { normalizeDatetimeRange } from '@webitel/api-services/scripts';
 import { FilterOption } from '@webitel/ui-datalist/filters';
 import { WtEmpty, WtGalleria } from '@webitel/ui-sdk/components';
 import { FormatDateMode, IconAction, WtObject } from '@webitel/ui-sdk/enums';
-import { eventBus } from '@webitel/ui-sdk/scripts';
+import { eventBus, getMediaUrlAuth } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
@@ -221,8 +221,14 @@ const prettifyTimestamp = (item) =>
 
 const galleriaData = computed(() => {
 	return dataList.value?.map((item) => ({
-		src: getMediaUrl(item.id, false),
-		thumbnailSrc: getMediaUrl(item.id, true),
+		src: getMediaUrl(item.id, {
+			...getMediaUrlAuth(),
+			isThumb: false,
+		}),
+		thumbnailSrc: getMediaUrl(item.id, {
+			...getMediaUrlAuth(),
+			isThumb: true,
+		}),
 		title: item.view_name,
 		alt: item.view_name,
 	}));
