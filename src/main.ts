@@ -13,30 +13,10 @@ import {
 	options as WebitelUiOptions,
 } from './app/plugins/webitel/ui-sdk';
 import { initRouter, router } from './app/router';
+import { setTokenFromUrl } from './app/scripts/setTokenFromUrl';
 import store from './app/store';
 import App from './app/the-app.vue';
 import { useUserinfoStore } from './modules/userinfo/store/userInfoStore';
-
-const setTokenFromUrl = () => {
-	try {
-		const queryMap: {
-			accessToken?: string;
-		} = window.location.search
-			.slice(1)
-			.split('&')
-			.reduce((obj, query) => {
-				const [key, value] = query.split('=');
-				obj[key] = value;
-				return obj;
-			}, {});
-
-		if (queryMap.accessToken) {
-			localStorage.setItem('access-token', queryMap.accessToken);
-		}
-	} catch (err) {
-		console.error('Error restoring token from url', err);
-	}
-};
 
 const fetchConfig = async () => {
 	const response = await fetch(`${import.meta.env.BASE_URL}/config.json`);

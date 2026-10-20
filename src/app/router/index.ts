@@ -17,6 +17,7 @@ import Skills from '../../modules/agents/modules/agent-card/modules/agent-skills
 import StatusHistory from '../../modules/agents/modules/agent-card/modules/agent-status-history/components/agent-status-history-tab.vue';
 import AgentTabsPathName from './_internals/AgentTabsPathName.enum.js';
 import RoutePaths from './_internals/RoutePaths.enum.js';
+import { createAuthGuard } from './authGuard';
 
 const TheStartPage = () =>
 	import('../../modules/start-page/components/the-start-page.vue');
@@ -157,28 +158,11 @@ export const initRouter = async ({
 		routes: routes as RouteRecordRaw[],
 	});
 
-	router.beforeEach((to, _from, next) => {
-		if (!localStorage.getItem('access-token') && !to.query.accessToken) {
-			// @author @Lear24
-			// remove flag about shown notifications from localStorage
-			onUnauthorized();
-			const desiredUrl = encodeURIComponent(window.location.href);
-			const authUrl = import.meta.env.VITE_AUTH_URL;
-			window.location.href = `${authUrl}?redirectTo=${desiredUrl}`;
-		} else if (to.query.accessToken) {
-			// assume that access token was set from query before app initialization in main.js
-			const newQuery = {
-				...to.query,
-			};
-			delete newQuery.accessToken;
-			next({
-				...to,
-				query: newQuery,
-			});
-		} else {
-			next();
-		}
-	});
+	router.beforeEach(
+		createAuthGuard({
+			onUnauthorized,
+		}),
+	);
 
 	beforeEach.forEach((guard) => {
 		router.beforeEach(guard);
