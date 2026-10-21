@@ -10,7 +10,7 @@
 			:dark-mode="darkMode"
 			:logo-href="startPageHref"
 		/>
-		<wt-dark-mode-switcher />
+		<wt-dark-mode-switcher @changed-mode="appearanceStore.setTheme" />
 		<wt-app-navigator
 			:current-app="currentApp"
 			:apps="apps"
