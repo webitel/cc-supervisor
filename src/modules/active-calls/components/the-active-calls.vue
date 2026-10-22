@@ -97,6 +97,9 @@
                   {{ item.user.name }}
                 </div>
               </template>
+              <template #createdAt="{ item }">
+                <wt-time-tooltip :text="item.createdAt" />
+              </template>
               <template #state="{ item }">
                 <table-active-call-state
                   :item="item"
@@ -122,7 +125,7 @@
 </template>
 
 <script setup>
-import { WtEmpty } from '@webitel/ui-sdk/components';
+import { WtEmpty, WtTimeTooltip } from '@webitel/ui-sdk/components';
 import { ComponentSize, IconAction } from '@webitel/ui-sdk/enums';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
