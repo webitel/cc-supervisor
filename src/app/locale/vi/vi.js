@@ -85,7 +85,7 @@ export default {
 				utilization: 'Sử dụng',
 				callTime: 'Thời gian gọi',
 				chatTime: 'Thời gian chat',
-				transferred: 'Đã chuyển tiếp',
+				transferred: 'Chuyển tiếp có tư vấn',
 				missed: 'Bỏ lỡ',
 				occupancy: 'Tỷ lệ bận',
 			},
