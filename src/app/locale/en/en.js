@@ -86,7 +86,7 @@ export default {
 				utilization: 'Utilization',
 				callTime: 'Call time',
 				chatTime: 'Chat time',
-				transferred: 'Transferred',
+				transferred: 'Consultative Transfer',
 				missed: 'Missed',
 				occupancy: 'Occupancy',
 			},

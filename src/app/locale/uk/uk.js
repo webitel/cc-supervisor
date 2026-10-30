@@ -86,7 +86,7 @@ export default {
 				utilization: 'Утилізація',
 				callTime: 'Час у дзвінках',
 				chatTime: 'Час у чатах',
-				transferred: 'Переведено',
+				transferred: 'Консультативний перевід',
 				missed: 'Пропущено',
 				occupancy: 'Зайнятість',
 			},
