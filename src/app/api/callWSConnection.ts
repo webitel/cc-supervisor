@@ -69,8 +69,9 @@ const createCliInstance = async () => {
 
 	// why reactive? https://github.com/vuejs/core/discussions/7811#discussioncomment-5181921
 	// cli.conversationStore = reactive(cli.conversationStore);
-	// [Claude] the SDK declares these stores private, bracket access reaches them without a cast
+	// biome-ignore lint/complexity/useLiteralKeys: [Claude] the SDK declares this store private, dot access fails the typecheck
 	cli['callStore'] = reactive(cli['callStore']);
+	// biome-ignore lint/complexity/useLiteralKeys: [Claude] the SDK declares this store private, dot access fails the typecheck
 	cli['spyScreenSessions'] = reactive(cli['spyScreenSessions']);
 	// cli.jobStore = reactive(cli.jobStore);
 

@@ -7,7 +7,7 @@ import { headers } from './_internals/headers';
 export const useAgentPdfsTableStore = createTableStore(AgentPdfsNamespace, {
 	apiModule: {
 		...PdfServicesAPI,
-		delete: (params) => PdfServicesAPI.delete(params.id!),
+		delete: ({ id }) => PdfServicesAPI.delete(id),
 	},
 	headers,
 });

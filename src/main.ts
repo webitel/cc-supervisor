@@ -14,7 +14,6 @@ import {
 } from './app/plugins/webitel/ui-sdk';
 import { initRouter, router } from './app/router';
 import { setTokenFromUrl } from './app/scripts/setTokenFromUrl';
-import store from './app/store';
 import App from './app/the-app.vue';
 import { useUserinfoStore } from './modules/userinfo/store/userInfoStore';
 
