@@ -2,6 +2,8 @@ import { eventBus } from '@webitel/ui-sdk/scripts';
 import { reactive, shallowReactive } from 'vue';
 import { Client } from 'webitel-sdk';
 
+// [Claude] WTEL-10755: userAgent (WTEL-8717) is not part of the 26.10 release
+// import packageJson from '../../../package.json' with { type: 'json' };
 import i18n from '../locale/i18n';
 
 const { hostname, protocol } = window.location;
@@ -58,6 +60,8 @@ const createCliInstance = async () => {
 		endpoint: BASE_URL,
 		registerWebDevice: true,
 		token,
+		// [Claude] WTEL-10755: WTEL-8717 is not part of the 26.10 release
+		// userAgent: `webitel-supervisor.${packageJson.version}`,
 	};
 
 	// why reactive? https://github.com/vuejs/core/discussions/7811#discussioncomment-5181921

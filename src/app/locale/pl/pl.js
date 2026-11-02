@@ -85,7 +85,7 @@ export default {
 				utilization: 'Wykorzystanie',
 				callTime: 'Czas rozmowy',
 				chatTime: 'Czas czatu',
-				transferred: 'Przekazane',
+				transferred: 'Przekazanie z konsultacją',
 				missed: 'Nieodebrane',
 				occupancy: 'Zajętość',
 			},

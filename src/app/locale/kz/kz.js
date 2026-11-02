@@ -85,7 +85,7 @@ export default {
 				utilization: 'Пайдалану',
 				callTime: 'Қоңырау уақыты',
 				chatTime: 'Чат уақыты',
-				transferred: 'Ауыстырылды',
+				transferred: 'Кеңесу арқылы ауыстыру',
 				missed: 'Жіберіп алды',
 				occupancy: 'Жүктеме',
 			},

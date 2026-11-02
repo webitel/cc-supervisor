@@ -45,26 +45,5 @@ export const filterConfigs = {
 	}),
 } satisfies Record<string, FilterConfigDefinition>;
 
-export const buildFiltersOptions = ({
-	hasUsersReadAccess,
-	hasQueuesReadAccess,
-	hasAgentsReadAccess,
-	hasGatewaysReadAccess,
-	hasTeamsReadAccess,
-}: {
-	hasUsersReadAccess: boolean;
-	hasQueuesReadAccess: boolean;
-	hasAgentsReadAccess: boolean;
-	hasGatewaysReadAccess: boolean;
-	hasTeamsReadAccess: boolean;
-}): FilterConfigDefinition[] =>
-	[
-		filterConfigs[FilterOption.CallDirection],
-		filterConfigs[FilterOption.CallReportingResult],
-		hasGatewaysReadAccess && filterConfigs[FilterOption.Gateway],
-		hasQueuesReadAccess && filterConfigs[FilterOption.Queue],
-		hasUsersReadAccess && filterConfigs[FilterOption.User],
-		hasAgentsReadAccess && filterConfigs[FilterOption.Agent],
-		hasAgentsReadAccess && filterConfigs[FilterOption.Supervisor],
-		hasTeamsReadAccess && filterConfigs[FilterOption.Team],
-	].filter(Boolean) as FilterConfigDefinition[];
+export const filtersOptions: FilterConfigDefinition[] =
+	Object.values(filterConfigs);
