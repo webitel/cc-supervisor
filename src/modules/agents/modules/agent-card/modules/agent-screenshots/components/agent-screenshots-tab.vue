@@ -167,6 +167,7 @@ const {
 	next,
 	shownHeaders,
 	filtersManager,
+	sort,
 } = storeToRefs(agentScreenshotsTableStore);
 
 const {
@@ -297,6 +298,7 @@ const downloadPdf = async () => {
 				from: uploadedAt?.from,
 				to: uploadedAt?.to,
 				fileIds: selected.value.map(({ id }) => id),
+				sort: sort.value ?? undefined,
 			},
 		});
 		eventBus.$emit('notification', {
