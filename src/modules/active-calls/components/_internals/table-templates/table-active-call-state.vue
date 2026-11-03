@@ -4,34 +4,36 @@
     <wt-icon-btn
       v-if="isActive"
       icon="sound-on"
-      @click="$emit('attach-call', item.id)">
+      @click="emit('attach-call', item.id)">
     </wt-icon-btn>
   </div>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { computed } from 'vue';
 import { CallActions } from 'webitel-sdk';
 
-export default {
-	name: 'TableActiveCallState',
-	props: {
-		item: {
-			type: Object,
-			required: true,
-		},
-	},
-	computed: {
-		isActive() {
-			return (
-				this.item.state !== CallActions.Hangup &&
-				this.item.state !== CallActions.Ringing
-			);
-		},
-	},
-};
+const props = defineProps<{
+	item: {
+		id?: string;
+		state?: string;
+	};
+}>();
+
+const emit = defineEmits<{
+	'attach-call': [
+		callId: string,
+	];
+}>();
+
+const isActive = computed(
+	() =>
+		props.item.state !== CallActions.Hangup &&
+		props.item.state !== CallActions.Ringing,
+);
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .table-active-call-state {
   display: flex;
   align-items: center;

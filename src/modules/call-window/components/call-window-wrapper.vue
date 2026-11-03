@@ -35,28 +35,14 @@
   </aside>
 </template>
 
-<script>
+<script lang="ts" setup>
 import WtExpandTransition from '@webitel/ui-sdk/src/components/transitions/wt-expand-transition.vue';
+import { ref } from 'vue';
 
-export default {
-	name: 'CallWindowWrapper',
-	components: {
-		WtExpandTransition,
-	},
-	data: () => ({
-		isExpanded: false,
-	}),
-};
+const isExpanded = ref(false);
 </script>
 
-<style
-  lang="scss"
-  scoped
->
-@use '@webitel/ui-sdk/src/css/main';
-
-$width: 232px;
-
+<style scoped>
 .call-window-wrapper {
   position: fixed;
   right: var(--spacing-xs);
@@ -68,7 +54,7 @@ $width: 232px;
   box-shadow: var(--elevation-10);
 
   .call-window-content-wrapper {
-    width: $width;
+    width: 232px;
     padding: var(--spacing-lg);
     background: var(--content-wrapper-color);
     border-radius: 16px;

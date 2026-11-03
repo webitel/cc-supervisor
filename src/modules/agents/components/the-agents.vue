@@ -172,13 +172,12 @@
 import { AgentsAPI } from '@webitel/api-services/api';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { WtDisplayChipItems, WtEmpty } from '@webitel/ui-sdk/components';
-import { IconAction, IconColor } from '@webitel/ui-sdk/enums';
+import { ComponentSize, IconAction, IconColor } from '@webitel/ui-sdk/enums';
+import { ScreenSharing } from '@webitel/ui-sdk/modules/CallSession';
 import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo';
-import { ComponentSize } from '@webitel/ui-sdk/src/enums';
-import { ScreenSharing } from '@webitel/ui-sdk/src/modules/CallSession/index';
+import { eventBus } from '@webitel/ui-sdk/scripts';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

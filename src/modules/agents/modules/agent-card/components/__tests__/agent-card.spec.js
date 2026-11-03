@@ -1,11 +1,25 @@
 import { createTestingPinia } from '@pinia/testing';
 import { shallowMount } from '@vue/test-utils';
 import { ref } from 'vue';
-import { createStore } from 'vuex';
 
+import { useAgentCardStore } from '../../stores/agentCardStore';
 import AgentPage from '../agent-card.vue';
 
-vi.mock('../../../../api/agents');
+const agentId = 1;
+
+vi.mock('vue-router', () => ({
+	useRoute: () => ({
+		params: {
+			id: agentId,
+		},
+		query: {
+			q: 'vi',
+		},
+	}),
+	useRouter: () => ({
+		push: vi.fn(),
+	}),
+}));
 
 vi.mock('@/app/composables/useUserAccessControl', () => ({
 	useUserAccessControl: () => ({
@@ -18,55 +32,13 @@ vi.mock('@/app/composables/useUserAccessControl', () => ({
 	}),
 }));
 
-const agentId = 1;
-const $router = {
-	replace: vi.fn(),
-};
-const $route = {
-	params: {
-		id: agentId,
-	},
-	query: {
-		q: 'vi',
-	},
-};
-
 describe('Agent page', () => {
-	let store;
 	let mountOptions = {};
 
-	const actionsMock = {
-		SET_AGENT_ID: vi.fn(),
-		LOAD_AGENT: vi.fn(),
-	};
-
 	beforeEach(() => {
-		actionsMock.SET_AGENT_ID.mockClear();
-		actionsMock.LOAD_AGENT.mockClear();
-
-		store = createStore({
-			modules: {
-				agents: {
-					namespaced: true,
-					modules: {
-						card: {
-							// ...card,
-							namespaced: true,
-							actions: actionsMock,
-						},
-					},
-				},
-			},
-		});
-
 		mountOptions = {
 			global: {
-				mocks: {
-					$router,
-					$route,
-				},
 				plugins: [
-					store,
 					createTestingPinia({
 						createSpy: vi.fn,
 					}),
@@ -79,26 +51,19 @@ describe('Agent page', () => {
 		const wrapper = shallowMount(AgentPage, mountOptions);
 		expect(wrapper.classes('agent-page')).toBe(true);
 	});
-	it('initially sets 1st tab as current', async () => {
-		const wrapper = shallowMount(AgentPage, mountOptions);
-		await wrapper.vm.$nextTick();
-		expect(wrapper.vm.currentTab).toEqual(wrapper.vm.tabs[0]);
+	it('initially sets agent id from $route id param', () => {
+		shallowMount(AgentPage, mountOptions);
+		expect(useAgentCardStore().setAgentId).toHaveBeenCalledWith(agentId);
 	});
-	it('initially dispatches SET_AGENT_ID with $route id param', async () => {
-		const wrapper = shallowMount(AgentPage, mountOptions);
-		await wrapper.vm.$nextTick();
-		expect(actionsMock.SET_AGENT_ID.mock.calls[0][1]).toBe(agentId);
+	it('initially loads agent', () => {
+		shallowMount(AgentPage, mountOptions);
+		expect(useAgentCardStore().loadAgent).toHaveBeenCalled();
 	});
-	it('initially dispatches LOAD_AGENT', async () => {
-		const wrapper = shallowMount(AgentPage, mountOptions);
-		await wrapper.vm.$nextTick();
-		expect(actionsMock.LOAD_AGENT).toHaveBeenCalled();
-	});
-	it('SET_AGENT_ID is called before LOAD_AGENT', async () => {
-		const wrapper = shallowMount(AgentPage, mountOptions);
-		await wrapper.vm.$nextTick();
-		expect(actionsMock.SET_AGENT_ID.mock.invocationCallOrder[0]).toBeLessThan(
-			actionsMock.LOAD_AGENT.mock.invocationCallOrder[0],
+	it('sets agent id before loading agent', () => {
+		shallowMount(AgentPage, mountOptions);
+		const store = useAgentCardStore();
+		expect(store.setAgentId.mock.invocationCallOrder[0]).toBeLessThan(
+			store.loadAgent.mock.invocationCallOrder[0],
 		);
 	});
 });

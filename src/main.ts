@@ -1,11 +1,11 @@
 import './app/assets/icons/sprite';
-import './app/css/main.scss';
+import './app/css/main.css';
 
 import { setDefaultAxiosInstance } from '@webitel/api-services/api/axios';
 import { configureZod } from '@webitel/ui-sdk/validations';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
-import instance from './app/api/instance';
+import { instance } from './app/api/instance';
 import { createUserAccessControl } from './app/composables/useUserAccessControl';
 import i18n from './app/locale/i18n';
 import {
@@ -14,7 +14,6 @@ import {
 } from './app/plugins/webitel/ui-sdk';
 import { initRouter, router } from './app/router';
 import { setTokenFromUrl } from './app/scripts/setTokenFromUrl';
-import store from './app/store';
 import App from './app/the-app.vue';
 import { useUserinfoStore } from './modules/userinfo/store/userInfoStore';
 
@@ -33,7 +32,7 @@ configureZod({
 const pinia = createPinia();
 
 const initApp = async () => {
-	const app = createApp(App).use(store).use(pinia).use(i18n);
+	const app = createApp(App).use(pinia).use(i18n);
 
 	const { initialize, routeAccessGuard, clearStorageNotifications } =
 		useUserinfoStore();

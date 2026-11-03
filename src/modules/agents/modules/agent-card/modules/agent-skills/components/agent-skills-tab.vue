@@ -148,10 +148,7 @@ initialize({
 });
 </script>
 
-<style
-  lang="scss"
-  scoped
->
+<style scoped>
 .agent-skills-tab__title {
   padding: var(--spacing-xs);
   margin: 0;

@@ -11,19 +11,13 @@
 	</main>
 </template>
 
-<script setup>
-import { WtApplication } from '@webitel/ui-sdk/enums';
-import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
-
+<script lang="ts" setup>
 import AppHeader from '../../modules/_reusable/app-header/components/app-header.vue';
 import CallWindow from '../../modules/call-window/components/call-window-conversation.vue';
 import CallWindowEavesdrop from '../../modules/call-window/components/call-window-eavesdrop.vue';
 </script>
 
-<style
-	scoped
->
+<style scoped>
 .the-supervisor-workspace {
 	display: flex;
 	flex-direction: column;

@@ -137,7 +137,7 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { formatDate } from '@webitel/ui-sdk/utils';
 import { storeToRefs } from 'pinia';
-import { computed, defineEmits, onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useTableAutoRefresh } from '../../../../../../../app/composables/useTableAutoRefresh';
@@ -150,16 +150,12 @@ const { t } = useI18n();
 
 const { hasDeleteAccess } = useUserAccessControl(WtObject.ScreenRecordings);
 
-defineProps({
-	namespace: String,
-});
-
 const route = useRoute();
 const agentId = route.params.id as string;
 
-const emit = defineEmits([
-	'toggle-filter',
-]);
+const emit = defineEmits<{
+	'toggle-filter': [];
+}>();
 
 const currentVideo = ref(null);
 const isVideoOpen = ref(false);

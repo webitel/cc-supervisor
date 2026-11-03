@@ -170,8 +170,7 @@ import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/
 import { storeToRefs } from 'pinia';
 import { computed, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'vuex';
-
+import { useAgentCardStore } from '../../../stores/agentCardStore';
 import { defaultCreatedAtFilter } from '../modules/filters/configs/filterOptions';
 import {
 	agentCallsUserId,
@@ -184,7 +183,6 @@ const emit = defineEmits<{
 }>();
 
 const { t } = useI18n();
-const store = useStore();
 
 const audioSrc = ref(null);
 const videoSrc = ref(null);
@@ -232,7 +230,9 @@ const {
 	isLoading,
 });
 
-const userId = computed(() => store.state.agents.card.agent.user?.id);
+const { agent } = storeToRefs(useAgentCardStore());
+
+const userId = computed(() => agent.value.user?.id);
 
 let unwatchUserId: (() => void) | undefined;
 unwatchUserId = watch(
@@ -298,10 +298,7 @@ onUnmounted(() => {
 });
 </script>
 
-<style
-  lang="scss"
-  scoped
->
+<style scoped>
 .agent-calls-tab__title {
   padding: var(--spacing-xs);
   margin: 0;
