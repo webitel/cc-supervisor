@@ -1,5 +1,5 @@
 import type { LoadDataListOptions } from '@webitel/ui-datalist/src/modules/types/tableStore.types';
-import preventHiddenPageCallsDecorator from '@webitel/ui-sdk/src/scripts/preventHiddenPageCallsDecorator';
+import { preventHiddenPageCallsDecorator } from '@webitel/ui-sdk/scripts';
 import { ref } from 'vue';
 
 type LoadListFn = (options?: LoadDataListOptions) => void | Promise<void>;

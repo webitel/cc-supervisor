@@ -85,7 +85,7 @@ export default {
 				utilization: 'Utilizare',
 				callTime: 'Timp apel',
 				chatTime: 'Timp chat',
-				transferred: 'Transferat',
+				transferred: 'Transfer consultativ',
 				missed: 'Pierdut',
 				occupancy: 'Ocupare',
 			},

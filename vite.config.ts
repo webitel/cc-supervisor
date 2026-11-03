@@ -54,7 +54,6 @@ export default ({ mode }) => {
 				'pinia',
 			],
 			alias: {
-				// vue: '@vue/compat',
 				'@': resolve(__dirname, 'src'),
 				'lodash/fp': 'lodash-es',
 				lodash: 'lodash-es',
@@ -64,9 +63,6 @@ export default ({ mode }) => {
 			vue({
 				template: {
 					compilerOptions: {
-						compatConfig: {
-							MODE: 2,
-						},
 						isCustomElement: (tag) => tag.startsWith('media-'),
 					},
 				},

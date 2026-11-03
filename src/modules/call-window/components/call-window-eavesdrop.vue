@@ -106,12 +106,7 @@ const stateIcon = computed(() => {
 });
 </script>
 
-<style
-  lang="scss"
-  scoped
->
-@use '@webitel/ui-sdk/src/css/main';
-
+<style scoped>
 .call-window-eavesdrop-state-icon {
   width: 40px;
   height: 40px;

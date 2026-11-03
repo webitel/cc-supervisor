@@ -1,0 +1,27 @@
+@import "@webitel/ui-sdk/src/css/main.css";
+
+* {
+	box-sizing: border-box;
+}
+
+/* disables scrollbar on 100vh auth on small laptops */
+body {
+	display: flex;
+	height: auto;
+	background: var(--wt-page-wrapper-background-color);
+	color: var(--text-main-color);
+}
+
+#app {
+	width: 100%;
+}
+
+iframe {
+	border: none;
+	outline: none;
+}
+
+.hidden {
+	opacity: 0;
+	pointer-events: none;
+}

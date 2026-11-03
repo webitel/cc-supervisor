@@ -2,9 +2,13 @@ import { shallowMount } from '@vue/test-utils';
 
 import TableAgent from '../table-templates/table-agent.vue';
 
-const $router = {
-	push: vi.fn(),
-};
+const push = vi.fn();
+
+vi.mock('vue-router', () => ({
+	useRouter: () => ({
+		push,
+	}),
+}));
 
 describe('Queues table Agent', () => {
 	const item = {
@@ -22,17 +26,12 @@ describe('Queues table Agent', () => {
 
 	it('renders a component with outbound value', () => {
 		const wrapper = shallowMount(TableAgent, {
-			global: {
-				mocks: {
-					$router,
-				},
-			},
 			props: {
 				item,
 			},
 		});
 		wrapper.find('.name-link').trigger('click');
-		expect($router.push).toHaveBeenCalledWith({
+		expect(push).toHaveBeenCalledWith({
 			name: 'agents-card',
 			params: {
 				id: item.agentId,

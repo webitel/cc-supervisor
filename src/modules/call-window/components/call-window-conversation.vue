@@ -106,7 +106,7 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .call-window-conversation-header-before {
   min-width: 40px;
   display: flex;

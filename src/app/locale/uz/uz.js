@@ -85,7 +85,7 @@ export default {
 				utilization: 'Foydalanish',
 				callTime: 'Qo‘ng‘iroq vaqti',
 				chatTime: 'Chat vaqti',
-				transferred: 'O‘tkazildi',
+				transferred: 'Maslahatlashuvli o‘tkazish',
 				missed: 'O‘tkazib yuborildi',
 				occupancy: 'Bandlik',
 			},
