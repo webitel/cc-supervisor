@@ -8,6 +8,7 @@
       delete: hasDeleteAccess,
     }"
     :on-delete-item="handleDeleteItem"
+    :get-media-url-auth="getMediaUrlAuth"
   >
     <template #header="{ selected, loadDataList, askDeleteConfirmation, handleDelete }">
       <header class="agent-pdfs-tab__title table-title">
@@ -47,6 +48,7 @@ import AgentPdfsTabSdk from '@webitel/ui-sdk/src/modules/AgentPdfs/components/ag
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
+import { getMediaUrlAuth } from '../../../../../../../app/scripts/getMediaUrlAuth';
 import { useAgentPdfsTableStore } from '../stores/datalist/pdfs';
 
 const emit = defineEmits<{
