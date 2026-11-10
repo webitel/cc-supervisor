@@ -3,7 +3,7 @@
     v-if="isVideoOpen"
     closable
     :size="ComponentSize.MD"
-    :src="getMediaUrl(currentVideo.id)"
+    :src="getMediaUrl(currentVideo.id, { auth: getMediaUrlAuth() })"
     :title="currentVideo.view_name"
     :mime="currentVideo.mime_type"
     @close="closeVideo"
@@ -72,7 +72,7 @@
           <wt-image
             width="48"
             overlay-icon="play"
-            :src="getMediaUrl(item.id, true)"
+            :src="getMediaUrl(item.id, { auth: getMediaUrlAuth(), isThumb: true })"
             alt=""
             @click="openVideo(item)"
           />
@@ -142,6 +142,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useTableAutoRefresh } from '../../../../../../../app/composables/useTableAutoRefresh';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
+import { getMediaUrlAuth } from '../../../../../../../app/scripts/getMediaUrlAuth';
 import { useDownloadArchive } from '../../../../../composables/useDownloadArchive';
 import { defaultUploadedAtFilter } from '../modules/filters/configs/filterOptions';
 import { useAgentScreenRecordingsTableStore } from '../stores/datalist/screen-recordings';

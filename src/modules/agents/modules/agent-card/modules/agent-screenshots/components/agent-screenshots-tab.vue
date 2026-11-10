@@ -70,7 +70,7 @@
           <wt-image
             width="48"
             overlay-icon="zoom-in"
-            :src="getMediaUrl(item.id, true)"
+            :src="getMediaUrl(item.id, { auth: getMediaUrlAuth(), isThumb: true })"
             alt=""
             @click="openScreenshot(item.id)"
           />
@@ -137,6 +137,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useTableAutoRefresh } from '../../../../../../../app/composables/useTableAutoRefresh';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
+import { getMediaUrlAuth } from '../../../../../../../app/scripts/getMediaUrlAuth';
 import { useDownloadArchive } from '../../../../../composables/useDownloadArchive';
 import { defaultUploadedAtFilter } from '../modules/filters/configs/filterOptions';
 import { useAgentScreenshotsTableStore } from '../stores/datalist/screenshots';
@@ -222,8 +223,13 @@ const prettifyTimestamp = (item) =>
 
 const galleriaData = computed(() => {
 	return dataList.value?.map((item) => ({
-		src: getMediaUrl(item.id, false),
-		thumbnailSrc: getMediaUrl(item.id, true),
+		src: getMediaUrl(item.id, {
+			auth: getMediaUrlAuth(),
+		}),
+		thumbnailSrc: getMediaUrl(item.id, {
+			auth: getMediaUrlAuth(),
+			isThumb: true,
+		}),
 		title: item.view_name,
 		alt: item.view_name,
 	}));
