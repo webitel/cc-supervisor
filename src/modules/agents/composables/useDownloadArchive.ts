@@ -7,8 +7,7 @@ import {
 	FilterOption,
 	type IFiltersManager,
 } from '@webitel/ui-datalist/filters';
-import { eventBus } from '@webitel/ui-sdk/scripts';
-import { ref } from 'vue';
+import { useDownloadAction } from '@webitel/ui-sdk/composables';
 
 type DownloadArchiveApiMethod = (params: {
 	agentId: string;
@@ -26,9 +25,9 @@ export function useDownloadArchive({
 	agentId: string;
 	filenamePrefix: string;
 }) {
-	const isDownloadingArchive = ref(false);
+	const { isLoading: isDownloadingArchive, runDownload } = useDownloadAction();
 
-	const downloadArchive = async ({
+	const downloadArchive = ({
 		selected,
 		filtersManager,
 	}: {
@@ -36,9 +35,8 @@ export function useDownloadArchive({
 			id: string;
 		}[];
 		filtersManager: IFiltersManager;
-	}) => {
-		isDownloadingArchive.value = true;
-		try {
+	}) =>
+		runDownload(async () => {
 			const fileIds = selected.length
 				? selected.map(({ id }) => id)
 				: undefined;
@@ -62,15 +60,7 @@ export function useDownloadArchive({
 				fileFormat: FileFormat.ZIP,
 				filename: `${filenamePrefix}-${agentId}`,
 			});
-		} catch (e) {
-			eventBus.$emit('notification', {
-				type: 'error',
-				text: e?.response?.data?.detail,
-			});
-		} finally {
-			isDownloadingArchive.value = false;
-		}
-	};
+		});
 
 	return {
 		isDownloadingArchive,
