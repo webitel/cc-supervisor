@@ -16,7 +16,6 @@
       <wt-action-bar
         :include="[IconAction.DOWNLOAD, IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE]"
         :disabled:delete="!selected.length || !hasDeleteAccess"
-        :disabled:download="!dataList.length || isDownloadingArchive"
         @click:refresh="loadDataList"
         @click:download="downloadArchive({ selected, filtersManager })"
         @click:delete="
@@ -26,6 +25,18 @@
           })
         "
       >
+        <template #download="{ action, onClick }">
+          <wt-loader
+            v-if="isDownloadingArchive"
+            :size="ComponentSize.SM"
+          />
+          <wt-icon-action
+            v-else
+            :action="action"
+            :disabled="!dataList.length"
+            @click="onClick"
+          />
+        </template>
         <template #filters>
           <wt-badge>
             <wt-icon-action
@@ -83,9 +94,14 @@
         </template>
 
         <template #actions="{ item }">
+          <wt-loader
+            v-if="isFileDownloading(item.id)"
+            :size="ComponentSize.SM"
+          />
           <wt-icon-action
+            v-else
             action="download"
-            @click="downloadFile(item.id, item.view_name)"
+            @click="downloadRowFile(item)"
           />
           <wt-icon-action
             action="delete"
@@ -126,6 +142,7 @@ import {
 } from '@webitel/api-services/gen/models';
 import { FilterOption } from '@webitel/ui-datalist/filters';
 import { WtEmpty, WtVidstackPlayer } from '@webitel/ui-sdk/components';
+import { useDownloadAction } from '@webitel/ui-sdk/composables';
 import {
 	ComponentSize,
 	FormatDateMode,
@@ -274,6 +291,15 @@ const { isDownloadingArchive, downloadArchive } = useDownloadArchive({
 	agentId,
 	filenamePrefix: 'screen-recordings',
 });
+
+/* [Claude] own instance for row downloads, so they don't spin the archive icon */
+const { isKeyLoading: isFileDownloading, runDownload: runFileDownload } =
+	useDownloadAction();
+
+const downloadRowFile = (item: { id: string; view_name?: string }) =>
+	runFileDownload(() => downloadFile(item.id, item.view_name), {
+		key: item.id,
+	});
 
 const openVideo = (item) => {
 	currentVideo.value = item;

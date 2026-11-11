@@ -3,7 +3,7 @@
     v-model:visible="galleriaVisible"
     v-model:active-index="galleriaActiveIndex"
     :value="galleriaData"
-    @download="downloadFile(dataList[galleriaActiveIndex].id, dataList[galleriaActiveIndex].view_name)"
+    @download="downloadRowFile(dataList[galleriaActiveIndex])"
     :delete-disabled="!hasDeleteAccess"
     @delete="handleDeleteFromGalleria"
   />
@@ -16,7 +16,6 @@
         :include="[IconAction.DOWNLOAD, IconAction.FILTERS, IconAction.REFRESH, IconAction.DELETE,  IconAction.DOWNLOAD_PDF]"
         :disabled:delete="!selected.length || !hasDeleteAccess"
         :disabled:download-pdf="!dataList.length"
-        :disabled:download="!dataList.length || isDownloadingArchive"
         @click:refresh="loadDataList"
         @click:download-pdf="downloadPdf"
         @click:download="downloadArchive({ selected, filtersManager })"
@@ -27,6 +26,18 @@
           })
         "
       >
+        <template #download="{ action, onClick }">
+          <wt-loader
+            v-if="isDownloadingArchive"
+            :size="ComponentSize.SM"
+          />
+          <wt-icon-action
+            v-else
+            :action="action"
+            :disabled="!dataList.length"
+            @click="onClick"
+          />
+        </template>
         <template #filters>
           <wt-badge>
             <wt-icon-action
@@ -81,9 +92,14 @@
         </template>
 
         <template #actions="{ item }">
+          <wt-loader
+            v-if="isFileDownloading(item.id)"
+            :size="ComponentSize.SM"
+          />
           <wt-icon-action
+            v-else
             action="download"
-            @click="downloadFile(item.id, item.view_name)"
+            @click="downloadRowFile(item)"
           />
           <wt-icon-action
             action="delete"
@@ -125,7 +141,13 @@ import {
 import { normalizeDatetimeRange } from '@webitel/api-services/scripts';
 import { FilterOption } from '@webitel/ui-datalist/filters';
 import { WtEmpty, WtGalleria } from '@webitel/ui-sdk/components';
-import { FormatDateMode, IconAction, WtObject } from '@webitel/ui-sdk/enums';
+import { useDownloadAction } from '@webitel/ui-sdk/composables';
+import {
+	ComponentSize,
+	FormatDateMode,
+	IconAction,
+	WtObject,
+} from '@webitel/ui-sdk/enums';
 import { eventBus } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
@@ -291,6 +313,15 @@ const { isDownloadingArchive, downloadArchive } = useDownloadArchive({
 	agentId,
 	filenamePrefix: 'screenshots',
 });
+
+/* [Claude] own instance for row downloads, so they don't spin the archive icon */
+const { isKeyLoading: isFileDownloading, runDownload: runFileDownload } =
+	useDownloadAction();
+
+const downloadRowFile = (item: { id: string; view_name?: string }) =>
+	runFileDownload(() => downloadFile(item.id, item.view_name), {
+		key: item.id,
+	});
 
 const downloadPdf = async () => {
 	try {
