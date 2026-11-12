@@ -1,8 +1,9 @@
 import './app/assets/icons/sprite';
 import './app/css/main.css';
 
+import { setConfig as setApiServicesConfig } from '@webitel/api-services';
 import { setDefaultAxiosInstance } from '@webitel/api-services/api/axios';
-import { reloadOnStaleChunk } from '@webitel/ui-sdk/scripts';
+import { eventBus, reloadOnStaleChunk } from '@webitel/ui-sdk/scripts';
 import { configureZod } from '@webitel/ui-sdk/validations';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
@@ -28,6 +29,11 @@ reloadOnStaleChunk();
 
 // generated api-services clients call through this app's instance
 setDefaultAxiosInstance(instance);
+
+// [Claude] api-services transformers (`notify`) show api errors through this event bus
+setApiServicesConfig({
+	eventBus,
+});
 
 configureZod({
 	t: i18n.global.t,
