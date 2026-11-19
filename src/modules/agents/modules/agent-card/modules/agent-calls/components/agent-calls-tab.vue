@@ -45,7 +45,6 @@
         :headers="headers"
         :data="dataList"
         :selectable="false"
-        :grid-actions="false"
         sortable
         resizable-columns
         reorderable-columns
