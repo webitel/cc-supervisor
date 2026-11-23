@@ -41,16 +41,21 @@ import AgentTabsPathName from '../../../../../app/router/_internals/AgentTabsPat
 import { useErrorRedirectHandler } from '../../../../../modules/error-pages/composable/useErrorRedirectHandler';
 import Calls from '../modules/agent-calls/components/agent-calls-tab.vue';
 import CallsFilters from '../modules/agent-calls/modules/filters/components/agent-calls-filters-panel.vue';
+import { useAgentCallsTableStore } from '../modules/agent-calls/stores/datalist/agent-calls';
 import General from '../modules/agent-general/components/agent-general-tab.vue';
 import Pdfs from '../modules/agent-pdfs/components/agent-pdfs-tab.vue';
 import PdfsFilters from '../modules/agent-pdfs/modules/filters/components/agent-pdfs-filters-panel.vue';
+import { useAgentPdfsTableStore } from '../modules/agent-pdfs/stores/datalist/pdfs';
 import ScreenRecordings from '../modules/agent-screen-recordings/components/agent-screen-recordings-tab.vue';
 import ScreenRecordingsFilters from '../modules/agent-screen-recordings/modules/filters/components/agent-screen-recordings-filters-panel.vue';
+import { useAgentScreenRecordingsTableStore } from '../modules/agent-screen-recordings/stores/datalist/screen-recordings';
 import Screenshots from '../modules/agent-screenshots/components/agent-screenshots-tab.vue';
 import ScreenshotsFilters from '../modules/agent-screenshots/modules/filters/components/agent-screenshots-filters-panel.vue';
+import { useAgentScreenshotsTableStore } from '../modules/agent-screenshots/stores/datalist/screenshots';
 import Skills from '../modules/agent-skills/components/agent-skills-tab.vue';
 import StatusHistory from '../modules/agent-status-history/components/agent-status-history-tab.vue';
 import StatusHistoryFilters from '../modules/agent-status-history/modules/filters/components/agent-status-history-filters-panel.vue';
+import { useAgentStatusHistoryTableStore } from '../modules/agent-status-history/stores/datalist/agent-status-history';
 import { useAgentCardStore } from '../stores/agentCardStore';
 import AgentPanel from './agent-panel/agent-panel.vue';
 
@@ -76,6 +81,17 @@ const { hasReadAccess: hasScreenRecordingsReadAccess } = useUserAccessControl(
 );
 
 const { setAgentId, loadAgent } = useAgentCardStore();
+
+/* [Claude] the tab lists live in stores shared by every agent card, so the card
+  that filled them empties them on leave – otherwise the next agent opens with
+  this one's filters and data. [WTEL-11061](https://webitel.atlassian.net/browse/WTEL-11061) */
+const tabTableStores = [
+	useAgentCallsTableStore(),
+	useAgentStatusHistoryTableStore(),
+	useAgentScreenRecordingsTableStore(),
+	useAgentScreenshotsTableStore(),
+	useAgentPdfsTableStore(),
+];
 
 const actionsPanelStatus = reactive<Record<string, boolean>>({});
 
@@ -172,6 +188,7 @@ setAutoRefresh();
 
 onUnmounted(() => {
 	clearAutoRefresh();
+	for (const store of tabTableStores) store.$reset();
 });
 </script>
 

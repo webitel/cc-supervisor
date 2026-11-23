@@ -230,7 +230,7 @@ const {
 	isLoading,
 });
 
-const { agent } = storeToRefs(useAgentCardStore());
+const { agent, agentId } = storeToRefs(useAgentCardStore());
 
 const userId = computed(() => agent.value.user?.id);
 
@@ -243,7 +243,9 @@ unwatchUserId = watch(
 		if (!hasFilter(FilterOption.CreatedAt)) {
 			addFilter(defaultCreatedAtFilter());
 		}
-		initialize();
+		initialize({
+			parentId: agentId.value,
+		});
 		unwatchUserId?.();
 	},
 	{
