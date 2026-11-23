@@ -139,7 +139,9 @@ agentStatusHistoryAgentId.value = route.params.id as string;
 if (!hasFilter(FilterOption.JoinedAt)) {
 	addFilter(defaultJoinedAtFilter());
 }
-initialize();
+initialize({
+	parentId: route.params.id as string,
+});
 </script>
 
 <style scoped>

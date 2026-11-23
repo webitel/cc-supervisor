@@ -207,7 +207,9 @@ const {
 
 const { setAutoRefresh, clearAutoRefresh } = useTableAutoRefresh(loadDataList);
 
-initialize();
+initialize({
+	parentId: agentId,
+});
 
 onMounted(() => {
 	setAutoRefresh();
